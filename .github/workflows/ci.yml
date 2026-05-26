@@ -17,11 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-<<<<<<< HEAD
-=======
-      - uses: dorny/paths-filter@v4
-        id: filter
->>>>>>> 3adad62 (fix(ci): upgrade dorny/paths-filter v3 → v4)
         with:
           fetch-depth: 0
 
