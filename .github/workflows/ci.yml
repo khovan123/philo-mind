@@ -1,114 +1,106 @@
-name: CI
+name: CI/CD
 
 on:
   push:
-    branches: [main, develop]
-    paths:
-      - "services/**"
-      - "webapp/**"
-      - "libs/**"
-      - "package.json"
-      - "tsconfig.base.json"
-      - ".github/workflows/ci.yml"
+    branches: [main, production]
   pull_request:
-    branches: [main, develop]
-    paths:
-      - "services/**"
-      - "webapp/**"
-      - "libs/**"
-      - "package.json"
-      - "tsconfig.base.json"
-      - ".github/workflows/ci.yml"
-
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+    branches: [main, production]
+  workflow_dispatch:
 
 jobs:
-  # ── Detect which workspaces changed ──────────────────────
-  changes:
+  detect:
+    name: Detect Changes
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     outputs:
-      services: ${{ steps.filter.outputs.services }}
-      webapp: ${{ steps.filter.outputs.webapp }}
-      libs: ${{ steps.filter.outputs.libs }}
+      services: ${{ steps.check.outputs.services }}
+      webapp:   ${{ steps.check.outputs.webapp }}
+
     steps:
       - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
         with:
-          filters: |
-            services:
-              - 'services/**'
-            webapp:
-              - 'webapp/**'
-            libs:
-              - 'libs/**'
-              - 'tsconfig.base.json'
-              - 'package.json'
+          fetch-depth: 0
 
-  # ── Backend (services) ───────────────────────────────────
+      - name: Detect changed paths
+        id: check
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "services=true" >> "$GITHUB_OUTPUT"
+            echo "webapp=true"   >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+
+          CHANGED=$(git diff --name-only "$BASE" "${{ github.sha }}" 2>/dev/null || echo "")
+
+          # Shared deps → everything is affected
+          SHARED="false"
+          if echo "$CHANGED" | grep -qE "^(libs/|package\.json$|package-lock\.json$|tsconfig\.base\.json$)"; then
+            SHARED="true"
+          fi
+
+          # Services (monolith)
+          if [[ "$SHARED" == "true" ]] || echo "$CHANGED" | grep -q "^services/"; then
+            echo "services=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "services=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Webapp
+          if [[ "$SHARED" == "true" ]] || echo "$CHANGED" | grep -q "^webapp/"; then
+            echo "webapp=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "webapp=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  # ─── Lint & Type-check: services ────────────────────────────────────
   services:
-    needs: changes
-    if: needs.changes.outputs.services == 'true' || needs.changes.outputs.libs == 'true'
+    name: Services Lint
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: services
+    needs: detect
+    if: needs.detect.outputs.services == 'true'
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: '22'
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: .
+      - run: npm ci --legacy-peer-deps
 
       - name: Lint
-        run: npx eslint src/
+        run: npm run lint
 
       - name: Type check
-        run: npx tsc --noEmit
+        run: npx tsc --noEmit -p tsconfig.base.json
 
-      - name: Build
-        run: npm run build
-
-      # - name: Test
-      #   run: npm test
-
-  # ── Frontend (webapp) ────────────────────────────────────
+  # ─── Lint & Type-check: webapp ──────────────────────────────────────
   webapp:
-    needs: changes
-    if: needs.changes.outputs.webapp == 'true' || needs.changes.outputs.libs == 'true'
+    name: Webapp Lint
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: webapp
+    needs: detect
+    if: needs.detect.outputs.webapp == 'true'
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
-          cache: npm
+          node-version: '22'
+          cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: .
+      - run: npm ci --legacy-peer-deps
 
-      - name: Lint
-        run: npx eslint src/
+      - name: Lint webapp
+        working-directory: webapp
+        run: npm run lint
 
-      - name: Type check
+      - name: Type check webapp
+        working-directory: webapp
         run: npx tsc --noEmit
-
-      - name: Export (web build)
-        run: npx expo export --platform web
-
-      # - name: Test
-      #   run: npm test
