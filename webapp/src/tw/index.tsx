@@ -13,6 +13,7 @@ import {
 // ── CSS-enabled Link ───────────────────────────────────────
 
 export const Link = (props: React.ComponentProps<typeof RouterLink> & { className?: string }) => {
+  // @ts-expect-error: useCssElement return type is too complex for TS to represent
   return useCssElement(RouterLink, props, { className: "style" });
 };
 
@@ -47,6 +48,7 @@ export const ScrollView = (
     contentContainerClassName?: string;
   },
 ) => {
+  // @ts-expect-error: useCssElement return type is too complex for TS to represent
   return useCssElement(RNScrollView, props, {
     className: "style",
     contentContainerClassName: "contentContainerStyle",

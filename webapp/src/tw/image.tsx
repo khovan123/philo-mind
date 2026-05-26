@@ -27,6 +27,7 @@ function CSSImage(props: React.ComponentProps<typeof AnimatedExpoImage>) {
 }
 
 export const Image = (props: React.ComponentProps<typeof CSSImage> & { className?: string }) => {
+  // @ts-expect-error: useCssElement return type is too complex for TS to represent
   return useCssElement(CSSImage, props, { className: "style" });
 };
 
