@@ -11,6 +11,12 @@ export default [
 
   // ── Project-specific ──────────────────────────────────────
   {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
     plugins: {
       prettier,
     },
