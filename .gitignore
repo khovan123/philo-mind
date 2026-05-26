@@ -46,5 +46,8 @@ yarn-error.log*
 # Testing
 coverage/
 
+# Prisma
+**/prisma/generated/
+
 # TypeScript
 *.tsbuildinfo
