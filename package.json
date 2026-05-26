@@ -1,0 +1,41 @@
+{
+  "name": "philo-mind",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PhiloMind monorepo - Express.js backend + React Native frontend",
+  "workspaces": [
+    "libs/*",
+    "services",
+    "webapp"
+  ],
+  "scripts": {
+    "start:dev": "concurrently -n api,app -c blue,magenta \"npm run backend:dev\" \"npm run frontend:dev\"",
+    "backend:dev": "npm run dev -w services",
+    "backend:build": "npm run build -w services",
+    "backend:start": "npm run start -w services",
+    "frontend:dev": "npm run start -w webapp",
+    "frontend:ios": "npm run ios -w webapp",
+    "frontend:android": "npm run android -w webapp",
+    "frontend:web": "npm run web -w webapp",
+    "shared:build": "npm run build -w libs/shared",
+    "lint": "npm run lint --workspaces --if-present",
+    "lint:fix": "npm run lint:fix --workspaces --if-present",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "test": "npm run test --workspaces --if-present",
+    "clean": "rm -rf node_modules services/node_modules webapp/node_modules libs/*/node_modules"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^16.5.0",
+    "prettier": "^3.8.3",
+    "typescript-eslint": "^8.60.0"
+  }
+}

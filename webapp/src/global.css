@@ -1,0 +1,51 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css";
+
+/* ── Platform-specific font families ────────────────────── */
+
+@media android {
+  :root {
+    --font-mono: monospace;
+    --font-rounded: normal;
+    --font-serif: serif;
+    --font-sans: normal;
+  }
+}
+
+@media ios {
+  :root {
+    --font-mono: ui-monospace;
+    --font-serif: ui-serif;
+    --font-sans: system-ui;
+    --font-rounded: ui-rounded;
+  }
+}
+
+/* ── Web fallback fonts ─────────────────────────────────── */
+
+@media (hover: hover) {
+  :root {
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --font-rounded: "SF Pro Rounded", sans-serif;
+  }
+}
+
+/* ── Custom Theme ───────────────────────────────────────── */
+
+@layer theme {
+  @theme {
+    /* Brand colors */
+    --color-primary: #6366f1;
+    --color-primary-light: #818cf8;
+    --color-primary-dark: #4f46e5;
+
+    /* Semantic colors */
+    --color-success: #22c55e;
+    --color-warning: #f59e0b;
+    --color-danger: #ef4444;
+    --color-info: #3b82f6;
+  }
+}

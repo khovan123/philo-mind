@@ -1,0 +1,114 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "services/**"
+      - "webapp/**"
+      - "libs/**"
+      - "package.json"
+      - "tsconfig.base.json"
+      - ".github/workflows/ci.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "services/**"
+      - "webapp/**"
+      - "libs/**"
+      - "package.json"
+      - "tsconfig.base.json"
+      - ".github/workflows/ci.yml"
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ── Detect which workspaces changed ──────────────────────
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      services: ${{ steps.filter.outputs.services }}
+      webapp: ${{ steps.filter.outputs.webapp }}
+      libs: ${{ steps.filter.outputs.libs }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            services:
+              - 'services/**'
+            webapp:
+              - 'webapp/**'
+            libs:
+              - 'libs/**'
+              - 'tsconfig.base.json'
+              - 'package.json'
+
+  # ── Backend (services) ───────────────────────────────────
+  services:
+    needs: changes
+    if: needs.changes.outputs.services == 'true' || needs.changes.outputs.libs == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: .
+
+      - name: Lint
+        run: npx eslint src/
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Build
+        run: npm run build
+
+      # - name: Test
+      #   run: npm test
+
+  # ── Frontend (webapp) ────────────────────────────────────
+  webapp:
+    needs: changes
+    if: needs.changes.outputs.webapp == 'true' || needs.changes.outputs.libs == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: webapp
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: .
+
+      - name: Lint
+        run: npx eslint src/
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Export (web build)
+        run: npx expo export --platform web
+
+      # - name: Test
+      #   run: npm test
