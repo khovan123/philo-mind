@@ -9,7 +9,7 @@ on:
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Stage 1: Detect which services/webapp have code changes.
-# Outputs a dynamic JSON matrix so downstream jobs only run for changed targets.
+# Uses native git diff instead of third-party actions for reliability.
 # ────────────────────────────────────────────────────────────────────────────────
 jobs:
   detect:
@@ -17,75 +17,89 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       has_service_changes: ${{ steps.set-matrix.outputs.has_service_changes }}
-      has_webapp_changes:  ${{ steps.set-webapp.outputs.has_webapp_changes }}
-      services_matrix:    ${{ steps.set-matrix.outputs.matrix }}
+      has_webapp_changes:  ${{ steps.detect-paths.outputs.webapp }}
+      services_matrix:     ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Path filter
-        uses: dorny/paths-filter@v4
-        id: filter
         with:
-          filters: |
-            libs:
-              - 'libs/**'
-            lockfile:
-              - 'package-lock.json'
-            rootpkg:
-              - 'package.json'
-            webapp:
-              - 'webapp/**'
-            api-gateway:
-              - 'services/api-gateway/**'
-            auth-service:
-              - 'services/auth-service/**'
-            user-service:
-              - 'services/user-service/**'
-            notification-service:
-              - 'services/notification-service/**'
-            content-service:
-              - 'services/content-service/**'
-            upload-service:
-              - 'services/upload-service/**'
-            billing-service:
-              - 'services/billing-service/**'
-            content-access-service:
-              - 'services/content-access-service/**'
-            interaction-service:
-              - 'services/interaction-service/**'
-            recommendation-service:
-              - 'services/recommendation-service/**'
-            rag-service:
-              - 'services/rag-service/**'
+          fetch-depth: 0
 
-      - name: Detect webapp changes
-        id: set-webapp
+      - name: Detect changed paths
+        id: detect-paths
         run: |
-          SHARED="${{ steps.filter.outputs.libs == 'true' || steps.filter.outputs.lockfile == 'true' || steps.filter.outputs.rootpkg == 'true' }}"
-          FORCE="${{ github.event_name == 'workflow_dispatch' }}"
-          WEBAPP="${{ steps.filter.outputs.webapp }}"
-
-          if [[ "$FORCE" == "true" || "$WEBAPP" == "true" || "$SHARED" == "true" ]]; then
-            echo "has_webapp_changes=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_webapp_changes=false" >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "force=true" >> "$GITHUB_OUTPUT"
+            echo "libs=true" >> "$GITHUB_OUTPUT"
+            echo "webapp=true" >> "$GITHUB_OUTPUT"
+            for SVC in api-gateway auth-service user-service notification-service \
+                       content-service upload-service billing-service \
+                       content-access-service interaction-service \
+                       recommendation-service rag-service; do
+              echo "${SVC}=true" >> "$GITHUB_OUTPUT"
+            done
+            exit 0
           fi
+
+          # Determine diff base
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            BASE="${{ github.event.pull_request.base.sha }}"
+          else
+            BASE="${{ github.event.before }}"
+          fi
+
+          CHANGED=$(git diff --name-only "$BASE" "${{ github.sha }}" 2>/dev/null || echo "")
+
+          # Helper: check if any changed file matches a prefix
+          has_changes() {
+            echo "$CHANGED" | grep -q "^$1" && echo "true" || echo "false"
+          }
+
+          LIBS=$(has_changes "libs/")
+          LOCKFILE=$(echo "$CHANGED" | grep -q "^package-lock.json$" && echo "true" || echo "false")
+          ROOTPKG=$(echo "$CHANGED" | grep -q "^package.json$" && echo "true" || echo "false")
+
+          # Shared deps changed → everything is affected
+          if [[ "$LIBS" == "true" || "$LOCKFILE" == "true" || "$ROOTPKG" == "true" ]]; then
+            SHARED="true"
+          else
+            SHARED="false"
+          fi
+          echo "shared=$SHARED" >> "$GITHUB_OUTPUT"
+
+          # Webapp
+          WEBAPP=$(has_changes "webapp/")
+          if [[ "$WEBAPP" == "true" || "$SHARED" == "true" ]]; then
+            echo "webapp=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "webapp=false" >> "$GITHUB_OUTPUT"
+          fi
+
+          # Per-service detection
+          for SVC in api-gateway auth-service user-service notification-service \
+                     content-service upload-service billing-service \
+                     content-access-service interaction-service \
+                     recommendation-service rag-service; do
+            SVC_CHANGED=$(has_changes "services/$SVC/")
+            if [[ "$SVC_CHANGED" == "true" || "$SHARED" == "true" ]]; then
+              echo "${SVC}=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "${SVC}=false" >> "$GITHUB_OUTPUT"
+            fi
+          done
 
       - name: Build dynamic matrix
         id: set-matrix
         run: |
           SERVICES=()
-          SHARED="${{ steps.filter.outputs.libs == 'true' || steps.filter.outputs.lockfile == 'true' || steps.filter.outputs.rootpkg == 'true' }}"
-          FORCE="${{ github.event_name == 'workflow_dispatch' }}"
 
           for SVC in api-gateway auth-service user-service notification-service \
                      content-service upload-service billing-service \
                      content-access-service interaction-service \
                      recommendation-service rag-service; do
-            CHANGED=$(echo '${{ toJson(steps.filter.outputs) }}' | jq -r --arg key "$SVC" '.[$key]')
-
-            if [[ "$FORCE" == "true" || "$CHANGED" == "true" || "$SHARED" == "true" ]]; then
+            # Read from previous step outputs
+            VAL=$(echo '${{ toJson(steps.detect-paths.outputs) }}' | jq -r --arg key "$SVC" '.[$key]')
+            if [[ "$VAL" == "true" ]]; then
               SERVICES+=("\"$SVC\"")
             fi
           done
