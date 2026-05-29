@@ -1,17 +1,31 @@
 // ── Shared Types ───────────────────────────────────────────
 
-export interface ApiResponse<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
-  message?: string;
+export interface ApiSuccessResponse<T = unknown> {
+  success: true;
+  data: T;
+  meta?: PaginationMeta;
 }
 
-export interface PaginatedResponse<T> extends ApiResponse<T[]> {
-  total: number;
+export interface ApiErrorResponse {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+    details?: unknown;
+  };
+}
+
+export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+export interface PaginationMeta {
   page: number;
   limit: number;
+  total: number;
   totalPages: number;
+}
+
+export interface PaginatedResponse<T> extends ApiSuccessResponse<T[]> {
+  meta: PaginationMeta;
 }
 
 // ── Shared Constants ───────────────────────────────────────
@@ -25,5 +39,17 @@ export const HTTP_STATUS = {
   UNAUTHORIZED: 401,
   FORBIDDEN: 403,
   NOT_FOUND: 404,
+  CONFLICT: 409,
   INTERNAL_SERVER_ERROR: 500,
 } as const;
+
+// ── Re-exports ─────────────────────────────────────────────
+
+export type {
+  RegisterRequest,
+  LoginRequest,
+  RefreshTokenRequest,
+  AuthTokens,
+  UserProfile,
+  AuthResponse,
+} from "./types/auth.js";
