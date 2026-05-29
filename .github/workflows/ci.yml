@@ -7,34 +7,13 @@ on:
     branches: [main, production]
   workflow_dispatch:
 
-<<<<<<< HEAD
-env:
-  AZURE_REGISTRY: ${{ secrets.AZURE_REGISTRY_URL }}
-
-# ────────────────────────────────────────────────────────────────────────────────
-# Stage 1: Detect which services/webapp have code changes.
-# Uses native git diff instead of third-party actions for reliability.
-# ────────────────────────────────────────────────────────────────────────────────
-=======
->>>>>>> a3db4ed (ci: simplify to monolith detection (no per-service matrix))
 jobs:
   detect:
     name: Detect Changes
     runs-on: ubuntu-latest
     outputs:
-<<<<<<< HEAD
-<<<<<<< HEAD
       services: ${{ steps.check.outputs.services }}
       webapp:   ${{ steps.check.outputs.webapp }}
-=======
-      has_service_changes: ${{ steps.set-matrix.outputs.has_service_changes }}
-      has_webapp_changes:  ${{ steps.detect-paths.outputs.webapp }}
-      services_matrix:     ${{ steps.set-matrix.outputs.matrix }}
->>>>>>> e479978 (ci: replace dorny/paths-filter with native git diff)
-=======
-      services: ${{ steps.check.outputs.services }}
-      webapp:   ${{ steps.check.outputs.webapp }}
->>>>>>> a3db4ed (ci: simplify to monolith detection (no per-service matrix))
 
     steps:
       - uses: actions/checkout@v4
@@ -42,15 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Detect changed paths
-<<<<<<< HEAD
-<<<<<<< HEAD
         id: check
-=======
-        id: detect-paths
->>>>>>> e479978 (ci: replace dorny/paths-filter with native git diff)
-=======
-        id: check
->>>>>>> a3db4ed (ci: simplify to monolith detection (no per-service matrix))
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
             echo "services=true" >> "$GITHUB_OUTPUT"
@@ -86,101 +57,12 @@ jobs:
             echo "webapp=false" >> "$GITHUB_OUTPUT"
           fi
 
-<<<<<<< HEAD
-          # Per-service detection
-          for SVC in api-gateway auth-service user-service notification-service \
-                     content-service upload-service billing-service \
-                     content-access-service interaction-service \
-                     recommendation-service rag-service; do
-            SVC_CHANGED=$(has_changes "services/$SVC/")
-            if [[ "$SVC_CHANGED" == "true" || "$SHARED" == "true" ]]; then
-              echo "${SVC}=true" >> "$GITHUB_OUTPUT"
-            else
-              echo "${SVC}=false" >> "$GITHUB_OUTPUT"
-            fi
-          done
-
-      - name: Build dynamic matrix
-        id: set-matrix
-        run: |
-          SERVICES=()
-
-          for SVC in api-gateway auth-service user-service notification-service \
-                     content-service upload-service billing-service \
-                     content-access-service interaction-service \
-                     recommendation-service rag-service; do
-<<<<<<< HEAD
-            # dorny/paths-filter outputs are named exactly as the filter keys,
-            # but GHA expressions can't do dynamic property access.
-            # Parse from the full outputs JSON instead.
-            CHANGED=$(echo '${{ toJson(steps.filter.outputs) }}' | jq -r --arg key "$SVC" '.[$key]')
-
-            if [[ "$FORCE" == "true" || "$CHANGED" == "true" || "$SHARED" == "true" ]]; then
-=======
-            # Read from previous step outputs
-            VAL=$(echo '${{ toJson(steps.detect-paths.outputs) }}' | jq -r --arg key "$SVC" '.[$key]')
-            if [[ "$VAL" == "true" ]]; then
->>>>>>> e479978 (ci: replace dorny/paths-filter with native git diff)
-              SERVICES+=("\"$SVC\"")
-            fi
-          done
-
-          if [[ ${#SERVICES[@]} -gt 0 ]]; then
-            MATRIX="{\"service\":[$(IFS=,; echo "${SERVICES[*]}")]}"
-            echo "has_service_changes=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "services=false" >> "$GITHUB_OUTPUT"
-          fi
-
-          # Webapp
-          if [[ "$SHARED" == "true" ]] || echo "$CHANGED" | grep -q "^webapp/"; then
-            echo "webapp=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "webapp=false" >> "$GITHUB_OUTPUT"
-          fi
-
-  # ─── Stage 2: Lint & Test (backend services only) ───────────────────
-  test:
-    name: Lint & Unit Tests
-=======
   # ─── Lint & Type-check: services ────────────────────────────────────
   services:
     name: Services Lint
->>>>>>> a3db4ed (ci: simplify to monolith detection (no per-service matrix))
     runs-on: ubuntu-latest
     needs: detect
     if: needs.detect.outputs.services == 'true'
-
-    services:
-      postgres:
-        image: postgres:16-alpine
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres123
-          POSTGRES_DB: test_db
-        ports: ['5432:5432']
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      redis:
-        image: redis:7.2-alpine
-        ports: ['6379:6379']
-
-      rabbitmq:
-        image: rabbitmq:3.13-management-alpine
-        env:
-          RABBITMQ_DEFAULT_USER: admin
-          RABBITMQ_DEFAULT_PASS: admin123
-          RABBITMQ_DEFAULT_VHOST: microservices
-        ports: ['5672:5672']
-        options: >-
-          --health-cmd "rabbitmq-diagnostics -q ping"
-          --health-interval 10s
-          --health-timeout 10s
-          --health-retries 5
 
     steps:
       - uses: actions/checkout@v4
@@ -202,28 +84,9 @@ jobs:
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
       - name: Type check
-        run: npx tsc --noEmit -p tsconfig.base.json
+        run: npx tsc --noEmit -p services/tsconfig.json
 
-<<<<<<< HEAD
-      - name: Unit tests
-        run: npx turbo run test:unit --filter='!webapp' -- --passWithNoTests
-        env:
-          NODE_ENV: test
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres123
-          REDIS_HOST: localhost
-          REDIS_PORT: 6379
-          REDIS_PASSWORD: ''
-          RABBITMQ_URL: amqp://admin:admin123@localhost:5672/microservices
-          JWT_ACCESS_SECRET: test-secret-32-chars-minimum-here
-          JWT_REFRESH_SECRET: test-refresh-secret-32-chars-here
-
-  # ─── Stage 2b: Webapp lint & type-check (deploy handled by Vercel) ──
-=======
   # ─── Lint & Type-check: webapp ──────────────────────────────────────
->>>>>>> a3db4ed (ci: simplify to monolith detection (no per-service matrix))
   webapp:
     name: Webapp Lint
     runs-on: ubuntu-latest
