@@ -1,9 +1,14 @@
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
-import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
+import prettier from "eslint-plugin-prettier";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
+  // ── Global ignores (must be standalone, before other configs) ──
+  {
+    ignores: ["dist/", "node_modules/", "*.js", "*.mjs", "src/prisma/generated/**"],
+  },
+
   // ── Base configs ──────────────────────────────────────────
   js.configs.recommended,
   ...tseslint.configs.recommended,
@@ -39,10 +44,5 @@ export default tseslint.config(
       // General
       "no-console": ["warn", { allow: ["warn", "error"] }],
     },
-  },
-
-  // ── Ignore patterns ───────────────────────────────────────
-  {
-    ignores: ["dist/", "node_modules/", "*.js", "*.mjs"],
   },
 );
