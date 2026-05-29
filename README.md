@@ -12,6 +12,10 @@ Monorepo project powered by **Express.js** (backend) and **React Native / Expo**
 | Monorepo  | npm workspaces                                    |
 | Shared    | @philo-mind/shared (types, constants, utilities)  |
 
+## Design
+
+🎨 **UI/UX Design:** [Stitch Project](https://stitch.withgoogle.com/projects/16360193101983963529)
+
 ## Project Structure
 
 ```

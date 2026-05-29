@@ -61,5 +61,21 @@ _bmad-output/
 .github/issues-data.tsv
 .opencode/
 design-artifacts/
-docs/
+docs/*
+!docs/data-inventory.md
+!docs/data-input-guide.md
+!docs/team-assignments.md
 .contextos/
+.ruler/
+.codex/
+
+# START Ruler Generated Files
+/.codex/config.toml
+/.codex/config.toml.bak
+/.mcp.json
+/.mcp.json.bak
+/AGENTS.md
+/AGENTS.md.bak
+/CLAUDE.md
+/CLAUDE.md.bak
+# END Ruler Generated Files
