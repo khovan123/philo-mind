@@ -1,4 +1,4 @@
-import "dotenv/config";
+import { env } from "./config/env.js"; // must be first — validates env on load
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -9,7 +9,7 @@ import { apiRouter } from "./routes/api.js";
 import { notFoundHandler, errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
-const PORT = process.env.PORT ?? 3001;
+const PORT = env.PORT;
 
 // ── Middleware ──────────────────────────────────────────────
 app.use(helmet());
