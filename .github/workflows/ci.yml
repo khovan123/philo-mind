@@ -67,8 +67,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
@@ -85,7 +84,8 @@ jobs:
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
       - name: Type check
-        run: npx tsc --noEmit -p services/tsconfig.json
+        working-directory: services
+        run: npx tsc --noEmit
 
   # ─── Lint & Type-check: webapp ──────────────────────────────────────
   webapp:
