@@ -23,9 +23,9 @@
 | 6 | **Hoàng Nguyễn** | Shared/Seed | T-C01→C12 | 12 | Types, All Seed Data |
 | 7 | **Khánh Linh** (`dklinh05`) ✅ | Fullstack (Story) | T-D01→D16 | 16 | Story Mode BE + FE trọn bộ |
 | 8 | **Vinh Nguyễn** | Fullstack (AI) | T-E01→E10 | 10 | AI Chat BE + FE trọn bộ |
-| 9 | **Ngọc Lê** | Fullstack (Scenario) | T-F01→F08, T-H01→H02 | 10 | Scenario, Debate, Multi-perspective |
+| 9 | **Ngọc Lê** (`Ngoclee123`) ✅ | Fullstack (Scenario) | T-F01→F08, T-H01→H02 | 10 | Scenario, Debate, Multi-perspective |
 | 10 | **Duy Khang** | Fullstack (Game/Polish) | T-H03→H05, T-G01→G06 | 9 | MiniGame, Gamification, Polish |
-| 11 | **Nguyễn Tiến Đạt** | QA / Settings | T-J01→J05, T-K01→K04 | 9 | Testing, Admin, Settings |
+| 11 | **Nguyễn Tiến Đạt** (`NguyenDat204`) ✅ | QA / Settings | T-J01→J05, T-K01→K04 | 9 | Testing, Admin, Settings |
 
 ---
 

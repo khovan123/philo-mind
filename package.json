@@ -25,7 +25,8 @@
     "test": "npm run test --workspaces --if-present",
     "clean": "rm -rf node_modules services/node_modules webapp/node_modules libs/*/node_modules",
     "postinstall": "node -e \"try{require('child_process').execSync('ctx --version',{stdio:'ignore'})}catch{process.exit(1)}\" || npm install -g @minhpnq1807/contextos",
-    "setup:agents": "npm install -g @minhpnq1807/contextos && ctx setup"
+    "prisma:generate": "npm run prisma:generate -w services",
+    "prisma:migrate": "npm run prisma:migrate -w services"
   },
   "engines": {
     "node": ">=20.0.0"
