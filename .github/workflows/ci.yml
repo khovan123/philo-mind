@@ -78,7 +78,7 @@ jobs:
         run: npm run lint
 
       - name: Type check
-        run: npx tsc --noEmit -p tsconfig.base.json
+        run: npx tsc --noEmit -p services/tsconfig.json
 
   # ─── Lint & Type-check: webapp ──────────────────────────────────────
   webapp:
