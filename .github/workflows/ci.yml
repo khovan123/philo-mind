@@ -77,6 +77,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Generate Prisma Client
+        working-directory: services
+        run: npx prisma generate --schema=src/prisma/schema.prisma
+
       - name: Type check
         run: npx tsc --noEmit -p services/tsconfig.json
 

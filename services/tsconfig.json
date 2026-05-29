@@ -11,5 +11,5 @@
     }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "**/*.test.ts", "src/prisma/generated"]
+  "exclude": ["node_modules", "dist", "**/*.test.ts"]
 }
