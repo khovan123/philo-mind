@@ -79,6 +79,8 @@ jobs:
 
       - name: Generate Prisma Client
         working-directory: services
+        env:
+          DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
       - name: Type check
