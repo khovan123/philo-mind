@@ -51,14 +51,3 @@ coverage/
 
 # TypeScript
 *.tsbuildinfo
-
-_bmad/
-_bmad-output/
-.agent/
-.agents/
-.github/agents/
-.github/*.sh
-.github/issues-data.tsv
-.opencode/
-design-artifacts/
-docs/
