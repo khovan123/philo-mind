@@ -23,7 +23,9 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "test": "npm run test --workspaces --if-present",
-    "clean": "rm -rf node_modules services/node_modules webapp/node_modules libs/*/node_modules"
+    "clean": "rm -rf node_modules services/node_modules webapp/node_modules libs/*/node_modules",
+    "postinstall": "which ctx || npm install -g @minhpnq1807/contextos",
+    "setup:agents": "npm install -g @minhpnq1807/contextos && ctx setup"
   },
   "engines": {
     "node": ">=20.0.0"
