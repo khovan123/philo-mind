@@ -84,7 +84,8 @@ jobs:
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
       - name: Type check
-        run: npx tsc --noEmit -p services/tsconfig.json
+        working-directory: services
+        run: npx tsc --noEmit
 
   # ─── Lint & Type-check: webapp ──────────────────────────────────────
   webapp:
