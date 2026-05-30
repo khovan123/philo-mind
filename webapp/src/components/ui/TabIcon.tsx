@@ -1,9 +1,9 @@
-import { BookOpen, Bookmark, Home, UserRound } from "lucide-react-native";
+import { Bookmark, Compass, Home, UserRound } from "lucide-react-native";
 import { StyleSheet, View, type ColorValue } from "react-native";
 
 const Icons = {
   home: Home,
-  learn: BookOpen,
+  explore: Compass,
   debate: Bookmark,
   profile: UserRound,
 } as const;
