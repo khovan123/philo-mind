@@ -53,3 +53,9 @@ export type {
   UserProfile,
   AuthResponse,
 } from "./types/auth.js";
+
+export type {
+  TopicDTO,
+  LessonDTO,
+  QuizAttemptDTO,
+} from "./types/learning.js";
