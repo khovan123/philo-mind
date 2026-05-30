@@ -84,16 +84,16 @@ export default function AppTabs() {
       <Tabs.Screen
         name="explore"
         options={{
-          href: null,
+          title: "Khám phá",
+          tabBarLabel: "Khám phá",
+          tabBarIcon: renderTabIcon("explore"),
         }}
       />
 
       <Tabs.Screen
         name="learn"
         options={{
-          title: "Nhập vai",
-          tabBarLabel: "Nhập vai",
-          tabBarIcon: renderTabIcon("learn"),
+          href: null,
         }}
       />
 
