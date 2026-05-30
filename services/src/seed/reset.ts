@@ -9,9 +9,7 @@
  * Usage: npm run seed:reset
  */
 /* eslint-disable no-console */
-import { PrismaClient } from "../prisma/generated/client.js";
-
-const prisma = new PrismaClient();
+import { prisma } from "../config/prisma.js";
 
 // Tables to truncate in reverse-dependency order
 const TABLES_TO_TRUNCATE = [
