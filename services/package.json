@@ -15,7 +15,10 @@
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest --passWithNoTests",
     "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "db:migrate:deploy": "npx prisma migrate deploy --schema=src/prisma/schema.prisma",
+    "db:migrate:status": "npx prisma migrate status --schema=src/prisma/schema.prisma",
+    "db:rollback": "bash scripts/db-rollback.sh"
   },
   "dependencies": {
     "@philo-mind/shared": "*",
