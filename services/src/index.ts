@@ -14,7 +14,20 @@ const PORT = env.PORT;
 // ── Middleware ──────────────────────────────────────────────
 app.use(helmet());
 app.use(cors());
-app.use(compression());
+app.use(
+  compression({
+    level: 6, // balanced compression (1=fast, 9=best ratio)
+    threshold: 1024, // skip bodies < 1KB
+    filter: (req, res) => {
+      // Don't compress if client sent Cache-Control: no-transform
+      if (req.headers["cache-control"]?.includes("no-transform")) {
+        return false;
+      }
+      // Fall back to the default filter (compresses text/* + json + xml)
+      return compression.filter(req, res);
+    },
+  }),
+);
 app.use(morgan("dev"));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
