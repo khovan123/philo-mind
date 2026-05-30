@@ -157,8 +157,7 @@ model UserSession {
   user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   refreshTokens RefreshToken[]
 
-  @@index([userId])
-  @@index([status])
+  @@index([userId, status])
   @@map("user_sessions")
 }
 
@@ -174,8 +173,8 @@ model RefreshToken {
   user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   session UserSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
-  @@index([userId])
-  @@index([sessionId])
+  @@index([userId, revokedAt])
+  @@index([sessionId, revokedAt])
   @@index([expiresAt])
   @@map("refresh_tokens")
 }
@@ -219,8 +218,7 @@ model Lesson {
   progress   UserProgress[]
   quizzes    Quiz[]
 
-  @@index([topicId])
-  @@index([status])
+  @@index([topicId, status])
   @@map("lessons")
 }
 
@@ -299,7 +297,7 @@ model ShortLessonComment {
   shortLesson ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([shortLessonId])
+  @@index([shortLessonId, createdAt])
   @@index([userId])
   @@map("short_lesson_comments")
 }
@@ -363,7 +361,7 @@ model StorySession {
   story     StoryScenario   @relation(fields: [storyId], references: [id], onDelete: Cascade)
   decisions StoryDecision[]
 
-  @@index([userId])
+  @@index([userId, storyId, status])
   @@index([storyId])
   @@map("story_sessions")
 }
@@ -380,7 +378,7 @@ model StoryDecision {
   user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   choice  StoryChoice  @relation(fields: [choiceId], references: [id], onDelete: Cascade)
 
-  @@index([sessionId])
+  @@index([sessionId, createdAt])
   @@index([userId])
   @@map("story_decisions")
 }
@@ -410,7 +408,7 @@ model AiChatSession {
   character AiCharacter     @relation(fields: [characterId], references: [id], onDelete: Cascade)
   messages  AiChatMessage[]
 
-  @@index([userId])
+  @@index([userId, createdAt])
   @@index([characterId])
   @@map("ai_chat_sessions")
 }
@@ -425,7 +423,7 @@ model AiChatMessage {
 
   session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
-  @@index([sessionId])
+  @@index([sessionId, createdAt])
   @@map("ai_chat_messages")
 }
 
@@ -484,8 +482,7 @@ model Debate {
   topic     Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
   arguments DebateArgument[]
 
-  @@index([topicId])
-  @@index([status])
+  @@index([topicId, status])
   @@map("debates")
 }
 
@@ -503,7 +500,7 @@ model DebateArgument {
   comments DebateComment[]
   votes    DebateVote[]
 
-  @@index([debateId])
+  @@index([debateId, voteCount])
   @@index([userId])
   @@map("debate_arguments")
 }
@@ -518,7 +515,7 @@ model DebateComment {
   argument DebateArgument @relation(fields: [argumentId], references: [id], onDelete: Cascade)
   user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([argumentId])
+  @@index([argumentId, createdAt])
   @@index([userId])
   @@map("debate_comments")
 }
@@ -622,8 +619,7 @@ model QuizAttempt {
   user    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   answers QuizAttemptAnswer[]
 
-  @@index([quizId])
-  @@index([userId])
+  @@index([userId, quizId])
   @@map("quiz_attempts")
 }
 
@@ -771,7 +767,7 @@ model Notification {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([userId, isRead])
+  @@index([userId, isRead, createdAt])
   @@map("notifications")
 }
 
@@ -804,7 +800,7 @@ model Report {
   actions  ModerationAction[]
 
   @@index([reporterId])
-  @@index([status])
+  @@index([status, createdAt])
   @@index([targetType, targetId])
   @@map("reports")
 }
