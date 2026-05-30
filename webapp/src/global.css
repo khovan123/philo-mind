@@ -42,7 +42,7 @@
 /* ── PhiloMind Dark Scholar Theme ───────────────────────── */
 
 @layer theme {
-  @theme {
+  :root {
     /* Core palette */
     --color-primary: #d97706;
     --color-primary-light: #fdba74;

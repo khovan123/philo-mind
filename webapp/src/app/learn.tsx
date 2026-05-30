@@ -4,13 +4,13 @@ import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Spacing } from "@/constants/theme";
 
-export default function ExploreScreen() {
+export default function LearnScreen() {
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="subtitle">Explore</ThemedText>
+      <ThemedText type="subtitle">Learn</ThemedText>
 
       <ThemedText type="small" themeColor="textSecondary">
-        Explore philosophical topics, thinkers, and real-life questions.
+        Lessons, learning paths, and core philosophy concepts will appear here.
       </ThemedText>
     </ThemedView>
   );
