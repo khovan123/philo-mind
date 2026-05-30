@@ -15,7 +15,9 @@
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest --passWithNoTests",
     "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "seed": "tsx src/seed/index.ts",
+    "seed:reset": "tsx src/seed/reset.ts && tsx src/seed/index.ts"
   },
   "dependencies": {
     "@philo-mind/shared": "*",
@@ -24,6 +26,7 @@
     "bcryptjs": "^3.0.3",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
+    "csv-parse": "^6.2.1",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
