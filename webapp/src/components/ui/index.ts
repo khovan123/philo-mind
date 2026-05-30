@@ -5,4 +5,5 @@ export * from "./Badge";
 export * from "./Avatar";
 export * from "../themed-text";
 export * from "../themed-view";
+export * from "../progress";
 export * from "./TabIcon";
