@@ -257,7 +257,11 @@ const styles = StyleSheet.create({
   },
 
   imageScrim: {
-    ...StyleSheet.absoluteFillObject,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     backgroundColor: "rgba(12, 12, 14, 0.58)",
   },
 
