@@ -5,10 +5,20 @@ import { TabIcon, type TabIconName } from "@/components/ui/TabIcon";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 
+type TabBarIconProps = {
+  color: ColorValue;
+  focused: boolean;
+  size: number;
+};
+
 function renderTabIcon(name: TabIconName) {
-  return ({ color, focused }: { color: ColorValue; focused: boolean; size: number }) => (
-    <TabIcon name={name} color={color} focused={focused} />
-  );
+  function TabBarIcon({ color, focused }: TabBarIconProps) {
+    return <TabIcon name={name} color={color} focused={focused} />;
+  }
+
+  TabBarIcon.displayName = `TabBarIcon.${name}`;
+
+  return TabBarIcon;
 }
 
 const TAB_BAR_HEIGHT =
