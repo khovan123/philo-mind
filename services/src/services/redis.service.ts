@@ -11,7 +11,7 @@ const redisUrl = env.REDIS_URL || "redis://localhost:6379";
 try {
   redisClient = new Redis(redisUrl, {
     maxRetriesPerRequest: 3,
-    retryStrategy(times) {
+    retryStrategy(times: number) {
       if (times > 3) {
         console.error("❌ Redis connection failed permanently after 3 attempts.");
         return null;
@@ -25,7 +25,7 @@ try {
     console.warn("🚀 Connected to Redis successfully.");
   });
 
-  redisClient.on("error", (err) => {
+  redisClient.on("error", (err: Error) => {
     isConnected = false;
     console.error("❌ Redis Error:", err.message);
   });
