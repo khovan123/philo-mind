@@ -16,7 +16,7 @@
 | # | Thành viên | Vai trò | Tasks | Số lượng | Domain |
 |---|-----------|---------|-------|----------|--------|
 | 1 | **khovan** | Tech Lead / DevOps | T-I01→I07, T-A19→A22 | 11 | Infra, CI/CD, Optimization |
-| 2 | **Nguyễn Tuấn Anh** | Backend Lead | T-A01→A05, T-A16→A18 | 8 | Auth, Badge, Activity, Moderation |
+| 2 | **Nguyễn Tuấn Anh** (`NTA1210`) ✅ | Backend Lead | T-A01→A05, T-A16→A18 | 8 | Auth, Badge, Activity, Moderation |
 | 3 | **Trần Văn Linh** | Backend Dev | T-A06→A10 , T-A11→A15 | 10 | Content APIs, Advanced APIs |
 | 4 | **Thu Hà** | Frontend Lead | T-B01→B08 | 8 | Design System, Auth UI, API Client |
 | 5 | **Anh Thư** | Frontend Dev | T-B09→B16 | 8 | Home, Explore, Lesson, Profile |

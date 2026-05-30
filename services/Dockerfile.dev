@@ -1,0 +1,25 @@
+# syntax=docker/dockerfile:1
+# ─── PhiloMind API · Dev Dockerfile ──────────────────────────
+# Hot-reload via tsx watch — NOT for production
+# ──────────────────────────────────────────────────────────────
+
+FROM node:22-alpine AS dev
+
+WORKDIR /app
+
+# Install dependencies first (layer cache)
+COPY package.json ./
+RUN npm install
+
+# Copy Prisma schema & generate client
+COPY prisma.config.ts ./
+COPY src/prisma/schema.prisma ./src/prisma/schema.prisma
+RUN npx prisma generate
+
+# Source is bind-mounted at runtime for hot-reload
+# COPY src/ ./src/  ← NOT needed; volume mount handles this
+
+EXPOSE 3001
+
+# Wait for DB, run migrations, then start dev server
+CMD ["sh", "-c", "npx prisma migrate dev --skip-generate 2>/dev/null || true && npm run dev"]
