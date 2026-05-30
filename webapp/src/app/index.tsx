@@ -1,15 +1,15 @@
 import { Image } from "expo-image";
-import { Bell, BookOpen, Flame, Gavel, Sparkles, UserRound } from "lucide-react-native";
+import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
 
 const Colors = {
   background: "#0C0C0E",
   surface: "#18181B",
-  surfaceHigh: "#202024",
   chip: "#27272A",
   border: "#353437",
   text: "#E5E1E4",
@@ -46,19 +46,7 @@ export default function HomeScreen() {
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
-        <View style={styles.header}>
-          <ThemedText style={styles.logo}>PhiloMind</ThemedText>
-
-          <View style={styles.headerActions}>
-            <Pressable style={styles.iconButton}>
-              <Bell color={Colors.muted} size={18} />
-            </Pressable>
-
-            <Pressable style={styles.avatar}>
-              <UserRound color={Colors.text} size={18} />
-            </Pressable>
-          </View>
-        </View>
+        <AppHeader />
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
           <View style={styles.streakCard}>
@@ -201,49 +189,6 @@ const styles = StyleSheet.create({
 
   safeArea: {
     flex: 1,
-  },
-
-  header: {
-    height: 58,
-    paddingHorizontal: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: Colors.border,
-    backgroundColor: Colors.background,
-  },
-
-  logo: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 20,
-    lineHeight: 24,
-    fontWeight: "700",
-  },
-
-  headerActions: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-
-  iconButton: {
-    width: 34,
-    height: 34,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: Radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surfaceHigh,
   },
 
   content: {
