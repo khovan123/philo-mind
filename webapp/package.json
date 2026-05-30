@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "@expo/ui": "~56.0.13",
+    "@expo/vector-icons": "^15.0.2",
     "@philo-mind/shared": "*",
     "clsx": "^2.1.1",
     "expo": "~56.0.4",
