@@ -14,7 +14,7 @@
  * Safe to run multiple times.
  */
 /* eslint-disable no-console */
-import { PrismaClient } from "../prisma/generated/client.js";
+import { prisma } from "../config/prisma.js";
 import { seedHeader } from "./utils/index.js";
 
 // ─── Seed modules (dependency order) ──────────────────
@@ -26,8 +26,6 @@ import { seedScenarios } from "./07-scenarios.js";
 import { seedDebates } from "./08-debates.js";
 import { seedCriticalQuestions } from "./09-critical-questions.js";
 import { seedBadges } from "./10-badges.js";
-
-const prisma = new PrismaClient();
 
 async function main() {
   console.log("\n🌱 PhiloMind Seed Runner");

@@ -14,7 +14,7 @@ const __dirname = dirname(__filename);
 // Navigate from services/src/seed/utils -> project root -> data/
 const DATA_DIR = resolve(__dirname, "../../../../data");
 
-export function readCsv<T extends Record<string, string>>(filename: string): T[] {
+export function readCsv<T extends object>(filename: string): T[] {
   const filepath = resolve(DATA_DIR, filename);
   const content = readFileSync(filepath, "utf-8");
 
