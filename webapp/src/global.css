@@ -6,6 +6,8 @@
 
 @media android {
   :root {
+    --font-display: normal;
+    --font-body: normal;
     --font-mono: monospace;
     --font-rounded: normal;
     --font-serif: serif;
@@ -15,6 +17,8 @@
 
 @media ios {
   :root {
+    --font-display: system-ui;
+    --font-body: system-ui;
     --font-mono: ui-monospace;
     --font-serif: ui-serif;
     --font-sans: system-ui;
@@ -26,6 +30,8 @@
 
 @media (hover: hover) {
   :root {
+    --font-display: Inter, ui-sans-serif, system-ui, sans-serif;
+    --font-body: "Be Vietnam Pro", Inter, ui-sans-serif, system-ui, sans-serif;
     --font-sans: Inter, ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --font-serif: Georgia, "Times New Roman", serif;
@@ -33,19 +39,82 @@
   }
 }
 
-/* ── Custom Theme ───────────────────────────────────────── */
+/* ── PhiloMind Dark Scholar Theme ───────────────────────── */
 
 @layer theme {
   @theme {
-    /* Brand colors */
-    --color-primary: #6366f1;
-    --color-primary-light: #818cf8;
-    --color-primary-dark: #4f46e5;
+    /* Core palette */
+    --color-primary: #d97706;
+    --color-primary-light: #fdba74;
+    --color-primary-dark: #92400e;
 
-    /* Semantic colors */
+    --color-secondary: #e4e4e7;
+    --color-tertiary: #a1a1aa;
+    --color-neutral: #0c0c0e;
+
+    /* Dark UI */
+    --color-background: #0c0c0e;
+    --color-surface: #1a1a1a;
+    --color-surface-elevated: #202024;
+    --color-border: #2f2a24;
+
+    --color-text: #e4e4e7;
+    --color-text-secondary: #a1a1aa;
+    --color-text-muted: #71717a;
+
+    /* Semantic */
     --color-success: #22c55e;
     --color-warning: #f59e0b;
     --color-danger: #ef4444;
     --color-info: #3b82f6;
+
+    /* Radius */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-full: 999px;
+
+    /* Spacing */
+    --space-half: 2px;
+    --space-one: 4px;
+    --space-two: 8px;
+    --space-three: 16px;
+    --space-four: 24px;
+    --space-five: 32px;
+    --space-six: 64px;
+  }
+}
+
+/* ── Global base styles ─────────────────────────────────── */
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-body);
+    background: var(--color-background);
+    color: var(--color-text);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
   }
 }
