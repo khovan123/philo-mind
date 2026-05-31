@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes.js";
 import { bookmarkRouter } from "./bookmark.routes.js";
+import { criticalQuestionRouter } from "./critical-question.routes.js";
 import { mindmapRouter } from "./mindmap.routes.js";
 import { notificationRouter } from "./notification.routes.js";
 import { badgeRouter } from "./badge.routes.js";
@@ -9,6 +10,9 @@ import { moderationRouter } from "./moderation.routes.js";
 import { topicsRouter } from "./topics.routes.js";
 import { storiesRouter } from "./stories.routes.js";
 import { statsRouter } from "./stats.routes.js";
+import { philosophyTagRouter } from "./philosophy-tag.routes.js";
+import { storyLearnCardRouter } from "./story-learn-card.routes.js";
+import { analysisTabRouter } from "./analysis-tab.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -32,6 +36,9 @@ apiRouter.use("/auth", authRouter);
 // Bookmark routes
 apiRouter.use("/bookmarks", bookmarkRouter);
 
+// Critical question routes
+apiRouter.use("/critical-questions", criticalQuestionRouter);
+
 // Mindmap routes
 apiRouter.use("/mindmaps", mindmapRouter);
 
@@ -47,6 +54,11 @@ apiRouter.use("/moderation", moderationRouter);
 apiRouter.use("/topics", topicsRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
+
+// T-D01: Story Mode Engine — learn cards, analysis tabs, philosophy tags
+apiRouter.use("/philosophy-tags", philosophyTagRouter);
+apiRouter.use("/stories/:storyId/learn-cards", storyLearnCardRouter);
+apiRouter.use("/consequences/:consequenceId/tabs", analysisTabRouter);
 
 // TODO: Phase 1+ routes
 // apiRouter.use("/lessons", lessonRouter);

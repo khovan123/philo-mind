@@ -133,7 +133,7 @@ export default function RegisterScreen() {
         password,
       });
 
-      router.replace("/(tabs)");
+      router.replace("/");
     } catch (error) {
       if (error instanceof ApiError) {
         setFieldErrors({ form: error.message });
