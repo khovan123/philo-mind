@@ -13,17 +13,16 @@ binaries for the `preview` and `production` profiles.
 
 ## Link the Expo Project
 
-Create or link the Expo project once:
+The Expo project is already linked. Verify it from `webapp/`:
 
 ```bash
 cd webapp
-eas init
+eas project:info
 ```
 
-Copy the resulting Expo project UUID into the `EAS_PROJECT_ID` variable in the
-EAS `preview` and `production` environments. Also add it to an ignored
-`webapp/.env.local` file for local EAS Update commands. This value is required
-by `app.config.js`; EAS Build commands fail fast when it is missing.
+The linked Expo project is `@minhpnq1807/philo-mind`. Its public project UUID is
+stored in `webapp/app.json`. `EAS_PROJECT_ID` remains available as an optional
+local or CI override.
 
 Set the public API URL in both EAS environments:
 
@@ -75,11 +74,9 @@ The app uses `expo-updates`, the `appVersion` runtime policy, and separate
 channels for preview and production:
 
 ```bash
-EAS_PROJECT_ID="<expo-project-uuid>" \
-  eas update --channel preview --environment preview --message "Preview update"
+eas update --channel preview --environment preview --message "Preview update"
 
-EAS_PROJECT_ID="<expo-project-uuid>" \
-  eas update --channel production --environment production --message "Production update"
+eas update --channel production --environment production --message "Production update"
 ```
 
 Publish to `preview` first and verify the installed preview binary before

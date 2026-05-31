@@ -1,13 +1,13 @@
 const eas = require("../eas.json");
 
-const projectId = "00000000-0000-4000-8000-000000000000";
-process.env.EAS_PROJECT_ID = projectId;
+const projectId = "0d037822-45e4-4e74-9101-13e054e72dc2";
 
 const config = require("../app.config.js");
 
 const expected = {
   name: "PhiloMind",
   slug: "philo-mind",
+  owner: "minhpnq1807",
   bundleIdentifier: "com.khovan123.philomind",
   package: "com.khovan123.philomind",
   projectId,
@@ -18,6 +18,7 @@ const expected = {
 const actual = {
   name: config.name,
   slug: config.slug,
+  owner: config.owner,
   bundleIdentifier: config.ios?.bundleIdentifier,
   package: config.android?.package,
   projectId: config.extra?.eas?.projectId,
