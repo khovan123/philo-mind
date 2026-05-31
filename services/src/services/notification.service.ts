@@ -1,4 +1,4 @@
-import { Prisma } from "../prisma/generated/client";
+import { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { buildPaginationMeta, parsePagination } from "../utils/response.js";
 import type {
@@ -9,7 +9,7 @@ import type {
 
 // ── T-A15: Notification Service ──────────────────────────────
 
-function toPrismaJson(metadata: Prisma.JsonValue | null | undefined) {
+function toPrismaJson(metadata: unknown) {
   if (metadata === null) {
     return Prisma.DbNull;
   }

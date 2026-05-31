@@ -1,4 +1,4 @@
-import { Prisma, type TargetType } from "../prisma/generated/client";
+import { Prisma, type TargetType } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { buildPaginationMeta, parsePagination } from "../utils/response.js";
 import type { BookmarkTargetInput, ListBookmarksQuery } from "../validators/bookmark.validator.js";
@@ -47,6 +47,15 @@ export class BookmarkService {
   }
 
   async toggle(userId: string, input: BookmarkTargetInput) {
+    const targetExists = await this.targetExists(input);
+    if (!targetExists) {
+      throw new BookmarkError(
+        "BOOKMARK_TARGET_NOT_FOUND",
+        "Không tìm thấy nội dung để bookmark",
+        404,
+      );
+    }
+
     try {
       const bookmark = await prisma.bookmark.create({
         data: {
@@ -62,23 +71,12 @@ export class BookmarkService {
       };
     } catch (err) {
       if (this.isUniqueConstraintError(err)) {
-        const bookmark = await prisma.bookmark.findUnique({
+        await prisma.bookmark.deleteMany({
           where: {
-            userId_targetType_targetId: {
-              userId,
-              targetType: input.targetType,
-              targetId: input.targetId,
-            },
+            userId,
+            targetType: input.targetType,
+            targetId: input.targetId,
           },
-          select: { id: true },
-        });
-
-        if (!bookmark) {
-          throw new BookmarkError("BOOKMARK_CONFLICT", "Không thể cập nhật bookmark", 409);
-        }
-
-        await prisma.bookmark.delete({
-          where: { id: bookmark.id },
         });
 
         return {
@@ -98,6 +96,37 @@ export class BookmarkService {
 
     if (result.count === 0) {
       throw new BookmarkError("BOOKMARK_NOT_FOUND", "Không tìm thấy bookmark", 404);
+    }
+  }
+
+  private async targetExists(input: BookmarkTargetInput): Promise<boolean> {
+    switch (input.targetType) {
+      case "LESSON":
+        return Boolean(
+          await prisma.lesson.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
+      case "SHORT_LESSON":
+        return Boolean(
+          await prisma.shortLesson.findUnique({
+            where: { id: input.targetId },
+            select: { id: true },
+          }),
+        );
+      case "STORY":
+        return Boolean(
+          await prisma.storyScenario.findUnique({
+            where: { id: input.targetId },
+            select: { id: true },
+          }),
+        );
+      case "DEBATE":
+        return Boolean(
+          await prisma.debate.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
+      case "TOPIC":
+        return Boolean(
+          await prisma.topic.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
     }
   }
 

@@ -12,6 +12,15 @@ export class TopicController {
   async getAll(req: Request, res: Response) {
     try {
       const topics = await prisma.topic.findMany({
+        include: {
+          _count: {
+            select: {
+              lessons: true,
+              shortLessons: true,
+              storyScenarios: true,
+            },
+          },
+        },
         orderBy: { createdAt: "desc" },
       });
       return sendSuccess(res, topics);

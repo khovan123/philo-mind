@@ -6,19 +6,27 @@
 # Also validates migration consistency on PRs.
 #
 # Secrets required:
-#   DATABASE_URL  — production connection string (for deploy job)
+#   DIRECT_DATABASE_URL  — direct Prisma Postgres connection string (for deploy job)
 #
 name: Database Migrations
+
+concurrency:
+  group: database-migrations-${{ github.ref_name }}
+  cancel-in-progress: false
 
 on:
   push:
     branches: [main, production]
     paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
       - "services/src/prisma/**"
       - "services/package.json"
   pull_request:
     branches: [main, production]
     paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
       - "services/src/prisma/**"
       - "services/package.json"
   workflow_dispatch:
@@ -52,6 +60,7 @@ jobs:
 
     env:
       DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
+      DIRECT_DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
 
     steps:
       - uses: actions/checkout@v4
@@ -99,17 +108,31 @@ jobs:
       - name: Apply migrations
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: |
           echo "🚀 Deploying migrations to ${{ github.ref_name }}..."
-          npx prisma migrate deploy --schema=src/prisma/schema.prisma
-          echo "✅ Migrations applied successfully"
+          for attempt in 1 2 3; do
+            if npx prisma migrate deploy --schema=src/prisma/schema.prisma; then
+              echo "✅ Migrations applied successfully"
+              exit 0
+            fi
+
+            if [[ "$attempt" -eq 3 ]]; then
+              echo "❌ Migration deploy failed after $attempt attempts"
+              exit 1
+            fi
+
+            wait_seconds=$((attempt * 15))
+            echo "⚠️ Migration deploy attempt $attempt failed; retrying in ${wait_seconds}s..."
+            sleep "$wait_seconds"
+          done
 
       - name: Run seed (if requested)
         if: github.event.inputs.run_seed == 'true'
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: |
           echo "🌱 Running seed..."
           npx tsx src/seed/index.ts
@@ -119,5 +142,5 @@ jobs:
         if: always()
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
