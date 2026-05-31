@@ -117,6 +117,20 @@ export default function AppTabs() {
           tabBarIcon: renderTabIcon("profile"),
         }}
       />
+
+      <Tabs.Screen
+        name="legal/terms"
+        options={{
+          href: null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="legal/privacy"
+        options={{
+          href: null,
+        }}
+      />
     </Tabs>
   );
 }
