@@ -1,9 +1,11 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { apiRequest } from "@/services/api";
+import { TopicDTO } from "@philo-mind/shared";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -71,6 +73,19 @@ export default function ExploreScreen() {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState(filters[0]);
   const [query, setQuery] = useState("");
+  const [dbTopics, setDbTopics] = useState<TopicDTO[]>([]);
+
+  useEffect(() => {
+    async function fetchTopics() {
+      try {
+        const data = await apiRequest<TopicDTO[]>("/topics");
+        setDbTopics(data);
+      } catch {
+        // Fallback to static topics if request fails
+      }
+    }
+    fetchTopics();
+  }, []);
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -89,9 +104,22 @@ export default function ExploreScreen() {
     [activeFilter, normalizedQuery],
   );
 
+  const topicsToUse = useMemo(() => {
+    if (dbTopics && dbTopics.length > 0) {
+      return dbTopics.map((t, index) => ({
+        id: t.id,
+        title: t.title,
+        lessons: "5 bài học",
+        progress: index === 0 ? 34 : 66,
+        category: t.category ?? "Đạo đức",
+      }));
+    }
+    return topics.map((t) => ({ ...t, id: undefined as string | undefined }));
+  }, [dbTopics]);
+
   const filteredTopics = useMemo(
     () =>
-      topics.filter((topic) => {
+      topicsToUse.filter((topic) => {
         const matchesFilter = activeFilter === "Tất cả" || topic.category === activeFilter;
         const matchesQuery =
           !normalizedQuery ||
@@ -101,7 +129,7 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, normalizedQuery],
+    [activeFilter, normalizedQuery, topicsToUse],
   );
 
   function startLesson(route: string) {
@@ -205,14 +233,10 @@ export default function ExploreScreen() {
                         {lesson.description}
                       </ThemedText>
 
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => startLesson(lesson.route)}
-                        style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
-                      >
+                      <View style={styles.startButton}>
                         <ThemedText style={styles.startButtonText}>Bắt đầu học</ThemedText>
                         <ArrowRight color={Colors.primaryText} size={16} />
-                      </Pressable>
+                      </View>
                     </View>
                   </Pressable>
                 ))}
@@ -231,7 +255,16 @@ export default function ExploreScreen() {
                 <Pressable
                   key={topic.title}
                   accessibilityRole="button"
-                  onPress={() => setQuery(topic.title)}
+                  onPress={() => {
+                    if (topic.id) {
+                      router.push({
+                        pathname: "/topic-perspectives",
+                        params: { topicId: topic.id, topicTitle: topic.title },
+                      });
+                    } else {
+                      setQuery(topic.title);
+                    }
+                  }}
                   style={({ pressed }) => [styles.topicCard, pressed && styles.pressed]}
                 >
                   <View style={styles.topicCopy}>

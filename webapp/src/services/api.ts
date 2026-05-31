@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { getAccessToken } from "@/stores/auth.store";
 
 export class ApiError extends Error {
@@ -12,7 +13,12 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3001/api/v1").replace(/\/$/, "");
+const DEFAULT_API_URL = Platform.select({
+  android: "http://10.0.2.2:3001/api/v1",
+  default: "http://localhost:3001/api/v1",
+});
+
+const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? DEFAULT_API_URL).replace(/\/$/, "");
 
 const REQUEST_TIMEOUT_MS = 10000;
 
