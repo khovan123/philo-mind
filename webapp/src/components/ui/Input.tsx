@@ -17,27 +17,47 @@ type InputProps = TextInputProps & {
   error?: string;
   helperText?: string;
   containerStyle?: StyleProp<ViewStyle>;
+  rightElement?: React.ReactNode;
 };
 
-export function Input({ label, error, helperText, containerStyle, ...props }: InputProps) {
+export function Input({
+  label,
+  error,
+  helperText,
+  containerStyle,
+  rightElement,
+  style,
+  ...props
+}: InputProps) {
   const theme = useTheme();
 
   return (
     <View style={[styles.container, containerStyle]}>
       {label ? <ThemedText type="label">{label}</ThemedText> : null}
 
-      <TextInput
-        placeholderTextColor={theme.textMuted}
+      <View
         style={[
-          styles.input,
+          styles.inputWrapper,
           {
-            backgroundColor: theme.surface,
+            backgroundColor: theme.surfaceElevated,
             borderColor: error ? theme.danger : theme.border,
-            color: theme.text,
           },
         ]}
-        {...props}
-      />
+      >
+        <TextInput
+          placeholderTextColor={theme.textMuted}
+          style={[
+            styles.input,
+            {
+              color: theme.text,
+            },
+            style,
+          ]}
+          {...props}
+        />
+
+        {rightElement ? <View style={styles.rightElement}>{rightElement}</View> : null}
+      </View>
 
       {error ? (
         <ThemedText type="label" style={{ color: theme.danger }}>
@@ -57,13 +77,26 @@ const styles = StyleSheet.create({
     gap: Spacing.one,
   },
 
-  input: {
+  inputWrapper: {
     minHeight: 48,
     borderWidth: 1,
     borderRadius: Radius.md,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+
+  input: {
+    flex: 1,
+    minHeight: 48,
     paddingHorizontal: Spacing.three,
     fontFamily: Fonts.body,
     fontSize: 15,
     fontWeight: "500",
+  },
+
+  rightElement: {
+    paddingRight: Spacing.three,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
