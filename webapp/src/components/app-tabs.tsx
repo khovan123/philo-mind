@@ -85,6 +85,7 @@ export default function AppTabs() {
         name="explore"
         options={{
           title: "Explore",
+
           tabBarLabel: "Khám phá",
           tabBarIcon: renderTabIcon("explore"),
         }}

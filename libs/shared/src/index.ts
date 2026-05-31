@@ -45,11 +45,14 @@ export const HTTP_STATUS = {
 
 // ── Re-exports ─────────────────────────────────────────────
 
+export { UserRole } from "./types/auth.js";
 export type {
-  RegisterRequest,
-  LoginRequest,
+  RegisterDTO,
+  LoginDTO,
   RefreshTokenRequest,
   AuthTokens,
   UserProfile,
   AuthResponse,
 } from "./types/auth.js";
+
+export type { TopicDTO, LessonDTO, QuizAttemptDTO } from "./types/learning.js";

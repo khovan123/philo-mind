@@ -1,12 +1,17 @@
 // ── Auth DTOs ──────────────────────────────────────────────
 
-export interface RegisterRequest {
+export enum UserRole {
+  USER = "USER",
+  ADMIN = "ADMIN",
+}
+
+export interface RegisterDTO {
   email: string;
   password: string;
   fullName: string;
 }
 
-export interface LoginRequest {
+export interface LoginDTO {
   email: string;
   password: string;
 }
@@ -24,7 +29,7 @@ export interface UserProfile {
   id: string;
   email: string;
   fullName: string;
-  role: string;
+  role: UserRole;
   avatarUrl: string | null;
   createdAt: string;
 }
