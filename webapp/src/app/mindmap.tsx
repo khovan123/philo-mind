@@ -22,6 +22,7 @@ import Svg, {
   Text as SvgText,
 } from "react-native-svg";
 
+import { BookmarkButton } from "@/components/bookmark-button";
 import { Button } from "@/components/ui/Button";
 import { ThemedText } from "@/components/themed-text";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
@@ -203,9 +204,19 @@ export default function MindmapScreen() {
                 {error ?? successMessage ?? "Sẵn sàng hiển thị mindmap"}
               </ThemedText>
             </View>
-            <ThemedText type="code" themeColor="textMuted">
-              {Math.round(scale * 100)}%
-            </ThemedText>
+            <View style={styles.statusActions}>
+              {selectedTopicId ? (
+                <BookmarkButton
+                  compact
+                  targetId={selectedTopicId}
+                  targetType="TOPIC"
+                  disabled={isLoading}
+                />
+              ) : null}
+              <ThemedText type="code" themeColor="textMuted">
+                {Math.round(scale * 100)}%
+              </ThemedText>
+            </View>
           </View>
 
           <View
@@ -610,6 +621,11 @@ const styles = StyleSheet.create({
     padding: Spacing.three,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
+    gap: Spacing.two,
+  },
+  statusActions: {
+    flexDirection: "row",
     alignItems: "center",
     gap: Spacing.two,
   },
