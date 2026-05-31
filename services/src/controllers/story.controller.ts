@@ -1,44 +1,60 @@
-import type { Request, Response } from "express";
+import type { Request, Response, NextFunction } from "express";
 import { prisma } from "../config/prisma.js";
-import { sendSuccess, sendError } from "../utils/response.js";
+import { storyService, StoryError } from "../services/story.service.js";
+import {
+  sendSuccess,
+  sendError,
+  sendPaginated,
+  buildPaginationMeta,
+  parsePagination,
+} from "../utils/response.js";
 import { invalidateCachePattern } from "../middleware/cache.middleware.js";
+import type { ListStoryScenariosInput } from "../validators/story.validator.js";
 
-// ── Story Controller with Cache Invalidation ─────────────────
+// ── Story Controller with Cache Invalidation & Pagination ─────
 
 export class StoryController {
   /**
-   * Get all story scenarios (cached)
+   * Get all story scenarios (paginated and filterable)
    */
-  async getAll(req: Request, res: Response) {
+  async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const stories = await prisma.storyScenario.findMany({
-        include: {
-          topic: {
-            select: {
-              id: true,
-              title: true,
-              category: true,
-            },
-          },
-          choices: {
-            include: {
-              consequences: true,
-            },
-          },
-        },
-        orderBy: { createdAt: "desc" },
-      });
-      return sendSuccess(res, stories);
+      const query = (res.locals.query || req.query) as ListStoryScenariosInput;
+      const { topicId, difficulty, search } = query;
+      const { page, limit } = parsePagination(query as any);
+
+      const result = await storyService.listStories({ topicId, difficulty, search }, page, limit);
+
+      const meta = buildPaginationMeta(result.total, page, limit);
+      return sendPaginated(res, result.stories, meta, 200);
     } catch (err: unknown) {
-      const error = err as Error;
-      return sendError(res, "STORY_FETCH_ERROR", error.message, 500);
+      if (err instanceof StoryError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
+  /**
+   * Get single story scenario detail with choices, consequences, analysis tabs, learn cards, and stats
+   */
+  async getDetail(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const story = await storyService.getStoryDetail(String(id));
+      return sendSuccess(res, story, 200);
+    } catch (err: unknown) {
+      if (err instanceof StoryError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
     }
   }
 
   /**
    * Create a new story scenario (invalidates stories + stats cache)
    */
-  async create(req: Request, res: Response) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
       const { topicId, title, description, characterRole, historicalContext, difficulty } =
         req.body;
@@ -76,8 +92,7 @@ export class StoryController {
 
       return sendSuccess(res, story, 201);
     } catch (err: unknown) {
-      const error = err as Error;
-      return sendError(res, "STORY_CREATE_ERROR", error.message, 500);
+      return next(err);
     }
   }
 }
