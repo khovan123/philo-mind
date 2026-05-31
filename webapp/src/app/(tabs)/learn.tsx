@@ -1,9 +1,9 @@
 import { useRouter } from "expo-router";
+import { GitBranch } from "lucide-react-native";
 import { useMemo, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { QuizCard } from "@/app/(lesson)/quiz/QuizCard";
 import { QuizFilters } from "@/app/(lesson)/quiz/QuizFilters";
@@ -12,11 +12,14 @@ import { QuizListStats } from "@/app/(lesson)/quiz/QuizListStats";
 import { QuizSearchBox } from "@/app/(lesson)/quiz/QuizSearchBox";
 import { quizSummaries, type QuizSummary } from "@/app/(lesson)/quiz/mock";
 import { quizStyles as styles } from "@/app/(lesson)/quiz/ui";
+import { Radius, Spacing } from "@/constants/theme";
+import { useTheme } from "@/hooks/use-theme";
 
 const filters = ["All", "Philosophy", "History", "Ethics", "Politics", "Completed"];
 
 export default function LearnScreen() {
   const router = useRouter();
+  const theme = useTheme();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState(filters[0]);
 
@@ -48,6 +51,24 @@ export default function LearnScreen() {
             </ThemedText>
           </View>
 
+          <Pressable
+            onPress={() => router.push("/mindmap" as never)}
+            style={[
+              mindmapEntryStyles.card,
+              { backgroundColor: theme.surface, borderColor: theme.border },
+            ]}
+          >
+            <View style={[mindmapEntryStyles.icon, { backgroundColor: theme.primary }]}>
+              <GitBranch color={theme.buttonText} size={20} />
+            </View>
+            <View style={mindmapEntryStyles.copy}>
+              <ThemedText type="smallBold">Mindmap khái niệm</ThemedText>
+              <ThemedText type="small" themeColor="textMuted">
+                Mở SVG force-directed map, zoom, pan và chạm node để xem chi tiết.
+              </ThemedText>
+            </View>
+          </Pressable>
+
           <QuizListStats />
           <QuizSearchBox value={query} onChange={setQuery} />
           <QuizFilters filters={filters} activeFilter={activeFilter} onChange={setActiveFilter} />
@@ -64,6 +85,28 @@ export default function LearnScreen() {
     </SafeAreaView>
   );
 }
+
+const mindmapEntryStyles = StyleSheet.create({
+  card: {
+    borderWidth: 1,
+    borderRadius: Radius.md,
+    padding: Spacing.three,
+    flexDirection: "row",
+    gap: Spacing.three,
+    alignItems: "center",
+  },
+  icon: {
+    width: 44,
+    height: 44,
+    borderRadius: Radius.md,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  copy: {
+    flex: 1,
+    gap: Spacing.half,
+  },
+});
 
 function matchesQuiz(quiz: QuizSummary, query: string, activeFilter: string) {
   const normalizedQuery = query.trim().toLowerCase();
