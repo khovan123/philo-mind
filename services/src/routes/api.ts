@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes.js";
+import { bookmarkRouter } from "./bookmark.routes.js";
 import { notificationRouter } from "./notification.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
@@ -20,6 +21,9 @@ apiRouter.get("/", (_req, res) => {
 
 // Auth routes
 apiRouter.use("/auth", authRouter);
+
+// Bookmark routes
+apiRouter.use("/bookmarks", bookmarkRouter);
 
 // Notification routes
 apiRouter.use("/notifications", notificationRouter);
