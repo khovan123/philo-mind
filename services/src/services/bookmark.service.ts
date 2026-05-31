@@ -1,4 +1,4 @@
-import { Prisma, type TargetType } from "../prisma/generated/client";
+import { Prisma, type TargetType } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { buildPaginationMeta, parsePagination } from "../utils/response.js";
 import type { BookmarkTargetInput, ListBookmarksQuery } from "../validators/bookmark.validator.js";

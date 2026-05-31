@@ -65,6 +65,7 @@ docs/*
 !docs/data-inventory.md
 !docs/data-input-guide.md
 !docs/team-assignments.md
+!docs/fly-deployment.md
 .contextos/
 .ruler/
 .codex/
@@ -79,4 +80,3 @@ docs/*
 /CLAUDE.md
 /CLAUDE.md.bak
 # END Ruler Generated Files
-
