@@ -45,6 +45,7 @@ export const HTTP_STATUS = {
 
 // ── Re-exports ─────────────────────────────────────────────
 
+// Auth
 export { UserRole } from "./types/auth.js";
 export type {
   RegisterDTO,
@@ -55,6 +56,7 @@ export type {
   AuthResponse,
 } from "./types/auth.js";
 
+// Learning
 export { Difficulty, ContentStatus } from "./types/learning.js";
 export type {
   TopicDTO,
@@ -62,3 +64,13 @@ export type {
   QuizAttemptDTO,
 } from "./types/learning.js";
 
+// Story
+export { StorySessionStatus, AnalysisType } from "./types/story.js";
+export type {
+  StoryScenarioDTO,
+  StoryChoiceDTO,
+  StorySessionDTO,
+  StoryDecisionDTO,
+  StoryConsequenceDTO,
+  AnalysisTabDTO,
+} from "./types/story.js";
