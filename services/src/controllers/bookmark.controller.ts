@@ -12,7 +12,10 @@ function getBookmarkId(req: Request): string {
 export class BookmarkController {
   async list(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await bookmarkService.listForUser(req.user!.id, req.query as ListBookmarksQuery);
+      const result = await bookmarkService.listForUser(
+        req.user!.id,
+        req.query as ListBookmarksQuery,
+      );
       return sendPaginated(res, result.bookmarks, result.meta, 200);
     } catch (err) {
       return next(err);
@@ -21,7 +24,10 @@ export class BookmarkController {
 
   async getStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await bookmarkService.getStatus(req.user!.id, req.query as BookmarkTargetInput);
+      const result = await bookmarkService.getStatus(
+        req.user!.id,
+        req.query as BookmarkTargetInput,
+      );
       return sendSuccess(res, result, 200);
     } catch (err) {
       return next(err);
