@@ -104,7 +104,7 @@ describe("BadgeService", () => {
       mockDebateArgumentCount.mockResolvedValue(5);
       mockStorySessionCount.mockResolvedValue(3);
       mockShortLessonResponseCount.mockResolvedValue(10);
-      
+
       // Mocking 3-day streak logs
       const today = new Date();
       const yesterday = new Date(Date.now() - 86400000);
@@ -118,7 +118,7 @@ describe("BadgeService", () => {
       const result = await BadgeService.getAllBadgesForUser(userId);
 
       expect(result).toHaveLength(10);
-      
+
       // First badge: activity_count_1 (Earned)
       expect(result[0].isEarned).toBe(true);
       expect(result[0].progress).toBe(1);
@@ -130,7 +130,7 @@ describe("BadgeService", () => {
       expect(result[1].target).toBe(5);
 
       // Seventh badge: streak_count_3 (Unearned, but has 3 streak progress)
-      const streakBadge = result.find(b => b.conditionType === "streak_count_3");
+      const streakBadge = result.find((b) => b.conditionType === "streak_count_3");
       expect(streakBadge?.progress).toBe(3);
       expect(streakBadge?.target).toBe(3);
     });
@@ -139,7 +139,7 @@ describe("BadgeService", () => {
   describe("evaluateUserBadges", () => {
     it("should award eligible badges and send notifications", async () => {
       mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
-      
+
       // Mock all badges as unearned initially
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
         id: `badge-${idx}`,
@@ -192,7 +192,7 @@ describe("BadgeService", () => {
 
     it("should not award badges that are already earned", async () => {
       mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
-      
+
       // Mock all badges as already earned
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
         id: `badge-${idx}`,

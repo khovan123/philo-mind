@@ -2,10 +2,7 @@ import { Router } from "express";
 import { activityLogController } from "../controllers/activity-log.controller.js";
 import { authGuard } from "../middleware/auth.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
-import {
-  createActivitySchema,
-  listActivitiesSchema,
-} from "../validators/activity.validator.js";
+import { createActivitySchema, listActivitiesSchema } from "../validators/activity.validator.js";
 
 export const activityRouter = Router();
 
@@ -31,4 +28,3 @@ activityRouter.get(
   authGuard,
   activityLogController.getStreakDetails.bind(activityLogController),
 );
-

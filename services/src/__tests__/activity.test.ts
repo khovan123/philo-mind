@@ -1,7 +1,4 @@
-import {
-  createActivitySchema,
-  listActivitiesSchema,
-} from "../validators/activity.validator.js";
+import { createActivitySchema, listActivitiesSchema } from "../validators/activity.validator.js";
 
 // ── T-A16: Activity Validator Tests ──────────────────────────────
 
