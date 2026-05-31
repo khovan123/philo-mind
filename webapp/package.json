@@ -19,6 +19,7 @@
     "expo-status-bar": "~56.0.4",
     "expo-symbols": "~56.0.5",
     "expo-system-ui": "~56.0.5",
+    "expo-updates": "~56.0.17",
     "expo-web-browser": "~56.0.5",
     "lucide-react-native": "^1.17.0",
     "nativewind": "^5.0.0-preview.4",
@@ -60,6 +61,7 @@
     "lint": "expo lint",
     "lint:fix": "expo lint -- --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "eas:validate": "node scripts/validate-eas-config.js"
   }
 }

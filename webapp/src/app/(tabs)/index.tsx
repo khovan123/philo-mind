@@ -46,7 +46,7 @@ const learningItems = [
 
 export default function HomeScreen() {
   if (shouldShowOnboarding()) {
-    return <Redirect href="/onboarding" />;
+    return <Redirect href="../onboarding" />;
   }
 
   return (
