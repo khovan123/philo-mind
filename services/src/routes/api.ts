@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes.js";
 import { bookmarkRouter } from "./bookmark.routes.js";
+import { mindmapRouter } from "./mindmap.routes.js";
 import { notificationRouter } from "./notification.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
@@ -24,6 +25,9 @@ apiRouter.use("/auth", authRouter);
 
 // Bookmark routes
 apiRouter.use("/bookmarks", bookmarkRouter);
+
+// Mindmap routes
+apiRouter.use("/mindmaps", mindmapRouter);
 
 // Notification routes
 apiRouter.use("/notifications", notificationRouter);
