@@ -6,6 +6,7 @@ import {
   Flame,
   Globe2,
   Info,
+  Lock,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -247,6 +248,18 @@ export default function ProfileScreen() {
                 Xóa tài khoản
               </ThemedText>
             </Pressable>
+
+            <View style={styles.legalButtonsContainer}>
+              <Pressable onPress={() => router.push("/legal/terms")} style={styles.legalButton}>
+                <ScrollText color={Colors.muted} size={16} />
+                <ThemedText style={styles.legalButtonText}>Điều Khoản Dịch Vụ</ThemedText>
+              </Pressable>
+
+              <Pressable onPress={() => router.push("/legal/privacy")} style={styles.legalButton}>
+                <Lock color={Colors.muted} size={16} />
+                <ThemedText style={styles.legalButtonText}>Chính Sách Bảo Mật</ThemedText>
+              </Pressable>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -649,6 +662,7 @@ const styles = StyleSheet.create({
   deleteSection: {
     marginTop: Spacing.four,
     paddingHorizontal: Spacing.one,
+    gap: Spacing.three,
   },
 
   deleteButton: {
@@ -662,5 +676,27 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: Colors.primary,
     fontWeight: "800",
+  },
+
+  legalButtonsContainer: {
+    gap: Spacing.two,
+  },
+
+  legalButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.two,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.two,
+  },
+
+  legalButtonText: {
+    color: Colors.muted,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "700",
   },
 });

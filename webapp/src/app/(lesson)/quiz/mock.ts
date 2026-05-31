@@ -21,7 +21,7 @@ export type QuizQuestion = {
   prompt: string;
   context?: string;
   image?: string;
-  options: Array<{ id: string; label: string; text: string }>;
+  options: { id: string; label: string; text: string }[];
   correctOptionId: string;
   explanation: string;
   concept: string;
