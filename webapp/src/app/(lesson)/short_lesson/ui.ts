@@ -98,11 +98,11 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.card,
   },
   cardImage: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     opacity: 0.18,
   },
   cardScrim: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: "rgba(12,12,14,0.56)",
   },
   cardMeta: {
