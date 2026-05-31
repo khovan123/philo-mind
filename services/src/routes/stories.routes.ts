@@ -8,6 +8,9 @@ import {
   getStoryScenarioDetailSchema,
 } from "../validators/story.validator.js";
 
+import { storySessionController } from "../controllers/story-session.controller.js";
+import { startStorySessionSchema } from "../validators/story-session.validator.js";
+
 // ── Stories Routes ───────────────────────────────────────────
 
 export const storiesRouter = Router();
@@ -29,4 +32,12 @@ storiesRouter.get(
 // POST /api/v1/stories (restricted to ADMIN and MODERATOR, invalidates cache)
 storiesRouter.post("/", authGuard, roleGuard("ADMIN", "MODERATOR"), (req, res, next) =>
   controller.create(req, res, next),
+);
+
+// POST /api/v1/stories/:storyId/sessions (start or resume a play session)
+storiesRouter.post(
+  "/:storyId/sessions",
+  authGuard,
+  validate(startStorySessionSchema),
+  (req, res, next) => storySessionController.start(req, res, next),
 );
