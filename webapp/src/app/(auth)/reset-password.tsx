@@ -34,8 +34,17 @@ export default function ResetPasswordScreen() {
       <ThemedText type="subtitle">Đặt lại mật khẩu</ThemedText>
       <ThemedText type="small">Cho tài khoản {email}</ThemedText>
 
-      <Input value={password} onChangeText={setPassword} placeholder="Mật khẩu mới" secureTextEntry />
-      {error ? <ThemedText type="label" themeColor="danger">{error}</ThemedText> : null}
+      <Input
+        value={password}
+        onChangeText={setPassword}
+        placeholder="Mật khẩu mới"
+        secureTextEntry
+      />
+      {error ? (
+        <ThemedText type="label" themeColor="danger">
+          {error}
+        </ThemedText>
+      ) : null}
 
       <Button title="Đặt lại mật khẩu" loading={loading} onPress={handleReset} fullWidth />
     </View>
