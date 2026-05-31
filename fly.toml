@@ -20,7 +20,7 @@ primary_region = "sin"
     grace_period = "10s"
     interval = "15s"
     method = "GET"
-    path = "/health"
+    path = "/health/ready"
     timeout = "5s"
 
 [[vm]]

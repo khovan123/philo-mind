@@ -66,6 +66,7 @@ docs/*
 !docs/data-input-guide.md
 !docs/team-assignments.md
 !docs/fly-deployment.md
+!docs/prisma-production-database.md
 .contextos/
 .ruler/
 .codex/

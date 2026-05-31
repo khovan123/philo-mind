@@ -6,7 +6,7 @@
 # Also validates migration consistency on PRs.
 #
 # Secrets required:
-#   DATABASE_URL  — production connection string (for deploy job)
+#   DIRECT_DATABASE_URL  — direct Prisma Postgres connection string (for deploy job)
 #
 name: Database Migrations
 
@@ -14,11 +14,15 @@ on:
   push:
     branches: [main, production]
     paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
       - "services/src/prisma/**"
       - "services/package.json"
   pull_request:
     branches: [main, production]
     paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
       - "services/src/prisma/**"
       - "services/package.json"
   workflow_dispatch:
@@ -52,6 +56,7 @@ jobs:
 
     env:
       DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
+      DIRECT_DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
 
     steps:
       - uses: actions/checkout@v4
@@ -99,7 +104,7 @@ jobs:
       - name: Apply migrations
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: |
           echo "🚀 Deploying migrations to ${{ github.ref_name }}..."
           npx prisma migrate deploy --schema=src/prisma/schema.prisma
@@ -109,7 +114,8 @@ jobs:
         if: github.event.inputs.run_seed == 'true'
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: |
           echo "🌱 Running seed..."
           npx tsx src/seed/index.ts
@@ -119,5 +125,5 @@ jobs:
         if: always()
         working-directory: services
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
