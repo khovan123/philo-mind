@@ -114,6 +114,8 @@ model User {
   role            UserRole  @default(USER)
   isActive        Boolean   @default(true) @map("is_active")
   emailVerifiedAt DateTime? @map("email_verified_at")
+  streakCount     Int       @default(0) @map("streak_count")
+  lastActiveAt    DateTime? @map("last_active_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
