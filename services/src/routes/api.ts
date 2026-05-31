@@ -9,6 +9,7 @@ import { moderationRouter } from "./moderation.routes.js";
 import { topicsRouter } from "./topics.routes.js";
 import { storiesRouter } from "./stories.routes.js";
 import { statsRouter } from "./stats.routes.js";
+import { aiRouter } from "./ai.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -47,6 +48,9 @@ apiRouter.use("/moderation", moderationRouter);
 apiRouter.use("/topics", topicsRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
+
+// AI endpoints (Gemini)
+apiRouter.use("/ai", aiRouter);
 
 // TODO: Phase 1+ routes
 // apiRouter.use("/lessons", lessonRouter);
