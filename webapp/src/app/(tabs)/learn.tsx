@@ -1,22 +1,7 @@
 import { Image } from "expo-image";
-import {
-  BookOpen,
-  RotateCcw,
-  Search,
-  TrendingUp,
-  Users,
-  AlertCircle,
-} from "lucide-react-native";
+import { AlertCircle, BookOpen, RotateCcw, Search, TrendingUp, Users } from "lucide-react-native";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  Platform,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  TextInput,
-  View,
-} from "react-native";
+import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppHeader } from "@/components/app-header";
@@ -66,17 +51,23 @@ const FILTERS: { key: FilterKey; label: string }[] = [
 
 function difficultyLabel(d: StoryDifficulty): string {
   switch (d) {
-    case "EASY": return "Dễ";
-    case "MEDIUM": return "Trung bình";
-    case "HARD": return "Khó";
+    case "EASY":
+      return "Dễ";
+    case "MEDIUM":
+      return "Trung bình";
+    case "HARD":
+      return "Khó";
   }
 }
 
 function difficultyColors(d: StoryDifficulty): { color: string; bg: string } {
   switch (d) {
-    case "EASY": return { color: Colors.easy, bg: Colors.easyBg };
-    case "MEDIUM": return { color: Colors.medium, bg: Colors.mediumBg };
-    case "HARD": return { color: Colors.hard, bg: Colors.hardBg };
+    case "EASY":
+      return { color: Colors.easy, bg: Colors.easyBg };
+    case "MEDIUM":
+      return { color: Colors.medium, bg: Colors.mediumBg };
+    case "HARD":
+      return { color: Colors.hard, bg: Colors.hardBg };
   }
 }
 
@@ -107,16 +98,10 @@ function StoryCard({ story }: StoryCardProps) {
   const hasReplayed = story.stats.completedPlayCount > 0;
 
   return (
-    <Pressable
-      style={({ pressed }) => [styles.storyCard, pressed && styles.storyCardPressed]}
-    >
+    <Pressable style={({ pressed }) => [styles.storyCard, pressed && styles.storyCardPressed]}>
       {/* Cover image / fallback */}
       {story.coverImageUrl ? (
-        <Image
-          source={story.coverImageUrl}
-          contentFit="cover"
-          style={styles.storyCardImage}
-        />
+        <Image source={story.coverImageUrl} contentFit="cover" style={styles.storyCardImage} />
       ) : (
         <View style={styles.storyCardFallback}>
           <BookOpen color={Colors.locked} size={36} />
@@ -179,9 +164,7 @@ function StoryCard({ story }: StoryCardProps) {
 
           {story.estimatedMinutes !== null && (
             <View style={styles.statItem}>
-              <ThemedText style={styles.statText}>
-                ~{story.estimatedMinutes} phút
-              </ThemedText>
+              <ThemedText style={styles.statText}>~{story.estimatedMinutes} phút</ThemedText>
             </View>
           )}
         </View>
@@ -234,38 +217,61 @@ export default function LearnScreen() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [retryCount, setRetryCount] = useState(0);
+
+  // Retry: increment counter to re-trigger the fetch effect
+  const handleRetry = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    setRetryCount((c) => c + 1);
+  }, []);
+
+  // Filter change: set loading immediately, then let the effect fire
+  const handleFilterChange = useCallback((key: FilterKey) => {
+    setActiveFilter(key);
+    setLoading(true);
+    setError(null);
+  }, []);
 
   // Debounce search input by 300 ms
   const handleSearchChange = useCallback((text: string) => {
     setSearchQuery(text);
+    setLoading(true);
+    setError(null);
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       setDebouncedSearch(text.trim());
     }, 300);
   }, []);
 
-  const fetchStories = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  // Fetch stories: setState only in .then()/.catch() callbacks, not synchronously
+  useEffect(() => {
+    let cancelled = false;
 
     const filters: ListStoriesFilters = { limit: 50 };
     if (activeFilter !== "ALL") filters.difficulty = activeFilter;
     if (debouncedSearch) filters.search = debouncedSearch;
 
-    try {
-      const result = await storyService.listStories(filters);
-      setStories(result.stories ?? []);
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Không thể tải danh sách câu chuyện.";
-      setError(msg);
-    } finally {
-      setLoading(false);
-    }
-  }, [activeFilter, debouncedSearch]);
+    storyService
+      .listStories(filters)
+      .then((result) => {
+        if (!cancelled) {
+          setStories(result.stories ?? []);
+          setLoading(false);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) {
+          const msg = err instanceof Error ? err.message : "Không thể tải danh sách câu chuyện.";
+          setError(msg);
+          setLoading(false);
+        }
+      });
 
-  useEffect(() => {
-    fetchStories();
-  }, [fetchStories]);
+    return () => {
+      cancelled = true;
+    };
+  }, [activeFilter, debouncedSearch, retryCount]);
 
   const isFiltered = activeFilter !== "ALL" || debouncedSearch.length > 0;
 
@@ -315,7 +321,7 @@ export default function LearnScreen() {
                   key={f.key}
                   id={`filter-chip-${f.key.toLowerCase()}`}
                   style={[styles.filterChip, active && styles.filterChipActive]}
-                  onPress={() => setActiveFilter(f.key)}
+                  onPress={() => handleFilterChange(f.key)}
                 >
                   <ThemedText
                     style={[styles.filterChipText, active && styles.filterChipTextActive]}
@@ -335,15 +341,13 @@ export default function LearnScreen() {
               <SkeletonCard />
             </View>
           ) : error ? (
-            <ErrorState message={error} onRetry={fetchStories} />
+            <ErrorState message={error} onRetry={handleRetry} />
           ) : stories.length === 0 ? (
             <EmptyState isFiltered={isFiltered} />
           ) : (
             <View style={styles.listContainer}>
               {/* Story count */}
-              <ThemedText style={styles.countLabel}>
-                {stories.length} câu chuyện
-              </ThemedText>
+              <ThemedText style={styles.countLabel}>{stories.length} câu chuyện</ThemedText>
 
               {stories.map((story) => (
                 <StoryCard key={story.id} story={story} />
