@@ -13,12 +13,7 @@ type ShortLessonHeaderProps = {
   onBack: () => void;
 };
 
-export function ShortLessonHeader({
-  countLabel,
-  progress,
-  title,
-  onBack,
-}: ShortLessonHeaderProps) {
+export function ShortLessonHeader({ countLabel, progress, title, onBack }: ShortLessonHeaderProps) {
   return (
     <View style={styles.header}>
       <View style={styles.headerRow}>

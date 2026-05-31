@@ -16,7 +16,7 @@ jest.mock("@/components/app-header", () => ({
 }));
 
 jest.mock("@/components/themed-text", () => ({
-  ThemedText: ({ children, type, style }: any) => <>{ children }</>,
+  ThemedText: ({ children, type, style }: any) => <>{children}</>,
 }));
 
 jest.mock("@/components/markdown-renderer", () => ({

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, ScrollView, StyleSheet, ActivityIndicator } from "react-native";
+import { View, ScrollView, StyleSheet, ActivityIndicator, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { AppHeader } from "@/components/app-header";
@@ -68,18 +68,21 @@ Bạn có quyền:
 
 Nếu bạn có câu hỏi về Chính sách Bảo mật này, vui lòng liên hệ với chúng tôi:
 - Email: [privacy@philomind.com](mailto:privacy@philomind.com)`;
-    
-    setMarkdown(privacyContent);
-    setLoading(false);
+
+    // setTimeout to avoid synchronous setState inside useEffect warning
+    setTimeout(() => {
+      setMarkdown(privacyContent);
+      setLoading(false);
+    }, 0);
   }, []);
 
   function handleLinkPress(href: string) {
     if (href.startsWith("http") || href.startsWith("mailto:")) {
       // Open external link
-      require("react-native").Linking.openURL(href);
+      Linking.openURL(href);
     } else {
       // Navigate internal
-      router.push(href);
+      router.back();
     }
   }
 
@@ -99,10 +102,7 @@ Nếu bạn có câu hỏi về Chính sách Bảo mật này, vui lòng liên h
             </ThemedText>
           </View>
         ) : (
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.content}
-          >
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
             <MarkdownRenderer markdown={markdown || ""} onLinkPress={handleLinkPress} />
           </ScrollView>
         )}

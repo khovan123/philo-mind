@@ -247,18 +247,12 @@ export default function ProfileScreen() {
             </Pressable>
 
             <View style={styles.legalButtonsContainer}>
-              <Pressable
-                onPress={() => router.push("/legal/terms")}
-                style={styles.legalButton}
-              >
+              <Pressable onPress={() => router.push("/legal/terms")} style={styles.legalButton}>
                 <ScrollText color={Colors.muted} size={16} />
                 <ThemedText style={styles.legalButtonText}>Điều Khoản Dịch Vụ</ThemedText>
               </Pressable>
 
-              <Pressable
-                onPress={() => router.push("/legal/privacy")}
-                style={styles.legalButton}
-              >
+              <Pressable onPress={() => router.push("/legal/privacy")} style={styles.legalButton}>
                 <Lock color={Colors.muted} size={16} />
                 <ThemedText style={styles.legalButtonText}>Chính Sách Bảo Mật</ThemedText>
               </Pressable>

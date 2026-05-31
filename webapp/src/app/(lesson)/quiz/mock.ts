@@ -21,7 +21,7 @@ export type QuizQuestion = {
   prompt: string;
   context?: string;
   image?: string;
-  options: Array<{ id: string; label: string; text: string }>;
+  options: { id: string; label: string; text: string }[];
   correctOptionId: string;
   explanation: string;
   concept: string;
@@ -107,8 +107,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "d", label: "D", text: "Power" },
     ],
     correctOptionId: "b",
-    explanation:
-      "Socrates defends truth and moral integrity even when personal safety is at risk.",
+    explanation: "Socrates defends truth and moral integrity even when personal safety is at risk.",
     concept: "Moral Integrity",
   },
   {
@@ -151,8 +150,7 @@ export const quizQuestions: QuizQuestion[] = [
       { id: "d", label: "D", text: "Rhetoric" },
     ],
     correctOptionId: "b",
-    explanation:
-      "Questioning exposes contradictions so a learner can move closer to truth.",
+    explanation: "Questioning exposes contradictions so a learner can move closer to truth.",
     concept: "Aletheia",
   },
 ];
