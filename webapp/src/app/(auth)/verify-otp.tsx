@@ -35,7 +35,11 @@ export default function VerifyOtpScreen() {
       <ThemedText type="small">Mã đã được gửi tới {email}</ThemedText>
 
       <Input value={otp} onChangeText={setOtp} placeholder="Mã OTP" />
-      {error ? <ThemedText type="label" themeColor="danger">{error}</ThemedText> : null}
+      {error ? (
+        <ThemedText type="label" themeColor="danger">
+          {error}
+        </ThemedText>
+      ) : null}
 
       <Button title="Xác minh" loading={loading} onPress={handleVerify} fullWidth />
     </View>

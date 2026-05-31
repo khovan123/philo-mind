@@ -74,3 +74,19 @@ export type {
   StoryConsequenceDTO,
   AnalysisTabDTO,
 } from "./types/story.js";
+
+// Interactive (AI Chat, Scenario, Debate)
+export { SenderType, DebateStatus, DebateStance, VoteValue } from "./types/interactive.js";
+export type {
+  AiCharacterDTO,
+  AiChatSessionDTO,
+  AiChatMessageDTO,
+  ScenarioDTO,
+  ScenarioResponseDTO,
+  ScenarioAnalysisDTO,
+  DebateDTO,
+  DebateArgumentDTO,
+  DebateCommentDTO,
+  DebateVoteDTO,
+} from "./types/interactive.js";
+
