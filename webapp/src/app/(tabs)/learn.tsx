@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { GitBranch, Heart } from "lucide-react-native";
+import { Gamepad2, GitBranch, Heart } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -83,6 +83,24 @@ export default function LearnScreen() {
               <ThemedText type="smallBold">Bookmark đã lưu</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
                 Xem danh sách bookmark được nhóm theo bài học, topic, story và debate.
+              </ThemedText>
+            </View>
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.push("/minigames" as never)}
+            style={[
+              mindmapEntryStyles.card,
+              { backgroundColor: theme.surface, borderColor: theme.border },
+            ]}
+          >
+            <View style={[mindmapEntryStyles.icon, { backgroundColor: "#34D399" }]}>
+              <Gamepad2 color="#0C0C0E" size={20} />
+            </View>
+            <View style={mindmapEntryStyles.copy}>
+              <ThemedText type="smallBold">MiniGame luyện tập</ThemedText>
+              <ThemedText type="small" themeColor="textMuted">
+                Chơi matching cards, portrait quiz và argument sorting để ghi điểm.
               </ThemedText>
             </View>
           </Pressable>
