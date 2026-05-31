@@ -1,5 +1,5 @@
-import { Text, View, ScrollView, StyleSheet, Linking, Pressable } from "react-native";
-import React, { useMemo } from "react";
+import { Text, View, StyleSheet, Linking, Pressable, type TextStyle } from "react-native";
+import React, { type ReactNode, useMemo } from "react";
 
 interface MarkdownNode {
   type: "text" | "heading" | "paragraph" | "list" | "link" | "code" | "emphasis" | "strong";
@@ -58,11 +58,6 @@ function parseMarkdown(markdown: string): MarkdownNode[] {
 
 function renderInlineMarkdown(text: string): MarkdownNode[] {
   const inlineNodes: MarkdownNode[] = [];
-  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-  const strongRegex = /\*\*([^*]+)\*\*/g;
-  const emphasisRegex = /\*([^*]+)\*/g;
-  const codeRegex = /`([^`]+)`/g;
-
   let lastIndex = 0;
   let match;
 
@@ -113,56 +108,58 @@ export function MarkdownRenderer({ markdown, onLinkPress }: MarkdownRendererProp
     }
   }
 
-  function renderInline(nodes: MarkdownNode[]) {
+  function renderInline(nodes: MarkdownNode[]): ReactNode[] {
     return nodes.map((node, idx) => {
-      if (node.type === "text") {
-        return (
-          <Text key={idx} style={styles.text}>
-            {node.content}
-          </Text>
-        );
-      } else if (node.type === "link") {
-        return (
-          <Pressable key={idx} onPress={() => handleLinkPress(node.href!)}>
-            <Text style={styles.link}>{node.content}</Text>
-          </Pressable>
-        );
-      } else if (node.type === "code") {
-        return (
-          <Text key={idx} style={styles.code}>
-            {node.content}
-          </Text>
-        );
-      } else if (node.type === "strong") {
-        return (
-          <Text key={idx} style={styles.strong}>
-            {node.content}
-          </Text>
-        );
-      } else if (node.type === "emphasis") {
-        return (
-          <Text key={idx} style={styles.emphasis}>
-            {node.content}
-          </Text>
-        );
+      switch (node.type) {
+        case "text":
+          return (
+            <Text key={idx} style={styles.text}>
+              {node.content}
+            </Text>
+          );
+        case "link":
+          return (
+            <Pressable key={idx} onPress={() => node.href && handleLinkPress(node.href)}>
+              <Text style={styles.link}>{node.content}</Text>
+            </Pressable>
+          );
+        case "code":
+          return (
+            <Text key={idx} style={styles.code}>
+              {node.content}
+            </Text>
+          );
+        case "strong":
+          return (
+            <Text key={idx} style={styles.strong}>
+              {node.content}
+            </Text>
+          );
+        case "emphasis":
+          return (
+            <Text key={idx} style={styles.emphasis}>
+              {node.content}
+            </Text>
+          );
+        default:
+          return null;
       }
     });
+  }
+
+  function getHeadingStyle(level = 1): TextStyle {
+    if (level === 1) return styles.h1;
+    if (level === 2) return styles.h2;
+    if (level === 3) return styles.h3;
+    return styles.h4;
   }
 
   return (
     <View style={styles.container}>
       {nodes.map((node, idx) => {
         if (node.type === "heading") {
-          const level = node.level || 1;
-          const headingStyles = [
-            styles.heading,
-            level === 1 && styles.h1,
-            level === 2 && styles.h2,
-            level === 3 && styles.h3,
-            level === 4 && styles.h4,
-          ];
           return (
-            <Text key={idx} style={headingStyles}>
+            <Text key={idx} style={[styles.heading, getHeadingStyle(node.level)]}>
               {node.content}
             </Text>
           );
