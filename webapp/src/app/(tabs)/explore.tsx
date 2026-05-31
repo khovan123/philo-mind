@@ -1,5 +1,7 @@
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
+import { useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -29,12 +31,24 @@ const filters = ["Tất cả", "Đạo đức", "Lịch sử", "Chính trị", "
 
 const featuredLessons = [
   {
-    title: "Tự do là gì? Khám phá góc nhìn của Sartre",
+    title: "Phiên tòa Socrates",
+    category: "Đạo đức",
+    duration: "8 phút",
+    description:
+      "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
+    image: featuredImage,
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
+  },
+  {
+    title: "Tự do là gì? Góc nhìn của Sartre",
     category: "Hiện sinh",
     duration: "5 phút",
     description:
       "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
     image: featuredImage,
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
   },
   {
     title: "Khế ước xã hội hiện đại",
@@ -42,19 +56,61 @@ const featuredLessons = [
     duration: "8 phút",
     description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
     image: null,
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
   },
 ];
 
 const topics = [
-  { title: "Đạo đức", lessons: "12 bài học", progress: 34 },
-  { title: "Hạnh phúc", lessons: "8 bài học", progress: 66 },
-  { title: "Công bằng", lessons: "15 bài học", progress: 25 },
-  { title: "Hiện sinh", lessons: "20 bài học", progress: 100 },
-  { title: "Logic", lessons: "10 bài học", progress: 50 },
-  { title: "AI Ethics", lessons: "6 bài học", progress: 12 },
+  { title: "Đạo đức", lessons: "12 bài học", progress: 34, category: "Đạo đức" },
+  { title: "Hạnh phúc", lessons: "8 bài học", progress: 66, category: "Đạo đức" },
+  { title: "Công bằng", lessons: "15 bài học", progress: 25, category: "Chính trị" },
+  { title: "Hiện sinh", lessons: "20 bài học", progress: 100, category: "Đạo đức" },
+  { title: "Logic", lessons: "10 bài học", progress: 50, category: "Đạo đức" },
+  { title: "AI Ethics", lessons: "6 bài học", progress: 12, category: "Xã hội" },
 ];
 
 export default function ExploreScreen() {
+  const router = useRouter();
+  const [activeFilter, setActiveFilter] = useState(filters[0]);
+  const [query, setQuery] = useState("");
+
+  const normalizedQuery = query.trim().toLowerCase();
+
+  const filteredLessons = useMemo(
+    () =>
+      featuredLessons.filter((lesson) => {
+        const matchesFilter = activeFilter === "Tất cả" || lesson.category === activeFilter;
+        const matchesQuery =
+          !normalizedQuery ||
+          `${lesson.title} ${lesson.category} ${lesson.description}`
+            .toLowerCase()
+            .includes(normalizedQuery);
+
+        return matchesFilter && matchesQuery;
+      }),
+    [activeFilter, normalizedQuery],
+  );
+
+  const filteredTopics = useMemo(
+    () =>
+      topics.filter((topic) => {
+        const matchesFilter = activeFilter === "Tất cả" || topic.category === activeFilter;
+        const matchesQuery =
+          !normalizedQuery ||
+          `${topic.title} ${topic.lessons} ${topic.category}`
+            .toLowerCase()
+            .includes(normalizedQuery);
+
+        return matchesFilter && matchesQuery;
+      }),
+    [activeFilter, normalizedQuery],
+  );
+
+  function startLesson(route: string) {
+    router.push(route as never);
+  }
+
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
@@ -68,9 +124,11 @@ export default function ExploreScreen() {
             </ThemedText>
           </View>
 
-          <View style={styles.searchBox}>
-            <Search color={Colors.locked} size={18} />
+          <View style={[styles.searchBox, query.length > 0 && styles.searchBoxActive]}>
+            <Search color={query.length > 0 ? Colors.primaryLight : Colors.locked} size={18} />
             <TextInput
+              value={query}
+              onChangeText={setQuery}
               placeholder="Tìm chủ đề, triết gia..."
               placeholderTextColor={Colors.locked}
               selectionColor={Colors.primaryLight}
@@ -83,11 +141,20 @@ export default function ExploreScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.filterList}
           >
-            {filters.map((filter, index) => {
-              const active = index === 0;
+            {filters.map((filter) => {
+              const active = filter === activeFilter;
 
               return (
-                <Pressable key={filter} style={[styles.filterChip, active && styles.filterActive]}>
+                <Pressable
+                  key={filter}
+                  accessibilityRole="button"
+                  onPress={() => setActiveFilter(filter)}
+                  style={({ pressed }) => [
+                    styles.filterChip,
+                    active && styles.filterActive,
+                    pressed && styles.pressed,
+                  ]}
+                >
                   <ThemedText style={[styles.filterText, active && styles.filterTextActive]}>
                     {filter}
                   </ThemedText>
@@ -99,51 +166,87 @@ export default function ExploreScreen() {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <ThemedText style={styles.sectionTitle}>Nổi bật</ThemedText>
+              <ThemedText style={styles.resultCount}>{filteredLessons.length} bài</ThemedText>
             </View>
 
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.featuredList}
-            >
-              {featuredLessons.map((lesson) => (
-                <Pressable key={lesson.title} style={styles.featuredCard}>
-                  {lesson.image ? (
-                    <Image source={lesson.image} contentFit="cover" style={styles.featuredImage} />
-                  ) : (
-                    <View style={styles.featuredFallback}>
-                      <BookOpen color={Colors.locked} size={40} />
+            {filteredLessons.length === 0 ? (
+              <EmptyState />
+            ) : (
+              <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.featuredList}
+              >
+                {filteredLessons.map((lesson) => (
+                  <Pressable
+                    key={lesson.title}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [styles.featuredCard, pressed && styles.pressed]}
+                  >
+                    {lesson.image ? (
+                      <Image
+                        source={lesson.image}
+                        contentFit="cover"
+                        style={styles.featuredImage}
+                      />
+                    ) : (
+                      <View style={styles.featuredFallback}>
+                        <BookOpen color={Colors.locked} size={40} />
+                      </View>
+                    )}
+
+                    <View style={styles.featuredBody}>
+                      <View style={styles.featuredMeta}>
+                        <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
+                        <View style={styles.metaDot} />
+                        <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
+                      </View>
+
+                      <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
+                      <ThemedText numberOfLines={2} style={styles.featuredDescription}>
+                        {lesson.description}
+                      </ThemedText>
+
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.shortRoute)}
+                        style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
+                      >
+                        <ThemedText style={styles.startButtonText}>Short</ThemedText>
+                        <ArrowRight color={Colors.primaryText} size={16} />
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.fullRoute)}
+                        style={({ pressed }) => [
+                          styles.fullLessonButton,
+                          pressed && styles.pressed,
+                        ]}
+                      >
+                        <BookOpen color={Colors.primaryLight} size={16} />
+                        <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                      </Pressable>
                     </View>
-                  )}
-
-                  <View style={styles.featuredBody}>
-                    <View style={styles.featuredMeta}>
-                      <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
-                      <View style={styles.metaDot} />
-                      <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
-                    </View>
-
-                    <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
-                    <ThemedText numberOfLines={2} style={styles.featuredDescription}>
-                      {lesson.description}
-                    </ThemedText>
-
-                    <Pressable style={styles.startButton}>
-                      <ThemedText style={styles.startButtonText}>Bắt đầu học</ThemedText>
-                      <ArrowRight color={Colors.primaryText} size={16} />
-                    </Pressable>
-                  </View>
-                </Pressable>
-              ))}
-            </ScrollView>
+                  </Pressable>
+                ))}
+              </ScrollView>
+            )}
           </View>
 
           <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Chủ đề</ThemedText>
+            <View style={styles.sectionHeader}>
+              <ThemedText style={styles.sectionTitle}>Chủ đề</ThemedText>
+              <ThemedText style={styles.resultCount}>{filteredTopics.length} mục</ThemedText>
+            </View>
 
             <View style={styles.topicGrid}>
-              {topics.map((topic) => (
-                <Pressable key={topic.title} style={styles.topicCard}>
+              {filteredTopics.map((topic) => (
+                <Pressable
+                  key={topic.title}
+                  accessibilityRole="button"
+                  onPress={() => setQuery(topic.title)}
+                  style={({ pressed }) => [styles.topicCard, pressed && styles.pressed]}
+                >
                   <View style={styles.topicCopy}>
                     <ThemedText style={styles.topicTitle}>{topic.title}</ThemedText>
                     <ThemedText style={styles.topicLessons}>{topic.lessons}</ThemedText>
@@ -172,16 +275,24 @@ export default function ExploreScreen() {
   );
 }
 
+function EmptyState() {
+  return (
+    <View style={styles.emptyState}>
+      <BookOpen color={Colors.locked} size={28} />
+      <ThemedText style={styles.emptyTitle}>Không tìm thấy bài học</ThemedText>
+      <ThemedText style={styles.emptyText}>Thử đổi bộ lọc hoặc nhập từ khóa ngắn hơn.</ThemedText>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
     backgroundColor: Colors.background,
   },
-
   safeArea: {
     flex: 1,
   },
-
   content: {
     padding: Spacing.three,
     paddingBottom: BottomTabInset + 120,
@@ -190,11 +301,9 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
   },
-
   titleBlock: {
     gap: Spacing.one,
   },
-
   title: {
     color: Colors.text,
     fontFamily: Fonts.sans,
@@ -202,14 +311,12 @@ const styles = StyleSheet.create({
     lineHeight: 30,
     fontWeight: "800",
   },
-
   subtitle: {
     color: Colors.muted,
     fontSize: 13,
     lineHeight: 19,
     fontWeight: "600",
   },
-
   searchBox: {
     minHeight: 46,
     borderRadius: Radius.md,
@@ -221,7 +328,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "transparent",
   },
-
+  searchBoxActive: {
+    borderColor: Colors.primary,
+  },
   searchInput: {
     flex: 1,
     minHeight: 44,
@@ -231,12 +340,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     padding: 0,
   },
-
   filterList: {
     gap: Spacing.two,
     paddingRight: Spacing.three,
   },
-
   filterChip: {
     minHeight: 36,
     paddingHorizontal: Spacing.three,
@@ -247,32 +354,26 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     backgroundColor: Colors.input,
   },
-
   filterActive: {
     borderColor: Colors.primary,
   },
-
   filterText: {
     color: Colors.muted,
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "800",
   },
-
   filterTextActive: {
     color: Colors.primaryLight,
   },
-
   section: {
     gap: Spacing.two,
   },
-
   sectionHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-
   sectionTitle: {
     color: Colors.text,
     fontFamily: Fonts.sans,
@@ -280,12 +381,16 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     fontWeight: "800",
   },
-
+  resultCount: {
+    color: Colors.primaryLight,
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "800",
+  },
   featuredList: {
     gap: Spacing.three,
     paddingRight: Spacing.three,
   },
-
   featuredCard: {
     width: Platform.select({ web: 360, default: 300 }),
     borderRadius: Radius.md,
@@ -294,12 +399,10 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.surfaceSoft,
     overflow: "hidden",
   },
-
   featuredImage: {
     width: "100%",
     height: 190,
   },
-
   featuredFallback: {
     width: "100%",
     height: 190,
@@ -307,18 +410,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: Colors.input,
   },
-
   featuredBody: {
     padding: Spacing.three,
     gap: Spacing.two,
   },
-
   featuredMeta: {
     flexDirection: "row",
     alignItems: "center",
     gap: Spacing.two,
   },
-
   featuredCategory: {
     color: Colors.primaryLight,
     fontSize: 10,
@@ -326,21 +426,18 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     textTransform: "uppercase",
   },
-
   metaDot: {
     width: 4,
     height: 4,
     borderRadius: Radius.full,
     backgroundColor: Colors.locked,
   },
-
   featuredDuration: {
     color: Colors.muted,
     fontSize: 10,
     lineHeight: 14,
     fontWeight: "700",
   },
-
   featuredTitle: {
     color: Colors.text,
     fontFamily: Fonts.sans,
@@ -348,14 +445,12 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontWeight: "800",
   },
-
   featuredDescription: {
     color: Colors.muted,
     fontSize: 13,
     lineHeight: 19,
     fontWeight: "600",
   },
-
   startButton: {
     minHeight: 42,
     borderRadius: Radius.sm,
@@ -365,20 +460,34 @@ const styles = StyleSheet.create({
     gap: Spacing.two,
     backgroundColor: Colors.primary,
   },
-
   startButtonText: {
     color: Colors.primaryText,
     fontSize: 14,
     lineHeight: 18,
     fontWeight: "900",
   },
-
+  fullLessonButton: {
+    minHeight: 42,
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.two,
+    backgroundColor: "transparent",
+  },
+  fullLessonButtonText: {
+    color: Colors.primaryLight,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "900",
+  },
   topicGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
     gap: Spacing.two,
   },
-
   topicCard: {
     width: "48%",
     minHeight: 128,
@@ -389,11 +498,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: Colors.surface,
   },
-
   topicCopy: {
     gap: Spacing.half,
   },
-
   topicTitle: {
     color: Colors.text,
     fontFamily: Fonts.sans,
@@ -401,27 +508,45 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: "800",
   },
-
   topicLessons: {
     color: Colors.muted,
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "700",
   },
-
   progressTrack: {
     height: 4,
     borderRadius: Radius.full,
     overflow: "hidden",
     backgroundColor: Colors.input,
   },
-
   progressFill: {
     height: "100%",
     borderRadius: Radius.full,
     backgroundColor: Colors.primary,
   },
-
+  emptyState: {
+    minHeight: 180,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.one,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.chip,
+    backgroundColor: Colors.surface,
+  },
+  emptyTitle: {
+    color: Colors.text,
+    fontSize: 15,
+    lineHeight: 20,
+    fontWeight: "800",
+  },
+  emptyText: {
+    color: Colors.muted,
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: "600",
+  },
   quoteCard: {
     flexDirection: "row",
     gap: Spacing.two,
@@ -429,7 +554,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: Colors.chip,
   },
-
   quoteCopy: {
     flex: 1,
     paddingLeft: Spacing.two,
@@ -437,7 +561,6 @@ const styles = StyleSheet.create({
     borderLeftColor: Colors.primary,
     gap: Spacing.one,
   },
-
   quoteText: {
     color: Colors.muted,
     fontSize: 14,
@@ -445,12 +568,15 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     fontWeight: "600",
   },
-
   quoteAuthor: {
     color: Colors.primaryLight,
     fontSize: 12,
     lineHeight: 16,
     fontWeight: "800",
     textTransform: "uppercase",
+  },
+  pressed: {
+    opacity: 0.78,
+    transform: [{ scale: 0.98 }],
   },
 });

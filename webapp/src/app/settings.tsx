@@ -193,7 +193,9 @@ export default function SettingsScreen() {
           contentContainerStyle={styles.content}
         >
           {/* ── Profile section ── */}
-          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <View
+            style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}
+          >
             <SectionHeader
               title="Thông tin cá nhân"
               icon={<User size={16} color={theme.textSecondary} strokeWidth={2} />}
@@ -247,7 +249,9 @@ export default function SettingsScreen() {
           </View>
 
           {/* ── Password section ── */}
-          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <View
+            style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}
+          >
             <SectionHeader
               title="Đổi mật khẩu"
               icon={<Lock size={16} color={theme.textSecondary} strokeWidth={2} />}
@@ -342,7 +346,9 @@ export default function SettingsScreen() {
           </View>
 
           {/* ── Notification section ── */}
-          <View style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}>
+          <View
+            style={[styles.card, { backgroundColor: theme.surface, borderColor: theme.border }]}
+          >
             <SectionHeader
               title="Thông báo"
               icon={
@@ -403,10 +409,7 @@ function NotifRow({
   const theme = useTheme();
 
   return (
-    <Pressable
-      onPress={onToggle}
-      style={[styles.notifRow, { borderBottomColor: theme.border }]}
-    >
+    <Pressable onPress={onToggle} style={[styles.notifRow, { borderBottomColor: theme.border }]}>
       <View style={styles.notifText}>
         <ThemedText type="smallBold">{label}</ThemedText>
         <ThemedText type="label" themeColor="textSecondary">
