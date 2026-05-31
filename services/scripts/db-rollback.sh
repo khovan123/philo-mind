@@ -35,12 +35,14 @@ if [[ ! -f "$SCHEMA" ]]; then
   fi
 fi
 
-# Check DATABASE_URL
-if [[ -z "${DATABASE_URL:-}" ]]; then
-  echo -e "${RED}Error: DATABASE_URL is not set.${NC}"
+# Check DIRECT_DATABASE_URL
+if [[ -z "${DIRECT_DATABASE_URL:-}" ]]; then
+  echo -e "${RED}Error: DIRECT_DATABASE_URL is not set.${NC}"
   echo "  Set it in your .env or export it."
   exit 1
 fi
+
+export DATABASE_URL="$DIRECT_DATABASE_URL"
 
 case "${1:-status}" in
   status)
@@ -50,7 +52,7 @@ case "${1:-status}" in
 
   --reset)
     echo -e "${RED}⚠️  WARNING: This will DROP ALL TABLES and re-apply migrations!${NC}"
-    echo -e "${YELLOW}Environment: ${DATABASE_URL%%@*}@...${NC}"
+    echo -e "${YELLOW}Environment: ${DIRECT_DATABASE_URL%%@*}@...${NC}"
     echo ""
     read -rp "Type 'RESET' to confirm: " confirm
     if [[ "$confirm" != "RESET" ]]; then

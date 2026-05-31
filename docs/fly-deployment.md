@@ -6,7 +6,7 @@ The PhiloMind API is deployed from the monorepo root with the production
 ## Prerequisites
 
 - Install `flyctl` and log in with `flyctl auth login`.
-- Provision a PostgreSQL database separately.
+- Provision a Prisma Postgres database separately.
 - Provision Redis separately if hot-endpoint caching is required.
 
 ## Runtime Configuration
@@ -22,7 +22,7 @@ Inject secrets with Fly instead of committing `.env` files:
 
 ```bash
 flyctl secrets set \
-  DATABASE_URL="postgresql://..." \
+  DATABASE_URL="postgresql://...@pooled.db.prisma.io:5432/postgres?sslmode=verify-full" \
   JWT_SECRET="replace-with-at-least-32-characters"
 ```
 
@@ -60,8 +60,13 @@ curl --fail --silent --show-error https://philo-mind-api.fly.dev/health
 Apply migrations before routing production traffic:
 
 ```bash
-DATABASE_URL="postgresql://..." npm run db:migrate:deploy --workspace=services
+DIRECT_DATABASE_URL="postgresql://...@db.prisma.io:5432/postgres?sslmode=verify-full" \
+  npm run db:migrate:deploy --workspace=services
 ```
 
 The application fails fast on missing or invalid required environment variables.
 Redis remains optional and caching fails open when `REDIS_URL` is not configured.
+
+See [Prisma Production Database](prisma-production-database.md) for the pooled
+runtime connection, direct admin connection, readiness probe, and backup
+requirements.
