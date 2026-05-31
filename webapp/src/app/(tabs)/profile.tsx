@@ -14,6 +14,7 @@ import {
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -66,9 +67,12 @@ const settingsItems = [
   { label: "Ngôn ngữ", icon: Globe2 },
   { label: "Thông báo", icon: Bell },
   { label: "Về ứng dụng", icon: Info },
+  { label: "Màn hình Đăng ký (Test)", icon: ShieldCheck, path: "/(auth)/register" },
 ];
 
 export default function ProfileScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
@@ -217,6 +221,11 @@ export default function ProfileScreen() {
               return (
                 <Pressable
                   key={item.label}
+                  onPress={() => {
+                    if ((item as any).path) {
+                      router.push((item as any).path);
+                    }
+                  }}
                   style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
                 >
                   <View style={styles.settingsLabel}>
@@ -227,6 +236,14 @@ export default function ProfileScreen() {
                 </Pressable>
               );
             })}
+          </View>
+
+          <View style={styles.deleteSection}>
+            <Pressable onPress={() => router.push("/delete-account")} style={styles.deleteButton}>
+              <ThemedText type="label" style={styles.deleteButtonText}>
+                Xóa tài khoản
+              </ThemedText>
+            </Pressable>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -623,6 +640,24 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 14,
     lineHeight: 20,
+    fontWeight: "800",
+  },
+
+  deleteSection: {
+    marginTop: Spacing.four,
+    paddingHorizontal: Spacing.one,
+  },
+
+  deleteButton: {
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: Radius.md,
+    paddingVertical: Spacing.three,
+    alignItems: "center",
+  },
+
+  deleteButtonText: {
+    color: Colors.primary,
     fontWeight: "800",
   },
 });
