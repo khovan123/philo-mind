@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { GitBranch } from "lucide-react-native";
+import { GitBranch, Heart } from "lucide-react-native";
 import { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,6 +65,24 @@ export default function LearnScreen() {
               <ThemedText type="smallBold">Mindmap khái niệm</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
                 Mở SVG force-directed map, zoom, pan và chạm node để xem chi tiết.
+              </ThemedText>
+            </View>
+          </Pressable>
+
+          <Pressable
+            onPress={() => router.push("/bookmarks" as never)}
+            style={[
+              mindmapEntryStyles.card,
+              { backgroundColor: theme.surface, borderColor: theme.border },
+            ]}
+          >
+            <View style={[mindmapEntryStyles.icon, { backgroundColor: "#FB7185" }]}>
+              <Heart color="#0C0C0E" fill="#0C0C0E" size={20} />
+            </View>
+            <View style={mindmapEntryStyles.copy}>
+              <ThemedText type="smallBold">Bookmark đã lưu</ThemedText>
+              <ThemedText type="small" themeColor="textMuted">
+                Xem danh sách bookmark được nhóm theo bài học, topic, story và debate.
               </ThemedText>
             </View>
           </Pressable>
