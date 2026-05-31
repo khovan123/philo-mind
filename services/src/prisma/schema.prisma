@@ -1,6 +1,8 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../prisma/generated"
+  provider            = "prisma-client"
+  output              = "../prisma/generated"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
 }
 
 datasource db {
@@ -114,6 +116,8 @@ model User {
   role            UserRole  @default(USER)
   isActive        Boolean   @default(true) @map("is_active")
   emailVerifiedAt DateTime? @map("email_verified_at")
+  streakCount     Int       @default(0) @map("streak_count")
+  lastActiveAt    DateTime? @map("last_active_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime  @updatedAt @map("updated_at")
 
@@ -198,6 +202,7 @@ model Topic {
   reflections       ReflectionEntry[]
 
   @@index([category])
+  @@index([createdAt])
   @@map("topics")
 }
 
@@ -317,6 +322,7 @@ model StoryScenario {
   sessions     StorySession[]
 
   @@index([topicId])
+  @@index([createdAt])
   @@map("story_scenarios")
 }
 
@@ -713,6 +719,7 @@ model UserProgress {
 
   @@unique([userId, lessonId])
   @@index([userId])
+  @@index([userId, status])
   @@map("user_progress")
 }
 
@@ -721,7 +728,7 @@ model Badge {
   name          String  @db.VarChar(150)
   description   String?
   iconUrl       String? @map("icon_url")
-  conditionType String  @map("condition_type") @db.VarChar(100)
+  conditionType String  @unique @map("condition_type") @db.VarChar(100)
 
   userBadges UserBadge[]
 
@@ -752,7 +759,8 @@ model Bookmark {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, targetType, targetId])
-  @@index([userId])
+  @@index([userId, createdAt])
+  @@index([userId, targetType, createdAt])
   @@map("bookmarks")
 }
 
@@ -768,6 +776,8 @@ model Notification {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, isRead, createdAt])
+  @@index([userId, createdAt])
+  @@index([userId, type, createdAt])
   @@map("notifications")
 }
 
@@ -800,8 +810,11 @@ model Report {
   actions  ModerationAction[]
 
   @@index([reporterId])
+  @@index([createdAt])
   @@index([status, createdAt])
+  @@index([status, targetType, createdAt])
   @@index([targetType, targetId])
+  @@index([targetType, createdAt])
   @@map("reports")
 }
 

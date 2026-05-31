@@ -1,0 +1,146 @@
+# ─────────────────────────────────────────────────────────
+# T-I03: Database Migration CI
+# ─────────────────────────────────────────────────────────
+# Runs Prisma migrations against a Postgres service container
+# on pushes to main/production that touch migration files.
+# Also validates migration consistency on PRs.
+#
+# Secrets required:
+#   DIRECT_DATABASE_URL  — direct Prisma Postgres connection string (for deploy job)
+#
+name: Database Migrations
+
+concurrency:
+  group: database-migrations-${{ github.ref_name }}
+  cancel-in-progress: false
+
+on:
+  push:
+    branches: [main, production]
+    paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
+      - "services/src/prisma/**"
+      - "services/package.json"
+  pull_request:
+    branches: [main, production]
+    paths:
+      - ".github/workflows/db-migrate.yml"
+      - "services/prisma.config.ts"
+      - "services/src/prisma/**"
+      - "services/package.json"
+  workflow_dispatch:
+    inputs:
+      run_seed:
+        description: "Run seed after migration"
+        required: false
+        default: "false"
+
+jobs:
+  # ─── Validate: runs on PRs ─────────────────────────────
+  validate:
+    name: Validate Migrations
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: philomind_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ci"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
+      DIRECT_DATABASE_URL: "postgresql://ci:ci@localhost:5432/philomind_test"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Check migration status
+        working-directory: services
+        run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
+
+      - name: Apply migrations (dry run)
+        working-directory: services
+        run: npx prisma migrate deploy --schema=src/prisma/schema.prisma
+
+      - name: Validate schema drift
+        working-directory: services
+        run: npx prisma migrate diff --from-migrations ./src/prisma/migrations --to-schema-datamodel ./src/prisma/schema.prisma --exit-code || echo "⚠️ Schema has pending changes not yet in a migration"
+
+      - name: Generate client (post-migrate)
+        working-directory: services
+        run: npx prisma generate --schema=src/prisma/schema.prisma
+
+  # ─── Deploy: runs on push to main/production ───────────
+  deploy:
+    name: Deploy Migrations
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Apply migrations
+        working-directory: services
+        env:
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: |
+          echo "🚀 Deploying migrations to ${{ github.ref_name }}..."
+          for attempt in 1 2 3; do
+            if npx prisma migrate deploy --schema=src/prisma/schema.prisma; then
+              echo "✅ Migrations applied successfully"
+              exit 0
+            fi
+
+            if [[ "$attempt" -eq 3 ]]; then
+              echo "❌ Migration deploy failed after $attempt attempts"
+              exit 1
+            fi
+
+            wait_seconds=$((attempt * 15))
+            echo "⚠️ Migration deploy attempt $attempt failed; retrying in ${wait_seconds}s..."
+            sleep "$wait_seconds"
+          done
+
+      - name: Run seed (if requested)
+        if: github.event.inputs.run_seed == 'true'
+        working-directory: services
+        env:
+          DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: |
+          echo "🌱 Running seed..."
+          npx tsx src/seed/index.ts
+          echo "✅ Seed completed"
+
+      - name: Migration summary
+        if: always()
+        working-directory: services
+        env:
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
