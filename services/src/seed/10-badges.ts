@@ -20,7 +20,13 @@ export async function seedBadges(prisma: PrismaClient): Promise<void> {
     return;
   }
 
-  const rows = readCsv<BadgeRow>("10-badges.csv");
+  let rows: BadgeRow[] = [];
+  try {
+    rows = readCsv<BadgeRow>("10-badges.csv");
+  } catch {
+    seedSkip("Badge", "10-badges.csv not found");
+    return;
+  }
 
   for (const row of rows) {
     await prisma.badge.create({

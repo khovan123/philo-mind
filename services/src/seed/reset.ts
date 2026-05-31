@@ -12,6 +12,18 @@ import { prisma } from "../config/prisma.js";
 
 // Tables to truncate in reverse-dependency order
 const TABLES_TO_TRUNCATE = [
+  "story_learn_card_tags",
+  "story_learn_cards",
+  "analysis_tabs",
+  "story_decisions",
+  "story_sessions",
+  "story_consequences",
+  "story_choices",
+  "story_scenarios",
+  "mini_game_attempts",
+  "mini_games",
+  "mindmap_edges",
+  "mindmap_nodes",
   // Phase 3 deps
   "quiz_attempt_answers",
   "quiz_attempts",
