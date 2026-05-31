@@ -51,6 +51,11 @@ export default function TrialOfSocratesScreen() {
     router.push("/explore");
   }
 
+  function openReflectionJournal() {
+    setReflectionDone(true);
+    router.push("/story/trial-of-socrates/reflect" as never);
+  }
+
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <View style={styles.screen}>
@@ -78,7 +83,7 @@ export default function TrialOfSocratesScreen() {
               quizChoice={quizChoice}
               reflectionDone={reflectionDone}
               onQuiz={setQuizChoice}
-              onReflection={() => setReflectionDone((current) => !current)}
+              onReflection={openReflectionJournal}
               onRetry={retryDecision}
               onFinish={finishLesson}
             />

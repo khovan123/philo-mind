@@ -4,15 +4,20 @@ import { StyleSheet } from "react-native";
 import Animated from "react-native-reanimated";
 import { Image as RNImage } from "expo-image";
 
-const AnimatedExpoImage = Animated.createAnimatedComponent(RNImage);
+const AnimatedExpoImage = Animated.createAnimatedComponent(RNImage) as React.ComponentType<
+  React.ComponentProps<typeof RNImage>
+>;
 
 export type ImageProps = React.ComponentProps<typeof CSSImage> & {
   className?: string;
 };
 
 function CSSImage(props: React.ComponentProps<typeof AnimatedExpoImage>) {
-  // @ts-expect-error: Remap objectFit style to contentFit property
-  const { objectFit, objectPosition, ...style } = StyleSheet.flatten(props.style) || {};
+  const { objectFit, objectPosition, ...style } =
+    (StyleSheet.flatten(props.style) as {
+      objectFit?: React.ComponentProps<typeof RNImage>["contentFit"];
+      objectPosition?: React.ComponentProps<typeof RNImage>["contentPosition"];
+    }) || {};
 
   return (
     <AnimatedExpoImage
@@ -20,14 +25,12 @@ function CSSImage(props: React.ComponentProps<typeof AnimatedExpoImage>) {
       contentPosition={objectPosition}
       {...props}
       source={typeof props.source === "string" ? { uri: props.source } : props.source}
-      // @ts-expect-error: Style is remapped above
       style={style}
     />
   );
 }
 
 export const Image = (props: React.ComponentProps<typeof CSSImage> & { className?: string }) => {
-  // @ts-expect-error: useCssElement return type is too complex for TS to represent
   return useCssElement(CSSImage, props, { className: "style" });
 };
 

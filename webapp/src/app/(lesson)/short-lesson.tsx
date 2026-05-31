@@ -21,12 +21,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Button } from "@/components/ui";
 import { ThemedText } from "@/components/themed-text";
 
-import {
-  lessonCards,
-  lessonTitle,
-  voteOptions,
-  type ScreenState,
-} from "./short_lesson/data";
+import { lessonCards, lessonTitle, voteOptions, type ScreenState } from "./short_lesson/data";
 import { FinishedActions } from "./short_lesson/FinishedActions";
 import { LessonSwipeCard } from "./short_lesson/LessonSwipeCard";
 import { ShortLessonHeader } from "./short_lesson/ShortLessonHeader";

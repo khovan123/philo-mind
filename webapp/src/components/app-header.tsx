@@ -1,5 +1,6 @@
-import { Menu, Settings } from "lucide-react-native";
+import { Menu, Settings, ChevronLeft } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
 import { Fonts, Spacing } from "@/constants/theme";
@@ -10,19 +11,34 @@ const Colors = {
   primaryLight: "#FFB77D",
 };
 
-export function AppHeader() {
+interface AppHeaderProps {
+  title?: string;
+  showBackButton?: boolean;
+}
+
+export function AppHeader({ title, showBackButton }: AppHeaderProps) {
+  const router = useRouter();
+
   return (
     <View style={styles.header}>
       <View style={styles.headerBrand}>
-        <Pressable style={styles.headerIconButton}>
-          <Menu color={Colors.primaryLight} size={20} />
-        </Pressable>
-        <ThemedText style={styles.logo}>Philomind</ThemedText>
+        {showBackButton ? (
+          <Pressable style={styles.headerIconButton} onPress={() => router.back()}>
+            <ChevronLeft color={Colors.primaryLight} size={24} />
+          </Pressable>
+        ) : (
+          <Pressable style={styles.headerIconButton}>
+            <Menu color={Colors.primaryLight} size={20} />
+          </Pressable>
+        )}
+        <ThemedText style={styles.logo}>{title || "Philomind"}</ThemedText>
       </View>
 
-      <Pressable style={styles.headerIconButton}>
-        <Settings color={Colors.primaryLight} size={18} />
-      </Pressable>
+      {!showBackButton && (
+        <Pressable style={styles.headerIconButton}>
+          <Settings color={Colors.primaryLight} size={18} />
+        </Pressable>
+      )}
     </View>
   );
 }

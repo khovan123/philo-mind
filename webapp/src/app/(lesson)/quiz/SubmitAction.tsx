@@ -13,13 +13,7 @@ type SubmitActionProps = {
   onPress: () => void;
 };
 
-export function SubmitAction({
-  answered,
-  disabled,
-  feedback,
-  isLast,
-  onPress,
-}: SubmitActionProps) {
+export function SubmitAction({ answered, disabled, feedback, isLast, onPress }: SubmitActionProps) {
   return (
     <Pressable
       accessibilityRole="button"
