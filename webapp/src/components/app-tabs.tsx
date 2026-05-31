@@ -107,6 +107,14 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
+        name="onboarding"
+        options={{
+          href: null,
+          tabBarStyle: { display: "none" },
+        }}
+      />
+
+      <Tabs.Screen
         name="debate"
         options={{
           title: "Lưu trữ",
