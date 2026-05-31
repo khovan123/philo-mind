@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes.js";
 import { bookmarkRouter } from "./bookmark.routes.js";
+import { criticalQuestionRouter } from "./critical-question.routes.js";
 import { mindmapRouter } from "./mindmap.routes.js";
 import { notificationRouter } from "./notification.routes.js";
 import { badgeRouter } from "./badge.routes.js";
@@ -34,6 +35,9 @@ apiRouter.use("/auth", authRouter);
 
 // Bookmark routes
 apiRouter.use("/bookmarks", bookmarkRouter);
+
+// Critical question routes
+apiRouter.use("/critical-questions", criticalQuestionRouter);
 
 // Mindmap routes
 apiRouter.use("/mindmaps", mindmapRouter);
