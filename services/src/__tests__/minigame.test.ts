@@ -1,10 +1,16 @@
+import { jest } from "@jest/globals";
 import {
   createMiniGameSchema,
   listMiniGamesSchema,
   playMiniGameSchema,
   updateMiniGameSchema,
 } from "../validators/minigame.validator.js";
-import { MiniGameService } from "../services/minigame.service.js";
+
+jest.unstable_mockModule("../config/prisma.js", () => ({
+  prisma: {},
+}));
+
+const { MiniGameService } = await import("../services/minigame.service.js");
 
 // ── T-H03: MiniGame Validator Tests ──────────────────────────
 

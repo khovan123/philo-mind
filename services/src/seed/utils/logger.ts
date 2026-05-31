@@ -2,10 +2,7 @@
  * Seed Logger Utility
  * Consistent logging for seed operations
  *
- * Note: eslint-disable for console — seed scripts need stdout logging
  */
-
-/* eslint-disable no-console */
 
 const COLORS = {
   reset: "\x1b[0m",
