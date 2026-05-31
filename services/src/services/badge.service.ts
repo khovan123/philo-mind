@@ -1,5 +1,6 @@
 import { prisma } from "../config/prisma.js";
-import { TargetType, ProgressStatus } from "../prisma/generated/enums.js";
+import type { Prisma } from "../prisma/generated/client.js";
+import { ProgressStatus } from "../prisma/generated/enums.js";
 
 export interface BadgeDefinition {
   name: string;
@@ -71,26 +72,19 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
   },
 ];
 
+type UserBadgeWithBadge = Prisma.UserBadgeGetPayload<{
+  include: { badge: true };
+}>;
+
 export class BadgeService {
   /**
    * Ensure standard 10 badges are seeded in the database.
    */
   static async ensureBadgesSeeded(): Promise<void> {
-    for (const def of BADGE_DEFINITIONS) {
-      const existing = await prisma.badge.findFirst({
-        where: { conditionType: def.conditionType },
-      });
-      if (!existing) {
-        await prisma.badge.create({
-          data: {
-            name: def.name,
-            description: def.description,
-            iconUrl: def.iconUrl,
-            conditionType: def.conditionType,
-          },
-        });
-      }
-    }
+    await prisma.badge.createMany({
+      data: BADGE_DEFINITIONS,
+      skipDuplicates: true,
+    });
   }
 
   /**
@@ -99,19 +93,20 @@ export class BadgeService {
   static async getAllBadgesForUser(userId: string) {
     await this.ensureBadgesSeeded();
 
-    const allBadges = await prisma.badge.findMany();
-    const userBadges = await prisma.userBadge.findMany({
-      where: { userId },
+    const allBadges = await prisma.badge.findMany({
+      include: {
+        userBadges: {
+          where: { userId },
+          select: { earnedAt: true },
+        },
+      },
     });
-
-    const earnedBadgeIds = new Set(userBadges.map((ub) => ub.badgeId));
 
     // Calculate current metrics for progress details
     const metrics = await this.getUserMetrics(userId);
 
     return allBadges.map((badge) => {
-      const isEarned = earnedBadgeIds.has(badge.id);
-      const earnedAt = userBadges.find((ub) => ub.badgeId === badge.id)?.earnedAt || null;
+      const earnedAt = badge.userBadges[0]?.earnedAt ?? null;
 
       // Calculate current progress towards this badge
       let progress = 0;
@@ -166,7 +161,7 @@ export class BadgeService {
         description: badge.description,
         iconUrl: badge.iconUrl,
         conditionType: badge.conditionType,
-        isEarned,
+        isEarned: earnedAt !== null,
         earnedAt,
         progress: Math.min(progress, target),
         target,
@@ -191,20 +186,23 @@ export class BadgeService {
    * Auto-award engine to evaluate and grant badges to a user.
    * Typically called on relevant user activity.
    */
-  static async evaluateUserBadges(userId: string): Promise<any[]> {
+  static async evaluateUserBadges(userId: string): Promise<UserBadgeWithBadge[]> {
     await this.ensureBadgesSeeded();
 
     const metrics = await this.getUserMetrics(userId);
-    const allBadges = await prisma.badge.findMany();
-    const userBadges = await prisma.userBadge.findMany({
-      where: { userId },
+    const allBadges = await prisma.badge.findMany({
+      include: {
+        userBadges: {
+          where: { userId },
+          select: { id: true },
+        },
+      },
     });
 
-    const earnedBadgeIds = new Set(userBadges.map((ub) => ub.badgeId));
-    const newlyEarnedBadges: any[] = [];
+    const newlyEarnedBadges: UserBadgeWithBadge[] = [];
 
     for (const badge of allBadges) {
-      if (earnedBadgeIds.has(badge.id)) {
+      if (badge.userBadges.length > 0) {
         continue;
       }
 
@@ -280,22 +278,31 @@ export class BadgeService {
    * Fetch all counts and streak metrics for the user to evaluate badge eligibility.
    */
   private static async getUserMetrics(userId: string) {
-    const totalActivities = await prisma.activityLog.count({ where: { userId } });
-    const reflectionCount = await prisma.reflectionEntry.count({ where: { userId } });
-    const completedLessonsCount = await prisma.userProgress.count({
-      where: { userId, status: ProgressStatus.COMPLETED },
-    });
-    const quizCount = await prisma.quizAttempt.count({ where: { userId } });
-    const debateArgumentCount = await prisma.debateArgument.count({ where: { userId } });
-    const storyCount = await prisma.storySession.count({ where: { userId } });
-    const shortLessonCount = await prisma.shortLessonResponse.count({ where: { userId } });
-
-    // Dynamic streak calculation
-    const streakResult = await prisma.activityLog.findMany({
-      where: { userId },
-      select: { createdAt: true },
-      orderBy: { createdAt: "desc" },
-    });
+    const [
+      totalActivities,
+      reflectionCount,
+      completedLessonsCount,
+      quizCount,
+      debateArgumentCount,
+      storyCount,
+      shortLessonCount,
+      streakResult,
+    ] = await Promise.all([
+      prisma.activityLog.count({ where: { userId } }),
+      prisma.reflectionEntry.count({ where: { userId } }),
+      prisma.userProgress.count({
+        where: { userId, status: ProgressStatus.COMPLETED },
+      }),
+      prisma.quizAttempt.count({ where: { userId } }),
+      prisma.debateArgument.count({ where: { userId } }),
+      prisma.storySession.count({ where: { userId } }),
+      prisma.shortLessonResponse.count({ where: { userId } }),
+      prisma.activityLog.findMany({
+        where: { userId },
+        select: { createdAt: true },
+        orderBy: { createdAt: "desc" },
+      }),
+    ]);
 
     let currentStreak = 0;
     if (streakResult.length > 0) {
