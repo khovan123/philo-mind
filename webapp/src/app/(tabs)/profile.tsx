@@ -222,8 +222,8 @@ export default function ProfileScreen() {
                 <Pressable
                   key={item.label}
                   onPress={() => {
-                    if ((item as any).path) {
-                      router.push((item as any).path);
+                    if (item.path) {
+                      router.push(item.path as never);
                     }
                   }}
                   style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
@@ -239,7 +239,10 @@ export default function ProfileScreen() {
           </View>
 
           <View style={styles.deleteSection}>
-            <Pressable onPress={() => router.push("/delete-account")} style={styles.deleteButton}>
+            <Pressable
+              onPress={() => router.push("/delete-account" as never)}
+              style={styles.deleteButton}
+            >
               <ThemedText type="label" style={styles.deleteButtonText}>
                 Xóa tài khoản
               </ThemedText>

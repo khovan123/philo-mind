@@ -21,7 +21,7 @@ export default function ResetPasswordScreen() {
     setLoading(true);
     try {
       await authService.resetPassword(email, resetToken, password);
-      router.replace("/(auth)/login");
+      router.replace("/(auth)/login" as never);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Lỗi");
     } finally {
