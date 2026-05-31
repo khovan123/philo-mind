@@ -39,7 +39,8 @@ const featuredLessons = [
     description:
       "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
     image: featuredImage,
-    route: "/trial-of-socrates",
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
   },
   {
     title: "Tự do là gì? Góc nhìn của Sartre",
@@ -48,7 +49,8 @@ const featuredLessons = [
     description:
       "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
     image: featuredImage,
-    route: "/trial-of-socrates",
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
   },
   {
     title: "Khế ước xã hội hiện đại",
@@ -56,7 +58,8 @@ const featuredLessons = [
     duration: "8 phút",
     description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
     image: null,
-    route: "/trial-of-socrates",
+    fullRoute: "/trial-of-socrates",
+    shortRoute: "/short-lesson",
   },
 ];
 
@@ -203,11 +206,9 @@ export default function ExploreScreen() {
                 contentContainerStyle={styles.featuredList}
               >
                 {filteredLessons.map((lesson) => (
-                  <Pressable
+                  <View
                     key={lesson.title}
-                    accessibilityRole="button"
-                    onPress={() => startLesson(lesson.route)}
-                    style={({ pressed }) => [styles.featuredCard, pressed && styles.pressed]}
+                    style={styles.featuredCard}
                   >
                     {lesson.image ? (
                       <Image
@@ -233,12 +234,27 @@ export default function ExploreScreen() {
                         {lesson.description}
                       </ThemedText>
 
-                      <View style={styles.startButton}>
-                        <ThemedText style={styles.startButtonText}>Bắt đầu học</ThemedText>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.shortRoute)}
+                        style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
+                      >
+                        <ThemedText style={styles.startButtonText}>Short</ThemedText>
                         <ArrowRight color={Colors.primaryText} size={16} />
-                      </View>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.fullRoute)}
+                        style={({ pressed }) => [
+                          styles.fullLessonButton,
+                          pressed && styles.pressed,
+                        ]}
+                      >
+                        <BookOpen color={Colors.primaryLight} size={16} />
+                        <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                      </Pressable>
                     </View>
-                  </Pressable>
+                  </View>
                 ))}
               </ScrollView>
             )}
@@ -482,6 +498,23 @@ const styles = StyleSheet.create({
   },
   startButtonText: {
     color: Colors.primaryText,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "900",
+  },
+  fullLessonButton: {
+    minHeight: 42,
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.two,
+    backgroundColor: "transparent",
+  },
+  fullLessonButtonText: {
+    color: Colors.primaryLight,
     fontSize: 14,
     lineHeight: 18,
     fontWeight: "900",
