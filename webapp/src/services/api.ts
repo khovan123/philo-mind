@@ -33,6 +33,11 @@ type ApiErrorResponse = {
   message?: string;
   code?: string;
   details?: unknown;
+  error?: {
+    code?: string;
+    message?: string;
+    details?: unknown;
+  };
 };
 
 export async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -64,12 +69,13 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
 
     if (!response.ok) {
       const errorBody = body as ApiErrorResponse | null;
+      const payload = errorBody?.error ?? errorBody;
 
       throw new ApiError(
-        errorBody?.message ?? "Request failed",
+        payload?.message ?? "Request failed",
         response.status,
-        errorBody?.code,
-        errorBody?.details,
+        payload?.code,
+        payload?.details,
       );
     }
 

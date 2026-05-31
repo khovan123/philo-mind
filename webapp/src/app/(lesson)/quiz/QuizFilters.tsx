@@ -12,7 +12,11 @@ type QuizFiltersProps = {
 
 export function QuizFilters({ activeFilter, filters, onChange }: QuizFiltersProps) {
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      contentContainerStyle={styles.chipRow}
+    >
       {filters.map((filter) => {
         const active = filter === activeFilter;
 

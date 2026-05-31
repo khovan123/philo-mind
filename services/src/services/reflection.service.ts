@@ -5,6 +5,8 @@ import type {
   ListReflectionsQuery,
   UpdateReflectionInput,
 } from "../validators/reflection.validator.js";
+import { ActivityLogService, ActivityType } from "./activity-log.service.js";
+import type { TargetType } from "../prisma/generated/enums.js";
 
 // ── T-A11: Reflection Service ──────────────────────────────────
 
@@ -68,7 +70,7 @@ export class ReflectionService {
   async createForUser(userId: string, input: CreateReflectionInput) {
     await this.validateLinks(input.topicId, input.questionId);
 
-    return prisma.reflectionEntry.create({
+    const reflection = await prisma.reflectionEntry.create({
       data: {
         userId,
         content: input.content,
@@ -77,6 +79,20 @@ export class ReflectionService {
       },
       include: reflectionInclude,
     });
+
+    try {
+      await ActivityLogService.logActivity(
+        userId,
+        ActivityType.WRITE_REFLECTION,
+        "REFLECTION" as TargetType,
+        reflection.id,
+        { topicId: input.topicId, questionId: input.questionId },
+      );
+    } catch (error) {
+      console.error("❌ Failed to log activity for reflection creation:", error);
+    }
+
+    return reflection;
   }
 
   async updateForUser(userId: string, reflectionId: string, input: UpdateReflectionInput) {
