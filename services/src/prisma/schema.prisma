@@ -212,6 +212,7 @@ model Topic {
   criticalQuestions CriticalQuestion[]
   mindmapNodes      MindmapNode[]
   reflections       ReflectionEntry[]
+  perspectives      TopicPerspective[]
 
   @@index([category])
   @@index([createdAt])
@@ -919,4 +920,27 @@ model AnalysisTab {
   @@unique([consequenceId, tabType])
   @@index([consequenceId, order])
   @@map("analysis_tabs")
+}
+
+enum PerspectiveType {
+  TECH
+  ETHICAL
+  ECONOMIC
+  SOCIAL
+  PHILOSOPHICAL
+}
+
+model TopicPerspective {
+  id              String          @id @default(uuid()) @db.Uuid
+  topicId         String          @map("topic_id") @db.Uuid
+  perspectiveType PerspectiveType @map("perspective_type")
+  content         String
+  createdAt       DateTime        @default(now()) @map("created_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+
+  topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([topicId, perspectiveType])
+  @@index([topicId])
+  @@map("topic_perspectives")
 }
