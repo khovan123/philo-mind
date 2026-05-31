@@ -17,7 +17,7 @@ import { BottomTabInset, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { ApiError } from "@/services/api";
 import { authService } from "@/services/auth.service";
-import { getAuthUser, setAuthState } from "@/stores/auth.store";
+import { getAuthUser } from "@/stores/auth.store";
 import type { AuthUser } from "@/types/auth";
 
 // ── Section header ─────────────────────────────────────────
@@ -121,8 +121,7 @@ export default function SettingsScreen() {
     setProfileError(null);
     setProfileState("loading");
     try {
-      const updated = await authService.updateProfile({ fullName: trimmed });
-      setAuthState({ user: updated as AuthUser });
+      await authService.updateProfile({ fullName: trimmed });
       setProfileState("success");
       setTimeout(() => setProfileState("idle"), 2000);
     } catch (err) {
@@ -259,11 +258,7 @@ export default function SettingsScreen() {
             <Input
               label="Mật khẩu hiện tại"
               value={currentPassword}
-              onChangeText={(t) => {
-                setCurrentPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setCurrentPassword}
               placeholder="••••••••"
               isPassword
               autoCapitalize="none"
@@ -273,11 +268,7 @@ export default function SettingsScreen() {
             <Input
               label="Mật khẩu mới"
               value={newPassword}
-              onChangeText={(t) => {
-                setNewPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setNewPassword}
               placeholder="••••••••"
               isPassword
               autoCapitalize="none"
@@ -289,11 +280,7 @@ export default function SettingsScreen() {
             <Input
               label="Xác nhận mật khẩu mới"
               value={confirmPassword}
-              onChangeText={(t) => {
-                setConfirmPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setConfirmPassword}
               placeholder="••••••••"
               isPassword
               autoCapitalize="none"
