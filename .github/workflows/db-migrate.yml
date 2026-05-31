@@ -10,6 +10,10 @@
 #
 name: Database Migrations
 
+concurrency:
+  group: database-migrations-${{ github.ref_name }}
+  cancel-in-progress: false
+
 on:
   push:
     branches: [main, production]
@@ -107,8 +111,21 @@ jobs:
           DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
         run: |
           echo "🚀 Deploying migrations to ${{ github.ref_name }}..."
-          npx prisma migrate deploy --schema=src/prisma/schema.prisma
-          echo "✅ Migrations applied successfully"
+          for attempt in 1 2 3; do
+            if npx prisma migrate deploy --schema=src/prisma/schema.prisma; then
+              echo "✅ Migrations applied successfully"
+              exit 0
+            fi
+
+            if [[ "$attempt" -eq 3 ]]; then
+              echo "❌ Migration deploy failed after $attempt attempts"
+              exit 1
+            fi
+
+            wait_seconds=$((attempt * 15))
+            echo "⚠️ Migration deploy attempt $attempt failed; retrying in ${wait_seconds}s..."
+            sleep "$wait_seconds"
+          done
 
       - name: Run seed (if requested)
         if: github.event.inputs.run_seed == 'true'
