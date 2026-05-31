@@ -206,10 +206,7 @@ export default function ExploreScreen() {
                 contentContainerStyle={styles.featuredList}
               >
                 {filteredLessons.map((lesson) => (
-                  <View
-                    key={lesson.title}
-                    style={styles.featuredCard}
-                  >
+                  <View key={lesson.title} style={styles.featuredCard}>
                     {lesson.image ? (
                       <Image
                         source={lesson.image}
