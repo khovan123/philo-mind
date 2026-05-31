@@ -4,6 +4,7 @@ import { bookmarkRouter } from "./bookmark.routes.js";
 import { criticalQuestionRouter } from "./critical-question.routes.js";
 import { mindmapRouter } from "./mindmap.routes.js";
 import { notificationRouter } from "./notification.routes.js";
+import { reflectionRouter } from "./reflection.routes.js";
 import { badgeRouter } from "./badge.routes.js";
 import { activityRouter } from "./activity.routes.js";
 import { moderationRouter } from "./moderation.routes.js";
@@ -38,6 +39,9 @@ apiRouter.use("/bookmarks", bookmarkRouter);
 
 // Critical question routes
 apiRouter.use("/critical-questions", criticalQuestionRouter);
+
+// Reflection routes
+apiRouter.use("/reflections", reflectionRouter);
 
 // Mindmap routes
 apiRouter.use("/mindmaps", mindmapRouter);
