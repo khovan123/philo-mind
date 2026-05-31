@@ -1,4 +1,4 @@
-import { Prisma } from "../prisma/generated/client";
+import { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { buildPaginationMeta, parsePagination } from "../utils/response.js";
 import type {

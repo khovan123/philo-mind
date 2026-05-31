@@ -6,10 +6,10 @@ import { env } from "../config/env.js";
 let redisClient: Redis | null = null;
 let isConnected = false;
 
-const redisUrl = env.REDIS_URL || "redis://localhost:6379";
-
-try {
-  redisClient = new Redis(redisUrl, {
+if (env.REDIS_URL) {
+  redisClient = new Redis(env.REDIS_URL, {
+    enableOfflineQueue: false,
+    lazyConnect: true,
     maxRetriesPerRequest: 3,
     retryStrategy(times: number) {
       if (times > 3) {
@@ -20,7 +20,7 @@ try {
     },
   });
 
-  redisClient.on("connect", () => {
+  redisClient.on("ready", () => {
     isConnected = true;
     console.warn("🚀 Connected to Redis successfully.");
   });
@@ -34,8 +34,10 @@ try {
     isConnected = false;
     console.warn("⚠️ Redis connection closed.");
   });
-} catch (err) {
-  console.error("❌ Failed to initialize Redis client:", err);
+
+  redisClient.connect().catch((err: Error) => {
+    console.error("❌ Failed to initialize Redis connection:", err.message);
+  });
 }
 
 export const redis = {
@@ -89,5 +91,14 @@ export const redis = {
 
   isConnected(): boolean {
     return isConnected;
+  },
+
+  isConfigured(): boolean {
+    return redisClient !== null;
+  },
+
+  disconnect(): void {
+    redisClient?.disconnect();
+    isConnected = false;
   },
 };
