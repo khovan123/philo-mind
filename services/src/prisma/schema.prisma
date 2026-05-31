@@ -211,6 +211,7 @@ model Topic {
   debates           Debate[]
   criticalQuestions CriticalQuestion[]
   mindmapNodes      MindmapNode[]
+  miniGames         MiniGame[]
   reflections       ReflectionEntry[]
 
   @@index([category])
@@ -662,14 +663,19 @@ model QuizAttemptAnswer {
 
 model MiniGame {
   id          String   @id @default(uuid()) @db.Uuid
+  topicId     String?  @map("topic_id") @db.Uuid
   title       String   @db.VarChar(200)
   gameType    String   @map("game_type") @db.VarChar(100)
   description String?
   config      Json?
   createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
+  topic    Topic?            @relation(fields: [topicId], references: [id], onDelete: SetNull)
   attempts MiniGameAttempt[]
 
+  @@index([topicId])
+  @@index([gameType])
   @@map("mini_games")
 }
 
