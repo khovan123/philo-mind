@@ -1,10 +1,9 @@
 const app = require("./app.json");
 
-const easProjectId = process.env.EAS_PROJECT_ID;
-const easCommand = process.env.EAS_BUILD_PROFILE || process.env.EAS_UPDATE_CHANNEL;
+const easProjectId = process.env.EAS_PROJECT_ID ?? app.expo.extra?.eas?.projectId;
 
-if (easCommand && !easProjectId) {
-  throw new Error("EAS_PROJECT_ID is required for EAS Build and EAS Update commands");
+if (!easProjectId) {
+  throw new Error("EAS_PROJECT_ID is required for EAS Build and EAS Update");
 }
 
 module.exports = {
@@ -14,11 +13,10 @@ module.exports = {
         url: `https://u.expo.dev/${easProjectId}`,
       }
     : undefined,
-  extra: easProjectId
-    ? {
-        eas: {
-          projectId: easProjectId,
-        },
-      }
-    : undefined,
+  extra: {
+    ...app.expo.extra,
+    eas: {
+      projectId: easProjectId,
+    },
+  },
 };

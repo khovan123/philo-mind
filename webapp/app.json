@@ -2,6 +2,7 @@
   "expo": {
     "name": "PhiloMind",
     "slug": "philo-mind",
+    "owner": "minhpnq1807",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -44,6 +45,11 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0d037822-45e4-4e74-9101-13e054e72dc2"
+      }
     }
   }
 }
