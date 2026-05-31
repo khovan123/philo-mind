@@ -20,8 +20,7 @@ export default function ResetPasswordScreen() {
     setError(null);
     setLoading(true);
     try {
-      await authService.resetPassword(email, resetToken, password);
-      router.replace("/(auth)/login" as never);
+      await authService.resetPassword({ email, resetToken, newPassword: password });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Lỗi");
     } finally {
@@ -34,12 +33,7 @@ export default function ResetPasswordScreen() {
       <ThemedText type="subtitle">Đặt lại mật khẩu</ThemedText>
       <ThemedText type="small">Cho tài khoản {email}</ThemedText>
 
-      <Input
-        value={password}
-        onChangeText={setPassword}
-        placeholder="Mật khẩu mới"
-        secureTextEntry
-      />
+      <Input value={password} onChangeText={setPassword} placeholder="Mật khẩu mới" isPassword />
       {error ? (
         <ThemedText type="label" themeColor="danger">
           {error}

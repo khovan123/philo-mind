@@ -117,44 +117,44 @@ enum AnalysisTabType {
 }
 
 model User {
-  id              String    @id @default(uuid()) @db.Uuid
-  fullName        String    @map("full_name") @db.VarChar(150)
-  email           String    @unique @db.VarChar(255)
-  passwordHash    String    @map("password_hash") @db.VarChar(255)
-  avatarUrl       String?   @map("avatar_url")
-  role            UserRole  @default(USER)
-  isActive        Boolean   @default(true) @map("is_active")
-  emailVerifiedAt DateTime? @map("email_verified_at")
-  streakCount     Int       @default(0) @map("streak_count")
-  lastActiveAt    DateTime? @map("last_active_at")
-  deletedAt       DateTime? @map("deleted_at")
-  deletionRequestedAt   DateTime? @map("deletion_requested_at")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
+  id                  String    @id @default(uuid()) @db.Uuid
+  fullName            String    @map("full_name") @db.VarChar(150)
+  email               String    @unique @db.VarChar(255)
+  passwordHash        String    @map("password_hash") @db.VarChar(255)
+  avatarUrl           String?   @map("avatar_url")
+  role                UserRole  @default(USER)
+  isActive            Boolean   @default(true) @map("is_active")
+  emailVerifiedAt     DateTime? @map("email_verified_at")
+  streakCount         Int       @default(0) @map("streak_count")
+  lastActiveAt        DateTime? @map("last_active_at")
+  deletedAt           DateTime? @map("deleted_at")
+  deletionRequestedAt DateTime? @map("deletion_requested_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
 
-  sessions              UserSession[]
-  refreshTokens         RefreshToken[]
-  progress              UserProgress[]
-  activityLogs          ActivityLog[]
-  userBadges            UserBadge[]
-  bookmarks             Bookmark[]
-  notifications         Notification[]
-  storySessions         StorySession[]
-  storyDecisions        StoryDecision[]
-  lessonAnswers         LessonAnswer[]
-  shortLessonResponses  ShortLessonResponse[]
-  shortLessonComments   ShortLessonComment[]
-  aiChatSessions        AiChatSession[]
-  scenarioResponses     ScenarioResponse[]
-  debateArguments       DebateArgument[]
-  debateComments        DebateComment[]
-  debateVotes           DebateVote[]
-  reflectionEntries     ReflectionEntry[]
-  quizAttempts          QuizAttempt[]
-  miniGameAttempts      MiniGameAttempt[]
-  reports               Report[]             @relation("ReporterReports")
-  moderationActions     ModerationAction[]   @relation("ModeratorActions")
-  passwordResets        PasswordReset[]
+  sessions             UserSession[]
+  refreshTokens        RefreshToken[]
+  progress             UserProgress[]
+  activityLogs         ActivityLog[]
+  userBadges           UserBadge[]
+  bookmarks            Bookmark[]
+  notifications        Notification[]
+  storySessions        StorySession[]
+  storyDecisions       StoryDecision[]
+  lessonAnswers        LessonAnswer[]
+  shortLessonResponses ShortLessonResponse[]
+  shortLessonComments  ShortLessonComment[]
+  aiChatSessions       AiChatSession[]
+  scenarioResponses    ScenarioResponse[]
+  debateArguments      DebateArgument[]
+  debateComments       DebateComment[]
+  debateVotes          DebateVote[]
+  reflectionEntries    ReflectionEntry[]
+  quizAttempts         QuizAttempt[]
+  miniGameAttempts     MiniGameAttempt[]
+  reports              Report[]              @relation("ReporterReports")
+  moderationActions    ModerationAction[]    @relation("ModeratorActions")
+  passwordResets       PasswordReset[]
 
   @@map("users")
 }
@@ -221,21 +221,21 @@ model Topic {
 }
 
 model Lesson {
-  id              String        @id @default(uuid()) @db.Uuid
-  topicId         String        @map("topic_id") @db.Uuid
-  title           String        @db.VarChar(200)
-  content         String
-  realLifeExample String?       @map("real_life_example")
-  conflict        String?
-  estimatedMinutes Int?         @map("estimated_minutes")
-  status          ContentStatus @default(DRAFT)
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
+  id               String        @id @default(uuid()) @db.Uuid
+  topicId          String        @map("topic_id") @db.Uuid
+  title            String        @db.VarChar(200)
+  content          String
+  realLifeExample  String?       @map("real_life_example")
+  conflict         String?
+  estimatedMinutes Int?          @map("estimated_minutes")
+  status           ContentStatus @default(DRAFT)
+  createdAt        DateTime      @default(now()) @map("created_at")
+  updatedAt        DateTime      @updatedAt @map("updated_at")
 
-  topic      Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  questions  LessonQuestion[]
-  progress   UserProgress[]
-  quizzes    Quiz[]
+  topic     Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  questions LessonQuestion[]
+  progress  UserProgress[]
+  quizzes   Quiz[]
 
   @@index([topicId, status])
   @@map("lessons")
@@ -291,12 +291,12 @@ model ShortLesson {
 }
 
 model ShortLessonResponse {
-  id            String   @id @default(uuid()) @db.Uuid
-  userId        String   @map("user_id") @db.Uuid
-  shortLessonId String   @map("short_lesson_id") @db.Uuid
-  selectedStance String  @map("selected_stance") @db.VarChar(50)
-  comment       String?
-  createdAt     DateTime @default(now()) @map("created_at")
+  id             String   @id @default(uuid()) @db.Uuid
+  userId         String   @map("user_id") @db.Uuid
+  shortLessonId  String   @map("short_lesson_id") @db.Uuid
+  selectedStance String   @map("selected_stance") @db.VarChar(50)
+  comment        String?
+  createdAt      DateTime @default(now()) @map("created_at")
 
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   shortLesson ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
@@ -331,10 +331,10 @@ model StoryScenario {
   difficulty        Difficulty @default(EASY)
   createdAt         DateTime   @default(now()) @map("created_at")
 
-  topic        Topic           @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  choices      StoryChoice[]
-  sessions     StorySession[]
-  learnCards   StoryLearnCard[]
+  topic      Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  choices    StoryChoice[]
+  sessions   StorySession[]
+  learnCards StoryLearnCard[]
 
   @@index([topicId])
   @@index([createdAt])
@@ -342,10 +342,10 @@ model StoryScenario {
 }
 
 model StoryChoice {
-  id              String   @id @default(uuid()) @db.Uuid
-  storyId         String   @map("story_id") @db.Uuid
-  choiceText      String   @map("choice_text")
-  reasoningPrompt String?  @map("reasoning_prompt")
+  id              String  @id @default(uuid()) @db.Uuid
+  storyId         String  @map("story_id") @db.Uuid
+  choiceText      String  @map("choice_text")
+  reasoningPrompt String? @map("reasoning_prompt")
 
   story        StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
   consequences StoryConsequence[]
@@ -364,7 +364,7 @@ model StoryConsequence {
   politicalEconomicAnalysis String? @map("political_economic_analysis")
   historicalImpact          String? @map("historical_impact")
 
-  choice       StoryChoice    @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  choice       StoryChoice   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
   analysisTabs AnalysisTab[]
 
   @@index([choiceId])
@@ -436,12 +436,12 @@ model AiChatSession {
 }
 
 model AiChatMessage {
-  id        String     @id @default(uuid()) @db.Uuid
-  sessionId String     @map("session_id") @db.Uuid
+  id         String     @id @default(uuid()) @db.Uuid
+  sessionId  String     @map("session_id") @db.Uuid
   senderType SenderType @map("sender_type")
-  message   String
-  metadata  Json?
-  createdAt DateTime   @default(now()) @map("created_at")
+  message    String
+  metadata   Json?
+  createdAt  DateTime   @default(now()) @map("created_at")
 
   session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
 
@@ -467,11 +467,11 @@ model RealLifeScenario {
 
 model ScenarioResponse {
   id               String   @id @default(uuid()) @db.Uuid
-  scenarioId        String   @map("scenario_id") @db.Uuid
-  userId            String   @map("user_id") @db.Uuid
-  selectedDecision  String   @map("selected_decision")
-  reason            String?
-  createdAt         DateTime @default(now()) @map("created_at")
+  scenarioId       String   @map("scenario_id") @db.Uuid
+  userId           String   @map("user_id") @db.Uuid
+  selectedDecision String   @map("selected_decision")
+  reason           String?
+  createdAt        DateTime @default(now()) @map("created_at")
 
   scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -528,11 +528,11 @@ model DebateArgument {
 }
 
 model DebateComment {
-  id           String   @id @default(uuid()) @db.Uuid
-  argumentId   String   @map("argument_id") @db.Uuid
-  userId       String   @map("user_id") @db.Uuid
-  commentText  String   @map("comment_text")
-  createdAt    DateTime @default(now()) @map("created_at")
+  id          String   @id @default(uuid()) @db.Uuid
+  argumentId  String   @map("argument_id") @db.Uuid
+  userId      String   @map("user_id") @db.Uuid
+  commentText String   @map("comment_text")
+  createdAt   DateTime @default(now()) @map("created_at")
 
   argument DebateArgument @relation(fields: [argumentId], references: [id], onDelete: Cascade)
   user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -647,11 +647,11 @@ model QuizAttempt {
 
 model QuizAttemptAnswer {
   id               String  @id @default(uuid()) @db.Uuid
-  attemptId         String  @map("attempt_id") @db.Uuid
-  questionId        String  @map("question_id") @db.Uuid
-  selectedOptionId  String? @map("selected_option_id") @db.Uuid
-  textAnswer        String? @map("text_answer")
-  isCorrect         Boolean @default(false) @map("is_correct")
+  attemptId        String  @map("attempt_id") @db.Uuid
+  questionId       String  @map("question_id") @db.Uuid
+  selectedOptionId String? @map("selected_option_id") @db.Uuid
+  textAnswer       String? @map("text_answer")
+  isCorrect        Boolean @default(false) @map("is_correct")
 
   attempt        QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
   question       QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
@@ -704,9 +704,9 @@ model MindmapNode {
   description String?
   nodeType    String  @map("node_type") @db.VarChar(100)
 
-  topic         Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  sourceEdges   MindmapEdge[] @relation("SourceNode")
-  targetEdges   MindmapEdge[] @relation("TargetNode")
+  topic       Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  sourceEdges MindmapEdge[] @relation("SourceNode")
+  targetEdges MindmapEdge[] @relation("TargetNode")
 
   @@index([topicId])
   @@map("mindmap_nodes")
@@ -733,7 +733,7 @@ model UserProgress {
   status          ProgressStatus @default(NOT_STARTED)
   progressPercent Int            @default(0) @map("progress_percent")
   completedAt     DateTime?      @map("completed_at")
-  updatedAt        DateTime       @updatedAt @map("updated_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
@@ -856,15 +856,15 @@ model ModerationAction {
 }
 
 model PasswordReset {
-  id         String   @id @default(uuid()) @db.Uuid
-  userId     String?  @map("user_id") @db.Uuid
-  email      String   @db.VarChar(255)
-  codeHash   String   @map("code_hash") @db.VarChar(255)
-  tokenHash  String?  @map("token_hash") @db.VarChar(255)
-  expiresAt  DateTime @map("expires_at")
-  usedAt     DateTime? @map("used_at")
-  attempts   Int      @default(0)
-  createdAt  DateTime @default(now()) @map("created_at")
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String?   @map("user_id") @db.Uuid
+  email     String    @db.VarChar(255)
+  codeHash  String    @map("code_hash") @db.VarChar(255)
+  tokenHash String?   @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  attempts  Int       @default(0)
+  createdAt DateTime  @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -872,6 +872,7 @@ model PasswordReset {
   @@index([userId])
   @@map("password_resets")
 }
+
 // ── T-D01: New Story Mode models ─────────────────────────────
 
 model PhilosophyTag {
@@ -895,7 +896,7 @@ model StoryLearnCard {
   order     Int      @default(0)
   createdAt DateTime @default(now()) @map("created_at")
 
-  story StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  story StoryScenario       @relation(fields: [storyId], references: [id], onDelete: Cascade)
   tags  StoryLearnCardTag[]
 
   @@index([storyId, order])
