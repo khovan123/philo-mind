@@ -1,9 +1,9 @@
-import type { UserProfile } from "@/types/auth";
+import type { AuthUser } from "@/types/auth";
 
 type AuthState = {
   accessToken?: string;
   refreshToken?: string;
-  user?: UserProfile | null;
+  user?: AuthUser | null;
 };
 
 let authState: AuthState = {
@@ -20,7 +20,7 @@ export function getRefreshToken(): string | undefined {
   return authState.refreshToken;
 }
 
-export function getAuthUser(): UserProfile | null | undefined {
+export function getAuthUser(): AuthUser | null | undefined {
   return authState.user;
 }
 
