@@ -271,7 +271,7 @@ export default function ExploreScreen() {
                   onPress={() => {
                     if (topic.id) {
                       router.push({
-                        pathname: "/topic-perspectives",
+                        pathname: "/topic-perspectives" as never,
                         params: { topicId: topic.id, topicTitle: topic.title },
                       });
                     } else {
