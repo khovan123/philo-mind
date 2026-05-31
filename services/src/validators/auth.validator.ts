@@ -48,6 +48,29 @@ export const resetSchema = z.object({
   }),
 });
 
+export const updateProfileSchema = z.object({
+  body: z.object({
+    fullName: z
+      .string()
+      .min(2, "Tên tối thiểu 2 ký tự")
+      .max(150, "Tên tối đa 150 ký tự")
+      .optional(),
+    avatarUrl: z.string().url("URL avatar không hợp lệ").nullable().optional(),
+  }),
+});
+
+export const changePasswordSchema = z.object({
+  body: z.object({
+    currentPassword: z.string().min(1, "Vui lòng nhập mật khẩu hiện tại"),
+    newPassword: z
+      .string()
+      .min(8, "Mật khẩu tối thiểu 8 ký tự")
+      .max(100, "Mật khẩu tối đa 100 ký tự"),
+  }),
+});
+
 export type ForgotInput = z.infer<typeof forgotSchema>["body"];
 export type VerifyOtpInput = z.infer<typeof verifyOtpSchema>["body"];
 export type ResetInput = z.infer<typeof resetSchema>["body"];
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>["body"];
+export type ChangePasswordInput = z.infer<typeof changePasswordSchema>["body"];
