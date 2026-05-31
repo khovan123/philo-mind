@@ -145,6 +145,7 @@ model User {
   miniGameAttempts      MiniGameAttempt[]
   reports               Report[]             @relation("ReporterReports")
   moderationActions     ModerationAction[]   @relation("ModeratorActions")
+  passwordResets        PasswordReset[]
 
   @@map("users")
 }
@@ -834,4 +835,22 @@ model ModerationAction {
   @@index([reportId])
   @@index([moderatorId])
   @@map("moderation_actions")
+}
+
+model PasswordReset {
+  id         String   @id @default(uuid()) @db.Uuid
+  userId     String?  @map("user_id") @db.Uuid
+  email      String   @db.VarChar(255)
+  codeHash   String   @map("code_hash") @db.VarChar(255)
+  tokenHash  String?  @map("token_hash") @db.VarChar(255)
+  expiresAt  DateTime @map("expires_at")
+  usedAt     DateTime? @map("used_at")
+  attempts   Int      @default(0)
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([userId])
+  @@map("password_resets")
 }

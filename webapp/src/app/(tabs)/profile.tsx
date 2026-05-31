@@ -67,6 +67,7 @@ const settingsItems = [
   { label: "Ngôn ngữ", icon: Globe2 },
   { label: "Thông báo", icon: Bell },
   { label: "Về ứng dụng", icon: Info },
+  { label: "Màn hình Đăng ký (Test)", icon: ShieldCheck, path: "/(auth)/register" },
 ];
 
 export default function ProfileScreen() {
@@ -220,6 +221,11 @@ export default function ProfileScreen() {
               return (
                 <Pressable
                   key={item.label}
+                  onPress={() => {
+                    if ((item as any).path) {
+                      router.push((item as any).path);
+                    }
+                  }}
                   style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
                 >
                   <View style={styles.settingsLabel}>

@@ -58,4 +58,33 @@ export const authService = {
     clearAuthState();
     return response;
   },
+
+  async forgotPassword(email: string) {
+    const response = await apiRequest<{ message: string }>("/auth/forgot", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+    });
+
+    return response;
+  },
+
+  async verifyOtp(email: string, otp: string) {
+    const response = await apiRequest<{ resetToken: string }>("/auth/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({ email, otp }),
+    });
+
+    return response;
+  },
+
+  async resetPassword(email: string, resetToken: string, newPassword: string) {
+    const response = await apiRequest<{ message: string }>("/auth/reset", {
+      method: "POST",
+      body: JSON.stringify({ email, resetToken, newPassword }),
+    });
+
+    // Clear auth state to require login with new password
+    clearAuthState();
+    return response;
+  },
 };

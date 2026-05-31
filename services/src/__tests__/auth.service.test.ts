@@ -1,10 +1,22 @@
 import { jest } from "@jest/globals";
 
-const mockTransaction = jest.fn();
+const mockTransaction = jest.fn() as any;
+const mockUserUpdate = jest.fn((args) => args) as any;
+const mockSessionUpdateMany = jest.fn((args) => args) as any;
+const mockTokenUpdateMany = jest.fn((args) => args) as any;
 
 jest.unstable_mockModule("../config/prisma.js", () => ({
   prisma: {
     $transaction: mockTransaction,
+    user: {
+      update: mockUserUpdate,
+    },
+    userSession: {
+      updateMany: mockSessionUpdateMany,
+    },
+    refreshToken: {
+      updateMany: mockTokenUpdateMany,
+    },
   },
 }));
 
@@ -16,13 +28,13 @@ describe("AuthService.deleteAccount", () => {
   });
 
   it("soft deletes the user and revokes sessions and refresh tokens", async () => {
-    mockTransaction.mockResolvedValue([{}, {}, {}]);
+    mockTransaction.mockResolvedValue([{}, {}, {}] as any);
 
     const service = new AuthService();
     await service.deleteAccount("test-user-id");
 
     expect(mockTransaction).toHaveBeenCalledTimes(1);
-    const transactionArg = mockTransaction.mock.calls[0][0];
+    const transactionArg = mockTransaction.mock.calls[0][0] as any;
     expect(Array.isArray(transactionArg)).toBe(true);
     expect(transactionArg).toHaveLength(3);
 

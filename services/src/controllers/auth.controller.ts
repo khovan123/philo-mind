@@ -63,6 +63,42 @@ export class AuthController {
     }
   }
 
+  async forgotPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email } = req.body;
+      await authService.sendPasswordReset(email);
+      return sendSuccess(res, { message: "OTP đã được gửi nếu email tồn tại" }, 200);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  async verifyOtp(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, otp } = req.body;
+      const result = await authService.verifyPasswordReset(email, otp);
+      return sendSuccess(res, result, 200);
+    } catch (err) {
+      if (err instanceof AuthError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
+  async resetPassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, resetToken, newPassword } = req.body;
+      await authService.resetPassword(email, resetToken, newPassword);
+      return sendSuccess(res, { message: "Mật khẩu đã được đặt lại" }, 200);
+    } catch (err) {
+      if (err instanceof AuthError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
   async deleteAccount(req: Request, res: Response, next: NextFunction) {
     try {
       await authService.deleteAccount(req.user!.id);
