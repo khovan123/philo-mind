@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 
 // ── T-D02: StoryScenario Service ──────────────────────────────

@@ -9,6 +9,7 @@ import {
   parsePagination,
 } from "../utils/response.js";
 import { invalidateCachePattern } from "../middleware/cache.middleware.js";
+import type { ListStoryScenariosInput } from "../validators/story.validator.js";
 
 // ── Story Controller with Cache Invalidation & Pagination ─────
 
@@ -18,8 +19,9 @@ export class StoryController {
    */
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
-      const { topicId, difficulty, search } = req.query as Record<string, string | undefined>;
-      const { page, limit } = parsePagination(req.query);
+      const query = (res.locals.query || req.query) as ListStoryScenariosInput;
+      const { topicId, difficulty, search } = query;
+      const { page, limit } = parsePagination(query as any);
 
       const result = await storyService.listStories({ topicId, difficulty, search }, page, limit);
 
