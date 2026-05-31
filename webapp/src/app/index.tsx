@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { Redirect } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -6,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { shouldShowOnboarding } from "@/lib/onboarding-state";
 
 const Colors = {
   background: "#0C0C0E",
@@ -43,6 +45,10 @@ const learningItems = [
 ];
 
 export default function HomeScreen() {
+  if (shouldShowOnboarding()) {
+    return <Redirect href="/onboarding" />;
+  }
+
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>

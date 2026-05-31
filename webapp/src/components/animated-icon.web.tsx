@@ -1,108 +1,113 @@
-import { Image } from "expo-image";
-import { StyleSheet, View } from "react-native";
-import Animated, { Keyframe, Easing } from "react-native-reanimated";
+import { BrainCircuit } from "lucide-react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming,
+} from "react-native-reanimated";
 
-import classes from "./animated-icon.module.css";
-const DURATION = 300;
+const SPLASH_DURATION = 1800;
+const FADE_DURATION = 420;
 
 export function AnimatedSplashOverlay() {
-  return null;
+  const [visible, setVisible] = useState(true);
+  const opacity = useSharedValue(1);
+  const contentOpacity = useSharedValue(0);
+  const contentY = useSharedValue(10);
+  const pulse = useSharedValue(0.96);
+
+  useEffect(() => {
+    contentOpacity.value = withDelay(220, withTiming(1, { duration: 520 }));
+    contentY.value = withDelay(
+      220,
+      withTiming(0, { duration: 520, easing: Easing.out(Easing.cubic) }),
+    );
+    pulse.value = withDelay(
+      220,
+      withTiming(1, { duration: 520, easing: Easing.out(Easing.cubic) }),
+    );
+
+    const timer = setTimeout(() => {
+      opacity.value = withTiming(0, { duration: FADE_DURATION });
+      setTimeout(() => setVisible(false), FADE_DURATION);
+    }, SPLASH_DURATION);
+
+    return () => clearTimeout(timer);
+  }, [contentOpacity, contentY, opacity, pulse]);
+
+  const overlayStyle = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }));
+
+  const contentStyle = useAnimatedStyle(() => ({
+    opacity: contentOpacity.value,
+    transform: [{ translateY: contentY.value }, { scale: pulse.value }],
+  }));
+
+  if (!visible) return null;
+
+  return (
+    <Animated.View pointerEvents="auto" style={[styles.overlay, overlayStyle]}>
+      <Animated.View style={[styles.brand, contentStyle]}>
+        <View style={styles.logoMark}>
+          <BrainCircuit color="#D97706" size={28} strokeWidth={1.8} />
+        </View>
+        <Text style={styles.brandName}>PhiloMind</Text>
+        <Text style={styles.tagline}>Tư duy phản biện qua trải nghiệm</Text>
+      </Animated.View>
+    </Animated.View>
+  );
 }
-
-const keyframe = new Keyframe({
-  0: {
-    transform: [{ scale: 0 }],
-  },
-  60: {
-    transform: [{ scale: 1.2 }],
-    easing: Easing.elastic(1.2),
-  },
-  100: {
-    transform: [{ scale: 1 }],
-    easing: Easing.elastic(1.2),
-  },
-});
-
-const logoKeyframe = new Keyframe({
-  0: {
-    opacity: 0,
-  },
-  60: {
-    transform: [{ scale: 1.2 }],
-    opacity: 0,
-    easing: Easing.elastic(1.2),
-  },
-  100: {
-    transform: [{ scale: 1 }],
-    opacity: 1,
-    easing: Easing.elastic(1.2),
-  },
-});
-
-const glowKeyframe = new Keyframe({
-  0: {
-    transform: [{ rotateZ: "-180deg" }, { scale: 0.8 }],
-    opacity: 0,
-  },
-  [DURATION / 1000]: {
-    transform: [{ rotateZ: "0deg" }, { scale: 1 }],
-    opacity: 1,
-    easing: Easing.elastic(0.7),
-  },
-  100: {
-    transform: [{ rotateZ: "7200deg" }],
-  },
-});
 
 export function AnimatedIcon() {
   return (
-    <View style={styles.iconContainer}>
-      <Animated.View entering={glowKeyframe.duration(60 * 1000 * 4)} style={styles.glow}>
-        <Image style={styles.glow} source={require("@/assets/images/logo-glow.png")} />
-      </Animated.View>
-
-      <Animated.View style={styles.background} entering={keyframe.duration(DURATION)}>
-        <div className={classes.expoLogoBackground} />
-      </Animated.View>
-
-      <Animated.View style={styles.imageContainer} entering={logoKeyframe.duration(DURATION)}>
-        <Image style={styles.image} source={require("@/assets/images/expo-logo.png")} />
-      </Animated.View>
+    <View style={styles.logoMark}>
+      <BrainCircuit color="#D97706" size={28} strokeWidth={1.8} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    width: "100%",
+  overlay: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
     zIndex: 1000,
-    position: "absolute",
-    top: 128 / 2 + 138,
-  },
-  imageContainer: {
-    justifyContent: "center",
     alignItems: "center",
-  },
-  glow: {
-    width: 201,
-    height: 201,
-    position: "absolute",
-  },
-  iconContainer: {
     justifyContent: "center",
+    backgroundColor: "#0C0C0E",
+  },
+  brand: {
     alignItems: "center",
-    width: 128,
-    height: 128,
+    justifyContent: "center",
   },
-  image: {
-    position: "absolute",
-    width: 76,
-    height: 71,
+  logoMark: {
+    width: 52,
+    height: 52,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "rgba(217,119,6,0.55)",
+    backgroundColor: "rgba(217,119,6,0.05)",
   },
-  background: {
-    width: 128,
-    height: 128,
-    position: "absolute",
+  brandName: {
+    marginTop: 22,
+    color: "#E4E4E7",
+    fontSize: 28,
+    lineHeight: 34,
+    fontWeight: "800",
+  },
+  tagline: {
+    marginTop: 6,
+    color: "#A1A1AA",
+    fontSize: 12,
+    lineHeight: 18,
+    fontWeight: "500",
   },
 });
