@@ -20,6 +20,7 @@ import { seedHeader } from "./utils/index.js";
 // ─── Seed modules (dependency order) ──────────────────
 import { seedTopics } from "./01-topics.js";
 import { seedShortLessons } from "./02-short-lessons.js";
+import { seedLessons } from "./03-lessons.js";
 import { seedQuizzes } from "./04-quizzes.js";
 import { seedAiCharacters } from "./06-ai-characters.js";
 import { seedScenarios } from "./07-scenarios.js";
@@ -42,6 +43,7 @@ async function main() {
   // ── Phase 2: Topic-dependent entities ────────────────────
   seedHeader("Phase 2 — Topic-Dependent");
   await seedShortLessons(prisma);
+  await seedLessons(prisma);
   await seedScenarios(prisma);
   await seedDebates(prisma);
   await seedCriticalQuestions(prisma);

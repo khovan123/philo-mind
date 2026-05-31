@@ -4,13 +4,13 @@ Monorepo project powered by **Express.js** (backend) and **React Native / Expo**
 
 ## Tech Stack
 
-| Layer     | Technology                                        |
-| --------- | ------------------------------------------------- |
-| Frontend  | Expo SDK 56, React Native 0.85, React 19          |
-| Styling   | TailwindCSS v4 + NativeWind v5 + react-native-css |
-| Backend   | Express.js 5, TypeScript 5                        |
-| Monorepo  | npm workspaces                                    |
-| Shared    | @philo-mind/shared (types, constants, utilities)  |
+| Layer    | Technology                                        |
+| -------- | ------------------------------------------------- |
+| Frontend | Expo SDK 56, React Native 0.85, React 19          |
+| Styling  | TailwindCSS v4 + NativeWind v5 + react-native-css |
+| Backend  | Express.js 5, TypeScript 5                        |
+| Monorepo | npm workspaces                                    |
+| Shared   | @philo-mind/shared (types, constants, utilities)  |
 
 ## Design
 
@@ -123,9 +123,7 @@ export default function MyScreen() {
   return (
     <ScrollView className="flex-1 bg-white">
       <View className={cn("p-4 gap-4", isSpecial && "bg-primary")}>
-        <Text className="text-xl font-bold text-gray-900">
-          Hello TailwindCSS!
-        </Text>
+        <Text className="text-xl font-bold text-gray-900">Hello TailwindCSS!</Text>
       </View>
     </ScrollView>
   );
@@ -134,13 +132,13 @@ export default function MyScreen() {
 
 ## Scripts Reference
 
-| Script                 | Description                          |
-| ---------------------- | ------------------------------------ |
-| `npm run backend:dev`  | Start backend with hot reload        |
-| `npm run backend:build`| Build backend TypeScript             |
-| `npm run frontend:dev` | Start Expo dev server                |
-| `npm run frontend:ios` | Start on iOS simulator               |
-| `npm run frontend:android` | Start on Android emulator        |
-| `npm run frontend:web` | Start web version                    |
-| `npm run shared:build` | Build shared package                 |
-| `npm run clean`        | Remove all node_modules              |
+| Script                     | Description                   |
+| -------------------------- | ----------------------------- |
+| `npm run backend:dev`      | Start backend with hot reload |
+| `npm run backend:build`    | Build backend TypeScript      |
+| `npm run frontend:dev`     | Start Expo dev server         |
+| `npm run frontend:ios`     | Start on iOS simulator        |
+| `npm run frontend:android` | Start on Android emulator     |
+| `npm run frontend:web`     | Start web version             |
+| `npm run shared:build`     | Build shared package          |
+| `npm run clean`            | Remove all node_modules       |
