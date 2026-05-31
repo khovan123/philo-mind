@@ -63,9 +63,9 @@ const journals = [
 ];
 
 const settingsItems = [
-  { label: "Cài đặt", icon: Settings },
+  { label: "Cài đặt", icon: Settings, path: "/settings" },
   { label: "Ngôn ngữ", icon: Globe2 },
-  { label: "Thông báo", icon: Bell },
+  { label: "Thông báo", icon: Bell, path: "/settings" },
   { label: "Về ứng dụng", icon: Info },
   { label: "Màn hình Đăng ký (Test)", icon: ShieldCheck, path: "/(auth)/register" },
 ];

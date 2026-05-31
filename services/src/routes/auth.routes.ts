@@ -3,7 +3,13 @@ import { authController } from "../controllers/auth.controller.js";
 import { authGuard } from "../middleware/auth.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
 import { registerSchema, loginSchema, refreshSchema } from "../validators/auth.validator.js";
-import { forgotSchema, verifyOtpSchema, resetSchema } from "../validators/auth.validator.js";
+import {
+  forgotSchema,
+  verifyOtpSchema,
+  resetSchema,
+  updateProfileSchema,
+  changePasswordSchema,
+} from "../validators/auth.validator.js";
 import { emailRateLimit } from "../middleware/rateLimit.middleware.js";
 
 // ── T-001: Auth Routes ─────────────────────────────────────
@@ -36,6 +42,17 @@ authRouter.post("/reset", validate(resetSchema), (req, res, next) =>
 
 // Protected routes
 authRouter.post("/logout", authGuard, (req, res, next) => authController.logout(req, res, next));
+
+// Profile management (authenticated)
+authRouter.patch("/me", authGuard, validate(updateProfileSchema), (req, res, next) =>
+  authController.updateProfile(req, res, next),
+);
+authRouter.post(
+  "/me/change-password",
+  authGuard,
+  validate(changePasswordSchema),
+  (req, res, next) => authController.changePassword(req, res, next),
+);
 
 // Soft delete the authenticated user account with 30-day grace semantics
 authRouter.delete("/me", authGuard, (req, res, next) =>

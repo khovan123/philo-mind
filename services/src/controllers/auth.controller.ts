@@ -99,6 +99,31 @@ export class AuthController {
     }
   }
 
+  async updateProfile(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = await authService.updateProfile(req.user!.id, req.body);
+      return sendSuccess(res, user, 200);
+    } catch (err) {
+      if (err instanceof AuthError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
+  async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { currentPassword, newPassword } = req.body;
+      await authService.changePassword(req.user!.id, currentPassword, newPassword);
+      return sendSuccess(res, { message: "Mật khẩu đã được thay đổi" }, 200);
+    } catch (err) {
+      if (err instanceof AuthError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
   async deleteAccount(req: Request, res: Response, next: NextFunction) {
     try {
       await authService.deleteAccount(req.user!.id);

@@ -87,4 +87,33 @@ export const authService = {
     clearAuthState();
     return response;
   },
+
+  async updateProfile(payload: { fullName?: string; avatarUrl?: string | null }) {
+    const response = await apiRequest<AuthUser>("/auth/me", {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    });
+
+    // Update local auth state with new profile data
+    setAuthState({ user: response });
+    return response;
+  },
+
+  async changePassword(currentPassword: string, newPassword: string) {
+    const response = await apiRequest<{ message: string }>("/auth/me/change-password", {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    });
+
+    return response;
+  },
+
+  async getMe() {
+    const response = await apiRequest<AuthUser>("/auth/me", {
+      method: "GET",
+    });
+
+    setAuthState({ user: response });
+    return response;
+  },
 };
