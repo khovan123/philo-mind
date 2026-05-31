@@ -1,0 +1,167 @@
+import { prisma } from "../config/prisma.js";
+import type { TargetType } from "../prisma/generated/enums.js";
+import { BadgeService } from "./badge.service.js";
+
+export enum ActivityType {
+  LEARN_LESSON = "LEARN_LESSON",
+  DO_QUIZ = "DO_QUIZ",
+  WRITE_REFLECTION = "WRITE_REFLECTION",
+  CREATE_DEBATE = "CREATE_DEBATE",
+  POST_ARGUMENT = "POST_ARGUMENT",
+  DECIDE_STORY = "DECIDE_STORY",
+  DO_SHORT_LESSON = "DO_SHORT_LESSON",
+  CHAT_AI = "CHAT_AI",
+}
+
+export class ActivityLogService {
+  /**
+   * Log a new activity for a user and trigger the badge award evaluation.
+   */
+  static async logActivity(
+    userId: string,
+    activityType: ActivityType | string,
+    targetType: TargetType,
+    targetId?: string,
+    metadata?: any,
+  ) {
+    // 1. Create the activity log in the database
+    const log = await prisma.activityLog.create({
+      data: {
+        userId,
+        activityType,
+        targetType,
+        targetId: targetId || null,
+        metadata: metadata || null,
+      },
+    });
+
+    // 2. Trigger the badge evaluation asynchronously (or synchronously for instant feedback)
+    let newlyEarnedBadges: any[] = [];
+    try {
+      newlyEarnedBadges = await BadgeService.evaluateUserBadges(userId);
+    } catch (error) {
+      console.error("Error evaluating badges during activity logging:", error);
+    }
+
+    return {
+      log,
+      newlyEarnedBadges,
+    };
+  }
+
+  /**
+   * Retrieve the paginated activity history for a specific user.
+   */
+  static async getActivityHistory(userId: string, page: number = 1, limit: number = 10) {
+    const skip = (page - 1) * limit;
+
+    const [logs, total] = await prisma.$transaction([
+      prisma.activityLog.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+      }),
+      prisma.activityLog.count({
+        where: { userId },
+      }),
+    ]);
+
+    return {
+      logs,
+      pagination: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  /**
+   * Dynamically calculate consecutive daily streaks and longest streak for a user.
+   */
+  static async getStreakDetails(userId: string) {
+    const logs = await prisma.activityLog.findMany({
+      where: { userId },
+      select: { createdAt: true },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (logs.length === 0) {
+      return {
+        currentStreak: 0,
+        longestStreak: 0,
+        lastActive: null,
+      };
+    }
+
+    // Extract unique dates in YYYY-MM-DD format (UTC/system-agnostic)
+    const uniqueDates = Array.from(
+      new Set(logs.map((log) => log.createdAt.toISOString().split("T")[0])),
+    );
+
+    // Sort descending for current streak calculation
+    const sortedDesc = [...uniqueDates].sort((a, b) => b.localeCompare(a));
+    // Sort ascending for longest streak calculation
+    const sortedAsc = [...uniqueDates].sort((a, b) => a.localeCompare(b));
+
+    const todayStr = new Date().toISOString().split("T")[0];
+    const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split("T")[0];
+
+    let currentStreak = 0;
+    const lastActiveDateStr = sortedDesc[0];
+
+    // Check if the user is active today or yesterday to continue the current streak
+    if (lastActiveDateStr === todayStr || lastActiveDateStr === yesterdayStr) {
+      currentStreak = 1;
+      const expectedDate = new Date(lastActiveDateStr);
+
+      for (let i = 1; i < sortedDesc.length; i++) {
+        expectedDate.setDate(expectedDate.getDate() - 1);
+        const expectedDateStr = expectedDate.toISOString().split("T")[0];
+
+        if (sortedDesc[i] === expectedDateStr) {
+          currentStreak++;
+        } else {
+          break;
+        }
+      }
+    }
+
+    // Calculate longest streak
+    let longestStreak = 0;
+    let tempStreak = 0;
+    let prevDate: Date | null = null;
+
+    for (const dateStr of sortedAsc) {
+      const currentDate = new Date(dateStr);
+      if (!prevDate) {
+        tempStreak = 1;
+      } else {
+        const diffTime = currentDate.getTime() - prevDate.getTime();
+        const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+        if (diffDays === 1) {
+          tempStreak++;
+        } else if (diffDays > 1) {
+          if (tempStreak > longestStreak) {
+            longestStreak = tempStreak;
+          }
+          tempStreak = 1;
+        }
+      }
+      prevDate = currentDate;
+    }
+
+    if (tempStreak > longestStreak) {
+      longestStreak = tempStreak;
+    }
+
+    return {
+      currentStreak,
+      longestStreak,
+      lastActive: logs[0].createdAt,
+    };
+  }
+}
