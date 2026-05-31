@@ -13,7 +13,6 @@
  * Each seed function checks if records already exist before inserting.
  * Safe to run multiple times.
  */
-/* eslint-disable no-console */
 import { prisma } from "../config/prisma.js";
 import { seedHeader } from "./utils/index.js";
 

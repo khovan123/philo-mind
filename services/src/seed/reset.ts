@@ -8,7 +8,6 @@
  *
  * Usage: npm run seed:reset
  */
-/* eslint-disable no-console */
 import { prisma } from "../config/prisma.js";
 
 // Tables to truncate in reverse-dependency order
