@@ -14,6 +14,7 @@ import {
 } from "lucide-react-native";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -69,6 +70,8 @@ const settingsItems = [
 ];
 
 export default function ProfileScreen() {
+  const router = useRouter();
+
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
@@ -227,6 +230,14 @@ export default function ProfileScreen() {
                 </Pressable>
               );
             })}
+          </View>
+
+          <View style={styles.deleteSection}>
+            <Pressable onPress={() => router.push("/delete-account")} style={styles.deleteButton}>
+              <ThemedText type="label" style={styles.deleteButtonText}>
+                Xóa tài khoản
+              </ThemedText>
+            </Pressable>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -623,6 +634,24 @@ const styles = StyleSheet.create({
     color: Colors.text,
     fontSize: 14,
     lineHeight: 20,
+    fontWeight: "800",
+  },
+
+  deleteSection: {
+    marginTop: Spacing.four,
+    paddingHorizontal: Spacing.one,
+  },
+
+  deleteButton: {
+    borderWidth: 1,
+    borderColor: Colors.primary,
+    borderRadius: Radius.md,
+    paddingVertical: Spacing.three,
+    alignItems: "center",
+  },
+
+  deleteButtonText: {
+    color: Colors.primary,
     fontWeight: "800",
   },
 });

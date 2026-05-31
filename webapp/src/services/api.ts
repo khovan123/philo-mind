@@ -1,3 +1,5 @@
+import { getAccessToken } from "@/stores/auth.store";
+
 export class ApiError extends Error {
   constructor(
     message: string,
@@ -35,11 +37,13 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
   }, REQUEST_TIMEOUT_MS);
 
   try {
+    const accessToken = getAccessToken();
     const response = await fetch(`${API_BASE_URL}${path}`, {
       ...options,
       signal: controller.signal,
       headers: {
         "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...options.headers,
       },
     });

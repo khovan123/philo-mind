@@ -24,4 +24,7 @@ authRouter.post("/refresh", validate(refreshSchema), (req, res, next) =>
 // Protected routes
 authRouter.post("/logout", authGuard, (req, res, next) => authController.logout(req, res, next));
 
+// Soft delete the authenticated user account with 30-day grace semantics
+authRouter.delete("/me", authGuard, (req, res, next) => authController.deleteAccount(req, res, next));
+
 authRouter.get("/me", authGuard, (req, res, next) => authController.getMe(req, res, next));

@@ -165,6 +165,29 @@ export class AuthService {
     }
   }
 
+  async deleteAccount(userId: string) {
+    const now = new Date();
+
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          isActive: false,
+          deletedAt: now,
+          deletionRequestedAt: now,
+        },
+      }),
+      prisma.userSession.updateMany({
+        where: { userId, status: "ACTIVE" },
+        data: { status: "REVOKED", revokedAt: now },
+      }),
+      prisma.refreshToken.updateMany({
+        where: { userId, revokedAt: null },
+        data: { revokedAt: now },
+      }),
+    ]);
+  }
+
   /**
    * Get current user profile.
    */
