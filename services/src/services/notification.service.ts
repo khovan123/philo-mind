@@ -9,7 +9,7 @@ import type {
 
 // ── T-A15: Notification Service ──────────────────────────────
 
-function toPrismaJson(metadata: Prisma.JsonValue | null | undefined) {
+function toPrismaJson(metadata: unknown) {
   if (metadata === null) {
     return Prisma.DbNull;
   }

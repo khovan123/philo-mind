@@ -148,3 +148,6 @@ export default function MyScreen() {
 The production API image uses a multi-stage Docker build and is configured for
 Fly.io. See [Fly.io API Deployment](docs/fly-deployment.md) for secret injection,
 deployment, migration, and health-check commands.
+
+See [EAS Build and OTA Updates](docs/eas-build.md) for signed iOS and Android
+preview/production builds and OTA release channels.

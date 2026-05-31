@@ -133,7 +133,7 @@ export default function RegisterScreen() {
         password,
       });
 
-      router.replace("/(tabs)");
+      router.replace("/");
     } catch (error) {
       if (error instanceof ApiError) {
         setFieldErrors({ form: error.message });
@@ -328,6 +328,14 @@ export default function RegisterScreen() {
               <Pressable onPress={() => router.replace("/")}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Đăng nhập
+                </ThemedText>
+              </Pressable>
+            </View>
+
+            <View style={[styles.loginRow, { marginTop: Spacing.two }]}>
+              <Pressable onPress={() => router.push("/(auth)/forgot-password" as any)}>
+                <ThemedText type="smallBold" style={{ color: theme.primary }}>
+                  Quên mật khẩu? (Test T-K02 OTP Flow)
                 </ThemedText>
               </Pressable>
             </View>
