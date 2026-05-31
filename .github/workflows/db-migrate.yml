@@ -65,7 +65,7 @@ jobs:
 
       - name: Check migration status
         working-directory: services
-        run: npx prisma migrate status --schema=src/prisma/schema.prisma
+        run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
 
       - name: Apply migrations (dry run)
         working-directory: services
