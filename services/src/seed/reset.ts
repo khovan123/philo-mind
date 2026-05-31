@@ -19,6 +19,9 @@ const TABLES_TO_TRUNCATE = [
   "quiz_options",
   "quiz_questions",
   "quizzes",
+  "lesson_answers",
+  "lesson_questions",
+  "lessons",
   // Phase 2 deps
   "scenario_analyses",
   "scenario_responses",

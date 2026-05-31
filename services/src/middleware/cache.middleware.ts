@@ -1,9 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import { redis } from "../services/redis.service.js";
+import { buildCacheKey } from "../utils/cache-key.js";
 
 // ── T-A20: Redis Caching Middleware ──────────────────────────
 
-export function cacheMiddleware(ttlSeconds: number = 300) {
+export const HOT_ENDPOINT_CACHE_TTL_SECONDS = 300;
+
+export function cacheMiddleware(ttlSeconds: number = HOT_ENDPOINT_CACHE_TTL_SECONDS) {
   return async (req: Request, res: Response, next: NextFunction) => {
     // Only cache GET requests
     if (req.method !== "GET") {
@@ -15,13 +18,7 @@ export function cacheMiddleware(ttlSeconds: number = 300) {
       return next();
     }
 
-    // Generate sorted query string to avoid duplicate keys due to order mismatch
-    const sortedQuery = Object.keys(req.query)
-      .sort()
-      .map((key) => `${key}=${req.query[key]}`)
-      .join("&");
-
-    const cacheKey = `cache:api:${req.baseUrl || ""}${req.path}${sortedQuery ? `:${sortedQuery}` : ""}`;
+    const cacheKey = buildCacheKey(req.baseUrl || "", req.path, req.query);
 
     try {
       const cachedData = await redis.get(cacheKey);

@@ -55,8 +55,4 @@ export type {
   AuthResponse,
 } from "./types/auth.js";
 
-export type {
-  TopicDTO,
-  LessonDTO,
-  QuizAttemptDTO,
-} from "./types/learning.js";
+export type { TopicDTO, LessonDTO, QuizAttemptDTO } from "./types/learning.js";

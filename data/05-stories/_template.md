@@ -13,17 +13,21 @@ bối_cảnh_lịch_sử: Bệnh viện công, mùa dịch, thiếu giường IC
 ## Lựa chọn
 
 ### Lựa chọn 1: [Tên lựa chọn]
+
 - Gợi ý suy nghĩ: "..."
 
 ### Lựa chọn 2: [Tên lựa chọn]
+
 - Gợi ý suy nghĩ: "..."
 
 ### Lựa chọn 3: [Tên lựa chọn]
+
 - Gợi ý suy nghĩ: "..."
 
 ## Hậu quả
 
 ### Nếu chọn 1:
+
 - **Kết quả:** "..."
 - **Phân tích đạo đức:** "..."
 - **Phân tích triết học:** "..."
@@ -31,7 +35,9 @@ bối_cảnh_lịch_sử: Bệnh viện công, mùa dịch, thiếu giường IC
 - **Bối cảnh lịch sử:** "..."
 
 ### Nếu chọn 2:
+
 <!-- (tương tự) -->
 
 ### Nếu chọn 3:
+
 <!-- (tương tự) -->
