@@ -2,10 +2,7 @@ import { Router } from "express";
 import { philosophyTagController } from "../controllers/philosophy-tag.controller.js";
 import { authGuard, roleGuard } from "../middleware/auth.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
-import {
-  createPhilosophyTagSchema,
-  tagIdSchema,
-} from "../validators/philosophy-tag.validator.js";
+import { createPhilosophyTagSchema, tagIdSchema } from "../validators/philosophy-tag.validator.js";
 
 // ── T-D01: PhilosophyTag Routes ───────────────────────────────
 // GET    /api/v1/philosophy-tags         — public list
@@ -14,9 +11,7 @@ import {
 
 export const philosophyTagRouter = Router();
 
-philosophyTagRouter.get("/", (req, res, next) =>
-  philosophyTagController.listAll(req, res, next),
-);
+philosophyTagRouter.get("/", (req, res, next) => philosophyTagController.listAll(req, res, next));
 
 philosophyTagRouter.post(
   "/",

@@ -18,10 +18,8 @@ import {
 
 export const storyLearnCardRouter = Router({ mergeParams: true });
 
-storyLearnCardRouter.get(
-  "/",
-  validate(listStoryLearnCardsSchema),
-  (req, res, next) => storyLearnCardController.listByStory(req, res, next),
+storyLearnCardRouter.get("/", validate(listStoryLearnCardsSchema), (req, res, next) =>
+  storyLearnCardController.listByStory(req, res, next),
 );
 
 storyLearnCardRouter.post(

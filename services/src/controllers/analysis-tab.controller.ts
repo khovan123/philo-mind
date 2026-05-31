@@ -47,10 +47,7 @@ export class AnalysisTabController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await analysisTabService.delete(
-        String(req.params.consequenceId),
-        String(req.params.id),
-      );
+      await analysisTabService.delete(String(req.params.consequenceId), String(req.params.id));
       return sendSuccess(res, { message: "Đã xóa analysis tab thành công" });
     } catch (err) {
       if (err instanceof AnalysisTabError) {

@@ -66,11 +66,7 @@ export class AnalysisTabService {
       select: { id: true },
     });
     if (!consequence) {
-      throw new AnalysisTabError(
-        "CONSEQUENCE_NOT_FOUND",
-        "Không tìm thấy story consequence",
-        404,
-      );
+      throw new AnalysisTabError("CONSEQUENCE_NOT_FOUND", "Không tìm thấy story consequence", 404);
     }
   }
 

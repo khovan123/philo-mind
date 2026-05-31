@@ -1,4 +1,7 @@
-import { createAnalysisTabSchema, updateAnalysisTabSchema } from "../validators/analysis-tab.validator.js";
+import {
+  createAnalysisTabSchema,
+  updateAnalysisTabSchema,
+} from "../validators/analysis-tab.validator.js";
 
 // ── T-D01: AnalysisTab Validator Tests ───────────────────────
 

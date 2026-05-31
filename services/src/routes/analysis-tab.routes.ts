@@ -18,10 +18,8 @@ import {
 
 export const analysisTabRouter = Router({ mergeParams: true });
 
-analysisTabRouter.get(
-  "/",
-  validate(listAnalysisTabsSchema),
-  (req, res, next) => analysisTabController.listByConsequence(req, res, next),
+analysisTabRouter.get("/", validate(listAnalysisTabsSchema), (req, res, next) =>
+  analysisTabController.listByConsequence(req, res, next),
 );
 
 analysisTabRouter.post(

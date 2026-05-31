@@ -1,4 +1,7 @@
-import { createStoryLearnCardSchema, updateStoryLearnCardSchema } from "../validators/story-learn-card.validator.js";
+import {
+  createStoryLearnCardSchema,
+  updateStoryLearnCardSchema,
+} from "../validators/story-learn-card.validator.js";
 
 // ── T-D01: StoryLearnCard Validator Tests ─────────────────────
 

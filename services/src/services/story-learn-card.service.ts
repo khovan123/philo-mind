@@ -106,11 +106,7 @@ export class StoryLearnCardService {
       throw new StoryLearnCardError("CARD_NOT_FOUND", "Không tìm thấy learn card", 404);
     }
     if (card.storyId !== storyId) {
-      throw new StoryLearnCardError(
-        "CARD_STORY_MISMATCH",
-        "Learn card không thuộc story này",
-        403,
-      );
+      throw new StoryLearnCardError("CARD_STORY_MISMATCH", "Learn card không thuộc story này", 403);
     }
   }
 

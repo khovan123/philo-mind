@@ -2,7 +2,12 @@ import { z } from "zod";
 
 // ── T-D01: AnalysisTab Validation Schemas ─────────────────────
 
-export const analysisTabTypes = ["ETHICAL", "PHILOSOPHICAL", "POLITICAL_ECONOMIC", "HISTORICAL"] as const;
+export const analysisTabTypes = [
+  "ETHICAL",
+  "PHILOSOPHICAL",
+  "POLITICAL_ECONOMIC",
+  "HISTORICAL",
+] as const;
 
 export const createAnalysisTabSchema = z.object({
   params: z.object({
