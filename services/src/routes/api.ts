@@ -16,6 +16,7 @@ import { storyLearnCardRouter } from "./story-learn-card.routes.js";
 import { analysisTabRouter } from "./analysis-tab.routes.js";
 import { storySessionRouter } from "./story-session.routes.js";
 import { choiceRouter } from "./choice.routes.js";
+import { topicPerspectiveRouter } from "./topic-perspective.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -58,6 +59,7 @@ apiRouter.use("/moderation", moderationRouter);
 
 // Cached content and stats routes
 apiRouter.use("/topics", topicsRouter);
+apiRouter.use("/topics/:topicId/perspectives", topicPerspectiveRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
 
