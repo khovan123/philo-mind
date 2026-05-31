@@ -57,12 +57,8 @@ export type {
 } from "./types/auth.js";
 
 // Learning
-export { Difficulty, ContentStatus } from "./types/learning.js";
-export type {
-  TopicDTO,
-  LessonDTO,
-  QuizAttemptDTO,
-} from "./types/learning.js";
+export { Difficulty, ContentStatus, PerspectiveType } from "./types/learning.js";
+export type { TopicDTO, LessonDTO, QuizAttemptDTO, TopicPerspectiveDTO } from "./types/learning.js";
 
 // Story
 export { StorySessionStatus, AnalysisType } from "./types/story.js";

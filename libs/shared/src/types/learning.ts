@@ -41,3 +41,20 @@ export interface QuizAttemptDTO {
   completedAt: string | null;
   createdAt: string;
 }
+
+export enum PerspectiveType {
+  TECH = "TECH",
+  ETHICAL = "ETHICAL",
+  ECONOMIC = "ECONOMIC",
+  SOCIAL = "SOCIAL",
+  PHILOSOPHICAL = "PHILOSOPHICAL",
+}
+
+export interface TopicPerspectiveDTO {
+  id: string;
+  topicId: string;
+  perspectiveType: PerspectiveType;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
