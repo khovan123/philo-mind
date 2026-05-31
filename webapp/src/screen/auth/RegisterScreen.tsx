@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Eye, EyeOff } from "lucide-react-native";
 import { Button, Input, ThemedText, ThemedView } from "@/components/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
@@ -46,11 +45,7 @@ export default function RegisterScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
 
@@ -133,7 +128,7 @@ export default function RegisterScreen() {
         password,
       });
 
-      router.replace("/");
+      router.replace("/login");
     } catch (error) {
       if (error instanceof ApiError) {
         setFieldErrors({ form: error.message });
@@ -206,29 +201,12 @@ export default function RegisterScreen() {
               <Input
                 label="Mật khẩu"
                 value={password}
-                onChangeText={(text) => {
-                  setPassword(text);
-                  clearFieldError("password");
-                  clearFieldError("confirmPassword");
-                }}
+                onChangeText={setPassword}
                 placeholder="••••••••"
-                secureTextEntry={!showPassword}
+                isPassword
                 autoCapitalize="none"
                 autoCorrect={false}
                 containerStyle={styles.field}
-                rightElement={
-                  <Pressable
-                    hitSlop={8}
-                    onPress={() => setShowPassword((prev) => !prev)}
-                    style={styles.eyeButton}
-                  >
-                    {showPassword ? (
-                      <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                    ) : (
-                      <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                    )}
-                  </Pressable>
-                }
               />
               <FieldError message={fieldErrors.password} />
 
@@ -249,29 +227,13 @@ export default function RegisterScreen() {
               <Input
                 label="Xác nhận mật khẩu"
                 value={confirmPassword}
-                onChangeText={(text) => {
-                  setConfirmPassword(text);
-                  clearFieldError("confirmPassword");
-                }}
+                onChangeText={setConfirmPassword}
                 placeholder="••••••••"
-                secureTextEntry={!showConfirmPassword}
+                isPassword
                 autoCapitalize="none"
                 autoCorrect={false}
                 containerStyle={styles.field}
                 onSubmitEditing={handleRegister}
-                rightElement={
-                  <Pressable
-                    hitSlop={8}
-                    onPress={() => setShowConfirmPassword((prev) => !prev)}
-                    style={styles.eyeButton}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                    ) : (
-                      <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                    )}
-                  </Pressable>
-                }
               />
               <FieldError message={fieldErrors.confirmPassword} />
 
@@ -325,7 +287,7 @@ export default function RegisterScreen() {
                 Đã có tài khoản?{" "}
               </ThemedText>
 
-              <Pressable onPress={() => router.replace("/")}>
+              <Pressable onPress={() => router.replace("/login")}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Đăng nhập
                 </ThemedText>
@@ -335,7 +297,7 @@ export default function RegisterScreen() {
             <View style={[styles.loginRow, { marginTop: Spacing.two }]}>
               <Pressable onPress={() => router.push("/(auth)/forgot-password" as any)}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
-                  Quên mật khẩu? (Test T-K02 OTP Flow)
+                  Quên mật khẩu?
                 </ThemedText>
               </Pressable>
             </View>

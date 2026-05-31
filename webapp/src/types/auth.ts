@@ -31,3 +31,36 @@ export type AuthResponse = {
 export type RefreshResponse = {
   tokens: AuthTokens;
 };
+
+export type ForgotPasswordPayload = {
+  email: string;
+};
+
+export type VerifyOtpPayload = {
+  email: string;
+  otp: string;
+};
+
+export type VerifyOtpResponse = {
+  resetToken: string;
+};
+
+export type ResetPasswordPayload = {
+  email: string;
+  resetToken: string;
+  newPassword: string;
+};
+
+export type UpdateProfilePayload = {
+  fullName?: string;
+  avatarUrl?: string | null;
+};
+
+export type ChangePasswordPayload = {
+  currentPassword: string;
+  newPassword: string;
+};
+
+export type MessageResponse = {
+  message: string;
+};
