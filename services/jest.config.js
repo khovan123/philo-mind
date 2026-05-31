@@ -1,5 +1,6 @@
 export default {
   testEnvironment: "node",
+  testPathIgnorePatterns: ["/dist/"],
   transform: {
     "^.+\\.(t|j)sx?$": [
       "@swc/jest",
