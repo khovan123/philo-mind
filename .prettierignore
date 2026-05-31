@@ -3,3 +3,4 @@ dist
 build
 .expo
 *.lock
+services/src/prisma/generated/

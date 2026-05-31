@@ -15,7 +15,12 @@
     "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "jest --passWithNoTests",
     "prisma:migrate": "npx prisma migrate dev --name init",
-    "prisma:generate": "npx prisma generate"
+    "prisma:generate": "npx prisma generate",
+    "db:migrate:deploy": "npx prisma migrate deploy --schema=src/prisma/schema.prisma",
+    "db:migrate:status": "npx prisma migrate status --schema=src/prisma/schema.prisma",
+    "db:rollback": "bash scripts/db-rollback.sh",
+    "seed": "tsx src/seed/index.ts",
+    "seed:reset": "tsx src/seed/reset.ts && tsx src/seed/index.ts"
   },
   "dependencies": {
     "@philo-mind/shared": "*",
@@ -24,9 +29,11 @@
     "bcryptjs": "^3.0.3",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
+    "csv-parse": "^6.2.1",
     "dotenv": "^16.6.1",
     "express": "^5.2.1",
     "helmet": "^8.1.0",
+    "ioredis": "^5.11.0",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.0",
     "zod": "^4.4.3"
