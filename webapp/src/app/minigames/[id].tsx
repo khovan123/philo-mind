@@ -3,7 +3,6 @@ import { ArrowLeft, Check, GripVertical, RefreshCw, Trophy } from "lucide-react-
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
-  Animated,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -12,6 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { MiniGameResult } from "@/components/minigame-result";
 import { Button } from "@/components/ui/Button";
 import { ThemedText } from "@/components/themed-text";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
@@ -43,7 +43,6 @@ export default function MiniGamePlayScreen() {
     retry,
   } = useMiniGameStore();
   const startedAt = useRef(0);
-  const [scoreScale] = useState(() => new Animated.Value(0.8));
 
   useEffect(() => {
     if (id) {
@@ -51,12 +50,6 @@ export default function MiniGamePlayScreen() {
       loadGame(id);
     }
   }, [id, loadGame]);
-
-  useEffect(() => {
-    if (!playResult) return;
-    scoreScale.setValue(0.7);
-    Animated.spring(scoreScale, { toValue: 1, friction: 4, useNativeDriver: true }).start();
-  }, [playResult, scoreScale]);
 
   function replay() {
     resetAttempt();
@@ -136,11 +129,9 @@ export default function MiniGamePlayScreen() {
           </View>
 
           {playResult ? (
-            <ResultPanel
-              leaderboardRank={playResult.leaderboardRank}
-              score={playResult.score}
-              scoreScale={scoreScale}
-              total={`${playResult.result.correctCount}/${playResult.result.total}`}
+            <MiniGameResult
+              leaderboard={leaderboard}
+              result={playResult}
               onReplay={replay}
               onBack={() => router.push("/minigames" as never)}
             />
@@ -148,7 +139,7 @@ export default function MiniGamePlayScreen() {
             <GameRenderer game={game} submitting={submitting} onSubmit={submit} />
           )}
 
-          <LeaderboardPanel leaderboard={leaderboard} />
+          {!playResult ? <LeaderboardPreview leaderboard={leaderboard} /> : null}
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -375,49 +366,7 @@ function ArgumentSorting({
   );
 }
 
-function ResultPanel({
-  score,
-  total,
-  leaderboardRank,
-  scoreScale,
-  onReplay,
-  onBack,
-}: {
-  score: number;
-  total: string;
-  leaderboardRank: number;
-  scoreScale: Animated.Value;
-  onReplay: () => void;
-  onBack: () => void;
-}) {
-  const theme = useTheme();
-
-  return (
-    <View style={[styles.resultPanel, { borderColor: theme.primary }]}>
-      <Animated.View
-        style={[
-          styles.scoreRing,
-          { borderColor: theme.primary, transform: [{ scale: scoreScale }] },
-        ]}
-      >
-        <ThemedText style={styles.scoreText}>{score}</ThemedText>
-        <ThemedText type="label" themeColor="textMuted">
-          điểm
-        </ThemedText>
-      </Animated.View>
-      <ThemedText type="smallBold">Hoàn thành lượt chơi</ThemedText>
-      <ThemedText type="small" themeColor="textMuted">
-        Đúng {total} • Hạng #{leaderboardRank}
-      </ThemedText>
-      <View style={styles.resultActions}>
-        <Button title="Chơi lại" variant="outline" onPress={onReplay} />
-        <Button title="Danh sách game" onPress={onBack} />
-      </View>
-    </View>
-  );
-}
-
-function LeaderboardPanel({
+function LeaderboardPreview({
   leaderboard,
 }: {
   leaderboard: { rank: number; score: number; user?: { fullName: string | null } }[];
@@ -435,7 +384,7 @@ function LeaderboardPanel({
           Chưa có lượt chơi nào. Hoàn thành game để ghi điểm đầu tiên.
         </ThemedText>
       ) : (
-        leaderboard.slice(0, 5).map((entry) => (
+        leaderboard.slice(0, 10).map((entry) => (
           <View key={`${entry.rank}-${entry.score}`} style={styles.leaderboardRow}>
             <ThemedText type="label" themeColor="textMuted">
               #{entry.rank}
@@ -571,23 +520,6 @@ const styles = StyleSheet.create({
   },
   sortText: { flex: 1, lineHeight: 20 },
   sortActions: { gap: Spacing.two, alignItems: "center" },
-  resultPanel: {
-    borderWidth: 1,
-    borderRadius: Radius.md,
-    padding: Spacing.four,
-    alignItems: "center",
-    gap: Spacing.three,
-  },
-  scoreRing: {
-    width: 112,
-    height: 112,
-    borderRadius: Radius.full,
-    borderWidth: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scoreText: { fontFamily: Fonts.sans, fontSize: 34, lineHeight: 40, fontWeight: "800" },
-  resultActions: { width: "100%", gap: Spacing.two },
   leaderboard: {
     borderWidth: 1,
     borderRadius: Radius.md,
