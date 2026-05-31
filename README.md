@@ -142,3 +142,9 @@ export default function MyScreen() {
 | `npm run frontend:web`     | Start web version             |
 | `npm run shared:build`     | Build shared package          |
 | `npm run clean`            | Remove all node_modules       |
+
+## API Deployment
+
+The production API image uses a multi-stage Docker build and is configured for
+Fly.io. See [Fly.io API Deployment](docs/fly-deployment.md) for secret injection,
+deployment, migration, and health-check commands.
