@@ -107,6 +107,15 @@ enum ModerationActionType {
   NO_ACTION
 }
 
+// ── T-D01: Story Mode Engine ─────────────────────────────────
+
+enum AnalysisTabType {
+  ETHICAL
+  PHILOSOPHICAL
+  POLITICAL_ECONOMIC
+  HISTORICAL
+}
+
 model User {
   id              String    @id @default(uuid()) @db.Uuid
   fullName        String    @map("full_name") @db.VarChar(150)
@@ -320,6 +329,7 @@ model StoryScenario {
   topic        Topic           @relation(fields: [topicId], references: [id], onDelete: Cascade)
   choices      StoryChoice[]
   sessions     StorySession[]
+  learnCards   StoryLearnCard[]
 
   @@index([topicId])
   @@index([createdAt])
@@ -349,7 +359,8 @@ model StoryConsequence {
   politicalEconomicAnalysis String? @map("political_economic_analysis")
   historicalImpact          String? @map("historical_impact")
 
-  choice StoryChoice @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  choice       StoryChoice    @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  analysisTabs AnalysisTab[]
 
   @@index([choiceId])
   @@map("story_consequences")
@@ -832,4 +843,60 @@ model ModerationAction {
   @@index([reportId])
   @@index([moderatorId])
   @@map("moderation_actions")
+}
+
+// ── T-D01: New Story Mode models ─────────────────────────────
+
+model PhilosophyTag {
+  id          String   @id @default(uuid()) @db.Uuid
+  name        String   @unique @db.VarChar(100)
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  storyLearnCardTags StoryLearnCardTag[]
+
+  @@index([name])
+  @@map("philosophy_tags")
+}
+
+model StoryLearnCard {
+  id        String   @id @default(uuid()) @db.Uuid
+  storyId   String   @map("story_id") @db.Uuid
+  title     String   @db.VarChar(200)
+  body      String
+  sourceRef String?  @map("source_ref") @db.VarChar(200)
+  order     Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  story StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  tags  StoryLearnCardTag[]
+
+  @@index([storyId, order])
+  @@map("story_learn_cards")
+}
+
+model StoryLearnCardTag {
+  cardId String @map("card_id") @db.Uuid
+  tagId  String @map("tag_id") @db.Uuid
+
+  card StoryLearnCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  tag  PhilosophyTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([cardId, tagId])
+  @@map("story_learn_card_tags")
+}
+
+model AnalysisTab {
+  id            String          @id @default(uuid()) @db.Uuid
+  consequenceId String          @map("consequence_id") @db.Uuid
+  tabType       AnalysisTabType @map("tab_type")
+  content       String
+  order         Int             @default(0)
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  consequence StoryConsequence @relation(fields: [consequenceId], references: [id], onDelete: Cascade)
+
+  @@unique([consequenceId, tabType])
+  @@index([consequenceId, order])
+  @@map("analysis_tabs")
 }
