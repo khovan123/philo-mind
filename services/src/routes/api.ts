@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authRouter } from "./auth.routes.js";
+import { notificationRouter } from "./notification.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -19,6 +20,9 @@ apiRouter.get("/", (_req, res) => {
 
 // Auth routes
 apiRouter.use("/auth", authRouter);
+
+// Notification routes
+apiRouter.use("/notifications", notificationRouter);
 
 // TODO: Phase 1+ routes
 // apiRouter.use("/topics", topicRouter);
