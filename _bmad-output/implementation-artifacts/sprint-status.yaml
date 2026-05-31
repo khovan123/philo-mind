@@ -1,0 +1,91 @@
+project: PhiloMind
+updated: 2026-05-31
+source: github-open-issues
+github_repo: khovan123/philo-mind
+total_stories: 77
+
+status_definitions:
+  backlog: "Identified but not yet contexted"
+  ready-for-dev: "Story file exists and is ready for implementation"
+  in-progress: "Implementation started"
+  review: "Implementation complete and ready for review"
+  done: "Reviewed and accepted"
+
+development_status:
+  1-6-topic-crud-api-list-get-create-update-search-filter: ready-for-dev # GitHub #22
+  1-7-lesson-crud-api-list-by-topic-detail-with-questions: ready-for-dev # GitHub #23
+  1-8-short-lesson-api-list-get-respond-comment: ready-for-dev # GitHub #24
+  1-9-user-progress-api-upsert-stats-by-topic: ready-for-dev # GitHub #25
+  1-10-quiz-api-attempt-answer-complete-score: ready-for-dev # GitHub #26
+  1-16-badge-definition-auto-award-engine: ready-for-dev # GitHub #32
+  1-17-activity-logging-service-streak-tracking: ready-for-dev # GitHub #33
+  1-18-content-moderation-report-action-auto-flag: ready-for-dev # GitHub #34
+  2-4-login-screen-ui-email-pass-validation-loading: ready-for-dev # GitHub #42
+  2-6-secure-token-storage-expo-secure-store-web-fallback: ready-for-dev # GitHub #44
+  2-7-api-client-axios-instance-interceptors-auto-refresh: ready-for-dev # GitHub #45
+  2-8-auth-zustand-store-login-register-logout-checkauth: ready-for-dev # GitHub #46
+  2-9-home-screen-daily-hook-continue-learning-stats: ready-for-dev # GitHub #47
+  2-10-explore-screen-topic-grid-search-category-filter: ready-for-dev # GitHub #48
+  2-11-full-lesson-screen-markdown-render-concept-highlight: ready-for-dev # GitHub #49
+  2-12-short-lesson-swipe-cards-hook-insight-conflict-vote: ready-for-dev # GitHub #50
+  2-13-quiz-gameplay-screen-questions-timer-result: ready-for-dev # GitHub #51
+  2-16-profile-screen-stats-grid-badge-gallery-activity-graph: ready-for-dev # GitHub #54
+  3-4-shared-types-ai-chat-scenario-debate: ready-for-dev # GitHub #58
+  3-5-seed-10-topics-30-short-lessons: ready-for-dev # GitHub #59
+  3-6-seed-20-full-lessons-40-quiz-questions: ready-for-dev # GitHub #60
+  3-7-seed-5-story-scenarios-7-step-complete: ready-for-dev # GitHub #61
+  3-8-seed-5-ai-characters-prompts-bios: ready-for-dev # GitHub #62
+  3-9-seed-10-real-life-scenarios-4-perspectives-each: ready-for-dev # GitHub #63
+  3-10-seed-10-debates-20-critical-questions-10-badges: ready-for-dev # GitHub #64
+  3-11-seed-5-minigames-matching-guess-who-logic: ready-for-dev # GitHub #65
+  3-12-seed-topicperspective-data-5-perspectives-x-10-topics: ready-for-dev # GitHub #66
+  4-2-story-scenario-api-list-with-filters-detail-with-learn-cards: ready-for-dev # GitHub #68
+  4-3-story-session-api-start-decide-complete: ready-for-dev # GitHub #69
+  4-4-consequence-analysis-api-get-by-choice-4-categories: ready-for-dev # GitHub #70
+  4-5-community-stats-aggregation-per-choice-cache: ready-for-dev # GitHub #71
+  4-6-story-list-screen-cards-filters-replay-indicator: ready-for-dev # GitHub #72
+  4-7-story-service-zustand-store: ready-for-dev # GitHub #73
+  4-8-step-1-intro-screen-cinematic-character-briefing: ready-for-dev # GitHub #74
+  4-9-step-2-learn-screen-swipeable-cards-concept-chips: ready-for-dev # GitHub #75
+  4-10-step-3-dilemma-screen-dramatic-presentation: ready-for-dev # GitHub #76
+  4-11-step-4-choose-screen-choice-cards-philosophy-tags-reasoning: ready-for-dev # GitHub #77
+  4-12-step-5-consequence-screen-narrative-4-analysis-tabs: ready-for-dev # GitHub #78
+  4-13-step-6-knowledge-screen-history-community-stats-concepts: ready-for-dev # GitHub #79
+  4-14-step-7-reflect-screen-journal-completion: ready-for-dev # GitHub #80
+  4-15-stepprogress-component-shared-across-all-7-steps: ready-for-dev # GitHub #81
+  4-16-story-flow-integration-test-end-to-end-7-steps: ready-for-dev # GitHub #82
+  5-1-gemini-api-service-generate-stream-rate-limit: ready-for-dev # GitHub #83
+  5-2-ai-character-crud-prompt-template-system: ready-for-dev # GitHub #84
+  5-3-ai-chat-session-message-api: ready-for-dev # GitHub #85
+  5-4-sse-streaming-endpoint: ready-for-dev # GitHub #86
+  5-5-ai-chat-service-zustand-store: ready-for-dev # GitHub #87
+  5-6-character-gallery-screen-cards-session-list: ready-for-dev # GitHub #88
+  5-7-chat-conversation-screen-bubbles-streaming-text: ready-for-dev # GitHub #89
+  5-8-chatinput-component-text-send-suggested-prompts: ready-for-dev # GitHub #90
+  5-9-streamingtext-component-character-by-character-render: ready-for-dev # GitHub #91
+  5-10-ai-chat-integration-test-full-conversation-flow: ready-for-dev # GitHub #92
+  6-1-schema-migration-scenarioperspective-scenarioframework: ready-for-dev # GitHub #93
+  6-2-real-life-scenario-api-crud-perspectives-respond-stats: ready-for-dev # GitHub #94
+  6-3-scenario-situation-perspectives-screens: ready-for-dev # GitHub #95
+  6-4-scenario-framework-rethink-screens: ready-for-dev # GitHub #96
+  6-5-debate-crud-argument-vote-comment-api: ready-for-dev # GitHub #97
+  6-6-debate-list-detail-screens-split-for-against-view: ready-for-dev # GitHub #98
+  6-7-debate-argue-screen-stance-editor-preview: ready-for-dev # GitHub #99
+  6-8-scenario-debate-integration-tests: ready-for-dev # GitHub #100
+  7-1-badge-gallery-earn-notifications-frontend: ready-for-dev # GitHub #101
+  7-2-notification-bell-list-screen: ready-for-dev # GitHub #102
+  7-3-reflection-journal-screens-list-new-detail: ready-for-dev # GitHub #103
+  7-4-mindmap-visualization-svg-zoom-pan: ready-for-dev # GitHub #104
+  7-5-bookmark-system-button-list-screen: ready-for-dev # GitHub #105
+  7-6-performance-optimization-caching-lazy-load-bundle-audit: ready-for-dev # GitHub #106
+  8-1-topicperspective-api-crud-5-perspectives-per-topic: ready-for-dev # GitHub #107
+  8-2-multi-perspective-viewer-screen-tabs-swipe-per-perspective: ready-for-dev # GitHub #108
+  8-3-minigame-crud-api-admin-create-user-play-score-tracking: ready-for-dev # GitHub #109
+  8-4-minigame-play-screen-3-game-types-score-animation: ready-for-dev # GitHub #110
+  8-5-minigame-result-leaderboard-component: ready-for-dev # GitHub #111
+  10-1-backend-unit-tests-auth-service: ready-for-dev # GitHub #119
+  10-2-backend-unit-tests-story-quiz-services: ready-for-dev # GitHub #120
+  10-3-api-integration-tests-supertest-auth-crud-errors: ready-for-dev # GitHub #121
+  10-4-frontend-component-tests-rtl-card-quiz-chat: ready-for-dev # GitHub #122
+  10-5-e2e-smoke-test-maestro-login-home-story-complete: ready-for-dev # GitHub #123
+  11-3-terms-of-service-privacy-policy-screens-markdown-render: ready-for-dev # GitHub #126
