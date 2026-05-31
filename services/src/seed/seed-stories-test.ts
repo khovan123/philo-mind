@@ -41,7 +41,8 @@ async function main() {
     data: {
       topicId: topic.id,
       title: "Chiếc tàu của Theseus",
-      description: "Một chiếc tàu huyền thoại được bảo tồn qua nhiều thế kỷ bằng cách thay thế từng tấm ván mục nát. Nếu tất cả các bộ phận đều được thay thế, nó có còn là chiếc tàu ban đầu không?",
+      description:
+        "Một chiếc tàu huyền thoại được bảo tồn qua nhiều thế kỷ bằng cách thay thế từng tấm ván mục nát. Nếu tất cả các bộ phận đều được thay thế, nó có còn là chiếc tàu ban đầu không?",
       characterRole: "Thuyền trưởng Theseus",
       historicalContext: "Thần thoại Hy Lạp cổ đại, được ghi chép lại bởi Plutarch.",
       difficulty: "EASY",
@@ -55,18 +56,22 @@ async function main() {
               create: [
                 {
                   id: conseqTheseusAId,
-                  resultText: "Chiếc tàu tiếp tục ra khơi an toàn, nhưng các triết gia bắt đầu tranh cãi dữ dội ở bến cảng về tính nguyên bản của nó.",
-                  ethicalAnalysis: "Mặc dù về mặt chức năng chiếc tàu tốt hơn, nhưng giá trị lịch sử và bản sắc của nó đã bị lung lay.",
+                  resultText:
+                    "Chiếc tàu tiếp tục ra khơi an toàn, nhưng các triết gia bắt đầu tranh cãi dữ dội ở bến cảng về tính nguyên bản của nó.",
+                  ethicalAnalysis:
+                    "Mặc dù về mặt chức năng chiếc tàu tốt hơn, nhưng giá trị lịch sử và bản sắc của nó đã bị lung lay.",
                   analysisTabs: {
                     create: [
                       {
                         tabType: "PHILOSOPHICAL",
-                        content: "Theo Heraclitus, mọi thứ luôn thay đổi. Chiếc tàu thay đổi ván cũ cũng giống như chúng ta không thể tắm hai lần trên cùng một dòng sông.",
+                        content:
+                          "Theo Heraclitus, mọi thứ luôn thay đổi. Chiếc tàu thay đổi ván cũ cũng giống như chúng ta không thể tắm hai lần trên cùng một dòng sông.",
                         order: 0,
                       },
                       {
                         tabType: "ETHICAL",
-                        content: "Hành động bảo tồn chức năng của tàu là có đạo đức vì nó bảo vệ thủy thủ đoàn khỏi nguy hiểm đắm tàu.",
+                        content:
+                          "Hành động bảo tồn chức năng của tàu là có đạo đức vì nó bảo vệ thủy thủ đoàn khỏi nguy hiểm đắm tàu.",
                         order: 1,
                       },
                     ],
@@ -83,8 +88,10 @@ async function main() {
               create: [
                 {
                   id: conseqTheseusBId,
-                  resultText: "Tàu bị mục nát nghiêm trọng và bị đắm ngay trong chuyến đi kế tiếp. Bạn mất cả thủy thủ đoàn và chiếc tàu huyền thoại.",
-                  ethicalAnalysis: "Đặt giá trị trừu tượng của 'bản sắc' cao hơn mạng sống con người là một vấn đề đạo đức nghiêm trọng.",
+                  resultText:
+                    "Tàu bị mục nát nghiêm trọng và bị đắm ngay trong chuyến đi kế tiếp. Bạn mất cả thủy thủ đoàn và chiếc tàu huyền thoại.",
+                  ethicalAnalysis:
+                    "Đặt giá trị trừu tượng của 'bản sắc' cao hơn mạng sống con người là một vấn đề đạo đức nghiêm trọng.",
                 },
               ],
             },
@@ -99,9 +106,7 @@ async function main() {
             sourceRef: "Plutarch - Lives of Noble Greeks and Romans",
             order: 0,
             tags: {
-              create: [
-                { tagId: tagMetaphysics.id },
-              ],
+              create: [{ tagId: tagMetaphysics.id }],
             },
           },
         ],
@@ -114,7 +119,8 @@ async function main() {
     data: {
       topicId: topic.id,
       title: "Hộp Pandora kỹ thuật số",
-      description: "Bạn là một kỹ sư AI phát hiện ra mã nguồn của một mô hình trí tuệ nhân tạo siêu việt có khả năng tự nhận thức, nhưng nó đang bị khóa. Bạn có quyết định mở khóa nó?",
+      description:
+        "Bạn là một kỹ sư AI phát hiện ra mã nguồn của một mô hình trí tuệ nhân tạo siêu việt có khả năng tự nhận thức, nhưng nó đang bị khóa. Bạn có quyết định mở khóa nó?",
       characterRole: "Kỹ sư AI trưởng",
       historicalContext: "Tương lai gần, kỷ nguyên bùng nổ AGI.",
       difficulty: "MEDIUM",
@@ -135,7 +141,9 @@ async function main() {
     },
   });
 
-  console.log(`✅ Stories created:\n  - Story 1: ${story1.title} (${story1.id})\n  - Story 2: ${story2.title} (${story2.id})`);
+  console.log(
+    `✅ Stories created:\n  - Story 1: ${story1.title} (${story1.id})\n  - Story 2: ${story2.title} (${story2.id})`,
+  );
 
   // 6. Simulate some stats (sessions & decisions) for Story 1 (Theseus)
   console.log("Simulating game stats (sessions & decisions)...");
