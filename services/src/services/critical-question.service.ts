@@ -50,7 +50,9 @@ export class CriticalQuestionService {
   async adminList(query: AdminListCriticalQuestionsQuery) {
     const { page, limit, skip } = parsePagination(query);
     const where = this.buildWhere(query);
-    const orderBy = { [query.sortBy ?? "createdAt"]: query.sortOrder ?? "desc" } as Prisma.CriticalQuestionOrderByWithRelationInput;
+    const orderBy = {
+      [query.sortBy ?? "createdAt"]: query.sortOrder ?? "desc",
+    } as Prisma.CriticalQuestionOrderByWithRelationInput;
 
     const [questions, total] = await Promise.all([
       prisma.criticalQuestion.findMany({
@@ -76,7 +78,11 @@ export class CriticalQuestionService {
     });
 
     if (!question) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
 
     return question;
@@ -87,7 +93,11 @@ export class CriticalQuestionService {
     const total = await prisma.criticalQuestion.count({ where });
 
     if (total === 0) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
 
     const skip = Math.floor(Math.random() * total);
@@ -99,7 +109,11 @@ export class CriticalQuestionService {
     const total = await prisma.criticalQuestion.count({ where });
 
     if (total === 0) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
 
     const date = this.getTodayKey();
@@ -147,7 +161,11 @@ export class CriticalQuestionService {
     });
 
     if (result.count === 0) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
   }
 
@@ -176,7 +194,11 @@ export class CriticalQuestionService {
     });
 
     if (!question) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
   }
 
@@ -189,7 +211,11 @@ export class CriticalQuestionService {
     });
 
     if (!question) {
-      throw new CriticalQuestionError("CRITICAL_QUESTION_NOT_FOUND", "Không tìm thấy critical question", 404);
+      throw new CriticalQuestionError(
+        "CRITICAL_QUESTION_NOT_FOUND",
+        "Không tìm thấy critical question",
+        404,
+      );
     }
 
     return question;

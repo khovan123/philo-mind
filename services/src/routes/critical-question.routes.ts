@@ -25,16 +25,24 @@ criticalQuestionRouter.get("/random", validate(randomCriticalQuestionSchema), (r
   criticalQuestionController.getRandom(req, res, next),
 );
 
-criticalQuestionRouter.get("/daily-random", validate(randomCriticalQuestionSchema), (req, res, next) =>
-  criticalQuestionController.getDailyRandom(req, res, next),
+criticalQuestionRouter.get(
+  "/daily-random",
+  validate(randomCriticalQuestionSchema),
+  (req, res, next) => criticalQuestionController.getDailyRandom(req, res, next),
 );
 
-criticalQuestionRouter.get("/admin", roleGuard("ADMIN"), validate(adminListCriticalQuestionsSchema), (req, res, next) =>
-  criticalQuestionController.adminList(req, res, next),
+criticalQuestionRouter.get(
+  "/admin",
+  roleGuard("ADMIN"),
+  validate(adminListCriticalQuestionsSchema),
+  (req, res, next) => criticalQuestionController.adminList(req, res, next),
 );
 
-criticalQuestionRouter.post("/admin", roleGuard("ADMIN"), validate(createCriticalQuestionSchema), (req, res, next) =>
-  criticalQuestionController.create(req, res, next),
+criticalQuestionRouter.post(
+  "/admin",
+  roleGuard("ADMIN"),
+  validate(createCriticalQuestionSchema),
+  (req, res, next) => criticalQuestionController.create(req, res, next),
 );
 
 criticalQuestionRouter.patch(

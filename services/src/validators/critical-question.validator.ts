@@ -62,6 +62,8 @@ export const updateCriticalQuestionSchema = z.object({
 export type CriticalQuestionType = (typeof criticalQuestionTypes)[number];
 export type ListCriticalQuestionsQuery = z.infer<typeof listCriticalQuestionsSchema>["query"];
 export type RandomCriticalQuestionQuery = z.infer<typeof randomCriticalQuestionSchema>["query"];
-export type AdminListCriticalQuestionsQuery = z.infer<typeof adminListCriticalQuestionsSchema>["query"];
+export type AdminListCriticalQuestionsQuery = z.infer<
+  typeof adminListCriticalQuestionsSchema
+>["query"];
 export type CreateCriticalQuestionInput = z.infer<typeof createCriticalQuestionSchema>["body"];
 export type UpdateCriticalQuestionInput = z.infer<typeof updateCriticalQuestionSchema>["body"];

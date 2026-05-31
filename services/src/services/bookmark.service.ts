@@ -49,7 +49,11 @@ export class BookmarkService {
   async toggle(userId: string, input: BookmarkTargetInput) {
     const targetExists = await this.targetExists(input);
     if (!targetExists) {
-      throw new BookmarkError("BOOKMARK_TARGET_NOT_FOUND", "Không tìm thấy nội dung để bookmark", 404);
+      throw new BookmarkError(
+        "BOOKMARK_TARGET_NOT_FOUND",
+        "Không tìm thấy nội dung để bookmark",
+        404,
+      );
     }
 
     try {
@@ -98,15 +102,31 @@ export class BookmarkService {
   private async targetExists(input: BookmarkTargetInput): Promise<boolean> {
     switch (input.targetType) {
       case "LESSON":
-        return Boolean(await prisma.lesson.findUnique({ where: { id: input.targetId }, select: { id: true } }));
+        return Boolean(
+          await prisma.lesson.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
       case "SHORT_LESSON":
-        return Boolean(await prisma.shortLesson.findUnique({ where: { id: input.targetId }, select: { id: true } }));
+        return Boolean(
+          await prisma.shortLesson.findUnique({
+            where: { id: input.targetId },
+            select: { id: true },
+          }),
+        );
       case "STORY":
-        return Boolean(await prisma.storyScenario.findUnique({ where: { id: input.targetId }, select: { id: true } }));
+        return Boolean(
+          await prisma.storyScenario.findUnique({
+            where: { id: input.targetId },
+            select: { id: true },
+          }),
+        );
       case "DEBATE":
-        return Boolean(await prisma.debate.findUnique({ where: { id: input.targetId }, select: { id: true } }));
+        return Boolean(
+          await prisma.debate.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
       case "TOPIC":
-        return Boolean(await prisma.topic.findUnique({ where: { id: input.targetId }, select: { id: true } }));
+        return Boolean(
+          await prisma.topic.findUnique({ where: { id: input.targetId }, select: { id: true } }),
+        );
     }
   }
 

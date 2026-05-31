@@ -1,5 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
-import { criticalQuestionService, CriticalQuestionError } from "../services/critical-question.service.js";
+import {
+  criticalQuestionService,
+  CriticalQuestionError,
+} from "../services/critical-question.service.js";
 import { sendError, sendPaginated, sendSuccess } from "../utils/response.js";
 
 // ── T-A12: Critical Question Controller ────────────────────────
