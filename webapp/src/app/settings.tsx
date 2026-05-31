@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { ChevronLeft, Eye, EyeOff, Lock, User } from "lucide-react-native";
+import { ChevronLeft, Lock, User } from "lucide-react-native";
 
 import { Avatar, Button, Input, ThemedText } from "@/components/ui";
 import { BottomTabInset, Radius, Spacing } from "@/constants/theme";
@@ -97,9 +97,6 @@ export default function SettingsScreen() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [showNew, setShowNew] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [passwordState, setPasswordState] = useState<SettingsState>("idle");
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
@@ -151,7 +148,10 @@ export default function SettingsScreen() {
     setPasswordError(null);
     setPasswordState("loading");
     try {
-      await authService.changePassword(currentPassword, newPassword);
+      await authService.changePassword({
+        currentPassword,
+        newPassword,
+      });
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -256,7 +256,6 @@ export default function SettingsScreen() {
               title="Đổi mật khẩu"
               icon={<Lock size={16} color={theme.textSecondary} strokeWidth={2} />}
             />
-
             <Input
               label="Mật khẩu hiện tại"
               value={currentPassword}
@@ -266,18 +265,9 @@ export default function SettingsScreen() {
                 setPasswordState("idle");
               }}
               placeholder="••••••••"
-              secureTextEntry={!showCurrent}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowCurrent((p) => !p)} style={styles.eye}>
-                  {showCurrent ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
 
             <Input
@@ -289,19 +279,10 @@ export default function SettingsScreen() {
                 setPasswordState("idle");
               }}
               placeholder="••••••••"
-              secureTextEntry={!showNew}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={styles.field}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowNew((p) => !p)} style={styles.eye}>
-                  {showNew ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
             <PasswordStrength password={newPassword} />
 
@@ -314,19 +295,10 @@ export default function SettingsScreen() {
                 setPasswordState("idle");
               }}
               placeholder="••••••••"
-              secureTextEntry={!showConfirm}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={styles.field}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowConfirm((p) => !p)} style={styles.eye}>
-                  {showConfirm ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
 
             {passwordError ? (
@@ -504,13 +476,6 @@ const styles = StyleSheet.create({
 
   actionBtn: {
     marginTop: Spacing.three,
-  },
-
-  eye: {
-    width: 28,
-    height: 28,
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   notifRow: {

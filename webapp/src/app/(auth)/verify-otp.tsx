@@ -19,7 +19,7 @@ export default function VerifyOtpScreen() {
     setError(null);
     setLoading(true);
     try {
-      const res = await authService.verifyOtp(email, otp);
+      const res = await authService.verifyOtp({ email, otp });
       const resetToken = (res as any).resetToken;
       router.push({ pathname: "/(auth)/reset-password", params: { email, resetToken } } as any);
     } catch (err) {
