@@ -1,4 +1,24 @@
-import { createActivitySchema, listActivitiesSchema } from "../validators/activity.validator.js";
+import { jest } from "@jest/globals";
+
+// Mock env before any imports
+jest.unstable_mockModule("../config/env.js", () => ({
+  env: {
+    PORT: 3001,
+    NODE_ENV: "test",
+    DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci",
+    JWT_SECRET: "test-secret-at-least-32-characters-long",
+    JWT_ACCESS_EXPIRES_IN: "15m",
+    JWT_REFRESH_EXPIRES_IN: "7d",
+    LOG_LEVEL: "error",
+  },
+}));
+
+jest.unstable_mockModule("../config/prisma.js", () => ({
+  prisma: {},
+}));
+
+const { createActivitySchema, listActivitiesSchema } =
+  await import("../validators/activity.validator.js");
 
 // ── T-A16: Activity Validator Tests ──────────────────────────────
 
