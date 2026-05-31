@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { QuizCard } from "@/app/(lesson)/quiz/QuizCard";
 import { QuizFilters } from "@/app/(lesson)/quiz/QuizFilters";

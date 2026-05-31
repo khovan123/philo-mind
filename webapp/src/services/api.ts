@@ -12,7 +12,10 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3001/api/v1").replace(/\/$/, "");
+const API_BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? "http://10.0.2.2:3001/api/v1").replace(
+  /\/$/,
+  "",
+);
 
 const REQUEST_TIMEOUT_MS = 10000;
 
