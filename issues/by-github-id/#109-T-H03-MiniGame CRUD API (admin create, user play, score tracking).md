@@ -6,34 +6,7 @@
 - State: open
 - Track: H - Missing Features
 - Type: backend
-- Priority: medium
-- Milestone: Week 6
-- Assignees: @kangdev03
-- Updated at: 2026-05-31T15:40:20Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #109 / `T-H03`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #109 |
-| Task ID | T-H03 |
-| Title | MiniGame CRUD API (admin create, user play, score tracking) |
-| State | open |
-| Local log path | `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:54:23Z
 
 # T-H03: MiniGame CRUD API (admin create, user play, score tracking)
 
@@ -133,6 +106,45 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #109 / `T-H03`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học nhận động lực quay lại app qua tiến độ, streak, badge, mini-game, thông báo và bảng xếp hạng.
+
+### Inputs
+
+- gameId
+- game config
+- user answers/actions
+- timeSpentSeconds
+
+### Expected output
+
+- Một hoặc nhiều endpoint dưới `/api/v1/minigames` hoạt động với request hợp lệ và trả response chuẩn `{ success, data, meta? }`.
+- Validation trả lỗi rõ ràng khi thiếu field, sai kiểu, record không tồn tại hoặc user không đủ quyền.
+- Dữ liệu được ghi/đọc qua Prisma đúng quan hệ schema, không tạo duplicate ngoài ý muốn và không trả field nhạy cảm.
+- Frontend/test có thể dùng response ngay mà không phải đoán tên field hoặc tự tính business logic chính.
+
+### Success state
+
+- Client gọi `/api/v1/minigames`, nhận HTTP 2xx với data đủ field để consumer render/lưu state.
+
+### Empty/error/loading states
+
+- 400 cho input sai shape hoặc thiếu field bắt buộc.
+- 401/403 cho user chưa đăng nhập hoặc không đủ role.
+- 404 cho record không tồn tại; 409 cho duplicate/constraint conflict khi phù hợp.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #109 and mention `T-H03`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #109 for `T-H03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md`.
+

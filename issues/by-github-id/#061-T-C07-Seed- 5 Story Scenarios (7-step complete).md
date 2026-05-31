@@ -6,34 +6,7 @@
 - State: open
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Priority: medium
-- Milestone: Week 3
-- Assignees: @Thienhoang78
-- Updated at: 2026-05-31T15:39:34Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #61 / `T-C07`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #61 |
-| Task ID | T-C07 |
-| Title | Seed: 5 Story Scenarios (7-step complete) |
-| State | open |
-| Local log path | `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (7-step complete).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:53:36Z
 
 # T-C07: Seed: 5 Story Scenarios (7-step complete)
 
@@ -123,6 +96,44 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #61 / `T-C07`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học đi qua story mode nhiều bước: hiểu bối cảnh, học khái niệm, chọn quyết định, xem hệ quả, so sánh cộng đồng và phản tư.
+
+### Inputs
+
+- storyId
+- sessionId
+- choiceId
+- reasoning
+- timeSpentSeconds
+
+### Expected output
+
+- Seed runner tạo được record cha/con đúng thứ tự và id/slug ổn định cho demo/test.
+- Nội dung user-facing có tiếng Việt đủ title, mô tả, body markdown hoặc metadata cần render.
+- Chạy lại seed không tạo duplicate hoặc phá quan hệ hiện có.
+- Các issue frontend/backend liên quan có thể dùng dữ liệu seed để kiểm thử flow thật.
+
+### Success state
+
+- Seed chạy xong và database có dữ liệu đúng quan hệ, app có thể mở demo content.
+
+### Empty/error/loading states
+
+- Mô tả rõ trạng thái rỗng, lỗi và retry/recovery tương ứng.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #61 and mention `T-C07`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #61 for `T-C07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (7-step complete).md`.
+

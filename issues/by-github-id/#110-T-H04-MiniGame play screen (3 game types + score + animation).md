@@ -6,34 +6,7 @@
 - State: open
 - Track: H - Missing Features
 - Type: frontend
-- Priority: medium
-- Milestone: Week 6
-- Assignees: @kangdev03
-- Updated at: 2026-05-31T15:40:21Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #110 / `T-H04`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #110 |
-| Task ID | T-H04 |
-| Title | MiniGame play screen (3 game types + score + animation) |
-| State | open |
-| Local log path | `issues/by-github-id/#110-T-H04-MiniGame play screen (3 game types + score + animation).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:54:23Z
 
 # T-H04: MiniGame play screen (3 game types + score + animation)
 
@@ -132,6 +105,49 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #110 / `T-H04`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học nhận động lực quay lại app qua tiến độ, streak, badge, mini-game, thông báo và bảng xếp hạng.
+
+### Inputs
+
+- gameId
+- game config
+- user answers/actions
+- timeSpentSeconds
+
+### Expected output
+
+- Một màn hình/flow tại `/minigames/[id]` render được trạng thái loading, empty, error và success.
+- Các CTA chính có hành động cụ thể: submit, mở detail, chuyển bước, quay lại list, hoặc mở link ngoài/nội bộ đúng route.
+- State sau thao tác được cập nhật trong store/API cache để màn hình kế tiếp hiển thị đúng dữ liệu mới.
+- Layout usable trên mobile, keyboard-aware khi có form, không có màn hình trắng hoặc nút bấm không phản hồi.
+
+### Success state
+
+- User thao tác trên `/minigames/[id]`, thấy dữ liệu/render đúng, CTA chính chuyển sang bước kế tiếp hoặc cập nhật UI ngay.
+
+### Empty/error/loading states
+
+- Loading: hiển thị skeleton/spinner và disable CTA gây duplicate submit.
+- Empty: hiển thị thông báo ngắn + CTA hợp lý thay vì màn hình trắng.
+- Error: hiển thị message có thể hành động, cho retry hoặc quay lại flow an toàn.
+
+### Navigation and interaction
+
+- Game card -> play screen.
+- Finish -> result/leaderboard; replay -> new attempt.
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #110 and mention `T-H04`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #110 for `T-H04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#110-T-H04-MiniGame play screen (3 game types + score + animation).md`.
+

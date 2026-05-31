@@ -3,38 +3,10 @@
 ## GitHub Link
 
 - Issue: [#115](https://github.com/khovan123/philo-mind/issues/115)
-- State: done
+- State: closed
 - Track: I - DevOps & Deploy
 - Type: devops
-- Priority: medium
-- Milestone: Week 7
-- Assignees: @khovan123
-- Updated at: 2026-05-31T15:40:26Z
-- Closed at: 2026-05-30T16:05:18Z
-
-## Current Sprint Status
-
-- [x] Done on GitHub. Treat this task as complete unless reopened.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #115 / `T-I04`.
-
-## Required Follow-up
-
-- No implementation follow-up required from sprint-status unless QA reopens the issue.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #115 |
-| Task ID | T-I04 |
-| Title | GitHub Actions CI (lint + typecheck + test on PR) |
-| State | done |
-| Local log path | `issues/by-github-id/#115-T-I04-GitHub Actions CI (lint + typecheck + test on PR).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:54:28Z
 
 ## T-I04: GitHub Actions CI (lint + typecheck + test on PR)
 
@@ -80,6 +52,43 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 ---
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #115 / `T-I04`, beyond implementation process notes.
+
+### User-facing outcome
+
+Team có kiểm chứng tự động cho flow quan trọng để phát hiện regression trước khi merge/deploy.
+
+### Inputs
+
+- env vars
+- config files
+- CI/deploy command
+- service credentials via secrets
+
+### Expected output
+
+- Developer/CI/deploy có command hoặc config chạy được, tái lập được và có output quan sát được.
+- Environment/config không chứa secret thật, có ví dụ rõ cho local và production.
+- Failure mode có log đủ để biết thiếu env, lỗi build, lỗi migration hay lỗi service health.
+- Kết quả cuối được liên kết với GitHub issue và có bằng chứng chạy thành công.
+
+### Success state
+
+- Command/build/deploy chạy thành công và có log/URL/status chứng minh kết quả.
+
+### Empty/error/loading states
+
+- Mô tả rõ trạng thái rỗng, lỗi và retry/recovery tương ứng.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #115 and mention `T-I04`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #115 for `T-I04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T16:05:18Z. Local log: `issues/by-github-id/#115-T-I04-GitHub Actions CI (lint + typecheck + test on PR).md`.
+

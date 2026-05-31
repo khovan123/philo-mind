@@ -6,34 +6,7 @@
 - State: open
 - Track: J - Testing
 - Type: testing
-- Priority: medium
-- Milestone: Week 7
-- Assignees: @NguyenDat204
-- Updated at: 2026-05-31T15:40:32Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #122 / `T-J04`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #122 |
-| Task ID | T-J04 |
-| Title | Frontend component tests (RTL: Card, Quiz, Chat) |
-| State | open |
-| Local log path | `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:54:35Z
 
 # T-J04: Frontend component tests (RTL: Card, Quiz, Chat)
 
@@ -122,6 +95,45 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #122 / `T-J04`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả và tiến độ được cập nhật rõ ràng.
+
+### Inputs
+
+- quizId
+- attemptId
+- questionId
+- selected answer
+- timeSpentSeconds
+
+### Expected output
+
+- Test suite fail khi flow/contract chính bị phá và pass ổn định khi tính năng đúng.
+- Test mô phỏng input/output hoặc thao tác người dùng thật thay vì chỉ kiểm implementation detail.
+- Fixture deterministic, không cần secret thật hoặc network ngoài nếu không bắt buộc.
+- CI/log chỉ ra lỗi nằm ở validation, API contract, UI render, navigation hay data persistence.
+
+### Success state
+
+- Command test chạy xanh, đồng thời test có assertion đủ mạnh để bắt regression.
+
+### Empty/error/loading states
+
+- Test phải có case failure có chủ đích, không chỉ happy path.
+- Khi fixture thiếu/sai, lỗi test phải đọc được nguyên nhân.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #122 and mention `T-J04`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
+

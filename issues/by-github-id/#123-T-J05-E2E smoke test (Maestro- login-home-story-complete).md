@@ -6,34 +6,7 @@
 - State: open
 - Track: J - Testing
 - Type: testing
-- Priority: medium
-- Milestone: Week 7
-- Assignees: @NguyenDat204
-- Updated at: 2026-05-31T15:40:33Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #123 / `T-J05`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #123 |
-| Task ID | T-J05 |
-| Title | E2E smoke test (Maestro: login-home-story-complete) |
-| State | open |
-| Local log path | `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:54:36Z
 
 # T-J05: E2E smoke test (Maestro: login-home-story-complete)
 
@@ -121,6 +94,44 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #123 / `T-J05`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, làm mới token và đăng xuất/khôi phục mật khẩu mà không mất dữ liệu học tập cá nhân.
+
+### Inputs
+
+- email
+- password
+- submit action
+- auth API response
+
+### Expected output
+
+- Test suite fail khi flow/contract chính bị phá và pass ổn định khi tính năng đúng.
+- Test mô phỏng input/output hoặc thao tác người dùng thật thay vì chỉ kiểm implementation detail.
+- Fixture deterministic, không cần secret thật hoặc network ngoài nếu không bắt buộc.
+- CI/log chỉ ra lỗi nằm ở validation, API contract, UI render, navigation hay data persistence.
+
+### Success state
+
+- Command test chạy xanh, đồng thời test có assertion đủ mạnh để bắt regression.
+
+### Empty/error/loading states
+
+- Test phải có case failure có chủ đích, không chỉ happy path.
+- Khi fixture thiếu/sai, lỗi test phải đọc được nguyên nhân.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #123 and mention `T-J05`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #123 for `T-J05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md`.
+
