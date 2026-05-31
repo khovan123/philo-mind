@@ -1,6 +1,7 @@
-﻿import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { prisma } from "../config/prisma.js";
+import { sendResetEmail } from "../utils/email.js";
 import { generateTokenPair, verifyRefreshToken } from "../utils/jwt.js";
 import type { RegisterInput, LoginInput } from "../validators/auth.validator.js";
 
@@ -163,6 +164,173 @@ export class AuthService {
         data: { revokedAt: new Date() },
       });
     }
+  }
+
+  async deleteAccount(userId: string) {
+    const now = new Date();
+
+    await prisma.$transaction([
+      prisma.user.update({
+        where: { id: userId },
+        data: {
+          isActive: false,
+          deletedAt: now,
+          deletionRequestedAt: now,
+        },
+      }),
+      prisma.userSession.updateMany({
+        where: { userId, status: "ACTIVE" },
+        data: { status: "REVOKED", revokedAt: now },
+      }),
+      prisma.refreshToken.updateMany({
+        where: { userId, revokedAt: null },
+        data: { revokedAt: now },
+      }),
+    ]);
+  }
+
+  /**
+   * Start password reset: create OTP + reset token store (no enumeration)
+   */
+  async sendPasswordReset(email: string) {
+    const user = await prisma.user.findUnique({ where: { email } });
+
+    // Always create a reset record (even if user not found) to avoid email enumeration
+    const code = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
+    const resetToken = crypto.randomUUID();
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+
+    const codeHash = this.hashToken(code);
+    const tokenHash = this.hashToken(resetToken);
+
+    await prisma.passwordReset.create({
+      data: {
+        userId: user?.id || null,
+        email,
+        codeHash,
+        tokenHash,
+        expiresAt,
+      },
+    });
+    // send email in background (or console fallback) to avoid blocking the HTTP request due to SMTP latency
+    sendResetEmail(email, code).catch((err) => {
+      console.error("[Email] Background send failed:", err);
+    });
+  }
+
+  async verifyPasswordReset(email: string, otp: string) {
+    const now = new Date();
+    const reset = await prisma.passwordReset.findFirst({
+      where: { email, usedAt: null, expiresAt: { gt: now } },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!reset) {
+      throw new AuthError("RESET_NOT_FOUND", "Mã OTP không hợp lệ hoặc đã hết hạn", 400);
+    }
+
+    // Block after 5 failed attempts
+    if (reset.attempts >= 5) {
+      throw new AuthError(
+        "OTP_MAX_ATTEMPTS",
+        "Đã vượt quá số lần thử. Vui lòng yêu cầu mã mới",
+        429,
+      );
+    }
+
+    const otpHash = this.hashToken(otp);
+    if (otpHash !== reset.codeHash) {
+      await prisma.passwordReset.update({
+        where: { id: reset.id },
+        data: { attempts: { increment: 1 } },
+      });
+      throw new AuthError("INVALID_OTP", "OTP không hợp lệ", 400);
+    }
+
+    // Return the reset token (originally stored). For security we return a freshly generated token.
+    const newResetToken = crypto.randomUUID();
+    const newTokenHash = this.hashToken(newResetToken);
+
+    await prisma.passwordReset.update({
+      where: { id: reset.id },
+      data: { tokenHash: newTokenHash },
+    });
+
+    return { resetToken: newResetToken };
+  }
+
+  async resetPassword(email: string, resetToken: string, newPassword: string) {
+    const now = new Date();
+    const tokenHash = this.hashToken(resetToken);
+
+    const reset = await prisma.passwordReset.findFirst({
+      where: { email, tokenHash, usedAt: null, expiresAt: { gt: now } },
+      orderBy: { createdAt: "desc" },
+    });
+
+    if (!reset || !reset.userId) {
+      throw new AuthError("INVALID_RESET", "Reset token không hợp lệ hoặc đã hết hạn", 400);
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+
+    await prisma.$transaction([
+      prisma.user.update({ where: { id: reset.userId }, data: { passwordHash } }),
+      prisma.passwordReset.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
+      prisma.userSession.updateMany({
+        where: { userId: reset.userId, status: "ACTIVE" },
+        data: { status: "REVOKED", revokedAt: new Date() },
+      }),
+      prisma.refreshToken.updateMany({
+        where: { userId: reset.userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      }),
+    ]);
+  }
+
+  /**
+   * Update user profile (fullName, avatarUrl).
+   */
+  async updateProfile(userId: string, input: { fullName?: string; avatarUrl?: string | null }) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(input.fullName !== undefined && { fullName: input.fullName }),
+        ...(input.avatarUrl !== undefined && { avatarUrl: input.avatarUrl }),
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        avatarUrl: true,
+        createdAt: true,
+      },
+    });
+
+    return user;
+  }
+
+  /**
+   * Change password — requires current password verification.
+   */
+  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { passwordHash: true },
+    });
+
+    if (!user) {
+      throw new AuthError("USER_NOT_FOUND", "Không tìm thấy người dùng", 404);
+    }
+
+    const valid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!valid) {
+      throw new AuthError("INVALID_CREDENTIALS", "Mật khẩu hiện tại không đúng", 400);
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+    await prisma.user.update({ where: { id: userId }, data: { passwordHash } });
   }
 
   /**
