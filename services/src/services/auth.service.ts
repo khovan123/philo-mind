@@ -231,12 +231,19 @@ export class AuthService {
 
     // Block after 5 failed attempts
     if (reset.attempts >= 5) {
-      throw new AuthError("OTP_MAX_ATTEMPTS", "Đã vượt quá số lần thử. Vui lòng yêu cầu mã mới", 429);
+      throw new AuthError(
+        "OTP_MAX_ATTEMPTS",
+        "Đã vượt quá số lần thử. Vui lòng yêu cầu mã mới",
+        429,
+      );
     }
 
     const otpHash = this.hashToken(otp);
     if (otpHash !== reset.codeHash) {
-      await prisma.passwordReset.update({ where: { id: reset.id }, data: { attempts: { increment: 1 } } });
+      await prisma.passwordReset.update({
+        where: { id: reset.id },
+        data: { attempts: { increment: 1 } },
+      });
       throw new AuthError("INVALID_OTP", "OTP không hợp lệ", 400);
     }
 
@@ -244,7 +251,10 @@ export class AuthService {
     const newResetToken = crypto.randomUUID();
     const newTokenHash = this.hashToken(newResetToken);
 
-    await prisma.passwordReset.update({ where: { id: reset.id }, data: { tokenHash: newTokenHash } });
+    await prisma.passwordReset.update({
+      where: { id: reset.id },
+      data: { tokenHash: newTokenHash },
+    });
 
     return { resetToken: newResetToken };
   }
@@ -267,8 +277,14 @@ export class AuthService {
     await prisma.$transaction([
       prisma.user.update({ where: { id: reset.userId }, data: { passwordHash } }),
       prisma.passwordReset.update({ where: { id: reset.id }, data: { usedAt: new Date() } }),
-      prisma.userSession.updateMany({ where: { userId: reset.userId, status: "ACTIVE" }, data: { status: "REVOKED", revokedAt: new Date() } }),
-      prisma.refreshToken.updateMany({ where: { userId: reset.userId, revokedAt: null }, data: { revokedAt: new Date() } }),
+      prisma.userSession.updateMany({
+        where: { userId: reset.userId, status: "ACTIVE" },
+        data: { status: "REVOKED", revokedAt: new Date() },
+      }),
+      prisma.refreshToken.updateMany({
+        where: { userId: reset.userId, revokedAt: null },
+        data: { revokedAt: new Date() },
+      }),
     ]);
   }
 

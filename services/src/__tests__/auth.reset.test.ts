@@ -163,7 +163,10 @@ describe("AuthService.verifyPasswordReset", () => {
     expect(result.resetToken.length).toBeGreaterThan(8);
     // tokenHash in DB should be updated
     expect(mockUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { id: "r1" }, data: expect.objectContaining({ tokenHash: expect.any(String) }) }),
+      expect.objectContaining({
+        where: { id: "r1" },
+        data: expect.objectContaining({ tokenHash: expect.any(String) }),
+      }),
     );
   });
 });
@@ -227,7 +230,10 @@ describe("AuthService.resetPassword", () => {
 
     // Verify each individual prisma call was made with correct args
     expect(mockUserUpdate).toHaveBeenCalledWith(
-      expect.objectContaining({ where: { id: "user-1" }, data: { passwordHash: expect.any(String) } }),
+      expect.objectContaining({
+        where: { id: "user-1" },
+        data: { passwordHash: expect.any(String) },
+      }),
     );
     expect(mockUpdate).toHaveBeenCalledWith(
       expect.objectContaining({ where: { id: "r1" }, data: { usedAt: expect.any(Date) } }),

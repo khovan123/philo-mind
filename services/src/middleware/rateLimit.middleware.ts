@@ -34,7 +34,9 @@ export async function emailRateLimit(req: Request, res: Response, next: NextFunc
         await r.expire(key, WINDOW_SECONDS);
       }
       if (attempts > MAX_ATTEMPTS) {
-        return res.status(429).json({ success: false, message: "Quá nhiều yêu cầu. Vui lòng thử lại sau." });
+        return res
+          .status(429)
+          .json({ success: false, message: "Quá nhiều yêu cầu. Vui lòng thử lại sau." });
       }
       return next();
     }
@@ -51,7 +53,9 @@ export async function emailRateLimit(req: Request, res: Response, next: NextFunc
       return next();
     }
     if (entry.count >= MAX_ATTEMPTS) {
-      return res.status(429).json({ success: false, message: "Quá nhiều yêu cầu. Vui lòng thử lại sau." });
+      return res
+        .status(429)
+        .json({ success: false, message: "Quá nhiều yêu cầu. Vui lòng thử lại sau." });
     }
     entry.count += 1;
     store.set(key, entry);

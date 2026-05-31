@@ -1,8 +1,10 @@
-// @ts-ignore
+// @ts-expect-error — nodemailer has no bundled types
 import nodemailer from "nodemailer";
 import { env } from "../config/env.js";
 
-const isConfigured = Boolean(env.SMTP_HOST && env.SMTP_PORT && env.SMTP_USER && env.SMTP_PASS && env.SMTP_FROM);
+const isConfigured = Boolean(
+  env.SMTP_HOST && env.SMTP_PORT && env.SMTP_USER && env.SMTP_PASS && env.SMTP_FROM,
+);
 
 let transporter: any = null;
 if (isConfigured) {
