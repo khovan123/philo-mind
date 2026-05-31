@@ -12,6 +12,20 @@ export class StoryController {
   async getAll(req: Request, res: Response) {
     try {
       const stories = await prisma.storyScenario.findMany({
+        include: {
+          topic: {
+            select: {
+              id: true,
+              title: true,
+              category: true,
+            },
+          },
+          choices: {
+            include: {
+              consequences: true,
+            },
+          },
+        },
         orderBy: { createdAt: "desc" },
       });
       return sendSuccess(res, stories);
