@@ -27,6 +27,7 @@ import { seedScenarios } from "./07-scenarios.js";
 import { seedDebates } from "./08-debates.js";
 import { seedCriticalQuestions } from "./09-critical-questions.js";
 import { seedBadges } from "./10-badges.js";
+import { seedTopicPerspectives } from "./11-topic-perspectives.js";
 
 async function main() {
   console.log("\n🌱 PhiloMind Seed Runner");
@@ -47,6 +48,7 @@ async function main() {
   await seedScenarios(prisma);
   await seedDebates(prisma);
   await seedCriticalQuestions(prisma);
+  await seedTopicPerspectives(prisma);
 
   // ── Phase 3: Lesson-dependent (needs Lesson records) ─────
   seedHeader("Phase 3 — Lesson-Dependent");
