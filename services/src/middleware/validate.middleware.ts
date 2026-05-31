@@ -18,10 +18,26 @@ export function validate(schema: ZodObject<ZodRawShape>) {
       });
 
       // Replace with validated (stripped) data
-      const result = parsed as Record<string, unknown>;
+      const result = parsed as Record<string, any>;
       req.body = result.body ?? req.body;
-      req.query = (result.query as typeof req.query) ?? req.query;
-      req.params = (result.params as typeof req.params) ?? req.params;
+
+      if (result.query) {
+        Object.defineProperty(req, "query", {
+          value: result.query,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+      }
+
+      if (result.params) {
+        Object.defineProperty(req, "params", {
+          value: result.params,
+          writable: true,
+          enumerable: true,
+          configurable: true,
+        });
+      }
 
       return next();
     } catch (error) {
