@@ -1,4 +1,3 @@
-
 import type { TargetType } from "../prisma/generated/enums.js";
 import { prisma } from "../config/prisma.js";
 import { ActivityLogService, ActivityType } from "./activity-log.service.js";
