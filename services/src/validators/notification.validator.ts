@@ -3,7 +3,10 @@ import { z } from "zod";
 // ── T-A15: Notification Validation Schemas ───────────────────
 
 const positiveIntegerString = z.string().regex(/^\d+$/, "Phải là số nguyên dương");
-const notificationMetadataSchema = z.record(z.string(), z.json()).nullable().optional();
+const jsonSchema: z.ZodType<unknown> = z.lazy(() =>
+  z.union([z.string(), z.number(), z.boolean(), z.null(), z.array(jsonSchema), z.record(z.string(), jsonSchema)]),
+);
+const notificationMetadataSchema = z.record(z.string(), jsonSchema).nullable().optional();
 
 export const listNotificationsSchema = z.object({
   query: z.object({
