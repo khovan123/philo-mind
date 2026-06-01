@@ -65,6 +65,11 @@ export const styles = StyleSheet.create({
     fontWeight: "900",
     textTransform: "uppercase",
   },
+  readingProgress: {
+    minHeight: 58,
+    borderColor: "rgba(255, 183, 125, 0.22)",
+    backgroundColor: Colors.card,
+  },
   progressTrack: {
     height: 5,
     borderRadius: Radius.full,

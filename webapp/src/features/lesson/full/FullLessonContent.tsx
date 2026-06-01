@@ -2,6 +2,7 @@ import { Brain, Landmark, ShieldCheck } from "lucide-react-native";
 import { Pressable, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
+import { Card } from "@/components/ui";
 
 import type { ConceptName, LessonBlock, LessonInline, LessonSection } from "./data";
 import { fullLesson } from "./data";
@@ -25,7 +26,7 @@ export function FullLessonContent({ onConceptPress }: FullLessonContentProps) {
         <LessonSectionView key={section.id} section={section} onConceptPress={onConceptPress} />
       ))}
 
-      <View style={styles.conceptPanel}>
+      <Card style={styles.conceptPanel}>
         <ThemedText style={styles.panelLabel}>Core Concepts to Master</ThemedText>
         <View style={styles.conceptGrid}>
           {fullLesson.coreConcepts.map((concept) => {
@@ -44,7 +45,7 @@ export function FullLessonContent({ onConceptPress }: FullLessonContentProps) {
             );
           })}
         </View>
-      </View>
+      </Card>
 
       {fullLesson.sections.slice(1).map((section) => (
         <LessonSectionView key={section.id} section={section} onConceptPress={onConceptPress} />
