@@ -39,8 +39,7 @@
     "react-native-worklets": "0.8.3",
     "react-redux": "^9.3.0",
     "redux-persist": "^6.0.0",
-    "tailwind-merge": "^3.3.0",
-    "zustand": "^5.0.14"
+    "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.0",
