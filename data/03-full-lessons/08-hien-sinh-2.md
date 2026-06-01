@@ -3,6 +3,7 @@ chủ_đề: Chủ nghĩa Hiện sinh
 tiêu_đề: Huyền thoại Sisyphus và Sự phi lý
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Bạn thức dậy, đi làm, ăn trưa, đi làm, về nhà, ăn tối, đi ngủ... chuỗi ngày lặp lại đến lúc chết. Albert Camus, một nhà tư tưởng lớn của Chủ nghĩa Hiện sinh, đã ví cuộc đời con người với **Huyền thoại Sisyphus** trong thần thoại Hy Lạp. Sisyphus bị thần linh trừng phạt phải lăn một tảng đá lớn lên đỉnh núi, chỉ để nhìn nó lăn xuống lại, và ông phải làm việc đó mãi mãi trong vô vọng.

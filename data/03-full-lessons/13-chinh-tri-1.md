@@ -3,6 +3,7 @@ chủ_đề: Triết học chính trị
 tiêu_đề: Nhà nước Leviathan
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Tại sao chúng ta phải đóng thuế, tuân thủ pháp luật, và chấp nhận sự quản lý của công an, tòa án? Tại sao không xóa bỏ chính phủ để tận hưởng tự do tuyệt đối?

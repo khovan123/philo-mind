@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #47 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Main Screens |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @anhthungye |
-| Estimate | 5h |
-| Milestone | Week 3 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #47               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Main Screens    |
+| Loại việc         | frontend          |
+| Priority          | medium            |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @anhthungye       |
+| Estimate          | 5h                |
+| Milestone         | Week 3            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/(tabs)/home` từ tab/card/link phù hợp | Render màn hình chính của Home screen (daily hook + continue learning + stats) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                              | Kết quả bắt buộc                                                               |
+| ------------ | ------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Mở màn hình  | User vào `/(tabs)/home` từ tab/card/link phù hợp | Render màn hình chính của Home screen (daily hook + continue learning + stats) |
+| Action chính | Bấm CTA/item chính                               | Thực hiện submit/navigate/update state theo domain                             |
 
 ## 4. Flow tích hợp
 

@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #108 |
-| Track | H: Missing Features |
-| Nhóm | H-MultiPerspective |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 4h |
-| Milestone | Week 5 |
-| Dependencies | `T-H01` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #108                |
+| Track             | H: Missing Features |
+| Nhóm              | H-MultiPerspective  |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Fullstack Dev       |
+| Assignee hiện tại | @Ngoclee123         |
+| Estimate          | 4h                  |
+| Milestone         | Week 5              |
+| Dependencies      | `T-H01`             |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Multi-perspective viewer screen (tabs/swipe per perspective) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                   | Kết quả bắt buộc                                                                       |
+| ------------ | ------------------------------------- | -------------------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Multi-perspective viewer screen (tabs/swipe per perspective) |
+| Action chính | Bấm CTA/item chính                    | Thực hiện submit/navigate/update state theo domain                                     |
 
 ## 4. Flow tích hợp
 

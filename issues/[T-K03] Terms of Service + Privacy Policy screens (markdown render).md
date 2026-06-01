@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #126 |
-| Track | K: Admin & Settings |
-| Nhóm | All |
-| Loại việc | frontend |
-| Priority | low |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @NguyenDat204 |
-| Estimate | 1h |
-| Milestone | Week 7 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #126                |
+| Track             | K: Admin & Settings |
+| Nhóm              | All                 |
+| Loại việc         | frontend            |
+| Priority          | low                 |
+| Owner gợi ý       | Frontend Dev        |
+| Assignee hiện tại | @NguyenDat204       |
+| Estimate          | 1h                  |
+| Milestone         | Week 7              |
+| Dependencies      | `T-B02`             |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/settings/legal` từ tab/card/link phù hợp | Render màn hình chính của Terms of Service + Privacy Policy screens (markdown render) |
-| Mở legal page | Profile/Settings -> bấm Terms hoặc Privacy | Render markdown legal content |
-| Mở link | Bấm href nội bộ/ngoài | Nội bộ điều hướng trong app, link ngoài mở browser |
-
+| Tình huống    | Người dùng thao tác                                 | Kết quả bắt buộc                                                                      |
+| ------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/settings/legal` từ tab/card/link phù hợp | Render màn hình chính của Terms of Service + Privacy Policy screens (markdown render) |
+| Mở legal page | Profile/Settings -> bấm Terms hoặc Privacy          | Render markdown legal content                                                         |
+| Mở link       | Bấm href nội bộ/ngoài                               | Nội bộ điều hướng trong app, link ngoài mở browser                                    |
 
 ## 4. Flow tích hợp
 

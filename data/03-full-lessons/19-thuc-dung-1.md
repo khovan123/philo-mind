@@ -3,6 +3,7 @@ chủ_đề: Chủ nghĩa Thực dụng
 tiêu_đề: Trolley Problem và Chủ nghĩa Vị lợi
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Bạn đang đứng cạnh một cần gạt trên đường ray xe lửa. Một chiếc xe goòng mất phanh đang lao về phía 5 người công nhân bị trói trên đường ray chính. Nếu không làm gì, 5 người sẽ chết. Nếu bạn kéo cần gạt, xe sẽ chuyển hướng sang đường ray phụ, nơi chỉ có 1 người bị trói. Bạn có kéo cần gạt để cứu 5 người và giết 1 người không?

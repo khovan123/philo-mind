@@ -3,11 +3,12 @@ chủ_đề: Triết học phương Đông
 tiêu_đề: Đạo giáo và lý tưởng Vô Vi
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Trong nhịp sống hiện đại hối hả, chúng ta thường được dạy rằng: phải nỗ lực không ngừng, phải đấu tranh và kiểm soát mọi thứ. Nhưng hàng ngàn năm trước, triết gia Lão Tử lại nói: "Đạo thường không làm gì, mà không gì là không làm" (**Đạo thường vô vi nhi vô bất vi**). Tư tưởng cốt lõi của **Đạo giáo** chính là **Vô Vi**.
 
-Nhiều người hiểu nhầm Vô Vi là lười biếng, mặc kệ sự đời. Thực chất, **Vô Vi** là hành động thuận theo tự nhiên, không cưỡng ép, không làm trái quy luật. Giống như nước, mềm mại và uyển chuyển, luôn tìm chỗ thấp mà chảy, nhưng lại có sức mạnh bào mòn cả đá cứng. Nước không cố gắng phá vỡ chướng ngại vật, nó chảy vòng qua. 
+Nhiều người hiểu nhầm Vô Vi là lười biếng, mặc kệ sự đời. Thực chất, **Vô Vi** là hành động thuận theo tự nhiên, không cưỡng ép, không làm trái quy luật. Giống như nước, mềm mại và uyển chuyển, luôn tìm chỗ thấp mà chảy, nhưng lại có sức mạnh bào mòn cả đá cứng. Nước không cố gắng phá vỡ chướng ngại vật, nó chảy vòng qua.
 
 Trong tư tưởng của Trang Tử – người kế thừa xuất sắc của Lão Tử, con người đau khổ vì họ tự tạo ra các khái niệm phân biệt: đúng/sai, đẹp/xấu, giàu/nghèo, và khao khát ép buộc thế giới vận hành theo ý chí chủ quan của mình. Sự can thiệp gượng ép đó phá vỡ sự cân bằng tự nhiên, gọi là **Hữu Vi**. Khi bạn học cách "hòa quang đồng trần" (hòa ánh sáng vào bụi bặm), tức là sống hòa hợp với mọi hoàn cảnh mà không đánh mất bản tính tự nhiên, bạn đạt đến sự tự do tuyệt đối.
 

@@ -3,11 +3,12 @@ chủ_đề: Triết học chính trị
 tiêu_đề: Bức màn vô minh
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Khi thiết kế một luật thuế hay chính sách y tế mới, người giàu thường muốn giảm thuế, người nghèo muốn tăng thuế người giàu để trợ cấp. Mỗi người đều bị chi phối bởi vị thế xã hội, tài sản, sức khỏe của chính mình, khiến cho khái niệm "công bằng" trở nên méo mó. Làm sao để thiết kế một xã hội thực sự công bằng?
 
-Triết gia chính trị thế kỷ 20 John Rawls đưa ra một thí nghiệm tư tưởng thiên tài: **Bức màn vô minh** (The Veil of Ignorance). 
+Triết gia chính trị thế kỷ 20 John Rawls đưa ra một thí nghiệm tư tưởng thiên tài: **Bức màn vô minh** (The Veil of Ignorance).
 
 Hãy tưởng tượng bạn cùng những người khác ngồi lại để lập ra luật lệ cho xã hội mới, nhưng tất cả đều bị che bởi một "bức màn vô minh". Đằng sau bức màn này, **không ai biết mình sẽ sinh ra là ai**. Bạn không biết mình sẽ là nam hay nữ, da trắng hay da đen, tỷ phú hay ăn mày, IQ 150 hay bị thiểu năng, sinh ra ở Mỹ hay ở châu Phi.
 

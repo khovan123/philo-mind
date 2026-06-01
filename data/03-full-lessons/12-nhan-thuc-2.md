@@ -3,6 +3,7 @@ chủ_đề: Nhận thức luận
 tiêu_đề: Chủ nghĩa Kinh nghiệm và Thuyết Quy nạp
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Ngược lại với Descartes (Chủ nghĩa duy lý - tin rằng tri thức sinh ra từ lý trí bẩm sinh), các nhà **Chủ nghĩa Kinh nghiệm** (như John Locke, David Hume) cho rằng tâm trí con người khi sinh ra là một tờ giấy trắng (Tabula Rasa). Mọi tri thức của chúng ta đều đến từ **kinh nghiệm giác quan**. Bạn biết lửa thì nóng vì bạn đã từng bị bỏng hoặc thấy người khác bị.

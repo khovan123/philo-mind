@@ -28,6 +28,7 @@ import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { storyService } from "@/services/story.service";
 import { useReflectionStore } from "@/stores/reflection.store";
+import { useStoryStore } from "@/stores/story.store";
 import type { CriticalQuestion, ReflectionEntry } from "@/types/reflection";
 import type { StorySummary } from "@/types/story";
 
@@ -82,7 +83,18 @@ export default function StoryReflectScreen() {
     createReflection,
   } = useReflectionStore();
 
+  const { activeSession, completingSession, completeActiveSession } = useStoryStore();
+
   const [story, setStory] = useState<StorySummary | null>(null);
+
+  async function handleCompleteStory() {
+    try {
+      await completeActiveSession();
+      router.replace("/story" as never);
+    } catch {
+      // Handled in store
+    }
+  }
   const [storyLoading, setStoryLoading] = useState(true);
   const [storyError, setStoryError] = useState<string | undefined>();
   const [content, setContent] = useState("");
@@ -256,6 +268,16 @@ export default function StoryReflectScreen() {
             </>
           )}
         </ScrollView>
+        {activeSession && (
+          <View style={[styles.completeFooter, { borderTopColor: theme.border }]}>
+            <Button
+              title="Hoàn thành kịch bản"
+              loading={completingSession}
+              onPress={handleCompleteStory}
+              style={{ flex: 1, backgroundColor: theme.primary }}
+            />
+          </View>
+        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
@@ -747,5 +769,11 @@ const styles = StyleSheet.create({
   },
   centerText: {
     textAlign: "center",
+  },
+  completeFooter: {
+    borderTopWidth: 1,
+    padding: Spacing.three,
+    flexDirection: "row",
+    alignItems: "center",
   },
 });

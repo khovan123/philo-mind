@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #80 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 3h |
-| Milestone | Week 7 |
-| Dependencies | `T-D07` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #80                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 3h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-D07`              |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Step 7: REFLECT screen (journal + completion) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                     | Kết quả bắt buộc                                                        |
+| ------------ | ------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Step 7: REFLECT screen (journal + completion) |
+| Action chính | Bấm CTA/item chính                                      | Thực hiện submit/navigate/update state theo domain                      |
 
 ## 4. Flow tích hợp
 
