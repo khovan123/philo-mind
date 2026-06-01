@@ -93,6 +93,95 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## 11. UI Specification — "Dark Scholar" Design System
+
+> **Stitch Screen**: `098adda59fee4f7fb6c3b617a5765045` — "Nhân vật AI"
+> **Project**: `16360193101983963529` | **Design System**: `PhiloMind Dark Scholar`
+
+### 11.1 Screen Layout (Mobile 390px)
+
+```
+┌─────────────────────────────────────┐
+│ ← Nhân vật AI                  🔍  │  TopAppBar
+├─────────────────────────────────────┤
+│ [Tất cả] [Cổ đại] [Trung cổ] ...  │  Filter Chips (horizontal scroll)
+├─────────────────────────────────────┤
+│ ┌────────┐  ┌────────┐             │
+│ │Socrates│  │Khổng Tử│             │  2-column grid
+│ │ Cổ đại │  │Phương Đ│             │
+│ └────────┘  └────────┘             │
+│ ┌────────┐  ┌────────┐             │
+│ │Nietzsche│ │Aristotle│            │
+│ └────────┘  └────────┘             │
+│ ┌────────┐  ┌────────┐             │
+│ │ Lão Tử │  │  Kant  │             │
+│ └────────┘  └────────┘             │
+├─────────────────────────────────────┤
+│ Cuộc trò chuyện gần đây            │  Section header
+│ ○ Socrates · "Về đạo đức..." · 2h  │
+│ ─────────────────────────────────── │  1px #27272A divider
+│ ○ Khổng Tử · "Nhân nghĩa..."· 1d   │
+│ ─────────────────────────────────── │
+│ ○ Nietzsche · "Ý chí quyền..."· 3d │
+├─────────────────────────────────────┤
+│ 🏠  🔍  📜  💬  👤               │  BottomNavBar (AI Chat = active)
+└─────────────────────────────────────┘
+```
+
+### 11.2 Design Tokens
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `background` | `#0C0C0E` | Screen background |
+| `surface` | `#18181B` | Card backgrounds, nav bars |
+| `border` | `#27272A` | Card borders, dividers |
+| `text-primary` | `#E4E4E7` | Names, headings |
+| `text-secondary` | `#A1A1AA` | Bios, timestamps, metadata |
+| `accent` | `#D97706` | Active chip border, active tab icon |
+| `heading-font` | `Outfit` | Card names, section titles |
+| `body-font` | `Be Vietnam Pro` | Bios, list text, timestamps |
+| `card-radius` | `0.5rem (8px)` | Character cards |
+| `button-radius` | `0.25rem (4px)` | Chips, buttons |
+
+### 11.3 Component Specifications
+
+#### Character Card
+- **Background**: `#18181B`
+- **Border**: `1px solid #27272A`
+- **Radius**: `0.5rem`
+- **Avatar**: Circle with initials, 48px, amber `#D97706` ring on hover/active
+- **Name**: Outfit 16px semibold `#E4E4E7`
+- **Era Tag**: Chip — `#27272A` bg, `#A1A1AA` text, 12px Be Vietnam Pro
+- **Bio**: Be Vietnam Pro 13px `#A1A1AA`, max 2 lines, ellipsis overflow
+- **Touch Feedback**: Background shifts to `#27272A` (no shadow, no elevation)
+
+#### Filter Chips
+- **Default**: `#27272A` bg, `#A1A1AA` text, `0.25rem` radius
+- **Active**: `1px #D97706` border, `#D97706` text
+- **Font**: Be Vietnam Pro 13px
+- **Horizontal scroll**: No wrap, gap `8px`
+
+#### Recent Sessions List
+- **Row**: Avatar circle (32px) + Name (Outfit 14px) + Message preview (Be Vietnam Pro 13px `#A1A1AA`) + Timestamp
+- **Divider**: `1px solid #27272A`
+- **Touch**: Row bg shifts to `#27272A`
+
+### 11.4 Interaction States
+
+| State | Visual |
+|-------|--------|
+| Loading | Skeleton cards: `#18181B` shimmer blocks |
+| Empty | Centered icon + "Chưa có nhân vật nào" text |
+| Error | Error card with `#ffb4ab` text + retry button |
+| Success | Full grid + session list rendered |
+
+### 11.5 Design Rules (MANDATORY)
+- ❌ **NO** gradients, glows, or shadows
+- ❌ **NO** elevation/box-shadow
+- ✅ Use **tonal depth** (`#0C0C0E` → `#18181B` → `#27272A`) for layering
+- ✅ Use **1px borders** for element separation
+- ✅ Touch feedback via **color shift only**
+
 ## Frontend State And Data Requirement
 
 - Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.

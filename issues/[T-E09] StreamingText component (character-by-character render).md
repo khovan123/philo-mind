@@ -91,7 +91,51 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ---
 
-_Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
+_Updated by BMAD PM requirements pass on 2026-05-31._
+
+## 11. UI Specification — "Dark Scholar"
+
+> **Stitch Screens**: `3c789f742f344aa28568ec82844c61bf`, `0b2877f7c19f43a19e58085b799036a7`
+> **Project**: `16360193101983963529` | **Design System**: `PhiloMind Dark Scholar`
+
+### 11.1 Streaming Phases
+
+| Phase | Visual | Cursor |
+|-------|--------|--------|
+| Start | Empty bubble `#18181B`, `1px #27272A` border | Blinking `▌` amber `#D97706` |
+| Mid-stream | Text appearing char-by-char, Be Vietnam Pro 15px `#E4E4E7` | `▌` follows last char |
+| Complete | Full text, no cursor. `✓ Đã hoàn tất` indicator `#D97706` 12px | Fades out 200ms |
+
+### 11.2 Animation CSS
+
+```css
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0 } }
+.streaming-cursor { animation: blink 1s step-end infinite; color: #D97706; }
+.streaming-cursor--done { animation:none; transition: opacity 200ms; opacity:0; }
+```
+
+### 11.3 Speed Config
+
+| Speed | ms/char | Use |
+|-------|---------|-----|
+| Fast | 30 | Short responses |
+| Standard | 50 | Default reading |
+| Slow | 80 | Key insights |
+
+### 11.4 Props Interface
+
+```typescript
+interface StreamingTextProps {
+  text: string;
+  speed?: 30 | 50 | 80;
+  isStreaming: boolean;
+  onComplete?: () => void;
+  cursor?: string; // default '▌'
+}
+```
+
+### 11.5 Design Rules
+- ❌ NO gradients/shadows. ✅ `step-end` blink. ✅ Single Text node render. ✅ `#D97706` cursor always.
 
 ## Frontend State And Data Requirement
 
