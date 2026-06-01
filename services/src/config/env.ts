@@ -30,6 +30,7 @@ const envSchema = z
 
     // ─── AI / Gemini ───────────────────────────────────────────
     GEMINI_API_KEY: z.string().optional(),
+    AI_RATE_LIMIT_PER_MIN: z.coerce.number().default(10),
 
     // ─── Storage (Cloudinary / S3) ─────────────────────────────
     CLOUDINARY_CLOUD_NAME: z.string().optional(),
