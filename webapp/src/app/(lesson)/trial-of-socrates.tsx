@@ -3,15 +3,15 @@ import { useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { characters, decisions, steps } from "./full_lesson/trial/data";
-import { LessonTopBar } from "./full_lesson/trial/LessonTopBar";
-import { CharacterSelection } from "./full_lesson/trial/steps/CharacterSelection";
-import { ConsequenceResult } from "./full_lesson/trial/steps/ConsequenceResult";
-import { DecisionSelection } from "./full_lesson/trial/steps/DecisionSelection";
-import { LessonExplanation } from "./full_lesson/trial/steps/LessonExplanation";
-import { RoleplaySituation } from "./full_lesson/trial/steps/RoleplaySituation";
-import { ScenarioContext } from "./full_lesson/trial/steps/ScenarioContext";
-import { styles } from "./full_lesson/trial/ui";
+import { characters, decisions, steps } from "./story/trial/data";
+import { LessonTopBar } from "./story/trial/LessonTopBar";
+import { CharacterSelection } from "./story/trial/steps/CharacterSelection";
+import { ConsequenceResult } from "./story/trial/steps/ConsequenceResult";
+import { DecisionSelection } from "./story/trial/steps/DecisionSelection";
+import { LessonExplanation } from "./story/trial/steps/LessonExplanation";
+import { RoleplaySituation } from "./story/trial/steps/RoleplaySituation";
+import { ScenarioContext } from "./story/trial/steps/ScenarioContext";
+import { styles } from "./story/trial/ui";
 
 export default function TrialOfSocratesScreen() {
   const router = useRouter();

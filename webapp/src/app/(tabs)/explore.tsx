@@ -37,7 +37,8 @@ const featuredLessons = [
     description:
       "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
     image: featuredImage,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
@@ -47,7 +48,8 @@ const featuredLessons = [
     description:
       "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
     image: featuredImage,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
@@ -56,7 +58,8 @@ const featuredLessons = [
     duration: "8 phút",
     description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
     image: null,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
 ];
@@ -225,6 +228,14 @@ export default function ExploreScreen() {
                       >
                         <BookOpen color={Colors.primaryLight} size={16} />
                         <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                      </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.scenarioRoute)}
+                        style={({ pressed }) => [styles.scenarioButton, pressed && styles.pressed]}
+                      >
+                        <Sparkles color={Colors.primaryLight} size={16} />
+                        <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
                       </Pressable>
                     </View>
                   </Pressable>
@@ -478,6 +489,23 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   fullLessonButtonText: {
+    color: Colors.primaryLight,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "900",
+  },
+  scenarioButton: {
+    minHeight: 42,
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: Colors.chip,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.two,
+    backgroundColor: Colors.input,
+  },
+  scenarioButtonText: {
     color: Colors.primaryLight,
     fontSize: 14,
     lineHeight: 18,
