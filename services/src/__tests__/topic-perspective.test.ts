@@ -2,6 +2,7 @@ import {
   createTopicPerspectiveSchema,
   updateTopicPerspectiveSchema,
 } from "../validators/topic-perspective.validator.js";
+import { PERSPECTIVE_TYPES, TOPIC_PERSPECTIVES } from "../seed/data/topic-perspectives.js";
 
 // ── T-H01: TopicPerspective Validator Tests ────────────────────
 
@@ -89,5 +90,35 @@ describe("updateTopicPerspectiveSchema", () => {
       body: {},
     });
     expect(result.success).toBe(false);
+  });
+});
+
+describe("TOPIC_PERSPECTIVES seed data (T-C12)", () => {
+  it("defines all five perspective types for acceptance criteria", () => {
+    expect(PERSPECTIVE_TYPES).toEqual(["TECH", "ETHICAL", "ECONOMIC", "SOCIAL", "PHILOSOPHICAL"]);
+  });
+
+  it("provides non-empty content for every perspective entry", () => {
+    for (const topic of TOPIC_PERSPECTIVES) {
+      expect(topic.perspectives).toHaveLength(5);
+      for (const perspective of topic.perspectives) {
+        expect(PERSPECTIVE_TYPES).toContain(perspective.perspectiveType);
+        expect(perspective.content.trim().length).toBeGreaterThan(20);
+      }
+    }
+  });
+
+  it("uses unique topic titles in seed source", () => {
+    const titles = TOPIC_PERSPECTIVES.map((topic) => topic.topicTitle);
+    expect(new Set(titles).size).toBe(titles.length);
+  });
+
+  it("covers 10 topics with 50 perspective records total", () => {
+    expect(TOPIC_PERSPECTIVES).toHaveLength(10);
+    const totalPerspectives = TOPIC_PERSPECTIVES.reduce(
+      (count, topic) => count + topic.perspectives.length,
+      0,
+    );
+    expect(totalPerspectives).toBe(50);
   });
 });
