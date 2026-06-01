@@ -14,7 +14,6 @@ import { statsRouter } from "./stats.routes.js";
 import { aiRouter } from "./ai.routes.js";
 import { aiCharacterRouter } from "./ai-character.route.js";
 
-
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
 import { analysisTabRouter } from "./analysis-tab.routes.js";

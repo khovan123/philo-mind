@@ -3,7 +3,6 @@ import { aiService, AiError } from "../services/ai.service.js";
 import { sendSuccess, sendError } from "../utils/response.js";
 
 export class AiController {
-
   async generate(req: Request, res: Response, next: NextFunction) {
     try {
       const { prompt } = req.body;

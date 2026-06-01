@@ -28,11 +28,7 @@ export class AiCharacterService {
     });
 
     if (!character) {
-      throw new AiCharacterError(
-        "CHARACTER_NOT_FOUND",
-        "AI Character not found",
-        404,
-      );
+      throw new AiCharacterError("CHARACTER_NOT_FOUND", "AI Character not found", 404);
     }
 
     return {
@@ -59,11 +55,7 @@ export class AiCharacterService {
     });
 
     if (existing) {
-      throw new AiCharacterError(
-        "CHARACTER_ALREADY_EXISTS",
-        "Character already exists",
-        409,
-      );
+      throw new AiCharacterError("CHARACTER_ALREADY_EXISTS", "Character already exists", 409);
     }
 
     return prisma.aiCharacter.create({
