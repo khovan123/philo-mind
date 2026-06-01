@@ -149,5 +149,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #73 for `T-D07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#073-T-D07-Story service + Zustand store.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #73 for `T-D07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#073-T-D07-Story service + Zustand store.md`.
 

@@ -149,5 +149,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #72 for `T-D06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T15:27:13Z. Local log: `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #72 for `T-D06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T15:27:13Z. Local log: `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md`.
 

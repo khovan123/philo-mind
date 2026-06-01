@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#105](https://github.com/khovan123/philo-mind/issues/105)
-- State: open
+- State: closed
 - Track: G - Polish & Gamification
 - Type: frontend
 - Updated at: 2026-05-31T15:54:19Z
@@ -143,5 +143,5 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #105 for `T-G05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#105-T-G05-Bookmark system (button + list screen).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #105 for `T-G05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:21:46Z. Local log: `issues/by-github-id/#105-T-G05-Bookmark system (button + list screen).md`.
 

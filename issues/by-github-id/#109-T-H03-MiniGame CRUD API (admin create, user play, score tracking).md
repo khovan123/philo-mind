@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#109](https://github.com/khovan123/philo-mind/issues/109)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: backend
 - Updated at: 2026-05-31T15:54:23Z
@@ -146,5 +146,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #109 for `T-H03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #109 for `T-H03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T17:55:58Z. Local log: `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md`.
 

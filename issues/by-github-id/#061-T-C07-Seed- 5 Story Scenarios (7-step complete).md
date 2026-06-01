@@ -135,5 +135,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #61 for `T-C07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (7-step complete).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #61 for `T-C07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (7-step complete).md`.
 

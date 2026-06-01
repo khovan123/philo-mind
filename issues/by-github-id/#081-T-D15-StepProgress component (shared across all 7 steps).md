@@ -143,5 +143,5 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #81 for `T-D15`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#081-T-D15-StepProgress component (shared across all 7 steps).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #81 for `T-D15`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#081-T-D15-StepProgress component (shared across all 7 steps).md`.
 

@@ -144,5 +144,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #47 for `T-B09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #47 for `T-B09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md`.
 

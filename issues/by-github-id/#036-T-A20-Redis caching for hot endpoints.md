@@ -90,5 +90,5 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #36 for `T-A20`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:01:54Z. Local log: `issues/by-github-id/#036-T-A20-Redis caching for hot endpoints.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #36 for `T-A20`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:01:54Z. Local log: `issues/by-github-id/#036-T-A20-Redis caching for hot endpoints.md`.
 

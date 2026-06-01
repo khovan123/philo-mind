@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#111](https://github.com/khovan123/philo-mind/issues/111)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: frontend
 - Updated at: 2026-05-31T15:54:24Z
@@ -149,5 +149,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #111 for `T-H05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#111-T-H05-MiniGame result + leaderboard component.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #111 for `T-H05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:39:12Z. Local log: `issues/by-github-id/#111-T-H05-MiniGame result + leaderboard component.md`.
 

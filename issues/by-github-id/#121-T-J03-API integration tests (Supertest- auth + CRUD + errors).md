@@ -132,5 +132,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #121 for `T-J03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#121-T-J03-API integration tests (Supertest- auth + CRUD + errors).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #121 for `T-J03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#121-T-J03-API integration tests (Supertest- auth + CRUD + errors).md`.
 

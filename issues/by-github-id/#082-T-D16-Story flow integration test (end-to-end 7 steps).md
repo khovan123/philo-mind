@@ -134,5 +134,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #82 for `T-D16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 7 steps).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #82 for `T-D16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 7 steps).md`.
 

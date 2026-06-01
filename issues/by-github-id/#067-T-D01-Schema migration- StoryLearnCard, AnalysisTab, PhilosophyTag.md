@@ -97,5 +97,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #67 for `T-D01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T09:51:43Z. Local log: `issues/by-github-id/#067-T-D01-Schema migration- StoryLearnCard, AnalysisTab, PhilosophyTag.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #67 for `T-D01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T09:51:43Z. Local log: `issues/by-github-id/#067-T-D01-Schema migration- StoryLearnCard, AnalysisTab, PhilosophyTag.md`.
 

@@ -88,5 +88,5 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #37 for `T-A21`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T15:53:12Z. Local log: `issues/by-github-id/#037-T-A21-API response compression (gzip).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #37 for `T-A21`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T15:53:12Z. Local log: `issues/by-github-id/#037-T-A21-API response compression (gzip).md`.
 

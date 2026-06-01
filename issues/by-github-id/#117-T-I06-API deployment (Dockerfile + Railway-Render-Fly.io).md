@@ -91,5 +91,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #117 for `T-I06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:23:45Z. Local log: `issues/by-github-id/#117-T-I06-API deployment (Dockerfile + Railway-Render-Fly.io).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #117 for `T-I06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:23:45Z. Local log: `issues/by-github-id/#117-T-I06-API deployment (Dockerfile + Railway-Render-Fly.io).md`.
 

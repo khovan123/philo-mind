@@ -131,5 +131,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #65 for `T-C11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#065-T-C11-Seed- 5 MiniGames (matching, guess-who, logic).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #65 for `T-C11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#065-T-C11-Seed- 5 MiniGames (matching, guess-who, logic).md`.
 

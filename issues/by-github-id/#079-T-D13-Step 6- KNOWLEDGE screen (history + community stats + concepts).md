@@ -149,5 +149,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #79 for `T-D13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#079-T-D13-Step 6- KNOWLEDGE screen (history + community stats + concepts).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #79 for `T-D13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#079-T-D13-Step 6- KNOWLEDGE screen (history + community stats + concepts).md`.
 
