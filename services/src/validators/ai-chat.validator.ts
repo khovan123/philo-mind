@@ -28,3 +28,12 @@ export const sendChatMessageSchema = z.object({
     message: z.string().min(1).max(5000),
   }),
 });
+
+export const streamChatMessageSchema = z.object({
+  params: z.object({
+    id: z.string().uuid(),
+  }),
+  body: z.object({
+    message: z.string().min(1).max(5000),
+  }),
+});

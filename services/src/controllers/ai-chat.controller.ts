@@ -102,6 +102,46 @@ export class AiChatController {
       return next(error);
     }
   }
+
+  async stream(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req.user?.id;
+      const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      const message = Array.isArray(req.body.message)
+        ? req.body.message[0]
+        : req.body.message;
+
+      if (!userId) {
+        return sendError(res, "UNAUTHORIZED", "Chưa xác thực", 401);
+      }
+
+      res.setHeader("Content-Type", "text/event-stream");
+      res.setHeader("Cache-Control", "no-cache");
+      res.setHeader("Connection", "keep-alive");
+      res.setHeader("Access-Control-Allow-Origin", "*");
+
+      for await (const chunk of aiChatService.streamMessage(userId, id, message)) {
+        res.write(`data: ${JSON.stringify({ text: chunk })}
+
+`);
+      }
+
+      res.write(`data: ${JSON.stringify({ done: true })}
+
+`);
+      res.end();
+    } catch (error) {
+      if (error instanceof AiChatError) {
+        res.write(`data: ${JSON.stringify({ error: { code: error.code, message: error.message } })}
+
+`);
+        res.end();
+        return;
+      }
+
+      return next(error);
+    }
+  }
 }
 
 export const aiChatController = new AiChatController();

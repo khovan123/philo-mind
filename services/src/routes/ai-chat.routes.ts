@@ -6,6 +6,7 @@ import {
   createChatSessionSchema,
   listChatSessionsSchema,
   sendChatMessageSchema,
+  streamChatMessageSchema,
   sessionIdSchema,
 } from "../validators/ai-chat.validator.js";
 
@@ -35,6 +36,12 @@ aiChatRouter.post(
   "/sessions/:id/messages",
   validate(sendChatMessageSchema),
   (req, res, next) => aiChatController.sendMessage(req, res, next),
+);
+
+aiChatRouter.post(
+  "/sessions/:id/stream",
+  validate(streamChatMessageSchema),
+  (req, res, next) => aiChatController.stream(req, res, next),
 );
 
 export default aiChatRouter;

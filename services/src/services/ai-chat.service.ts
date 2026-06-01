@@ -229,6 +229,79 @@ export class AiChatService {
       );
     }
   }
+
+  async *streamMessage(
+    userId: string,
+    sessionId: string,
+    message: string,
+  ): AsyncGenerator<string> {
+    const session = await prisma.aiChatSession.findUnique({
+      where: { id: sessionId, userId },
+      include: {
+        character: true,
+      },
+    });
+
+    if (!session) {
+      throw new AiChatError(
+        "SESSION_NOT_FOUND",
+        "Phiên trò chuyện không tồn tại",
+        404,
+      );
+    }
+
+    const chatHistory = await prisma.aiChatMessage.findMany({
+      where: { sessionId },
+      orderBy: { createdAt: "desc" },
+      take: MAX_CHAT_HISTORY,
+    });
+
+    const context = chatHistory
+      .reverse()
+      .map((item) => ({
+        senderType: item.senderType as "USER" | "AI",
+        message: item.message,
+      }));
+
+    const userMessage = await prisma.aiChatMessage.create({
+      data: {
+        sessionId,
+        senderType: "USER",
+        message,
+      },
+    });
+
+    const prompt = buildChatPrompt(session.character, context, message);
+    let assistantText = "";
+
+    try {
+      for await (const chunk of aiService.stream(prompt)) {
+        assistantText += chunk;
+        yield chunk;
+      }
+
+      await prisma.aiChatMessage.create({
+        data: {
+          sessionId,
+          senderType: "AI",
+          message: assistantText,
+          metadata: {
+            model: "gemini-2.5-flash",
+          },
+        },
+      });
+    } catch (error: unknown) {
+      if (error instanceof AiError) {
+        throw error;
+      }
+
+      throw new AiChatError(
+        "STREAM_GENERATION_FAILED",
+        error instanceof Error ? error.message : "Lỗi khi stream phản hồi AI",
+        502,
+      );
+    }
+  }
 }
 
 export const aiChatService = new AiChatService();
