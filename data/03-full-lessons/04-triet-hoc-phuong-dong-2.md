@@ -3,6 +3,7 @@ chủ_đề: Triết học phương Đông
 tiêu_đề: Phật giáo và Khái niệm Vô ngã
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Khi bạn nhìn vào gương và tự hỏi "Tôi là ai?", bạn thường liệt kê tên, tuổi, nghề nghiệp, ký ức và tính cách. Nhưng **Phật giáo** lại đưa ra một quan điểm gây sốc: Cốt lõi của mọi đau khổ đến từ việc bạn tin rằng có một cái "Tôi" (ngã) độc lập, thường hằng và bất biến. Đây là khái niệm **Vô ngã** (Anatta).

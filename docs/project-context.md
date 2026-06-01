@@ -155,8 +155,8 @@ philo-mind/
 | Routing | Expo Router 5.x | File-based routes |
 | Styling | NativeWind 5 | Tailwind-style RN styling |
 | Animation | Reanimated 4 | Micro-interactions |
-| State | Zustand | Feature stores |
-| HTTP | Axios | API client + interceptors |
+| State | Redux Toolkit + Redux Persist | Feature slices + persisted auth/session state |
+| HTTP | RTK Query | RTK Query baseQuery + cache tags + reauth |
 
 ### Shared
 
@@ -234,7 +234,7 @@ Schema duoc dat tai `services/src/prisma/schema.prisma`. Core domain gom auth/pr
 ### Coding Conventions
 
 - Backend: Controller -> Service -> Repository/helper pattern when domain complexity requires it.
-- Frontend: route-driven screens with reusable `components/ui`, feature services and Zustand stores.
+- Frontend: route-driven screens with reusable `components/ui`, feature services and Redux Toolkit slices.
 - Naming: camelCase cho variables/functions, PascalCase cho types/components.
 - API: RESTful, `/api/v1` prefix, response shape `{ success, data, meta? }` or `{ success: false, error }`.
 - Errors: validation/auth/not-found/conflict errors must be explicit and testable.

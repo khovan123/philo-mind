@@ -18,18 +18,18 @@ Của cải vật chất được tạo ra với quy mô khổng lồ. Nhưng ai
 
 Cách mạng công nghiệp tạo ra hai giai cấp mới, đứng ở hai cực đối lập:
 
-- **Giai cấp tư sản** (*bourgeoisie*): chủ sở hữu nhà máy, máy móc, nguyên liệu — tức là **tư liệu sản xuất**. Họ mua sức lao động của công nhân với giá rẻ mạt và bán hàng hóa với giá thị trường, thu về **giá trị thặng dư** — nguồn gốc của lợi nhuận tư bản.
+- **Giai cấp tư sản** (_bourgeoisie_): chủ sở hữu nhà máy, máy móc, nguyên liệu — tức là **tư liệu sản xuất**. Họ mua sức lao động của công nhân với giá rẻ mạt và bán hàng hóa với giá thị trường, thu về **giá trị thặng dư** — nguồn gốc của lợi nhuận tư bản.
 
-- **Giai cấp vô sản** (*proletariat*): không có tư liệu sản xuất, chỉ có sức lao động để bán. Làm việc 12-16 tiếng mỗi ngày. Trẻ em từ 8-10 tuổi làm trong hầm mỏ và nhà máy dệt. Nhà ở là những khu ổ chuột chật chội, mất vệ sinh.
+- **Giai cấp vô sản** (_proletariat_): không có tư liệu sản xuất, chỉ có sức lao động để bán. Làm việc 12-16 tiếng mỗi ngày. Trẻ em từ 8-10 tuổi làm trong hầm mỏ và nhà máy dệt. Nhà ở là những khu ổ chuột chật chội, mất vệ sinh.
 
-Ph. Ăngghen đã trực tiếp quan sát và ghi lại điều này trong tác phẩm *"Tình cảnh giai cấp công nhân Anh"* (1845) — một trong những tài liệu điều tra xã hội học đầu tiên trong lịch sử.
+Ph. Ăngghen đã trực tiếp quan sát và ghi lại điều này trong tác phẩm _"Tình cảnh giai cấp công nhân Anh"_ (1845) — một trong những tài liệu điều tra xã hội học đầu tiên trong lịch sử.
 
 **Phong trào công nhân — thực tiễn đặt ra yêu cầu lý luận**
 
 Giai cấp vô sản không cam chịu. Họ đấu tranh — nhưng đấu tranh tự phát, thiếu lý luận, và thất bại:
 
 - **1831 và 1834**: Hai cuộc khởi nghĩa của thợ dệt ở Lyon (Pháp). Bị đàn áp đẫm máu.
-- **1838-1857**: Phong trào Hiến chương (*Chartism*) ở Anh — phong trào công nhân có tổ chức đầu tiên trong lịch sử. Đòi quyền bầu cử phổ thông và cải thiện điều kiện lao động.
+- **1838-1857**: Phong trào Hiến chương (_Chartism_) ở Anh — phong trào công nhân có tổ chức đầu tiên trong lịch sử. Đòi quyền bầu cử phổ thông và cải thiện điều kiện lao động.
 - **1844**: Cuộc đấu tranh của thợ dệt ở Silesia (Đức) — bị quân đội đàn áp, nhưng gây chấn động toàn châu Âu.
 
 Những thất bại này chứng minh một điều: **giai cấp vô sản cần lý luận khoa học** để hành động có phương hướng, không chỉ dựa vào bản năng đấu tranh tự phát. Đây chính là yêu cầu thực tiễn đặt ra cho triết học Mác.
@@ -49,7 +49,7 @@ Các nhà máy sản xuất điện thoại ở Trung Quốc ngày nay có đi�
 
 ## Câu hỏi tranh luận
 
-Ngày nay, với kinh tế nền tảng (*platform economy*) — Grab, Shopee, Airbnb — ranh giới giữa "chủ sở hữu" và "người lao động" trở nên mờ nhạt hơn. Người chạy Grab sở hữu xe của mình nhưng phụ thuộc vào thuật toán của nền tảng. Liệu phân tích giai cấp của Mác có còn áp dụng được cho thế giới kinh tế số, hay cần những phạm trù mới?
+Ngày nay, với kinh tế nền tảng (_platform economy_) — Grab, Shopee, Airbnb — ranh giới giữa "chủ sở hữu" và "người lao động" trở nên mờ nhạt hơn. Người chạy Grab sở hữu xe của mình nhưng phụ thuộc vào thuật toán của nền tảng. Liệu phân tích giai cấp của Mác có còn áp dụng được cho thế giới kinh tế số, hay cần những phạm trù mới?
 
 ## Câu hỏi ôn tập
 

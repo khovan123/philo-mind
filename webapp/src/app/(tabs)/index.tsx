@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Redirect } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -45,6 +45,8 @@ const learningItems = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
+
   if (shouldShowOnboarding()) {
     return <Redirect href="../onboarding" />;
   }
@@ -153,7 +155,7 @@ export default function HomeScreen() {
           <View style={styles.section}>
             <ThemedText style={styles.sectionTitle}>Câu chuyện mới</ThemedText>
 
-            <Pressable style={styles.storyCard}>
+            <Pressable onPress={() => router.push("/story" as never)} style={styles.storyCard}>
               <Image source={storyImage} contentFit="cover" style={styles.storyImage} />
 
               <View style={styles.storyContent}>

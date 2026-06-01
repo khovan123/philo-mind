@@ -13,15 +13,16 @@ export class ApiError extends Error {
   }
 }
 
-const API_BASE_URL = (
-  process.env.EXPO_PUBLIC_API_URL ?? "http://192.168.100.223:3001/api/v1"
-).replace(/\/$/, "");
-
 const DEFAULT_API_URL = Platform.select({
   android: "http://10.0.2.2:3001/api/v1",
   default: "http://localhost:3001/api/v1",
 });
 
+const API_BASE_URL = (
+  process.env.EXPO_PUBLIC_API_URL?.trim() ||
+  DEFAULT_API_URL ||
+  "http://localhost:3001/api/v1"
+).replace(/\/$/, "");
 
 const REQUEST_TIMEOUT_MS = 10000;
 
@@ -39,6 +40,7 @@ type ApiErrorResponse = {
     details?: unknown;
   };
 };
+
 type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 export async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -66,18 +68,18 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
       throw new ApiError("Không thể đọc phản hồi từ server", response.status, "INVALID_RESPONSE");
     }
 
-if (!response.ok || body.success === false) {
-  if (body.success === false) {
-    throw new ApiError(
-      body.error.message,
-      response.status,
-      body.error.code,
-      body.error.details,
-    );
-  }
+    if (!response.ok || body.success === false) {
+      if (body.success === false) {
+        throw new ApiError(
+          body.error.message,
+          response.status,
+          body.error.code,
+          body.error.details,
+        );
+      }
 
-  throw new ApiError("Request failed", response.status);
-}
+      throw new ApiError("Request failed", response.status);
+    }
     return body.data;
   } catch (error) {
     if (error instanceof ApiError) {

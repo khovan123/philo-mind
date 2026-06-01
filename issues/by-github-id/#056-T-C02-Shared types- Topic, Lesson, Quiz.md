@@ -90,6 +90,14 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 - PR description must link issue #56 and mention `T-C02`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
 - 2026-06-01: BMAD sprint-status sync checked GitHub issue #56 for `T-C02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:37:45Z. Local log: `issues/by-github-id/#056-T-C02-Shared types- Topic, Lesson, Quiz.md`.

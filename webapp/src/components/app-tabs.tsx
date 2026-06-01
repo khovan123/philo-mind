@@ -92,6 +92,15 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
+        name="story"
+        options={{
+          title: "Stories",
+          tabBarLabel: "Câu chuyện",
+          tabBarIcon: renderTabIcon("story"),
+        }}
+      />
+
+      <Tabs.Screen
         name="learn"
         options={{
           title: "Learn",

@@ -8,35 +8,34 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #90 |
-| Track | E: AI & Chat System |
-| Nhóm | E-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Backend+AI Dev |
-| Assignee hiện tại | @VinhHoang03 |
-| Estimate | 2h |
-| Milestone | Week 6 |
-| Dependencies | `T-E07` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #90                 |
+| Track             | E: AI & Chat System |
+| Nhóm              | E-Frontend          |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Backend+AI Dev      |
+| Assignee hiện tại | @VinhHoang03        |
+| Estimate          | 2h                  |
+| Milestone         | Week 6              |
+| Dependencies      | `T-E07`             |
 
 ## 3. Requirement cụ thể
 
 - Screen/route đề xuất: `/ai/chat/[sessionId]` theo Expo Router.
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
-- Dữ liệu lấy qua API client/Zustand store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
 - Click character card mở hoặc tạo chat session rồi điều hướng tới conversation screen.
 - Nút gửi message disabled khi input rỗng/loading; streaming text phải append dần và auto-scroll xuống tin nhắn mới nhất.
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của ChatInput component (text + send + suggested prompts) |
-| Chọn nhân vật | Bấm character card | Tạo/mở session và điều hướng `/ai/chat/[sessionId]` |
-| Gửi tin nhắn | Nhập prompt -> bấm send | Disable input khi gửi, stream response và auto-scroll |
-
+| Tình huống    | Người dùng thao tác                                      | Kết quả bắt buộc                                                                |
+| ------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của ChatInput component (text + send + suggested prompts) |
+| Chọn nhân vật | Bấm character card                                       | Tạo/mở session và điều hướng `/ai/chat/[sessionId]`                             |
+| Gửi tin nhắn  | Nhập prompt -> bấm send                                  | Disable input khi gửi, stream response và auto-scroll                           |
 
 ## 4. Flow tích hợp
 
@@ -85,7 +84,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -93,3 +92,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 ---
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
+
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.

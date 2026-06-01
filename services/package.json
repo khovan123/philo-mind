@@ -19,8 +19,7 @@
     "db:migrate:deploy": "npx prisma migrate deploy --schema=src/prisma/schema.prisma",
     "db:migrate:status": "npx prisma migrate status --schema=src/prisma/schema.prisma",
     "db:rollback": "bash scripts/db-rollback.sh",
-    "seed": "tsx src/seed/index.ts",
-    "seed:reset": "tsx src/seed/reset.ts && tsx src/seed/index.ts"
+    "seed": "tsx src/seed/index.ts"
   },
   "dependencies": {
     "@philo-mind/shared": "*",

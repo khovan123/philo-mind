@@ -12,7 +12,7 @@ Bạn có bao giờ tự hỏi tại sao mình phải học môn này không? "T
 
 Khi bạn hỏi "Tại sao tôi làm việc này?" hay "Cuộc sống có ý nghĩa gì?", bạn đang triết học. Triết học là hình thức tư duy lý luận đầu tiên mà con người dùng để **giải thích thế giới một cách có hệ thống** — thay vì dựa vào thần thánh hay huyền thoại.
 
-Ở phương Đông, người ta gọi triết học là *triết* — nghĩa là sự hiểu biết sâu sắc về bản chất của mọi vật. Ở phương Tây, *philosophia* có nghĩa là tình yêu đối với sự thông thái. Cả hai đều hướng đến một điều: **dùng lý trí để hiểu thế giới**.
+Ở phương Đông, người ta gọi triết học là _triết_ — nghĩa là sự hiểu biết sâu sắc về bản chất của mọi vật. Ở phương Tây, _philosophia_ có nghĩa là tình yêu đối với sự thông thái. Cả hai đều hướng đến một điều: **dùng lý trí để hiểu thế giới**.
 
 **Triết học ra đời như thế nào?**
 
