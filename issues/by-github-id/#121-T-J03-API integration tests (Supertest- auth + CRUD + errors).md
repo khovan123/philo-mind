@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị       |
-| ----------------- | ------------- |
-| GitHub issue      | #121          |
-| Track             | J: Testing    |
-| Nhóm              | All           |
-| Loại việc         | testing       |
-| Priority          | medium        |
-| Owner gợi ý       | Any Dev       |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #121 |
+| Track | J: Testing |
+| Nhóm | All |
+| Loại việc | testing |
+| Priority | medium |
+| Owner gợi ý | Any Dev |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate          | 4h            |
-| Milestone         | Week 7        |
-| Dependencies      | `T-A05`       |
+| Estimate | 4h |
+| Milestone | Week 7 |
+| Dependencies | `T-A05` |
 
 ## 3. Requirement cụ thể
 
@@ -37,6 +37,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: In-memory DB; 30+ endpoint tests.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
+
 
 ## 4. Flow tích hợp
 
@@ -84,7 +85,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -129,6 +130,15 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 - PR description must link issue #121 and mention `T-J03`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #121 for `T-J03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#121-T-J03-API integration tests (Supertest- auth + CRUD + errors).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #121 for `T-J03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#121-T-J03-API integration tests (Supertest- auth + CRUD + errors).md`.
+

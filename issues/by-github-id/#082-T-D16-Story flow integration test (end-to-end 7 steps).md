@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #82                  |
-| Track             | D: Story Mode Engine |
-| Nhóm              | D-Frontend           |
-| Loại việc         | testing              |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @dklinh05            |
-| Estimate          | 2h                   |
-| Milestone         | Week 7               |
-| Dependencies      | `T-D08..T-D14`       |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #82 |
+| Track | D: Story Mode Engine |
+| Nhóm | D-Frontend |
+| Loại việc | testing |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @dklinh05 |
+| Estimate | 2h |
+| Milestone | Week 7 |
+| Dependencies | `T-D08..T-D14` |
 
 ## 3. Requirement cụ thể
 
@@ -37,6 +37,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Navigate all 7 steps; verify data persistence.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
+
 
 ## 4. Flow tích hợp
 
@@ -84,7 +85,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -131,6 +132,15 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 - PR description must link issue #82 and mention `T-D16`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #82 for `T-D16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 7 steps).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #82 for `T-D16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 7 steps).md`.
+

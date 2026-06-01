@@ -41,13 +41,13 @@ export async function seedScenarios(prisma: PrismaClient): Promise<void> {
       continue;
     }
 
-    // Create scenario with pre-built analyses
-    const analyses = [
+    // Create scenario with pre-built perspectives
+    const perspectives = [
       { type: "thực_dụng", content: row.phân_tích_thực_dụng },
       { type: "nghĩa_vụ", content: row.phân_tích_nghĩa_vụ },
       { type: "đức_hạnh", content: row.phân_tích_đức_hạnh },
       { type: "quan_tâm", content: row.phân_tích_quan_tâm },
-    ].filter((a) => a.content?.trim());
+    ].filter((p) => p.content?.trim());
 
     await prisma.realLifeScenario.create({
       data: {
@@ -55,10 +55,10 @@ export async function seedScenarios(prisma: PrismaClient): Promise<void> {
         title: row.tiêu_đề,
         situation: row.tình_huống,
         context: row.bối_cảnh,
-        analyses: {
-          create: analyses.map((a) => ({
-            perspectiveType: a.type,
-            analysisContent: a.content,
+        perspectives: {
+          create: perspectives.map((p) => ({
+            perspectiveType: p.type,
+            content: p.content,
           })),
         },
       },

@@ -1,58 +1,58 @@
-# T-D07: Story service + Zustand store
+# T-B07: RTK Query API layer (baseQuery + reauth + token persistence)
 
 ## GitHub Link
 
-- Issue: [#73](https://github.com/khovan123/philo-mind/issues/73)
+- Issue: [#45](https://github.com/khovan123/philo-mind/issues/45)
 - State: open
-- Track: D - Story Mode Engine
+- Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:48Z
+- Updated at: 2026-05-31T15:53:22Z
 
-# T-D07: Story service + Zustand store
+# T-B07: RTK Query API layer (baseQuery + reauth + token persistence)
 
 ## 1. Mục đích sản phẩm
 
-Chức năng này dùng để đưa người học đi qua story mode nhiều bước, từ bối cảnh, học khái niệm, ra quyết định, xem hệ quả đến phản tư.
+Chức năng này dùng để biến task "RTK Query API layer (baseQuery + reauth + token persistence)" thành một phần chức năng rõ ràng, có thể dùng, test và review độc lập.
 
 Nó không chỉ là một checklist code. Đầu ra cần là một phần sản phẩm có thể được người dùng hoặc developer khác dùng, test và tích hợp với các issue liên quan.
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #73                  |
-| Track             | D: Story Mode Engine |
-| Nhóm              | D-Frontend           |
-| Loại việc         | frontend             |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @dklinh05            |
-| Estimate          | 2h                   |
-| Milestone         | Week 5               |
-| Dependencies      | `T-D02`              |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #45 |
+| Track | B: Frontend Shell |
+| Nhóm | B-Foundation |
+| Loại việc | frontend |
+| Priority | high |
+| Owner gợi ý | Frontend Dev |
+| Assignee hiện tại | @thuhataplamdev |
+| Estimate | 3h |
+| Milestone | Week 2 |
+| Dependencies | `T-B06` |
 
 ## 3. Requirement cụ thể
 
 - Screen/route đề xuất: `/` theo Expo Router.
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
-- Dữ liệu lấy qua API client/Zustand store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
-- Card/CTA story phải điều hướng đúng chuỗi: list -> intro -> learn -> dilemma/choose -> result -> knowledge -> reflect -> list/profile progress.
-- Các nút tiếp tục/quay lại phải giữ sessionId/current story trong store để không mất tiến trình giữa các bước.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
+- Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
+- UI phải thể hiện trực tiếp các AC: 401 retry queue; type-safe methods.
 
 ### UI/navigation contract đề xuất
 
-| Tình huống       | Người dùng thao tác                   | Kết quả bắt buộc                                                                                     |
-| ---------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| Mở màn hình      | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Story service + Zustand store                                              |
-| Bắt đầu/tiếp tục | Bấm story card hoặc CTA tiếp tục      | Điều hướng đúng step kế tiếp, giữ storyId/sessionId                                                  |
-| Qua bước kế tiếp | Bấm CTA chính của step                | Điều hướng theo chain story mode: list -> intro -> learn -> choose -> result -> knowledge -> reflect |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của RTK Query API layer (baseQuery + reauth + token persistence) |
+| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
+
 
 ## 4. Flow tích hợp
 
-- Dependency trước khi nối API thật: `T-D02`.
+- Dependency trước khi nối API thật: `T-B06`.
 - User mở màn hình qua route `/`; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
 - Nếu backend chưa sẵn sàng, tạo adapter/mock cùng shape với API thật để khi issue dependency merge chỉ thay data source.
-- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #73.
+- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #45.
 - Nếu phát hiện dependency chưa sẵn sàng, PR phải ghi rõ mock/contract tạm và điều kiện để chuyển sang integration thật.
 
 ## 5. Hành vi người dùng hoặc API cần đạt
@@ -64,16 +64,16 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] API integration: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] session state management: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] 401 retry queue: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] type-safe methods: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Story service + Zustand store** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **RTK Query API layer (baseQuery + reauth + token persistence)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: API integration, session state management.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: 401 retry queue, type-safe methods.
 
 ## 8. Kiểm chứng bắt buộc
 
@@ -94,7 +94,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -105,19 +105,15 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Feature Output Contract
 
-> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #73 / `T-D07`, beyond implementation process notes.
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #45 / `T-B07`, beyond implementation process notes.
 
 ### User-facing outcome
 
-Người học đi qua story mode nhiều bước: hiểu bối cảnh, học khái niệm, chọn quyết định, xem hệ quả, so sánh cộng đồng và phản tư.
+Đầu ra là một phần tính năng hoàn chỉnh cho RTK Query API layer (baseQuery + reauth + token persistence), có hành vi quan sát được qua UI, API hoặc test.
 
 ### Inputs
 
-- storyId
-- sessionId
-- choiceId
-- reasoning
-- timeSpentSeconds
+- request params/query/body or user action relevant to this issue
 
 ### Expected output
 
@@ -138,15 +134,22 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ### Navigation and interaction
 
-- Story list -> intro -> learn -> dilemma/choose -> result -> knowledge -> reflect.
-- Back/continue giữ `storyId` và `sessionId`.
-
+- Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
-- PR description must link issue #73 and mention `T-D07`.
+- PR description must link issue #45 and mention `T-B07`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #73 for `T-D07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#073-T-D07-Story service + Zustand store.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #45 for `T-B07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md`.
+

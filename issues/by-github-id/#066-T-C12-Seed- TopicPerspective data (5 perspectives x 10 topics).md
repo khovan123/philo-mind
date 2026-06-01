@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị                       |
-| ----------------- | ----------------------------- |
-| GitHub issue      | #66                           |
-| Track             | C: Shared Types & Seed        |
-| Nhóm              | All                           |
-| Loại việc         | seed-data                     |
-| Priority          | medium                        |
-| Owner gợi ý       | Any Dev                       |
-| Assignee hiện tại | @Thienhoang78                 |
-| Estimate          | 2h                            |
-| Milestone         | Week 3                        |
-| Dependencies      | Không có dependency bắt buộc. |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #66 |
+| Track | C: Shared Types & Seed |
+| Nhóm | All |
+| Loại việc | seed-data |
+| Priority | medium |
+| Owner gợi ý | Any Dev |
+| Assignee hiện tại | @Thienhoang78 |
+| Estimate | 2h |
+| Milestone | Week 3 |
+| Dependencies | Không có dependency bắt buộc. |
 
 ## 3. Requirement cụ thể
 
@@ -37,6 +37,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Input là file/constant dữ liệu nguồn; output là records hợp lệ trong Prisma schema với slug/id ổn định để test dùng lại.
 - Nội dung user-facing ưu tiên tiếng Việt, đủ title, description/content, metadata, relationship tới topic/lesson/story liên quan.
 - Sau khi seed lại nhiều lần không tạo duplicate ngoài ý muốn; dùng upsert hoặc cleanup strategy rõ ràng.
+
 
 ## 4. Flow tích hợp
 
@@ -87,7 +88,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -133,6 +134,15 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 - PR description must link issue #66 and mention `T-C12`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.
+

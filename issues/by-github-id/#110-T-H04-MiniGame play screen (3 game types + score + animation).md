@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#110](https://github.com/khovan123/philo-mind/issues/110)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: frontend
 - Updated at: 2026-05-31T15:54:23Z
@@ -18,34 +18,35 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #110                |
-| Track             | H: Missing Features |
-| Nhóm              | H-MiniGame          |
-| Loại việc         | frontend            |
-| Priority          | medium              |
-| Owner gợi ý       | Fullstack Dev       |
-| Assignee hiện tại | @kangdev03          |
-| Estimate          | 6h                  |
-| Milestone         | Week 6              |
-| Dependencies      | `T-H03`             |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #110 |
+| Track | H: Missing Features |
+| Nhóm | H-MiniGame |
+| Loại việc | frontend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @kangdev03 |
+| Estimate | 6h |
+| Milestone | Week 6 |
+| Dependencies | `T-H03` |
 
 ## 3. Requirement cụ thể
 
 - Screen/route đề xuất: `/minigames/[id]` theo Expo Router.
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
-- Dữ liệu lấy qua API client/Zustand store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
 - Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
 - UI phải thể hiện trực tiếp các AC: Matching cards; portrait quiz; argument sorting.
 
 ### UI/navigation contract đề xuất
 
-| Tình huống  | Người dùng thao tác                                 | Kết quả bắt buộc                                                                  |
-| ----------- | --------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
 | Mở màn hình | User vào `/minigames/[id]` từ tab/card/link phù hợp | Render màn hình chính của MiniGame play screen (3 game types + score + animation) |
-| Chơi game   | Bấm play/replay                                     | Mở game type tương ứng, tính score và lưu attempt                                 |
-| Xem kết quả | Hoàn thành game                                     | Điều hướng result/leaderboard                                                     |
+| Chơi game | Bấm play/replay | Mở game type tương ứng, tính score và lưu attempt |
+| Xem kết quả | Hoàn thành game | Điều hướng result/leaderboard |
+
 
 ## 4. Flow tích hợp
 
@@ -95,7 +96,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -140,13 +141,21 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 - Game card -> play screen.
 - Finish -> result/leaderboard; replay -> new attempt.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
 - PR description must link issue #110 and mention `T-H04`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #110 for `T-H04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#110-T-H04-MiniGame play screen (3 game types + score + animation).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #110 for `T-H04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:33:19Z. Local log: `issues/by-github-id/#110-T-H04-MiniGame play screen (3 game types + score + animation).md`.
+

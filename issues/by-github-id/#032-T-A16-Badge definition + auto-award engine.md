@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#32](https://github.com/khovan123/philo-mind/issues/32)
-- State: open
+- State: closed
 - Track: A - Backend Core
 - Type: backend
 - Updated at: 2026-05-31T15:53:09Z
@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị         |
-| ----------------- | --------------- |
-| GitHub issue      | #32             |
-| Track             | A: Backend Core |
-| Nhóm              | A-Platform APIs |
-| Loại việc         | backend         |
-| Priority          | medium          |
-| Owner gợi ý       | Backend Dev     |
-| Assignee hiện tại | @NTA1210        |
-| Estimate          | 5h              |
-| Milestone         | Week 4          |
-| Dependencies      | `T-A09`         |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #32 |
+| Track | A: Backend Core |
+| Nhóm | A-Platform APIs |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Backend Dev |
+| Assignee hiện tại | @NTA1210 |
+| Estimate | 5h |
+| Milestone | Week 4 |
+| Dependencies | `T-A09` |
 
 ## 3. Requirement cụ thể
 
@@ -41,11 +41,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method     | Endpoint                  | Input                              | Output                                      |
-| ---------- | ------------------------- | ---------------------------------- | ------------------------------------------- |
-| GET        | `/api/v1/badges`          | query: { earnedOnly? }             | data: badge definitions + user earned state |
-| POST       | `/api/v1/badges/evaluate` | auth user or activity event        | data: newlyAwardedBadges[]                  |
-| POST/PATCH | `/api/v1/badges`          | body: badge definition + condition | data: created/updated badge; admin only     |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/badges` | query: { earnedOnly? } | data: badge definitions + user earned state |
+| POST | `/api/v1/badges/evaluate` | auth user or activity event | data: newlyAwardedBadges[] |
+| POST/PATCH | `/api/v1/badges` | body: badge definition + condition | data: created/updated badge; admin only |
+
 
 ## 4. Flow tích hợp
 
@@ -94,7 +95,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -138,6 +139,15 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 - PR description must link issue #32 and mention `T-A16`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T17:47:41Z. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
+

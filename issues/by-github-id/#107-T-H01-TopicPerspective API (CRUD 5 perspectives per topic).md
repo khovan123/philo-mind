@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#107](https://github.com/khovan123/philo-mind/issues/107)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: backend
 - Updated at: 2026-05-31T15:54:21Z
@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #107                |
-| Track             | H: Missing Features |
-| Nhóm              | H-MultiPerspective  |
-| Loại việc         | backend             |
-| Priority          | medium              |
-| Owner gợi ý       | Fullstack Dev       |
-| Assignee hiện tại | @Ngoclee123         |
-| Estimate          | 3h                  |
-| Milestone         | Week 5              |
-| Dependencies      | `T-A04`, `T-A06`    |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #107 |
+| Track | H: Missing Features |
+| Nhóm | H-MultiPerspective |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @Ngoclee123 |
+| Estimate | 3h |
+| Milestone | Week 5 |
+| Dependencies | `T-A04`, `T-A06` |
 
 ## 3. Requirement cụ thể
 
@@ -41,11 +41,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                               | Input                                                   | Output                                                          |
-| ------ | -------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------- |
-| GET    | `/api/v1/topics/:topicId/perspectives` | params: topicId; query: perspective?                    | data: perspectives[] gồm id, name, summary, arguments, examples |
-| POST   | `/api/v1/topics/:topicId/perspectives` | body: { perspective, summary, arguments[], examples[] } | data: created perspective; admin/moderator only                 |
-| PATCH  | `/api/v1/topic-perspectives/:id`       | body: partial perspective fields                        | data: updated perspective                                       |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/topics/:topicId/perspectives` | params: topicId; query: perspective? | data: perspectives[] gồm id, name, summary, arguments, examples |
+| POST | `/api/v1/topics/:topicId/perspectives` | body: { perspective, summary, arguments[], examples[] } | data: created perspective; admin/moderator only |
+| PATCH | `/api/v1/topic-perspectives/:id` | body: partial perspective fields | data: updated perspective |
+
 
 ## 4. Flow tích hợp
 
@@ -97,7 +98,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -145,6 +146,15 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 - PR description must link issue #107 and mention `T-H01`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #107 for `T-H01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#107-T-H01-TopicPerspective API (CRUD 5 perspectives per topic).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #107 for `T-H01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:12:37Z. Local log: `issues/by-github-id/#107-T-H01-TopicPerspective API (CRUD 5 perspectives per topic).md`.
+

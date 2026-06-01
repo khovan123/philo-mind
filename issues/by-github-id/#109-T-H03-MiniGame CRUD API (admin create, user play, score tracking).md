@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#109](https://github.com/khovan123/philo-mind/issues/109)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: backend
 - Updated at: 2026-05-31T15:54:23Z
@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #109                |
-| Track             | H: Missing Features |
-| Nhóm              | H-MiniGame          |
-| Loại việc         | backend             |
-| Priority          | medium              |
-| Owner gợi ý       | Fullstack Dev       |
-| Assignee hiện tại | @kangdev03          |
-| Estimate          | 4h                  |
-| Milestone         | Week 6              |
-| Dependencies      | `T-A04`             |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #109 |
+| Track | H: Missing Features |
+| Nhóm | H-MiniGame |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @kangdev03 |
+| Estimate | 4h |
+| Milestone | Week 6 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                            | Input                               | Output                               |
-| ------ | ----------------------------------- | ----------------------------------- | ------------------------------------ |
-| GET    | `/api/v1/minigames`                 | query: { topicId, type? }           | data: game list                      |
-| GET    | `/api/v1/minigames/:id`             | params: id                          | data: config JSON + assets + rules   |
-| POST   | `/api/v1/minigames/:id/play`        | body: { answers, timeSpentSeconds } | data: score, result, leaderboardRank |
-| GET    | `/api/v1/minigames/:id/leaderboard` | params: id                          | data: top 10 leaderboard             |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/minigames` | query: { topicId, type? } | data: game list |
+| GET | `/api/v1/minigames/:id` | params: id | data: config JSON + assets + rules |
+| POST | `/api/v1/minigames/:id/play` | body: { answers, timeSpentSeconds } | data: score, result, leaderboardRank |
+| GET | `/api/v1/minigames/:id/leaderboard` | params: id | data: top 10 leaderboard |
+
 
 ## 4. Flow tích hợp
 
@@ -96,7 +97,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -143,6 +144,15 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 - PR description must link issue #109 and mention `T-H03`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #109 for `T-H03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #109 for `T-H03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T17:55:58Z. Local log: `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md`.
+

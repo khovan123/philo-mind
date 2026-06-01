@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị          |
-| ----------------- | ---------------- |
-| GitHub issue      | #23              |
-| Track             | A: Backend Core  |
-| Nhóm              | A-Content APIs   |
-| Loại việc         | backend          |
-| Priority          | medium           |
-| Owner gợi ý       | Backend Dev      |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #23 |
+| Track | A: Backend Core |
+| Nhóm | A-Content APIs |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Backend Dev |
 | Assignee hiện tại | @linhtv1209-fudn |
-| Estimate          | 4h               |
-| Milestone         | Week 2           |
-| Dependencies      | `T-A04`          |
+| Estimate | 4h |
+| Milestone | Week 2 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint             | Input                                                                    | Output                                         |
-| ------ | -------------------- | ------------------------------------------------------------------------ | ---------------------------------------------- |
-| GET    | `/api/v1/topics`     | query: { page, limit, search, category, difficulty }                     | data: topics[]; meta: { page, limit, total }   |
-| GET    | `/api/v1/topics/:id` | params: id                                                               | data: topic detail + lesson/shortLesson counts |
-| POST   | `/api/v1/topics`     | body: { title, slug, description, category, difficulty, coverImageUrl? } | data: created topic; admin only                |
-| PATCH  | `/api/v1/topics/:id` | body: partial topic fields                                               | data: updated topic; admin only                |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/topics` | query: { page, limit, search, category, difficulty } | data: topics[]; meta: { page, limit, total } |
+| GET | `/api/v1/topics/:id` | params: id | data: topic detail + lesson/shortLesson counts |
+| POST | `/api/v1/topics` | body: { title, slug, description, category, difficulty, coverImageUrl? } | data: created topic; admin only |
+| PATCH | `/api/v1/topics/:id` | body: partial topic fields | data: updated topic; admin only |
+
 
 ## 4. Flow tích hợp
 
@@ -95,7 +96,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -143,6 +144,15 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 - PR description must link issue #23 and mention `T-A07`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #23 for `T-A07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#023-T-A07-Lesson CRUD API (list by topic, detail with questions).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #23 for `T-A07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#023-T-A07-Lesson CRUD API (list by topic, detail with questions).md`.
+

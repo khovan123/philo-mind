@@ -78,7 +78,7 @@ Là developer của PhiloMind, tôi cần hoàn thành **Badge definition + auto
 ### Project Context Snapshot
 
 - Backend stack: Express 5 + Prisma 7 + TypeScript, REST prefix `/api/v1/`.
-- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Zustand.
+- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Redux Toolkit + Redux Persist.
 - Shared package: `libs/shared` for DTOs, enums, constants, and cross-package contracts.
 - Current architecture docs: `docs/project-context.md`, `docs/architecture.md`, `_bmad-output/implementation-artifacts/implementation-spec.md`.
 
@@ -142,7 +142,7 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 - Verified activity router validates schemas correctly via `activity.test.ts`.
 - Confirmed `BadgeService.evaluateUserBadges` behaves correctly under different metrics (daily streaks, target thresholds, and notification triggers) using `badge.test.ts`.
-- Validated database re-seeding and table truncation via `npm run seed:reset`.
+- Validated local database re-seeding and table truncation via the guarded manual reset command: `cd services && CONFIRM_SEED_RESET=RESET npx tsx src/seed/reset.ts && npm run seed`.
 
 ### Completion Notes
 

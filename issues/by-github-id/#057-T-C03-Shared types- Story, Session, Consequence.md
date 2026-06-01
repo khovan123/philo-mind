@@ -11,26 +11,22 @@
 ## T-C03: Shared types: Story, Session, Consequence
 
 ### Mục tiêu
-
 Hoàn thành **Shared types: Story, Session, Consequence** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-
-| Thuộc tính        | Giá trị                       |
-| ----------------- | ----------------------------- |
-| Track             | C: Shared Types & Seed Data   |
-| Nhóm              | All                           |
-| Owner gợi ý       | Any Dev                       |
-| Estimate          | 2h                            |
-| Thời điểm dự kiến | Week 1                        |
-| Dependencies      | Không có dependency bắt buộc. |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| Track | C: Shared Types & Seed Data |
+| Nhóm | All |
+| Owner gợi ý | Any Dev |
+| Estimate | 2h |
+| Thời điểm dự kiến | Week 1 |
+| Dependencies | Không có dependency bắt buộc. |
 
 ### Dependency Notes
-
 Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nhật issue trước khi tiếp tục.
 
 ### Checklist triển khai
-
 - [ ] Triển khai artifact dùng chung cho **Shared types: Story, Session, Consequence** tại package hoặc seed module phù hợp.
 - [ ] Đảm bảo export/import rõ ràng để consumer dùng được mà không cần truy cập file nội bộ.
 - [ ] Giữ enum, DTO hoặc seed data đồng bộ với schema và API contract hiện có.
@@ -38,27 +34,23 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: `StoryScenarioDTO`, `StorySessionDTO`, `AnalysisTabDTO`.
 
 ### Acceptance Criteria
-
 - [ ] `StoryScenarioDTO`
 - [ ] `StorySessionDTO`
 - [ ] `AnalysisTabDTO`
 
 ### Kiểm chứng bắt buộc
-
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
-
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
-
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -98,6 +90,15 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 - PR description must link issue #57 and mention `T-C03`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #57 for `T-C03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:40:17Z. Local log: `issues/by-github-id/#057-T-C03-Shared types- Story, Session, Consequence.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #57 for `T-C03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:40:17Z. Local log: `issues/by-github-id/#057-T-C03-Shared types- Story, Session, Consequence.md`.
+

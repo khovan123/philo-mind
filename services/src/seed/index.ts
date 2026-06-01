@@ -8,7 +8,6 @@
  *
  * Usage:
  *   npm run seed               (idempotent — skips existing data)
- *   npm run seed:reset          (truncate + re-seed)
  *
  * Each seed function checks if records already exist before inserting.
  * Safe to run multiple times.

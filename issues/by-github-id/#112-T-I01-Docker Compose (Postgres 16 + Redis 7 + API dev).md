@@ -11,26 +11,22 @@
 ## T-I01: Docker Compose (Postgres 16 + Redis 7 + API dev)
 
 ### Mục tiêu
-
 Hoàn thành **Docker Compose (Postgres 16 + Redis 7 + API dev)** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-
-| Thuộc tính        | Giá trị                       |
-| ----------------- | ----------------------------- |
-| Track             | I: DevOps & Deployment        |
-| Nhóm              | I-Local Setup                 |
-| Owner gợi ý       | DevOps / Lead Dev             |
-| Estimate          | 3h                            |
-| Thời điểm dự kiến | Week 1                        |
-| Dependencies      | Không có dependency bắt buộc. |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| Track | I: DevOps & Deployment |
+| Nhóm | I-Local Setup |
+| Owner gợi ý | DevOps / Lead Dev |
+| Estimate | 3h |
+| Thời điểm dự kiến | Week 1 |
+| Dependencies | Không có dependency bắt buộc. |
 
 ### Dependency Notes
-
 Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nhật issue trước khi tiếp tục.
 
 ### Checklist triển khai
-
 - [ ] Triển khai cấu hình **Docker Compose (Postgres 16 + Redis 7 + API dev)** theo convention hiện có của repo.
 - [ ] Document các biến môi trường, prerequisite và lệnh chạy cần thiết; không commit secret.
 - [ ] Thêm fail-fast check hoặc health check để lỗi cấu hình hiển thị rõ.
@@ -38,27 +34,23 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: `docker-compose.yml`, volumes, healthcheck.
 
 ### Acceptance Criteria
-
 - [ ] `docker-compose.yml`
 - [ ] volumes
 - [ ] healthcheck
 
 ### Kiểm chứng bắt buộc
-
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
-
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
-
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -97,6 +89,15 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 - PR description must link issue #112 and mention `T-I01`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #112 for `T-I01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T15:27:12Z. Local log: `issues/by-github-id/#112-T-I01-Docker Compose (Postgres 16 + Redis 7 + API dev).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #112 for `T-I01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T15:27:12Z. Local log: `issues/by-github-id/#112-T-I01-Docker Compose (Postgres 16 + Redis 7 + API dev).md`.
+
