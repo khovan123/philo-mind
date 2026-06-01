@@ -147,5 +147,5 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #22 for `T-A06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#022-T-A06-Topic CRUD API (list-get-create-update + search-filter).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #22 for `T-A06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#022-T-A06-Topic CRUD API (list-get-create-update + search-filter).md`.
 

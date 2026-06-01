@@ -135,5 +135,5 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
 

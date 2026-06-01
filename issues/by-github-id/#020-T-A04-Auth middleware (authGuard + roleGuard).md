@@ -89,5 +89,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #20 for `T-A04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:13:16Z. Local log: `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #20 for `T-A04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:13:16Z. Local log: `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md`.
 

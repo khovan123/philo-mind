@@ -93,5 +93,5 @@ Người dùng quản lý hồ sơ, cài đặt, pháp lý và quyền riêng t�
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #127 for `T-K04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:39Z. Local log: `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #127 for `T-K04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:39Z. Local log: `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md`.
 

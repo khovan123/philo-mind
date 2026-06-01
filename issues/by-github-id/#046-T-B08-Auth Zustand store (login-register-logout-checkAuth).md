@@ -149,5 +149,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #46 for `T-B08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#046-T-B08-Auth Zustand store (login-register-logout-checkAuth).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #46 for `T-B08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#046-T-B08-Auth Zustand store (login-register-logout-checkAuth).md`.
 

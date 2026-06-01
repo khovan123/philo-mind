@@ -146,5 +146,5 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #24 for `T-A08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #24 for `T-A08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md`.
 

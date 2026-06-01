@@ -90,5 +90,5 @@ Developer và app có contract/dữ liệu nền ổn định để các màn h�
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #114 for `T-I03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:42:52Z. Local log: `issues/by-github-id/#114-T-I03-Database migration CI (Prisma migrate + seed in pipeline).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #114 for `T-I03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:42:52Z. Local log: `issues/by-github-id/#114-T-I03-Database migration CI (Prisma migrate + seed in pipeline).md`.
 

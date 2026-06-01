@@ -93,5 +93,5 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #52 for `T-B14`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:49:59Z. Local log: `issues/by-github-id/#052-T-B14-Onboarding flow (welcome + how-it-works + interest picker).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #52 for `T-B14`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:49:59Z. Local log: `issues/by-github-id/#052-T-B14-Onboarding flow (welcome + how-it-works + interest picker).md`.
 

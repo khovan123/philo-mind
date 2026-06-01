@@ -144,5 +144,5 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #75 for `T-D09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#075-T-D09-Step 2- LEARN screen (swipeable cards + concept chips).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #75 for `T-D09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#075-T-D09-Step 2- LEARN screen (swipeable cards + concept chips).md`.
 

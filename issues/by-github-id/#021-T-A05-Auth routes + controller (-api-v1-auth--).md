@@ -91,5 +91,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #21 for `T-A05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:29:26Z. Local log: `issues/by-github-id/#021-T-A05-Auth routes + controller (-api-v1-auth--).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #21 for `T-A05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:29:26Z. Local log: `issues/by-github-id/#021-T-A05-Auth routes + controller (-api-v1-auth--).md`.
 

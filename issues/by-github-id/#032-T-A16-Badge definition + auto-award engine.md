@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#32](https://github.com/khovan123/philo-mind/issues/32)
-- State: open
+- State: closed
 - Track: A - Backend Core
 - Type: backend
 - Updated at: 2026-05-31T15:53:09Z
@@ -141,5 +141,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T17:47:41Z. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
 

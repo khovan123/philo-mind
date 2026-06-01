@@ -147,5 +147,5 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #51 for `T-B13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#051-T-B13-Quiz gameplay screen (questions + timer + result).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #51 for `T-B13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#051-T-B13-Quiz gameplay screen (questions + timer + result).md`.
 

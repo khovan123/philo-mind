@@ -90,5 +90,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #31 for `T-A15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:07:56Z. Local log: `issues/by-github-id/#031-T-A15-Notification CRUD API.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #31 for `T-A15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:07:56Z. Local log: `issues/by-github-id/#031-T-A15-Notification CRUD API.md`.
 

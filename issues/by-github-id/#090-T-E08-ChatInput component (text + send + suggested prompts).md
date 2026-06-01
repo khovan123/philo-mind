@@ -148,5 +148,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #90 for `T-E08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#090-T-E08-ChatInput component (text + send + suggested prompts).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #90 for `T-E08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#090-T-E08-ChatInput component (text + send + suggested prompts).md`.
 

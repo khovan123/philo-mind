@@ -95,5 +95,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #43 for `T-B05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T06:00:29Z. Local log: `issues/by-github-id/#043-T-B05-Register screen UI (fullname-email-pass-confirm + strength).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #43 for `T-B05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T06:00:29Z. Local log: `issues/by-github-id/#043-T-B05-Register screen UI (fullname-email-pass-confirm + strength).md`.
 

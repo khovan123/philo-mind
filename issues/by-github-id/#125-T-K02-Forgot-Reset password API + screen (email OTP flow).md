@@ -95,5 +95,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #125 for `T-K02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:38Z. Local log: `issues/by-github-id/#125-T-K02-Forgot-Reset password API + screen (email OTP flow).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #125 for `T-K02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:38Z. Local log: `issues/by-github-id/#125-T-K02-Forgot-Reset password API + screen (email OTP flow).md`.
 
