@@ -10,14 +10,14 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { ChevronLeft, Eye, EyeOff, Lock, User } from "lucide-react-native";
+import { ChevronLeft, Lock, User } from "lucide-react-native";
 
 import { Avatar, Button, Input, ThemedText } from "@/components/ui";
 import { BottomTabInset, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { ApiError } from "@/services/api";
 import { authService } from "@/services/auth.service";
-import { getAuthUser, setAuthState } from "@/stores/auth.store";
+import { getAuthUser } from "@/stores/auth.store";
 import type { AuthUser } from "@/types/auth";
 
 // ── Section header ─────────────────────────────────────────
@@ -97,9 +97,6 @@ export default function SettingsScreen() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [showNew, setShowNew] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
   const [passwordState, setPasswordState] = useState<SettingsState>("idle");
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
@@ -124,8 +121,7 @@ export default function SettingsScreen() {
     setProfileError(null);
     setProfileState("loading");
     try {
-      const updated = await authService.updateProfile({ fullName: trimmed });
-      setAuthState({ user: updated as AuthUser });
+      await authService.updateProfile({ fullName: trimmed });
       setProfileState("success");
       setTimeout(() => setProfileState("idle"), 2000);
     } catch (err) {
@@ -151,7 +147,10 @@ export default function SettingsScreen() {
     setPasswordError(null);
     setPasswordState("loading");
     try {
-      await authService.changePassword(currentPassword, newPassword);
+      await authService.changePassword({
+        currentPassword,
+        newPassword,
+      });
       setCurrentPassword("");
       setNewPassword("");
       setConfirmPassword("");
@@ -256,77 +255,37 @@ export default function SettingsScreen() {
               title="Đổi mật khẩu"
               icon={<Lock size={16} color={theme.textSecondary} strokeWidth={2} />}
             />
-
             <Input
               label="Mật khẩu hiện tại"
               value={currentPassword}
-              onChangeText={(t) => {
-                setCurrentPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setCurrentPassword}
               placeholder="••••••••"
-              secureTextEntry={!showCurrent}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowCurrent((p) => !p)} style={styles.eye}>
-                  {showCurrent ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
 
             <Input
               label="Mật khẩu mới"
               value={newPassword}
-              onChangeText={(t) => {
-                setNewPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setNewPassword}
               placeholder="••••••••"
-              secureTextEntry={!showNew}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={styles.field}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowNew((p) => !p)} style={styles.eye}>
-                  {showNew ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
             <PasswordStrength password={newPassword} />
 
             <Input
               label="Xác nhận mật khẩu mới"
               value={confirmPassword}
-              onChangeText={(t) => {
-                setConfirmPassword(t);
-                setPasswordError(null);
-                setPasswordState("idle");
-              }}
+              onChangeText={setConfirmPassword}
               placeholder="••••••••"
-              secureTextEntry={!showConfirm}
+              isPassword
               autoCapitalize="none"
               autoCorrect={false}
               containerStyle={styles.field}
-              rightElement={
-                <Pressable hitSlop={8} onPress={() => setShowConfirm((p) => !p)} style={styles.eye}>
-                  {showConfirm ? (
-                    <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                  ) : (
-                    <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                  )}
-                </Pressable>
-              }
             />
 
             {passwordError ? (
@@ -504,13 +463,6 @@ const styles = StyleSheet.create({
 
   actionBtn: {
     marginTop: Spacing.three,
-  },
-
-  eye: {
-    width: 28,
-    height: 28,
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   notifRow: {

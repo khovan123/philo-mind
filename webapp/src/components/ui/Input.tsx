@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import {
+  Pressable,
   StyleSheet,
   TextInput,
   type StyleProp,
@@ -7,7 +8,7 @@ import {
   type ViewStyle,
   View,
 } from "react-native";
-
+import { Eye, EyeOff } from "lucide-react-native";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { ThemedText } from "../themed-text";
@@ -17,7 +18,7 @@ type InputProps = TextInputProps & {
   error?: string;
   helperText?: string;
   containerStyle?: StyleProp<ViewStyle>;
-  rightElement?: React.ReactNode;
+  isPassword?: boolean;
 };
 
 export function Input({
@@ -25,11 +26,14 @@ export function Input({
   error,
   helperText,
   containerStyle,
-  rightElement,
+  isPassword = false,
+  secureTextEntry,
   style,
   ...props
 }: InputProps) {
   const theme = useTheme();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const shouldSecureText = isPassword ? !passwordVisible : secureTextEntry;
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -46,6 +50,7 @@ export function Input({
       >
         <TextInput
           placeholderTextColor={theme.textMuted}
+          secureTextEntry={shouldSecureText}
           style={[
             styles.input,
             {
@@ -56,7 +61,19 @@ export function Input({
           {...props}
         />
 
-        {rightElement ? <View style={styles.rightElement}>{rightElement}</View> : null}
+        {isPassword ? (
+          <Pressable
+            hitSlop={8}
+            onPress={() => setPasswordVisible((prev) => !prev)}
+            style={styles.iconButton}
+          >
+            {passwordVisible ? (
+              <EyeOff size={18} color={theme.textSecondary} />
+            ) : (
+              <Eye size={18} color={theme.textSecondary} />
+            )}
+          </Pressable>
+        ) : null}
       </View>
 
       {error ? (
@@ -94,8 +111,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
 
-  rightElement: {
-    paddingRight: Spacing.three,
+  iconButton: {
+    width: 44,
+    height: 48,
     alignItems: "center",
     justifyContent: "center",
   },

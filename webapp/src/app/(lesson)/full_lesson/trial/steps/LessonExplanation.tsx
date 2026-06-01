@@ -55,7 +55,7 @@ export function LessonExplanation({
           style={[styles.actionCard, reflectionDone && styles.actionCardActive]}
         >
           <Text style={styles.actionTitle}>Write reflection</Text>
-          <Text style={styles.actionMeta}>{reflectionDone ? "Saved" : "Tap to mark"}</Text>
+          <Text style={styles.actionMeta}>{reflectionDone ? "Opened" : "Open journal"}</Text>
         </Pressable>
 
         {["Integrity", "Safety"].map((choice) => {

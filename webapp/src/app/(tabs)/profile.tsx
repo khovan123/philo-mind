@@ -6,6 +6,7 @@ import {
   Flame,
   Globe2,
   Info,
+  Lock,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -222,8 +223,8 @@ export default function ProfileScreen() {
                 <Pressable
                   key={item.label}
                   onPress={() => {
-                    if ((item as any).path) {
-                      router.push((item as any).path);
+                    if (item.path) {
+                      router.push(item.path as never);
                     }
                   }}
                   style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
@@ -239,11 +240,32 @@ export default function ProfileScreen() {
           </View>
 
           <View style={styles.deleteSection}>
-            <Pressable onPress={() => router.push("/delete-account")} style={styles.deleteButton}>
+            <Pressable
+              onPress={() => router.push("/delete-account" as never)}
+              style={styles.deleteButton}
+            >
               <ThemedText type="label" style={styles.deleteButtonText}>
                 Xóa tài khoản
               </ThemedText>
             </Pressable>
+
+            <View style={styles.legalButtonsContainer}>
+              <Pressable
+                onPress={() => router.push("/legal/terms" as never)}
+                style={styles.legalButton}
+              >
+                <ScrollText color={Colors.muted} size={16} />
+                <ThemedText style={styles.legalButtonText}>Điều Khoản Dịch Vụ</ThemedText>
+              </Pressable>
+
+              <Pressable
+                onPress={() => router.push("/legal/privacy" as never)}
+                style={styles.legalButton}
+              >
+                <Lock color={Colors.muted} size={16} />
+                <ThemedText style={styles.legalButtonText}>Chính Sách Bảo Mật</ThemedText>
+              </Pressable>
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -646,6 +668,7 @@ const styles = StyleSheet.create({
   deleteSection: {
     marginTop: Spacing.four,
     paddingHorizontal: Spacing.one,
+    gap: Spacing.three,
   },
 
   deleteButton: {
@@ -659,5 +682,27 @@ const styles = StyleSheet.create({
   deleteButtonText: {
     color: Colors.primary,
     fontWeight: "800",
+  },
+
+  legalButtonsContainer: {
+    gap: Spacing.two,
+  },
+
+  legalButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.two,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    paddingVertical: Spacing.two,
+    paddingHorizontal: Spacing.two,
+  },
+
+  legalButtonText: {
+    color: Colors.muted,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "700",
   },
 });
