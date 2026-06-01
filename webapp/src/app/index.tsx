@@ -1,10 +1,10 @@
 import { Redirect } from "expo-router";
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 
-import { useAuthStore } from "@/stores/auth.store";
+import { useAppSelector } from "@/stores/hooks";
 
 export default function IndexScreen() {
-  const { status, accessToken, refreshToken } = useAuthStore();
+  const { status, accessToken, refreshToken } = useAppSelector((state) => state.auth);
 
   if (status === "idle" || status === "loading") {
     return (
