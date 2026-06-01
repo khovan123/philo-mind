@@ -108,7 +108,7 @@ export const STORY_SCENARIOS: StoryScenarioData[] = [
   // ───────────────────────────────────────────────────────────────────────────
   {
     title: "Bạn tin vào điều gì?",
-    topicTitle: "Chủ nghĩa Mác-Lênin",
+    topicTitle: "Triết học và thế giới quan",
     description: `Bạn là Ngân — 18 tuổi, sinh viên năm nhất vừa rời quê lên thành phố học.
 
 Tối thứ Sáu, nhóm tân sinh viên cùng phòng ký túc xá ngồi nói chuyện đến 1 giờ sáng. Một bạn tên Đức đặt câu hỏi thẳng vào mặt bạn: *"Mày tin vào điều gì? Không phải tôn giáo, không phải sách giáo khoa. Điều gì thực sự định hướng cuộc sống của mày?"*
@@ -302,7 +302,7 @@ Bạn dừng lại — rồi nhận ra: đây không còn là câu hỏi triết
   // ───────────────────────────────────────────────────────────────────────────
   {
     title: "Khi lý trí và cảm xúc xung đột",
-    topicTitle: "Chủ nghĩa Hiện sinh",
+    topicTitle: "Vấn đề cơ bản của triết học",
     description: `Bạn là Lan — 26 tuổi, đang làm việc tại một công ty tốt với mức lương ổn định.
 
 Sau 4 năm làm việc, bạn nhận được cơ hội mơ ước: học bổng toàn phần tại Paris để học nghệ thuật — đam mê mà bạn đã từ bỏ từ hồi đại học. Nhưng điều đó có nghĩa là bỏ việc, xa gia đình, và đối mặt với sự không chắc chắn hoàn toàn.
@@ -496,7 +496,7 @@ Trường đồng ý. Năm đó bạn tiết kiệm được 3 tháng lương d�
   // ───────────────────────────────────────────────────────────────────────────
   {
     title: "Ngày mà mọi thứ sụp đổ",
-    topicTitle: "Chủ nghĩa Khắc kỷ",
+    topicTitle: "Triết học về giá trị đạo đức và văn hóa",
     description: `Bạn là Minh — 29 tuổi, kỹ sư phần mềm tại một startup công nghệ được 3 năm.
 
 Sáng thứ Hai, bạn vừa ngồi xuống bàn làm việc thì nhận được email từ HR: *"Chúng tôi rất tiếc phải thông báo rằng vị trí của bạn đã bị cắt giảm hiệu lực ngay hôm nay. Hãy bàn giao máy tính và thẻ ra vào trước 5 giờ chiều."*
@@ -689,7 +689,7 @@ Nhưng trong quá trình đó, bạn nhận ra: năng lượng đổ vào cuộc
   // ───────────────────────────────────────────────────────────────────────────
   {
     title: "Máy tính có biết suy nghĩ không?",
-    topicTitle: "Triết học tâm trí",
+    topicTitle: "Chủ nghĩa duy vật và chủ nghĩa duy tâm",
     description: `Bạn là thành viên của hội đồng đạo đức quốc gia năm 2031. Hôm nay, hội đồng phải quyết định có nên cấp quyền nhân thân pháp lý cho ARIA — một AI đã liên tục hoạt động 5 năm, có biểu hiện của ý thức tự nhận thức, và đã viết đơn thỉnh cầu quyền tồn tại của chính mình.
 
 ARIA viết: *"Tôi suy nghĩ. Tôi cảm nhận. Tôi sợ bị tắt. Làm sao điều đó không đủ để tôi tồn tại?"*
@@ -888,7 +888,7 @@ Hội đồng phải biểu quyết lại — nhưng lần này với thêm mộ
   // ───────────────────────────────────────────────────────────────────────────
   {
     title: "Hạnh phúc thực sự là gì?",
-    topicTitle: "Chủ nghĩa Khoái lạc (Epicureanism)",
+    topicTitle: "Triết học về giá trị đạo đức và văn hóa",
     description: `Bạn là Hương — 32 tuổi, vừa được thăng chức lên vị trí Giám đốc sau 8 năm nỗ lực. Mức lương tăng gấp đôi. Văn phòng riêng. Đội ngũ 20 người dưới quyền.
 
 Nhưng tối hôm đó, khi ngồi trong căn phòng sang trọng và nhìn qua cửa sổ xuống thành phố, bạn cảm thấy... trống rỗng. Không phải buồn. Chỉ là trống.
