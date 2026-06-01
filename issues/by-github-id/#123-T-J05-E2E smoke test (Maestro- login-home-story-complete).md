@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #123 |
-| Track | J: Testing |
-| Nhóm | All |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Any Dev |
+| Thuộc tính        | Giá trị       |
+| ----------------- | ------------- |
+| GitHub issue      | #123          |
+| Track             | J: Testing    |
+| Nhóm              | All           |
+| Loại việc         | testing       |
+| Priority          | medium        |
+| Owner gợi ý       | Any Dev       |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-D16` |
+| Estimate          | 4h            |
+| Milestone         | Week 7        |
+| Dependencies      | `T-D16`       |
 
 ## 3. Requirement cụ thể
 
@@ -37,7 +37,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Critical path automation; CI integration.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 
@@ -134,4 +133,3 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #123 for `T-J05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md`.
-

@@ -11,22 +11,26 @@
 ## T-I07: Production database (Neon/Supabase Postgres + connection pool)
 
 ### Mục tiêu
+
 Hoàn thành **Production database (Neon/Supabase Postgres + connection pool)** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-| Thuộc tính | Giá trị |
-| --- | --- |
-| Track | I: DevOps & Deployment |
-| Nhóm | I-CI/CD |
-| Owner gợi ý | DevOps / Lead Dev |
-| Estimate | 2h |
-| Thời điểm dự kiến | Week 8 |
-| Dependencies | Không có dependency bắt buộc. |
+
+| Thuộc tính        | Giá trị                       |
+| ----------------- | ----------------------------- |
+| Track             | I: DevOps & Deployment        |
+| Nhóm              | I-CI/CD                       |
+| Owner gợi ý       | DevOps / Lead Dev             |
+| Estimate          | 2h                            |
+| Thời điểm dự kiến | Week 8                        |
+| Dependencies      | Không có dependency bắt buộc. |
 
 ### Dependency Notes
+
 Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nhật issue trước khi tiếp tục.
 
 ### Checklist triển khai
+
 - [ ] Triển khai cấu hình **Production database (Neon/Supabase Postgres + connection pool)** theo convention hiện có của repo.
 - [ ] Document các biến môi trường, prerequisite và lệnh chạy cần thiết; không commit secret.
 - [ ] Thêm fail-fast check hoặc health check để lỗi cấu hình hiển thị rõ.
@@ -34,23 +38,27 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: SSL, pgbouncer, backup schedule.
 
 ### Acceptance Criteria
+
 - [ ] SSL
 - [ ] pgbouncer
 - [ ] backup schedule
 
 ### Kiểm chứng bắt buộc
+
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
+
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
+
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -92,4 +100,3 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #118 for `T-I07`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:46:31Z. Local log: `issues/by-github-id/#118-T-I07-Production database (Neon-Supabase Postgres + connection pool).md`.
-

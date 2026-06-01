@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #91 |
-| Track | E: AI & Chat System |
-| Nhóm | E-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Backend+AI Dev |
-| Assignee hiện tại | @VinhHoang03 |
-| Estimate | 2h |
-| Milestone | Week 7 |
-| Dependencies | `T-E07` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #91                 |
+| Track             | E: AI & Chat System |
+| Nhóm              | E-Frontend          |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Backend+AI Dev      |
+| Assignee hiện tại | @VinhHoang03        |
+| Estimate          | 2h                  |
+| Milestone         | Week 7              |
+| Dependencies      | `T-E07`             |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/ai/characters` từ tab/card/link phù hợp | Render màn hình chính của StreamingText component (character-by-character render) |
-| Chọn nhân vật | Bấm character card | Tạo/mở session và điều hướng `/ai/chat/[sessionId]` |
-| Gửi tin nhắn | Nhập prompt -> bấm send | Disable input khi gửi, stream response và auto-scroll |
-
+| Tình huống    | Người dùng thao tác                                | Kết quả bắt buộc                                                                  |
+| ------------- | -------------------------------------------------- | --------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/ai/characters` từ tab/card/link phù hợp | Render màn hình chính của StreamingText component (character-by-character render) |
+| Chọn nhân vật | Bấm character card                                 | Tạo/mở session và điều hướng `/ai/chat/[sessionId]`                               |
+| Gửi tin nhắn  | Nhập prompt -> bấm send                            | Disable input khi gửi, stream response và auto-scroll                             |
 
 ## 4. Flow tích hợp
 

@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #42 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Foundation |
-| Loại việc | frontend |
-| Priority | high |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @thuhataplamdev |
-| Estimate | 3h |
-| Milestone | Week 2 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #42               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Foundation      |
+| Loại việc         | frontend          |
+| Priority          | high              |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @thuhataplamdev   |
+| Estimate          | 3h                |
+| Milestone         | Week 2            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/login` từ tab/card/link phù hợp | Render màn hình chính của Login screen UI (email/pass + validation + loading) |
-| Submit login | Nhập email/password -> bấm "Đăng nhập" | Gọi auth store/API, lưu token, điều hướng `/(tabs)/home` |
-| Mở đăng ký | Bấm "Tạo tài khoản" | Điều hướng `/register` |
-
+| Tình huống   | Người dùng thao tác                        | Kết quả bắt buộc                                                              |
+| ------------ | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/login` từ tab/card/link phù hợp | Render màn hình chính của Login screen UI (email/pass + validation + loading) |
+| Submit login | Nhập email/password -> bấm "Đăng nhập"     | Gọi auth store/API, lưu token, điều hướng `/(tabs)/home`                      |
+| Mở đăng ký   | Bấm "Tạo tài khoản"                        | Điều hướng `/register`                                                        |
 
 ## 4. Flow tích hợp
 
@@ -141,6 +140,7 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 - "Đăng nhập" -> `/(tabs)/home` khi success.
 - "Tạo tài khoản" -> `/register`.
 - "Quên mật khẩu" -> `/forgot-password`.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -150,4 +150,3 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #42 for `T-B04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#042-T-B04-Login screen UI (email-pass + validation + loading).md`.
-

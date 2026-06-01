@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #48 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Main Screens |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @anhthungye |
-| Estimate | 4h |
-| Milestone | Week 3 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #48               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Main Screens    |
+| Loại việc         | frontend          |
+| Priority          | medium            |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @anhthungye       |
+| Estimate          | 4h                |
+| Milestone         | Week 3            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/(tabs)/explore` từ tab/card/link phù hợp | Render màn hình chính của Explore screen (topic grid + search + category filter) |
-| Tìm kiếm/filter | Nhập keyword/chọn category/difficulty | Cập nhật topic grid, giữ query state |
-| Mở topic | Bấm topic card | Điều hướng topic/lesson list hoặc detail đã định trong app |
-
+| Tình huống      | Người dùng thao tác                                 | Kết quả bắt buộc                                                                 |
+| --------------- | --------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Mở màn hình     | User vào `/(tabs)/explore` từ tab/card/link phù hợp | Render màn hình chính của Explore screen (topic grid + search + category filter) |
+| Tìm kiếm/filter | Nhập keyword/chọn category/difficulty               | Cập nhật topic grid, giữ query state                                             |
+| Mở topic        | Bấm topic card                                      | Điều hướng topic/lesson list hoặc detail đã định trong app                       |
 
 ## 4. Flow tích hợp
 
@@ -140,6 +139,7 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 ### Navigation and interaction
 
 - Primary CTA trên `/(tabs)/explore` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -149,4 +149,3 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #48 for `T-B10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#048-T-B10-Explore screen (topic grid + search + category filter).md`.
-

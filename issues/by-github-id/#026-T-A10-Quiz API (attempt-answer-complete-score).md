@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #26 |
-| Track | A: Backend Core |
-| Nhóm | A-Content APIs |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Backend Dev |
+| Thuộc tính        | Giá trị          |
+| ----------------- | ---------------- |
+| GitHub issue      | #26              |
+| Track             | A: Backend Core  |
+| Nhóm              | A-Content APIs   |
+| Loại việc         | backend          |
+| Priority          | medium           |
+| Owner gợi ý       | Backend Dev      |
 | Assignee hiện tại | @linhtv1209-fudn |
-| Estimate | 4h |
-| Milestone | Week 3 |
-| Dependencies | `T-A04` |
+| Estimate          | 4h               |
+| Milestone         | Week 3           |
+| Dependencies      | `T-A04`          |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| POST | `/api/v1/quizzes/:quizId/attempts` | params: quizId | data: attempt { id, startedAt, questions[] } |
-| POST | `/api/v1/quiz-attempts/:attemptId/answers` | body: { questionId, answer } | data: answer result + current score state |
-| PATCH | `/api/v1/quiz-attempts/:attemptId/complete` | body: { timeSpentSeconds } | data: final score, correctCount, total, passed |
-
+| Method | Endpoint                                    | Input                        | Output                                         |
+| ------ | ------------------------------------------- | ---------------------------- | ---------------------------------------------- |
+| POST   | `/api/v1/quizzes/:quizId/attempts`          | params: quizId               | data: attempt { id, startedAt, questions[] }   |
+| POST   | `/api/v1/quiz-attempts/:attemptId/answers`  | body: { questionId, answer } | data: answer result + current score state      |
+| PATCH  | `/api/v1/quiz-attempts/:attemptId/complete` | body: { timeSpentSeconds }   | data: final score, correctCount, total, passed |
 
 ## 4. Flow tích hợp
 
@@ -146,4 +145,3 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #26 for `T-A10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#026-T-A10-Quiz API (attempt-answer-complete-score).md`.
-

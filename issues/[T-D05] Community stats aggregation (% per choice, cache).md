@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #71 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Backend |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 2h |
-| Milestone | Week 4 |
-| Dependencies | `T-D03` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #71                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Backend            |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 2h                   |
+| Milestone         | Week 4               |
+| Dependencies      | `T-D03`              |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/stories/:id/stats` | params: story id | data: choice percentages, totalCompletions, averageTime |
-| Internal | `on decision submit` | input: choiceId/sessionId | output: recomputed or cache-invalidated stats |
-
+| Method   | Endpoint                    | Input                     | Output                                                  |
+| -------- | --------------------------- | ------------------------- | ------------------------------------------------------- |
+| GET      | `/api/v1/stories/:id/stats` | params: story id          | data: choice percentages, totalCompletions, averageTime |
+| Internal | `on decision submit`        | input: choiceId/sessionId | output: recomputed or cache-invalidated stats           |
 
 ## 4. Flow tích hợp
 

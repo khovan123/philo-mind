@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #71 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Backend |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 2h |
-| Milestone | Week 4 |
-| Dependencies | `T-D03` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #71                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Backend            |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 2h                   |
+| Milestone         | Week 4               |
+| Dependencies      | `T-D03`              |
 
 ## 3. Requirement cụ thể
 
@@ -41,11 +41,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/stories/:id/stats` | params: story id | data: choice percentages, totalCompletions, averageTime |
-| Internal | `on decision submit` | input: choiceId/sessionId | output: recomputed or cache-invalidated stats |
-
+| Method   | Endpoint                    | Input                     | Output                                                  |
+| -------- | --------------------------- | ------------------------- | ------------------------------------------------------- |
+| GET      | `/api/v1/stories/:id/stats` | params: story id          | data: choice percentages, totalCompletions, averageTime |
+| Internal | `on decision submit`        | input: choiceId/sessionId | output: recomputed or cache-invalidated stats           |
 
 ## 4. Flow tích hợp
 
@@ -141,4 +140,3 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #71 for `T-D05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md`.
-

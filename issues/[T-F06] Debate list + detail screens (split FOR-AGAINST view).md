@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #98 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Debate |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 5h |
-| Milestone | Week 7 |
-| Dependencies | `T-F05` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #98                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Debate             |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 5h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-F05`              |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
-| Mở debate | Bấm debate card | Điều hướng debate detail split FOR/AGAINST |
-| Gửi luận điểm | Bấm argue CTA | Mở editor, preview, submit argument |
-
+| Tình huống    | Người dùng thao tác                          | Kết quả bắt buộc                                                                |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
+| Mở debate     | Bấm debate card                              | Điều hướng debate detail split FOR/AGAINST                                      |
+| Gửi luận điểm | Bấm argue CTA                                | Mở editor, preview, submit argument                                             |
 
 ## 4. Flow tích hợp
 

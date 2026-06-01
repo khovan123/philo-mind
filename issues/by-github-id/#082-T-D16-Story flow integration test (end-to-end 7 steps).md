@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #82 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 2h |
-| Milestone | Week 7 |
-| Dependencies | `T-D08..T-D14` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #82                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | testing              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 2h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-D08..T-D14`       |
 
 ## 3. Requirement cụ thể
 
@@ -37,7 +37,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Navigate all 7 steps; verify data persistence.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 
@@ -135,4 +134,3 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #82 for `T-D16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 7 steps).md`.
-

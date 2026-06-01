@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #78 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 6h |
-| Milestone | Week 6 |
-| Dependencies | `T-D07` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #78                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 6h                   |
+| Milestone         | Week 6               |
+| Dependencies      | `T-D07`              |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]/result` từ tab/card/link phù hợp | Render màn hình chính của Step 5: CONSEQUENCE screen (narrative + 4 analysis tabs) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                    | Kết quả bắt buộc                                                                   |
+| ------------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/story/[id]/result` từ tab/card/link phù hợp | Render màn hình chính của Step 5: CONSEQUENCE screen (narrative + 4 analysis tabs) |
+| Action chính | Bấm CTA/item chính                                     | Thực hiện submit/navigate/update state theo domain                                 |
 
 ## 4. Flow tích hợp
 

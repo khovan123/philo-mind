@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #110 |
-| Track | H: Missing Features |
-| Nhóm | H-MiniGame |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @kangdev03 |
-| Estimate | 6h |
-| Milestone | Week 6 |
-| Dependencies | `T-H03` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #110                |
+| Track             | H: Missing Features |
+| Nhóm              | H-MiniGame          |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Fullstack Dev       |
+| Assignee hiện tại | @kangdev03          |
+| Estimate          | 6h                  |
+| Milestone         | Week 6              |
+| Dependencies      | `T-H03`             |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
+| Tình huống  | Người dùng thao tác                                 | Kết quả bắt buộc                                                                  |
+| ----------- | --------------------------------------------------- | --------------------------------------------------------------------------------- |
 | Mở màn hình | User vào `/minigames/[id]` từ tab/card/link phù hợp | Render màn hình chính của MiniGame play screen (3 game types + score + animation) |
-| Chơi game | Bấm play/replay | Mở game type tương ứng, tính score và lưu attempt |
-| Xem kết quả | Hoàn thành game | Điều hướng result/leaderboard |
-
+| Chơi game   | Bấm play/replay                                     | Mở game type tương ứng, tính score và lưu attempt                                 |
+| Xem kết quả | Hoàn thành game                                     | Điều hướng result/leaderboard                                                     |
 
 ## 4. Flow tích hợp
 

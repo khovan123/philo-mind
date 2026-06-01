@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #103 |
-| Track | G: Polish & Gamification |
-| Nhóm | All |
-| Loại việc | frontend |
-| Priority | low |
-| Owner gợi ý | Any Dev |
-| Assignee hiện tại | @kangdev03 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-A11`, `T-A12` |
+| Thuộc tính        | Giá trị                  |
+| ----------------- | ------------------------ |
+| GitHub issue      | #103                     |
+| Track             | G: Polish & Gamification |
+| Nhóm              | All                      |
+| Loại việc         | frontend                 |
+| Priority          | low                      |
+| Owner gợi ý       | Any Dev                  |
+| Assignee hiện tại | @kangdev03               |
+| Estimate          | 4h                       |
+| Milestone         | Week 7                   |
+| Dependencies      | `T-A11`, `T-A12`         |
 
 ## 3. Requirement cụ thể
 
@@ -41,11 +41,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Reflection journal screens (list + new + detail) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                     | Kết quả bắt buộc                                                           |
+| ------------ | ------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Reflection journal screens (list + new + detail) |
+| Action chính | Bấm CTA/item chính                                      | Thực hiện submit/navigate/update state theo domain                         |
 
 ## 4. Flow tích hợp
 
@@ -135,6 +134,7 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 ### Navigation and interaction
 
 - Primary CTA trên `/story/[id]/reflect` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -144,4 +144,3 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #103 for `T-G03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#103-T-G03-Reflection journal screens (list + new + detail).md`.
-

@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #119 |
-| Track | J: Testing |
-| Nhóm | All |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Any Dev |
+| Thuộc tính        | Giá trị       |
+| ----------------- | ------------- |
+| GitHub issue      | #119          |
+| Track             | J: Testing    |
+| Nhóm              | All           |
+| Loại việc         | testing       |
+| Priority          | medium        |
+| Owner gợi ý       | Any Dev       |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate | 3h |
-| Milestone | Week 6 |
-| Dependencies | `T-A05` |
+| Estimate          | 3h            |
+| Milestone         | Week 6        |
+| Dependencies      | `T-A05`       |
 
 ## 3. Requirement cụ thể
 
@@ -37,7 +37,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Jest + mocked Prisma; 15+ test cases.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 
@@ -133,4 +132,3 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #119 for `T-J01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#119-T-J01-Backend unit tests- Auth service.md`.
-

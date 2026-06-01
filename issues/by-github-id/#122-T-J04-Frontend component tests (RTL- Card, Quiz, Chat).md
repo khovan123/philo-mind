@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #122 |
-| Track | J: Testing |
-| Nhóm | All |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Any Dev |
+| Thuộc tính        | Giá trị       |
+| ----------------- | ------------- |
+| GitHub issue      | #122          |
+| Track             | J: Testing    |
+| Nhóm              | All           |
+| Loại việc         | testing       |
+| Priority          | medium        |
+| Owner gợi ý       | Any Dev       |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-B02` |
+| Estimate          | 4h            |
+| Milestone         | Week 7        |
+| Dependencies      | `T-B02`       |
 
 ## 3. Requirement cụ thể
 
@@ -37,7 +37,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Render; interaction; snapshot tests.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 
@@ -136,4 +135,3 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
-

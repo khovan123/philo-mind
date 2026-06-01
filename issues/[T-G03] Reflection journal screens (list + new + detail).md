@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #103 |
-| Track | G: Polish & Gamification |
-| Nhóm | All |
-| Loại việc | frontend |
-| Priority | low |
-| Owner gợi ý | Any Dev |
-| Assignee hiện tại | @kangdev03 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-A11`, `T-A12` |
+| Thuộc tính        | Giá trị                  |
+| ----------------- | ------------------------ |
+| GitHub issue      | #103                     |
+| Track             | G: Polish & Gamification |
+| Nhóm              | All                      |
+| Loại việc         | frontend                 |
+| Priority          | low                      |
+| Owner gợi ý       | Any Dev                  |
+| Assignee hiện tại | @kangdev03               |
+| Estimate          | 4h                       |
+| Milestone         | Week 7                   |
+| Dependencies      | `T-A11`, `T-A12`         |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Reflection journal screens (list + new + detail) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                     | Kết quả bắt buộc                                                           |
+| ------------ | ------------------------------------------------------- | -------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Reflection journal screens (list + new + detail) |
+| Action chính | Bấm CTA/item chính                                      | Thực hiện submit/navigate/update state theo domain                         |
 
 ## 4. Flow tích hợp
 

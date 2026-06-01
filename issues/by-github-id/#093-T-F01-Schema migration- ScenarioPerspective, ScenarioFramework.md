@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #93 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Scenario |
-| Loại việc | fullstack |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 2h |
-| Milestone | Week 5 |
-| Dependencies | Không có dependency bắt buộc. |
+| Thuộc tính        | Giá trị                       |
+| ----------------- | ----------------------------- |
+| GitHub issue      | #93                           |
+| Track             | F: Scenario & Debate          |
+| Nhóm              | F-Scenario                    |
+| Loại việc         | fullstack                     |
+| Priority          | medium                        |
+| Owner gợi ý       | Fullstack Dev                 |
+| Assignee hiện tại | @Ngoclee123                   |
+| Estimate          | 2h                            |
+| Milestone         | Week 5                        |
+| Dependencies      | Không có dependency bắt buộc. |
 
 ## 3. Requirement cụ thể
 
@@ -46,22 +46,20 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/scenarios` | query: { topicId, page, limit } | data: scenario cards[] |
-| GET | `/api/v1/scenarios/:id` | params: id | data: situation + perspectives[] + framework[] |
-| POST | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning } | data: saved response + perspective stats |
-| PATCH | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response |
-
+| Method | Endpoint                        | Input                                 | Output                                         |
+| ------ | ------------------------------- | ------------------------------------- | ---------------------------------------------- |
+| GET    | `/api/v1/scenarios`             | query: { topicId, page, limit }       | data: scenario cards[]                         |
+| GET    | `/api/v1/scenarios/:id`         | params: id                            | data: situation + perspectives[] + framework[] |
+| POST   | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning }  | data: saved response + perspective stats       |
+| PATCH  | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response                         |
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/scenarios/[id]` từ tab/card/link phù hợp | Render màn hình chính của Schema migration: ScenarioPerspective, ScenarioFramework |
-| Mở tình huống | Bấm scenario card | Render situation + perspectives |
-| Gửi lập trường | Bấm respond/rethink CTA | Submit response, cập nhật stats và bước rethink |
-
+| Tình huống     | Người dùng thao tác                                 | Kết quả bắt buộc                                                                   |
+| -------------- | --------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Mở màn hình    | User vào `/scenarios/[id]` từ tab/card/link phù hợp | Render màn hình chính của Schema migration: ScenarioPerspective, ScenarioFramework |
+| Mở tình huống  | Bấm scenario card                                   | Render situation + perspectives                                                    |
+| Gửi lập trường | Bấm respond/rethink CTA                             | Submit response, cập nhật stats và bước rethink                                    |
 
 ## 4. Flow tích hợp
 
@@ -150,6 +148,7 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 - Scenario card -> scenario detail.
 - Respond/rethink CTA -> form -> updated perspective/stats view.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -159,4 +158,3 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #93 for `T-F01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md`.
-

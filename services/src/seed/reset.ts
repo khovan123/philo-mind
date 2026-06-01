@@ -53,6 +53,7 @@ const TABLES_TO_TRUNCATE = [
   "user_badges",
   "badges",
   "topics",
+  "users",
 ] as const;
 
 async function resetSeedData() {

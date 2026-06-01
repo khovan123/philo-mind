@@ -3,6 +3,7 @@ chủ_đề: Chủ nghĩa Khắc kỷ
 tiêu_đề: Phân đôi quyền kiểm soát
 thời_gian_đọc: 6 phút
 ---
+
 ## Nội dung chính
 
 Triết gia Epictetus, một người từng làm nô lệ, đã đúc kết toàn bộ nền tảng của **Chủ nghĩa Khắc kỷ** (Stoicism) trong một quy tắc vàng: "Có những thứ nằm trong sự kiểm soát của ta, và có những thứ không". Đây được gọi là nguyên tắc **Phân đôi quyền kiểm soát** (Dichotomy of Control).

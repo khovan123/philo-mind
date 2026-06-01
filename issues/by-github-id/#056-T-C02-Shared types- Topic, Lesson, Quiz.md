@@ -11,22 +11,26 @@
 ## T-C02: Shared types: Topic, Lesson, Quiz
 
 ### Mục tiêu
+
 Hoàn thành **Shared types: Topic, Lesson, Quiz** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-| Thuộc tính | Giá trị |
-| --- | --- |
-| Track | C: Shared Types & Seed Data |
-| Nhóm | All |
-| Owner gợi ý | Any Dev |
-| Estimate | 2h |
-| Thời điểm dự kiến | Week 1 |
-| Dependencies | Không có dependency bắt buộc. |
+
+| Thuộc tính        | Giá trị                       |
+| ----------------- | ----------------------------- |
+| Track             | C: Shared Types & Seed Data   |
+| Nhóm              | All                           |
+| Owner gợi ý       | Any Dev                       |
+| Estimate          | 2h                            |
+| Thời điểm dự kiến | Week 1                        |
+| Dependencies      | Không có dependency bắt buộc. |
 
 ### Dependency Notes
+
 Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nhật issue trước khi tiếp tục.
 
 ### Checklist triển khai
+
 - [ ] Triển khai artifact dùng chung cho **Shared types: Topic, Lesson, Quiz** tại package hoặc seed module phù hợp.
 - [ ] Đảm bảo export/import rõ ràng để consumer dùng được mà không cần truy cập file nội bộ.
 - [ ] Giữ enum, DTO hoặc seed data đồng bộ với schema và API contract hiện có.
@@ -34,23 +38,27 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: `TopicDTO`, `LessonDTO`, `QuizAttemptDTO`.
 
 ### Acceptance Criteria
+
 - [ ] `TopicDTO`
 - [ ] `LessonDTO`
 - [ ] `QuizAttemptDTO`
 
 ### Kiểm chứng bắt buộc
+
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
+
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
+
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -93,4 +101,3 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #56 for `T-C02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:37:45Z. Local log: `issues/by-github-id/#056-T-C02-Shared types- Topic, Lesson, Quiz.md`.
-

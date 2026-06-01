@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #32 |
-| Track | A: Backend Core |
-| Nhóm | A-Platform APIs |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Backend Dev |
-| Assignee hiện tại | @NTA1210 |
-| Estimate | 5h |
-| Milestone | Week 4 |
-| Dependencies | `T-A09` |
+| Thuộc tính        | Giá trị         |
+| ----------------- | --------------- |
+| GitHub issue      | #32             |
+| Track             | A: Backend Core |
+| Nhóm              | A-Platform APIs |
+| Loại việc         | backend         |
+| Priority          | medium          |
+| Owner gợi ý       | Backend Dev     |
+| Assignee hiện tại | @NTA1210        |
+| Estimate          | 5h              |
+| Milestone         | Week 4          |
+| Dependencies      | `T-A09`         |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/badges` | query: { earnedOnly? } | data: badge definitions + user earned state |
-| POST | `/api/v1/badges/evaluate` | auth user or activity event | data: newlyAwardedBadges[] |
-| POST/PATCH | `/api/v1/badges` | body: badge definition + condition | data: created/updated badge; admin only |
-
+| Method     | Endpoint                  | Input                              | Output                                      |
+| ---------- | ------------------------- | ---------------------------------- | ------------------------------------------- |
+| GET        | `/api/v1/badges`          | query: { earnedOnly? }             | data: badge definitions + user earned state |
+| POST       | `/api/v1/badges/evaluate` | auth user or activity event        | data: newlyAwardedBadges[]                  |
+| POST/PATCH | `/api/v1/badges`          | body: badge definition + condition | data: created/updated badge; admin only     |
 
 ## 4. Flow tích hợp
 
@@ -142,4 +141,3 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
-

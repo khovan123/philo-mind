@@ -11,22 +11,26 @@
 ## T-A04: Auth middleware (authGuard + roleGuard)
 
 ### Mục tiêu
+
 Hoàn thành **Auth middleware (authGuard + roleGuard)** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-| Thuộc tính | Giá trị |
-| --- | --- |
-| Track | A: Backend Core |
-| Nhóm | A-Foundation |
-| Owner gợi ý | Backend Dev |
-| Estimate | 2h |
-| Thời điểm dự kiến | Week 1 |
-| Dependencies | `T-A03` |
+
+| Thuộc tính        | Giá trị         |
+| ----------------- | --------------- |
+| Track             | A: Backend Core |
+| Nhóm              | A-Foundation    |
+| Owner gợi ý       | Backend Dev     |
+| Estimate          | 2h              |
+| Thời điểm dự kiến | Week 1          |
+| Dependencies      | `T-A03`         |
 
 ### Dependency Notes
+
 Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc có contract/mock được thống nhất.
 
 ### Checklist triển khai
+
 - [ ] Khảo sát module hiện có và bám theo cấu trúc service/controller/routes/validator của repo.
 - [ ] Triển khai đầy đủ scope **Auth middleware (authGuard + roleGuard)**; nối route hoặc middleware vào entrypoint thực tế.
 - [ ] Bổ sung validation, xử lý lỗi và response format nhất quán với API hiện có.
@@ -34,22 +38,26 @@ Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc c
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: 401/403 responses, `req.user` attachment.
 
 ### Acceptance Criteria
+
 - [ ] 401/403 responses
 - [ ] `req.user` attachment
 
 ### Kiểm chứng bắt buộc
+
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
+
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
+
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -90,4 +98,3 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #20 for `T-A04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:13:16Z. Local log: `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md`.
-

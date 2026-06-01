@@ -9,6 +9,7 @@ const Icons = {
   learn: BookOpen,
   debate: MessageSquare,
   profile: UserRound,
+  story: BookOpen,
 } as const;
 
 export type TabIconName = keyof typeof Icons;

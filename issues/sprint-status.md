@@ -15,27 +15,27 @@
 
 ## Progress By Track
 
-| Track | Name | Total | Done | Open |
-| --- | --- | ---: | ---: | ---: |
-| Track A | Backend Core | 22 | 14 | 8 |
-| Track B | Frontend Shell | 16 | 6 | 10 |
-| Track C | Shared Types & Seed | 12 | 3 | 9 |
-| Track D | Story Mode Engine | 16 | 5 | 11 |
-| Track E | AI & Chat System | 10 | 0 | 10 |
-| Track F | Scenario & Debate | 8 | 0 | 8 |
-| Track G | Polish & Gamification | 6 | 0 | 6 |
-| Track H | Missing Features | 5 | 0 | 5 |
-| Track I | DevOps & Deploy | 7 | 7 | 0 |
-| Track J | Testing | 5 | 0 | 5 |
-| Track K | Admin & Settings | 4 | 3 | 1 |
+| Track   | Name                  | Total | Done | Open |
+| ------- | --------------------- | ----: | ---: | ---: |
+| Track A | Backend Core          |    22 |   14 |    8 |
+| Track B | Frontend Shell        |    16 |    6 |   10 |
+| Track C | Shared Types & Seed   |    12 |    3 |    9 |
+| Track D | Story Mode Engine     |    16 |    5 |   11 |
+| Track E | AI & Chat System      |    10 |    0 |   10 |
+| Track F | Scenario & Debate     |     8 |    0 |    8 |
+| Track G | Polish & Gamification |     6 |    0 |    6 |
+| Track H | Missing Features      |     5 |    0 |    5 |
+| Track I | DevOps & Deploy       |     7 |    7 |    0 |
+| Track J | Testing               |     5 |    0 |    5 |
+| Track K | Admin & Settings      |     4 |    3 |    1 |
 
 ## Open Issues By Priority
 
 | Priority | Open |
-| --- | ---: |
-| high | 9 |
-| medium | 57 |
-| low | 7 |
+| -------- | ---: |
+| high     |    9 |
+| medium   |   57 |
+| low      |    7 |
 
 ## Next Recommended Work
 

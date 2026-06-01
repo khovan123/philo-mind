@@ -22,7 +22,6 @@ const DEFAULT_API_URL = Platform.select({
   default: "http://localhost:3001/api/v1",
 });
 
-
 const REQUEST_TIMEOUT_MS = 10000;
 
 type ApiSuccessResponse<T> = {
@@ -66,18 +65,18 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
       throw new ApiError("Không thể đọc phản hồi từ server", response.status, "INVALID_RESPONSE");
     }
 
-if (!response.ok || body.success === false) {
-  if (body.success === false) {
-    throw new ApiError(
-      body.error.message,
-      response.status,
-      body.error.code,
-      body.error.details,
-    );
-  }
+    if (!response.ok || body.success === false) {
+      if (body.success === false) {
+        throw new ApiError(
+          body.error.message,
+          response.status,
+          body.error.code,
+          body.error.details,
+        );
+      }
 
-  throw new ApiError("Request failed", response.status);
-}
+      throw new ApiError("Request failed", response.status);
+    }
     return body.data;
   } catch (error) {
     if (error instanceof ApiError) {

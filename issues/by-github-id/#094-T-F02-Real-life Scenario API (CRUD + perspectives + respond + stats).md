@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #94 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Scenario |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 5h |
-| Milestone | Week 5 |
-| Dependencies | `T-F01`, `T-A04` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #94                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Scenario           |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 5h                   |
+| Milestone         | Week 5               |
+| Dependencies      | `T-F01`, `T-A04`     |
 
 ## 3. Requirement cụ thể
 
@@ -41,13 +41,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/scenarios` | query: { topicId, page, limit } | data: scenario cards[] |
-| GET | `/api/v1/scenarios/:id` | params: id | data: situation + perspectives[] + framework[] |
-| POST | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning } | data: saved response + perspective stats |
-| PATCH | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response |
-
+| Method | Endpoint                        | Input                                 | Output                                         |
+| ------ | ------------------------------- | ------------------------------------- | ---------------------------------------------- |
+| GET    | `/api/v1/scenarios`             | query: { topicId, page, limit }       | data: scenario cards[]                         |
+| GET    | `/api/v1/scenarios/:id`         | params: id                            | data: situation + perspectives[] + framework[] |
+| POST   | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning }  | data: saved response + perspective stats       |
+| PATCH  | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response                         |
 
 ## 4. Flow tích hợp
 
@@ -146,4 +145,3 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #94 for `T-F02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md`.
-

@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #86 |
-| Track | E: AI & Chat System |
-| Nhóm | E-Backend |
-| Loại việc | backend |
-| Priority | high |
-| Owner gợi ý | Backend+AI Dev |
-| Assignee hiện tại | @VinhHoang03 |
-| Estimate | 4h |
-| Milestone | Week 4 |
-| Dependencies | `T-E03` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #86                 |
+| Track             | E: AI & Chat System |
+| Nhóm              | E-Backend           |
+| Loại việc         | backend             |
+| Priority          | high                |
+| Owner gợi ý       | Backend+AI Dev      |
+| Assignee hiện tại | @VinhHoang03        |
+| Estimate          | 4h                  |
+| Milestone         | Week 4              |
+| Dependencies      | `T-E03`             |
 
 ## 3. Requirement cụ thể
 
@@ -31,13 +31,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| POST | `/api/v1/ai/chat/sessions` | body: { characterId, topicId? } | data: chat session |
-| GET | `/api/v1/ai/chat/sessions` | auth user | data: session list |
-| POST | `/api/v1/ai/chat/sessions/:id/messages` | body: { content } | data: user message + assistant response metadata |
-| GET | `/api/v1/ai/chat/sessions/:id/stream` | query/header: session token context | SSE text chunks + done/error events |
-
+| Method | Endpoint                                | Input                               | Output                                           |
+| ------ | --------------------------------------- | ----------------------------------- | ------------------------------------------------ |
+| POST   | `/api/v1/ai/chat/sessions`              | body: { characterId, topicId? }     | data: chat session                               |
+| GET    | `/api/v1/ai/chat/sessions`              | auth user                           | data: session list                               |
+| POST   | `/api/v1/ai/chat/sessions/:id/messages` | body: { content }                   | data: user message + assistant response metadata |
+| GET    | `/api/v1/ai/chat/sessions/:id/stream`   | query/header: session token context | SSE text chunks + done/error events              |
 
 ## 4. Flow tích hợp
 

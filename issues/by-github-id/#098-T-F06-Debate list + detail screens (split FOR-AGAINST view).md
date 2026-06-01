@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #98 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Debate |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 5h |
-| Milestone | Week 7 |
-| Dependencies | `T-F05` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #98                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Debate             |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 5h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-F05`              |
 
 ## 3. Requirement cụ thể
 
@@ -41,12 +41,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
-| Mở debate | Bấm debate card | Điều hướng debate detail split FOR/AGAINST |
-| Gửi luận điểm | Bấm argue CTA | Mở editor, preview, submit argument |
-
+| Tình huống    | Người dùng thao tác                          | Kết quả bắt buộc                                                                |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
+| Mở debate     | Bấm debate card                              | Điều hướng debate detail split FOR/AGAINST                                      |
+| Gửi luận điểm | Bấm argue CTA                                | Mở editor, preview, submit argument                                             |
 
 ## 4. Flow tích hợp
 
@@ -141,6 +140,7 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 - Debate card -> detail split FOR/AGAINST.
 - Argue CTA -> editor/preview -> submitted argument.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -150,4 +150,3 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #98 for `T-F06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#098-T-F06-Debate list + detail screens (split FOR-AGAINST view).md`.
-

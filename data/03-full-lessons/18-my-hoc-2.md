@@ -3,6 +3,7 @@ chủ_đề: Mỹ học
 tiêu_đề: Nghệ thuật vị nghệ thuật hay vị nhân sinh?
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Một tác phẩm nghệ thuật nên phục vụ mục đích đạo đức, tuyên truyền xã hội (Nghệ thuật vị nhân sinh), hay nó chỉ tồn tại vì vẻ đẹp thuần túy của chính nó mà không cần gánh vác bất kỳ thông điệp nào (Nghệ thuật vị nghệ thuật)?

@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #32 |
-| Track | A: Backend Core |
-| Nhóm | A-Platform APIs |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Backend Dev |
-| Assignee hiện tại | @NTA1210 |
-| Estimate | 5h |
-| Milestone | Week 4 |
-| Dependencies | `T-A09` |
+| Thuộc tính        | Giá trị         |
+| ----------------- | --------------- |
+| GitHub issue      | #32             |
+| Track             | A: Backend Core |
+| Nhóm              | A-Platform APIs |
+| Loại việc         | backend         |
+| Priority          | medium          |
+| Owner gợi ý       | Backend Dev     |
+| Assignee hiện tại | @NTA1210        |
+| Estimate          | 5h              |
+| Milestone         | Week 4          |
+| Dependencies      | `T-A09`         |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/badges` | query: { earnedOnly? } | data: badge definitions + user earned state |
-| POST | `/api/v1/badges/evaluate` | auth user or activity event | data: newlyAwardedBadges[] |
-| POST/PATCH | `/api/v1/badges` | body: badge definition + condition | data: created/updated badge; admin only |
-
+| Method     | Endpoint                  | Input                              | Output                                      |
+| ---------- | ------------------------- | ---------------------------------- | ------------------------------------------- |
+| GET        | `/api/v1/badges`          | query: { earnedOnly? }             | data: badge definitions + user earned state |
+| POST       | `/api/v1/badges/evaluate` | auth user or activity event        | data: newlyAwardedBadges[]                  |
+| POST/PATCH | `/api/v1/badges`          | body: badge definition + condition | data: created/updated badge; admin only     |
 
 ## 4. Flow tích hợp
 

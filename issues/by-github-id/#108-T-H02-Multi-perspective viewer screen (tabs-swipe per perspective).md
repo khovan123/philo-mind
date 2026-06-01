@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #108 |
-| Track | H: Missing Features |
-| Nhóm | H-MultiPerspective |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 4h |
-| Milestone | Week 5 |
-| Dependencies | `T-H01` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #108                |
+| Track             | H: Missing Features |
+| Nhóm              | H-MultiPerspective  |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Fullstack Dev       |
+| Assignee hiện tại | @Ngoclee123         |
+| Estimate          | 4h                  |
+| Milestone         | Week 5              |
+| Dependencies      | `T-H01`             |
 
 ## 3. Requirement cụ thể
 
@@ -41,11 +41,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Multi-perspective viewer screen (tabs/swipe per perspective) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                   | Kết quả bắt buộc                                                                       |
+| ------------ | ------------------------------------- | -------------------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Multi-perspective viewer screen (tabs/swipe per perspective) |
+| Action chính | Bấm CTA/item chính                    | Thực hiện submit/navigate/update state theo domain                                     |
 
 ## 4. Flow tích hợp
 
@@ -136,6 +135,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### Navigation and interaction
 
 - Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
@@ -145,4 +145,3 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #108 for `T-H02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#108-T-H02-Multi-perspective viewer screen (tabs-swipe per perspective).md`.
-

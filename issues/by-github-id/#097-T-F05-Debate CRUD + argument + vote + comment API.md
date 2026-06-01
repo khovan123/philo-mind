@@ -18,18 +18,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #97 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Debate |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 5h |
-| Milestone | Week 7 |
-| Dependencies | `T-A04` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #97                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Debate             |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 5h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-A04`              |
 
 ## 3. Requirement cụ thể
 
@@ -41,13 +41,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/debates` | query: { topicId, stance?, page, limit } | data: debate list with counts |
-| GET | `/api/v1/debates/:id` | params: id | data: debate detail + for/against arguments + comments |
-| POST | `/api/v1/debates/:id/arguments` | body: { stance, content, sources? } | data: created argument |
-| POST | `/api/v1/debate-arguments/:id/votes` | body: { value } | data: updated vote summary |
-
+| Method | Endpoint                             | Input                                    | Output                                                 |
+| ------ | ------------------------------------ | ---------------------------------------- | ------------------------------------------------------ |
+| GET    | `/api/v1/debates`                    | query: { topicId, stance?, page, limit } | data: debate list with counts                          |
+| GET    | `/api/v1/debates/:id`                | params: id                               | data: debate detail + for/against arguments + comments |
+| POST   | `/api/v1/debates/:id/arguments`      | body: { stance, content, sources? }      | data: created argument                                 |
+| POST   | `/api/v1/debate-arguments/:id/votes` | body: { value }                          | data: updated vote summary                             |
 
 ## 4. Flow tích hợp
 
@@ -147,4 +146,3 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #97 for `T-F05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#097-T-F05-Debate CRUD + argument + vote + comment API.md`.
-
