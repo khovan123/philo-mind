@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#115](https://github.com/khovan123/philo-mind/issues/115)
-- State: closed
+- State: done
 - Track: I - DevOps & Deploy
 - Type: devops
-- Updated at: 2026-05-31T15:54:28Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @khovan123
+- Updated at: 2026-06-01T05:30:15Z
+- Closed at: 2026-05-30T16:05:18Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #115 / `T-I04`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #115 |
+| Task ID | T-I04 |
+| Title | GitHub Actions CI (lint + typecheck + test on PR) |
+| State | done |
+| Local log path | `issues/by-github-id/#115-T-I04-GitHub Actions CI (lint + typecheck + test on PR).md` |
+
+## Issue Body
 
 ## T-I04: GitHub Actions CI (lint + typecheck + test on PR)
 
@@ -98,5 +126,4 @@ Team có kiểm chứng tự động cho flow quan trọng để phát hiện re
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #115 for `T-I04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T16:05:18Z. Local log: `issues/by-github-id/#115-T-I04-GitHub Actions CI (lint + typecheck + test on PR).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #115 for `T-I04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T16:05:18Z. Local log: `issues/by-github-id/#115-T-I04-GitHub Actions CI (lint + typecheck + test on PR).md`.

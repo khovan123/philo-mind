@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#21](https://github.com/khovan123/philo-mind/issues/21)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:52:58Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @khovan123, @NTA1210
+- Updated at: 2026-06-01T05:31:52Z
+- Closed at: 2026-05-29T01:29:26Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #21 / `T-A05`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #21 |
+| Task ID | T-A05 |
+| Title | Auth routes + controller (/api/v1/auth/*) |
+| State | done |
+| Local log path | `issues/by-github-id/#021-T-A05-Auth routes + controller (-api-v1-auth--).md` |
+
+## Issue Body
 
 ## T-A05: Auth routes + controller (`/api/v1/auth/*`)
 
@@ -99,5 +127,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #21 for `T-A05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:29:26Z. Local log: `issues/by-github-id/#021-T-A05-Auth routes + controller (-api-v1-auth--).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #21 for `T-A05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:29:26Z. Local log: `issues/by-github-id/#021-T-A05-Auth routes + controller (-api-v1-auth--).md`.

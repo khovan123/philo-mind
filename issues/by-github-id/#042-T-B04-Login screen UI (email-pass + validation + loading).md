@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#42](https://github.com/khovan123/philo-mind/issues/42)
-- State: closed
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:18Z
+- Priority: high
+- Milestone: Week 2
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T05:31:30Z
+- Closed at: 2026-05-31T20:56:19Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #42 / `T-B04`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #42 |
+| Task ID | T-B04 |
+| Title | Login screen UI (email/pass + validation + loading) |
+| State | done |
+| Local log path | `issues/by-github-id/#042-T-B04-Login screen UI (email-pass + validation + loading).md` |
+
+## Issue Body
 
 # T-B04: Login screen UI (email/pass + validation + loading)
 
@@ -157,5 +185,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #42 for `T-B04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T20:56:19Z. Local log: `issues/by-github-id/#042-T-B04-Login screen UI (email-pass + validation + loading).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #42 for `T-B04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#042-T-B04-Login screen UI (email-pass + validation + loading).md`.

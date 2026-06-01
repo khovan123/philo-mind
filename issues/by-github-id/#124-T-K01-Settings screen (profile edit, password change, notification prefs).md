@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#124](https://github.com/khovan123/philo-mind/issues/124)
-- State: closed
+- State: done
 - Track: K - Admin & Settings
 - Type: frontend
-- Updated at: 2026-05-31T15:54:37Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:06Z
+- Closed at: 2026-05-31T12:54:09Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #124 / `T-K01`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #124 |
+| Task ID | T-K01 |
+| Title | Settings screen (profile edit, password change, notification prefs) |
+| State | done |
+| Local log path | `issues/by-github-id/#124-T-K01-Settings screen (profile edit, password change, notification prefs).md` |
+
+## Issue Body
 
 ## T-K01: Settings screen (profile edit, password change, notification prefs)
 
@@ -104,5 +132,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #124 for `T-K01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T12:54:09Z. Local log: `issues/by-github-id/#124-T-K01-Settings screen (profile edit, password change, notification prefs).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #124 for `T-K01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T12:54:09Z. Local log: `issues/by-github-id/#124-T-K01-Settings screen (profile edit, password change, notification prefs).md`.

@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#56](https://github.com/khovan123/philo-mind/issues/56)
-- State: closed
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:32Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T05:31:16Z
+- Closed at: 2026-05-30T17:37:45Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #56 / `T-C02`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #56 |
+| Task ID | T-C02 |
+| Title | Shared types: Topic, Lesson, Quiz |
+| State | done |
+| Local log path | `issues/by-github-id/#056-T-C02-Shared types- Topic, Lesson, Quiz.md` |
+
+## Issue Body
 
 ## T-C02: Shared types: Topic, Lesson, Quiz
 
@@ -100,5 +128,4 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #56 for `T-C02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:37:45Z. Local log: `issues/by-github-id/#056-T-C02-Shared types- Topic, Lesson, Quiz.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #56 for `T-C02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:37:45Z. Local log: `issues/by-github-id/#056-T-C02-Shared types- Topic, Lesson, Quiz.md`.

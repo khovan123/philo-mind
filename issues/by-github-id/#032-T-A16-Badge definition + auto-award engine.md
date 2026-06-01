@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#32](https://github.com/khovan123/philo-mind/issues/32)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:09Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @NTA1210
+- Updated at: 2026-06-01T05:31:41Z
+- Closed at: 2026-05-31T17:47:41Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #32 / `T-A16`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #32 |
+| Task ID | T-A16 |
+| Title | Badge definition + auto-award engine |
+| State | done |
+| Local log path | `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md` |
+
+## Issue Body
 
 # T-A16: Badge definition + auto-award engine
 
@@ -149,5 +177,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T17:47:41Z. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #32 for `T-A16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#032-T-A16-Badge definition + auto-award engine.md`.

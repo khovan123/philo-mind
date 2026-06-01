@@ -6,7 +6,34 @@
 - State: open
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:10Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @NTA1210
+- Updated at: 2026-06-01T05:31:39Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #34 / `T-A18`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #34 |
+| Task ID | T-A18 |
+| Title | Content moderation (report/action/auto-flag) |
+| State | open |
+| Local log path | `issues/by-github-id/#034-T-A18-Content moderation (report-action-auto-flag).md` |
+
+## Issue Body
 
 # T-A18: Content moderation (report/action/auto-flag)
 
@@ -150,5 +177,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #34 for `T-A18`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#034-T-A18-Content moderation (report-action-auto-flag).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #34 for `T-A18`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#034-T-A18-Content moderation (report-action-auto-flag).md`.

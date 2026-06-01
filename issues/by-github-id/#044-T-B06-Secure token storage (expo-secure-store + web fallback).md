@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#44](https://github.com/khovan123/philo-mind/issues/44)
-- State: open
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:20Z
+- Priority: high
+- Milestone: Week 2
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T05:31:28Z
+- Closed at: 2026-06-01T05:15:53Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #44 / `T-B06`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #44 |
+| Task ID | T-B06 |
+| Title | Secure token storage (expo-secure-store + web fallback) |
+| State | done |
+| Local log path | `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md` |
+
+## Issue Body
 
 # T-B06: Secure token storage (expo-secure-store + web fallback)
 
@@ -150,5 +178,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #44 for `T-B06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #44 for `T-B06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md`.

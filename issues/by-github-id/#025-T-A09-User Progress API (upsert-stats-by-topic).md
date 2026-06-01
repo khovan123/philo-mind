@@ -6,7 +6,34 @@
 - State: open
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:02Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @linhtv1209-fudn
+- Updated at: 2026-06-01T05:31:48Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #25 / `T-A09`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #25 |
+| Task ID | T-A09 |
+| Title | User Progress API (upsert/stats/by-topic) |
+| State | open |
+| Local log path | `issues/by-github-id/#025-T-A09-User Progress API (upsert-stats-by-topic).md` |
+
+## Issue Body
 
 # T-A09: User Progress API (upsert/stats/by-topic)
 
@@ -154,5 +181,4 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #25 for `T-A09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#025-T-A09-User Progress API (upsert-stats-by-topic).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #25 for `T-A09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#025-T-A09-User Progress API (upsert-stats-by-topic).md`.

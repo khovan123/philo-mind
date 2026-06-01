@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#65](https://github.com/khovan123/philo-mind/issues/65)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:40Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T12:04:19Z
+- Closed at: 2026-06-01T12:04:19Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #65 / `T-C11`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #65 |
+| Task ID | T-C11 |
+| Title | Seed: 5 MiniGames (matching, guess-who, logic) |
+| State | done |
+| Local log path | `issues/by-github-id/#065-T-C11-Seed- 5 MiniGames (matching, guess-who, logic).md` |
+
+## Issue Body
 
 # T-C11: Seed: 5 MiniGames (matching, guess-who, logic)
 
@@ -139,5 +167,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #65 for `T-C11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#065-T-C11-Seed- 5 MiniGames (matching, guess-who, logic).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #65 for `T-C11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#065-T-C11-Seed- 5 MiniGames (matching, guess-who, logic).md`.

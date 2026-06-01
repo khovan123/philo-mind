@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#64](https://github.com/khovan123/philo-mind/issues/64)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:39Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T11:50:33Z
+- Closed at: 2026-06-01T11:50:33Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #64 / `T-C10`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #64 |
+| Task ID | T-C10 |
+| Title | Seed: 10 Debates + 20 Critical Questions + 10 Badges |
+| State | done |
+| Local log path | `issues/by-github-id/#064-T-C10-Seed- 10 Debates + 20 Critical Questions + 10 Badges.md` |
+
+## Issue Body
 
 # T-C10: Seed: 10 Debates + 20 Critical Questions + 10 Badges
 
@@ -142,5 +170,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #64 for `T-C10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#064-T-C10-Seed- 10 Debates + 20 Critical Questions + 10 Badges.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #64 for `T-C10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#064-T-C10-Seed- 10 Debates + 20 Critical Questions + 10 Badges.md`.

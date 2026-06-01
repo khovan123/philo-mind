@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#116](https://github.com/khovan123/philo-mind/issues/116)
-- State: closed
+- State: done
 - Track: I - DevOps & Deploy
 - Type: devops
-- Updated at: 2026-05-31T15:54:29Z
+- Priority: medium
+- Milestone: Week 8
+- Assignees: @khovan123
+- Updated at: 2026-06-01T05:30:14Z
+- Closed at: 2026-05-31T07:51:19Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #116 / `T-I05`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #116 |
+| Task ID | T-I05 |
+| Title | EAS Build config (iOS + Android preview + production) |
+| State | done |
+| Local log path | `issues/by-github-id/#116-T-I05-EAS Build config (iOS + Android preview + production).md` |
+
+## Issue Body
 
 ## T-I05: EAS Build config (iOS + Android preview + production)
 
@@ -99,5 +127,4 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #116 for `T-I05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:51:19Z. Local log: `issues/by-github-id/#116-T-I05-EAS Build config (iOS + Android preview + production).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #116 for `T-I05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:51:19Z. Local log: `issues/by-github-id/#116-T-I05-EAS Build config (iOS + Android preview + production).md`.
