@@ -2,6 +2,8 @@ import type React from "react";
 import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Card } from "@/components/ui";
+
 import { QuizHeader } from "./QuizHeader";
 import { quizStyles as styles } from "./ui";
 
@@ -16,7 +18,7 @@ export function QuizState({ children, title }: QuizStateProps) {
       <View style={styles.screen}>
         <QuizHeader title={title} timer="05:00" />
         <View style={styles.stateBody}>
-          <View style={styles.stateCard}>{children}</View>
+          <Card style={styles.stateCard}>{children}</Card>
         </View>
       </View>
     </SafeAreaView>
