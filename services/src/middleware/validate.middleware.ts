@@ -21,7 +21,10 @@ export function validate(schema: ZodObject<ZodRawShape>) {
       // Note: req.query is a getter-only property in Express 5 and cannot be reassigned directly.
       // We use Object.defineProperty to shadow/override it safely on the request instance.
       const result = parsed as Record<string, unknown>;
+
+      // req.body is writable in Express — replace directly
       req.body = result.body ?? req.body;
+
       req.params = (result.params as typeof req.params) ?? req.params;
       if (result.query) {
         Object.defineProperty(req, "query", {
@@ -31,7 +34,6 @@ export function validate(schema: ZodObject<ZodRawShape>) {
           enumerable: true,
         });
       }
-
       return next();
     } catch (error) {
       if (error instanceof ZodError) {

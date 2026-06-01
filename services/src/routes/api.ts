@@ -11,6 +11,8 @@ import { moderationRouter } from "./moderation.routes.js";
 import { topicsRouter } from "./topics.routes.js";
 import { storiesRouter } from "./stories.routes.js";
 import { statsRouter } from "./stats.routes.js";
+import { aiRouter } from "./ai.routes.js";
+
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
 import { analysisTabRouter } from "./analysis-tab.routes.js";
@@ -64,6 +66,8 @@ apiRouter.use("/topics/:topicId/perspectives", topicPerspectiveRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
 
+// AI endpoints (Gemini)
+apiRouter.use("/ai", aiRouter);
 // T-D01: Story Mode Engine — learn cards, analysis tabs, philosophy tags
 apiRouter.use("/philosophy-tags", philosophyTagRouter);
 apiRouter.use("/stories/:storyId/learn-cards", storyLearnCardRouter);
