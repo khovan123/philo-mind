@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#63](https://github.com/khovan123/philo-mind/issues/63)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:38Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T10:16:16Z
+- Closed at: 2026-06-01T10:16:16Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #63 / `T-C09`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #63 |
+| Task ID | T-C09 |
+| Title | Seed: 10 Real-life Scenarios (4 perspectives each) |
+| State | done |
+| Local log path | `issues/by-github-id/#063-T-C09-Seed- 10 Real-life Scenarios (4 perspectives each).md` |
+
+## Issue Body
 
 # T-C09: Seed: 10 Real-life Scenarios (4 perspectives each)
 
@@ -140,5 +168,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #63 for `T-C09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#063-T-C09-Seed- 10 Real-life Scenarios (4 perspectives each).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #63 for `T-C09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#063-T-C09-Seed- 10 Real-life Scenarios (4 perspectives each).md`.

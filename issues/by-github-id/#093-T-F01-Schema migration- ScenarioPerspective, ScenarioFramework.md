@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#93](https://github.com/khovan123/philo-mind/issues/93)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: fullstack
-- Updated at: 2026-05-31T15:54:07Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @Ngoclee123
+- Updated at: 2026-06-01T06:29:11Z
+- Closed at: 2026-06-01T06:29:11Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #93 / `T-F01`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #93 |
+| Task ID | T-F01 |
+| Title | Schema migration: ScenarioPerspective, ScenarioFramework |
+| State | done |
+| Local log path | `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md` |
+
+## Issue Body
 
 # T-F01: Schema migration: ScenarioPerspective, ScenarioFramework
 
@@ -166,5 +194,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #93 for `T-F01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #93 for `T-F01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md`.

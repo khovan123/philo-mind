@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#125](https://github.com/khovan123/philo-mind/issues/125)
-- State: closed
+- State: done
 - Track: K - Admin & Settings
 - Type: fullstack
-- Updated at: 2026-05-31T15:54:38Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:05Z
+- Closed at: 2026-05-31T11:57:38Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #125 / `T-K02`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #125 |
+| Task ID | T-K02 |
+| Title | Forgot/Reset password API + screen (email OTP flow) |
+| State | done |
+| Local log path | `issues/by-github-id/#125-T-K02-Forgot-Reset password API + screen (email OTP flow).md` |
+
+## Issue Body
 
 ## T-K02: Forgot/Reset password API + screen (email OTP flow)
 
@@ -103,5 +131,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #125 for `T-K02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:38Z. Local log: `issues/by-github-id/#125-T-K02-Forgot-Reset password API + screen (email OTP flow).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #125 for `T-K02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:38Z. Local log: `issues/by-github-id/#125-T-K02-Forgot-Reset password API + screen (email OTP flow).md`.

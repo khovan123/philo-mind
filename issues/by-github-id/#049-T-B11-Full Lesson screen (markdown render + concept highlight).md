@@ -6,7 +6,34 @@
 - State: open
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:25Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @anhthungye
+- Updated at: 2026-06-01T05:31:23Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #49 / `T-B11`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #49 |
+| Task ID | T-B11 |
+| Title | Full Lesson screen (markdown render + concept highlight) |
+| State | open |
+| Local log path | `issues/by-github-id/#049-T-B11-Full Lesson screen (markdown render + concept highlight).md` |
+
+## Issue Body
 
 # T-B11: Full Lesson screen (markdown render + concept highlight)
 
@@ -156,5 +183,4 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #49 for `T-B11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#049-T-B11-Full Lesson screen (markdown render + concept highlight).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #49 for `T-B11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#049-T-B11-Full Lesson screen (markdown render + concept highlight).md`.

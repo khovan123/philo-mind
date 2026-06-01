@@ -6,7 +6,34 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: frontend
-- Updated at: 2026-05-31T15:53:54Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:30:51Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #80 / `T-D14`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #80 |
+| Task ID | T-D14 |
+| Title | Step 7: REFLECT screen (journal + completion) |
+| State | open |
+| Local log path | `issues/by-github-id/#080-T-D14-Step 7- REFLECT screen (journal + completion).md` |
+
+## Issue Body
 
 # T-D14: Step 7: REFLECT screen (journal + completion)
 
@@ -151,5 +178,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #80 for `T-D14`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#080-T-D14-Step 7- REFLECT screen (journal + completion).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #80 for `T-D14`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#080-T-D14-Step 7- REFLECT screen (journal + completion).md`.

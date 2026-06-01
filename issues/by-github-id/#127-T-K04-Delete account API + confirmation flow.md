@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#127](https://github.com/khovan123/philo-mind/issues/127)
-- State: closed
+- State: done
 - Track: K - Admin & Settings
 - Type: fullstack
-- Updated at: 2026-05-31T15:54:40Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:02Z
+- Closed at: 2026-05-31T11:57:39Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #127 / `T-K04`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #127 |
+| Task ID | T-K04 |
+| Title | Delete account API + confirmation flow |
+| State | done |
+| Local log path | `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md` |
+
+## Issue Body
 
 ## T-K04: Delete account API + confirmation flow
 
@@ -101,5 +129,4 @@ Người dùng quản lý hồ sơ, cài đặt, pháp lý và quyền riêng t�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #127 for `T-K04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:39Z. Local log: `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #127 for `T-K04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:57:39Z. Local log: `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md`.

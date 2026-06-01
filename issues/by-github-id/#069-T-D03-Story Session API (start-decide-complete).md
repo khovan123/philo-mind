@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#69](https://github.com/khovan123/philo-mind/issues/69)
-- State: closed
+- State: done
 - Track: D - Story Mode Engine
 - Type: backend
-- Updated at: 2026-05-31T15:53:44Z
+- Priority: high
+- Milestone: Week 3
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:31:03Z
+- Closed at: 2026-05-31T13:58:42Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #69 / `T-D03`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #69 |
+| Task ID | T-D03 |
+| Title | Story Session API (start/decide/complete) |
+| State | done |
+| Local log path | `issues/by-github-id/#069-T-D03-Story Session API (start-decide-complete).md` |
+
+## Issue Body
 
 ## T-D03: Story Session API (start/decide/complete)
 
@@ -101,5 +129,4 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #69 for `T-D03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T13:58:42Z. Local log: `issues/by-github-id/#069-T-D03-Story Session API (start-decide-complete).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #69 for `T-D03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T13:58:42Z. Local log: `issues/by-github-id/#069-T-D03-Story Session API (start-decide-complete).md`.

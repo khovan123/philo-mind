@@ -6,7 +6,34 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: backend
-- Updated at: 2026-05-31T15:53:46Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:31:01Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #71 / `T-D05`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #71 |
+| Task ID | T-D05 |
+| Title | Community stats aggregation (% per choice, cache) |
+| State | open |
+| Local log path | `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md` |
+
+## Issue Body
 
 # T-D05: Community stats aggregation (% per choice, cache)
 
@@ -148,5 +175,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #71 for `T-D05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #71 for `T-D05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md`.

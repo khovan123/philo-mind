@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#31](https://github.com/khovan123/philo-mind/issues/31)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:08Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @linhtv1209-fudn
+- Updated at: 2026-06-01T05:31:42Z
+- Closed at: 2026-05-31T02:07:56Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #31 / `T-A15`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #31 |
+| Task ID | T-A15 |
+| Title | Notification CRUD API |
+| State | done |
+| Local log path | `issues/by-github-id/#031-T-A15-Notification CRUD API.md` |
+
+## Issue Body
 
 ## T-A15: Notification CRUD API
 
@@ -98,5 +126,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #31 for `T-A15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:07:56Z. Local log: `issues/by-github-id/#031-T-A15-Notification CRUD API.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #31 for `T-A15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:07:56Z. Local log: `issues/by-github-id/#031-T-A15-Notification CRUD API.md`.

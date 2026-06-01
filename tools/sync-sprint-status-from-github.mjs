@@ -1,5 +1,5 @@
 import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const repo = 'khovan123/philo-mind';
@@ -260,10 +260,35 @@ const summary = summaryMarkdown(allIssues, missingLogsUpdated, localLogsCreated)
 writeFileSync(join(root, 'issues', 'sprint-status.md'), summary);
 writeFileSync(join(root, 'docs', 'sprint-status.md'), summary);
 
+// Sync the local sprint-status.yaml with the closed GitHub issues
+const sprintStatusYamlPath = join(root, '_bmad-output', 'implementation-artifacts', 'sprint-status.yaml');
+let updatedYamlCount = 0;
+if (existsSync(sprintStatusYamlPath)) {
+  let yamlContent = readFileSync(sprintStatusYamlPath, 'utf8');
+  yamlContent = yamlContent.split('\n').map(line => {
+    const match = line.match(/^(\s+)([^#:]+):\s*([a-zA-Z0-9_-]+)(\s+#\s*GitHub\s*#(\d+))/i);
+    if (match) {
+      const [full, indent, key, status, comment, issueNum] = match;
+      const issueNumber = Number(issueNum);
+      const issue = allIssues.find(i => i.number === issueNumber);
+      if (issue && issue.state === 'closed' && status !== 'done') {
+        updatedYamlCount++;
+        return `${indent}${key}: done${comment}`;
+      }
+    }
+    return line;
+  }).join('\n');
+  
+  if (updatedYamlCount > 0) {
+    writeFileSync(sprintStatusYamlPath, yamlContent, 'utf8');
+  }
+}
+
 console.log(JSON.stringify({
   total: allIssues.length,
   done: allIssues.filter((issue) => issue.state === 'closed').length,
   open: allIssues.filter((issue) => issue.state === 'open').length,
   localLogsCreated,
   missingLogsUpdated,
+  updatedYamlCount,
 }, null, 2));
