@@ -86,7 +86,15 @@ Developer và app có contract/dữ liệu nền ổn định để các màn h�
 - PR description must link issue #38 and mention `T-A22`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #38 for `T-A22`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:42:52Z. Local log: `issues/by-github-id/#038-T-A22-Seed runner script (npm run seed).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #38 for `T-A22`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T02:42:52Z. Local log: `issues/by-github-id/#038-T-A22-Seed runner script (npm run seed).md`.
 

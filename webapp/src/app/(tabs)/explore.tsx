@@ -1,9 +1,11 @@
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { apiRequest } from "@/services/api";
+import { TopicDTO } from "@philo-mind/shared";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -37,7 +39,8 @@ const featuredLessons = [
     description:
       "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
     image: featuredImage,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
@@ -47,7 +50,8 @@ const featuredLessons = [
     description:
       "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
     image: featuredImage,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
@@ -56,7 +60,8 @@ const featuredLessons = [
     duration: "8 phút",
     description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
     image: null,
-    fullRoute: "/trial-of-socrates",
+    fullRoute: "/full-lesson",
+    scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
 ];
@@ -74,6 +79,19 @@ export default function ExploreScreen() {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState(filters[0]);
   const [query, setQuery] = useState("");
+  const [dbTopics, setDbTopics] = useState<TopicDTO[]>([]);
+
+  useEffect(() => {
+    async function fetchTopics() {
+      try {
+        const data = await apiRequest<TopicDTO[]>("/topics");
+        setDbTopics(data);
+      } catch {
+        // Fallback to static topics if request fails
+      }
+    }
+    fetchTopics();
+  }, []);
 
   const normalizedQuery = query.trim().toLowerCase();
 
@@ -92,9 +110,22 @@ export default function ExploreScreen() {
     [activeFilter, normalizedQuery],
   );
 
+  const topicsToUse = useMemo(() => {
+    if (dbTopics && dbTopics.length > 0) {
+      return dbTopics.map((t, index) => ({
+        id: t.id,
+        title: t.title,
+        lessons: "5 bài học",
+        progress: index === 0 ? 34 : 66,
+        category: t.category ?? "Đạo đức",
+      }));
+    }
+    return topics.map((t) => ({ ...t, id: undefined as string | undefined }));
+  }, [dbTopics]);
+
   const filteredTopics = useMemo(
     () =>
-      topics.filter((topic) => {
+      topicsToUse.filter((topic) => {
         const matchesFilter = activeFilter === "Tất cả" || topic.category === activeFilter;
         const matchesQuery =
           !normalizedQuery ||
@@ -104,7 +135,7 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, normalizedQuery],
+    [activeFilter, normalizedQuery, topicsToUse],
   );
 
   function startLesson(route: string) {
@@ -178,11 +209,7 @@ export default function ExploreScreen() {
                 contentContainerStyle={styles.featuredList}
               >
                 {filteredLessons.map((lesson) => (
-                  <Pressable
-                    key={lesson.title}
-                    accessibilityRole="button"
-                    style={({ pressed }) => [styles.featuredCard, pressed && styles.pressed]}
-                  >
+                  <View key={lesson.title} style={styles.featuredCard}>
                     {lesson.image ? (
                       <Image
                         source={lesson.image}
@@ -226,8 +253,16 @@ export default function ExploreScreen() {
                         <BookOpen color={Colors.primaryLight} size={16} />
                         <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
                       </Pressable>
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => startLesson(lesson.scenarioRoute)}
+                        style={({ pressed }) => [styles.scenarioButton, pressed && styles.pressed]}
+                      >
+                        <Sparkles color={Colors.primaryLight} size={16} />
+                        <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
+                      </Pressable>
                     </View>
-                  </Pressable>
+                  </View>
                 ))}
               </ScrollView>
             )}
@@ -244,7 +279,16 @@ export default function ExploreScreen() {
                 <Pressable
                   key={topic.title}
                   accessibilityRole="button"
-                  onPress={() => setQuery(topic.title)}
+                  onPress={() => {
+                    if (topic.id) {
+                      router.push({
+                        pathname: "/topic-perspectives" as never,
+                        params: { topicId: topic.id, topicTitle: topic.title },
+                      });
+                    } else {
+                      setQuery(topic.title);
+                    }
+                  }}
                   style={({ pressed }) => [styles.topicCard, pressed && styles.pressed]}
                 >
                   <View style={styles.topicCopy}>
@@ -478,6 +522,23 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
   },
   fullLessonButtonText: {
+    color: Colors.primaryLight,
+    fontSize: 14,
+    lineHeight: 18,
+    fontWeight: "900",
+  },
+  scenarioButton: {
+    minHeight: 42,
+    borderRadius: Radius.sm,
+    borderWidth: 1,
+    borderColor: Colors.chip,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: Spacing.two,
+    backgroundColor: Colors.input,
+  },
+  scenarioButtonText: {
     color: Colors.primaryLight,
     fontSize: 14,
     lineHeight: 18,

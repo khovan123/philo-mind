@@ -14,7 +14,7 @@ export function FinishedActions() {
       <Button
         title="Read Full Lesson"
         variant="outline"
-        onPress={() => router.push("/trial-of-socrates")}
+        onPress={() => router.push("/trial-of-socrates" as never)}
         fullWidth
       />
       <Button

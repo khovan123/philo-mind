@@ -2,11 +2,13 @@
   "extends": ["../tsconfig.base.json", "expo/tsconfig.base"],
   "compilerOptions": {
     "strict": true,
-    "types": ["jest"],
     "paths": {
       "@/*": ["./src/*"],
-      "@/assets/*": ["./assets/*"]
+      "@/assets/*": ["./assets/*"],
+      "@philo-mind/shared": ["../libs/shared/src/index.ts"],
+      "@philo-mind/shared/*": ["../libs/shared/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"],
+  "exclude": ["**/__tests__/**", "**/*.test.ts", "**/*.test.tsx"]
 }

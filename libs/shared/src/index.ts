@@ -46,7 +46,7 @@ export const HTTP_STATUS = {
 // ── Re-exports ─────────────────────────────────────────────
 
 // Auth
-export { UserRole } from "./types/auth.js";
+export { UserRole } from "./types/auth";
 export type {
   RegisterDTO,
   LoginDTO,
@@ -54,18 +54,14 @@ export type {
   AuthTokens,
   UserProfile,
   AuthResponse,
-} from "./types/auth.js";
+} from "./types/auth";
 
 // Learning
-export { Difficulty, ContentStatus } from "./types/learning.js";
-export type {
-  TopicDTO,
-  LessonDTO,
-  QuizAttemptDTO,
-} from "./types/learning.js";
+export { Difficulty, ContentStatus, PerspectiveType } from "./types/learning";
+export type { TopicDTO, LessonDTO, QuizAttemptDTO, TopicPerspectiveDTO } from "./types/learning";
 
 // Story
-export { StorySessionStatus, AnalysisType } from "./types/story.js";
+export { StorySessionStatus, AnalysisType } from "./types/story";
 export type {
   StoryScenarioDTO,
   StoryChoiceDTO,
@@ -73,10 +69,10 @@ export type {
   StoryDecisionDTO,
   StoryConsequenceDTO,
   AnalysisTabDTO,
-} from "./types/story.js";
+} from "./types/story";
 
 // Interactive (AI Chat, Scenario, Debate)
-export { SenderType, DebateStatus, DebateStance, VoteValue } from "./types/interactive.js";
+export { SenderType, DebateStatus, DebateStance, VoteValue } from "./types/interactive";
 export type {
   AiCharacterDTO,
   AiChatSessionDTO,
@@ -89,5 +85,4 @@ export type {
   DebateArgumentDTO,
   DebateCommentDTO,
   DebateVoteDTO,
-} from "./types/interactive.js";
-
+} from "./types/interactive";

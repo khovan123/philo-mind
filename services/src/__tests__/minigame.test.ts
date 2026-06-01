@@ -127,6 +127,27 @@ describe("MiniGameService scoreGame", () => {
     expect(result.result.correctCount).toBe(1);
   });
 
+  it("scores matching games from markdown table pairs", () => {
+    const result = service.scoreGame(
+      "matching",
+      {
+        pairs: [
+          { "Quan điểm": "Vạn vật biến đổi", "Trường phái": "Biện chứng" },
+          { "Quan điểm": "Tồn tại khách quan", "Trường phái": "Duy vật" },
+        ],
+      },
+      {
+        matches: [
+          { left: "Vạn vật biến đổi", right: "Biện chứng" },
+          { left: "Tồn tại khách quan", right: "Duy tâm" },
+        ],
+      },
+    );
+
+    expect(result.score).toBe(50);
+    expect(result.result.correctCount).toBe(1);
+  });
+
   it("scores guess-who games using accepted answers", () => {
     const result = service.scoreGame(
       "guess-who",
@@ -140,6 +161,27 @@ describe("MiniGameService scoreGame", () => {
     expect(result.score).toBe(100);
     expect(result.result.gameType).toBe("guess-who");
     expect(result.result.isCorrect).toBe(true);
+  });
+
+  it("scores guess-who games from character answers", () => {
+    const result = service.scoreGame(
+      "guess-who",
+      {
+        characters: [
+          { name: "Nhân vật 1", hints: ["Duy tâm khách quan"], answer: "Hegel" },
+          { name: "Nhân vật 2", hints: ["Duy vật Đức"], answer: "Feuerbach" },
+        ],
+      },
+      {
+        characterAnswers: [
+          { name: "Nhân vật 1", answer: " hegel " },
+          { name: "Nhân vật 2", answer: "Marx" },
+        ],
+      },
+    );
+
+    expect(result.score).toBe(50);
+    expect(result.result.correctCount).toBe(1);
   });
 
   it("scores logic-puzzle games from the configured solution", () => {

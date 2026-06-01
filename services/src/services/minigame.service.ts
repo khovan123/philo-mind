@@ -264,8 +264,8 @@ export class MiniGameService {
     const correctCount = pairs.filter((pair) =>
       matches.some(
         (match) =>
-          this.normalize(match.left) === this.normalize(pair.left) &&
-          this.normalize(match.right) === this.normalize(pair.right),
+          this.normalize(match.left) === this.normalize(this.getPairSide(pair, "left")) &&
+          this.normalize(match.right) === this.normalize(this.getPairSide(pair, "right")),
       ),
     ).length;
 
@@ -274,6 +274,30 @@ export class MiniGameService {
 
   private scoreGuessWho(config: Prisma.JsonValue | null, answers: unknown): ScoreResult {
     const configObject = this.asRecord(config);
+    const characters = this.readArray(config, "characters");
+    if (characters.length > 0) {
+      const answerObject = this.asRecord(answers);
+      const characterAnswers = this.readAnswerArray(answers, "characterAnswers");
+      const total = characters.length;
+      const correctCount = characters.filter((character) => {
+        const name = this.normalize(character.name);
+        const acceptedAnswers = [
+          character.answer,
+          ...this.readScalarArray(character, "acceptedAnswers"),
+        ]
+          .map((answer) => this.normalize(answer))
+          .filter(Boolean);
+        const submitted =
+          characterAnswers.find((answer) => this.normalize(answer.name) === name)?.answer ??
+          this.asRecord(answerObject.answers)[String(character.name ?? "")] ??
+          answerObject[String(character.name ?? "")];
+
+        return acceptedAnswers.includes(this.normalize(submitted));
+      }).length;
+
+      return this.buildResult("guess-who", correctCount, total);
+    }
+
     const userAnswer = this.normalize(this.asRecord(answers).answer);
     const acceptedAnswers = [
       configObject.answer,
@@ -332,6 +356,12 @@ export class MiniGameService {
   private readScalarArray(value: unknown, key: string): unknown[] {
     const candidate = this.asRecord(value)[key];
     return Array.isArray(candidate) ? candidate : [];
+  }
+
+  private getPairSide(pair: Record<string, unknown>, side: "left" | "right") {
+    if (pair[side] !== undefined) return pair[side];
+    const values = Object.values(pair);
+    return side === "left" ? values[0] : values[1];
   }
 
   private asRecord(value: unknown): Record<string, unknown> {

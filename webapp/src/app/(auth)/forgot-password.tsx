@@ -16,7 +16,7 @@ export default function ForgotPasswordScreen() {
     setError(null);
     setLoading(true);
     try {
-      await authService.forgotPassword(email);
+      await authService.forgotPassword({ email });
       router.push({ pathname: "/(auth)/verify-otp", params: { email } } as any);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Lỗi");

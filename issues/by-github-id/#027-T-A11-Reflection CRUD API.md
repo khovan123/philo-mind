@@ -87,7 +87,15 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 - PR description must link issue #27 and mention `T-A11`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #27 for `T-A11`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:51:34Z. Local log: `issues/by-github-id/#027-T-A11-Reflection CRUD API.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #27 for `T-A11`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:51:34Z. Local log: `issues/by-github-id/#027-T-A11-Reflection CRUD API.md`.
 

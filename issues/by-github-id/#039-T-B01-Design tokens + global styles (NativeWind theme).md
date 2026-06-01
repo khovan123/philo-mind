@@ -91,7 +91,15 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 - PR description must link issue #39 and mention `T-B01`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.
 

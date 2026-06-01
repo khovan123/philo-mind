@@ -12,7 +12,9 @@ import {
   ShieldCheck,
   Sparkles,
   Trophy,
+  LogOut,
 } from "lucide-react-native";
+import { authService } from "@/services/auth.service";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -73,6 +75,15 @@ const settingsItems = [
 
 export default function ProfileScreen() {
   const router = useRouter();
+
+  async function handleLogout() {
+    try {
+      await authService.logout();
+    } catch {
+    } finally {
+      router.replace("/(auth)/login" as never);
+    }
+  }
 
   return (
     <View style={styles.screen}>
@@ -223,8 +234,8 @@ export default function ProfileScreen() {
                 <Pressable
                   key={item.label}
                   onPress={() => {
-                    if ((item as any).path) {
-                      router.push((item as any).path);
+                    if (item.path) {
+                      router.push(item.path as never);
                     }
                   }}
                   style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
@@ -240,19 +251,35 @@ export default function ProfileScreen() {
           </View>
 
           <View style={styles.deleteSection}>
-            <Pressable onPress={() => router.push("/delete-account")} style={styles.deleteButton}>
+            <Pressable onPress={handleLogout} style={styles.logoutButton}>
+              <LogOut color={Colors.text} size={16} />
+              <ThemedText type="label" style={styles.logoutButtonText}>
+                Đăng xuất
+              </ThemedText>
+            </Pressable>
+
+            <Pressable
+              onPress={() => router.push("/delete-account" as never)}
+              style={styles.deleteButton}
+            >
               <ThemedText type="label" style={styles.deleteButtonText}>
                 Xóa tài khoản
               </ThemedText>
             </Pressable>
 
             <View style={styles.legalButtonsContainer}>
-              <Pressable onPress={() => router.push("/legal/terms")} style={styles.legalButton}>
+              <Pressable
+                onPress={() => router.push("/legal/terms" as never)}
+                style={styles.legalButton}
+              >
                 <ScrollText color={Colors.muted} size={16} />
                 <ThemedText style={styles.legalButtonText}>Điều Khoản Dịch Vụ</ThemedText>
               </Pressable>
 
-              <Pressable onPress={() => router.push("/legal/privacy")} style={styles.legalButton}>
+              <Pressable
+                onPress={() => router.push("/legal/privacy" as never)}
+                style={styles.legalButton}
+              >
                 <Lock color={Colors.muted} size={16} />
                 <ThemedText style={styles.legalButtonText}>Chính Sách Bảo Mật</ThemedText>
               </Pressable>
@@ -695,5 +722,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 20,
     fontWeight: "700",
+  },
+
+  logoutButton: {
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: Radius.md,
+    paddingVertical: Spacing.three,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: Spacing.two,
+    backgroundColor: Colors.surface,
+  },
+
+  logoutButtonText: {
+    color: Colors.text,
+    fontWeight: "800",
   },
 });

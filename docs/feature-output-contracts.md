@@ -48,8 +48,8 @@
 | #42 | `T-B04` | Frontend Shell | open | frontend | Login screen UI (email/pass + validation + loading) |
 | #43 | `T-B05` | Frontend Shell | closed | frontend | Register screen UI (fullname/email/pass/confirm + strength) |
 | #44 | `T-B06` | Frontend Shell | open | frontend | Secure token storage (expo-secure-store + web fallback) |
-| #45 | `T-B07` | Frontend Shell | open | frontend | API client (Axios instance + interceptors + auto-refresh) |
-| #46 | `T-B08` | Frontend Shell | open | frontend | Auth Zustand store (login/register/logout/checkAuth) |
+| #45 | `T-B07` | Frontend Shell | open | frontend | RTK Query API layer (baseQuery + reauth + token persistence) |
+| #46 | `T-B08` | Frontend Shell | open | frontend | Auth Redux Toolkit slice + Redux Persist (login/register/logout/checkAuth) |
 | #47 | `T-B09` | Frontend Shell | open | frontend | Home screen (daily hook + continue learning + stats) |
 | #48 | `T-B10` | Frontend Shell | open | frontend | Explore screen (topic grid + search + category filter) |
 | #49 | `T-B11` | Frontend Shell | open | frontend | Full Lesson screen (markdown render + concept highlight) |
@@ -76,7 +76,7 @@
 | #70 | `T-D04` | Story Mode Engine | closed | backend | Consequence + Analysis API (get by choice, 4 categories) |
 | #71 | `T-D05` | Story Mode Engine | open | backend | Community stats aggregation (% per choice, cache) |
 | #72 | `T-D06` | Story Mode Engine | closed | frontend | Story list screen (cards + filters + replay indicator) |
-| #73 | `T-D07` | Story Mode Engine | open | frontend | Story service + Zustand store |
+| #73 | `T-D07` | Story Mode Engine | open | frontend | Story RTK Query service + Redux slice |
 | #74 | `T-D08` | Story Mode Engine | open | frontend | Step 1: INTRO screen (cinematic + character briefing) |
 | #75 | `T-D09` | Story Mode Engine | open | frontend | Step 2: LEARN screen (swipeable cards + concept chips) |
 | #76 | `T-D10` | Story Mode Engine | open | frontend | Step 3: DILEMMA screen (dramatic presentation) |
@@ -90,7 +90,7 @@
 | #84 | `T-E02` | AI & Chat System | open | backend | AI Character CRUD + prompt template system |
 | #85 | `T-E03` | AI & Chat System | open | backend | AI Chat session + message API |
 | #86 | `T-E04` | AI & Chat System | open | backend | SSE streaming endpoint |
-| #87 | `T-E05` | AI & Chat System | open | frontend | AI Chat service + Zustand store |
+| #87 | `T-E05` | AI & Chat System | open | frontend | AI Chat RTK Query service + Redux slice |
 | #88 | `T-E06` | AI & Chat System | open | frontend | Character gallery screen (cards + session list) |
 | #89 | `T-E07` | AI & Chat System | open | frontend | Chat conversation screen (bubbles + streaming text) |
 | #90 | `T-E08` | AI & Chat System | open | frontend | ChatInput component (text + send + suggested prompts) |
