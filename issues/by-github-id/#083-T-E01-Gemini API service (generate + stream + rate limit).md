@@ -145,5 +145,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #83 for `T-E01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #83 for `T-E01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md`.
 

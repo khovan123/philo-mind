@@ -142,5 +142,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #44 for `T-B06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #44 for `T-B06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md`.
 

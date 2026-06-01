@@ -141,5 +141,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #33 for `T-A17`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #33 for `T-A17`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md`.
 

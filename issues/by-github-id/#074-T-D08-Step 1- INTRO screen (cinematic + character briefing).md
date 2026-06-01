@@ -146,5 +146,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #74 for `T-D08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#074-T-D08-Step 1- INTRO screen (cinematic + character briefing).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #74 for `T-D08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#074-T-D08-Step 1- INTRO screen (cinematic + character briefing).md`.
 

@@ -158,5 +158,5 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #93 for `T-F01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #93 for `T-F01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#093-T-F01-Schema migration- ScenarioPerspective, ScenarioFramework.md`.
 

@@ -89,5 +89,5 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #28 for `T-A12`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T10:33:41Z. Local log: `issues/by-github-id/#028-T-A12-Critical Question API (list-random-admin CRUD).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #28 for `T-A12`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T10:33:41Z. Local log: `issues/by-github-id/#028-T-A12-Critical Question API (list-random-admin CRUD).md`.
 

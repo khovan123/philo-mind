@@ -93,5 +93,5 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #68 for `T-D02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T13:23:09Z. Local log: `issues/by-github-id/#068-T-D02-Story Scenario API (list with filters + detail with learn cards).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #68 for `T-D02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T13:23:09Z. Local log: `issues/by-github-id/#068-T-D02-Story Scenario API (list with filters + detail with learn cards).md`.
 

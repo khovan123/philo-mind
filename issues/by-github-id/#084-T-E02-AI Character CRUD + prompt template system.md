@@ -141,5 +141,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #84 for `T-E02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#084-T-E02-AI Character CRUD + prompt template system.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #84 for `T-E02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#084-T-E02-AI Character CRUD + prompt template system.md`.
 

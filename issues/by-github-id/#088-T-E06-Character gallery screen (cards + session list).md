@@ -145,5 +145,5 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #88 for `T-E06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#088-T-E06-Character gallery screen (cards + session list).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #88 for `T-E06`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#088-T-E06-Character gallery screen (cards + session list).md`.
 

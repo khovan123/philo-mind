@@ -136,5 +136,5 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.
 

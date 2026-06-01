@@ -145,5 +145,5 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #94 for `T-F02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #94 for `T-F02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md`.
 

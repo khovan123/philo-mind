@@ -143,5 +143,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #54 for `T-B16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #54 for `T-B16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md`.
 

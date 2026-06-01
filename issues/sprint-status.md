@@ -1,30 +1,30 @@
 # PhiloMind Sprint Status From GitHub Issues
 
-> Last sync: 2026-05-31
+> Last sync: 2026-06-01
 > Source of truth: GitHub issues in `khovan123/philo-mind`
 
 ## Summary
 
 - Total tracked GitHub issues: 111
-- Done / closed: 38
-- Open / remaining: 73
-- Completion: 34%
+- Done / closed: 49
+- Open / remaining: 62
+- Completion: 44%
 - Local issue logs available: 111
-- GitHub issues currently missing Status Log: 0
-- Sync action this run: 0 new local logs, 0 GitHub bodies patched
+- Local issue logs currently missing Status Log: 0
+- Sync action this run: refreshed 111 local logs and sprint snapshots from GitHub issue state
 
 ## Progress By Track
 
 | Track | Name | Total | Done | Open |
 | --- | --- | ---: | ---: | ---: |
-| Track A | Backend Core | 22 | 14 | 8 |
-| Track B | Frontend Shell | 16 | 6 | 10 |
-| Track C | Shared Types & Seed | 12 | 3 | 9 |
+| Track A | Backend Core | 22 | 15 | 7 |
+| Track B | Frontend Shell | 16 | 7 | 9 |
+| Track C | Shared Types & Seed | 12 | 4 | 8 |
 | Track D | Story Mode Engine | 16 | 5 | 11 |
 | Track E | AI & Chat System | 10 | 0 | 10 |
 | Track F | Scenario & Debate | 8 | 0 | 8 |
-| Track G | Polish & Gamification | 6 | 0 | 6 |
-| Track H | Missing Features | 5 | 0 | 5 |
+| Track G | Polish & Gamification | 6 | 3 | 3 |
+| Track H | Missing Features | 5 | 5 | 0 |
 | Track I | DevOps & Deploy | 7 | 7 | 0 |
 | Track J | Testing | 5 | 0 | 5 |
 | Track K | Admin & Settings | 4 | 3 | 1 |
@@ -33,9 +33,9 @@
 
 | Priority | Open |
 | --- | ---: |
-| high | 9 |
-| medium | 57 |
-| low | 7 |
+| high | 7 |
+| medium | 51 |
+| low | 4 |
 
 ## Next Recommended Work
 
@@ -54,10 +54,8 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [ ] #24 `T-A08` Short Lesson API (list/get/respond/comment) (Backend Core, medium, @linhtv1209-fudn)
 - [ ] #25 `T-A09` User Progress API (upsert/stats/by-topic) (Backend Core, medium, @linhtv1209-fudn)
 - [ ] #26 `T-A10` Quiz API (attempt/answer/complete/score) (Backend Core, medium, @linhtv1209-fudn)
-- [ ] #32 `T-A16` Badge definition + auto-award engine (Backend Core, medium, @NTA1210)
 - [ ] #33 `T-A17` Activity logging service + streak tracking (Backend Core, medium, @NTA1210)
 - [ ] #34 `T-A18` Content moderation (report/action/auto-flag) (Backend Core, medium, @NTA1210)
-- [ ] #42 `T-B04` Login screen UI (email/pass + validation + loading) (Frontend Shell, high, @thuhataplamdev)
 - [ ] #44 `T-B06` Secure token storage (expo-secure-store + web fallback) (Frontend Shell, high, @thuhataplamdev)
 - [ ] #45 `T-B07` API client (Axios instance + interceptors + auto-refresh) (Frontend Shell, high, @thuhataplamdev)
 - [ ] #46 `T-B08` Auth Zustand store (login/register/logout/checkAuth) (Frontend Shell, high, @thuhataplamdev)
@@ -67,7 +65,6 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [ ] #50 `T-B12` Short Lesson swipe cards (hook-insight-conflict-vote) (Frontend Shell, medium, @anhthungye)
 - [ ] #51 `T-B13` Quiz gameplay screen (questions + timer + result) (Frontend Shell, medium, @anhthungye)
 - [ ] #54 `T-B16` Profile screen (stats grid + badge gallery + activity graph) (Frontend Shell, medium, @anhthungye)
-- [ ] #58 `T-C04` Shared types: AI Chat, Scenario, Debate (Shared Types & Seed, high, @Thienhoang78)
 - [ ] #59 `T-C05` Seed: 10 Topics + 30 Short Lessons (Shared Types & Seed, medium, @Thienhoang78)
 - [ ] #60 `T-C06` Seed: 20 Full Lessons + 40 Quiz Questions (Shared Types & Seed, medium, @Thienhoang78)
 - [ ] #61 `T-C07` Seed: 5 Story Scenarios (7-step complete) (Shared Types & Seed, medium, @Thienhoang78)
@@ -107,15 +104,7 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [ ] #100 `T-F08` Scenario + Debate integration tests (Scenario & Debate, low, @Ngoclee123)
 - [ ] #101 `T-G01` Badge gallery + earn notifications (frontend) (Polish & Gamification, low, @kangdev03)
 - [ ] #102 `T-G02` Notification bell + list screen (Polish & Gamification, low, @kangdev03)
-- [ ] #103 `T-G03` Reflection journal screens (list + new + detail) (Polish & Gamification, low, @kangdev03)
-- [ ] #104 `T-G04` Mindmap visualization (SVG + zoom + pan) (Polish & Gamification, low, @kangdev03)
-- [ ] #105 `T-G05` Bookmark system (button + list screen) (Polish & Gamification, low, @kangdev03)
 - [ ] #106 `T-G06` Performance optimization (caching + lazy load + bundle audit) (Polish & Gamification, medium, @kangdev03)
-- [ ] #107 `T-H01` TopicPerspective API (CRUD 5 perspectives per topic) (Missing Features, medium, @Ngoclee123)
-- [ ] #108 `T-H02` Multi-perspective viewer screen (tabs/swipe per perspective) (Missing Features, medium, @Ngoclee123)
-- [ ] #109 `T-H03` MiniGame CRUD API (admin create, user play, score tracking) (Missing Features, medium, @kangdev03)
-- [ ] #110 `T-H04` MiniGame play screen (3 game types + score + animation) (Missing Features, medium, @kangdev03)
-- [ ] #111 `T-H05` MiniGame result + leaderboard component (Missing Features, medium, @kangdev03)
 - [ ] #119 `T-J01` Backend unit tests: Auth service (Testing, medium, @NguyenDat204)
 - [ ] #120 `T-J02` Backend unit tests: Story + Quiz services (Testing, medium, @NguyenDat204)
 - [ ] #121 `T-J03` API integration tests (Supertest: auth + CRUD + errors) (Testing, medium, @NguyenDat204)
@@ -125,6 +114,17 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 
 ## Recently Closed Issues
 
+- [x] #42 `T-B04` Login screen UI (email/pass + validation + loading) (closed 2026-05-31T20:56:19Z)
+- [x] #111 `T-H05` MiniGame result + leaderboard component (closed 2026-05-31T19:39:12Z)
+- [x] #110 `T-H04` MiniGame play screen (3 game types + score + animation) (closed 2026-05-31T19:33:19Z)
+- [x] #105 `T-G05` Bookmark system (button + list screen) (closed 2026-05-31T19:21:46Z)
+- [x] #107 `T-H01` TopicPerspective API (CRUD 5 perspectives per topic) (closed 2026-05-31T19:12:37Z)
+- [x] #108 `T-H02` Multi-perspective viewer screen (tabs/swipe per perspective) (closed 2026-05-31T19:12:37Z)
+- [x] #104 `T-G04` Mindmap visualization (SVG + zoom + pan) (closed 2026-05-31T19:06:07Z)
+- [x] #103 `T-G03` Reflection journal screens (list + new + detail) (closed 2026-05-31T18:41:34Z)
+- [x] #109 `T-H03` MiniGame CRUD API (admin create, user play, score tracking) (closed 2026-05-31T17:55:58Z)
+- [x] #32 `T-A16` Badge definition + auto-award engine (closed 2026-05-31T17:47:41Z)
+- [x] #58 `T-C04` Shared types: AI Chat, Scenario, Debate (closed 2026-05-31T15:55:51Z)
 - [x] #72 `T-D06` Story list screen (cards + filters + replay indicator) (closed 2026-05-31T15:27:13Z)
 - [x] #70 `T-D04` Consequence + Analysis API (get by choice, 4 categories) (closed 2026-05-31T14:07:07Z)
 - [x] #69 `T-D03` Story Session API (start/decide/complete) (closed 2026-05-31T13:58:42Z)
@@ -144,4 +144,3 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [x] #36 `T-A20` Redis caching for hot endpoints (closed 2026-05-31T04:01:54Z)
 - [x] #35 `T-A19` Database indexes + query optimization (closed 2026-05-31T03:53:02Z)
 - [x] #30 `T-A14` Bookmark toggle API (multi-type) (closed 2026-05-31T03:07:05Z)
-- [x] #52 `T-B14` Onboarding flow (welcome + how-it-works + interest picker) (closed 2026-05-31T02:49:59Z)

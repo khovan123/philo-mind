@@ -3,7 +3,7 @@
 ## GitHub Link
 
 - Issue: [#107](https://github.com/khovan123/philo-mind/issues/107)
-- State: open
+- State: closed
 - Track: H - Missing Features
 - Type: backend
 - Updated at: 2026-05-31T15:54:21Z
@@ -148,5 +148,5 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #107 for `T-H01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#107-T-H01-TopicPerspective API (CRUD 5 perspectives per topic).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #107 for `T-H01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:12:37Z. Local log: `issues/by-github-id/#107-T-H01-TopicPerspective API (CRUD 5 perspectives per topic).md`.
 

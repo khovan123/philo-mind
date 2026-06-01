@@ -148,5 +148,5 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #48 for `T-B10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#048-T-B10-Explore screen (topic grid + search + category filter).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #48 for `T-B10`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#048-T-B10-Explore screen (topic grid + search + category filter).md`.
 

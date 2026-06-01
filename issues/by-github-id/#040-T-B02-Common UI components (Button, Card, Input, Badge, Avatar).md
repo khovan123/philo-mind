@@ -92,5 +92,5 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #40 for `T-B02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T06:58:47Z. Local log: `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #40 for `T-B02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T06:58:47Z. Local log: `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md`.
 

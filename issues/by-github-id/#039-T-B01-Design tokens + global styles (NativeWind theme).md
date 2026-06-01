@@ -93,5 +93,5 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-05-31: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.
 
