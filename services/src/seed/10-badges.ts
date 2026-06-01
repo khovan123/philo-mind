@@ -1,43 +1,35 @@
 /**
- * Seed: Badges
- * Source: data/10-badges.csv
+ * Seed: 10 Badges
+ * Issue: #64 — T-C10
+ *
+ * Source: BADGE_DEFINITIONS in badge.service.ts (single source of truth for conditionType)
  * Dependencies: none
+ *
+ * Idempotency: upsert on conditionType (unique) — safe to run multiple times.
  */
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { readCsv, seedLog, seedSkip } from "./utils/index.js";
-
-interface BadgeRow {
-  tên: string;
-  mô_tả: string;
-  icon: string;
-  điều_kiện: string;
-}
+import { BADGE_DEFINITIONS } from "../services/badge.service.js";
+import { seedLog } from "./utils/index.js";
 
 export async function seedBadges(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.badge.count();
-  if (existing > 0) {
-    seedSkip("Badge", `already has ${existing} records`);
-    return;
-  }
-
-  let rows: BadgeRow[] = [];
-  try {
-    rows = readCsv<BadgeRow>("10-badges.csv");
-  } catch {
-    seedSkip("Badge", "10-badges.csv not found");
-    return;
-  }
-
-  for (const row of rows) {
-    await prisma.badge.create({
-      data: {
-        name: row.tên,
-        description: row.mô_tả,
-        iconUrl: row.icon, // Emoji or URL
-        conditionType: row.điều_kiện,
+  for (const badge of BADGE_DEFINITIONS) {
+    await prisma.badge.upsert({
+      where: { conditionType: badge.conditionType },
+      update: {
+        name: badge.name,
+        description: badge.description,
+        iconUrl: badge.iconUrl,
+      },
+      create: {
+        name: badge.name,
+        description: badge.description,
+        iconUrl: badge.iconUrl,
+        conditionType: badge.conditionType,
       },
     });
   }
 
-  seedLog("Badge", rows.length);
+  seedLog("Badge", BADGE_DEFINITIONS.length);
 }
+
+export { BADGE_DEFINITIONS };

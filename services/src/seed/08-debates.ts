@@ -1,49 +1,72 @@
 /**
- * Seed: Debates
- * Source: data/08-debates.csv
- * Dependencies: Topic (matched by category)
+ * Seed: 10 Debates
+ * Issue: #64 — T-C10
+ *
+ * Source: ./data/debates.ts (inline TypeScript data)
+ * Dependencies: Topic (matched by exact title)
+ *
+ * Idempotency: upsert on title — safe to run multiple times; preserves debate UUIDs.
  */
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { readCsv, seedLog, seedSkip } from "./utils/index.js";
-
-interface DebateRow {
-  chủ_đề: string;
-  tiêu_đề: string;
-  mô_tả: string;
-}
+import { seedLog, seedSkip } from "./utils/index.js";
+import { DEBATES } from "./data/debates.js";
 
 export async function seedDebates(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.debate.count();
-  if (existing > 0) {
-    seedSkip("Debate", `already has ${existing} records`);
-    return;
-  }
-
-  const rows = readCsv<DebateRow>("08-debates.csv");
   let created = 0;
+  let updated = 0;
+  let skipped = 0;
 
-  for (const row of rows) {
+  for (const debate of DEBATES) {
     const topic = await prisma.topic.findFirst({
-      where: {
-        OR: [{ category: row.chủ_đề }, { title: { contains: row.chủ_đề } }],
-      },
+      where: { title: debate.topicTitle },
     });
 
     if (!topic) {
-      console.warn(`    ⚠ No topic for: "${row.chủ_đề}" — skipping debate "${row.tiêu_đề}"`);
+      console.warn(
+        `    ⚠ Topic not found: "${debate.topicTitle}" — skipping debate "${debate.title}"`,
+      );
+      skipped++;
       continue;
     }
 
-    await prisma.debate.create({
-      data: {
-        topicId: topic.id,
-        title: row.tiêu_đề,
-        description: row.mô_tả,
-        status: "OPEN",
-      },
+    const existing = await prisma.debate.findFirst({
+      where: { title: debate.title },
     });
-    created++;
+
+    if (existing) {
+      await prisma.debate.update({
+        where: { id: existing.id },
+        data: {
+          topicId: topic.id,
+          description: debate.description,
+          status: debate.status ?? "OPEN",
+        },
+      });
+      updated++;
+    } else {
+      await prisma.debate.create({
+        data: {
+          topicId: topic.id,
+          title: debate.title,
+          description: debate.description,
+          status: debate.status ?? "OPEN",
+        },
+      });
+      created++;
+    }
   }
 
-  seedLog("Debate", created);
+  const total = created + updated;
+  if (total > 0) {
+    seedLog("Debate", total);
+    if (created > 0 || updated > 0) {
+      console.log(`    → ${created} created, ${updated} updated`);
+    }
+  }
+  if (skipped > 0) {
+    seedSkip("Debate", `${skipped} skipped (topic not found)`);
+  }
 }
+
+export { DEBATES } from "./data/debates.js";
+export type { DebateSeed } from "./data/debates.js";
