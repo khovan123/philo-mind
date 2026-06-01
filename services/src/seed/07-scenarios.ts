@@ -1,70 +1,115 @@
 /**
- * Seed: Real Life Scenarios + Scenario Analyses
- * Source: data/07-scenarios.csv
- * Dependencies: Topic (matched by category)
+ * Seed: 10 Real-life Scenarios (4 perspectives + frameworks each)
+ * Issue: #63 — T-C09
+ *
+ * Source: ./data/real-life-scenarios.ts (inline TypeScript data)
+ * Dependencies: Topic (matched by exact title)
+ *
+ * Records seeded:
+ *   - RealLifeScenario    (upsert by title — stable key for demo/test)
+ *   - ScenarioPerspective (delete + re-create per scenario for idempotency)
+ *   - ScenarioFramework   (delete + re-create per scenario for idempotency)
+ *
+ * Idempotency: upsert on title — safe to run multiple times; preserves scenario UUIDs.
  */
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { readCsv, seedLog, seedSkip } from "./utils/index.js";
-
-interface ScenarioRow {
-  chủ_đề: string;
-  tiêu_đề: string;
-  tình_huống: string;
-  bối_cảnh: string;
-  phân_tích_thực_dụng: string;
-  phân_tích_nghĩa_vụ: string;
-  phân_tích_đức_hạnh: string;
-  phân_tích_quan_tâm: string;
-}
+import { seedLog, seedSkip } from "./utils/index.js";
+import { REAL_LIFE_SCENARIOS } from "./data/real-life-scenarios.js";
 
 export async function seedScenarios(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.realLifeScenario.count();
-  if (existing > 0) {
-    seedSkip("RealLifeScenario", `already has ${existing} records`);
-    return;
-  }
-
-  const rows = readCsv<ScenarioRow>("07-scenarios.csv");
   let created = 0;
+  let updated = 0;
+  let skipped = 0;
 
-  for (const row of rows) {
+  for (const scenario of REAL_LIFE_SCENARIOS) {
     const topic = await prisma.topic.findFirst({
-      where: {
-        OR: [{ category: row.chủ_đề }, { title: { contains: row.chủ_đề } }],
-      },
+      where: { title: scenario.topicTitle },
     });
 
     if (!topic) {
       console.warn(
-        `    ⚠ No topic for category: "${row.chủ_đề}" — skipping scenario "${row.tiêu_đề}"`,
+        `    ⚠ Topic not found: "${scenario.topicTitle}" — skipping scenario "${scenario.title}"`,
       );
+      skipped++;
       continue;
     }
 
-    // Create scenario with pre-built analyses
-    const analyses = [
-      { type: "thực_dụng", content: row.phân_tích_thực_dụng },
-      { type: "nghĩa_vụ", content: row.phân_tích_nghĩa_vụ },
-      { type: "đức_hạnh", content: row.phân_tích_đức_hạnh },
-      { type: "quan_tâm", content: row.phân_tích_quan_tâm },
-    ].filter((a) => a.content?.trim());
-
-    await prisma.realLifeScenario.create({
-      data: {
-        topicId: topic.id,
-        title: row.tiêu_đề,
-        situation: row.tình_huống,
-        context: row.bối_cảnh,
-        analyses: {
-          create: analyses.map((a) => ({
-            perspectiveType: a.type,
-            analysisContent: a.content,
-          })),
-        },
-      },
+    const existing = await prisma.realLifeScenario.findFirst({
+      where: { title: scenario.title },
     });
-    created++;
+
+    let scenarioId: string;
+
+    if (existing) {
+      await prisma.realLifeScenario.update({
+        where: { id: existing.id },
+        data: {
+          topicId: topic.id,
+          situation: scenario.situation,
+          context: scenario.context,
+        },
+      });
+      scenarioId = existing.id;
+      updated++;
+    } else {
+      const record = await prisma.realLifeScenario.create({
+        data: {
+          topicId: topic.id,
+          title: scenario.title,
+          situation: scenario.situation,
+          context: scenario.context,
+        },
+      });
+      scenarioId = record.id;
+      created++;
+    }
+
+    await prisma.scenarioPerspective.deleteMany({ where: { scenarioId } });
+    await prisma.scenarioFramework.deleteMany({ where: { scenarioId } });
+
+    if (scenario.perspectives.length > 0) {
+      await prisma.scenarioPerspective.createMany({
+        data: scenario.perspectives.map((p) => ({
+          scenarioId,
+          perspectiveType: p.perspectiveType,
+          content: p.content,
+        })),
+      });
+    }
+
+    if (scenario.frameworks.length > 0) {
+      await prisma.scenarioFramework.createMany({
+        data: scenario.frameworks.map((f) => ({
+          scenarioId,
+          name: f.name,
+          description: f.description ?? null,
+          content: f.content,
+        })),
+      });
+    }
   }
 
-  seedLog("RealLifeScenario", created);
+  const total = created + updated;
+  if (total > 0) {
+    seedLog("RealLifeScenario", total);
+    if (created > 0 || updated > 0) {
+      console.log(`    → ${created} created, ${updated} updated`);
+    }
+    const perspectiveCount = REAL_LIFE_SCENARIOS.reduce((n, s) => n + s.perspectives.length, 0);
+    const frameworkCount = REAL_LIFE_SCENARIOS.reduce((n, s) => n + s.frameworks.length, 0);
+    seedLog("ScenarioPerspective", perspectiveCount);
+    seedLog("ScenarioFramework", frameworkCount);
+  }
+
+  if (skipped > 0) {
+    seedSkip("RealLifeScenario", `${skipped} skipped (topic not found)`);
+  }
 }
+
+export { REAL_LIFE_SCENARIOS } from "./data/real-life-scenarios.js";
+export type {
+  RealLifeScenarioSeed,
+  ScenarioFrameworkSeed,
+  ScenarioPerspectiveSeed,
+  ScenarioPerspectiveType,
+} from "./data/real-life-scenarios.js";

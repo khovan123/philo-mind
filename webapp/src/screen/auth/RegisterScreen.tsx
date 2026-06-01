@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,12 +10,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
-import { Eye, EyeOff } from "lucide-react-native";
 import { Button, Input, ThemedText, ThemedView } from "@/components/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
-import { ApiError } from "@/services/api";
-import { authService } from "@/services/auth.service";
+import { useRegisterMutation } from "@/services/auth/api";
+import { useAppDispatch } from "@/stores/hooks";
+import { authFailed } from "@/stores/slices/auth.slice";
 
 type RegisterFieldErrors = Partial<{
   fullName: string;
@@ -38,21 +38,63 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
+function getApiErrorMessage(error: unknown, fallback: string) {
+  const rtkError = error as {
+    status?: number | string;
+    error?: string;
+    data?: unknown;
+  };
+
+  if (typeof rtkError.error === "string") {
+    return rtkError.error;
+  }
+
+  const data = rtkError.data;
+
+  if (typeof data === "string") {
+    return data;
+  }
+
+  if (typeof data === "object" && data !== null && "message" in data) {
+    return String(data.message);
+  }
+
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    "error" in data &&
+    typeof data.error === "object" &&
+    data.error !== null &&
+    "message" in data.error
+  ) {
+    return String(data.error.message);
+  }
+
+  return fallback;
+}
+
 export default function RegisterScreen() {
   const router = useRouter();
   const theme = useTheme();
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const [register, { isLoading }] = useRegisterMutation();
   const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
+  const submittingRef = useRef(false);
 
   const passwordChecks = useMemo(
     () => [
@@ -87,62 +129,72 @@ export default function RegisterScreen() {
   }
 
   async function handleRegister() {
-    Keyboard.dismiss();
+    if (submittingRef.current || isLoading) return;
 
-    const normalizedFullName = fullName.trim();
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const nextErrors: RegisterFieldErrors = {};
-
-    if (normalizedFullName.length < 2) {
-      nextErrors.fullName = "Tên hiển thị tối thiểu 2 ký tự";
-    }
-
-    if (!normalizedEmail.includes("@")) {
-      nextErrors.email = "Email không hợp lệ";
-    }
-
-    if (password.length < 8) {
-      nextErrors.password = "Mật khẩu tối thiểu 8 ký tự";
-    } else if (passwordScore < 4) {
-      nextErrors.password = "Mật khẩu cần có chữ hoa, chữ thường, số và ký tự đặc biệt";
-    }
-
-    if (confirmPassword.length === 0) {
-      nextErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
-    } else if (password !== confirmPassword) {
-      nextErrors.confirmPassword = "Xác nhận mật khẩu không khớp";
-    }
-
-    if (!acceptedTerms) {
-      nextErrors.acceptedTerms = "Bạn cần đồng ý với điều khoản sử dụng";
-    }
-
-    if (Object.keys(nextErrors).length > 0) {
-      setFieldErrors(nextErrors);
-      return;
-    }
+    submittingRef.current = true;
 
     try {
-      setIsLoading(true);
-      setFieldErrors({});
+      Keyboard.dismiss();
 
-      await authService.register({
-        fullName: normalizedFullName,
-        email: normalizedEmail,
-        password,
-      });
+      const normalizedFullName = fullName.trim();
+      const normalizedEmail = email.trim().toLowerCase();
 
-      router.replace("/");
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setFieldErrors({ form: error.message });
+      const nextErrors: RegisterFieldErrors = {};
+
+      if (normalizedFullName.length < 2) {
+        nextErrors.fullName = "Tên hiển thị tối thiểu 2 ký tự";
+      }
+
+      if (!normalizedEmail.includes("@")) {
+        nextErrors.email = "Email không hợp lệ";
+      }
+
+      if (password.length < 8) {
+        nextErrors.password = "Mật khẩu tối thiểu 8 ký tự";
+      } else if (passwordScore < 4) {
+        nextErrors.password = "Mật khẩu cần có chữ hoa, chữ thường, số và ký tự đặc biệt";
+      }
+
+      if (confirmPassword.length === 0) {
+        nextErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
+      } else if (password !== confirmPassword) {
+        nextErrors.confirmPassword = "Xác nhận mật khẩu không khớp";
+      }
+
+      if (!acceptedTerms) {
+        nextErrors.acceptedTerms = "Bạn cần đồng ý với điều khoản sử dụng";
+      }
+
+      if (Object.keys(nextErrors).length > 0) {
+        if (mountedRef.current) {
+          setFieldErrors(nextErrors);
+        }
+
         return;
       }
 
-      setFieldErrors({ form: "Đăng ký thất bại, vui lòng thử lại" });
+      if (mountedRef.current) {
+        setFieldErrors({});
+      }
+
+      await register({
+        fullName: normalizedFullName,
+        email: normalizedEmail,
+        password,
+      }).unwrap();
+
+      if (!mountedRef.current) return;
+
+      router.replace("/login" as never);
+    } catch (error) {
+      const message = getApiErrorMessage(error, "Đăng ký thất bại. Vui lòng thử lại.");
+
+      if (!mountedRef.current) return;
+
+      dispatch(authFailed(message));
+      setFieldErrors({ form: message });
     } finally {
-      setIsLoading(false);
+      submittingRef.current = false;
     }
   }
 
@@ -209,26 +261,12 @@ export default function RegisterScreen() {
                 onChangeText={(text) => {
                   setPassword(text);
                   clearFieldError("password");
-                  clearFieldError("confirmPassword");
                 }}
                 placeholder="••••••••"
-                secureTextEntry={!showPassword}
+                isPassword
                 autoCapitalize="none"
                 autoCorrect={false}
                 containerStyle={styles.field}
-                rightElement={
-                  <Pressable
-                    hitSlop={8}
-                    onPress={() => setShowPassword((prev) => !prev)}
-                    style={styles.eyeButton}
-                  >
-                    {showPassword ? (
-                      <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                    ) : (
-                      <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                    )}
-                  </Pressable>
-                }
               />
               <FieldError message={fieldErrors.password} />
 
@@ -254,24 +292,11 @@ export default function RegisterScreen() {
                   clearFieldError("confirmPassword");
                 }}
                 placeholder="••••••••"
-                secureTextEntry={!showConfirmPassword}
+                isPassword
                 autoCapitalize="none"
                 autoCorrect={false}
                 containerStyle={styles.field}
                 onSubmitEditing={handleRegister}
-                rightElement={
-                  <Pressable
-                    hitSlop={8}
-                    onPress={() => setShowConfirmPassword((prev) => !prev)}
-                    style={styles.eyeButton}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff size={16} color={theme.textSecondary} strokeWidth={2} />
-                    ) : (
-                      <Eye size={16} color={theme.textSecondary} strokeWidth={2} />
-                    )}
-                  </Pressable>
-                }
               />
               <FieldError message={fieldErrors.confirmPassword} />
 
@@ -325,9 +350,17 @@ export default function RegisterScreen() {
                 Đã có tài khoản?{" "}
               </ThemedText>
 
-              <Pressable onPress={() => router.replace("/")}>
+              <Pressable onPress={() => router.replace("/login" as any)}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Đăng nhập
+                </ThemedText>
+              </Pressable>
+            </View>
+
+            <View style={[styles.loginRow, { marginTop: Spacing.two }]}>
+              <Pressable onPress={() => router.push("/(auth)/forgot-password" as any)}>
+                <ThemedText type="smallBold" style={{ color: theme.primary }}>
+                  Quên mật khẩu?
                 </ThemedText>
               </Pressable>
             </View>

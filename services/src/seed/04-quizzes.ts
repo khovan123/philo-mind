@@ -28,9 +28,16 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
   let created = 0;
 
   for (const row of rows) {
-    // Find lesson by title
     const lesson = await prisma.lesson.findFirst({
-      where: { title: { contains: row.bài_học } },
+      where: {
+        OR: [
+          { title: { contains: row.bài_học } },
+          { content: { contains: row.bài_học } },
+          { topic: { title: { contains: row.bài_học } } },
+          { topic: { category: { contains: row.bài_học } } },
+        ],
+      },
+      orderBy: { createdAt: "asc" },
     });
 
     if (!lesson) {
@@ -40,6 +47,9 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
       continue;
     }
 
+    if (!row.đáp_án_đúng) {
+      continue;
+    }
     const correctLetter = row.đáp_án_đúng.trim().toUpperCase();
     const options = [
       { text: row.đáp_án_A, letter: "A" },

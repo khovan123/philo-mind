@@ -1,22 +1,11 @@
-import type {
-  Request,
-  Response,
-  NextFunction,
-} from "express";
+import type { Request, Response, NextFunction } from "express";
 
-import {
-  aiCharacterService,
-  AiCharacterError,
-} from "../services/ai-character.service.js";
+import { aiCharacterService, AiCharacterError } from "../services/ai-character.service.js";
 
 import { sendSuccess, sendError } from "../utils/response.js";
 
 export class AiCharacterController {
-  async getAll(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const data = await aiCharacterService.getAll();
 
@@ -26,102 +15,56 @@ export class AiCharacterController {
     }
   }
 
-  async getById(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async getById(req: Request, res: Response, next: NextFunction) {
     try {
-      const data = await aiCharacterService.getById(
-        String(req.params.id),
-      );
+      const data = await aiCharacterService.getById(String(req.params.id));
 
       return sendSuccess(res, data);
     } catch (err) {
       if (err instanceof AiCharacterError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);
     }
   }
 
-  async create(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const data =
-        await aiCharacterService.create(req.body);
+      const data = await aiCharacterService.create(req.body);
 
       return sendSuccess(res, data, 201);
     } catch (err) {
       if (err instanceof AiCharacterError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);
     }
   }
 
-  async update(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const data =
-        await aiCharacterService.update(
-          String(req.params.id),
-          req.body,
-        );
+      const data = await aiCharacterService.update(String(req.params.id), req.body);
 
       return sendSuccess(res, data);
     } catch (err) {
       if (err instanceof AiCharacterError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);
     }
   }
 
-  async delete(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      const data =
-        await aiCharacterService.delete(
-          String(req.params.id),
-        );
+      const data = await aiCharacterService.delete(String(req.params.id));
 
       return sendSuccess(res, data);
     } catch (err) {
       if (err instanceof AiCharacterError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);

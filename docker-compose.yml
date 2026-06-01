@@ -1,7 +1,10 @@
 # ─── PhiloMind Dev Stack ─────────────────────────────────────
 # Usage:  docker compose up -d
 # Logs:   docker compose logs -f api
-# Reset:  docker compose down -v
+# Stop:   docker compose stop
+# Start:  docker compose start
+# Down:   docker compose down
+# Reset:  docker compose down -v  # DANGER: intentionally deletes local data
 # ──────────────────────────────────────────────────────────────
 
 services:

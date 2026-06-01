@@ -1,9 +1,6 @@
 import { Router } from "express";
 
-import {
-  authGuard,
-  roleGuard,
-} from "../middleware/auth.middleware.js";
+import { authGuard, roleGuard } from "../middleware/auth.middleware.js";
 
 import { validate } from "../middleware/validate.middleware.js";
 
@@ -13,30 +10,14 @@ import {
   characterIdSchema,
 } from "../validators/ai-character.validator.js";
 
-import { aiCharacterController }
-  from "../controllers/ai-character.controller.js";
+import { aiCharacterController } from "../controllers/ai-character.controller.js";
 
 export const aiCharacterRouter = Router();
 
-aiCharacterRouter.get(
-  "/",
-  (req, res, next) =>
-    aiCharacterController.getAll(
-      req,
-      res,
-      next,
-    ),
-);
+aiCharacterRouter.get("/", (req, res, next) => aiCharacterController.getAll(req, res, next));
 
-aiCharacterRouter.get(
-  "/:id",
-  validate(characterIdSchema),
-  (req, res, next) =>
-    aiCharacterController.getById(
-      req,
-      res,
-      next,
-    ),
+aiCharacterRouter.get("/:id", validate(characterIdSchema), (req, res, next) =>
+  aiCharacterController.getById(req, res, next),
 );
 
 aiCharacterRouter.post(
@@ -44,12 +25,7 @@ aiCharacterRouter.post(
   authGuard,
   roleGuard("ADMIN"),
   validate(createCharacterSchema),
-  (req, res, next) =>
-    aiCharacterController.create(
-      req,
-      res,
-      next,
-    ),
+  (req, res, next) => aiCharacterController.create(req, res, next),
 );
 
 aiCharacterRouter.patch(
@@ -57,12 +33,7 @@ aiCharacterRouter.patch(
   authGuard,
   roleGuard("ADMIN"),
   validate(updateCharacterSchema),
-  (req, res, next) =>
-    aiCharacterController.update(
-      req,
-      res,
-      next,
-    ),
+  (req, res, next) => aiCharacterController.update(req, res, next),
 );
 
 aiCharacterRouter.delete(
@@ -70,10 +41,5 @@ aiCharacterRouter.delete(
   authGuard,
   roleGuard("ADMIN"),
   validate(characterIdSchema),
-  (req, res, next) =>
-    aiCharacterController.delete(
-      req,
-      res,
-      next,
-    ),
+  (req, res, next) => aiCharacterController.delete(req, res, next),
 );
