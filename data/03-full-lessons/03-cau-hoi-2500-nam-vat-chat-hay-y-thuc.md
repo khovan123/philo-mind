@@ -17,12 +17,14 @@ Ph. Ăngghen xác định: vấn đề cơ bản của triết học là **mối
 Vấn đề này có **hai mặt**:
 
 **Mặt thứ nhất — Bản thể luận**: Giữa vật chất và ý thức, cái nào có trước, cái nào có sau? Cái nào quyết định cái nào?
-- Nếu trả lời: *vật chất có trước, quyết định ý thức* → **Chủ nghĩa duy vật**
-- Nếu trả lời: *ý thức (tinh thần, ý niệm) có trước, quyết định vật chất* → **Chủ nghĩa duy tâm**
+
+- Nếu trả lời: _vật chất có trước, quyết định ý thức_ → **Chủ nghĩa duy vật**
+- Nếu trả lời: _ý thức (tinh thần, ý niệm) có trước, quyết định vật chất_ → **Chủ nghĩa duy tâm**
 
 **Mặt thứ hai — Nhận thức luận**: Con người có thể nhận thức được thế giới hay không?
-- Nếu trả lời *có* → **Khả tri luận** (thuyết có thể biết)
-- Nếu trả lời *không* hoặc *không chắc* → **Bất khả tri luận** (thuyết không thể biết)
+
+- Nếu trả lời _có_ → **Khả tri luận** (thuyết có thể biết)
+- Nếu trả lời _không_ hoặc _không chắc_ → **Bất khả tri luận** (thuyết không thể biết)
 
 **Tại sao đây là vấn đề "cơ bản"?**
 

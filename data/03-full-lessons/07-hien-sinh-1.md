@@ -3,6 +3,7 @@ chủ_đề: Chủ nghĩa Hiện sinh
 tiêu_đề: Hiện hữu có trước Bản chất
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Khi bạn sản xuất một con dao, bạn phải hình dung trong đầu công dụng của nó trước (dùng để cắt) rồi mới tạo ra nó. Đối với cái dao, **Bản chất** (công dụng, mục đích) có trước **Hiện hữu** (sự tồn tại vật lý). Xuyên suốt lịch sử, người ta tin rằng con người cũng vậy: chúng ta được sinh ra bởi Chúa trời hoặc Tự nhiên với một "mục đích" định sẵn.

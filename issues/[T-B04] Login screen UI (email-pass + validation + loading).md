@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #42 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Foundation |
-| Loại việc | frontend |
-| Priority | high |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @thuhataplamdev |
-| Estimate | 3h |
-| Milestone | Week 2 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #42               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Foundation      |
+| Loại việc         | frontend          |
+| Priority          | high              |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @thuhataplamdev   |
+| Estimate          | 3h                |
+| Milestone         | Week 2            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/login` từ tab/card/link phù hợp | Render màn hình chính của Login screen UI (email/pass + validation + loading) |
-| Submit login | Nhập email/password -> bấm "Đăng nhập" | Gọi auth store/API, lưu token, điều hướng `/(tabs)/home` |
-| Mở đăng ký | Bấm "Tạo tài khoản" | Điều hướng `/register` |
-
+| Tình huống   | Người dùng thao tác                        | Kết quả bắt buộc                                                              |
+| ------------ | ------------------------------------------ | ----------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/login` từ tab/card/link phù hợp | Render màn hình chính của Login screen UI (email/pass + validation + loading) |
+| Submit login | Nhập email/password -> bấm "Đăng nhập"     | Gọi auth store/API, lưu token, điều hướng `/(tabs)/home`                      |
+| Mở đăng ký   | Bấm "Tạo tài khoản"                        | Điều hướng `/register`                                                        |
 
 ## 4. Flow tích hợp
 

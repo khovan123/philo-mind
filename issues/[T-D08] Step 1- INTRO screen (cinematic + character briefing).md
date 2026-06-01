@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #74 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 4h |
-| Milestone | Week 5 |
-| Dependencies | `T-D07` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #74                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 4h                   |
+| Milestone         | Week 5               |
+| Dependencies      | `T-D07`              |
 
 ## 3. Requirement cụ thể
 
@@ -31,12 +31,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]` từ tab/card/link phù hợp | Render màn hình chính của Step 1: INTRO screen (cinematic + character briefing) |
-| Chọn nhân vật | Bấm character card | Tạo/mở session và điều hướng `/ai/chat/[sessionId]` |
-| Gửi tin nhắn | Nhập prompt -> bấm send | Disable input khi gửi, stream response và auto-scroll |
-
+| Tình huống    | Người dùng thao tác                             | Kết quả bắt buộc                                                                |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/story/[id]` từ tab/card/link phù hợp | Render màn hình chính của Step 1: INTRO screen (cinematic + character briefing) |
+| Chọn nhân vật | Bấm character card                              | Tạo/mở session và điều hướng `/ai/chat/[sessionId]`                             |
+| Gửi tin nhắn  | Nhập prompt -> bấm send                         | Disable input khi gửi, stream response và auto-scroll                           |
 
 ## 4. Flow tích hợp
 

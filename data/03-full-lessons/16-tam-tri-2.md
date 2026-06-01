@@ -3,13 +3,14 @@ chủ_đề: Triết học tâm trí
 tiêu_đề: Bóng ma trong cỗ máy
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Một trong những bài toán hóc búa nhất của nhân loại là **Bài toán Thân - Tâm** (Mind-Body Problem). Cơ thể bạn (Thân) là vật chất, có khối lượng, nằm trong không gian. Nhưng những suy nghĩ, cảm xúc, ký ức của bạn (Tâm trí) dường như vô hình, không có khối lượng hay hình dạng. Chúng tương tác với nhau như thế nào?
 
-René Descartes đề xuất **Thuyết nhị nguyên** (Dualism), cho rằng Thân và Tâm là hai bản thể hoàn toàn tách biệt. Cơ thể là một cỗ máy sinh học, còn tâm trí là một thực thể phi vật chất. 
+René Descartes đề xuất **Thuyết nhị nguyên** (Dualism), cho rằng Thân và Tâm là hai bản thể hoàn toàn tách biệt. Cơ thể là một cỗ máy sinh học, còn tâm trí là một thực thể phi vật chất.
 
-Tuy nhiên, vào giữa thế kỷ 20, triết gia Gilbert Ryle đã giễu cợt lý thuyết này bằng cụm từ **Bóng ma trong cỗ máy** (The Ghost in the Machine). Ryle lập luận rằng việc coi tâm trí là một "vật" tách biệt cư trú bên trong cơ thể là một sự nhầm lẫn logic (category mistake). 
+Tuy nhiên, vào giữa thế kỷ 20, triết gia Gilbert Ryle đã giễu cợt lý thuyết này bằng cụm từ **Bóng ma trong cỗ máy** (The Ghost in the Machine). Ryle lập luận rằng việc coi tâm trí là một "vật" tách biệt cư trú bên trong cơ thể là một sự nhầm lẫn logic (category mistake).
 Khoa học thần kinh hiện đại ủng hộ thuyết Nhất nguyên duy vật: Tâm trí không phải là một "bóng ma" bí ẩn, mà chỉ là sản phẩm của các quá trình điện hóa học bên trong mạng lưới 86 tỷ nơ-ron thần kinh của bộ não. Yêu thương là sự tiết ra Oxytocin, căng thẳng là Cortisol. Tổn thương bán cầu não trái làm thay đổi hoàn toàn tính cách một người. Tâm trí CHÍNH LÀ sự hoạt động của não bộ.
 
 ## Ví dụ thực tế
