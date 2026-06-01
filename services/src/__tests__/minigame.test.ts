@@ -1,4 +1,5 @@
 import { jest } from "@jest/globals";
+import type { Prisma } from "../prisma/generated/client.js";
 import {
   createMiniGameSchema,
   listMiniGamesSchema,
@@ -211,7 +212,11 @@ describe("MINI_GAMES seed configs (T-C11)", () => {
   it.each(MINI_GAMES.map((game) => [game.title, game] as const))(
     "scores seeded game %s at 100 when answers are perfect",
     (_title, game) => {
-      const result = service.scoreGame(game.gameType, game.config, buildPerfectAnswers(game));
+      const result = service.scoreGame(
+        game.gameType,
+        game.config as Prisma.JsonValue,
+        buildPerfectAnswers(game),
+      );
       expect(result.score).toBe(100);
       expect(result.result.isCorrect).toBe(true);
     },
