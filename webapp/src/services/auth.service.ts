@@ -1,4 +1,4 @@
-import { apiRequest } from "@/services/api";
+﻿import { apiRequest } from "@/services/api";
 import { clearAuthState, getRefreshToken, setAuthState } from "@/stores/auth.store";
 import type {
   AuthResponse,
@@ -26,7 +26,7 @@ export const authService = {
       }),
     });
 
-    setAuthState({
+    await setAuthState({
       accessToken: response.tokens.accessToken,
       refreshToken: response.tokens.refreshToken,
       user: response.user,
@@ -44,7 +44,7 @@ export const authService = {
       }),
     });
 
-    setAuthState({
+    await setAuthState({
       accessToken: response.tokens.accessToken,
       refreshToken: response.tokens.refreshToken,
       user: response.user,
@@ -65,7 +65,7 @@ export const authService = {
       body: JSON.stringify({ refreshToken }),
     });
 
-    setAuthState({
+    await setAuthState({
       accessToken: response.tokens.accessToken,
       refreshToken: response.tokens.refreshToken,
     });
@@ -81,7 +81,7 @@ export const authService = {
 
       return response;
     } finally {
-      clearAuthState();
+      await clearAuthState();
     }
   },
 
@@ -90,7 +90,7 @@ export const authService = {
       method: "DELETE",
     });
 
-    clearAuthState();
+    await clearAuthState();
     return response;
   },
 
@@ -123,7 +123,7 @@ export const authService = {
       }),
     });
 
-    clearAuthState();
+    await clearAuthState();
     return response;
   },
 
@@ -133,7 +133,7 @@ export const authService = {
       body: JSON.stringify(payload),
     });
 
-    setAuthState({ user: response });
+    await setAuthState({ user: response });
     return response;
   },
 
@@ -149,7 +149,7 @@ export const authService = {
       method: "GET",
     });
 
-    setAuthState({ user: response });
+    await setAuthState({ user: response });
     return response;
   },
 };
