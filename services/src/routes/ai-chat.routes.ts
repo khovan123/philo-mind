@@ -14,34 +14,24 @@ export const aiChatRouter = Router();
 
 aiChatRouter.use(authGuard);
 
-aiChatRouter.post(
-  "/sessions",
-  validate(createChatSessionSchema),
-  (req, res, next) => aiChatController.create(req, res, next),
+aiChatRouter.post("/sessions", validate(createChatSessionSchema), (req, res, next) =>
+  aiChatController.create(req, res, next),
 );
 
-aiChatRouter.get(
-  "/sessions",
-  validate(listChatSessionsSchema),
-  (req, res, next) => aiChatController.list(req, res, next),
+aiChatRouter.get("/sessions", validate(listChatSessionsSchema), (req, res, next) =>
+  aiChatController.list(req, res, next),
 );
 
-aiChatRouter.get(
-  "/sessions/:id/stream",
-  validate(sessionIdSchema),
-  (req, res, next) => aiChatController.get(req, res, next),
+aiChatRouter.get("/sessions/:id/stream", validate(sessionIdSchema), (req, res, next) =>
+  aiChatController.get(req, res, next),
 );
 
-aiChatRouter.post(
-  "/sessions/:id/messages",
-  validate(sendChatMessageSchema),
-  (req, res, next) => aiChatController.sendMessage(req, res, next),
+aiChatRouter.post("/sessions/:id/messages", validate(sendChatMessageSchema), (req, res, next) =>
+  aiChatController.sendMessage(req, res, next),
 );
 
-aiChatRouter.post(
-  "/sessions/:id/stream",
-  validate(streamChatMessageSchema),
-  (req, res, next) => aiChatController.stream(req, res, next),
+aiChatRouter.post("/sessions/:id/stream", validate(streamChatMessageSchema), (req, res, next) =>
+  aiChatController.stream(req, res, next),
 );
 
 export default aiChatRouter;

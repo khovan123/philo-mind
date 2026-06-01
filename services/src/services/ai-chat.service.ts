@@ -28,10 +28,7 @@ export interface AiChatMessageContext {
 }
 
 function buildCharacterInstruction(character: AiChatPromptCharacter) {
-  const pieces = [
-    `You are ${character.name}.`,
-    character.promptInstruction,
-  ];
+  const pieces = [`You are ${character.name}.`, character.promptInstruction];
 
   if (character.worldview) {
     pieces.push(`Worldview: ${character.worldview}`);
@@ -62,21 +59,13 @@ export function buildChatPrompt(
 }
 
 export class AiChatService {
-  async createSession(
-    userId: string,
-    characterId: string,
-    title?: string,
-  ) {
+  async createSession(userId: string, characterId: string, title?: string) {
     const character = await prisma.aiCharacter.findUnique({
       where: { id: characterId },
     });
 
     if (!character) {
-      throw new AiChatError(
-        "CHARACTER_NOT_FOUND",
-        "Nhân vật AI không tồn tại",
-        404,
-      );
+      throw new AiChatError("CHARACTER_NOT_FOUND", "Nhân vật AI không tồn tại", 404);
     }
 
     const sessionTitle = title?.trim() || `Chat với ${character.name}`;
@@ -134,11 +123,7 @@ export class AiChatService {
     });
 
     if (!session) {
-      throw new AiChatError(
-        "SESSION_NOT_FOUND",
-        "Phiên trò chuyện không tồn tại",
-        404,
-      );
+      throw new AiChatError("SESSION_NOT_FOUND", "Phiên trò chuyện không tồn tại", 404);
     }
 
     const messages = await prisma.aiChatMessage.findMany({
@@ -153,11 +138,7 @@ export class AiChatService {
     };
   }
 
-  async sendMessage(
-    userId: string,
-    sessionId: string,
-    message: string,
-  ) {
+  async sendMessage(userId: string, sessionId: string, message: string) {
     const session = await prisma.aiChatSession.findUnique({
       where: { id: sessionId, userId },
       include: {
@@ -166,11 +147,7 @@ export class AiChatService {
     });
 
     if (!session) {
-      throw new AiChatError(
-        "SESSION_NOT_FOUND",
-        "Phiên trò chuyện không tồn tại",
-        404,
-      );
+      throw new AiChatError("SESSION_NOT_FOUND", "Phiên trò chuyện không tồn tại", 404);
     }
 
     const chatHistory = await prisma.aiChatMessage.findMany({
@@ -179,12 +156,10 @@ export class AiChatService {
       take: MAX_CHAT_HISTORY,
     });
 
-    const context = chatHistory
-      .reverse()
-      .map((item) => ({
-        senderType: item.senderType as "USER" | "AI",
-        message: item.message,
-      }));
+    const context = chatHistory.reverse().map((item) => ({
+      senderType: item.senderType as "USER" | "AI",
+      message: item.message,
+    }));
 
     const userMessage = await prisma.aiChatMessage.create({
       data: {
@@ -222,19 +197,13 @@ export class AiChatService {
 
       throw new AiChatError(
         "CHAT_GENERATION_FAILED",
-        error instanceof Error
-          ? error.message
-          : "Lỗi khi tạo phản hồi AI",
+        error instanceof Error ? error.message : "Lỗi khi tạo phản hồi AI",
         502,
       );
     }
   }
 
-  async *streamMessage(
-    userId: string,
-    sessionId: string,
-    message: string,
-  ): AsyncGenerator<string> {
+  async *streamMessage(userId: string, sessionId: string, message: string): AsyncGenerator<string> {
     const session = await prisma.aiChatSession.findUnique({
       where: { id: sessionId, userId },
       include: {
@@ -243,11 +212,7 @@ export class AiChatService {
     });
 
     if (!session) {
-      throw new AiChatError(
-        "SESSION_NOT_FOUND",
-        "Phiên trò chuyện không tồn tại",
-        404,
-      );
+      throw new AiChatError("SESSION_NOT_FOUND", "Phiên trò chuyện không tồn tại", 404);
     }
 
     const chatHistory = await prisma.aiChatMessage.findMany({
@@ -256,12 +221,10 @@ export class AiChatService {
       take: MAX_CHAT_HISTORY,
     });
 
-    const context = chatHistory
-      .reverse()
-      .map((item) => ({
-        senderType: item.senderType as "USER" | "AI",
-        message: item.message,
-      }));
+    const context = chatHistory.reverse().map((item) => ({
+      senderType: item.senderType as "USER" | "AI",
+      message: item.message,
+    }));
 
     const userMessage = await prisma.aiChatMessage.create({
       data: {

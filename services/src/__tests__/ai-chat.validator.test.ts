@@ -24,9 +24,9 @@ describe("AI Chat Validator", () => {
   });
 
   it("validates list sessions query parameters", () => {
-    expect(
-      listChatSessionsSchema.parse({ query: { page: "2", limit: "10" } }),
-    ).toEqual({ query: { page: "2", limit: "10" } });
+    expect(listChatSessionsSchema.parse({ query: { page: "2", limit: "10" } })).toEqual({
+      query: { page: "2", limit: "10" },
+    });
   });
 
   it("validates session ID route param", () => {
@@ -36,7 +36,10 @@ describe("AI Chat Validator", () => {
   });
 
   it("rejects invalid message payload", () => {
-    const result = sendChatMessageSchema.safeParse({ params: { id: "bad" }, body: { message: "" } });
+    const result = sendChatMessageSchema.safeParse({
+      params: { id: "bad" },
+      body: { message: "" },
+    });
 
     expect(result.success).toBe(false);
   });
