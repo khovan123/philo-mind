@@ -65,6 +65,15 @@ const authSlice = createSlice({
       state.error = action.payload;
     },
 
+    authErrorCleared: (state) => {
+      state.error = null;
+
+      if (state.status === "error") {
+        state.status =
+          state.accessToken && state.refreshToken ? "authenticated" : "unauthenticated";
+      }
+    },
+
     loggedOut: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -75,7 +84,13 @@ const authSlice = createSlice({
   },
 });
 
-export const { hydrateStarted, authStateSet, tokenReceived, authFailed, loggedOut } =
-  authSlice.actions;
+export const {
+  hydrateStarted,
+  authStateSet,
+  tokenReceived,
+  authFailed,
+  authErrorCleared,
+  loggedOut,
+} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;
