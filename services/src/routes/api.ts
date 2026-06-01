@@ -66,7 +66,6 @@ apiRouter.use("/topics/:topicId/perspectives", topicPerspectiveRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
 
-
 // AI endpoints (Gemini)
 apiRouter.use("/ai", aiRouter);
 // T-D01: Story Mode Engine — learn cards, analysis tabs, philosophy tags

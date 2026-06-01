@@ -3,7 +3,6 @@ import { env } from "../config/env.js";
 import { sendError } from "../utils/response.js";
 
 const windowMs = 60 * 1000;
-const defaultLimit = env.AI_RATE_LIMIT_PER_MIN;
 
 type Entry = {
   count: number;
@@ -12,18 +11,12 @@ type Entry = {
 
 const store = new Map<string, Entry>();
 
-export function aiRateLimit(
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) {
+export function aiRateLimit(req: Request, res: Response, next: NextFunction) {
   try {
-    const key: string =
-      req.user?.id ??
-      req.ip ??
-      "anonymous";
+    const key: string = req.user?.id ?? req.ip ?? "anonymous";
 
     const now = Date.now();
+    const defaultLimit = env.AI_RATE_LIMIT_PER_MIN;
 
     const entry = store.get(key);
 
