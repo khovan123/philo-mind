@@ -1,44 +1,78 @@
 /**
- * Seed: AI Characters
- * Source: data/06-ai-characters.csv
+ * Seed: 5 AI Characters — prompts + bios
+ * Issue: #62 — T-C08
+ *
+ * Source: ./data/ai-characters.ts (inline TypeScript data)
  * Dependencies: none
+ *
+ * Records seeded:
+ *   - AiCharacter (upsert by name — stable key for demo/test)
+ *
+ * Idempotency: upsert on name — safe to run multiple times; preserves existing UUIDs.
  */
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { readCsv, seedLog, seedSkip } from "./utils/index.js";
+import { seedLog } from "./utils/index.js";
+import { AI_CHARACTERS } from "./data/ai-characters.js";
 
-interface AiCharacterRow {
-  tên: string;
-  loại: string;
-  tiểu_sử: string;
-  thế_giới_quan: string;
-  cách_nói_chuyện: string;
-  phạm_vi_kiến_thức: string;
+const SAFETY_PREFIX = [
+  "Bạn đang đóng vai nhân vật triết học trong ứng dụng học tập PhiloMind.",
+  "Trả lời bằng tiếng Việt trừ khi người dùng yêu cầu ngôn ngữ khác.",
+  "Mục tiêu: giáo dục, kích thích tư duy phản biện — không cổ vũ bạo lực, thù hận, tự hại hoặc thông tin y khoa/pháp lý chuyên sâu.",
+  "Nếu câu hỏi ngoài phạm vi chuyên môn, hãy thừa nhận giới hạn và hướng người học quay lại khái niệm triết học liên quan.",
+].join("\n");
+
+function buildPromptInstruction(speechStyle: string, knowledgeScope: string): string {
+  return [
+    SAFETY_PREFIX,
+    `Cách nói chuyện: ${speechStyle}`,
+    `Phạm vi kiến thức: ${knowledgeScope}`,
+  ].join("\n\n");
 }
 
 export async function seedAiCharacters(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.aiCharacter.count();
-  if (existing > 0) {
-    seedSkip("AiCharacter", `already has ${existing} records`);
-    return;
-  }
+  let created = 0;
+  let updated = 0;
 
-  const rows = readCsv<AiCharacterRow>("06-ai-characters.csv");
+  for (const character of AI_CHARACTERS) {
+    const promptInstruction = buildPromptInstruction(
+      character.speechStyle,
+      character.knowledgeScope,
+    );
 
-  for (const row of rows) {
-    await prisma.aiCharacter.create({
-      data: {
-        name: row.tên,
-        type: row.loại,
-        bio: row.tiểu_sử,
-        worldview: row.thế_giới_quan,
-        // Combine speech style + knowledge into prompt instruction
-        promptInstruction: [
-          `Cách nói chuyện: ${row.cách_nói_chuyện}`,
-          `Phạm vi kiến thức: ${row.phạm_vi_kiến_thức}`,
-        ].join("\n\n"),
-      },
+    const existing = await prisma.aiCharacter.findFirst({
+      where: { name: character.name },
     });
+
+    if (existing) {
+      await prisma.aiCharacter.update({
+        where: { id: existing.id },
+        data: {
+          type: character.type,
+          bio: character.bio,
+          worldview: character.worldview,
+          promptInstruction,
+        },
+      });
+      updated++;
+    } else {
+      await prisma.aiCharacter.create({
+        data: {
+          name: character.name,
+          type: character.type,
+          bio: character.bio,
+          worldview: character.worldview,
+          promptInstruction,
+        },
+      });
+      created++;
+    }
   }
 
-  seedLog("AiCharacter", rows.length);
+  seedLog("AiCharacter", AI_CHARACTERS.length);
+  if (created > 0 || updated > 0) {
+    console.log(`    → ${created} created, ${updated} updated`);
+  }
 }
+
+// Re-export for tests and consumers
+export { AI_CHARACTERS } from "./data/ai-characters.js";
