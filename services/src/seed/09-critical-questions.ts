@@ -1,48 +1,70 @@
 /**
- * Seed: Critical Questions
- * Source: data/09-critical-questions.csv
- * Dependencies: Topic (matched by category)
+ * Seed: 20 Critical Questions
+ * Issue: #64 — T-C10
+ *
+ * Source: ./data/critical-questions.ts (inline TypeScript data)
+ * Dependencies: Topic (matched by exact title)
+ *
+ * Question types: OPEN_TEXT | MORAL_DILEMMA | LOGIC (and others in Prisma enum)
+ *
+ * Idempotency: upsert on question text — safe to run multiple times.
  */
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { readCsv, mapQuestionType, seedLog, seedSkip } from "./utils/index.js";
-
-interface CriticalQuestionRow {
-  chủ_đề: string;
-  câu_hỏi: string;
-  loại: string;
-}
+import { seedLog, seedSkip } from "./utils/index.js";
+import { CRITICAL_QUESTIONS } from "./data/critical-questions.js";
 
 export async function seedCriticalQuestions(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.criticalQuestion.count();
-  if (existing > 0) {
-    seedSkip("CriticalQuestion", `already has ${existing} records`);
-    return;
-  }
-
-  const rows = readCsv<CriticalQuestionRow>("09-critical-questions.csv");
   let created = 0;
+  let updated = 0;
+  let skipped = 0;
 
-  for (const row of rows) {
+  for (const item of CRITICAL_QUESTIONS) {
     const topic = await prisma.topic.findFirst({
-      where: {
-        OR: [{ category: row.chủ_đề }, { title: { contains: row.chủ_đề } }],
-      },
+      where: { title: item.topicTitle },
     });
 
     if (!topic) {
-      console.warn(`    ⚠ No topic for: "${row.chủ_đề}" — skipping question`);
+      console.warn(`    ⚠ Topic not found: "${item.topicTitle}" — skipping critical question`);
+      skipped++;
       continue;
     }
 
-    await prisma.criticalQuestion.create({
-      data: {
-        topicId: topic.id,
-        question: row.câu_hỏi,
-        questionType: mapQuestionType(row.loại),
-      },
+    const existing = await prisma.criticalQuestion.findFirst({
+      where: { question: item.question },
     });
-    created++;
+
+    if (existing) {
+      await prisma.criticalQuestion.update({
+        where: { id: existing.id },
+        data: {
+          topicId: topic.id,
+          questionType: item.questionType,
+        },
+      });
+      updated++;
+    } else {
+      await prisma.criticalQuestion.create({
+        data: {
+          topicId: topic.id,
+          question: item.question,
+          questionType: item.questionType,
+        },
+      });
+      created++;
+    }
   }
 
-  seedLog("CriticalQuestion", created);
+  const total = created + updated;
+  if (total > 0) {
+    seedLog("CriticalQuestion", total);
+    if (created > 0 || updated > 0) {
+      console.log(`    → ${created} created, ${updated} updated`);
+    }
+  }
+  if (skipped > 0) {
+    seedSkip("CriticalQuestion", `${skipped} skipped (topic not found)`);
+  }
 }
+
+export { CRITICAL_QUESTIONS } from "./data/critical-questions.js";
+export type { CriticalQuestionSeed } from "./data/critical-questions.js";
