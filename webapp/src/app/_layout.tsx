@@ -1,13 +1,10 @@
-import { useEffect } from "react";
 import { DarkTheme, ThemeProvider, Stack } from "expo-router";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
-import { hydrateAuthState } from "@/stores/auth.store";
+import { persistor, store } from "@/stores";
 
-export default function RootLayout() {
-  useEffect(() => {
-    void hydrateAuthState();
-  }, []);
-
+function AppLayout() {
   return (
     <ThemeProvider value={DarkTheme}>
       <AnimatedSplashOverlay />
@@ -23,5 +20,15 @@ export default function RootLayout() {
         <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <AppLayout />
+      </PersistGate>
+    </Provider>
   );
 }

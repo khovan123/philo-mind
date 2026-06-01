@@ -17,8 +17,7 @@ import { BottomTabInset, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { ApiError } from "@/services/api";
 import { authService } from "@/services/auth.service";
-import { getAuthUser } from "@/stores/auth.store";
-import type { AuthUser } from "@/types/auth";
+import { getAuthUser } from "@/stores/auth.helpers";
 
 // ── Section header ─────────────────────────────────────────
 
