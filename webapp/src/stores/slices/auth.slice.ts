@@ -82,7 +82,6 @@ const authSlice = createSlice({
     },
   },
 });
-feat/T-B08-auth-redux-toolkit-slice-redux-persist-loginregisterlogoutcheckauth
 export const {
   hydrateStarted,
   authStateSet,
