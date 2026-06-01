@@ -1,6 +1,6 @@
 # PhiloMind - Project Context
 
-> **Cap nhat lan cuoi:** 2026-05-31  
+> **Cap nhat lan cuoi:** 2026-06-01  
 > **Muc dich:** Cung cap context hien tai cho developer/agent, gom product scope, repo structure, source-of-truth docs va full plan trace tu task plan sang GitHub issues/local docs.
 
 ---
@@ -50,22 +50,22 @@
 | GitHub issues missing `Status Log` | 0 |
 | GitHub issues missing `Feature Output Contract` | 0 |
 | Dev story files trong `stories/` | 77 |
-| Done / closed | 38 |
-| Open / remaining | 73 |
-| Completion | 34% |
+| Done / closed | 49 |
+| Open / remaining | 62 |
+| Completion | 44% |
 
 ### Full Plan Trace By Track
 
 | Track | Scope | Task IDs | GitHub Issues | Total | Done | Open | Local Trace |
 | --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| A | Backend Core | `T-A01`-`T-A22` | #17-#38 | 22 | 14 | 8 | `issues/by-github-id/#017...#038`, `stories/1-*` for open backend stories |
-| B | Frontend Shell | `T-B01`-`T-B16` | #39-#54 | 16 | 6 | 10 | `issues/by-github-id/#039...#054`, `stories/2-*` for open frontend stories |
-| C | Shared Types & Seed | `T-C01`-`T-C12` | #55-#66 | 12 | 3 | 9 | `issues/by-github-id/#055...#066`, `stories/3-*` for open seed/type stories |
+| A | Backend Core | `T-A01`-`T-A22` | #17-#38 | 22 | 15 | 7 | `issues/by-github-id/#017...#038`, `stories/1-*` for open backend stories |
+| B | Frontend Shell | `T-B01`-`T-B16` | #39-#54 | 16 | 7 | 9 | `issues/by-github-id/#039...#054`, `stories/2-*` for open frontend stories |
+| C | Shared Types & Seed | `T-C01`-`T-C12` | #55-#66 | 12 | 4 | 8 | `issues/by-github-id/#055...#066`, `stories/3-*` for open seed/type stories |
 | D | Story Mode Engine | `T-D01`-`T-D16` | #67-#82 | 16 | 5 | 11 | `issues/by-github-id/#067...#082`, `stories/4-*` for open story-mode stories |
 | E | AI & Chat System | `T-E01`-`T-E10` | #83-#92 | 10 | 0 | 10 | `issues/by-github-id/#083...#092`, `stories/5-*` |
 | F | Scenario & Debate | `T-F01`-`T-F08` | #93-#100 | 8 | 0 | 8 | `issues/by-github-id/#093...#100`, `stories/6-*` |
-| G | Polish & Gamification | `T-G01`-`T-G06` | #101-#106 | 6 | 0 | 6 | `issues/by-github-id/#101...#106`, `stories/7-*` |
-| H | Missing Features | `T-H01`-`T-H05` | #107-#111 | 5 | 0 | 5 | `issues/by-github-id/#107...#111`, `stories/8-*` |
+| G | Polish & Gamification | `T-G01`-`T-G06` | #101-#106 | 6 | 3 | 3 | `issues/by-github-id/#101...#106`, `stories/7-*` |
+| H | Missing Features | `T-H01`-`T-H05` | #107-#111 | 5 | 5 | 0 | `issues/by-github-id/#107...#111`, `stories/8-*` |
 | I | DevOps & Deploy | `T-I01`-`T-I07` | #112-#118 | 7 | 7 | 0 | `issues/by-github-id/#112...#118` |
 | J | Testing | `T-J01`-`T-J05` | #119-#123 | 5 | 0 | 5 | `issues/by-github-id/#119...#123`, `stories/10-*` |
 | K | Admin & Settings | `T-K01`-`T-K04` | #124-#127 | 4 | 3 | 1 | `issues/by-github-id/#124...#127`, `stories/11-*` |
@@ -155,8 +155,8 @@ philo-mind/
 | Routing | Expo Router 5.x | File-based routes |
 | Styling | NativeWind 5 | Tailwind-style RN styling |
 | Animation | Reanimated 4 | Micro-interactions |
-| State | Zustand | Feature stores |
-| HTTP | Axios | API client + interceptors |
+| State | Redux Toolkit + Redux Persist | Feature slices + persisted auth/session state |
+| HTTP | RTK Query | RTK Query baseQuery + cache tags + reauth |
 
 ### Shared
 
@@ -234,7 +234,7 @@ Schema duoc dat tai `services/src/prisma/schema.prisma`. Core domain gom auth/pr
 ### Coding Conventions
 
 - Backend: Controller -> Service -> Repository/helper pattern when domain complexity requires it.
-- Frontend: route-driven screens with reusable `components/ui`, feature services and Zustand stores.
+- Frontend: route-driven screens with reusable `components/ui`, feature services and Redux Toolkit slices.
 - Naming: camelCase cho variables/functions, PascalCase cho types/components.
 - API: RESTful, `/api/v1` prefix, response shape `{ success, data, meta? }` or `{ success: false, error }`.
 - Errors: validation/auth/not-found/conflict errors must be explicit and testable.

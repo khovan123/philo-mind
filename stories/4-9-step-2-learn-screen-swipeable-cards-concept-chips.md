@@ -64,14 +64,14 @@ Là developer của PhiloMind, tôi cần hoàn thành **Step 2: LEARN screen (s
 
 ### Implementation Guidance
 - Frontend follows Expo Router + React Native feature structure under `webapp/src`.
-- Reuse shared UI primitives, NativeWind/design tokens, Zustand stores, and API client conventions before adding new abstractions.
+- Reuse shared UI primitives, NativeWind/design tokens, Redux Toolkit slices, and RTK Query API slice conventions before adding new abstractions.
 - Cover loading, empty, error, interaction, and responsive mobile states for the affected screen/component.
 - Keep changes narrowly mapped to this story and do not absorb neighboring GitHub issues unless explicitly required by a dependency contract.
 - If shared contracts change, update both producer and consumer or document the follow-up dependency clearly.
 
 ### Project Context Snapshot
 - Backend stack: Express 5 + Prisma 7 + TypeScript, REST prefix `/api/v1/`.
-- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Zustand.
+- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Redux Toolkit + Redux Persist.
 - Shared package: `libs/shared` for DTOs, enums, constants, and cross-package contracts.
 - Current architecture docs: `docs/project-context.md`, `docs/architecture.md`, `_bmad-output/implementation-artifacts/implementation-spec.md`.
 
