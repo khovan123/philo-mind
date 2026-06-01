@@ -1,8 +1,4 @@
-import {
-  GoogleGenerativeAI,
-  HarmBlockThreshold,
-  HarmCategory,
-} from "@google/generative-ai";
+import { GoogleGenerativeAI, HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { env } from "../config/env.js";
 
 export class AiError extends Error {
@@ -28,19 +24,10 @@ export class AiService {
     this.client = new GoogleGenerativeAI(env.GEMINI_API_KEY);
   }
 
-  private async withTimeout<T>(
-    promise: Promise<T>,
-    timeoutMs = 30000,
-  ): Promise<T> {
+  private async withTimeout<T>(promise: Promise<T>, timeoutMs = 30000): Promise<T> {
     const timeoutPromise = new Promise<never>((_, reject) => {
       setTimeout(() => {
-        reject(
-          new AiError(
-            "AI_TIMEOUT",
-            "Gemini request timeout after 30 seconds",
-            504,
-          ),
-        );
+        reject(new AiError("AI_TIMEOUT", "Gemini request timeout after 30 seconds", 504));
       }, timeoutMs);
     });
 
@@ -73,58 +60,39 @@ export class AiService {
 
   async generate(prompt: string): Promise<{ text: string }> {
     if (!prompt?.trim()) {
-      throw new AiError(
-        "EMPTY_PROMPT",
-        "Prompt is required",
-        400,
-      );
+      throw new AiError("EMPTY_PROMPT", "Prompt is required", 400);
     }
 
     try {
       const model = this.getModel();
 
-      const result = await this.withTimeout(
-        model.generateContent(prompt),
-      );
+      const result = await this.withTimeout(model.generateContent(prompt));
 
       const text = result.response.text();
 
       if (!text) {
-        throw new AiError(
-          "EMPTY_RESPONSE",
-          "Gemini returned empty response",
-          502,
-        );
+        throw new AiError("EMPTY_RESPONSE", "Gemini returned empty response", 502);
       }
 
       return { text };
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof AiError) {
         throw error;
       }
 
-      throw new AiError(
-        "GEMINI_ERROR",
-        error?.message || "Gemini request failed",
-        502,
-      );
+      const message = error instanceof Error ? error.message : "Gemini request failed";
+      throw new AiError("GEMINI_ERROR", message, 502);
     }
   }
 
   async *stream(prompt: string): AsyncGenerator<string> {
     if (!prompt?.trim()) {
-      throw new AiError(
-        "EMPTY_PROMPT",
-        "Prompt is required",
-        400,
-      );
+      throw new AiError("EMPTY_PROMPT", "Prompt is required", 400);
     }
 
     const model = this.getModel();
 
-    const result = await this.withTimeout(
-      model.generateContentStream(prompt),
-    );
+    const result = await this.withTimeout(model.generateContentStream(prompt));
 
     for await (const chunk of result.stream) {
       const text = chunk.text();

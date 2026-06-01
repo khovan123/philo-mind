@@ -92,6 +92,15 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
+        name="story"
+        options={{
+          title: "Stories",
+          tabBarLabel: "Câu chuyện",
+          tabBarIcon: renderTabIcon("story"),
+        }}
+      />
+
+      <Tabs.Screen
         name="learn"
         options={{
           title: "Learn",
@@ -115,6 +124,20 @@ export default function AppTabs() {
           title: "Profile",
           tabBarLabel: "Hồ sơ",
           tabBarIcon: renderTabIcon("profile"),
+        }}
+      />
+
+      <Tabs.Screen
+        name="legal/terms"
+        options={{
+          href: null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="legal/privacy"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

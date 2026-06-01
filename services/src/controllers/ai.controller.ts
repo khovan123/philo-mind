@@ -3,11 +3,8 @@ import { aiService, AiError } from "../services/ai.service.js";
 import { sendSuccess, sendError } from "../utils/response.js";
 
 export class AiController {
-  async generate(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+
+  async generate(req: Request, res: Response, next: NextFunction) {
     try {
       const { prompt } = req.body;
 
@@ -16,23 +13,14 @@ export class AiController {
       return sendSuccess(res, result, 200);
     } catch (err) {
       if (err instanceof AiError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);
     }
   }
 
-  async stream(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
+  async stream(req: Request, res: Response, next: NextFunction) {
     try {
       const { prompt } = req.body;
 
@@ -48,12 +36,7 @@ export class AiController {
       res.end();
     } catch (err) {
       if (err instanceof AiError) {
-        return sendError(
-          res,
-          err.code,
-          err.message,
-          err.statusCode,
-        );
+        return sendError(res, err.code, err.message, err.statusCode);
       }
 
       return next(err);

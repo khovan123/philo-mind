@@ -6,18 +6,10 @@ import { aiRateLimit } from "../middleware/ai-rate-limit.js";
 
 export const aiRouter = Router();
 
-aiRouter.post(
-  "/generate",
-  aiRateLimit,
-  validate(generateSchema),
-  (req, res, next) =>
-    aiController.generate(req, res, next),
+aiRouter.post("/generate", aiRateLimit, validate(generateSchema), (req, res, next) =>
+  aiController.generate(req, res, next),
 );
 
-aiRouter.post(
-  "/stream",
-  aiRateLimit,
-  validate(generateSchema),
-  (req, res, next) =>
-    aiController.stream(req, res, next),
+aiRouter.post("/stream", aiRateLimit, validate(generateSchema), (req, res, next) =>
+  aiController.stream(req, res, next),
 );

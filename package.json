@@ -27,8 +27,7 @@
     "postinstall": "node -e \"try{require('child_process').execSync('ctx --version',{stdio:'ignore'})}catch{process.exit(1)}\" || npm install -g @minhpnq1807/contextos",
     "prisma:generate": "npm run prisma:generate -w services",
     "prisma:migrate": "npm run prisma:migrate -w services",
-    "seed": "npm run seed -w services",
-    "seed:reset": "npm run seed:reset -w services"
+    "seed": "npm run seed -w services"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -46,13 +45,11 @@
   "optionalDependencies": {
     "@tailwindcss/oxide-linux-x64-gnu": "^4.3.0",
     "lightningcss": "1.30.1",
-    "lightningcss-win32-x64-msvc": "1.30.1"
+    "lightningcss-win32-x64-msvc": "1.30.1",
+    "@unrs/resolver-binding-linux-x64-gnu": "^1.12.2"
   },
   "overrides": {
     "lightningcss": "1.30.1",
     "lightningcss-win32-x64-msvc": "1.30.1"
-  },
-  "dependencies": {
-    "@unrs/resolver-binding-linux-x64-gnu": "^1.12.2"
   }
 }
