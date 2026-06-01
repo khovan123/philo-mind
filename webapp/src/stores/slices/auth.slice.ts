@@ -73,7 +73,6 @@ const authSlice = createSlice({
           state.accessToken && state.refreshToken ? "authenticated" : "unauthenticated";
       }
     },
-
     loggedOut: (state) => {
       state.user = null;
       state.accessToken = null;
@@ -83,7 +82,7 @@ const authSlice = createSlice({
     },
   },
 });
-
+feat/T-B08-auth-redux-toolkit-slice-redux-persist-loginregisterlogoutcheckauth
 export const {
   hydrateStarted,
   authStateSet,

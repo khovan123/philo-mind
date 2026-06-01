@@ -10,9 +10,14 @@ import {
   persistReducer,
   persistStore,
 } from "redux-persist";
-
+import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "@/services/rtk-api/baseApi";
 import { authReducer } from "./slices/auth.slice";
+import { bookmarkReducer } from "./slices/bookmark.slice";
+import { mindmapReducer } from "./slices/mindmap.slice";
+import { minigameReducer } from "./slices/minigame.slice";
+import { reflectionReducer } from "./slices/reflection.slice";
+import { storyReducer } from "./slices/story.slice";
 import { securePersistStorage } from "./persistStorage";
 
 const authPersistConfig = {
@@ -26,6 +31,11 @@ const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
+    bookmark: bookmarkReducer,
+    mindmap: mindmapReducer,
+    minigame: minigameReducer,
+    reflection: reflectionReducer,
+    story: storyReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -35,7 +45,6 @@ export const store = configureStore({
       },
     }).concat(baseApi.middleware),
 });
-setupListeners(store.dispatch);
 
 export const persistor = persistStore(store);
 

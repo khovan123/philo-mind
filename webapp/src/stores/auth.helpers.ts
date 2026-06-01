@@ -1,5 +1,4 @@
 import { baseApi } from "@/services/rtk-api/baseApi";
-
 import type { RootState } from ".";
 import { store } from ".";
 import {
@@ -9,7 +8,6 @@ import {
   loggedOut,
   type SetAuthStatePayload,
 } from "./slices/auth.slice";
-
 export const selectAuth = (state: RootState) => state.auth;
 
 export const selectAccessToken = (state: RootState) => state.auth.accessToken;
@@ -24,7 +22,6 @@ export const selectAuthError = (state: RootState) => state.auth.error;
 
 export const selectIsAuthenticated = (state: RootState) =>
   Boolean(state.auth.accessToken && state.auth.refreshToken);
-
 export function getAccessToken() {
   return store.getState().auth.accessToken;
 }

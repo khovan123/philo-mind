@@ -47,6 +47,9 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
       continue;
     }
 
+    if (!row.đáp_án_đúng) {
+      continue;
+    }
     const correctLetter = row.đáp_án_đúng.trim().toUpperCase();
     const options = [
       { text: row.đáp_án_A, letter: "A" },

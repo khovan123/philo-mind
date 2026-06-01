@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -24,6 +24,7 @@ import { baseApi } from "@/services/rtk-api/baseApi";
 import { selectAuthUser } from "@/stores/auth.helpers";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { authStateSet, loggedOut } from "@/stores/slices/auth.slice";
+
 // ── Helpers ────────────────────────────────────────────────
 
 function getApiErrorMessage(error: unknown, fallback: string) {
@@ -53,11 +54,13 @@ function getApiErrorMessage(error: unknown, fallback: string) {
 
 // ── Section header ─────────────────────────────────────────
 
-function SectionHeader({ title, icon }: { title: string; icon: React.ReactNode }) {
+function SectionHeader({ title, icon }: { title: string; icon: ReactNode }) {
   const theme = useTheme();
+
   return (
     <View style={sectionStyles.row}>
       {icon}
+
       <ThemedText type="smallBold" style={{ color: theme.textSecondary }}>
         {title}
       </ThemedText>
@@ -78,6 +81,7 @@ const sectionStyles = StyleSheet.create({
 
 function PasswordStrength({ password }: { password: string }) {
   const theme = useTheme();
+
   const checks = useMemo(
     () => [
       { key: "upper", passed: /[A-Z]/.test(password) },
@@ -261,6 +265,7 @@ export default function SettingsScreen() {
       setNewPassword("");
       setConfirmPassword("");
       setPasswordState("success");
+
       Alert.alert("Thành công", "Mật khẩu đã được thay đổi");
 
       if (passwordTimerRef.current) {
@@ -292,7 +297,7 @@ export default function SettingsScreen() {
     } finally {
       dispatch(loggedOut());
       dispatch(baseApi.util.resetApiState());
-      router.replace("/login" as never);
+      router.replace("/(auth)/login" as never);
     }
   }
 
