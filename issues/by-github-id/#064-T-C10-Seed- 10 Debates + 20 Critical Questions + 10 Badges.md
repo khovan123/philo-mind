@@ -86,7 +86,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -131,6 +131,14 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
 - PR description must link issue #64 and mention `T-C10`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
 
 ## Status Log
 

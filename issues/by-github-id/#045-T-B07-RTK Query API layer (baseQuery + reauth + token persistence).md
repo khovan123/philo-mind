@@ -1,8 +1,18 @@
-# T-B07: API client (Axios instance + interceptors + auto-refresh)
+# T-B07: RTK Query API layer (baseQuery + reauth + token persistence)
+
+## GitHub Link
+
+- Issue: [#45](https://github.com/khovan123/philo-mind/issues/45)
+- State: open
+- Track: B - Frontend Shell
+- Type: frontend
+- Updated at: 2026-05-31T15:53:22Z
+
+# T-B07: RTK Query API layer (baseQuery + reauth + token persistence)
 
 ## 1. Mục đích sản phẩm
 
-Chức năng này dùng để biến task "API client (Axios instance + interceptors + auto-refresh)" thành một phần chức năng rõ ràng, có thể dùng, test và review độc lập.
+Chức năng này dùng để biến task "RTK Query API layer (baseQuery + reauth + token persistence)" thành một phần chức năng rõ ràng, có thể dùng, test và review độc lập.
 
 Nó không chỉ là một checklist code. Đầu ra cần là một phần sản phẩm có thể được người dùng hoặc developer khác dùng, test và tích hợp với các issue liên quan.
 
@@ -25,7 +35,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 - Screen/route đề xuất: `/` theo Expo Router.
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
-- Dữ liệu lấy qua API client/Zustand store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
 - Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
 - UI phải thể hiện trực tiếp các AC: 401 retry queue; type-safe methods.
 
@@ -33,7 +43,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 | Tình huống | Người dùng thao tác | Kết quả bắt buộc |
 | --- | --- | --- |
-| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của API client (Axios instance + interceptors + auto-refresh) |
+| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của RTK Query API layer (baseQuery + reauth + token persistence) |
 | Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
 
 
@@ -60,7 +70,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **API client (Axios instance + interceptors + auto-refresh)** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **RTK Query API layer (baseQuery + reauth + token persistence)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: 401 retry queue, type-safe methods.
@@ -84,7 +94,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -92,3 +102,54 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 ---
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
+
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #45 / `T-B07`, beyond implementation process notes.
+
+### User-facing outcome
+
+Đầu ra là một phần tính năng hoàn chỉnh cho RTK Query API layer (baseQuery + reauth + token persistence), có hành vi quan sát được qua UI, API hoặc test.
+
+### Inputs
+
+- request params/query/body or user action relevant to this issue
+
+### Expected output
+
+- Một màn hình/flow tại `/` render được trạng thái loading, empty, error và success.
+- Các CTA chính có hành động cụ thể: submit, mở detail, chuyển bước, quay lại list, hoặc mở link ngoài/nội bộ đúng route.
+- State sau thao tác được cập nhật trong store/API cache để màn hình kế tiếp hiển thị đúng dữ liệu mới.
+- Layout usable trên mobile, keyboard-aware khi có form, không có màn hình trắng hoặc nút bấm không phản hồi.
+
+### Success state
+
+- User thao tác trên `/`, thấy dữ liệu/render đúng, CTA chính chuyển sang bước kế tiếp hoặc cập nhật UI ngay.
+
+### Empty/error/loading states
+
+- Loading: hiển thị skeleton/spinner và disable CTA gây duplicate submit.
+- Empty: hiển thị thông báo ngắn + CTA hợp lý thay vì màn hình trắng.
+- Error: hiển thị message có thể hành động, cho retry hoặc quay lại flow an toàn.
+
+### Navigation and interaction
+
+- Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #45 and mention `T-B07`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
+## Status Log
+
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #45 for `T-B07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md`.
+

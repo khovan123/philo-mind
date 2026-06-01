@@ -71,7 +71,7 @@ Là developer của PhiloMind, tôi cần hoàn thành **Content moderation (rep
 
 ### Project Context Snapshot
 - Backend stack: Express 5 + Prisma 7 + TypeScript, REST prefix `/api/v1/`.
-- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Zustand.
+- Frontend stack: Expo 56 + React Native + Expo Router + NativeWind + Redux Toolkit + Redux Persist.
 - Shared package: `libs/shared` for DTOs, enums, constants, and cross-package contracts.
 - Current architecture docs: `docs/project-context.md`, `docs/architecture.md`, `_bmad-output/implementation-artifacts/implementation-spec.md`.
 

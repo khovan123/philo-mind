@@ -1,4 +1,4 @@
-# T-D07: Story service + Zustand store
+# T-D07: Story RTK Query service + Redux slice
 
 ## GitHub Link
 
@@ -8,7 +8,7 @@
 - Type: frontend
 - Updated at: 2026-05-31T15:53:48Z
 
-# T-D07: Story service + Zustand store
+# T-D07: Story RTK Query service + Redux slice
 
 ## 1. Mục đích sản phẩm
 
@@ -35,7 +35,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 - Screen/route đề xuất: `/` theo Expo Router.
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
-- Dữ liệu lấy qua API client/Zustand store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
 - Card/CTA story phải điều hướng đúng chuỗi: list -> intro -> learn -> dilemma/choose -> result -> knowledge -> reflect -> list/profile progress.
 - Các nút tiếp tục/quay lại phải giữ sessionId/current story trong store để không mất tiến trình giữa các bước.
 
@@ -43,7 +43,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 | Tình huống | Người dùng thao tác | Kết quả bắt buộc |
 | --- | --- | --- |
-| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Story service + Zustand store |
+| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Story RTK Query service + Redux slice |
 | Bắt đầu/tiếp tục | Bấm story card hoặc CTA tiếp tục | Điều hướng đúng step kế tiếp, giữ storyId/sessionId |
 | Qua bước kế tiếp | Bấm CTA chính của step | Điều hướng theo chain story mode: list -> intro -> learn -> choose -> result -> knowledge -> reflect |
 
@@ -71,10 +71,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Story service + Zustand store** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **Story RTK Query service + Redux slice** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: API integration, session state management.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: RTK Query integration, Redux slice session state management.
 
 ## 8. Kiểm chứng bắt buộc
 
@@ -95,7 +95,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 10. Ghi chú triển khai
 
-- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Zustand cho frontend.
+- Tech stack: Express 5 + Prisma 7 + PostgreSQL cho backend; Expo 56 + React Native + Expo Router + Redux Toolkit + Redux Persist cho frontend.
 - API base chuẩn: `/api/v1`.
 - Response chuẩn: `{ success, data, meta? }` hoặc `{ success: false, error: { code, message, details? } }`.
 - Tài liệu tham chiếu: `docs/project-context.md`, `docs/architecture.md`, `docs/task-breakdown.md`.
@@ -147,7 +147,15 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 - PR description must link issue #73 and mention `T-D07`.
 - If the final behavior differs from this contract, update the issue and local docs in the same PR.
 
+## Frontend State And Data Requirement
+
+- Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
+- Bat buoc dung **Redux Toolkit** cho global/client state, feature slices va typed selectors/actions.
+- Bat buoc dung **Redux Persist** cho auth/session/token state can giu qua app restart.
+- Khong tao data-fetching layer rieng bang interceptor tu quan; khong tao global store hook ngoai Redux Toolkit.
+- Neu issue can mock data, mock phai nam sau RTK Query endpoint hoac Redux slice cung shape voi API that.
+
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #73 for `T-D07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#073-T-D07-Story service + Zustand store.md`.
+- 2026-06-01: BMAD sprint-status sync checked GitHub issue #73 for `T-D07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#073-T-D07-Story RTK Query service + Redux slice.md`.
 
