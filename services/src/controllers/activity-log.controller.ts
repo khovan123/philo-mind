@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { ActivityLogService, ActivityType } from "../services/activity-log.service.js";
+import { ActivityLogService } from "../services/activity-log.service.js";
 import type { TargetType } from "../prisma/generated/enums.js";
 import {
   sendSuccess,

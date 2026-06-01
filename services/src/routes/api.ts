@@ -14,6 +14,10 @@ import { statsRouter } from "./stats.routes.js";
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
 import { analysisTabRouter } from "./analysis-tab.routes.js";
+import { storySessionRouter } from "./story-session.routes.js";
+import { choiceRouter } from "./choice.routes.js";
+import { topicPerspectiveRouter } from "./topic-perspective.routes.js";
+import { miniGameRouter } from "./minigame.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -56,6 +60,7 @@ apiRouter.use("/moderation", moderationRouter);
 
 // Cached content and stats routes
 apiRouter.use("/topics", topicsRouter);
+apiRouter.use("/topics/:topicId/perspectives", topicPerspectiveRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
 
@@ -63,6 +68,9 @@ apiRouter.use("/stats", statsRouter);
 apiRouter.use("/philosophy-tags", philosophyTagRouter);
 apiRouter.use("/stories/:storyId/learn-cards", storyLearnCardRouter);
 apiRouter.use("/consequences/:consequenceId/tabs", analysisTabRouter);
+apiRouter.use("/story-sessions", storySessionRouter);
+apiRouter.use("/choices", choiceRouter);
+apiRouter.use("/minigames", miniGameRouter);
 
 // TODO: Phase 1+ routes
 // apiRouter.use("/lessons", lessonRouter);

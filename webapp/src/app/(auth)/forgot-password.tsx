@@ -16,7 +16,7 @@ export default function ForgotPasswordScreen() {
     setError(null);
     setLoading(true);
     try {
-      await authService.forgotPassword(email);
+      await authService.forgotPassword({ email });
       router.push({ pathname: "/(auth)/verify-otp", params: { email } } as any);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Lỗi");
@@ -31,7 +31,11 @@ export default function ForgotPasswordScreen() {
       <ThemedText type="small">Nhập email của bạn để nhận mã xác thực (OTP).</ThemedText>
 
       <Input value={email} onChangeText={setEmail} placeholder="Email" />
-      {error ? <ThemedText type="label" themeColor="danger">{error}</ThemedText> : null}
+      {error ? (
+        <ThemedText type="label" themeColor="danger">
+          {error}
+        </ThemedText>
+      ) : null}
 
       <Button title="Gửi mã" loading={loading} onPress={handleSubmit} fullWidth />
     </View>

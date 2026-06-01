@@ -13,7 +13,9 @@ export default [
   {
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        projectService: {
+          allowDefaultProject: ["src/app/(tabs)/legal/__tests__/legal.test.tsx"],
+        },
         tsconfigRootDir: import.meta.dirname,
       },
     },

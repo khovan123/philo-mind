@@ -36,7 +36,7 @@ export default function DeleteAccountScreen() {
         "Yêu cầu đã được ghi nhận",
         "Tài khoản của bạn đã được ghi nhận xóa và sẽ được giữ trong 30 ngày.",
       );
-      router.replace("/(auth)/register");
+      router.replace("/(auth)/register" as never);
     } catch (err) {
       const message = err instanceof Error ? err.message : "Xảy ra lỗi không xác định";
       setError(message);

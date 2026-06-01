@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>PhiloMind - The Trial of Socrates</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#bbbbbe",
+                        "primary": "#ffb77d",
+                        "on-tertiary-fixed": "#1a1b22",
+                        "on-primary-container": "#432100",
+                        "primary-fixed-dim": "#ffb77d",
+                        "on-tertiary": "#2f3037",
+                        "on-tertiary-fixed-variant": "#45464e",
+                        "surface-container-highest": "#3e332b",
+                        "primary-container": "#d97707",
+                        "on-primary": "#4d2600",
+                        "inverse-surface": "#f2dfd3",
+                        "on-tertiary-container": "#282930",
+                        "background": "#1a120b",
+                        "on-primary-fixed-variant": "#6e3900",
+                        "surface-container-high": "#322820",
+                        "secondary-fixed": "#e2e2e5",
+                        "on-secondary-fixed-variant": "#454749",
+                        "on-surface-variant": "#dbc2b0",
+                        "inverse-on-surface": "#392e26",
+                        "on-primary-fixed": "#2f1500",
+                        "tertiary": "#c6c6cf",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#c6c6c9",
+                        "inverse-primary": "#904d00",
+                        "error": "#ffb4ab",
+                        "on-surface": "#f2dfd3",
+                        "on-secondary": "#2f3033",
+                        "tertiary-fixed-dim": "#c6c6cf",
+                        "tertiary-fixed": "#e2e1eb",
+                        "tertiary-container": "#909099",
+                        "surface-dim": "#1a120b",
+                        "on-error": "#690005",
+                        "surface-variant": "#3e332b",
+                        "surface-container-low": "#231a13",
+                        "surface-container": "#271e16",
+                        "error-container": "#93000a",
+                        "on-background": "#f2dfd3",
+                        "surface-container-lowest": "#150c06",
+                        "outline": "#a38c7c",
+                        "secondary-container": "#4a4b4e",
+                        "outline-variant": "#554336",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "primary-fixed": "#ffdcc3",
+                        "surface-bright": "#42372f",
+                        "surface-tint": "#ffb77d",
+                        "surface": "#1a120b",
+                        "secondary-fixed-dim": "#c6c6c9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "12px",
+                        "stack-md": "24px",
+                        "gutter": "16px",
+                        "container-padding": "20px",
+                        "stack-lg": "40px",
+                        "base": "8px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Playfair Display"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Playfair Display"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Playfair Display"],
+                        "headline-lg": ["Playfair Display"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0C0C0E;
+            color: #f2dfd3;
+            -webkit-font-smoothing: antialiased;
+        }
+        .lesson-content p {
+            margin-bottom: 1.5rem;
+            color: #dbc2b0;
+        }
+        .concept-highlight {
+            color: #ffb77d;
+            font-weight: 600;
+            border-bottom: 1px dashed #ffb77d;
+            cursor: pointer;
+        }
+        .card-surface {
+            background-color: #1E1E21;
+        }
+        .sticky-progress {
+            background: rgba(12, 12, 14, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md overflow-x-hidden">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 w-full z-[100] bg-background/90 backdrop-blur-md">
+<div class="flex justify-between items-center w-full px-container-padding py-base h-16">
+<button aria-label="Back" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="text-label-md font-label-md text-primary truncate max-w-[200px]">The Trial of Socrates</h1>
+<button aria-label="Bookmark" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-variant/50 active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+</button>
+</div>
+<!-- Sticky Progress Bar -->
+<div class="px-container-padding pb-3">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] font-label-sm uppercase tracking-widest text-on-surface-variant">Reading progress: 65%</span>
+</div>
+<div class="w-full h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] rounded-full transition-all duration-500 shadow-[0_0_8px_rgba(255,183,125,0.4)]"></div>
+</div>
+</div>
+</header>
+<main class="pt-32 pb-40 px-container-padding">
+<!-- Metadata Header -->
+<div class="mb-stack-lg">
+<div class="flex flex-wrap gap-2 mb-stack-sm">
+<span class="px-3 py-1 bg-surface-container text-primary text-label-sm rounded-lg border border-outline-variant/30">Ethics</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant text-label-sm rounded-lg">12 min</span>
+<span class="px-3 py-1 bg-error-container/20 text-error text-label-sm rounded-lg border border-error/20">Hard</span>
+<span class="px-3 py-1 bg-primary-container/20 text-primary text-label-sm rounded-lg border border-primary/20 italic">In Progress</span>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface leading-tight mb-stack-sm">The Trial of Socrates</h2>
+<div class="h-[1px] w-12 bg-primary mb-stack-md"></div>
+</div>
+<!-- Featured Image/Visual -->
+<div class="w-full aspect-[16/9] mb-stack-lg rounded-xl overflow-hidden relative group">
+<img class="w-full h-full object-cover grayscale-[0.3] brightness-[0.7] group-hover:scale-105 transition-transform duration-700" data-alt="A dramatic cinematic depiction of an ancient Greek philosopher standing before a stone assembly in a dimly lit, atmospheric outdoor court. The scene is rendered in a dark academic aesthetic with deep shadows and warm, flickering torchlight illuminating the weathered marble pillars and the philosopher's pensive expression. The color palette is dominated by rich earth tones, charcoal blacks, and amber highlights, creating a mood of intellectual gravity and solemn historical importance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUXlt7DWT9WJywxmMD6tw_ArSqcUXXhcOCNlC7iLbSXlrq7Fon8z4PewZvUAzYnUYn4Hz3IWGG5bgE4MroTivm6V1JGaA1f8tRKd2aasI4-RvOxyhergu5SqRhtoST3b_nEk5pDWqj_Mb-jvr8ATkCkcBY6-GqJGY7wDEpE9W8euaeyRBQlDIe-a2P1yJgVfc5VuhK0EHYHjlrb2cMBA3WfcsoUu_ZyHoTMb8f79BVViN0MNwbmxx_GMal2nUgKWS-I3KKEmvxIsU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background to-transparent opacity-60"></div>
+</div>
+<!-- Content Body -->
+<article class="lesson-content">
+<!-- Section 1 -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-primary mb-stack-sm">The Accusation</h3>
+<div class="font-body-md text-on-surface-variant leading-relaxed">
+<p>In 399 BCE, the intellectual landscape of Athens was fractured. Socrates, a man who had spent decades questioning the foundations of Athenian life, found himself standing before a jury of 501 citizens. The formal charges brought against him by Meletus and Anytus were grave: <span class="concept-highlight" onclick="showConcept('Impiety')">Impiety</span> and the corruption of the youth.</p>
+<p>But beneath the legal surface lay a deeper tension. Socrates’ unwavering commitment to <span class="concept-highlight" onclick="showConcept('Moral Integrity')">Moral Integrity</span> had made him a gadfly to the powerful, exposing the ignorance of those who claimed wisdom.</p>
+</div>
+</section>
+<!-- Concept Chips Interaction Area -->
+<div class="p-container-padding card-surface rounded-xl border border-outline-variant/30 mb-stack-lg">
+<h4 class="text-label-sm uppercase tracking-widest text-primary mb-4">Core Concepts to Master</h4>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary/10 text-primary border border-primary/40 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">psychology</span>
+<span class="text-label-md">Socratic Method</span>
+</button>
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary/10 text-primary border border-primary/40 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-label-md">Moral Integrity</span>
+</button>
+<button class="px-4 py-2 bg-surface-container-high hover:bg-primary/10 text-primary border border-primary/40 rounded-lg transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">account_balance</span>
+<span class="text-label-md">Civic Duty</span>
+</button>
+</div>
+</div>
+<!-- Section 2 -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-primary mb-stack-sm">The Defense (The Apology)</h3>
+<div class="font-body-md text-on-surface-variant leading-relaxed">
+<p>Plato’s <i>Apology</i> records not a plea for mercy, but a masterful execution of the <span class="concept-highlight" onclick="showConcept('Socratic Method')">Socratic Method</span>. Socrates argued that his service to the city—his constant questioning—was a divine mandate intended to wake the "sluggish horse" of Athens from its intellectual slumber.</p>
+<p class="italic border-l-2 border-primary/40 pl-4 my-6 text-on-surface">"The unexamined life is not worth living."</p>
+<p>He refused to compromise his principles to escape death, asserting that the soul's health was more important than the body's survival. His defense was a confrontation with the jury's own sense of <span class="concept-highlight" onclick="showConcept('Civic Duty')">Civic Duty</span> and truth.</p>
+</div>
+</section>
+<!-- Section 3 -->
+<section class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md text-primary mb-stack-sm">The Death of Socrates</h3>
+<div class="font-body-md text-on-surface-variant leading-relaxed">
+<p>Found guilty by a narrow margin, Socrates was sentenced to death by drinking hemlock. Despite opportunities to escape arranged by his friends, he remained in prison, arguing that to flee would be to violate the social contract he had lived by.</p>
+<p>In his final moments, surrounded by weeping students, Socrates remained the picture of philosophical stoicism. He died as he lived: questioning, teaching, and ultimately, free from the fear of the unknown.</p>
+</div>
+</section>
+</article>
+</main>
+<!-- Bottom Action Sheet (Fixed) -->
+<footer class="fixed bottom-0 left-0 w-full z-[110] bg-background/95 backdrop-blur-xl border-t border-outline-variant/10 px-container-padding py-6 pb-10">
+<div class="flex flex-col gap-3 max-w-md mx-auto">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-body-md shadow-[0_4px_20px_rgba(255,183,125,0.3)] active:scale-[0.98] transition-transform">
+                Continue Quiz
+            </button>
+<button class="w-full bg-surface-container text-on-surface-variant py-4 rounded-xl font-medium text-body-md border border-outline-variant/30 active:scale-[0.98] transition-transform">
+                Mark as Completed
+            </button>
+</div>
+</footer>
+<!-- Concept Modal (Hidden by default) -->
+<div class="fixed inset-0 z-[200] hidden flex items-end justify-center bg-black/60 backdrop-blur-sm px-4 pb-10" id="concept-modal">
+<div class="w-full max-w-sm card-surface rounded-2xl p-container-padding shadow-2xl border border-primary/20 transform transition-transform translate-y-full" id="modal-container">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">info</span>
+<h5 class="text-headline-md font-headline-md text-primary" id="modal-title">Concept</h5>
+</div>
+<button class="text-on-surface-variant hover:text-primary" onclick="hideModal()">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<p class="text-on-surface-variant text-body-md mb-6" id="modal-description">
+                Detailed definition and philosophical context of the selected concept will appear here.
+            </p>
+<button class="w-full py-3 bg-primary/10 text-primary border border-primary/30 rounded-lg font-bold" onclick="hideModal()">
+                Understood
+            </button>
+</div>
+</div>
+<script>
+        const modal = document.getElementById('concept-modal');
+        const modalContainer = document.getElementById('modal-container');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+
+        const concepts = {
+            'Moral Integrity': 'The practice of consistency in actions, values, methods, measures, principles, expectations, and outcomes. For Socrates, it meant never acting against one’s own conscience, even under the threat of death.',
+            'Socratic Method': 'A form of cooperative argumentative dialogue between individuals, based on asking and answering questions to stimulate critical thinking and to draw out ideas and underlying presuppositions.',
+            'Civic Duty': 'The responsibilities of a citizen to their community or state. Socrates believed in obeying the laws of Athens because he had benefited from them his whole life, even if the law eventually condemned him.',
+            'Impiety': 'A lack of proper respect or reverence, specifically towards the state-recognized gods. In Socrates\' case, it was a political charge used to silence his philosophical dissent.'
+        };
+
+        function showConcept(name) {
+            modalTitle.innerText = name;
+            modalDescription.innerText = concepts[name] || "Exploring this deep philosophical concept within the context of Hellenistic ethics.";
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContainer.classList.remove('translate-y-full');
+            }, 10);
+        }
+
+        function hideModal() {
+            modalContainer.classList.add('translate-y-full');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // Simple scroll tracking for progress bar (manual sync for demo)
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            // The prompt says fixed at 65% for the initial state, 
+            // but we can make it dynamic if we want to show off interaction.
+            // document.querySelector('.bg-primary.w-\\[65\\%\\]').style.width = scrolled + "%";
+        };
+    </script>
+</body></html>

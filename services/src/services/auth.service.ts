@@ -289,6 +289,51 @@ export class AuthService {
   }
 
   /**
+   * Update user profile (fullName, avatarUrl).
+   */
+  async updateProfile(userId: string, input: { fullName?: string; avatarUrl?: string | null }) {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(input.fullName !== undefined && { fullName: input.fullName }),
+        ...(input.avatarUrl !== undefined && { avatarUrl: input.avatarUrl }),
+      },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        avatarUrl: true,
+        createdAt: true,
+      },
+    });
+
+    return user;
+  }
+
+  /**
+   * Change password — requires current password verification.
+   */
+  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { passwordHash: true },
+    });
+
+    if (!user) {
+      throw new AuthError("USER_NOT_FOUND", "Không tìm thấy người dùng", 404);
+    }
+
+    const valid = await bcrypt.compare(currentPassword, user.passwordHash);
+    if (!valid) {
+      throw new AuthError("INVALID_CREDENTIALS", "Mật khẩu hiện tại không đúng", 400);
+    }
+
+    const passwordHash = await bcrypt.hash(newPassword, BCRYPT_ROUNDS);
+    await prisma.user.update({ where: { id: userId }, data: { passwordHash } });
+  }
+
+  /**
    * Get current user profile.
    */
   async getMe(userId: string) {

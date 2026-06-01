@@ -19,8 +19,8 @@ export default function VerifyOtpScreen() {
     setError(null);
     setLoading(true);
     try {
-      const res = await authService.verifyOtp(email, otp);
-      const resetToken = (res as any).resetToken;
+      const res = await authService.verifyOtp({ email, otp });
+      const resetToken = res.resetToken;
       router.push({ pathname: "/(auth)/reset-password", params: { email, resetToken } } as any);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Lỗi");
@@ -35,7 +35,11 @@ export default function VerifyOtpScreen() {
       <ThemedText type="small">Mã đã được gửi tới {email}</ThemedText>
 
       <Input value={otp} onChangeText={setOtp} placeholder="Mã OTP" />
-      {error ? <ThemedText type="label" themeColor="danger">{error}</ThemedText> : null}
+      {error ? (
+        <ThemedText type="label" themeColor="danger">
+          {error}
+        </ThemedText>
+      ) : null}
 
       <Button title="Xác minh" loading={loading} onPress={handleVerify} fullWidth />
     </View>
