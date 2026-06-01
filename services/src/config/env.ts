@@ -84,7 +84,7 @@ if (!parsed.success) {
   }
 }
 
-export const env = parsed.data;
+export const env = parsed.data!;
 
 // Re-export typed helpers
 export type Env = z.infer<typeof envSchema>;
