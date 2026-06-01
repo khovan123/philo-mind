@@ -10,7 +10,13 @@
  */
 import { prisma } from "../config/prisma.js";
 
-const LOCAL_DATABASE_HOSTS = new Set(["localhost", "127.0.0.1", "::1", "postgres", "philo-postgres"]);
+const LOCAL_DATABASE_HOSTS = new Set([
+  "localhost",
+  "127.0.0.1",
+  "::1",
+  "postgres",
+  "philo-postgres",
+]);
 
 // Tables to truncate in reverse-dependency order
 const TABLES_TO_TRUNCATE = [

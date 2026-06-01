@@ -77,7 +77,6 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
           body.error.details,
         );
       }
-<<<<<<< HEAD
 
       throw new ApiError("Request failed", response.status);
     }
