@@ -1,3 +1,5 @@
+import { configureStore } from "@reduxjs/toolkit";
+import { setupListeners } from "@reduxjs/toolkit/query";
 import {
   FLUSH,
   PAUSE,
@@ -8,8 +10,6 @@ import {
   persistReducer,
   persistStore,
 } from "redux-persist";
-import { configureStore } from "@reduxjs/toolkit";
-
 import { baseApi } from "@/services/rtk-api/baseApi";
 import { authReducer } from "./slices/auth.slice";
 import { bookmarkReducer } from "./slices/bookmark.slice";

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -13,8 +13,9 @@ import { useRouter } from "expo-router";
 import { Button, Input, ThemedText, ThemedView } from "@/components/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
-import { ApiError } from "@/services/api";
-import { authService } from "@/services/auth.service";
+import { useRegisterMutation } from "@/services/auth/api";
+import { useAppDispatch } from "@/stores/hooks";
+import { authFailed } from "@/stores/slices/auth.slice";
 
 type RegisterFieldErrors = Partial<{
   fullName: string;
@@ -37,17 +38,63 @@ function FieldError({ message }: { message?: string }) {
   );
 }
 
+function getApiErrorMessage(error: unknown, fallback: string) {
+  const rtkError = error as {
+    status?: number | string;
+    error?: string;
+    data?: unknown;
+  };
+
+  if (typeof rtkError.error === "string") {
+    return rtkError.error;
+  }
+
+  const data = rtkError.data;
+
+  if (typeof data === "string") {
+    return data;
+  }
+
+  if (typeof data === "object" && data !== null && "message" in data) {
+    return String(data.message);
+  }
+
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    "error" in data &&
+    typeof data.error === "object" &&
+    data.error !== null &&
+    "message" in data.error
+  ) {
+    return String(data.error.message);
+  }
+
+  return fallback;
+}
+
 export default function RegisterScreen() {
   const router = useRouter();
   const theme = useTheme();
+  const mountedRef = useRef(false);
+
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
 
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const [register, { isLoading }] = useRegisterMutation();
   const [fieldErrors, setFieldErrors] = useState<RegisterFieldErrors>({});
+  const submittingRef = useRef(false);
 
   const passwordChecks = useMemo(
     () => [
@@ -82,62 +129,72 @@ export default function RegisterScreen() {
   }
 
   async function handleRegister() {
-    Keyboard.dismiss();
+    if (submittingRef.current || isLoading) return;
 
-    const normalizedFullName = fullName.trim();
-    const normalizedEmail = email.trim().toLowerCase();
-
-    const nextErrors: RegisterFieldErrors = {};
-
-    if (normalizedFullName.length < 2) {
-      nextErrors.fullName = "Tên hiển thị tối thiểu 2 ký tự";
-    }
-
-    if (!normalizedEmail.includes("@")) {
-      nextErrors.email = "Email không hợp lệ";
-    }
-
-    if (password.length < 8) {
-      nextErrors.password = "Mật khẩu tối thiểu 8 ký tự";
-    } else if (passwordScore < 4) {
-      nextErrors.password = "Mật khẩu cần có chữ hoa, chữ thường, số và ký tự đặc biệt";
-    }
-
-    if (confirmPassword.length === 0) {
-      nextErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
-    } else if (password !== confirmPassword) {
-      nextErrors.confirmPassword = "Xác nhận mật khẩu không khớp";
-    }
-
-    if (!acceptedTerms) {
-      nextErrors.acceptedTerms = "Bạn cần đồng ý với điều khoản sử dụng";
-    }
-
-    if (Object.keys(nextErrors).length > 0) {
-      setFieldErrors(nextErrors);
-      return;
-    }
+    submittingRef.current = true;
 
     try {
-      setIsLoading(true);
-      setFieldErrors({});
+      Keyboard.dismiss();
 
-      await authService.register({
-        fullName: normalizedFullName,
-        email: normalizedEmail,
-        password,
-      });
+      const normalizedFullName = fullName.trim();
+      const normalizedEmail = email.trim().toLowerCase();
 
-      router.replace("/login" as any);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        setFieldErrors({ form: error.message });
+      const nextErrors: RegisterFieldErrors = {};
+
+      if (normalizedFullName.length < 2) {
+        nextErrors.fullName = "Tên hiển thị tối thiểu 2 ký tự";
+      }
+
+      if (!normalizedEmail.includes("@")) {
+        nextErrors.email = "Email không hợp lệ";
+      }
+
+      if (password.length < 8) {
+        nextErrors.password = "Mật khẩu tối thiểu 8 ký tự";
+      } else if (passwordScore < 4) {
+        nextErrors.password = "Mật khẩu cần có chữ hoa, chữ thường, số và ký tự đặc biệt";
+      }
+
+      if (confirmPassword.length === 0) {
+        nextErrors.confirmPassword = "Vui lòng xác nhận mật khẩu";
+      } else if (password !== confirmPassword) {
+        nextErrors.confirmPassword = "Xác nhận mật khẩu không khớp";
+      }
+
+      if (!acceptedTerms) {
+        nextErrors.acceptedTerms = "Bạn cần đồng ý với điều khoản sử dụng";
+      }
+
+      if (Object.keys(nextErrors).length > 0) {
+        if (mountedRef.current) {
+          setFieldErrors(nextErrors);
+        }
+
         return;
       }
 
-      setFieldErrors({ form: "Đăng ký thất bại, vui lòng thử lại" });
+      if (mountedRef.current) {
+        setFieldErrors({});
+      }
+
+      await register({
+        fullName: normalizedFullName,
+        email: normalizedEmail,
+        password,
+      }).unwrap();
+
+      if (!mountedRef.current) return;
+
+      router.replace("/login" as never);
+    } catch (error) {
+      const message = getApiErrorMessage(error, "Đăng ký thất bại. Vui lòng thử lại.");
+
+      if (!mountedRef.current) return;
+
+      dispatch(authFailed(message));
+      setFieldErrors({ form: message });
     } finally {
-      setIsLoading(false);
+      submittingRef.current = false;
     }
   }
 
@@ -201,7 +258,10 @@ export default function RegisterScreen() {
               <Input
                 label="Mật khẩu"
                 value={password}
-                onChangeText={setPassword}
+                onChangeText={(text) => {
+                  setPassword(text);
+                  clearFieldError("password");
+                }}
                 placeholder="••••••••"
                 isPassword
                 autoCapitalize="none"
@@ -227,7 +287,10 @@ export default function RegisterScreen() {
               <Input
                 label="Xác nhận mật khẩu"
                 value={confirmPassword}
-                onChangeText={setConfirmPassword}
+                onChangeText={(text) => {
+                  setConfirmPassword(text);
+                  clearFieldError("confirmPassword");
+                }}
                 placeholder="••••••••"
                 isPassword
                 autoCapitalize="none"
