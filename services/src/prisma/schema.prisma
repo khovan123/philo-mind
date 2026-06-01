@@ -457,9 +457,10 @@ model RealLifeScenario {
   context   String?
   createdAt DateTime @default(now()) @map("created_at")
 
-  topic     Topic              @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  responses ScenarioResponse[]
-  analyses  ScenarioAnalysis[]
+  topic        Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  responses    ScenarioResponse[]
+  perspectives ScenarioPerspective[]
+  frameworks   ScenarioFramework[]
 
   @@index([topicId])
   @@map("real_life_scenarios")
@@ -469,28 +470,53 @@ model ScenarioResponse {
   id               String   @id @default(uuid()) @db.Uuid
   scenarioId       String   @map("scenario_id") @db.Uuid
   userId           String   @map("user_id") @db.Uuid
-  selectedDecision String   @map("selected_decision")
-  reason           String?
+  selectedDecision String?  @map("selected_decision")
+  reason           String?  @map("reason")
+  
+  initialPosition  String   @map("initial_position")
+  reasoning        String?  @map("reasoning")
+  revisedPosition  String?  @map("revised_position")
+  reflection       String?  @map("reflection")
+  
   createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
 
   scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  @@unique([userId, scenarioId])
   @@index([scenarioId])
   @@index([userId])
   @@map("scenario_responses")
 }
 
-model ScenarioAnalysis {
-  id              String @id @default(uuid()) @db.Uuid
-  scenarioId      String @map("scenario_id") @db.Uuid
-  perspectiveType String @map("perspective_type") @db.VarChar(100)
-  analysisContent String @map("analysis_content")
+model ScenarioPerspective {
+  id              String   @id @default(uuid()) @db.Uuid
+  scenarioId      String   @map("scenario_id") @db.Uuid
+  perspectiveType String   @map("perspective_type") @db.VarChar(100)
+  content         String   @map("content")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
 
   @@index([scenarioId])
-  @@map("scenario_analyses")
+  @@map("scenario_perspectives")
+}
+
+model ScenarioFramework {
+  id          String   @id @default(uuid()) @db.Uuid
+  scenarioId  String   @map("scenario_id") @db.Uuid
+  name        String   @db.VarChar(200)
+  description String?
+  content     String   @map("content")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@index([scenarioId])
+  @@map("scenario_frameworks")
 }
 
 model Debate {
