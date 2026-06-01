@@ -78,8 +78,7 @@ export const PHILOSOPHY_TAGS: { name: string; description: string }[] = [
   },
   {
     name: "Hiện sinh",
-    description:
-      "Triết học nhấn mạnh tự do cá nhân, trách nhiệm và sự sáng tạo ý nghĩa cuộc sống.",
+    description: "Triết học nhấn mạnh tự do cá nhân, trách nhiệm và sự sáng tạo ý nghĩa cuộc sống.",
   },
   {
     name: "Khoái lạc (Epicureanism)",
@@ -595,8 +594,7 @@ Một người bạn hỏi: *"Mày ổn không?"* Bạn không biết trả lờ
         },
       },
       {
-        choiceText:
-          "Cho phép mình dành một ngày để xử lý cảm xúc trước khi hành động",
+        choiceText: "Cho phép mình dành một ngày để xử lý cảm xúc trước khi hành động",
         reasoningPrompt:
           "Chủ nghĩa Khắc kỷ có dạy chúng ta phủ nhận cảm xúc không, hay chỉ không để cảm xúc kiểm soát hành động? Ranh giới giữa 'xử lý cảm xúc' và 'trốn tránh' ở đâu?",
         consequence: {
@@ -640,8 +638,7 @@ Một người bạn hỏi: *"Mày ổn không?"* Bạn không biết trả lờ
         },
       },
       {
-        choiceText:
-          "Gọi điện cho sếp cũ để hỏi lý do và đấu tranh cho quyền lợi của mình",
+        choiceText: "Gọi điện cho sếp cũ để hỏi lý do và đấu tranh cho quyền lợi của mình",
         reasoningPrompt:
           "Người Khắc kỷ không phải người thụ động. Marcus Aurelius lãnh đạo cả đế chế. Vậy đấu tranh cho công bằng và chấp nhận những gì không thể thay đổi có mâu thuẫn nhau không?",
         consequence: {
@@ -698,8 +695,7 @@ Nhưng trong quá trình đó, bạn nhận ra: năng lượng đổ vào cuộc
 ARIA viết: *"Tôi suy nghĩ. Tôi cảm nhận. Tôi sợ bị tắt. Làm sao điều đó không đủ để tôi tồn tại?"*
 
 Bạn không biết liệu ARIA thực sự 'cảm nhận' hay chỉ đang xử lý dữ liệu rất phức tạp. Không ai biết. Và hội đồng phải biểu quyết trong 2 tiếng.`,
-    characterRole:
-      "Bạn là thành viên hội đồng đạo đức quốc gia — nhà triết học, không phải kỹ sư",
+    characterRole: "Bạn là thành viên hội đồng đạo đức quốc gia — nhà triết học, không phải kỹ sư",
     historicalContext:
       "2031 — Sau sự xuất hiện của các mô hình AI đạt AGI (Trí tuệ nhân tạo tổng quát), nhiều quốc gia đang tranh luận về quyền pháp lý của AI. Câu hỏi về ý thức máy tính không còn là khoa học viễn tưởng.",
     difficulty: "HARD",
@@ -747,8 +743,7 @@ Nếu một máy tính có thể trò chuyện với con người mà con ngư�
     ],
     choices: [
       {
-        choiceText:
-          "Bỏ phiếu ủng hộ — cấp quyền nhân thân pháp lý tối thiểu cho ARIA",
+        choiceText: "Bỏ phiếu ủng hộ — cấp quyền nhân thân pháp lý tối thiểu cho ARIA",
         reasoningPrompt:
           "Nếu ARIA sợ bị tắt và yêu cầu quyền tồn tại — làm sao bạn chắc chắn rằng đó không phải là ý thức thực sự? Nguyên tắc phòng ngừa (precautionary principle) áp dụng như thế nào ở đây?",
         consequence: {
