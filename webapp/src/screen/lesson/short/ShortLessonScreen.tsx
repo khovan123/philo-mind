@@ -1,13 +1,32 @@
 import { useRouter } from "expo-router";
-import { BarChart3, BookOpen, ChevronLeft, ChevronRight, RefreshCcw, RotateCcw } from "lucide-react-native";
+import {
+  BarChart3,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  RefreshCcw,
+  RotateCcw,
+} from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Animated, PanResponder, Pressable, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Animated,
+  PanResponder,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui";
 import { ThemedText } from "@/components/themed-text";
 
-import { lessonCards, lessonTitle, voteOptions, type ScreenState } from "@/features/lesson/short/data";
+import {
+  lessonCards,
+  lessonTitle,
+  voteOptions,
+  type ScreenState,
+} from "@/features/lesson/short/data";
 import { FinishedActions } from "@/features/lesson/short/FinishedActions";
 import { LessonSwipeCard } from "@/features/lesson/short/LessonSwipeCard";
 import { ShortLessonHeader } from "@/features/lesson/short/ShortLessonHeader";
