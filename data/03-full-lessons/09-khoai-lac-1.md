@@ -3,13 +3,15 @@ chủ_đề: Chủ nghĩa Khoái lạc (Epicureanism)
 tiêu_đề: Hạnh phúc là sự tĩnh lặng
 thời_gian_đọc: 6 phút
 ---
+
 ## Nội dung chính
 
 Khi nghe đến **Chủ nghĩa Khoái lạc** (Hedonism), người ta thường nghĩ ngay đến những bữa tiệc thác loạn, rượu vang và tình dục. Tuy nhiên, Epicurus - người sáng lập trường phái Epicureanism ở Hy Lạp cổ đại - lại có một cuộc sống cực kỳ giản dị, ăn bánh mì khô và uống nước lọc.
 
-Epicurus định nghĩa khoái lạc (hạnh phúc) không phải là sự gia tăng liên tục của kích thích cường độ cao, mà là **sự vắng mặt của nỗi đau thể xác (Aponia)** và **sự tĩnh lặng của tâm hồn (Ataraxia)**. 
+Epicurus định nghĩa khoái lạc (hạnh phúc) không phải là sự gia tăng liên tục của kích thích cường độ cao, mà là **sự vắng mặt của nỗi đau thể xác (Aponia)** và **sự tĩnh lặng của tâm hồn (Ataraxia)**.
 
 Ông phân loại ham muốn con người thành 3 loại:
+
 1. **Tự nhiên và cần thiết** (Ăn khi đói, uống khi khát, có chỗ ngủ an toàn).
 2. **Tự nhiên nhưng không cần thiết** (Ăn sơn hào hải vị, uống rượu đắt tiền, tình dục lãng mạn).
 3. **Không tự nhiên và không cần thiết** (Quyền lực, danh tiếng, sự giàu có vô tận).

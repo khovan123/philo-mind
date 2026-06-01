@@ -3,6 +3,7 @@ chủ_đề: Mỹ học
 tiêu_đề: Cái đẹp khách quan hay chủ quan?
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Một bức tranh trừu tượng có giá hàng triệu USD, người này thấy nó là kiệt tác, người kia lại cho rằng đó là vết mực vô nghĩa của trẻ con. Một câu hỏi cốt lõi của **Mỹ học** ra đời: Cái đẹp nằm trong bản thân sự vật (khách quan), hay nằm trong mắt kẻ suy tình (chủ quan)?

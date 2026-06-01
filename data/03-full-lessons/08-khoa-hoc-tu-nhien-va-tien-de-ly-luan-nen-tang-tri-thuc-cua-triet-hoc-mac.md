@@ -13,29 +13,30 @@ Nếu điều kiện kinh tế-xã hội là mảnh đất cho triết học Má
 Thế kỷ XIX chứng kiến ba khám phá khoa học tự nhiên có ý nghĩa triết học sâu sắc — trực tiếp cung cấp cơ sở thực nghiệm cho chủ nghĩa duy vật biện chứng:
 
 **1. Định luật bảo toàn và chuyển hóa năng lượng**
-*(Robert Mayer, James Joule, Hermann Helmholtz — những năm 1840-1850)*
+_(Robert Mayer, James Joule, Hermann Helmholtz — những năm 1840-1850)_
 
 Năng lượng không tự sinh ra hay mất đi — nó chỉ chuyển hóa từ dạng này sang dạng khác: nhiệt thành điện, điện thành cơ học, cơ học thành nhiệt. Mọi hình thức vận động đều có thể chuyển hóa lẫn nhau.
 
-*Ý nghĩa triết học*: Chứng minh **sự thống nhất vật chất của thế giới** — không có lực thần bí hay tinh thần tuyệt đối điều khiển từ bên ngoài. Vũ trụ là một hệ thống vật chất thống nhất, vận hành theo quy luật nội tại.
+_Ý nghĩa triết học_: Chứng minh **sự thống nhất vật chất của thế giới** — không có lực thần bí hay tinh thần tuyệt đối điều khiển từ bên ngoài. Vũ trụ là một hệ thống vật chất thống nhất, vận hành theo quy luật nội tại.
 
 **2. Học thuyết tiến hóa của Charles Darwin**
-*("On the Origin of Species" — 1859)*
+_("On the Origin of Species" — 1859)_
 
 Các loài sinh vật không được tạo ra cố định từ ban đầu mà **tiến hóa qua chọn lọc tự nhiên** — những cá thể thích nghi tốt hơn với môi trường sẽ sống sót và sinh sản nhiều hơn. Loài mới hình thành từ loài cũ qua hàng triệu năm.
 
-*Ý nghĩa triết học*: Phá vỡ quan điểm siêu hình về **sự bất biến của loài** và sự sáng tạo thần thánh. Chứng minh sự **phát triển trong giới tự nhiên hữu cơ** là quy luật khách quan — không cần đến bàn tay thần thánh hay tinh thần tuyệt đối. Lịch sử tự nhiên là lịch sử của sự vận động và phát triển.
+_Ý nghĩa triết học_: Phá vỡ quan điểm siêu hình về **sự bất biến của loài** và sự sáng tạo thần thánh. Chứng minh sự **phát triển trong giới tự nhiên hữu cơ** là quy luật khách quan — không cần đến bàn tay thần thánh hay tinh thần tuyệt đối. Lịch sử tự nhiên là lịch sử của sự vận động và phát triển.
 
 **3. Học thuyết tế bào**
-*(Matthias Schleiden và Theodor Schwann — 1838-1839)*
+_(Matthias Schleiden và Theodor Schwann — 1838-1839)_
 
 Mọi sinh vật, từ vi khuẩn đến con người, đều được cấu tạo từ **tế bào** — đơn vị cơ bản của sự sống. Giới thực vật và giới động vật đều tuân theo cùng một nguyên lý tổ chức.
 
-*Ý nghĩa triết học*: Thống nhất toàn bộ **giới tự nhiên hữu cơ** dưới một nguyên lý chung — chứng minh sự liên hệ phổ biến trong giới tự nhiên, bác bỏ quan điểm xem các giới tự nhiên là hoàn toàn tách biệt nhau.
+_Ý nghĩa triết học_: Thống nhất toàn bộ **giới tự nhiên hữu cơ** dưới một nguyên lý chung — chứng minh sự liên hệ phổ biến trong giới tự nhiên, bác bỏ quan điểm xem các giới tự nhiên là hoàn toàn tách biệt nhau.
 
 **Ba phát hiện và chủ nghĩa duy vật biện chứng**
 
 Kết hợp lại, ba phát hiện này cung cấp bằng chứng khoa học cho ba luận điểm cốt lõi của duy vật biện chứng:
+
 - Thế giới **thống nhất về mặt vật chất** (định luật bảo toàn năng lượng)
 - **Vận động là thuộc tính của vật chất**, không cần nguyên nhân bên ngoài (cả ba phát hiện)
 - **Phát triển là quy luật** của thế giới tự nhiên và xã hội (thuyết tiến hóa Darwin)
@@ -47,6 +48,7 @@ Mác và Ăngghen không xây dựng triết học từ không khí. Họ kế t
 **Nguồn 1: Triết học cổ điển Đức**
 
 Đặc biệt là Hegel và Feuerbach:
+
 - Từ **Hegel**: kế thừa **phép biện chứng** (mâu thuẫn là nguồn gốc phát triển, phủ định biện chứng). Nhưng gạt bỏ nền tảng duy tâm — biện chứng không phải là vận động của Tinh thần Tuyệt đối mà là vận động của vật chất thực.
 - Từ **Feuerbach**: kế thừa **chủ nghĩa duy vật** (con người là sản phẩm của tự nhiên và xã hội). Nhưng phê phán tính siêu hình và thiếu lịch sử trong duy vật của Feuerbach.
 

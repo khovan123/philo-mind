@@ -3,6 +3,7 @@ chủ_đề: Chủ nghĩa Khoái lạc (Epicureanism)
 tiêu_đề: Cái chết không có gì đáng sợ
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
 Một trong những chướng ngại vật lớn nhất ngăn cản con người đạt đến sự tĩnh lặng tâm hồn (Ataraxia) chính là nỗi sợ hãi cái chết. Chúng ta sợ sự biến mất, sợ cái chưa biết, sợ sự phán xét sau khi chết.

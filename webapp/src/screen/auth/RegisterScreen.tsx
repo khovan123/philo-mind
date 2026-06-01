@@ -128,7 +128,7 @@ export default function RegisterScreen() {
         password,
       });
 
-      router.replace("/login");
+      router.replace("/login" as any);
     } catch (error) {
       if (error instanceof ApiError) {
         setFieldErrors({ form: error.message });
@@ -287,7 +287,7 @@ export default function RegisterScreen() {
                 Đã có tài khoản?{" "}
               </ThemedText>
 
-              <Pressable onPress={() => router.replace("/login")}>
+              <Pressable onPress={() => router.replace("/login" as any)}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Đăng nhập
                 </ThemedText>

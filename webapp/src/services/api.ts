@@ -80,7 +80,6 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
 
       throw new ApiError("Request failed", response.status);
     }
-
     return body.data;
   } catch (error) {
     if (error instanceof ApiError) {

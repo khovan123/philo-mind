@@ -16,6 +16,7 @@ import { prisma } from "../config/prisma.js";
 import { seedHeader } from "./utils/index.js";
 
 // ─── Seed modules (dependency order) ──────────────────
+import { seedUsers } from "./00-users.js";
 import { seedTopics } from "./01-topics.js";
 import { seedShortLessons } from "./02-short-lessons.js";
 import { seedLessons } from "./03-lessons.js";
@@ -38,6 +39,7 @@ async function main() {
 
   // ── Phase 1: Independent entities (no FK dependencies) ──
   seedHeader("Phase 1 — Root Entities");
+  await seedUsers(prisma);
   await seedTopics(prisma);
   await seedAiCharacters(prisma);
   await seedBadges(prisma);

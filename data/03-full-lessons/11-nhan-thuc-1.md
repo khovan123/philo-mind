@@ -3,6 +3,7 @@ chủ_đề: Nhận thức luận
 tiêu_đề: Descartes và Sự hoài nghi
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Làm sao bạn biết thế giới này có thật? Bạn có đang mơ không? Hay tồi tệ hơn, biết đâu có một con quỷ tà ác (hoặc một cỗ máy Matrix siêu việt) đang truyền những ảo giác hoàn hảo vào não bộ bạn, khiến bạn tin rằng mình đang đọc bài học này, nhưng thực ra bạn chỉ là một bộ não lơ lửng trong bình dung dịch?
