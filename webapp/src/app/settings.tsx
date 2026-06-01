@@ -164,13 +164,11 @@ export default function SettingsScreen() {
 
   // ── Profile section ──────────────────────────────────────
 
-  const [fullName, setFullName] = useState(currentUser?.fullName ?? "");
+  const [fullName, setFullName] = useState<string | null>(null);
+  const profileFullName = fullName ?? currentUser?.fullName ?? "";
+
   const [profileState, setProfileState] = useState<SettingsState>("idle");
   const [profileError, setProfileError] = useState<string | null>(null);
-
-  useEffect(() => {
-    setFullName(currentUser?.fullName ?? "");
-  }, [currentUser?.fullName]);
 
   // ── Password section ─────────────────────────────────────
 
@@ -189,7 +187,7 @@ export default function SettingsScreen() {
   // ── Handlers ─────────────────────────────────────────────
 
   async function handleSaveProfile() {
-    const trimmed = fullName.trim();
+    const trimmed = profileFullName.trim();
 
     if (trimmed.length < 2) {
       setProfileError("Tên tối thiểu 2 ký tự");
@@ -215,6 +213,7 @@ export default function SettingsScreen() {
 
       if (!mountedRef.current) return;
 
+      setFullName(null);
       setProfileState("success");
 
       if (profileTimerRef.current) {
@@ -356,7 +355,7 @@ export default function SettingsScreen() {
 
             <Input
               label="Tên hiển thị"
-              value={fullName}
+              value={profileFullName}
               onChangeText={(text) => {
                 setFullName(text);
                 setProfileError(null);
