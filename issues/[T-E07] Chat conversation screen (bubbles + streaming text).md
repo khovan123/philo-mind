@@ -94,6 +94,116 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## 11. UI Specification — "Dark Scholar" Design System
+
+> **Stitch Screen**: `8076ad2fae0f45bda49ea35f41fbb9ff` — "Trò chuyện với Socrates"
+> **Project**: `16360193101983963529` | **Design System**: `PhiloMind Dark Scholar`
+
+### 11.1 Screen Layout (Mobile 390px)
+
+```
+┌─────────────────────────────────────┐
+│ ← ○ Socrates                   ⋮   │  TopBar: avatar + name + subtitle
+│   Triết gia Hy Lạp cổ đại          │
+├─────────────────────────────────────┤
+│                                     │
+│  ○ ┌──────────────────────┐         │  AI message (LEFT)
+│    │ Xin chào! Ta là      │         │
+│    │ Socrates...           │         │
+│    └──────────────────────┘         │
+│                       10:30         │
+│                                     │
+│         ┌──────────────────┐        │  User message (RIGHT)
+│         │ Thầy Socrates... │        │
+│         └──────────────────┘        │
+│                       10:31         │
+│                                     │
+│  ○ ┌──────────────────────┐         │  AI message
+│    │ Một câu hỏi tuyệt   │         │
+│    │ vời! Ta tin rằng...  │         │
+│    └──────────────────────┘         │
+│                       10:32         │
+│                                     │
+│  ○ ┌──────────────────────┐         │  AI STREAMING message
+│    │ Thú vị lắm!...      │         │
+│    │ tự do▌               │         │  ← blinking amber cursor
+│    └──────────────────────┘         │
+├─────────────────────────────────────┤
+│ [  Nhập câu hỏi...          ] [➤]  │  ChatInput bar (fixed bottom)
+└─────────────────────────────────────┘
+```
+
+### 11.2 Design Tokens
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `background` | `#0C0C0E` | Screen background |
+| `surface` | `#18181B` | AI bubble bg, input bg, top bar |
+| `border` | `#27272A` | AI bubble border, input border |
+| `text-primary` | `#E4E4E7` | Message text, character name |
+| `text-secondary` | `#A1A1AA` | Timestamps, subtitle, placeholder |
+| `accent` | `#D97706` | User bubble bg, send button, avatar ring, cursor |
+| `accent-on` | `#0C0C0E` | Text on user bubble, icon on send button |
+| `error` | `#ffb4ab` | Error state text |
+
+### 11.3 Component Specifications
+
+#### Top Bar
+- **Background**: `#18181B` (tonal layer 1)
+- **Avatar**: 36px circle with `2px #D97706` ring
+- **Name**: Outfit 18px semibold `#E4E4E7`
+- **Subtitle**: Be Vietnam Pro 12px `#A1A1AA`
+- **Overflow icon**: 3 dots, `#A1A1AA`
+
+#### AI Message Bubble (LEFT-ALIGNED)
+- **Background**: `#18181B`
+- **Border**: `1px solid #27272A`
+- **Radius**: `0.5rem` (top-left: `0.125rem` for first message)
+- **Text**: Be Vietnam Pro 15px `#E4E4E7`
+- **Avatar**: Small 24px amber-ringed circle beside bubble
+- **Timestamp**: Be Vietnam Pro 12px `#A1A1AA`, below bubble
+- **Max width**: 80% of container
+
+#### User Message Bubble (RIGHT-ALIGNED)
+- **Background**: `#D97706` (amber)
+- **Text color**: `#0C0C0E` (dark)
+- **Border**: none
+- **Radius**: `0.5rem` (top-right: `0.125rem`)
+- **Timestamp**: Be Vietnam Pro 12px `#A1A1AA`, below bubble
+- **Max width**: 80% of container
+
+#### Streaming Cursor
+- **Character**: `▌` (Unicode U+258C)
+- **Color**: `#D97706`
+- **Animation**: `blink 1s step-end infinite`
+- **Keyframe**: `0%, 100% { opacity: 1 } 50% { opacity: 0 }`
+
+### 11.4 Behavior Requirements
+
+| Behavior | Spec |
+|----------|------|
+| Auto-scroll | Scroll to bottom on new message; pause if user scrolls up |
+| Streaming | Append characters at 50ms/char (default); show cursor until complete |
+| Send disable | Disable send button when input empty OR when AI is streaming |
+| Message grouping | Consecutive same-sender messages reduce top spacing |
+| Timestamps | Show on every message; format: `HH:mm` |
+
+### 11.5 Interaction States
+
+| State | Visual |
+|-------|--------|
+| Loading history | Skeleton bubbles: alternating left/right shimmer |
+| Empty chat | Welcome message from AI character auto-displayed |
+| Streaming | Last AI bubble grows with blinking `▌` cursor |
+| Error | Inline error banner: `#ffb4ab` text + "Thử lại" button |
+
+### 11.6 Design Rules (MANDATORY)
+- ❌ **NO** gradients, glows, or shadows on bubbles
+- ❌ **NO** elevation/box-shadow
+- ✅ Use **tonal depth** for AI bubbles vs background
+- ✅ User bubbles use **solid amber** — high contrast with dark text
+- ✅ Cursor uses **step-end** blink, not fade
+
 ## Frontend State And Data Requirement
 
 - Bat buoc dung **RTK Query** cho API calls, cache tags, loading/error state va reauth flow.
