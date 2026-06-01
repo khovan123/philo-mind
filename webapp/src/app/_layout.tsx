@@ -13,7 +13,6 @@ function AppLayout() {
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(lesson)" />
-        <Stack.Screen name="api-layer" />
         <Stack.Screen name="bookmarks" />
         <Stack.Screen name="mindmap" />
         <Stack.Screen name="minigames" />
