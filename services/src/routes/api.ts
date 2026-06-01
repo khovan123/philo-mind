@@ -10,6 +10,7 @@ import { topicsRouter } from "./topics.routes.js";
 import { storiesRouter } from "./stories.routes.js";
 import { statsRouter } from "./stats.routes.js";
 import { aiRouter } from "./ai.routes.js";
+import { aiChatRouter } from "./ai-chat.routes.js";
 import { aiCharacterRouter } from "./ai-character.route.js";
 
 // ── API v1 Router ──────────────────────────────────────────
@@ -52,6 +53,7 @@ apiRouter.use("/stats", statsRouter);
 
 // AI endpoints (Gemini)
 apiRouter.use("/ai", aiRouter);
+apiRouter.use("/ai/chat", aiChatRouter);
 apiRouter.use("/ai/characters", aiCharacterRouter);
 
 // TODO: Phase 1+ routes
