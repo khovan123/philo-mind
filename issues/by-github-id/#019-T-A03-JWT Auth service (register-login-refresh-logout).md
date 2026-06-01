@@ -3,38 +3,10 @@
 ## GitHub Link
 
 - Issue: [#19](https://github.com/khovan123/philo-mind/issues/19)
-- State: done
+- State: closed
 - Track: A - Backend Core
 - Type: backend
-- Priority: high
-- Milestone: Week 1
-- Assignees: @khovan123, @NTA1210
-- Updated at: 2026-05-31T15:38:51Z
-- Closed at: 2026-05-29T01:09:39Z
-
-## Current Sprint Status
-
-- [x] Done on GitHub. Treat this task as complete unless reopened.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #19 / `T-A03`.
-
-## Required Follow-up
-
-- No implementation follow-up required from sprint-status unless QA reopens the issue.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #19 |
-| Task ID | T-A03 |
-| Title | JWT Auth service (register/login/refresh/logout) |
-| State | done |
-| Local log path | `issues/by-github-id/#019-T-A03-JWT Auth service (register-login-refresh-logout).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:52:56Z
 
 ## T-A03: JWT Auth service (register/login/refresh/logout)
 
@@ -81,6 +53,45 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 ---
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #19 / `T-A03`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, làm mới token và đăng xuất/khôi phục mật khẩu mà không mất dữ liệu học tập cá nhân.
+
+### Inputs
+
+- email
+- password
+- submit action
+- auth API response
+
+### Expected output
+
+- Một hoặc nhiều endpoint dưới `/api/v1/auth` hoạt động với request hợp lệ và trả response chuẩn `{ success, data, meta? }`.
+- Validation trả lỗi rõ ràng khi thiếu field, sai kiểu, record không tồn tại hoặc user không đủ quyền.
+- Dữ liệu được ghi/đọc qua Prisma đúng quan hệ schema, không tạo duplicate ngoài ý muốn và không trả field nhạy cảm.
+- Frontend/test có thể dùng response ngay mà không phải đoán tên field hoặc tự tính business logic chính.
+
+### Success state
+
+- Client gọi `/api/v1/auth`, nhận HTTP 2xx với data đủ field để consumer render/lưu state.
+
+### Empty/error/loading states
+
+- 400 cho input sai shape hoặc thiếu field bắt buộc.
+- 401/403 cho user chưa đăng nhập hoặc không đủ role.
+- 404 cho record không tồn tại; 409 cho duplicate/constraint conflict khi phù hợp.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #19 and mention `T-A03`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #19 for `T-A03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:09:39Z. Local log: `issues/by-github-id/#019-T-A03-JWT Auth service (register-login-refresh-logout).md`.
+

@@ -3,38 +3,10 @@
 ## GitHub Link
 
 - Issue: [#67](https://github.com/khovan123/philo-mind/issues/67)
-- State: done
+- State: closed
 - Track: D - Story Mode Engine
 - Type: fullstack
-- Priority: high
-- Milestone: Week 3
-- Assignees: @dklinh05
-- Updated at: 2026-05-31T15:39:40Z
-- Closed at: 2026-05-31T09:51:43Z
-
-## Current Sprint Status
-
-- [x] Done on GitHub. Treat this task as complete unless reopened.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #67 / `T-D01`.
-
-## Required Follow-up
-
-- No implementation follow-up required from sprint-status unless QA reopens the issue.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #67 |
-| Task ID | T-D01 |
-| Title | Schema migration: StoryLearnCard, AnalysisTab, PhilosophyTag |
-| State | done |
-| Local log path | `issues/by-github-id/#067-T-D01-Schema migration- StoryLearnCard, AnalysisTab, PhilosophyTag.md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:53:42Z
 
 ## T-D01: Schema migration: StoryLearnCard, AnalysisTab, PhilosophyTag
 
@@ -80,6 +52,50 @@ Task có thể bắt đầu ngay. Nếu phát hiện dependency ngầm, cập nh
 ---
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #67 / `T-D01`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học đi qua story mode nhiều bước: hiểu bối cảnh, học khái niệm, chọn quyết định, xem hệ quả, so sánh cộng đồng và phản tư.
+
+### Inputs
+
+- storyId
+- sessionId
+- choiceId
+- reasoning
+- timeSpentSeconds
+
+### Expected output
+
+- Backend expose API dưới `/api/v1/stories`, frontend gọi API đó từ route `/story/[id]/learn`.
+- Người dùng hoàn thành được flow end-to-end từ màn hình vào form/action tới response thành công/lỗi rõ ràng.
+- API contract và UI state thống nhất: field nào backend trả thì frontend render trực tiếp field đó.
+- Nếu dependency chưa xong, có adapter/mock cùng shape và ghi rõ điểm thay bằng API thật.
+
+### Success state
+
+- User thao tác trên `/story/[id]/learn`, thấy dữ liệu/render đúng, CTA chính chuyển sang bước kế tiếp hoặc cập nhật UI ngay.
+
+### Empty/error/loading states
+
+- Loading: hiển thị skeleton/spinner và disable CTA gây duplicate submit.
+- Empty: hiển thị thông báo ngắn + CTA hợp lý thay vì màn hình trắng.
+- Error: hiển thị message có thể hành động, cho retry hoặc quay lại flow an toàn.
+
+### Navigation and interaction
+
+- Story list -> intro -> learn -> dilemma/choose -> result -> knowledge -> reflect.
+- Back/continue giữ `storyId` và `sessionId`.
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #67 and mention `T-D01`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #67 for `T-D01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T09:51:43Z. Local log: `issues/by-github-id/#067-T-D01-Schema migration- StoryLearnCard, AnalysisTab, PhilosophyTag.md`.
+

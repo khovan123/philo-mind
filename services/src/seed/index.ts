@@ -13,7 +13,6 @@
  * Each seed function checks if records already exist before inserting.
  * Safe to run multiple times.
  */
-/* eslint-disable no-console */
 import { prisma } from "../config/prisma.js";
 import { seedHeader } from "./utils/index.js";
 
@@ -22,11 +21,15 @@ import { seedTopics } from "./01-topics.js";
 import { seedShortLessons } from "./02-short-lessons.js";
 import { seedLessons } from "./03-lessons.js";
 import { seedQuizzes } from "./04-quizzes.js";
+import { seedStories } from "./05-stories.js";
 import { seedAiCharacters } from "./06-ai-characters.js";
 import { seedScenarios } from "./07-scenarios.js";
 import { seedDebates } from "./08-debates.js";
 import { seedCriticalQuestions } from "./09-critical-questions.js";
 import { seedBadges } from "./10-badges.js";
+import { seedTopicPerspectives } from "./11-topic-perspectives.js";
+import { seedMiniGames } from "./11-minigames.js";
+import { seedMindmaps } from "./12-mindmaps.js";
 
 async function main() {
   console.log("\n🌱 PhiloMind Seed Runner");
@@ -47,6 +50,10 @@ async function main() {
   await seedScenarios(prisma);
   await seedDebates(prisma);
   await seedCriticalQuestions(prisma);
+  await seedTopicPerspectives(prisma);
+  await seedStories(prisma);
+  await seedMiniGames(prisma);
+  await seedMindmaps(prisma);
 
   // ── Phase 3: Lesson-dependent (needs Lesson records) ─────
   seedHeader("Phase 3 — Lesson-Dependent");

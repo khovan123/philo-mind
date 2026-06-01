@@ -48,11 +48,14 @@ export const ScrollView = (
     contentContainerClassName?: string;
   },
 ) => {
-  // @ts-expect-error: useCssElement return type is too complex for TS to represent
-  return useCssElement(RNScrollView, props, {
-    className: "style",
-    contentContainerClassName: "contentContainerStyle",
-  });
+  return useCssElement(
+    RNScrollView as any,
+    props as any,
+    {
+      className: "style",
+      contentContainerClassName: "contentContainerStyle",
+    } as any,
+  ) as React.ReactElement;
 };
 ScrollView.displayName = "CSS(ScrollView)";
 

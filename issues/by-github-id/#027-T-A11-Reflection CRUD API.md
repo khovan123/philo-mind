@@ -3,38 +3,10 @@
 ## GitHub Link
 
 - Issue: [#27](https://github.com/khovan123/philo-mind/issues/27)
-- State: done
+- State: closed
 - Track: A - Backend Core
 - Type: backend
-- Priority: medium
-- Milestone: Week 4
-- Assignees: @linhtv1209-fudn
-- Updated at: 2026-05-31T15:38:59Z
-- Closed at: 2026-05-31T11:51:34Z
-
-## Current Sprint Status
-
-- [x] Done on GitHub. Treat this task as complete unless reopened.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #27 / `T-A11`.
-
-## Required Follow-up
-
-- No implementation follow-up required from sprint-status unless QA reopens the issue.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #27 |
-| Task ID | T-A11 |
-| Title | Reflection CRUD API |
-| State | done |
-| Local log path | `issues/by-github-id/#027-T-A11-Reflection CRUD API.md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:53:04Z
 
 ## T-A11: Reflection CRUD API
 
@@ -80,6 +52,42 @@ Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc c
 ---
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #27 / `T-A11`, beyond implementation process notes.
+
+### User-facing outcome
+
+Đầu ra là một phần tính năng hoàn chỉnh cho Reflection CRUD API, có hành vi quan sát được qua UI, API hoặc test.
+
+### Inputs
+
+- request params/query/body or user action relevant to this issue
+
+### Expected output
+
+- Một hoặc nhiều endpoint dưới `/api/v1/reflections` hoạt động với request hợp lệ và trả response chuẩn `{ success, data, meta? }`.
+- Validation trả lỗi rõ ràng khi thiếu field, sai kiểu, record không tồn tại hoặc user không đủ quyền.
+- Dữ liệu được ghi/đọc qua Prisma đúng quan hệ schema, không tạo duplicate ngoài ý muốn và không trả field nhạy cảm.
+- Frontend/test có thể dùng response ngay mà không phải đoán tên field hoặc tự tính business logic chính.
+
+### Success state
+
+- Client gọi `/api/v1/reflections`, nhận HTTP 2xx với data đủ field để consumer render/lưu state.
+
+### Empty/error/loading states
+
+- 400 cho input sai shape hoặc thiếu field bắt buộc.
+- 401/403 cho user chưa đăng nhập hoặc không đủ role.
+- 404 cho record không tồn tại; 409 cho duplicate/constraint conflict khi phù hợp.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #27 and mention `T-A11`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #27 for `T-A11`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:51:34Z. Local log: `issues/by-github-id/#027-T-A11-Reflection CRUD API.md`.
+

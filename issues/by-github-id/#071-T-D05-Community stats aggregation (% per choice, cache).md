@@ -6,34 +6,7 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: backend
-- Priority: medium
-- Milestone: Week 4
-- Assignees: @dklinh05
-- Updated at: 2026-05-31T15:39:44Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #71 / `T-D05`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #71 |
-| Task ID | T-D05 |
-| Title | Community stats aggregation (% per choice, cache) |
-| State | open |
-| Local log path | `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:53:46Z
 
 # T-D05: Community stats aggregation (% per choice, cache)
 
@@ -130,6 +103,42 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #71 / `T-D05`, beyond implementation process notes.
+
+### User-facing outcome
+
+Đầu ra là một phần tính năng hoàn chỉnh cho Community stats aggregation (% per choice, cache), có hành vi quan sát được qua UI, API hoặc test.
+
+### Inputs
+
+- request params/query/body or user action relevant to this issue
+
+### Expected output
+
+- Một hoặc nhiều endpoint dưới `/api/v1` hoạt động với request hợp lệ và trả response chuẩn `{ success, data, meta? }`.
+- Validation trả lỗi rõ ràng khi thiếu field, sai kiểu, record không tồn tại hoặc user không đủ quyền.
+- Dữ liệu được ghi/đọc qua Prisma đúng quan hệ schema, không tạo duplicate ngoài ý muốn và không trả field nhạy cảm.
+- Frontend/test có thể dùng response ngay mà không phải đoán tên field hoặc tự tính business logic chính.
+
+### Success state
+
+- Client gọi `/api/v1`, nhận HTTP 2xx với data đủ field để consumer render/lưu state.
+
+### Empty/error/loading states
+
+- 400 cho input sai shape hoặc thiếu field bắt buộc.
+- 401/403 cho user chưa đăng nhập hoặc không đủ role.
+- 404 cho record không tồn tại; 409 cho duplicate/constraint conflict khi phù hợp.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #71 and mention `T-D05`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #71 for `T-D05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md`.
+

@@ -6,34 +6,7 @@
 - State: open
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Priority: medium
-- Milestone: Week 3
-- Assignees: @Thienhoang78
-- Updated at: 2026-05-31T15:39:36Z
-
-## Current Sprint Status
-
-- [ ] Open on GitHub. Treat this task as remaining work.
-
-## Status Log
-
-- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #63 / `T-C09`.
-
-## Required Follow-up
-
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
-
-## Source Snapshot
-
-| Field | Value |
-| --- | --- |
-| GitHub issue | #63 |
-| Task ID | T-C09 |
-| Title | Seed: 10 Real-life Scenarios (4 perspectives each) |
-| State | open |
-| Local log path | `issues/by-github-id/#063-T-C09-Seed- 10 Real-life Scenarios (4 perspectives each).md` |
-
-## Issue Body
+- Updated at: 2026-05-31T15:53:38Z
 
 # T-C09: Seed: 10 Real-life Scenarios (4 perspectives each)
 
@@ -121,6 +94,43 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế mô tả task ngắn trước đó bằng requirement cụ thể hơn cho dev/review._
 
+## Feature Output Contract
+
+> Added by BMAD Advanced Elicitation on 2026-05-31. This section defines the concrete product output expected from issue #63 / `T-C09`, beyond implementation process notes.
+
+### User-facing outcome
+
+Người học phân tích tình huống đời thực hoặc tranh luận qua nhiều góc nhìn, lập luận, vote/comment và nhìn lại lập trường.
+
+### Inputs
+
+- scenarioId
+- initialPosition
+- selected perspective/framework
+- reflection text
+
+### Expected output
+
+- Seed runner tạo được record cha/con đúng thứ tự và id/slug ổn định cho demo/test.
+- Nội dung user-facing có tiếng Việt đủ title, mô tả, body markdown hoặc metadata cần render.
+- Chạy lại seed không tạo duplicate hoặc phá quan hệ hiện có.
+- Các issue frontend/backend liên quan có thể dùng dữ liệu seed để kiểm thử flow thật.
+
+### Success state
+
+- Seed chạy xong và database có dữ liệu đúng quan hệ, app có thể mở demo content.
+
+### Empty/error/loading states
+
+- Mô tả rõ trạng thái rỗng, lỗi và retry/recovery tương ứng.
+
+### Evidence required in PR
+
+- Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
+- PR description must link issue #63 and mention `T-C09`.
+- If the final behavior differs from this contract, update the issue and local docs in the same PR.
+
 ## Status Log
 
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #63 for `T-C09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#063-T-C09-Seed- 10 Real-life Scenarios (4 perspectives each).md`.
+

@@ -31,7 +31,7 @@ jest.unstable_mockModule("../utils/email.js", () => ({
   sendResetEmail: (jest.fn() as any).mockResolvedValue(undefined),
 }));
 
-const { AuthService, AuthError } = await import("../services/auth.service.js");
+const { AuthService } = await import("../services/auth.service.js");
 
 // ── Helpers ────────────────────────────────────────────────
 import crypto from "crypto";
@@ -40,8 +40,6 @@ function sha256(s: string) {
 }
 
 const FUTURE = new Date(Date.now() + 10 * 60 * 1000); // 10 min from now
-const PAST = new Date(Date.now() - 1); // already expired
-
 // ── sendPasswordReset ──────────────────────────────────────
 describe("AuthService.sendPasswordReset", () => {
   beforeEach(() => {
