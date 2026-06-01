@@ -11,6 +11,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
 }));
 
 const { MiniGameService } = await import("../services/minigame.service.js");
+const { MINI_GAMES } = await import("../seed/data/minigames.js");
 
 // ── T-H03: MiniGame Validator Tests ──────────────────────────
 
@@ -196,3 +197,45 @@ describe("MiniGameService scoreGame", () => {
     expect(result.result.isCorrect).toBe(true);
   });
 });
+
+describe("MINI_GAMES seed configs (T-C11)", () => {
+  const service = new MiniGameService();
+
+  it("includes 5 games with all supported types", () => {
+    expect(MINI_GAMES).toHaveLength(5);
+    expect(MINI_GAMES.filter((game) => game.gameType === "matching")).toHaveLength(2);
+    expect(MINI_GAMES.filter((game) => game.gameType === "guess-who")).toHaveLength(2);
+    expect(MINI_GAMES.filter((game) => game.gameType === "logic-puzzle")).toHaveLength(1);
+  });
+
+  it.each(MINI_GAMES.map((game) => [game.title, game] as const))(
+    "scores seeded game %s at 100 when answers are perfect",
+    (_title, game) => {
+      const result = service.scoreGame(game.gameType, game.config, buildPerfectAnswers(game));
+      expect(result.score).toBe(100);
+      expect(result.result.isCorrect).toBe(true);
+    },
+  );
+});
+
+function buildPerfectAnswers(game: (typeof MINI_GAMES)[number]) {
+  if (game.gameType === "matching") {
+    const pairs = (game.config.pairs ?? []) as { left: string; right: string }[];
+    return { matches: pairs.map((pair) => ({ left: pair.left, right: pair.right })) };
+  }
+
+  if (game.gameType === "guess-who") {
+    const characters = (game.config.characters ?? []) as {
+      name: string;
+      answer: string;
+    }[];
+    return {
+      characterAnswers: characters.map((character) => ({
+        name: character.name,
+        answer: character.answer,
+      })),
+    };
+  }
+
+  return { solution: String(game.config.solution ?? "") };
+}
