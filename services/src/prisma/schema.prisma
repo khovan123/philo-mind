@@ -864,8 +864,6 @@ enum ModerationActionType {
 }
 
 // ── T-D01: Story Mode Engine ─────────────────────────────────
-
->>>>>>> origin/main
 enum AnalysisTabType {
   ETHICAL
   PHILOSOPHICAL
