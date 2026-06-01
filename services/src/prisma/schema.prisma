@@ -1634,7 +1634,6 @@ model ModerationAction {
   @@index([reportId])
   @@index([moderatorId])
   @@map("moderation_actions")
->>>>>>> origin/main
 }
 
 model PasswordReset {
