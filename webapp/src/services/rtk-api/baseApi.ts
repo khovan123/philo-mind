@@ -16,6 +16,7 @@ export const baseApi = createApi({
     "Topic",
     "Lesson",
     "ShortLesson",
+    "Chat",
   ],
   endpoints: () => ({}),
 });
