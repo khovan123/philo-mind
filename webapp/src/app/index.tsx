@@ -18,7 +18,8 @@ export default function IndexScreen() {
     return <Redirect href="/(tabs)" />;
   }
 
-  return <Redirect href="/(auth)/login" />;
+  // Cast to any because generated route union types may not include dynamic group paths
+  return <Redirect href={"/(auth)/login" as any} />;
 }
 
 const styles = StyleSheet.create({

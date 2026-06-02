@@ -11,6 +11,7 @@ import {
   persistStore,
 } from "redux-persist";
 import { baseApi } from "@/services/rtk-api/baseApi";
+import { chatReducer } from "./slices/chat.slice";
 import { authReducer } from "./slices/auth.slice";
 import { bookmarkReducer } from "./slices/bookmark.slice";
 import { mindmapReducer } from "./slices/mindmap.slice";
@@ -35,6 +36,7 @@ export const store = configureStore({
     minigame: minigameReducer,
     reflection: reflectionReducer,
     story: storyReducer,
+    chat: chatReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
