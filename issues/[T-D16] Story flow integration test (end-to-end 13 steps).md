@@ -1,4 +1,4 @@
-# T-D12: Step 5: CONSEQUENCE screen (narrative + 4 analysis tabs)
+# T-D16: Story flow integration test (end-to-end 13 steps)
 
 ## 1. Mục đích sản phẩm
 
@@ -10,60 +10,53 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 | Thuộc tính        | Giá trị              |
 | ----------------- | -------------------- |
-| GitHub issue      | #78                  |
+| GitHub issue      | #82                  |
 | Track             | D: Story Mode Engine |
 | Nhóm              | D-Frontend           |
 | Loại việc         | frontend             |
 | Priority          | medium               |
 | Owner gợi ý       | Fullstack Dev        |
 | Assignee hiện tại | @dklinh05            |
-| Estimate          | 6h                   |
-| Milestone         | Week 6               |
-| Dependencies      | `T-D07`              |
+| Estimate          | 3h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-D08..T-D14`              |
 
 ## 3. Requirement cụ thể
 
-- Screen/route đề xuất: `/story/[id]/result` theo Expo Router.
+- Triển khai bộ kiểm thử tích hợp (integration tests) đảm bảo toàn bộ quy trình đi qua 13 bước của Story Mode hoạt động đúng.
+- Kiểm thử trạng thái Redux, điều hướng route bằng Expo Router và các transition giữa các bước từ 1 đến 13.
+
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
 - Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
-- Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
-- UI phải thể hiện trực tiếp các AC: Typewriter animation; swipeable tabs; concept modals.
-
-### UI/navigation contract đề xuất
-
-| Tình huống   | Người dùng thao tác                                    | Kết quả bắt buộc                                                                   |
-| ------------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------- |
-| Mở màn hình  | User vào `/story/[id]/result` từ tab/card/link phù hợp | Render màn hình chính của Step 5: CONSEQUENCE screen (narrative + 4 analysis tabs) |
-| Action chính | Bấm CTA/item chính                                     | Thực hiện submit/navigate/update state theo domain                                 |
 
 ## 4. Flow tích hợp
 
-- Dependency trước khi nối API thật: `T-D07`.
-- User mở màn hình qua route `/story/[id]/result`; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
+- Dependency trước khi nối API thật: `T-D08..T-D14`.
+- User mở màn hình qua route /story/[id] hoặc tương ứng; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
 - Nếu backend chưa sẵn sàng, tạo adapter/mock cùng shape với API thật để khi issue dependency merge chỉ thay data source.
-- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #78.
+- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #82.
 - Nếu phát hiện dependency chưa sẵn sàng, PR phải ghi rõ mock/contract tạm và điều kiện để chuyển sang integration thật.
 
 ## 5. Hành vi người dùng hoặc API cần đạt
 
-- Người dùng có thể mở màn hình tại `/story/[id]/result` từ tab/card/link liên quan.
+- Người dùng có thể mở màn hình tại route tương ứng từ tab/card/link liên quan.
 - Các CTA phải làm đúng hành động: mở detail, submit form, chuyển bước, quay lại danh sách hoặc mở link ngoài theo đúng ngữ cảnh.
 - Trạng thái loading/empty/error phải có UI rõ ràng, không để màn hình trắng.
 - Khi user thao tác thành công, state/store/API cache phải cập nhật để màn hình tiếp theo có dữ liệu đúng.
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] Typewriter animation: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] swipeable tabs: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] concept modals: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] Navigate all 13 steps: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] verify data persistence: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] mock fullstate: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Step 5: CONSEQUENCE screen (narrative + 4 analysis tabs)** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **T-D16: Story flow integration test (end-to-end 13 steps)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Typewriter animation, swipeable tabs, concept modals.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Navigate all 13 steps, verify data persistence, mock fullstate.
 
 ## 8. Kiểm chứng bắt buộc
 

@@ -135,20 +135,21 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ### 11.2 Design Tokens
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `background` | `#0C0C0E` | Screen background |
-| `surface` | `#18181B` | AI bubble bg, input bg, top bar |
-| `border` | `#27272A` | AI bubble border, input border |
-| `text-primary` | `#E4E4E7` | Message text, character name |
-| `text-secondary` | `#A1A1AA` | Timestamps, subtitle, placeholder |
-| `accent` | `#D97706` | User bubble bg, send button, avatar ring, cursor |
-| `accent-on` | `#0C0C0E` | Text on user bubble, icon on send button |
-| `error` | `#ffb4ab` | Error state text |
+| Token            | Value     | Usage                                            |
+| ---------------- | --------- | ------------------------------------------------ |
+| `background`     | `#0C0C0E` | Screen background                                |
+| `surface`        | `#18181B` | AI bubble bg, input bg, top bar                  |
+| `border`         | `#27272A` | AI bubble border, input border                   |
+| `text-primary`   | `#E4E4E7` | Message text, character name                     |
+| `text-secondary` | `#A1A1AA` | Timestamps, subtitle, placeholder                |
+| `accent`         | `#D97706` | User bubble bg, send button, avatar ring, cursor |
+| `accent-on`      | `#0C0C0E` | Text on user bubble, icon on send button         |
+| `error`          | `#ffb4ab` | Error state text                                 |
 
 ### 11.3 Component Specifications
 
 #### Top Bar
+
 - **Background**: `#18181B` (tonal layer 1)
 - **Avatar**: 36px circle with `2px #D97706` ring
 - **Name**: Outfit 18px semibold `#E4E4E7`
@@ -156,6 +157,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 - **Overflow icon**: 3 dots, `#A1A1AA`
 
 #### AI Message Bubble (LEFT-ALIGNED)
+
 - **Background**: `#18181B`
 - **Border**: `1px solid #27272A`
 - **Radius**: `0.5rem` (top-left: `0.125rem` for first message)
@@ -165,6 +167,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 - **Max width**: 80% of container
 
 #### User Message Bubble (RIGHT-ALIGNED)
+
 - **Background**: `#D97706` (amber)
 - **Text color**: `#0C0C0E` (dark)
 - **Border**: none
@@ -173,6 +176,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 - **Max width**: 80% of container
 
 #### Streaming Cursor
+
 - **Character**: `▌` (Unicode U+258C)
 - **Color**: `#D97706`
 - **Animation**: `blink 1s step-end infinite`
@@ -180,24 +184,25 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ### 11.4 Behavior Requirements
 
-| Behavior | Spec |
-|----------|------|
-| Auto-scroll | Scroll to bottom on new message; pause if user scrolls up |
-| Streaming | Append characters at 50ms/char (default); show cursor until complete |
-| Send disable | Disable send button when input empty OR when AI is streaming |
-| Message grouping | Consecutive same-sender messages reduce top spacing |
-| Timestamps | Show on every message; format: `HH:mm` |
+| Behavior         | Spec                                                                 |
+| ---------------- | -------------------------------------------------------------------- |
+| Auto-scroll      | Scroll to bottom on new message; pause if user scrolls up            |
+| Streaming        | Append characters at 50ms/char (default); show cursor until complete |
+| Send disable     | Disable send button when input empty OR when AI is streaming         |
+| Message grouping | Consecutive same-sender messages reduce top spacing                  |
+| Timestamps       | Show on every message; format: `HH:mm`                               |
 
 ### 11.5 Interaction States
 
-| State | Visual |
-|-------|--------|
-| Loading history | Skeleton bubbles: alternating left/right shimmer |
-| Empty chat | Welcome message from AI character auto-displayed |
-| Streaming | Last AI bubble grows with blinking `▌` cursor |
-| Error | Inline error banner: `#ffb4ab` text + "Thử lại" button |
+| State           | Visual                                                 |
+| --------------- | ------------------------------------------------------ |
+| Loading history | Skeleton bubbles: alternating left/right shimmer       |
+| Empty chat      | Welcome message from AI character auto-displayed       |
+| Streaming       | Last AI bubble grows with blinking `▌` cursor          |
+| Error           | Inline error banner: `#ffb4ab` text + "Thử lại" button |
 
 ### 11.6 Design Rules (MANDATORY)
+
 - ❌ **NO** gradients, glows, or shadows on bubbles
 - ❌ **NO** elevation/box-shadow
 - ✅ Use **tonal depth** for AI bubbles vs background

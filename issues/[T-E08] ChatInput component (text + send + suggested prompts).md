@@ -101,6 +101,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### 11.1 Component States (5 total)
 
 #### State 1: Gợi ý ban đầu (Initial Suggestions)
+
 ```
 ┌─────────────────────────────────────┐
 │ [Triết lý đạo đức?] [Plato vs      │  Suggested prompt chips
@@ -109,46 +110,54 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 │ [  Nhập câu hỏi...            ] [○]│  Input empty, send disabled
 └─────────────────────────────────────┘
 ```
+
 - **Chips**: `#18181B` bg, `1px #27272A` border, Be Vietnam Pro 13px `#E4E4E7`
 - **Chip on tap**: `1px #D97706` border (text fills input)
 - **Send button**: `#27272A` bg (disabled), circular
 - **Input**: empty, placeholder `#A1A1AA`
 
 #### State 2: Đang nhập (Typing)
+
 ```
 ┌─────────────────────────────────────┐
 │ [  Thầy có thể giải thích... ] [➤] │  Input focused, send active
 └─────────────────────────────────────┘
 ```
+
 - **Input border**: `#D97706` (focused amber)
 - **Text**: Be Vietnam Pro 15px `#E4E4E7`
 - **Send button**: `#D97706` bg, dark arrow icon `#0C0C0E`
 - **Suggested chips**: hidden (disappear when typing)
 
 #### State 3: Đang gửi (Submitting)
+
 ```
 ┌─────────────────────────────────────┐
 │                  Đang suy nghĩ...   │  Loading label
 │ [  Thầy có thể giải thích... ] [●●●]│  Input disabled, spinner
 └─────────────────────────────────────┘
 ```
+
 - **Loading label**: Be Vietnam Pro 12px `#A1A1AA`
 - **Input**: disabled, text grayed out (`#A1A1AA`)
 - **Send button replaced by**: 3 pulsing dots in `#D97706`
 - **Dot animation**: `pulse 1.4s ease-in-out infinite` with staggered delay
 
 #### State 4: Streaming (AI Responding)
+
 ```
 ┌─────────────────────────────────────┐
 │ ● Socrates đang trả lời...         │  Amber indicator bar
 │ [  Nhập câu hỏi...            ] [○]│  Input disabled, dimmed
 └─────────────────────────────────────┘
 ```
+
 - **Indicator**: `#D97706` blinking dot + Be Vietnam Pro 12px `#D97706`
 - **Input**: disabled, slightly dimmed (`opacity: 0.5`)
 - **Send button**: `#27272A` bg (disabled)
 
 #### State 5: Lỗi (Error)
+
 ```
 ┌─────────────────────────────────────┐
 │ [  Thầy có thể giải thích... ] [➤] │  Input with red border
@@ -156,37 +165,39 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 │                          [Thử lại]  │  Ghost retry button
 └─────────────────────────────────────┘
 ```
+
 - **Input border**: `#ffb4ab` (error red)
 - **Error text**: Be Vietnam Pro 12px `#ffb4ab`
 - **Retry button**: Ghost — `#27272A` border, `#E4E4E7` text, `0.25rem` radius
 
 ### 11.2 Component Dimensions
 
-| Property | Value |
-|----------|-------|
-| Input height | 44px |
-| Input padding | 12px horizontal, 10px vertical |
-| Send button | 40px circle |
-| Chip height | 32px |
-| Chip padding | 8px 12px |
-| Bottom safe area | 34px (iOS notch) |
-| Container padding | 16px horizontal |
+| Property          | Value                          |
+| ----------------- | ------------------------------ |
+| Input height      | 44px                           |
+| Input padding     | 12px horizontal, 10px vertical |
+| Send button       | 40px circle                    |
+| Chip height       | 32px                           |
+| Chip padding      | 8px 12px                       |
+| Bottom safe area  | 34px (iOS notch)               |
+| Container padding | 16px horizontal                |
 
 ### 11.3 Design Tokens
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `input-bg` | `#18181B` | Input field background |
-| `input-border-default` | `#27272A` | Default border |
-| `input-border-focus` | `#D97706` | Focused border |
-| `input-border-error` | `#ffb4ab` | Error state border |
-| `input-text` | `#E4E4E7` | Input text |
-| `input-placeholder` | `#A1A1AA` | Placeholder text |
-| `send-active` | `#D97706` | Active send button bg |
-| `send-disabled` | `#27272A` | Disabled send button bg |
-| `send-icon` | `#0C0C0E` | Arrow icon on active send |
+| Token                  | Value     | Usage                     |
+| ---------------------- | --------- | ------------------------- |
+| `input-bg`             | `#18181B` | Input field background    |
+| `input-border-default` | `#27272A` | Default border            |
+| `input-border-focus`   | `#D97706` | Focused border            |
+| `input-border-error`   | `#ffb4ab` | Error state border        |
+| `input-text`           | `#E4E4E7` | Input text                |
+| `input-placeholder`    | `#A1A1AA` | Placeholder text          |
+| `send-active`          | `#D97706` | Active send button bg     |
+| `send-disabled`        | `#27272A` | Disabled send button bg   |
+| `send-icon`            | `#0C0C0E` | Arrow icon on active send |
 
 ### 11.4 Design Rules (MANDATORY)
+
 - ❌ **NO** gradients, glows, or shadows
 - ✅ Focus feedback via **border color shift** only
 - ✅ Disabled states use **opacity** or **color shift**, not blur
