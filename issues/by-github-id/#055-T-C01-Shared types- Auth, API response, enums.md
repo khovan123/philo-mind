@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#55](https://github.com/khovan123/philo-mind/issues/55)
-- State: closed
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:31Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T05:31:17Z
+- Closed at: 2026-05-30T17:26:00Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #55 / `T-C01`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #55 |
+| Task ID | T-C01 |
+| Title | Shared types: Auth, API response, enums |
+| State | done |
+| Local log path | `issues/by-github-id/#055-T-C01-Shared types- Auth, API response, enums.md` |
+
+## Issue Body
 
 ## T-C01: Shared types: Auth, API response, enums
 
@@ -99,5 +127,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #55 for `T-C01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:26:00Z. Local log: `issues/by-github-id/#055-T-C01-Shared types- Auth, API response, enums.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #55 for `T-C01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:26:00Z. Local log: `issues/by-github-id/#055-T-C01-Shared types- Auth, API response, enums.md`.

@@ -6,7 +6,34 @@
 - State: open
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:24Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @anhthungye
+- Updated at: 2026-06-01T05:31:25Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #47 / `T-B09`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #47 |
+| Task ID | T-B09 |
+| Title | Home screen (daily hook + continue learning + stats) |
+| State | open |
+| Local log path | `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md` |
+
+## Issue Body
 
 # T-B09: Home screen (daily hook + continue learning + stats)
 
@@ -152,5 +179,4 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #47 for `T-B09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #47 for `T-B09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md`.

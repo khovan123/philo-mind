@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#59](https://github.com/khovan123/philo-mind/issues/59)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:34Z
+- Priority: medium
+- Milestone: Week 2
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T05:31:13Z
+- Closed at: 2026-06-01T00:28:41Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #59 / `T-C05`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #59 |
+| Task ID | T-C05 |
+| Title | Seed: 10 Topics + 30 Short Lessons |
+| State | done |
+| Local log path | `issues/by-github-id/#059-T-C05-Seed- 10 Topics + 30 Short Lessons.md` |
+
+## Issue Body
 
 # T-C05: Seed: 10 Topics + 30 Short Lessons
 
@@ -141,5 +169,4 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #59 for `T-C05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#059-T-C05-Seed- 10 Topics + 30 Short Lessons.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #59 for `T-C05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#059-T-C05-Seed- 10 Topics + 30 Short Lessons.md`.

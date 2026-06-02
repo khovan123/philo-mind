@@ -3,16 +3,17 @@ chủ_đề: Chủ nghĩa Thực dụng
 tiêu_đề: Cỗ máy Trải nghiệm
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Chủ nghĩa Vị lợi khẳng định "hạnh phúc, khoái cảm" là giá trị tối cao duy nhất. Nhưng liệu chúng ta có thực sự chỉ mong muốn cảm giác sướng vui đó trong não bộ?
 
 Năm 1974, triết gia Robert Nozick đưa ra một thí nghiệm tư tưởng đâm thẳng vào trái tim của Chủ nghĩa Vị lợi: **Cỗ máy trải nghiệm** (The Experience Machine).
 
-Hãy tưởng tượng các nhà khoa học tạo ra một cỗ máy thực tế ảo hoàn hảo. Bạn chỉ cần cắm các điện cực vào não, và lập tức bạn sẽ trải nghiệm một cuộc sống tuyệt vời nhất: Bạn có thể là ngôi sao nhạc Rock, tiểu thuyết gia vĩ đại, tìm được tình yêu đích thực. Máy sẽ kích thích trực tiếp vào não tạo ra cảm giác hạnh phúc chân thực 100%. Khi bước vào máy, ký ức bị xóa, bạn không biết mình đang ở trong máy. Trải nghiệm được đảm bảo vui sướng tối đa đến hết đời. 
+Hãy tưởng tượng các nhà khoa học tạo ra một cỗ máy thực tế ảo hoàn hảo. Bạn chỉ cần cắm các điện cực vào não, và lập tức bạn sẽ trải nghiệm một cuộc sống tuyệt vời nhất: Bạn có thể là ngôi sao nhạc Rock, tiểu thuyết gia vĩ đại, tìm được tình yêu đích thực. Máy sẽ kích thích trực tiếp vào não tạo ra cảm giác hạnh phúc chân thực 100%. Khi bước vào máy, ký ức bị xóa, bạn không biết mình đang ở trong máy. Trải nghiệm được đảm bảo vui sướng tối đa đến hết đời.
 Nozick hỏi: **Bạn có đồng ý cắm dây vào cỗ máy đó mãi mãi không?**
 
-Sự thật là, phần lớn mọi người nói KHÔNG. Lý do là vì chúng ta muốn **làm** những điều thực tế, chứ không chỉ muốn **trải nghiệm cảm giác** làm chúng. Chúng ta muốn có một bản sắc thực (là người thực sự tài năng chứ không phải ảo giác), và chúng ta muốn tiếp xúc với một thực tại sâu sắc hơn do chính con người tạo ra, dẫu thực tại ấy chứa đựng thất bại và đau đớn. 
+Sự thật là, phần lớn mọi người nói KHÔNG. Lý do là vì chúng ta muốn **làm** những điều thực tế, chứ không chỉ muốn **trải nghiệm cảm giác** làm chúng. Chúng ta muốn có một bản sắc thực (là người thực sự tài năng chứ không phải ảo giác), và chúng ta muốn tiếp xúc với một thực tại sâu sắc hơn do chính con người tạo ra, dẫu thực tại ấy chứa đựng thất bại và đau đớn.
 Thí nghiệm này chứng minh rằng: Hạnh phúc (khoái cảm) KHÔNG PHẢI là giá trị duy nhất của con người. Ý nghĩa, sự chân thật, và tính xác thực (Authenticity) quan trọng hơn một ảo giác sung sướng.
 
 ## Ví dụ thực tế

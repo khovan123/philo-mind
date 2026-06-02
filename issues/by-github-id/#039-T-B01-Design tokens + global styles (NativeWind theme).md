@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#39](https://github.com/khovan123/philo-mind/issues/39)
-- State: closed
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:15Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T05:31:34Z
+- Closed at: 2026-05-30T03:40:26Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #39 / `T-B01`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #39 |
+| Task ID | T-B01 |
+| Title | Design tokens + global styles (NativeWind theme) |
+| State | done |
+| Local log path | `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md` |
+
+## Issue Body
 
 ## T-B01: Design tokens + global styles (NativeWind theme)
 
@@ -101,5 +129,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #39 for `T-B01`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T03:40:26Z. Local log: `issues/by-github-id/#039-T-B01-Design tokens + global styles (NativeWind theme).md`.

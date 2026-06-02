@@ -6,7 +6,34 @@
 - State: open
 - Track: G - Polish & Gamification
 - Type: frontend
-- Updated at: 2026-05-31T15:54:16Z
+- Priority: low
+- Milestone: Week 6
+- Assignees: @kangdev03
+- Updated at: 2026-06-01T05:30:28Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #102 / `T-G02`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #102 |
+| Task ID | T-G02 |
+| Title | Notification bell + list screen |
+| State | open |
+| Local log path | `issues/by-github-id/#102-T-G02-Notification bell + list screen.md` |
+
+## Issue Body
 
 # T-G02: Notification bell + list screen
 
@@ -152,5 +179,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #102 for `T-G02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#102-T-G02-Notification bell + list screen.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #102 for `T-G02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#102-T-G02-Notification bell + list screen.md`.

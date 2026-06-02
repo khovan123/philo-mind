@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -18,16 +18,47 @@ import { ThemedView } from "@/components/themed-view";
 import { Button, Input } from "@/components/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
-import { ApiError } from "@/services/api";
-import { authService } from "@/services/auth.service";
+import { useLoginMutation } from "@/services/auth/api";
+import { useAppDispatch } from "@/stores/hooks";
+import { authErrorCleared, authFailed, authStateSet } from "@/stores/slices/auth.slice";
+
+function getApiErrorMessage(error: unknown) {
+  const data = (error as { data?: unknown })?.data;
+
+  if (typeof data === "object" && data !== null && "message" in data) {
+    return String(data.message);
+  }
+
+  if (
+    typeof data === "object" &&
+    data !== null &&
+    "error" in data &&
+    typeof data.error === "object" &&
+    data.error !== null &&
+    "message" in data.error
+  ) {
+    return String(data.error.message);
+  }
+
+  return "Đăng nhập thất bại, vui lòng thử lại";
+}
 
 export default function LoginScreen() {
   const router = useRouter();
   const theme = useTheme();
+  const mountedRef = useRef(false);
 
+  useEffect(() => {
+    mountedRef.current = true;
+
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useAppDispatch();
+  const [login, { isLoading }] = useLoginMutation();
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
@@ -41,6 +72,7 @@ export default function LoginScreen() {
   async function handleLogin() {
     Keyboard.dismiss();
     setErrors({});
+    dispatch(authErrorCleared());
 
     const normalizedEmail = email.trim().toLowerCase();
 
@@ -65,29 +97,30 @@ export default function LoginScreen() {
       return;
     }
 
-    if (!password) {
-      setErrors({ password: "Vui lòng nhập mật khẩu" });
-      return;
-    }
-
     try {
-      setIsLoading(true);
-
-      await authService.login({
+      const response = await login({
         email: normalizedEmail,
         password,
-      });
+      }).unwrap();
+
+      dispatch(
+        authStateSet({
+          user: response.user,
+          accessToken: response.tokens.accessToken,
+          refreshToken: response.tokens.refreshToken,
+        }),
+      );
+
+      if (!mountedRef.current) return;
 
       router.replace("/(tabs)" as never);
     } catch (error) {
-      if (error instanceof ApiError) {
-        setErrors({ general: error.message });
-        return;
-      }
+      const message = getApiErrorMessage(error);
 
-      setErrors({ general: "Đăng nhập thất bại, vui lòng thử lại" });
-    } finally {
-      setIsLoading(false);
+      if (!mountedRef.current) return;
+
+      dispatch(authFailed(message));
+      setErrors({ general: message });
     }
   }
 
@@ -130,9 +163,12 @@ export default function LoginScreen() {
               value={email}
               onChangeText={(value) => {
                 setEmail(value);
-                if (errors.email) {
-                  setErrors((prev) => ({ ...prev, email: undefined }));
-                }
+                setErrors((prev) => ({
+                  ...prev,
+                  email: undefined,
+                  general: undefined,
+                }));
+                dispatch(authErrorCleared());
               }}
               placeholder="example@philomind.com"
               keyboardType="email-address"
@@ -151,9 +187,12 @@ export default function LoginScreen() {
               value={password}
               onChangeText={(value) => {
                 setPassword(value);
-                if (errors.password) {
-                  setErrors((prev) => ({ ...prev, password: undefined }));
-                }
+                setErrors((prev) => ({
+                  ...prev,
+                  password: undefined,
+                  general: undefined,
+                }));
+                dispatch(authErrorCleared());
               }}
               placeholder="••••••••"
               isPassword
@@ -188,7 +227,7 @@ export default function LoginScreen() {
               title="Đăng nhập"
               fullWidth
               loading={isLoading}
-              disabled={isLoading}
+              disabled={isLoading || !email.trim() || !password}
               onPress={handleLogin}
               style={styles.loginButton}
             />

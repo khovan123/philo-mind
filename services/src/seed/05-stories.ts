@@ -1,175 +1,195 @@
 /**
- * Seed: Story Scenarios (from Markdown files with frontmatter)
- * Source: data/05-stories/*.md
- * Dependencies: Topic
+ * Seed: 5 Story Scenarios — Full 7-Step Story Mode Engine
+ * Issue: #61 — T-C07
+ *
+ * Source: ./data/story-scenarios.ts (inline TypeScript data)
+ * Dependencies: Topic (matched by title)
+ *
+ * Records seeded:
+ *   - PhilosophyTag       (upsert by name)
+ *   - StoryScenario       (upsert by title)
+ *   - StoryLearnCard      (upsert by storyId + order)
+ *   - StoryLearnCardTag   (upsert by cardId + tagId)
+ *   - StoryChoice         (delete + re-create per story for idempotency)
+ *   - StoryConsequence    (cascade from StoryChoice)
+ *   - AnalysisTab         (upsert by consequenceId + tabType)
+ *
+ * Idempotency: upsert on stable keys — safe to run multiple times.
  */
-import { readdirSync, readFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { mapDifficulty, seedLog, seedSkip } from "./utils/index.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const STORIES_DIR = resolve(__dirname, "../../../data/05-stories");
-
-interface StoryFrontmatter {
-  chủ_đề?: string;
-  tiêu_đề?: string;
-  nhân_vật?: string;
-  bối_cảnh_lịch_sử?: string;
-  độ_khó?: string;
-}
-
-function parseFrontmatter(rawContent: string): { metadata: StoryFrontmatter; body: string } | null {
-  const frontmatterMatch = rawContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!frontmatterMatch) return null;
-
-  const metadata: StoryFrontmatter = {};
-  for (const line of frontmatterMatch[1].split("\n")) {
-    const colonIdx = line.indexOf(":");
-    if (colonIdx === -1) continue;
-    const key = line.slice(0, colonIdx).trim();
-    const value = line.slice(colonIdx + 1).trim();
-    metadata[key as keyof StoryFrontmatter] = value;
-  }
-
-  return {
-    metadata,
-    body: rawContent.slice(frontmatterMatch[0].length).trim(),
-  };
-}
-
-function extractSection(body: string, heading: string): string {
-  const escapedHeading = heading.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = body.match(new RegExp(`## ${escapedHeading}\\s*([\\s\\S]*?)(?=\\n## |$)`));
-  return match?.[1]?.trim() ?? "";
-}
-
-function cleanChoiceText(text: string): string {
-  return text
-    .replace(/^\s*###\s+Lựa chọn\s+\d+:\s*/i, "")
-    .replace(/^["“”]/, "")
-    .trim();
-}
-
-function parseChoices(body: string): { title: string; reasoningPrompt?: string }[] {
-  const choicesSection = extractSection(body, "Lựa chọn");
-  const matches = [
-    ...choicesSection.matchAll(
-      /###\s+Lựa chọn\s+\d+:[^\n]*\n([\s\S]*?)(?=\n###\s+Lựa chọn\s+\d+:|$)/g,
-    ),
-  ];
-
-  return matches.map((match) => {
-    const block = match[0].trim();
-    const titleLine = block.split("\n")[0] ?? "";
-    const promptMatch = block.match(/>\s*💭\s*\*?Gợi ý suy nghĩ:\s*([\s\S]*?)\*?\s*$/m);
-
-    return {
-      title: cleanChoiceText(titleLine),
-      reasoningPrompt: promptMatch?.[1]?.trim(),
-    };
-  });
-}
-
-function parseConsequenceBlocks(body: string): string[] {
-  const consequencesSection = extractSection(body, "Hậu quả");
-  return [
-    ...consequencesSection.matchAll(
-      /###\s+Nếu chọn\s+\d+[^\n]*\n([\s\S]*?)(?=\n###\s+Nếu chọn\s+\d+|$)/g,
-    ),
-  ].map((match) => match[1].trim());
-}
-
-function extractBoldSection(block: string, label: string): string | undefined {
-  const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const match = block.match(
-    new RegExp(`\\*\\*${escapedLabel}:\\*\\*\\s*([\\s\\S]*?)(?=\\n\\*\\*[^*]+:\\*\\*|$)`),
-  );
-  return match?.[1]?.trim();
-}
-
-function extractPhilosophicalAnalysis(block: string): string | undefined {
-  const match = block.match(
-    /\*\*Phân tích triết học(?:\s*\([^)]+\))?:\*\*\s*([\s\S]*?)(?=\n\*\*[^*]+:\*\*|$)/,
-  );
-  return match?.[1]?.trim();
-}
+import { seedLog, seedSkip } from "./utils/index.js";
+import { PHILOSOPHY_TAGS, STORY_SCENARIOS } from "./data/story-scenarios.js";
 
 export async function seedStories(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.storyScenario.count();
-  if (existing > 0) {
-    seedSkip("StoryScenario", `already has ${existing} records`);
-    return;
+  // ── Step 1: Upsert PhilosophyTags ──────────────────────────────────────────
+  const tagMap = new Map<string, string>(); // name → id
+
+  for (const tag of PHILOSOPHY_TAGS) {
+    const record = await prisma.philosophyTag.upsert({
+      where: { name: tag.name },
+      update: { description: tag.description },
+      create: { name: tag.name, description: tag.description },
+    });
+    tagMap.set(tag.name, record.id);
   }
 
-  let files: string[] = [];
-  try {
-    files = readdirSync(STORIES_DIR).filter((file) => file.endsWith(".md"));
-  } catch {
-    seedSkip("StoryScenario", `directory not found: ${STORIES_DIR}`);
-    return;
-  }
-
+  // ── Step 2: Seed each StoryScenario ────────────────────────────────────────
   let created = 0;
+  let updated = 0;
+  let skipped = 0;
 
-  for (const file of files) {
-    const parsed = parseFrontmatter(readFileSync(resolve(STORIES_DIR, file), "utf-8"));
-    if (!parsed?.metadata.chủ_đề || !parsed.metadata.tiêu_đề) {
-      console.warn(`    ⚠ Missing story metadata in ${file} — skipping`);
-      continue;
-    }
-
+  for (const scenario of STORY_SCENARIOS) {
+    // Lookup topic by exact title
     const topic = await prisma.topic.findFirst({
-      where: {
-        OR: [
-          { title: { contains: parsed.metadata.chủ_đề } },
-          { category: { contains: parsed.metadata.chủ_đề } },
-        ],
-      },
+      where: { title: scenario.topicTitle },
     });
 
     if (!topic) {
-      console.warn(`    ⚠ No topic found for story "${parsed.metadata.tiêu_đề}" — skipping`);
+      console.warn(
+        `    ⚠ Topic not found: "${scenario.topicTitle}" — skipping story "${scenario.title}"`,
+      );
+      skipped++;
       continue;
     }
 
-    const choices = parseChoices(parsed.body);
-    const consequenceBlocks = parseConsequenceBlocks(parsed.body);
-
-    await prisma.storyScenario.create({
-      data: {
-        topicId: topic.id,
-        title: parsed.metadata.tiêu_đề,
-        description: extractSection(parsed.body, "Tình huống"),
-        characterRole: parsed.metadata.nhân_vật ?? null,
-        historicalContext: parsed.metadata.bối_cảnh_lịch_sử ?? null,
-        difficulty: mapDifficulty(parsed.metadata.độ_khó ?? "Dễ"),
-        choices: {
-          create: choices.map((choice, index) => {
-            const block = consequenceBlocks[index] ?? "";
-            return {
-              choiceText: choice.title,
-              reasoningPrompt: choice.reasoningPrompt ?? null,
-              consequences: {
-                create: {
-                  resultText: extractBoldSection(block, "Kết quả") ?? "",
-                  ethicalAnalysis: extractBoldSection(block, "Phân tích đạo đức") ?? null,
-                  philosophicalAnalysis: extractPhilosophicalAnalysis(block) ?? null,
-                  politicalEconomicAnalysis:
-                    extractBoldSection(block, "Phân tích chính trị - xã hội") ?? null,
-                  historicalImpact: extractBoldSection(block, "Bối cảnh lịch sử") ?? null,
-                },
-              },
-            };
-          }),
-        },
-      },
+    // Upsert the StoryScenario by title
+    const existingStory = await prisma.storyScenario.findFirst({
+      where: { title: scenario.title },
     });
 
-    created++;
+    let storyId: string;
+
+    if (existingStory) {
+      // Update metadata but preserve id
+      await prisma.storyScenario.update({
+        where: { id: existingStory.id },
+        data: {
+          topicId: topic.id,
+          description: scenario.description,
+          characterRole: scenario.characterRole ?? null,
+          historicalContext: scenario.historicalContext ?? null,
+          difficulty: scenario.difficulty,
+        },
+      });
+      storyId = existingStory.id;
+      updated++;
+    } else {
+      const newStory = await prisma.storyScenario.create({
+        data: {
+          topicId: topic.id,
+          title: scenario.title,
+          description: scenario.description,
+          characterRole: scenario.characterRole ?? null,
+          historicalContext: scenario.historicalContext ?? null,
+          difficulty: scenario.difficulty,
+        },
+      });
+      storyId = newStory.id;
+      created++;
+    }
+
+    // ── Step 3: Upsert LearnCards (by storyId + order) ─────────────────────
+    for (const card of scenario.learnCards) {
+      const existingCard = await prisma.storyLearnCard.findFirst({
+        where: { storyId, order: card.order },
+      });
+
+      let cardId: string;
+
+      if (existingCard) {
+        await prisma.storyLearnCard.update({
+          where: { id: existingCard.id },
+          data: {
+            title: card.title,
+            body: card.body,
+            sourceRef: card.sourceRef ?? null,
+          },
+        });
+        cardId = existingCard.id;
+      } else {
+        const newCard = await prisma.storyLearnCard.create({
+          data: {
+            storyId,
+            title: card.title,
+            body: card.body,
+            sourceRef: card.sourceRef ?? null,
+            order: card.order,
+          },
+        });
+        cardId = newCard.id;
+      }
+
+      // Upsert tags for this card
+      for (const tagName of card.tags) {
+        const tagId = tagMap.get(tagName);
+        if (!tagId) {
+          console.warn(`    ⚠ Tag not found: "${tagName}" — skipping tag on card "${card.title}"`);
+          continue;
+        }
+        await prisma.storyLearnCardTag.upsert({
+          where: { cardId_tagId: { cardId, tagId } },
+          update: {},
+          create: { cardId, tagId },
+        });
+      }
+    }
+
+    // ── Step 4: Re-seed Choices + Consequences + AnalysisTabs ──────────────
+    // Strategy: delete existing choices for this story and recreate
+    // This is safe because choices have no user-generated data in seed context
+    await prisma.storyChoice.deleteMany({ where: { storyId } });
+
+    for (const choice of scenario.choices) {
+      const newChoice = await prisma.storyChoice.create({
+        data: {
+          storyId,
+          choiceText: choice.choiceText,
+          reasoningPrompt: choice.reasoningPrompt ?? null,
+        },
+      });
+
+      // Create the single consequence for this choice
+      const newConsequence = await prisma.storyConsequence.create({
+        data: {
+          choiceId: newChoice.id,
+          resultText: choice.consequence.resultText,
+          ethicalAnalysis: choice.consequence.ethicalAnalysis ?? null,
+          philosophicalAnalysis: choice.consequence.philosophicalAnalysis ?? null,
+          politicalEconomicAnalysis: choice.consequence.politicalEconomicAnalysis ?? null,
+          historicalImpact: choice.consequence.historicalImpact ?? null,
+        },
+      });
+
+      // Create AnalysisTabs for this consequence
+      // unique constraint: (consequenceId, tabType) — use upsert
+      for (const tab of choice.consequence.analysisTabs) {
+        await prisma.analysisTab.upsert({
+          where: {
+            consequenceId_tabType: {
+              consequenceId: newConsequence.id,
+              tabType: tab.tabType,
+            },
+          },
+          update: { content: tab.content, order: tab.order },
+          create: {
+            consequenceId: newConsequence.id,
+            tabType: tab.tabType,
+            content: tab.content,
+            order: tab.order,
+          },
+        });
+      }
+    }
   }
 
-  seedLog("StoryScenario", created);
+  // ── Summary ────────────────────────────────────────────────────────────────
+  const totalStories = created + updated;
+  if (totalStories > 0) {
+    seedLog("StoryScenario", totalStories);
+    if (created > 0) console.log(`    → ${created} created, ${updated} updated`);
+  }
+  if (skipped > 0) {
+    seedSkip("StoryScenario", `${skipped} skipped (topic not found)`);
+  }
+  seedLog("PhilosophyTag", tagMap.size);
 }

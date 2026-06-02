@@ -6,7 +6,34 @@
 - State: open
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:09Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @NTA1210
+- Updated at: 2026-06-01T05:31:40Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #33 / `T-A17`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #33 |
+| Task ID | T-A17 |
+| Title | Activity logging service + streak tracking |
+| State | open |
+| Local log path | `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md` |
+
+## Issue Body
 
 # T-A17: Activity logging service + streak tracking
 
@@ -149,5 +176,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #33 for `T-A17`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #33 for `T-A17`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md`.

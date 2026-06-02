@@ -8,18 +8,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #101 |
-| Track | G: Polish & Gamification |
-| Nhóm | All |
-| Loại việc | frontend |
-| Priority | low |
-| Owner gợi ý | Any Dev |
-| Assignee hiện tại | @kangdev03 |
-| Estimate | 3h |
-| Milestone | Week 6 |
-| Dependencies | `T-A16`, `T-B16` |
+| Thuộc tính        | Giá trị                  |
+| ----------------- | ------------------------ |
+| GitHub issue      | #101                     |
+| Track             | G: Polish & Gamification |
+| Nhóm              | All                      |
+| Loại việc         | frontend                 |
+| Priority          | low                      |
+| Owner gợi ý       | Any Dev                  |
+| Assignee hiện tại | @kangdev03               |
+| Estimate          | 3h                       |
+| Milestone         | Week 6                   |
+| Dependencies      | `T-A16`, `T-B16`         |
 
 ## 3. Requirement cụ thể
 
@@ -31,11 +31,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/notifications` từ tab/card/link phù hợp | Render màn hình chính của Badge gallery + earn notifications (frontend) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                | Kết quả bắt buộc                                                        |
+| ------------ | -------------------------------------------------- | ----------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/notifications` từ tab/card/link phù hợp | Render màn hình chính của Badge gallery + earn notifications (frontend) |
+| Action chính | Bấm CTA/item chính                                 | Thực hiện submit/navigate/update state theo domain                      |
 
 ## 4. Flow tích hợp
 

@@ -6,7 +6,34 @@
 - State: open
 - Track: F - Scenario & Debate
 - Type: testing
-- Updated at: 2026-05-31T15:54:13Z
+- Priority: low
+- Milestone: Week 7
+- Assignees: @Ngoclee123
+- Updated at: 2026-06-01T05:30:31Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #100 / `T-F08`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #100 |
+| Task ID | T-F08 |
+| Title | Scenario + Debate integration tests |
+| State | open |
+| Local log path | `issues/by-github-id/#100-T-F08-Scenario + Debate integration tests.md` |
+
+## Issue Body
 
 # T-F08: Scenario + Debate integration tests
 
@@ -140,5 +167,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #100 for `T-F08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#100-T-F08-Scenario + Debate integration tests.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #100 for `T-F08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#100-T-F08-Scenario + Debate integration tests.md`.

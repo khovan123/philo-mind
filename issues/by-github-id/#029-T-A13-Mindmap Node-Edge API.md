@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#29](https://github.com/khovan123/philo-mind/issues/29)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:06Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @linhtv1209-fudn
+- Updated at: 2026-06-01T05:31:44Z
+- Closed at: 2026-05-31T05:41:51Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #29 / `T-A13`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #29 |
+| Task ID | T-A13 |
+| Title | Mindmap Node/Edge API |
+| State | done |
+| Local log path | `issues/by-github-id/#029-T-A13-Mindmap Node-Edge API.md` |
+
+## Issue Body
 
 ## T-A13: Mindmap Node/Edge API
 
@@ -97,5 +125,4 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #29 for `T-A13`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T05:41:51Z. Local log: `issues/by-github-id/#029-T-A13-Mindmap Node-Edge API.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #29 for `T-A13`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T05:41:51Z. Local log: `issues/by-github-id/#029-T-A13-Mindmap Node-Edge API.md`.

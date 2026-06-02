@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#45](https://github.com/khovan123/philo-mind/issues/45)
-- State: open
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:22Z
+- Priority: high
+- Milestone: Week 2
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T10:22:29Z
+- Closed at: 2026-06-01T09:06:48Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #45 / `T-B07`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #45 |
+| Task ID | T-B07 |
+| Title | RTK Query API layer (baseQuery + reauth + token persistence) |
+| State | done |
+| Local log path | `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md` |
+
+## Issue Body
 
 # T-B07: RTK Query API layer (baseQuery + reauth + token persistence)
 
@@ -151,5 +179,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #45 for `T-B07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #45 for `T-B07`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md`.

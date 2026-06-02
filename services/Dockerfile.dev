@@ -21,5 +21,5 @@ RUN npx prisma generate
 
 EXPOSE 3001
 
-# Wait for DB, run migrations, then start dev server
-CMD ["sh", "-c", "npx prisma migrate dev --skip-generate 2>/dev/null || true && npm run dev"]
+# Run migrations explicitly when needed; container startup must not mutate the database.
+CMD ["npm", "run", "dev"]

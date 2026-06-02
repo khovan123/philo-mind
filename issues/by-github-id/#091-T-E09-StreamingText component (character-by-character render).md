@@ -6,7 +6,34 @@
 - State: open
 - Track: E - AI & Chat System
 - Type: frontend
-- Updated at: 2026-05-31T15:54:05Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @VinhHoang03
+- Updated at: 2026-06-01T05:30:39Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #91 / `T-E09`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #91 |
+| Task ID | T-E09 |
+| Title | StreamingText component (character-by-character render) |
+| State | open |
+| Local log path | `issues/by-github-id/#091-T-E09-StreamingText component (character-by-character render).md` |
+
+## Issue Body
 
 # T-E09: StreamingText component (character-by-character render)
 
@@ -153,5 +180,4 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #91 for `T-E09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#091-T-E09-StreamingText component (character-by-character render).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #91 for `T-E09`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#091-T-E09-StreamingText component (character-by-character render).md`.

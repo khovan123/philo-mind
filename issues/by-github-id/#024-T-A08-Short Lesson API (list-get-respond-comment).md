@@ -6,7 +6,34 @@
 - State: open
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:01Z
+- Priority: medium
+- Milestone: Week 2
+- Assignees: @linhtv1209-fudn
+- Updated at: 2026-06-01T05:31:49Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #24 / `T-A08`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #24 |
+| Task ID | T-A08 |
+| Title | Short Lesson API (list/get/respond/comment) |
+| State | open |
+| Local log path | `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md` |
+
+## Issue Body
 
 # T-A08: Short Lesson API (list/get/respond/comment)
 
@@ -154,5 +181,4 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #24 for `T-A08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #24 for `T-A08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md`.

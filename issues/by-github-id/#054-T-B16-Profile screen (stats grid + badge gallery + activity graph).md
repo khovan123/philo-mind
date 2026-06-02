@@ -6,7 +6,34 @@
 - State: open
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:30Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @anhthungye
+- Updated at: 2026-06-01T05:31:18Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #54 / `T-B16`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #54 |
+| Task ID | T-B16 |
+| Title | Profile screen (stats grid + badge gallery + activity graph) |
+| State | open |
+| Local log path | `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md` |
+
+## Issue Body
 
 # T-B16: Profile screen (stats grid + badge gallery + activity graph)
 
@@ -151,5 +178,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #54 for `T-B16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #54 for `T-B16`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md`.

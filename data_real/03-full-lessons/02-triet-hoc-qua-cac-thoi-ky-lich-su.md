@@ -16,7 +16,7 @@ Triết học không phải là một khối bất biến. Qua mỗi thời đ�
 
 **Thời Trung cổ: Triết học trở thành "nữ tì của thần học"**
 
-Từ thế kỷ V đến XV ở châu Âu, triết học kinh viện (*scholasticism*) hoàn toàn phục vụ thần học Kitô giáo. Câu hỏi triết học phải có câu trả lời phù hợp với Kinh Thánh. Lý trí phải phục tùng đức tin.
+Từ thế kỷ V đến XV ở châu Âu, triết học kinh viện (_scholasticism_) hoàn toàn phục vụ thần học Kitô giáo. Câu hỏi triết học phải có câu trả lời phù hợp với Kinh Thánh. Lý trí phải phục tùng đức tin.
 
 Đây là bước thụt lùi lớn — nhưng đồng thời cũng bảo tồn nhiều văn bản cổ đại và đặt nền móng cho tư duy logic hình thức.
 

@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { getAccessToken } from "@/stores/auth.store";
+import { getAccessToken } from "@/stores/auth.helpers";
 
 export class ApiError extends Error {
   constructor(
@@ -13,15 +13,8 @@ export class ApiError extends Error {
   }
 }
 
-const DEFAULT_API_URL = Platform.select({
-  android: "http://10.0.2.2:3001/api/v1",
-  default: "http://localhost:3001/api/v1",
-});
-
 const API_BASE_URL = (
-  process.env.EXPO_PUBLIC_API_URL?.trim() ||
-  DEFAULT_API_URL ||
-  "http://localhost:3001/api/v1"
+  process.env.EXPO_PUBLIC_API_URL?.trim() || "http://localhost:3001/api/v1"
 ).replace(/\/$/, "");
 
 const REQUEST_TIMEOUT_MS = 10000;
@@ -40,7 +33,6 @@ type ApiErrorResponse = {
     details?: unknown;
   };
 };
-
 type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 export async function apiRequest<T>(path: string, options: RequestInit = {}): Promise<T> {
@@ -80,7 +72,6 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
 
       throw new ApiError("Request failed", response.status);
     }
-
     return body.data;
   } catch (error) {
     if (error instanceof ApiError) {

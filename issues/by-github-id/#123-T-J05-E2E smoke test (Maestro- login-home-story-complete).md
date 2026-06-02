@@ -6,7 +6,34 @@
 - State: open
 - Track: J - Testing
 - Type: testing
-- Updated at: 2026-05-31T15:54:36Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:07Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #123 / `T-J05`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #123 |
+| Task ID | T-J05 |
+| Title | E2E smoke test (Maestro: login-home-story-complete) |
+| State | open |
+| Local log path | `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md` |
+
+## Issue Body
 
 # T-J05: E2E smoke test (Maestro: login-home-story-complete)
 
@@ -141,5 +168,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #123 for `T-J05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #123 for `T-J05`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md`.

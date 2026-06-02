@@ -1,5 +1,11 @@
 import { apiRequest } from "@/services/api";
-import type { ListStoriesFilters, ListStoriesResponse, StorySummary } from "@/types/story";
+import type {
+  ListStoriesFilters,
+  ListStoriesResponse,
+  StorySummary,
+  StorySession,
+  StoryDecision,
+} from "@/types/story";
 
 // ── T-D06: Story API service ──────────────────────────────────
 
@@ -44,5 +50,40 @@ export const storyService = {
    */
   async getStoryDetail(id: string): Promise<StorySummary> {
     return apiRequest<StorySummary>(`/stories/${id}`, { method: "GET" });
+  },
+
+  /**
+   * Start or resume a story session.
+   * Endpoint: POST /api/v1/stories/:storyId/sessions
+   */
+  async startSession(storyId: string): Promise<StorySession> {
+    return apiRequest<StorySession>(`/stories/${storyId}/sessions`, {
+      method: "POST",
+    });
+  },
+
+  /**
+   * Submit a decision choice in a story session.
+   * Endpoint: POST /api/v1/story-sessions/:sessionId/decide
+   */
+  async makeDecision(
+    sessionId: string,
+    choiceId: string,
+    userReason?: string,
+  ): Promise<StoryDecision> {
+    return apiRequest<StoryDecision>(`/story-sessions/${sessionId}/decide`, {
+      method: "POST",
+      body: JSON.stringify({ choiceId, userReason }),
+    });
+  },
+
+  /**
+   * Complete a story session.
+   * Endpoint: POST /api/v1/story-sessions/:sessionId/complete
+   */
+  async completeSession(sessionId: string): Promise<StorySession> {
+    return apiRequest<StorySession>(`/story-sessions/${sessionId}/complete`, {
+      method: "POST",
+    });
   },
 };

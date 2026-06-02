@@ -16,13 +16,13 @@ Các nhà triết học Hy Lạp, Ấn Độ và Trung Hoa cổ đại đã nh�
 - Heraclitus: "**Lửa** là nguyên lý của vạn vật."
 - Democritus: "Mọi thứ đều do **nguyên tử** tạo thành."
 
-Ưu điểm: đúng về mặt định hướng — thế giới vật chất, không phải thần thánh. Hạn chế: giải thích bằng trực giác và phỏng đoán, chưa có cơ sở khoa học thực nghiệm. Đây là duy vật *chất phác* — ngây thơ nhưng đúng hướng.
+Ưu điểm: đúng về mặt định hướng — thế giới vật chất, không phải thần thánh. Hạn chế: giải thích bằng trực giác và phỏng đoán, chưa có cơ sở khoa học thực nghiệm. Đây là duy vật _chất phác_ — ngây thơ nhưng đúng hướng.
 
 **Hình thức 2: Chủ nghĩa duy vật siêu hình (thế kỷ XV-XVIII)**
 
 Cách mạng khoa học tự nhiên mang lại nền tảng thực nghiệm vững chắc. Francis Bacon, Thomas Hobbes, John Locke, Denis Diderot xây dựng triết học duy vật dựa trên cơ học Newton.
 
-Đây là duy vật *khoa học* — có bằng chứng thực nghiệm, logic chặt chẽ. Nhưng nó bị ảnh hưởng nặng nề bởi cơ học cổ điển: xem thế giới như một **cỗ máy khổng lồ** — các bộ phận tĩnh tại, quan hệ nhân quả tuyến tính, sự vật cô lập với nhau.
+Đây là duy vật _khoa học_ — có bằng chứng thực nghiệm, logic chặt chẽ. Nhưng nó bị ảnh hưởng nặng nề bởi cơ học cổ điển: xem thế giới như một **cỗ máy khổng lồ** — các bộ phận tĩnh tại, quan hệ nhân quả tuyến tính, sự vật cô lập với nhau.
 
 Hạn chế: không thấy sự vận động, phát triển và mâu thuẫn bên trong sự vật. Khi đối mặt với các hiện tượng sinh học, xã hội phức tạp — phương pháp siêu hình bộc lộ giới hạn.
 

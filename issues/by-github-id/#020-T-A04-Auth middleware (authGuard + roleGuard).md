@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#20](https://github.com/khovan123/philo-mind/issues/20)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:52:57Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @khovan123, @NTA1210
+- Updated at: 2026-06-01T05:31:52Z
+- Closed at: 2026-05-29T01:13:16Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #20 / `T-A04`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #20 |
+| Task ID | T-A04 |
+| Title | Auth middleware (authGuard + roleGuard) |
+| State | done |
+| Local log path | `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md` |
+
+## Issue Body
 
 ## T-A04: Auth middleware (authGuard + roleGuard)
 
@@ -97,5 +125,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #20 for `T-A04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:13:16Z. Local log: `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #20 for `T-A04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:13:16Z. Local log: `issues/by-github-id/#020-T-A04-Auth middleware (authGuard + roleGuard).md`.

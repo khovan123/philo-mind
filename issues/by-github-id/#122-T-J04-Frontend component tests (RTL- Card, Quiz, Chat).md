@@ -6,7 +6,34 @@
 - State: open
 - Track: J - Testing
 - Type: testing
-- Updated at: 2026-05-31T15:54:35Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:08Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #122 / `T-J04`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #122 |
+| Task ID | T-J04 |
+| Title | Frontend component tests (RTL: Card, Quiz, Chat) |
+| State | open |
+| Local log path | `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md` |
+
+## Issue Body
 
 # T-J04: Frontend component tests (RTL: Card, Quiz, Chat)
 
@@ -143,5 +170,4 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #122 for `T-J04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md`.
