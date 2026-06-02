@@ -42,14 +42,14 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
 
 // Mock cache invalidator
 jest.unstable_mockModule("../middleware/cache.middleware.js", () => ({
-  invalidateCachePattern: jest.fn().mockResolvedValue(undefined as any),
+  invalidateCachePattern: (jest.fn() as any).mockResolvedValue(undefined),
   cacheMiddleware: () => (req: any, res: any, next: any) => next(),
 }));
 
 // Mock ActivityLogService to prevent DB log calls
 jest.unstable_mockModule("../services/activity-log.service.js", () => ({
   ActivityLogService: {
-    logActivity: jest.fn().mockResolvedValue({} as any),
+    logActivity: (jest.fn() as any).mockResolvedValue({}),
   },
 }));
 
@@ -142,7 +142,7 @@ describe("ScenarioService", () => {
 
       expect(result.title).toBe("Test Title");
       expect(result.userResponse).not.toBeNull();
-      expect(result.userResponse.id).toBe("response-uuid");
+      expect(result.userResponse?.id).toBe("response-uuid");
     });
 
     it("throws 404 if scenario does not exist", async () => {
