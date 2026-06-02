@@ -4,6 +4,7 @@ loại: guess-who
 mô_tả: Nhận diện các nhà tư tưởng qua gợi ý về tác phẩm, bối cảnh và đóng góp.
 chủ_đề: Điều kiện ra đời triết học Mác
 ---
+
 ### Nhân vật 1:
 
 - Gợi ý 1: Cùng Engels viết Tuyên ngôn Cộng sản năm 1848.

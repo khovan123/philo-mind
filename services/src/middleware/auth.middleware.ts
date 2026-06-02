@@ -87,3 +87,50 @@ export function roleGuard(...allowedRoles: string[]) {
     return next();
   };
 }
+
+/**
+ * Optional JWT authentication middleware.
+ * If token is provided, verifies it and attaches user to req.
+ * If not provided or invalid, continues without blocking.
+ */
+export async function optionalAuth(req: Request, res: Response, next: NextFunction) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader?.startsWith("Bearer ")) {
+      return next();
+    }
+
+    const token = authHeader.split(" ")[1];
+    if (!token) {
+      return next();
+    }
+
+    let payload: JwtPayload;
+    try {
+      payload = verifyAccessToken(token);
+    } catch {
+      return next();
+    }
+
+    // Fetch user from DB
+    const user = await prisma.user.findUnique({
+      where: { id: payload.sub },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        isActive: true,
+      },
+    });
+
+    if (user && user.isActive) {
+      req.user = user;
+      req.tokenPayload = payload;
+    }
+
+    return next();
+  } catch {
+    return next();
+  }
+}
