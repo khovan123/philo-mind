@@ -18,6 +18,7 @@ import { storySessionRouter } from "./story-session.routes.js";
 import { choiceRouter } from "./choice.routes.js";
 import { topicPerspectiveRouter } from "./topic-perspective.routes.js";
 import { miniGameRouter } from "./minigame.routes.js";
+import { scenarioRouter } from "./scenario.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -71,6 +72,7 @@ apiRouter.use("/consequences/:consequenceId/tabs", analysisTabRouter);
 apiRouter.use("/story-sessions", storySessionRouter);
 apiRouter.use("/choices", choiceRouter);
 apiRouter.use("/minigames", miniGameRouter);
+apiRouter.use("/scenarios", scenarioRouter);
 
 // TODO: Phase 1+ routes
 // apiRouter.use("/lessons", lessonRouter);
