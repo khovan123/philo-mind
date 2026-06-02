@@ -1,4 +1,4 @@
-# T-D14: Step 7: REFLECT screen (journal + completion)
+# T-D14: Step 12 (Quick Quiz) & Step 13 (Episode Complete)
 
 ## 1. Mục đích sản phẩm
 
@@ -17,52 +17,47 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 | Priority          | medium               |
 | Owner gợi ý       | Fullstack Dev        |
 | Assignee hiện tại | @dklinh05            |
-| Estimate          | 3h                   |
+| Estimate          | 4h                   |
 | Milestone         | Week 7               |
-| Dependencies      | `T-D07`              |
+| Dependencies      | `T-D13`              |
 
 ## 3. Requirement cụ thể
 
-- Screen/route đề xuất: `/story/[id]/reflect` theo Expo Router.
+- Route đề xuất: `/story/[id]/quiz` và `/story/[id]/complete`.
+- Quick Quiz: Bài trắc nghiệm ngắn 3-5 câu để củng cố kiến thức triết học vừa học.
+- Episode Complete: Màn hình hoàn thành tập câu chuyện, ghi nhận điểm số, huy hiệu, viết nhật ký phản tư (reflection journal) và chia sẻ thành tích lên mạng xã hội.
+
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
 - Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
-- Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
-- UI phải thể hiện trực tiếp các AC: Guided prompt; confetti animation.
-
-### UI/navigation contract đề xuất
-
-| Tình huống   | Người dùng thao tác                                     | Kết quả bắt buộc                                                        |
-| ------------ | ------------------------------------------------------- | ----------------------------------------------------------------------- |
-| Mở màn hình  | User vào `/story/[id]/reflect` từ tab/card/link phù hợp | Render màn hình chính của Step 7: REFLECT screen (journal + completion) |
-| Action chính | Bấm CTA/item chính                                      | Thực hiện submit/navigate/update state theo domain                      |
 
 ## 4. Flow tích hợp
 
-- Dependency trước khi nối API thật: `T-D07`.
-- User mở màn hình qua route `/story/[id]/reflect`; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
+- Dependency trước khi nối API thật: `T-D13`.
+- User mở màn hình qua route /story/[id] hoặc tương ứng; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
 - Nếu backend chưa sẵn sàng, tạo adapter/mock cùng shape với API thật để khi issue dependency merge chỉ thay data source.
 - Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #80.
 - Nếu phát hiện dependency chưa sẵn sàng, PR phải ghi rõ mock/contract tạm và điều kiện để chuyển sang integration thật.
 
 ## 5. Hành vi người dùng hoặc API cần đạt
 
-- Người dùng có thể mở màn hình tại `/story/[id]/reflect` từ tab/card/link liên quan.
+- Người dùng có thể mở màn hình tại route tương ứng từ tab/card/link liên quan.
 - Các CTA phải làm đúng hành động: mở detail, submit form, chuyển bước, quay lại danh sách hoặc mở link ngoài theo đúng ngữ cảnh.
 - Trạng thái loading/empty/error phải có UI rõ ràng, không để màn hình trắng.
 - Khi user thao tác thành công, state/store/API cache phải cập nhật để màn hình tiếp theo có dữ liệu đúng.
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] Guided prompt: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] confetti animation: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] Journal input: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] share button: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] points reward animation: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Step 7: REFLECT screen (journal + completion)** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **T-D14: Step 12 (Quick Quiz) & Step 13 (Episode Complete)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Guided prompt, confetti animation.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Journal input, share button, points reward animation.
 
 ## 8. Kiểm chứng bắt buộc
 

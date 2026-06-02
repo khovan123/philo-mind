@@ -4,6 +4,7 @@ loại: guess-who
 mô_tả: Đoán vĩ nhân đứng sau các gợi ý lịch sử. Càng dùng ít gợi ý, điểm càng cao!
 chủ_đề: Cuộc cách mạng triết học của Mác và Ăngghen
 ---
+
 ### Nhân vật 1:
 
 - Gợi ý 1: Đỉnh cao triết học cổ điển Đức, duy tâm khách quan.

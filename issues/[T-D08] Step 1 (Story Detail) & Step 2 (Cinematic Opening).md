@@ -1,4 +1,4 @@
-# T-D10: Step 3: DILEMMA screen (dramatic presentation)
+# T-D08: Step 1 (Story Detail) & Step 2 (Cinematic Opening)
 
 ## 1. Mục đích sản phẩm
 
@@ -10,59 +10,54 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 | Thuộc tính        | Giá trị              |
 | ----------------- | -------------------- |
-| GitHub issue      | #76                  |
+| GitHub issue      | #74                  |
 | Track             | D: Story Mode Engine |
 | Nhóm              | D-Frontend           |
 | Loại việc         | frontend             |
 | Priority          | medium               |
 | Owner gợi ý       | Fullstack Dev        |
 | Assignee hiện tại | @dklinh05            |
-| Estimate          | 3h                   |
+| Estimate          | 4h                   |
 | Milestone         | Week 5               |
 | Dependencies      | `T-D07`              |
 
 ## 3. Requirement cụ thể
 
-- Screen/route đề xuất: `/story/[id]/play` theo Expo Router.
+- Route đề xuất: `/story/[id]` (Story Detail) và `/story/[id]/cinematic` (Cinematic Opening).
+- Story Detail: Hiển thị tóm tắt câu chuyện, thể loại, độ khó, và nút "Start Journey".
+- Cinematic Opening: Hiển thị hoạt ảnh/text cuộn bối cảnh câu chuyện theo phong cách điện ảnh (cinematic style), tự động chuyển bước hoặc có nút "Continue" sau khi chạy xong.
+
 - Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
 - Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
-- Các action chính phải có CTA rõ ràng; click vào item liên quan điều hướng tới detail hoặc flow kế tiếp thay vì chỉ render card tĩnh.
-- UI phải thể hiện trực tiếp các AC: Stakes description; atmospheric bg.
-
-### UI/navigation contract đề xuất
-
-| Tình huống   | Người dùng thao tác                                  | Kết quả bắt buộc                                                         |
-| ------------ | ---------------------------------------------------- | ------------------------------------------------------------------------ |
-| Mở màn hình  | User vào `/story/[id]/play` từ tab/card/link phù hợp | Render màn hình chính của Step 3: DILEMMA screen (dramatic presentation) |
-| Action chính | Bấm CTA/item chính                                   | Thực hiện submit/navigate/update state theo domain                       |
 
 ## 4. Flow tích hợp
 
 - Dependency trước khi nối API thật: `T-D07`.
-- User mở màn hình qua route `/story/[id]/play`; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
+- User mở màn hình qua route /story/[id] hoặc tương ứng; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
 - Nếu backend chưa sẵn sàng, tạo adapter/mock cùng shape với API thật để khi issue dependency merge chỉ thay data source.
-- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #76.
+- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #74.
 - Nếu phát hiện dependency chưa sẵn sàng, PR phải ghi rõ mock/contract tạm và điều kiện để chuyển sang integration thật.
 
 ## 5. Hành vi người dùng hoặc API cần đạt
 
-- Người dùng có thể mở màn hình tại `/story/[id]/play` từ tab/card/link liên quan.
+- Người dùng có thể mở màn hình tại route tương ứng từ tab/card/link liên quan.
 - Các CTA phải làm đúng hành động: mở detail, submit form, chuyển bước, quay lại danh sách hoặc mở link ngoài theo đúng ngữ cảnh.
 - Trạng thái loading/empty/error phải có UI rõ ràng, không để màn hình trắng.
 - Khi user thao tác thành công, state/store/API cache phải cập nhật để màn hình tiếp theo có dữ liệu đúng.
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] Stakes description: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] atmospheric bg: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] Dark bg: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] fade-in: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] era context: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Step 3: DILEMMA screen (dramatic presentation)** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **T-D08: Step 1 (Story Detail) & Step 2 (Cinematic Opening)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Stakes description, atmospheric bg.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Dark bg, fade-in, era context.
 
 ## 8. Kiểm chứng bắt buộc
 
