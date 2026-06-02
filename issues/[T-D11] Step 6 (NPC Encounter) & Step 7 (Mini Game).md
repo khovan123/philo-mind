@@ -1,4 +1,4 @@
-# T-D16: Story flow integration test (end-to-end 7 steps)
+# T-D11: Step 6 (NPC Encounter) & Step 7 (Mini Game)
 
 ## 1. Mục đích sản phẩm
 
@@ -10,50 +10,54 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 | Thuộc tính        | Giá trị              |
 | ----------------- | -------------------- |
-| GitHub issue      | #82                  |
+| GitHub issue      | #77                  |
 | Track             | D: Story Mode Engine |
 | Nhóm              | D-Frontend           |
-| Loại việc         | testing              |
+| Loại việc         | frontend             |
 | Priority          | medium               |
 | Owner gợi ý       | Fullstack Dev        |
 | Assignee hiện tại | @dklinh05            |
-| Estimate          | 2h                   |
-| Milestone         | Week 7               |
-| Dependencies      | `T-D08..T-D14`       |
+| Estimate          | 5h                   |
+| Milestone         | Week 6               |
+| Dependencies      | `T-D10`              |
 
 ## 3. Requirement cụ thể
 
-- Test phải chạy bằng command repo/package tương ứng và không yêu cầu secret thật.
-- Scope test bao phủ: Navigate all 7 steps; verify data persistence.
-- Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
-- Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
+- Route đề xuất: `/story/[id]/encounter` và `/story/[id]/minigame`.
+- NPC Encounter: Cuộc gặp gỡ với NPC, hiển thị bối cảnh đối thoại, các lựa chọn đối thoại mang tính đạo đức/triết học.
+- Mini Game (Clue Challenge): Trò chơi giải đố nhỏ để thu thập manh mối (clues) hoặc khái niệm triết học liên quan đến bối cảnh.
+
+- Màn hình phải có đủ loading, empty, error, success và disabled/submitting state.
+- Dữ liệu lấy qua RTK Query API slice + Redux Toolkit store; chỉ dùng mock khi dependency backend chưa sẵn sàng và phải ghi rõ điểm thay bằng API thật.
 
 ## 4. Flow tích hợp
 
-- Test suite phải chạy sau khi dependency `T-D08..T-D14` có contract ổn định.
-- Flow kiểm thử nên mô phỏng hành vi người dùng/API thật thay vì chỉ snapshot implementation detail.
-- CI phải fail khi critical path bị regression.
-- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #82.
+- Dependency trước khi nối API thật: `T-D10`.
+- User mở màn hình qua route /story/[id] hoặc tương ứng; các CTA phải điều hướng tới màn hình chi tiết hoặc bước kế tiếp có data id/session id.
+- Nếu backend chưa sẵn sàng, tạo adapter/mock cùng shape với API thật để khi issue dependency merge chỉ thay data source.
+- Issue này phải được triển khai trên branch riêng và PR phải link trực tiếp tới issue #77.
 - Nếu phát hiện dependency chưa sẵn sàng, PR phải ghi rõ mock/contract tạm và điều kiện để chuyển sang integration thật.
 
 ## 5. Hành vi người dùng hoặc API cần đạt
 
-- Developer chạy test suite và thấy test fail nếu flow chính bị phá vỡ.
-- Test mô phỏng input/output hoặc thao tác người dùng thật ở mức phù hợp.
-- Test log/CI output đủ rõ để biết lỗi nằm ở validation, API contract, UI render hay navigation.
+- Người dùng có thể mở màn hình tại route tương ứng từ tab/card/link liên quan.
+- Các CTA phải làm đúng hành động: mở detail, submit form, chuyển bước, quay lại danh sách hoặc mở link ngoài theo đúng ngữ cảnh.
+- Trạng thái loading/empty/error phải có UI rõ ràng, không để màn hình trắng.
+- Khi user thao tác thành công, state/store/API cache phải cập nhật để màn hình tiếp theo có dữ liệu đúng.
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] Navigate all 7 steps: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] verify data persistence: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] Tag badges: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] glow selection: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [ ] min 20 chars: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
-- [ ] Triển khai đầy đủ UI flow **Story flow integration test (end-to-end 7 steps)** gồm loading, empty, error và interaction state phù hợp.
+- [ ] Triển khai đầy đủ UI flow **T-D11: Step 6 (NPC Encounter) & Step 7 (Mini Game)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
 - [ ] Kiểm tra layout trên kích thước màn hình chính và thêm test/smoke check cho interaction quan trọng.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Navigate all 7 steps, verify data persistence.
+- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Tag badges, glow selection, min 20 chars.
 
 ## 8. Kiểm chứng bắt buộc
 

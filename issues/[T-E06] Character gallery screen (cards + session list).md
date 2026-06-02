@@ -130,22 +130,23 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ### 11.2 Design Tokens
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `background` | `#0C0C0E` | Screen background |
-| `surface` | `#18181B` | Card backgrounds, nav bars |
-| `border` | `#27272A` | Card borders, dividers |
-| `text-primary` | `#E4E4E7` | Names, headings |
-| `text-secondary` | `#A1A1AA` | Bios, timestamps, metadata |
-| `accent` | `#D97706` | Active chip border, active tab icon |
-| `heading-font` | `Outfit` | Card names, section titles |
-| `body-font` | `Be Vietnam Pro` | Bios, list text, timestamps |
-| `card-radius` | `0.5rem (8px)` | Character cards |
-| `button-radius` | `0.25rem (4px)` | Chips, buttons |
+| Token            | Value            | Usage                               |
+| ---------------- | ---------------- | ----------------------------------- |
+| `background`     | `#0C0C0E`        | Screen background                   |
+| `surface`        | `#18181B`        | Card backgrounds, nav bars          |
+| `border`         | `#27272A`        | Card borders, dividers              |
+| `text-primary`   | `#E4E4E7`        | Names, headings                     |
+| `text-secondary` | `#A1A1AA`        | Bios, timestamps, metadata          |
+| `accent`         | `#D97706`        | Active chip border, active tab icon |
+| `heading-font`   | `Outfit`         | Card names, section titles          |
+| `body-font`      | `Be Vietnam Pro` | Bios, list text, timestamps         |
+| `card-radius`    | `0.5rem (8px)`   | Character cards                     |
+| `button-radius`  | `0.25rem (4px)`  | Chips, buttons                      |
 
 ### 11.3 Component Specifications
 
 #### Character Card
+
 - **Background**: `#18181B`
 - **Border**: `1px solid #27272A`
 - **Radius**: `0.5rem`
@@ -156,26 +157,29 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 - **Touch Feedback**: Background shifts to `#27272A` (no shadow, no elevation)
 
 #### Filter Chips
+
 - **Default**: `#27272A` bg, `#A1A1AA` text, `0.25rem` radius
 - **Active**: `1px #D97706` border, `#D97706` text
 - **Font**: Be Vietnam Pro 13px
 - **Horizontal scroll**: No wrap, gap `8px`
 
 #### Recent Sessions List
+
 - **Row**: Avatar circle (32px) + Name (Outfit 14px) + Message preview (Be Vietnam Pro 13px `#A1A1AA`) + Timestamp
 - **Divider**: `1px solid #27272A`
 - **Touch**: Row bg shifts to `#27272A`
 
 ### 11.4 Interaction States
 
-| State | Visual |
-|-------|--------|
-| Loading | Skeleton cards: `#18181B` shimmer blocks |
-| Empty | Centered icon + "Chưa có nhân vật nào" text |
-| Error | Error card with `#ffb4ab` text + retry button |
-| Success | Full grid + session list rendered |
+| State   | Visual                                        |
+| ------- | --------------------------------------------- |
+| Loading | Skeleton cards: `#18181B` shimmer blocks      |
+| Empty   | Centered icon + "Chưa có nhân vật nào" text   |
+| Error   | Error card with `#ffb4ab` text + retry button |
+| Success | Full grid + session list rendered             |
 
 ### 11.5 Design Rules (MANDATORY)
+
 - ❌ **NO** gradients, glows, or shadows
 - ❌ **NO** elevation/box-shadow
 - ✅ Use **tonal depth** (`#0C0C0E` → `#18181B` → `#27272A`) for layering
