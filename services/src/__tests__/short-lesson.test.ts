@@ -49,7 +49,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
 
 // Mock cache middleware invalidation so it does not connect to Redis during tests
 jest.unstable_mockModule("../middleware/cache.middleware.js", () => ({
-  invalidateCachePattern: jest.fn().mockResolvedValue(undefined),
+  invalidateCachePattern: (jest.fn() as any).mockResolvedValue(undefined),
 }));
 
 // Dynamic imports after module mocking is set up
