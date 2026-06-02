@@ -5,7 +5,6 @@ import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { persistor, store } from "@/stores";
 import { AuthBootstrap } from "@/navigation/AuthBootstrap";
 
-
 function AppLayout() {
   return (
     <ThemeProvider value={DarkTheme}>
