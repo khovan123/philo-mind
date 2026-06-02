@@ -28,6 +28,9 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
   let created = 0;
 
   for (const row of rows) {
+    if (!row.câu_hỏi || !row.bài_học) {
+      continue;
+    }
     const lesson = await prisma.lesson.findFirst({
       where: {
         OR: [

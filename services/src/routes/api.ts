@@ -22,6 +22,7 @@ import { storySessionRouter } from "./story-session.routes.js";
 import { choiceRouter } from "./choice.routes.js";
 import { topicPerspectiveRouter } from "./topic-perspective.routes.js";
 import { miniGameRouter } from "./minigame.routes.js";
+import { scenarioRouter } from "./scenario.routes.js";
 import { lessonRouter } from "./lesson.routes.js";
 import { shortLessonRouter } from "./short-lesson.routes.js";
 
@@ -81,5 +82,6 @@ apiRouter.use("/consequences/:consequenceId/tabs", analysisTabRouter);
 apiRouter.use("/story-sessions", storySessionRouter);
 apiRouter.use("/choices", choiceRouter);
 apiRouter.use("/minigames", miniGameRouter);
+apiRouter.use("/scenarios", scenarioRouter);
 apiRouter.use("/lessons", lessonRouter);
 apiRouter.use("/short-lessons", shortLessonRouter);
