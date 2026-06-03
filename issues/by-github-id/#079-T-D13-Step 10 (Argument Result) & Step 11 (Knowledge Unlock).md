@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #79 |
-| Task ID | T-D13 |
-| Title | Step 10 (Argument Result) & Step 11 (Knowledge Unlock) |
-| State | open |
+| Field          | Value                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| GitHub issue   | #79                                                                                        |
+| Task ID        | T-D13                                                                                      |
+| Title          | Step 10 (Argument Result) & Step 11 (Knowledge Unlock)                                     |
+| State          | open                                                                                       |
 | Local log path | `issues/by-github-id/#079-T-D13-Step 10 (Argument Result) & Step 11 (Knowledge Unlock).md` |
 
 ## Issue Body

@@ -52,6 +52,22 @@ export class StoryController {
   }
 
   /**
+   * Get detailed choices and completion stats for a single story scenario
+   */
+  async getStats(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const stats = await storyService.getStoryStats(String(id));
+      return sendSuccess(res, stats, 200);
+    } catch (err: unknown) {
+      if (err instanceof StoryError) {
+        return sendError(res, err.code, err.message, err.statusCode);
+      }
+      return next(err);
+    }
+  }
+
+  /**
    * Create a new story scenario (invalidates stories + stats cache)
    */
   async create(req: Request, res: Response, next: NextFunction) {

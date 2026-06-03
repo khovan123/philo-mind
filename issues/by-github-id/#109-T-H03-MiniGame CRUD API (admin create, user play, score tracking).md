@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #109 |
-| Task ID | T-H03 |
-| Title | MiniGame CRUD API (admin create, user play, score tracking) |
-| State | done |
+| Field          | Value                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| GitHub issue   | #109                                                                                            |
+| Task ID        | T-H03                                                                                           |
+| Title          | MiniGame CRUD API (admin create, user play, score tracking)                                     |
+| State          | done                                                                                            |
 | Local log path | `issues/by-github-id/#109-T-H03-MiniGame CRUD API (admin create, user play, score tracking).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #109 |
-| Track | H: Missing Features |
-| Nhóm | H-MiniGame |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @kangdev03 |
-| Estimate | 4h |
-| Milestone | Week 6 |
-| Dependencies | `T-A04` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #109                |
+| Track             | H: Missing Features |
+| Nhóm              | H-MiniGame          |
+| Loại việc         | backend             |
+| Priority          | medium              |
+| Owner gợi ý       | Fullstack Dev       |
+| Assignee hiện tại | @kangdev03          |
+| Estimate          | 4h                  |
+| Milestone         | Week 6              |
+| Dependencies      | `T-A04`             |
 
 ## 3. Requirement cụ thể
 
@@ -69,13 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/minigames` | query: { topicId, type? } | data: game list |
-| GET | `/api/v1/minigames/:id` | params: id | data: config JSON + assets + rules |
-| POST | `/api/v1/minigames/:id/play` | body: { answers, timeSpentSeconds } | data: score, result, leaderboardRank |
-| GET | `/api/v1/minigames/:id/leaderboard` | params: id | data: top 10 leaderboard |
-
+| Method | Endpoint                            | Input                               | Output                               |
+| ------ | ----------------------------------- | ----------------------------------- | ------------------------------------ |
+| GET    | `/api/v1/minigames`                 | query: { topicId, type? }           | data: game list                      |
+| GET    | `/api/v1/minigames/:id`             | params: id                          | data: config JSON + assets + rules   |
+| POST   | `/api/v1/minigames/:id/play`        | body: { answers, timeSpentSeconds } | data: score, result, leaderboardRank |
+| GET    | `/api/v1/minigames/:id/leaderboard` | params: id                          | data: top 10 leaderboard             |
 
 ## 4. Flow tích hợp
 

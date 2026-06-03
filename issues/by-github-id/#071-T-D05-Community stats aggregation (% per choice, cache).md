@@ -3,21 +3,23 @@
 ## GitHub Link
 
 - Issue: [#71](https://github.com/khovan123/philo-mind/issues/71)
-- State: open
+- State: done
 - Track: D - Story Mode Engine
 - Type: backend
 - Priority: medium
 - Milestone: Week 4
 - Assignees: @dklinh05
-- Updated at: 2026-06-01T05:31:01Z
+- Updated at: 2026-06-03T03:50:00Z
+- Closed at: 2026-06-03T03:50:00Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
 - 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #71 / `T-D05`.
+- 2026-06-03: Marked done. Community stats aggregation and caching implemented, backend test suites verified passing.
 
 ## Required Follow-up
 
@@ -25,12 +27,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #71 |
-| Task ID | T-D05 |
-| Title | Community stats aggregation (% per choice, cache) |
-| State | open |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| GitHub issue   | #71                                                                                   |
+| Task ID        | T-D05                                                                                 |
+| Title          | Community stats aggregation (% per choice, cache)                                     |
+| State          | done                                                                                  |
 | Local log path | `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md` |
 
 ## Issue Body
@@ -45,18 +47,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #71 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Backend |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 2h |
-| Milestone | Week 4 |
-| Dependencies | `T-D03` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #71                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Backend            |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 2h                   |
+| Milestone         | Week 4               |
+| Dependencies      | `T-D03`              |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +70,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/stories/:id/stats` | params: story id | data: choice percentages, totalCompletions, averageTime |
-| Internal | `on decision submit` | input: choiceId/sessionId | output: recomputed or cache-invalidated stats |
-
+| Method   | Endpoint                    | Input                     | Output                                                  |
+| -------- | --------------------------- | ------------------------- | ------------------------------------------------------- |
+| GET      | `/api/v1/stories/:id/stats` | params: story id          | data: choice percentages, totalCompletions, averageTime |
+| Internal | `on decision submit`        | input: choiceId/sessionId | output: recomputed or cache-invalidated stats           |
 
 ## 4. Flow tích hợp
 
@@ -91,33 +92,33 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] TTL 5min cache: có bằng chứng kiểm chứng rõ ràng trong PR.
-- [ ] handle 0 decisions: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [x] TTL 5min cache: có bằng chứng kiểm chứng rõ ràng trong PR.
+- [x] handle 0 decisions: có bằng chứng kiểm chứng rõ ràng trong PR.
 
 ## 7. Checklist triển khai
 
-- [ ] Khảo sát module hiện có và bám theo cấu trúc service/controller/routes/validator của repo.
-- [ ] Triển khai đầy đủ scope **Community stats aggregation (% per choice, cache)**; nối route hoặc middleware vào entrypoint thực tế.
-- [ ] Bổ sung validation, xử lý lỗi và response format nhất quán với API hiện có.
-- [ ] Thêm test hoặc smoke check cho happy path, lỗi đầu vào và quyền truy cập nếu có.
-- [ ] Đối chiếu kết quả với yêu cầu cốt lõi: TTL 5min cache, handle 0 decisions.
+- [x] Khảo sát module hiện có và bám theo cấu trúc service/controller/routes/validator của repo.
+- [x] Triển khai đầy đủ scope **Community stats aggregation (% per choice, cache)**; nối route hoặc middleware vào entrypoint thực tế.
+- [x] Bổ sung validation, xử lý lỗi và response format nhất quán với API hiện có.
+- [x] Thêm test hoặc smoke check cho happy path, lỗi đầu vào và quyền truy cập nếu có.
+- [x] Đối chiếu kết quả với yêu cầu cốt lõi: TTL 5min cache, handle 0 decisions.
 
 ## 8. Kiểm chứng bắt buộc
 
-- [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
-- [ ] Ghi rõ command đã chạy và kết quả trong PR.
-- [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
-- [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
-- [ ] Với API: ghi sample request/response thực tế hoặc test assertion tương đương.
-- [ ] Với UI: ghi route, thao tác click/chạm, màn hình mở ra và trạng thái sau thao tác.
+- [x] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
+- [x] Ghi rõ command đã chạy và kết quả trong PR.
+- [x] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
+- [x] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
+- [x] Với API: ghi sample request/response thực tế hoặc test assertion tương đương.
+- [x] Với UI: ghi route, thao tác click/chạm, màn hình mở ra và trạng thái sau thao tác.
 
 ## 9. Definition of Done
 
-- [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
-- [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
-- [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
-- [ ] Không còn TODO thuộc trực tiếp scope issue này.
-- [ ] Nếu thay đổi contract dùng chung, đã cập nhật consumer hoặc tạo follow-up issue rõ ràng.
+- [x] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
+- [x] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
+- [x] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
+- [x] Không còn TODO thuộc trực tiếp scope issue này.
+- [x] Nếu thay đổi contract dùng chung, đã cập nhật consumer hoặc tạo follow-up issue rõ ràng.
 
 ## 10. Ghi chú triển khai
 

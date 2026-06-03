@@ -16,7 +16,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 | Loại việc         | frontend             |
 | Priority          | medium               |
 | Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @Ngoclee123          |
+| Assignee hiện tại | @NguyenDat204          |
 | Estimate          | 5h                   |
 | Milestone         | Week 7               |
 | Dependencies      | `T-F05`              |

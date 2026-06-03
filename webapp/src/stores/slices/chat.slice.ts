@@ -69,8 +69,7 @@ const chatSlice = createSlice({
     },
     appendStreamingText: (state, action: PayloadAction<{ sessionId: string; text: string }>) => {
       const { sessionId, text } = action.payload;
-      state.streamingText[sessionId] =
-        (state.streamingText[sessionId] ?? "") + text;
+      state.streamingText[sessionId] = (state.streamingText[sessionId] ?? "") + text;
     },
     clearStreamingText: (state, action: PayloadAction<{ sessionId: string }>) => {
       delete state.streamingText[action.payload.sessionId];
