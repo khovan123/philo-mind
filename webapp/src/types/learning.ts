@@ -114,25 +114,26 @@ export interface ShortLessonDTO {
   id: string;
   topicId: string;
   title: string;
-  dilemmaContent: string;
+  hook: string;
+  insight: string;
+  conflict: string;
   stanceA: string;
   stanceB: string;
-  stanceACount: number;
-  stanceBCount: number;
+  estimatedSeconds?: number | null;
   createdAt: string;
-  updatedAt: string;
+  stats?: {
+    stanceACount: number;
+    stanceBCount: number;
+  };
 }
 
 export interface ShortLessonDetailDTO extends ShortLessonDTO {
-  topic: {
-    id: string;
-    title: string;
-  };
-  myStance?: {
+  myResponse?: {
     selectedStance: "STANCE_A" | "STANCE_B";
-    reason?: string | null;
+    comment?: string | null;
     createdAt: string;
   } | null;
+  comments?: ShortLessonCommentDTO[];
 }
 
 export interface ShortLessonCommentDTO {

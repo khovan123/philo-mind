@@ -17,6 +17,9 @@ import {
 } from "./progress-theme";
 
 const toneOrder: ProgressTone[] = ["neutral", "info", "warning", "success", "danger", "locked"];
+const toneInputRange = toneOrder.map((_, index) => index);
+const toneColors = toneOrder.map((item) => colorForTone(item));
+const toneBackgroundColors = toneOrder.map((item) => `${colorForTone(item)}24`);
 
 type StatusBadgeProps = {
   status: ProgressStatus;
@@ -45,14 +48,14 @@ export function StatusBadge({
   const badgeStyle = useAnimatedStyle(() => {
     const borderColor = interpolateColor(
       toneValue.value,
-      toneOrder.map((_, index) => index),
-      toneOrder.map((item) => colorForTone(item)),
+      toneInputRange,
+      toneColors,
     );
 
     const backgroundColor = interpolateColor(
       toneValue.value,
-      toneOrder.map((_, index) => index),
-      toneOrder.map((item) => `${colorForTone(item)}24`),
+      toneInputRange,
+      toneBackgroundColors,
     );
 
     return {
@@ -64,8 +67,8 @@ export function StatusBadge({
   const dotStyle = useAnimatedStyle(() => {
     const backgroundColor = interpolateColor(
       toneValue.value,
-      toneOrder.map((_, index) => index),
-      toneOrder.map((item) => colorForTone(item)),
+      toneInputRange,
+      toneColors,
     );
 
     return {
@@ -76,8 +79,8 @@ export function StatusBadge({
   const textStyle = useAnimatedStyle(() => {
     const color = interpolateColor(
       toneValue.value,
-      toneOrder.map((_, index) => index),
-      toneOrder.map((item) => colorForTone(item)),
+      toneInputRange,
+      toneColors,
     );
 
     return {

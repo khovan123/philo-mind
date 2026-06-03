@@ -7,7 +7,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { PrismaClient } from "../prisma/generated/client.js";
-import { QuestionType } from "../prisma/generated/client.js";
+import { ContentStatus, QuestionType } from "../prisma/generated/client.js";
 import { seedLog, seedSkip } from "./utils/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
@@ -161,6 +161,7 @@ export async function seedLessons(prisma: PrismaClient): Promise<void> {
         realLifeExample: realLifeExample || null,
         conflict: conflict || null,
         estimatedMinutes: estimatedMinutes || null,
+        status: ContentStatus.PUBLISHED,
         questions: {
           create: parsedQuestions.map((q) => ({
             question: q.question,

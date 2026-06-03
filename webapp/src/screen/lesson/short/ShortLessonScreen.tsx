@@ -1,13 +1,34 @@
-import { useRouter } from "expo-router";
-import { BarChart3, BookOpen, ChevronLeft, ChevronRight, RefreshCcw, RotateCcw } from "lucide-react-native";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import {
+  BarChart3,
+  BookOpen,
+  ChevronLeft,
+  ChevronRight,
+  RefreshCcw,
+  RotateCcw,
+} from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Animated, PanResponder, Pressable, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Animated,
+  PanResponder,
+  Pressable,
+  ScrollView,
+  View,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui";
 import { ThemedText } from "@/components/themed-text";
 
-import { lessonCards, lessonTitle, voteOptions, type ScreenState } from "@/features/lesson/short/data";
+import {
+  lessonCards,
+  lessonTitle,
+  voteOptions,
+  type ScreenState,
+  type ShortLessonCard,
+  type VoteOption,
+} from "@/features/lesson/short/data";
 import { FinishedActions } from "@/features/lesson/short/FinishedActions";
 import { LessonSwipeCard } from "@/features/lesson/short/LessonSwipeCard";
 import { ShortLessonHeader } from "@/features/lesson/short/ShortLessonHeader";
@@ -15,33 +36,68 @@ import { StateScaffold } from "@/features/lesson/short/StateScaffold";
 import { Colors, styles } from "@/features/lesson/short/ui";
 import { VoteCard } from "@/features/lesson/short/VoteCard";
 import { FinishedResult, VoteResult } from "@/features/lesson/short/VoteResult";
+import {
+  useGetShortLessonByIdQuery,
+  useListShortLessonsQuery,
+} from "@/services/rtk-api/shortLesson.api";
+import type { ShortLessonDTO } from "@/types/learning";
 
 export default function ShortLessonScreen() {
   const router = useRouter();
+  const { shortLessonId, topicId } = useLocalSearchParams<{
+    shortLessonId?: string;
+    topicId?: string;
+  }>();
   const [screenState, setScreenState] = useState<ScreenState>("loading");
   const [cardIndex, setCardIndex] = useState(0);
   const [selectedVoteId, setSelectedVoteId] = useState<string | null>(null);
   const [submittedVoteId, setSubmittedVoteId] = useState<string | null>(null);
   const [translateX] = useState(() => new Animated.Value(0));
   const [fade] = useState(() => new Animated.Value(1));
+  const { data: shortLessons = [], isLoading: isListLoading, isError: isListError } =
+    useListShortLessonsQuery({ topicId, limit: 1 }, { skip: !!shortLessonId || !topicId });
+  const resolvedShortLessonId = shortLessonId ?? shortLessons[0]?.id;
+  const {
+    data: apiShortLesson,
+    isLoading: isDetailLoading,
+    isError: isDetailError,
+    refetch,
+  } = useGetShortLessonByIdQuery(resolvedShortLessonId ?? "", { skip: !resolvedShortLessonId });
 
-  const hasCards = lessonCards.length > 0;
-  const currentCard = lessonCards[cardIndex];
-  const progress = hasCards ? (cardIndex + 1) / lessonCards.length : 0;
+  const dbLesson = apiShortLesson ?? shortLessons[0] ?? null;
+  const mappedCards = useMemo(
+    () => (dbLesson ? buildShortLessonCards(dbLesson) : lessonCards),
+    [dbLesson],
+  );
+  const mappedVoteOptions = useMemo(
+    () => (dbLesson ? buildVoteOptions(dbLesson) : voteOptions),
+    [dbLesson],
+  );
+  const resolvedTitle = dbLesson?.title ?? lessonTitle;
+
+  const hasCards = mappedCards.length > 0;
+  const currentCard = mappedCards[cardIndex];
+  const progress = hasCards ? (cardIndex + 1) / mappedCards.length : 0;
   const isVoteCard = currentCard?.type === "vote";
   const submittedOption = useMemo(
-    () => voteOptions.find((option) => option.id === submittedVoteId) ?? null,
-    [submittedVoteId],
+    () => mappedVoteOptions.find((option) => option.id === submittedVoteId) ?? null,
+    [mappedVoteOptions, submittedVoteId],
   );
-  const fallbackOption = submittedOption ?? voteOptions[2];
+  const fallbackOption = submittedOption ?? mappedVoteOptions[0];
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      setScreenState(hasCards ? "ready" : "empty");
+      if (isListError || isDetailError) {
+        setScreenState("error");
+      } else if (isListLoading || isDetailLoading) {
+        setScreenState("loading");
+      } else {
+        setScreenState(dbLesson && hasCards ? "ready" : "empty");
+      }
     }, 420);
 
     return () => clearTimeout(timeout);
-  }, [hasCards]);
+  }, [dbLesson, hasCards, isDetailError, isDetailLoading, isListError, isListLoading]);
 
   const panResponder = useMemo(
     () =>
@@ -110,7 +166,7 @@ export default function ShortLessonScreen() {
       return;
     }
 
-    if (cardIndex < lessonCards.length - 1) {
+    if (cardIndex < mappedCards.length - 1) {
       animateCardChange(cardIndex + 1);
     }
   }
@@ -136,7 +192,8 @@ export default function ShortLessonScreen() {
 
   function retry() {
     setScreenState("loading");
-    setTimeout(() => setScreenState(hasCards ? "ready" : "empty"), 320);
+    void refetch();
+    setTimeout(() => setScreenState(dbLesson && hasCards ? "ready" : "empty"), 320);
   }
 
   function restartLesson() {
@@ -150,9 +207,9 @@ export default function ShortLessonScreen() {
     return (
       <StateScaffold title={lessonTitle}>
         <ActivityIndicator color={Colors.primaryLight} size="large" />
-        <ThemedText style={styles.stateTitle}>Loading short lesson</ThemedText>
+        <ThemedText style={styles.stateTitle}>Đang tải bài học ngắn</ThemedText>
         <ThemedText style={styles.stateText}>
-          Preparing cards, vote options, and progress.
+          Đang lấy thẻ bài học và lựa chọn biểu quyết từ cơ sở dữ liệu.
         </ThemedText>
       </StateScaffold>
     );
@@ -160,22 +217,22 @@ export default function ShortLessonScreen() {
 
   if (screenState === "empty") {
     return (
-      <StateScaffold title={lessonTitle}>
+      <StateScaffold title={resolvedTitle}>
         <BookOpen color={Colors.mutedText} size={34} />
-        <ThemedText style={styles.stateTitle}>No short lesson available</ThemedText>
-        <ThemedText style={styles.stateText}>This topic does not have review cards yet.</ThemedText>
-        <Button title="Back to Explore" onPress={() => router.push("/explore")} />
+        <ThemedText style={styles.stateTitle}>Chưa có bài học ngắn</ThemedText>
+        <ThemedText style={styles.stateText}>Chủ đề này chưa có dữ liệu short lesson.</ThemedText>
+        <Button title="Quay lại Khám phá" onPress={() => router.push("/explore")} />
       </StateScaffold>
     );
   }
 
   if (screenState === "error") {
     return (
-      <StateScaffold title={lessonTitle}>
+      <StateScaffold title={resolvedTitle}>
         <RefreshCcw color={Colors.danger} size={34} />
-        <ThemedText style={styles.stateTitle}>Could not load lesson</ThemedText>
-        <ThemedText style={styles.stateText}>Retry the request or return to Explore.</ThemedText>
-        <Button title="Retry" onPress={retry} />
+        <ThemedText style={styles.stateTitle}>Không tải được bài học</ThemedText>
+        <ThemedText style={styles.stateText}>Thử lại request hoặc quay về Khám phá.</ThemedText>
+        <Button title="Thử lại" onPress={retry} />
       </StateScaffold>
     );
   }
@@ -187,7 +244,7 @@ export default function ShortLessonScreen() {
           <ShortLessonHeader
             countLabel="4/4 (Done)"
             progress={1}
-            title={lessonTitle}
+            title={resolvedTitle}
             onBack={() => setScreenState("ready")}
           />
 
@@ -204,9 +261,9 @@ export default function ShortLessonScreen() {
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <View style={styles.screen}>
         <ShortLessonHeader
-          countLabel={`${cardIndex + 1}/${lessonCards.length}`}
+          countLabel={`${cardIndex + 1}/${mappedCards.length}`}
           progress={progress}
-          title={lessonTitle}
+          title={resolvedTitle}
           onBack={goPrevious}
         />
 
@@ -223,6 +280,7 @@ export default function ShortLessonScreen() {
           >
             {isVoteCard ? (
               <VoteCard
+                voteOptions={mappedVoteOptions}
                 selectedVoteId={selectedVoteId}
                 submittedVoteId={submittedVoteId}
                 onSelect={setSelectedVoteId}
@@ -241,7 +299,7 @@ export default function ShortLessonScreen() {
               style={({ pressed }) => [styles.outlineAction, pressed && styles.pressed]}
             >
               <ChevronLeft color={Colors.secondaryText} size={16} />
-              <ThemedText style={styles.outlineActionText}>Previous</ThemedText>
+              <ThemedText style={styles.outlineActionText}>Trước</ThemedText>
             </Pressable>
 
             {isVoteCard ? (
@@ -256,7 +314,7 @@ export default function ShortLessonScreen() {
                 ]}
               >
                 <ThemedText style={styles.primaryActionText}>
-                  {submittedVoteId ? "Vote Submitted" : "Submit Vote"}
+                  {submittedVoteId ? "Đã gửi lựa chọn" : "Gửi lựa chọn"}
                 </ThemedText>
                 <BarChart3 color={Colors.buttonText} size={16} />
               </Pressable>
@@ -266,7 +324,7 @@ export default function ShortLessonScreen() {
                 onPress={goNext}
                 style={({ pressed }) => [styles.primaryAction, pressed && styles.pressed]}
               >
-                <ThemedText style={styles.primaryActionText}>Next</ThemedText>
+                <ThemedText style={styles.primaryActionText}>Tiếp</ThemedText>
                 <ChevronRight color={Colors.buttonText} size={16} />
               </Pressable>
             )}
@@ -280,7 +338,7 @@ export default function ShortLessonScreen() {
                 style={({ pressed }) => [styles.outlineAction, pressed && styles.pressed]}
               >
                 <RotateCcw color={Colors.secondaryText} size={16} />
-                <ThemedText style={styles.outlineActionText}>Review Again</ThemedText>
+                <ThemedText style={styles.outlineActionText}>Xem lại</ThemedText>
               </Pressable>
 
               <Pressable
@@ -288,7 +346,7 @@ export default function ShortLessonScreen() {
                 onPress={() => setScreenState("finished")}
                 style={({ pressed }) => [styles.primaryAction, pressed && styles.pressed]}
               >
-                <ThemedText style={styles.primaryActionText}>Next Actions</ThemedText>
+                <ThemedText style={styles.primaryActionText}>Hành động tiếp</ThemedText>
                 <ChevronRight color={Colors.buttonText} size={16} />
               </Pressable>
             </View>
@@ -297,4 +355,77 @@ export default function ShortLessonScreen() {
       </View>
     </SafeAreaView>
   );
+}
+
+const cardImages = [
+  "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1528722828814-77b9b83aafb2?auto=format&fit=crop&w=900&q=80",
+];
+
+function buildShortLessonCards(lesson: ShortLessonDTO): ShortLessonCard[] {
+  return [
+    {
+      id: `${lesson.id}-hook`,
+      type: "hook",
+      eyebrow: "MỞ ĐẦU",
+      title: lesson.title,
+      body: lesson.hook,
+      concept: "Hook",
+      image: cardImages[0],
+    },
+    {
+      id: `${lesson.id}-insight`,
+      type: "insight",
+      eyebrow: "NHẬN THỨC",
+      title: "Điểm chính",
+      body: lesson.insight,
+      concept: "Khái niệm",
+      conceptLabel: "Nội dung cốt lõi",
+      image: cardImages[1],
+    },
+    {
+      id: `${lesson.id}-conflict`,
+      type: "conflict",
+      eyebrow: "MÂU THUẪN",
+      title: "Vấn đề cần suy nghĩ",
+      body: lesson.conflict,
+      concept: "Tranh luận",
+      conceptLabel: "Điểm căng thẳng",
+      image: cardImages[2],
+    },
+    {
+      id: `${lesson.id}-vote`,
+      type: "vote",
+      eyebrow: "BÌNH CHỌN",
+      title: "Bạn nghiêng về quan điểm nào?",
+      body: "Chọn lập trường phù hợp nhất với suy nghĩ hiện tại của bạn.",
+      concept: "Phản tư",
+      image: cardImages[3],
+    },
+  ];
+}
+
+function buildVoteOptions(lesson: ShortLessonDTO): VoteOption[] {
+  const stanceACount = lesson.stats?.stanceACount ?? 0;
+  const stanceBCount = lesson.stats?.stanceBCount ?? 0;
+  const total = Math.max(stanceACount + stanceBCount, 1);
+  const percentA = Math.round((stanceACount / total) * 100);
+  const percentB = Math.max(0, 100 - percentA);
+
+  return [
+    {
+      id: "STANCE_A",
+      label: lesson.stanceA,
+      percent: percentA,
+      explanation: "Quan điểm này nhấn mạnh khả năng chủ động định hình thế giới quan.",
+    },
+    {
+      id: "STANCE_B",
+      label: lesson.stanceB,
+      percent: percentB,
+      explanation: "Quan điểm này nhấn mạnh ảnh hưởng của hoàn cảnh, lịch sử và xã hội.",
+    },
+  ];
 }

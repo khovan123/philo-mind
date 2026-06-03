@@ -10,10 +10,12 @@ import { QuizFilters } from "@/features/quiz/QuizFilters";
 import { QuizListEmpty } from "@/features/quiz/QuizListEmpty";
 import { QuizListStats } from "@/features/quiz/QuizListStats";
 import { QuizSearchBox } from "@/features/quiz/QuizSearchBox";
-import { quizSummaries, type QuizSummary } from "@/features/quiz/mock";
+import { quizSummaries } from "@/features/quiz/mock";
+import type { QuizSummary } from "@/features/quiz/types";
 import { quizStyles as styles } from "@/features/quiz/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
+import { useListQuizzesQuery } from "@/services/rtk-api/quiz.api";
 
 const filters = ["All", "Philosophy", "History", "Ethics", "Politics", "Completed"];
 
@@ -22,10 +24,15 @@ export default function LearnScreen() {
   const theme = useTheme();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState(filters[0]);
+  const { data: apiQuizzes, isLoading, isError, refetch } = useListQuizzesQuery({
+    search: query || undefined,
+    status: activeFilter === "Completed" ? "completed" : undefined,
+  });
+  const quizzes = apiQuizzes && apiQuizzes.length > 0 ? apiQuizzes : quizSummaries;
 
   const filteredQuizzes = useMemo(
-    () => quizSummaries.filter((quiz) => matchesQuiz(quiz, query, activeFilter)),
-    [activeFilter, query],
+    () => quizzes.filter((quiz) => matchesQuiz(quiz, query, activeFilter)),
+    [activeFilter, query, quizzes],
   );
 
   function openQuiz(quiz: QuizSummary) {
@@ -106,6 +113,16 @@ export default function LearnScreen() {
           </Pressable>
 
           <QuizListStats />
+          {isError ? (
+            <Pressable onPress={() => refetch()} style={styles.outlineButton}>
+              <ThemedText style={styles.outlineButtonText}>
+                API quiz chÆ°a sáºµn sÃ ng, Ä‘ang hiá»ƒn thá»‹ dá»¯ liá»‡u dá»± phÃ²ng
+              </ThemedText>
+            </Pressable>
+          ) : null}
+          {isLoading ? (
+            <ThemedText style={styles.cardText}>Loading quizzes from API...</ThemedText>
+          ) : null}
           <QuizSearchBox value={query} onChange={setQuery} />
           <QuizFilters filters={filters} activeFilter={activeFilter} onChange={setActiveFilter} />
 
