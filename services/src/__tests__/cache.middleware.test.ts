@@ -13,10 +13,10 @@ jest.unstable_mockModule("../config/env.js", () => ({
   },
 }));
 
-const mockIsConnected = jest.fn();
-const mockGet = jest.fn();
-const mockSet = jest.fn();
-const mockDelPattern = jest.fn();
+const mockIsConnected = jest.fn() as any;
+const mockGet = jest.fn() as any;
+const mockSet = jest.fn() as any;
+const mockDelPattern = jest.fn() as any;
 
 jest.unstable_mockModule("../services/redis.service.js", () => ({
   redis: {
