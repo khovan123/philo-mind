@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                          |
-| -------------- | ------------------------------------------------------------------------------ |
-| GitHub issue   | #33                                                                            |
-| Task ID        | T-A17                                                                          |
-| Title          | Activity logging service + streak tracking                                     |
-| State          | open                                                                           |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #33 |
+| Task ID | T-A17 |
+| Title | Activity logging service + streak tracking |
+| State | open |
 | Local log path | `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị         |
-| ----------------- | --------------- |
-| GitHub issue      | #33             |
-| Track             | A: Backend Core |
-| Nhóm              | A-Platform APIs |
-| Loại việc         | backend         |
-| Priority          | medium          |
-| Owner gợi ý       | Backend Dev     |
-| Assignee hiện tại | @NTA1210        |
-| Estimate          | 3h              |
-| Milestone         | Week 4          |
-| Dependencies      | `T-A04`         |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #33 |
+| Track | A: Backend Core |
+| Nhóm | A-Platform APIs |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Backend Dev |
+| Assignee hiện tại | @NTA1210 |
+| Estimate | 3h |
+| Milestone | Week 4 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +68,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                  | Input                                             | Output                                             |
-| ------ | ------------------------- | ------------------------------------------------- | -------------------------------------------------- |
-| POST   | `/api/v1/activity`        | body: { type, targetType?, targetId?, metadata? } | data: activity + recalculated streak               |
-| GET    | `/api/v1/activity/me`     | query: { from, to, type? }                        | data: activity list + daily aggregates             |
-| GET    | `/api/v1/activity/streak` | auth user                                         | data: currentStreak, longestStreak, lastActiveDate |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| POST | `/api/v1/activity` | body: { type, targetType?, targetId?, metadata? } | data: activity + recalculated streak |
+| GET | `/api/v1/activity/me` | query: { from, to, type? } | data: activity list + daily aggregates |
+| GET | `/api/v1/activity/streak` | auth user | data: currentStreak, longestStreak, lastActiveDate |
+
 
 ## 4. Flow tích hợp
 
