@@ -242,9 +242,7 @@ describe("DebateService", () => {
           stance: "AGREE" as any,
           content: "Content",
         }),
-      ).rejects.toThrow(
-        new DebateError("DEBATE_CLOSED", "Phiên tranh luận này đã đóng", 400),
-      );
+      ).rejects.toThrow(new DebateError("DEBATE_CLOSED", "Phiên tranh luận này đã đóng", 400));
     });
   });
 

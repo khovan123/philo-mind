@@ -106,7 +106,12 @@ export class DebateController {
       const mappedStance = this.mapStance(stance);
 
       if (!mappedStance) {
-        return sendError(res, "INVALID_STANCE", "Lập trường không hợp lệ. Chọn AGREE, DISAGREE, hoặc NEUTRAL", 400);
+        return sendError(
+          res,
+          "INVALID_STANCE",
+          "Lập trường không hợp lệ. Chọn AGREE, DISAGREE, hoặc NEUTRAL",
+          400,
+        );
       }
 
       const result = await debateService.createArgument(String(id), userId, {

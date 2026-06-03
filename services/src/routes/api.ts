@@ -88,4 +88,3 @@ apiRouter.use("/lessons", lessonRouter);
 apiRouter.use("/short-lessons", shortLessonRouter);
 apiRouter.use("/debates", debateRouter);
 apiRouter.use("/debate-arguments", debateArgumentRouter);
-

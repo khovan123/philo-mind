@@ -40,6 +40,9 @@ debateArgumentRouter.post("/:id/votes", authGuard, validate(voteArgumentSchema),
 );
 
 // POST /api/v1/debate-arguments/:id/comments — comment on an argument
-debateArgumentRouter.post("/:id/comments", authGuard, validate(createCommentSchema), (req, res, next) =>
-  debateController.createComment(req, res, next),
+debateArgumentRouter.post(
+  "/:id/comments",
+  authGuard,
+  validate(createCommentSchema),
+  (req, res, next) => debateController.createComment(req, res, next),
 );

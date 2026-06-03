@@ -57,7 +57,9 @@ export class DebateService {
     // Map counts of arguments by stance
     const debatesWithCounts = debates.map((debate) => {
       const agreeCount = debate.arguments.filter((a) => a.stance === DebateStance.AGREE).length;
-      const disagreeCount = debate.arguments.filter((a) => a.stance === DebateStance.DISAGREE).length;
+      const disagreeCount = debate.arguments.filter(
+        (a) => a.stance === DebateStance.DISAGREE,
+      ).length;
       const neutralCount = debate.arguments.filter((a) => a.stance === DebateStance.NEUTRAL).length;
 
       return {
@@ -112,10 +114,7 @@ export class DebateService {
             },
             votes: true,
           },
-          orderBy: [
-            { voteCount: "desc" },
-            { createdAt: "desc" },
-          ],
+          orderBy: [{ voteCount: "desc" }, { createdAt: "desc" }],
         },
       },
     });
@@ -202,13 +201,10 @@ export class DebateService {
 
     // 3. Log activity
     try {
-      await ActivityLogService.logActivity(
-        userId,
-        ActivityType.POST_ARGUMENT,
-        "DEBATE",
-        debateId,
-        { stance: input.stance, argumentId: argument.id },
-      );
+      await ActivityLogService.logActivity(userId, ActivityType.POST_ARGUMENT, "DEBATE", debateId, {
+        stance: input.stance,
+        argumentId: argument.id,
+      });
     } catch (error) {
       console.error("❌ Failed to log activity for posting argument:", error);
     }
@@ -267,13 +263,9 @@ export class DebateService {
 
     // 4. Log activity
     try {
-      await ActivityLogService.logActivity(
-        userId,
-        "VOTE_ARGUMENT",
-        "ARGUMENT",
-        argumentId,
-        { value },
-      );
+      await ActivityLogService.logActivity(userId, "VOTE_ARGUMENT", "ARGUMENT", argumentId, {
+        value,
+      });
     } catch (error) {
       console.error("❌ Failed to log activity for voting argument:", error);
     }
@@ -322,13 +314,9 @@ export class DebateService {
 
     // 3. Log activity
     try {
-      await ActivityLogService.logActivity(
-        userId,
-        "COMMENT_ARGUMENT",
-        "ARGUMENT",
-        argumentId,
-        { commentId: comment.id },
-      );
+      await ActivityLogService.logActivity(userId, "COMMENT_ARGUMENT", "ARGUMENT", argumentId, {
+        commentId: comment.id,
+      });
     } catch (error) {
       console.error("❌ Failed to log activity for adding comment:", error);
     }
