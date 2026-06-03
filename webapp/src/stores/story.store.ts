@@ -9,6 +9,8 @@ import {
   resetStoryStore,
   setStep as setStepAction,
   setSelectedRoleId,
+  setNpcEncounterCompleted as setNpcEncounterCompletedAction,
+  setMinigameScore as setMinigameScoreAction,
   startOrResumeSession,
   submitDecision,
 } from "./slices/story.slice";
@@ -40,6 +42,12 @@ export function useStoryStore() {
     },
     setSelectedRoleId: (roleId: string | null) => {
       dispatch(setSelectedRoleId(roleId));
+    },
+    setNpcEncounterCompleted: (completed: boolean) => {
+      dispatch(setNpcEncounterCompletedAction(completed));
+    },
+    setMinigameScore: (score: number | null) => {
+      dispatch(setMinigameScoreAction(score));
     },
     resetStore: () => {
       dispatch(resetStoryStore());
