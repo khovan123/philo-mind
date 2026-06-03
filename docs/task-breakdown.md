@@ -119,14 +119,14 @@ Track K: Admin & Settings     ██████                (T-K01 → T-K04
 
 | ID | Task | Est | Deps | AC Summary |
 |----|------|-----|------|------------|
-| T-B09 | Home screen (daily hook + continue learning + stats) | 5h | T-B02 | Greeting, pull-refresh, animated entry |
-| T-B10 | Explore screen (topic grid + search + category filter) | 4h | T-B02 | Debounced search, skeleton loading |
-| T-B11 | Full Lesson screen (markdown render + concept highlight) | 5h | T-B02 | Scroll progress, auto-save, bookmark |
-| T-B12 | Short Lesson swipe cards (hook→insight→conflict→vote) | 6h | T-B02 | TikTok-style vertical, community stats |
-| T-B13 | Quiz gameplay screen (questions + timer + result) | 5h | T-B02 | Color feedback, celebration animation |
-| T-B14 | Onboarding flow (welcome + how-it-works + interest picker) | 4h | T-B08 | 3 steps, skip option, first-launch flag |
-| T-B15 | Progress components (ProgressRing, ProgressBadge, StatusBadge) | 2h | T-B02 | Animated fill, color transitions |
-| T-B16 | Profile screen (stats grid + badge gallery + activity graph) | 5h | T-B02 | GitHub-style heatmap, settings |
+| T-B09 ✅ | Home screen (daily hook + continue learning + stats) | 5h | T-B02 | Greeting, pull-refresh, animated entry |
+| T-B10 ✅ | Explore screen (topic grid + search + category filter) | 4h | T-B02 | Debounced search, skeleton loading |
+| T-B11 ✅ | Full Lesson screen (markdown render + concept highlight) | 5h | T-B02 | Scroll progress, auto-save, bookmark |
+| T-B12 ✅ | Short Lesson swipe cards (hook→insight→conflict→vote) | 6h | T-B02 | TikTok-style vertical, community stats |
+| T-B13 ✅ | Quiz gameplay screen (questions + timer + result) | 5h | T-B02 | Color feedback, celebration animation |
+| T-B14 ✅ | Onboarding flow (welcome + how-it-works + interest picker) | 4h | T-B08 | 3 steps, skip option, first-launch flag |
+| T-B15 ✅ | Progress components (ProgressRing, ProgressBadge, StatusBadge) | 2h | T-B02 | Animated fill, color transitions |
+| T-B16 ✅ | Profile screen (stats grid + badge gallery + activity graph) | 5h | T-B02 | GitHub-style heatmap, settings |
 
 ---
 
