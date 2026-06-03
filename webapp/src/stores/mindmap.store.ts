@@ -1,3 +1,4 @@
+import { RootState } from "@/stores";
 import type { MindmapNode } from "@/types/mindmap";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
@@ -9,7 +10,7 @@ import {
 
 export function useMindmapStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.mindmap);
+  const state = useAppSelector((s: RootState) => s.mindmap);
 
   return {
     ...state,

@@ -1,3 +1,4 @@
+import { RootState } from "@/stores";
 import type { ListStoriesFilters } from "@/types/story";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import type { StoryStep } from "./slices/story.slice";
@@ -14,7 +15,7 @@ export type { StoryStep };
 
 export function useStoryStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.story);
+  const state = useAppSelector((s: RootState) => s.story);
 
   return {
     ...state,

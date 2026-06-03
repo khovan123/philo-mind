@@ -1,3 +1,4 @@
+import { RootState } from "@/stores";
 import type { BookmarkItem } from "@/types/bookmark";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import type { BookmarkFilter } from "./slices/bookmark.slice";
@@ -9,7 +10,7 @@ import {
 
 export function useBookmarkStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.bookmark);
+  const state = useAppSelector((s: RootState) => s.bookmark);
 
   return {
     ...state,

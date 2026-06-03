@@ -1,3 +1,4 @@
+import { RootState } from "@/stores";
 import type { CreateReflectionInput, ListReflectionsFilters } from "@/types/reflection";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
@@ -11,7 +12,7 @@ import {
 
 export function useReflectionStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.reflection);
+  const state = useAppSelector((s: RootState) => s.reflection);
 
   return {
     ...state,
