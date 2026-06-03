@@ -6,7 +6,34 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: frontend
-- Updated at: 2026-05-31T15:53:55Z
+- Priority: medium
+- Milestone: Week 7
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:30:50Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #81 / `T-D15`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #81 |
+| Task ID | T-D15 |
+| Title | StepProgress component (shared across all 7 steps) |
+| State | open |
+| Local log path | `issues/by-github-id/#081-T-D15-StepProgress component (shared across all 7 steps).md` |
+
+## Issue Body
 
 # T-D15: StepProgress component (shared across all 7 steps)
 
@@ -151,5 +178,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #81 for `T-D15`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#081-T-D15-StepProgress component (shared across all 7 steps).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #81 for `T-D15`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#081-T-D15-StepProgress component (shared across all 7 steps).md`.

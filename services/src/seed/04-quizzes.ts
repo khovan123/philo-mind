@@ -28,6 +28,9 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
   let created = 0;
 
   for (const row of rows) {
+    if (!row.câu_hỏi || !row.bài_học) {
+      continue;
+    }
     const lesson = await prisma.lesson.findFirst({
       where: {
         OR: [
@@ -47,6 +50,9 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
       continue;
     }
 
+    if (!row.đáp_án_đúng) {
+      continue;
+    }
     const correctLetter = row.đáp_án_đúng.trim().toUpperCase();
     const options = [
       { text: row.đáp_án_A, letter: "A" },

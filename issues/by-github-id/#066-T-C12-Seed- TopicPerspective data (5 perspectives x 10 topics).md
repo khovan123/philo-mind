@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#66](https://github.com/khovan123/philo-mind/issues/66)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:41Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T12:17:19Z
+- Closed at: 2026-06-01T12:17:19Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #66 / `T-C12`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #66 |
+| Task ID | T-C12 |
+| Title | Seed: TopicPerspective data (5 perspectives x 10 topics) |
+| State | done |
+| Local log path | `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md` |
+
+## Issue Body
 
 # T-C12: Seed: TopicPerspective data (5 perspectives x 10 topics)
 
@@ -144,5 +172,4 @@ Người học duyệt và mở đúng chủ đề triết học theo danh mục
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #66 for `T-C12`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#066-T-C12-Seed- TopicPerspective data (5 perspectives x 10 topics).md`.

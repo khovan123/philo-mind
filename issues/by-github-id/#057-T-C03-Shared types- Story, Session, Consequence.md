@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#57](https://github.com/khovan123/philo-mind/issues/57)
-- State: closed
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:32Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T05:31:15Z
+- Closed at: 2026-05-31T07:40:17Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #57 / `T-C03`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #57 |
+| Task ID | T-C03 |
+| Title | Shared types: Story, Session, Consequence |
+| State | done |
+| Local log path | `issues/by-github-id/#057-T-C03-Shared types- Story, Session, Consequence.md` |
+
+## Issue Body
 
 ## T-C03: Shared types: Story, Session, Consequence
 
@@ -100,5 +128,4 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #57 for `T-C03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:40:17Z. Local log: `issues/by-github-id/#057-T-C03-Shared types- Story, Session, Consequence.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #57 for `T-C03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T07:40:17Z. Local log: `issues/by-github-id/#057-T-C03-Shared types- Story, Session, Consequence.md`.

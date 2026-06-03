@@ -6,7 +6,34 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: frontend
-- Updated at: 2026-05-31T15:53:48Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:30:58Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #74 / `T-D08`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #74 |
+| Task ID | T-D08 |
+| Title | Step 1: INTRO screen (cinematic + character briefing) |
+| State | open |
+| Local log path | `issues/by-github-id/#074-T-D08-Step 1- INTRO screen (cinematic + character briefing).md` |
+
+## Issue Body
 
 # T-D08: Step 1: INTRO screen (cinematic + character briefing)
 
@@ -154,5 +181,4 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #74 for `T-D08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#074-T-D08-Step 1- INTRO screen (cinematic + character briefing).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #74 for `T-D08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#074-T-D08-Step 1- INTRO screen (cinematic + character briefing).md`.

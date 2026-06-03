@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#19](https://github.com/khovan123/philo-mind/issues/19)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:52:56Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @khovan123, @NTA1210
+- Updated at: 2026-06-01T05:31:53Z
+- Closed at: 2026-05-29T01:09:39Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #19 / `T-A03`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #19 |
+| Task ID | T-A03 |
+| Title | JWT Auth service (register/login/refresh/logout) |
+| State | done |
+| Local log path | `issues/by-github-id/#019-T-A03-JWT Auth service (register-login-refresh-logout).md` |
+
+## Issue Body
 
 ## T-A03: JWT Auth service (register/login/refresh/logout)
 
@@ -101,5 +129,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #19 for `T-A03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:09:39Z. Local log: `issues/by-github-id/#019-T-A03-JWT Auth service (register-login-refresh-logout).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #19 for `T-A03`. Current source-of-truth status: **DONE**. Closed at: 2026-05-29T01:09:39Z. Local log: `issues/by-github-id/#019-T-A03-JWT Auth service (register-login-refresh-logout).md`.

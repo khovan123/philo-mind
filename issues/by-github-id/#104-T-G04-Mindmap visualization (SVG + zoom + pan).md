@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#104](https://github.com/khovan123/philo-mind/issues/104)
-- State: closed
+- State: done
 - Track: G - Polish & Gamification
 - Type: frontend
-- Updated at: 2026-05-31T15:54:18Z
+- Priority: low
+- Milestone: Week 7
+- Assignees: @kangdev03
+- Updated at: 2026-06-01T05:30:26Z
+- Closed at: 2026-05-31T19:06:07Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #104 / `T-G04`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #104 |
+| Task ID | T-G04 |
+| Title | Mindmap visualization (SVG + zoom + pan) |
+| State | done |
+| Local log path | `issues/by-github-id/#104-T-G04-Mindmap visualization (SVG + zoom + pan).md` |
+
+## Issue Body
 
 # T-G04: Mindmap visualization (SVG + zoom + pan)
 
@@ -152,5 +180,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #104 for `T-G04`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T19:06:07Z. Local log: `issues/by-github-id/#104-T-G04-Mindmap visualization (SVG + zoom + pan).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #104 for `T-G04`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#104-T-G04-Mindmap visualization (SVG + zoom + pan).md`.

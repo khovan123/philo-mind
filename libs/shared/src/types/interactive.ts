@@ -67,16 +67,33 @@ export interface ScenarioResponseDTO {
   id: string;
   scenarioId: string;
   userId: string;
-  selectedDecision: string;
+  selectedDecision: string | null;
   reason: string | null;
+  initialPosition: string;
+  reasoning: string | null;
+  revisedPosition: string | null;
+  reflection: string | null;
   createdAt: string;
+  updatedAt: string;
 }
 
-export interface ScenarioAnalysisDTO {
+export interface ScenarioPerspectiveDTO {
   id: string;
   scenarioId: string;
   perspectiveType: string;
-  analysisContent: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ScenarioFrameworkDTO {
+  id: string;
+  scenarioId: string;
+  name: string;
+  description: string | null;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 // ── Debate DTOs ─────────────────────────────────────────────

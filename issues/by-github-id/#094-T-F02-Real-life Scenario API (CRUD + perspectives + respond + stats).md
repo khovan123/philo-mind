@@ -6,7 +6,34 @@
 - State: open
 - Track: F - Scenario & Debate
 - Type: backend
-- Updated at: 2026-05-31T15:54:08Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @Ngoclee123
+- Updated at: 2026-06-01T05:30:36Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #94 / `T-F02`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #94 |
+| Task ID | T-F02 |
+| Title | Real-life Scenario API (CRUD + perspectives + respond + stats) |
+| State | open |
+| Local log path | `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md` |
+
+## Issue Body
 
 # T-F02: Real-life Scenario API (CRUD + perspectives + respond + stats)
 
@@ -153,5 +180,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #94 for `T-F02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #94 for `T-F02`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md`.

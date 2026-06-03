@@ -6,7 +6,34 @@
 - State: open
 - Track: D - Story Mode Engine
 - Type: frontend
-- Updated at: 2026-05-31T15:53:51Z
+- Priority: medium
+- Milestone: Week 6
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:30:54Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #77 / `T-D11`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #77 |
+| Task ID | T-D11 |
+| Title | Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning) |
+| State | open |
+| Local log path | `issues/by-github-id/#077-T-D11-Step 4- CHOOSE screen (choice cards + philosophy tags + reasoning).md` |
+
+## Issue Body
 
 # T-D11: Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning)
 
@@ -152,5 +179,4 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #77 for `T-D11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#077-T-D11-Step 4- CHOOSE screen (choice cards + philosophy tags + reasoning).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #77 for `T-D11`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#077-T-D11-Step 4- CHOOSE screen (choice cards + philosophy tags + reasoning).md`.

@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#62](https://github.com/khovan123/philo-mind/issues/62)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
-- Updated at: 2026-05-31T15:53:37Z
+- Priority: medium
+- Milestone: Week 3
+- Assignees: @Thienhoang78
+- Updated at: 2026-06-01T09:46:01Z
+- Closed at: 2026-06-01T09:46:01Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #62 / `T-C08`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #62 |
+| Task ID | T-C08 |
+| Title | Seed: 5 AI Characters (prompts + bios) |
+| State | done |
+| Local log path | `issues/by-github-id/#062-T-C08-Seed- 5 AI Characters (prompts + bios).md` |
+
+## Issue Body
 
 # T-C08: Seed: 5 AI Characters (prompts + bios)
 
@@ -142,5 +170,4 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #62 for `T-C08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#062-T-C08-Seed- 5 AI Characters (prompts + bios).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #62 for `T-C08`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#062-T-C08-Seed- 5 AI Characters (prompts + bios).md`.

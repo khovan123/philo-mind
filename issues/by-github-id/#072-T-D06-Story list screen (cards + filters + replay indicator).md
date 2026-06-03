@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#72](https://github.com/khovan123/philo-mind/issues/72)
-- State: closed
+- State: done
 - Track: D - Story Mode Engine
 - Type: frontend
-- Updated at: 2026-05-31T15:53:47Z
+- Priority: medium
+- Milestone: Week 5
+- Assignees: @dklinh05
+- Updated at: 2026-06-01T05:31:00Z
+- Closed at: 2026-05-31T15:27:13Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #72 / `T-D06`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #72 |
+| Task ID | T-D06 |
+| Title | Story list screen (cards + filters + replay indicator) |
+| State | done |
+| Local log path | `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md` |
+
+## Issue Body
 
 # T-D06: Story list screen (cards + filters + replay indicator)
 
@@ -157,5 +185,4 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #72 for `T-D06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T15:27:13Z. Local log: `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #72 for `T-D06`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T15:27:13Z. Local log: `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md`.

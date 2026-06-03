@@ -6,7 +6,34 @@
 - State: open
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:27Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @anhthungye
+- Updated at: 2026-06-01T05:31:21Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #51 / `T-B13`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #51 |
+| Task ID | T-B13 |
+| Title | Quiz gameplay screen (questions + timer + result) |
+| State | open |
+| Local log path | `issues/by-github-id/#051-T-B13-Quiz gameplay screen (questions + timer + result).md` |
+
+## Issue Body
 
 # T-B13: Quiz gameplay screen (questions + timer + result)
 
@@ -155,5 +182,4 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #51 for `T-B13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#051-T-B13-Quiz gameplay screen (questions + timer + result).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #51 for `T-B13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#051-T-B13-Quiz gameplay screen (questions + timer + result).md`.

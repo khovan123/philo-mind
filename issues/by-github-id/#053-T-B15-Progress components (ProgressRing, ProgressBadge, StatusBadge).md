@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#53](https://github.com/khovan123/philo-mind/issues/53)
-- State: closed
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:29Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @anhthungye
+- Updated at: 2026-06-01T05:31:19Z
+- Closed at: 2026-05-30T17:13:17Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #53 / `T-B15`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #53 |
+| Task ID | T-B15 |
+| Title | Progress components (ProgressRing, ProgressBadge, StatusBadge) |
+| State | done |
+| Local log path | `issues/by-github-id/#053-T-B15-Progress components (ProgressRing, ProgressBadge, StatusBadge).md` |
+
+## Issue Body
 
 ## T-B15: Progress components (ProgressRing, ProgressBadge, StatusBadge)
 
@@ -100,5 +128,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #53 for `T-B15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:13:17Z. Local log: `issues/by-github-id/#053-T-B15-Progress components (ProgressRing, ProgressBadge, StatusBadge).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #53 for `T-B15`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T17:13:17Z. Local log: `issues/by-github-id/#053-T-B15-Progress components (ProgressRing, ProgressBadge, StatusBadge).md`.

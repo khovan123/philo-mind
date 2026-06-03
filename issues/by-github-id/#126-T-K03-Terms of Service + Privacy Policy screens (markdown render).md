@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#126](https://github.com/khovan123/philo-mind/issues/126)
-- State: open
+- State: done
 - Track: K - Admin & Settings
 - Type: frontend
-- Updated at: 2026-05-31T15:54:39Z
+- Priority: low
+- Milestone: Week 7
+- Assignees: @NguyenDat204
+- Updated at: 2026-06-01T05:30:03Z
+- Closed at: 2026-06-01T04:01:25Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #126 / `T-K03`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #126 |
+| Task ID | T-K03 |
+| Title | Terms of Service + Privacy Policy screens (markdown render) |
+| State | done |
+| Local log path | `issues/by-github-id/#126-T-K03-Terms of Service + Privacy Policy screens (markdown render).md` |
+
+## Issue Body
 
 # T-K03: Terms of Service + Privacy Policy screens (markdown render)
 
@@ -153,5 +181,4 @@ Người dùng quản lý hồ sơ, cài đặt, pháp lý và quyền riêng t�
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #126 for `T-K03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#126-T-K03-Terms of Service + Privacy Policy screens (markdown render).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #126 for `T-K03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#126-T-K03-Terms of Service + Privacy Policy screens (markdown render).md`.

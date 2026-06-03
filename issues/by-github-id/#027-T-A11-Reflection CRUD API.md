@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#27](https://github.com/khovan123/philo-mind/issues/27)
-- State: closed
+- State: done
 - Track: A - Backend Core
 - Type: backend
-- Updated at: 2026-05-31T15:53:04Z
+- Priority: medium
+- Milestone: Week 4
+- Assignees: @linhtv1209-fudn
+- Updated at: 2026-06-01T05:31:46Z
+- Closed at: 2026-05-31T11:51:34Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #27 / `T-A11`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #27 |
+| Task ID | T-A11 |
+| Title | Reflection CRUD API |
+| State | done |
+| Local log path | `issues/by-github-id/#027-T-A11-Reflection CRUD API.md` |
+
+## Issue Body
 
 ## T-A11: Reflection CRUD API
 
@@ -97,5 +125,4 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #27 for `T-A11`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:51:34Z. Local log: `issues/by-github-id/#027-T-A11-Reflection CRUD API.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #27 for `T-A11`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T11:51:34Z. Local log: `issues/by-github-id/#027-T-A11-Reflection CRUD API.md`.

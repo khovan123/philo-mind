@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#43](https://github.com/khovan123/philo-mind/issues/43)
-- State: closed
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:19Z
+- Priority: high
+- Milestone: Week 2
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T05:31:29Z
+- Closed at: 2026-05-31T06:00:29Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #43 / `T-B05`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #43 |
+| Task ID | T-B05 |
+| Title | Register screen UI (fullname/email/pass/confirm + strength) |
+| State | done |
+| Local log path | `issues/by-github-id/#043-T-B05-Register screen UI (fullname-email-pass-confirm + strength).md` |
+
+## Issue Body
 
 ## T-B05: Register screen UI (fullname/email/pass/confirm + strength)
 
@@ -103,5 +131,4 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #43 for `T-B05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T06:00:29Z. Local log: `issues/by-github-id/#043-T-B05-Register screen UI (fullname-email-pass-confirm + strength).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #43 for `T-B05`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T06:00:29Z. Local log: `issues/by-github-id/#043-T-B05-Register screen UI (fullname-email-pass-confirm + strength).md`.

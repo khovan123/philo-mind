@@ -6,7 +6,34 @@
 - State: open
 - Track: E - AI & Chat System
 - Type: backend
-- Updated at: 2026-05-31T15:53:57Z
+- Priority: high
+- Milestone: Week 4
+- Assignees: @VinhHoang03
+- Updated at: 2026-06-01T05:30:48Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #83 / `T-E01`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #83 |
+| Task ID | T-E01 |
+| Title | Gemini API service (generate + stream + rate limit) |
+| State | open |
+| Local log path | `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md` |
+
+## Issue Body
 
 # T-E01: Gemini API service (generate + stream + rate limit)
 
@@ -153,5 +180,4 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #83 for `T-E01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #83 for `T-E01`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md`.

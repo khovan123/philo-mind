@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#40](https://github.com/khovan123/philo-mind/issues/40)
-- State: closed
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
-- Updated at: 2026-05-31T15:53:16Z
+- Priority: high
+- Milestone: Week 1
+- Assignees: @thuhataplamdev
+- Updated at: 2026-06-01T05:31:33Z
+- Closed at: 2026-05-30T06:58:47Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #40 / `T-B02`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #40 |
+| Task ID | T-B02 |
+| Title | Common UI components (Button, Card, Input, Badge, Avatar) |
+| State | done |
+| Local log path | `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md` |
+
+## Issue Body
 
 ## T-B02: Common UI components (Button, Card, Input, Badge, Avatar)
 
@@ -100,5 +128,4 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #40 for `T-B02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T06:58:47Z. Local log: `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #40 for `T-B02`. Current source-of-truth status: **DONE**. Closed at: 2026-05-30T06:58:47Z. Local log: `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md`.

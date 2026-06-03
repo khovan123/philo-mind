@@ -11,6 +11,10 @@ import { moderationRouter } from "./moderation.routes.js";
 import { topicsRouter } from "./topics.routes.js";
 import { storiesRouter } from "./stories.routes.js";
 import { statsRouter } from "./stats.routes.js";
+import { aiRouter } from "./ai.routes.js";
+import { aiChatRouter } from "./ai-chat.routes.js";
+import { aiCharacterRouter } from "./ai-character.route.js";
+
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
 import { analysisTabRouter } from "./analysis-tab.routes.js";
@@ -18,6 +22,9 @@ import { storySessionRouter } from "./story-session.routes.js";
 import { choiceRouter } from "./choice.routes.js";
 import { topicPerspectiveRouter } from "./topic-perspective.routes.js";
 import { miniGameRouter } from "./minigame.routes.js";
+import { scenarioRouter } from "./scenario.routes.js";
+import { lessonRouter } from "./lesson.routes.js";
+import { shortLessonRouter } from "./short-lesson.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -64,6 +71,10 @@ apiRouter.use("/topics/:topicId/perspectives", topicPerspectiveRouter);
 apiRouter.use("/stories", storiesRouter);
 apiRouter.use("/stats", statsRouter);
 
+// AI endpoints (Gemini)
+apiRouter.use("/ai", aiRouter);
+apiRouter.use("/ai/chat", aiChatRouter);
+apiRouter.use("/ai/characters", aiCharacterRouter);
 // T-D01: Story Mode Engine — learn cards, analysis tabs, philosophy tags
 apiRouter.use("/philosophy-tags", philosophyTagRouter);
 apiRouter.use("/stories/:storyId/learn-cards", storyLearnCardRouter);
@@ -71,6 +82,6 @@ apiRouter.use("/consequences/:consequenceId/tabs", analysisTabRouter);
 apiRouter.use("/story-sessions", storySessionRouter);
 apiRouter.use("/choices", choiceRouter);
 apiRouter.use("/minigames", miniGameRouter);
-
-// TODO: Phase 1+ routes
-// apiRouter.use("/lessons", lessonRouter);
+apiRouter.use("/scenarios", scenarioRouter);
+apiRouter.use("/lessons", lessonRouter);
+apiRouter.use("/short-lessons", shortLessonRouter);

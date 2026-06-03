@@ -18,15 +18,22 @@ export function validate(schema: ZodObject<ZodRawShape>) {
       });
 
       // Replace with validated (stripped) data
-      // Note: req.query is a getter-only property in Express 5 and cannot be reassigned.
-      // Validated query data is available via res.locals.query if needed.
+      // Note: req.query is a getter-only property in Express 5 and cannot be reassigned directly.
+      // We use Object.defineProperty to shadow/override it safely on the request instance.
       const result = parsed as Record<string, unknown>;
+
+      // req.body is writable in Express — replace directly
       req.body = result.body ?? req.body;
+
       req.params = (result.params as typeof req.params) ?? req.params;
       if (result.query) {
-        res.locals.query = result.query;
+        Object.defineProperty(req, "query", {
+          value: result.query,
+          writable: true,
+          configurable: true,
+          enumerable: true,
+        });
       }
-
       return next();
     } catch (error) {
       if (error instanceof ZodError) {

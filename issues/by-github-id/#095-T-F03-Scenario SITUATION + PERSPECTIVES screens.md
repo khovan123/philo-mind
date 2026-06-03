@@ -6,7 +6,34 @@
 - State: open
 - Track: F - Scenario & Debate
 - Type: frontend
-- Updated at: 2026-05-31T15:54:09Z
+- Priority: medium
+- Milestone: Week 6
+- Assignees: @Ngoclee123
+- Updated at: 2026-06-01T05:30:35Z
+
+## Current Sprint Status
+
+- [ ] Open on GitHub. Treat this task as remaining work.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #95 / `T-F03`.
+
+## Required Follow-up
+
+- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #95 |
+| Task ID | T-F03 |
+| Title | Scenario SITUATION + PERSPECTIVES screens |
+| State | open |
+| Local log path | `issues/by-github-id/#095-T-F03-Scenario SITUATION + PERSPECTIVES screens.md` |
+
+## Issue Body
 
 # T-F03: Scenario SITUATION + PERSPECTIVES screens
 
@@ -156,5 +183,4 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #95 for `T-F03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#095-T-F03-Scenario SITUATION + PERSPECTIVES screens.md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #95 for `T-F03`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#095-T-F03-Scenario SITUATION + PERSPECTIVES screens.md`.

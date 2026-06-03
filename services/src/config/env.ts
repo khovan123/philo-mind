@@ -30,6 +30,7 @@ const envSchema = z
 
     // ─── AI / Gemini ───────────────────────────────────────────
     GEMINI_API_KEY: z.string().optional(),
+    AI_RATE_LIMIT_PER_MIN: z.coerce.number().default(10),
 
     // ─── Storage (Cloudinary / S3) ─────────────────────────────
     CLOUDINARY_CLOUD_NAME: z.string().optional(),
@@ -77,10 +78,13 @@ const parsed = envSchema.safeParse(process.env);
 if (!parsed.success) {
   console.error("❌ Invalid environment variables:");
   console.error(parsed.error.flatten().fieldErrors);
-  process.exit(1);
+  // Chỉ exit trong non-test environments
+  if (process.env.NODE_ENV !== "test") {
+    process.exit(1);
+  }
 }
 
-export const env = parsed.data;
+export const env = parsed.data!;
 
 // Re-export typed helpers
 export type Env = z.infer<typeof envSchema>;

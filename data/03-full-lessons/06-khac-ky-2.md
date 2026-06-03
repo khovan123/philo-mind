@@ -3,9 +3,10 @@ chủ_đề: Chủ nghĩa Khắc kỷ
 tiêu_đề: Amor Fati - Tình yêu định mệnh
 thời_gian_đọc: 7 phút
 ---
+
 ## Nội dung chính
 
-Nhiều người nghĩ rằng chấp nhận khó khăn chỉ là biết "nghiến răng chịu đựng". Nhưng triết gia Friedrich Nietzsche (dù không hoàn toàn là người Khắc kỷ) đã làm sống lại một khái niệm Khắc kỷ vĩ đại: **Amor Fati** – Yêu lấy định mệnh. 
+Nhiều người nghĩ rằng chấp nhận khó khăn chỉ là biết "nghiến răng chịu đựng". Nhưng triết gia Friedrich Nietzsche (dù không hoàn toàn là người Khắc kỷ) đã làm sống lại một khái niệm Khắc kỷ vĩ đại: **Amor Fati** – Yêu lấy định mệnh.
 
 Amor Fati không chỉ là sự chịu đựng thụ động (như kiểu "thôi thì kệ nó"), mà là sự **đón nhận tích cực** mọi thứ xảy ra với mình, dù đó là bất hạnh, đau đớn, mất mát hay thất bại. Thay vì ước "giá như chuyện này đừng xảy ra", người thực hành Amor Fati sẽ nói: "Điều này đã xảy ra, và nó là nguyên liệu hoàn hảo để tôi rèn giũa bản thân".
 

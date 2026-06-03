@@ -10,7 +10,7 @@ import {
   RefreshCw,
   Sparkles,
 } from "lucide-react-native";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ActivityIndicator, Animated, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/Button";
 import { ThemedText } from "@/components/themed-text";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
-import { useBookmarkStore } from "@/stores/bookmark.store";
+import { useListBookmarksQuery, useRemoveBookmarkMutation } from "@/services/rtk-api/bookmark.api";
 import { bookmarkTargetTypes, type BookmarkItem, type BookmarkTargetType } from "@/types/bookmark";
 
 type FilterType = BookmarkTargetType | "ALL";
@@ -35,22 +35,59 @@ const targetCopy: Record<BookmarkTargetType, { label: string; routeLabel: string
 export default function BookmarksScreen() {
   const router = useRouter();
   const theme = useTheme();
-  const {
-    items,
-    filter,
-    loading,
-    deletingId,
-    error,
-    successMessage,
-    load,
-    setFilter,
-    remove,
-    retry,
-  } = useBookmarkStore();
 
-  useEffect(() => {
-    load();
-  }, [load]);
+  const [filter, setFilter] = useState<FilterType>("ALL");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null);
+  const [localSuccess, setLocalSuccess] = useState<string | null>(null);
+
+  const {
+    data: items = [],
+    isLoading,
+    isFetching,
+    error: queryError,
+    refetch: retry,
+  } = useListBookmarksQuery({ targetType: filter });
+
+  const [removeBookmark] = useRemoveBookmarkMutation();
+
+  const loading = isLoading || isFetching;
+
+  const error = useMemo(() => {
+    if (localError) return localError;
+    if (!queryError) return null;
+    if ("data" in queryError) {
+      const errorData = queryError.data as { message?: string } | null;
+      return errorData?.message || "Không thể tải bookmarks";
+    }
+    return "message" in queryError ? queryError.message : "Không thể tải bookmarks";
+  }, [queryError, localError]);
+
+  const successMessage = useMemo(() => {
+    if (localSuccess) return localSuccess;
+    if (isLoading || isFetching || error) return null;
+    return items.length ? `Đã tải ${items.length} bookmark` : "Chưa có bookmark trong nhóm này";
+  }, [items, isLoading, isFetching, error, localSuccess]);
+
+  async function remove(bookmark: BookmarkItem) {
+    setDeletingId(bookmark.id);
+    setLocalError(null);
+    setLocalSuccess(null);
+    try {
+      await removeBookmark(bookmark.id).unwrap();
+      setLocalSuccess("Đã bỏ bookmark");
+    } catch (err: unknown) {
+      const errorMessage =
+        err && typeof err === "object" && "data" in err
+          ? (err.data as { message?: string })?.message
+          : err instanceof Error
+            ? err.message
+            : "Không thể bỏ bookmark";
+      setLocalError(errorMessage || "Không thể bỏ bookmark");
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   const grouped = useMemo(() => groupBookmarks(items), [items]);
   const isEmpty = !loading && !error && items.length === 0;

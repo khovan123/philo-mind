@@ -1,11 +1,11 @@
 tên,mô_tả,icon,điều_kiện
-Người mở đường,Hoàn thành bài học đầu tiên và bắt đầu hành trình triết học,🚀,complete_first_lesson
-Người giữ nhịp,Duy trì chuỗi học tập 3 ngày liên tiếp,🔥,streak_3_days
-Nhà phản tư,Viết 3 reflection journal có nội dung thực chất,📝,reflection_3
-Người hỏi sâu,Trả lời hoặc lưu 5 câu hỏi phản tư quan trọng,❓,critical_question_5
-Người kể chuyện,Hoàn thành một story scenario và xem hệ quả lựa chọn,📖,complete_story
-Nhà tranh biện,Tham gia debate bằng một lập luận có căn cứ,⚖️,debate_argument_1
-Người luyện trí,Hoàn thành 3 quiz với kết quả hợp lệ,🧠,quiz_3
-Bậc thầy mini game,Chơi mini game và đạt điểm từ 80 trở lên,🎮,minigame_score_80
-Người kết nối khái niệm,Mở và học mindmap của một chủ đề,🕸️,mindmap_view_1
-Triết gia tập sự,Hoàn thành đủ 5 loại hoạt động học tập chính,🏛️,complete_core_loop
+Khởi đầu minh triết,Thực hiện hoạt động đầu tiên của bạn trên PhiloMind,🌱,activity_count_1
+Nhà tư duy phản biện,Viết 5 bài suy ngẫm cá nhân (reflection),🧠,reflection_count_5
+Hiền triết hiếu học,Hoàn thành 5 bài học lý thuyết sâu sắc,📖,lesson_count_5
+Nhà thông thái trẻ,Vượt qua 3 bài trắc nghiệm tư duy (quiz),🏆,quiz_count_3
+Nhà lập thuyết,Đóng góp 5 lập luận sắc bén trong các cuộc tranh luận,🗣️,debate_count_5
+Người kể chuyện triết học,Tham gia quyết định kết cục cho 3 tình huống câu chuyện,🎭,story_count_3
+Chiến binh bền bỉ,Duy trì chuỗi hoạt động học tập 3 ngày liên tiếp,🔥,streak_count_3
+Bậc thầy châm ngôn,Tương tác với 10 bài học ngắn hàng ngày,💡,short_lesson_count_10
+Kẻ lữ hành tò mò,Đạt mốc 20 hoạt động bất kỳ trên hệ thống,🧭,activity_count_20
+Nhà Khắc Kỷ kiên định,Duy trì chuỗi hoạt động học tập 7 ngày liên tiếp,🛡️,streak_count_7

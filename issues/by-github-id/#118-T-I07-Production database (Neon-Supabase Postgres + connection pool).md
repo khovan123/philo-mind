@@ -3,10 +3,38 @@
 ## GitHub Link
 
 - Issue: [#118](https://github.com/khovan123/philo-mind/issues/118)
-- State: closed
+- State: done
 - Track: I - DevOps & Deploy
 - Type: devops
-- Updated at: 2026-05-31T15:54:31Z
+- Priority: medium
+- Milestone: Week 8
+- Assignees: @khovan123
+- Updated at: 2026-06-01T05:30:12Z
+- Closed at: 2026-05-31T04:46:31Z
+
+## Current Sprint Status
+
+- [x] Done on GitHub. Treat this task as complete unless reopened.
+
+## Status Log
+
+- 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #118 / `T-I07`.
+
+## Required Follow-up
+
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
+
+## Source Snapshot
+
+| Field | Value |
+| --- | --- |
+| GitHub issue | #118 |
+| Task ID | T-I07 |
+| Title | Production database (Neon/Supabase Postgres + connection pool) |
+| State | done |
+| Local log path | `issues/by-github-id/#118-T-I07-Production database (Neon-Supabase Postgres + connection pool).md` |
+
+## Issue Body
 
 ## T-I07: Production database (Neon/Supabase Postgres + connection pool)
 
@@ -99,5 +127,4 @@ _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật 
 
 ## Status Log
 
-- 2026-06-01: BMAD sprint-status sync checked GitHub issue #118 for `T-I07`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:46:31Z. Local log: `issues/by-github-id/#118-T-I07-Production database (Neon-Supabase Postgres + connection pool).md`.
-
+- 2026-05-31: BMAD sprint-status sync checked GitHub issue #118 for `T-I07`. Current source-of-truth status: **DONE**. Closed at: 2026-05-31T04:46:31Z. Local log: `issues/by-github-id/#118-T-I07-Production database (Neon-Supabase Postgres + connection pool).md`.
