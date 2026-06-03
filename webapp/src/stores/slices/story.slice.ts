@@ -16,6 +16,7 @@ export type StoryState = {
   totalStories: number;
   currentStory: StorySummary | null;
   activeSession: StorySession | null;
+  selectedRoleId: string | null;
   currentStep: StoryStep;
   loadingStories: boolean;
   loadingStoryDetail: boolean;
@@ -30,6 +31,7 @@ const initialState: StoryState = {
   totalStories: 0,
   currentStory: null,
   activeSession: null,
+  selectedRoleId: null,
   currentStep: "intro",
   loadingStories: false,
   loadingStoryDetail: false,
@@ -114,9 +116,13 @@ const storySlice = createSlice({
     setStep: (state, action: PayloadAction<StoryStep>) => {
       state.currentStep = action.payload;
     },
+    setSelectedRoleId: (state, action: PayloadAction<string | null>) => {
+      state.selectedRoleId = action.payload;
+    },
     resetStoryStore: (state) => {
       state.currentStory = null;
       state.activeSession = null;
+      state.selectedRoleId = null;
       state.currentStep = "intro";
       state.error = null;
     },
@@ -209,5 +215,6 @@ const storySlice = createSlice({
   },
 });
 
-export const { setStep, resetStoryStore, clearStoryMessages } = storySlice.actions;
+export const { setStep, resetStoryStore, clearStoryMessages, setSelectedRoleId } =
+  storySlice.actions;
 export const storyReducer = storySlice.reducer;
