@@ -44,11 +44,12 @@ export async function apiRequest<T>(path: string, options: RequestInit = {}): Pr
 
   try {
     const accessToken = getAccessToken();
+    const hasBody = options.body !== undefined && options.body !== null;
     const response = await fetch(`${API_BASE_URL}${path}`, {
       ...options,
       signal: controller.signal,
       headers: {
-        "Content-Type": "application/json",
+        ...(hasBody ? { "Content-Type": "application/json" } : {}),
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...(options.headers ?? {}),
       },

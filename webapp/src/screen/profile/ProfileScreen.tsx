@@ -22,6 +22,7 @@ import { useRouter } from "expo-router";
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { useGetProfileSummaryQuery } from "@/services/rtk-api/profile.api";
 
 const Colors = {
   background: "#0C0C0E",
@@ -75,6 +76,57 @@ const settingsItems = [
 
 export default function ProfileScreen() {
   const router = useRouter();
+  const { data: profileSummary } = useGetProfileSummaryQuery();
+
+  const profileName = profileSummary?.user.fullName ?? "Minh Dev";
+  const profileHandle = profileSummary?.user.email
+    ? `@${profileSummary.user.email.split("@")[0]}`
+    : "@minhdev";
+  const profileAvatar = profileSummary?.user.avatarUrl ?? avatarImage;
+  const visibleStats = profileSummary
+    ? [
+        {
+          label: "Streak",
+          value: `${profileSummary.stats.streakDays} ngày`,
+          icon: Flame,
+          tone: "primary",
+        },
+        {
+          label: "Điểm tư duy",
+          value: String(profileSummary.stats.points),
+          icon: Sparkles,
+          tone: "primary",
+        },
+        {
+          label: "Câu chuyện",
+          value: String(profileSummary.stats.stories),
+          icon: BookOpen,
+          tone: "text",
+        },
+      ]
+    : stats;
+  const visibleBadges =
+    profileSummary?.badges && profileSummary.badges.length > 0
+      ? profileSummary.badges.slice(0, 4).map((badge) => ({
+          title: badge.name,
+          caption: badge.isEarned
+            ? (badge.description ?? "Đã mở khóa")
+            : `${badge.progress}/${badge.target}`,
+          icon: badge.isEarned ? ShieldCheck : Sparkles,
+          unlocked: badge.isEarned,
+        }))
+      : badges;
+  const visibleActivity =
+    profileSummary?.activity.heatmap && profileSummary.activity.heatmap.length > 0
+      ? profileSummary.activity.heatmap.slice(-7).map((day) => Math.min(100, 22 + day.count * 16))
+      : activity;
+  const visibleJournals =
+    profileSummary?.reflections && profileSummary.reflections.length > 0
+      ? profileSummary.reflections.slice(0, 2).map((reflection) => ({
+          date: new Date(reflection.createdAt).toLocaleDateString("vi-VN"),
+          text: reflection.content ?? reflection.text ?? "",
+        }))
+      : journals;
 
   async function handleLogout() {
     try {
@@ -93,17 +145,17 @@ export default function ProfileScreen() {
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
           <View style={styles.profileHeader}>
             <View style={styles.avatarFrame}>
-              <Image source={avatarImage} contentFit="cover" style={styles.avatarImage} />
+              <Image source={profileAvatar} contentFit="cover" style={styles.avatarImage} />
             </View>
 
             <View style={styles.profileCopy}>
-              <ThemedText style={styles.name}>Minh Dev</ThemedText>
-              <ThemedText style={styles.handle}>@minhdev</ThemedText>
+              <ThemedText style={styles.name}>{profileName}</ThemedText>
+              <ThemedText style={styles.handle}>{profileHandle}</ThemedText>
             </View>
           </View>
 
           <View style={styles.statsCard}>
-            {stats.map((item, index) => {
+            {visibleStats.map((item, index) => {
               const Icon = item.icon;
               const isPrimary = item.tone === "primary";
 
@@ -162,7 +214,7 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.badgeGrid}>
-              {badges.map((badge) => {
+              {visibleBadges.map((badge) => {
                 const Icon = badge.icon;
 
                 return (
@@ -194,7 +246,7 @@ export default function ProfileScreen() {
 
             <View style={styles.activityCard}>
               <View style={styles.activityBars}>
-                {activity.map((height, index) => (
+                {visibleActivity.map((height, index) => (
                   <View key={`${height}-${index}`} style={styles.activityColumn}>
                     <View style={[styles.activityBar, { height }]} />
                     <ThemedText style={styles.activityDay}>
@@ -215,7 +267,7 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.journalList}>
-              {journals.map((journal) => (
+              {visibleJournals.map((journal) => (
                 <Pressable key={journal.date} style={styles.journalCard}>
                   <ThemedText style={styles.journalDate}>{journal.date}</ThemedText>
                   <ThemedText numberOfLines={2} style={styles.journalText}>
