@@ -4,16 +4,22 @@ import { Pressable, View } from "react-native";
 import { ThemedText } from "@/components/themed-text";
 import { Badge, Card } from "@/components/ui";
 
-import { voteImage, voteOptions, type VoteOption } from "./data";
+import { voteImage, type VoteOption } from "./data";
 import { styles } from "./ui";
 
 type VoteCardProps = {
+  voteOptions: VoteOption[];
   selectedVoteId: string | null;
   submittedVoteId: string | null;
   onSelect: (value: string) => void;
 };
 
-export function VoteCard({ selectedVoteId, submittedVoteId, onSelect }: VoteCardProps) {
+export function VoteCard({
+  onSelect,
+  selectedVoteId,
+  submittedVoteId,
+  voteOptions,
+}: VoteCardProps) {
   return (
     <Card style={styles.voteCard}>
       <View style={styles.voteTitleBlock}>

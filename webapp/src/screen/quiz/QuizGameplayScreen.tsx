@@ -17,6 +17,12 @@ import { getQuizByLessonId } from "@/features/quiz/mock";
 import type { FeedbackState, LoadState } from "@/features/quiz/types";
 import { QuizColors, quizStyles as styles } from "@/features/quiz/ui";
 import { formatTime } from "@/features/quiz/utils";
+import {
+  useCompleteQuizAttemptMutation,
+  useGetQuizByLessonQuery,
+  useStartQuizAttemptMutation,
+  useSubmitQuizAnswerMutation,
+} from "@/services/rtk-api/quiz.api";
 
 export default function QuizGameplayScreen() {
   const router = useRouter();
@@ -28,8 +34,19 @@ export default function QuizGameplayScreen() {
   const [correctCount, setCorrectCount] = useState(0);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
   const [resultVisible, setResultVisible] = useState(false);
+  const [attemptId, setAttemptId] = useState<string | null>(null);
 
-  const quiz = useMemo(() => getQuizByLessonId(lessonId ?? ""), [lessonId]);
+  const fallbackQuiz = useMemo(() => getQuizByLessonId(lessonId ?? ""), [lessonId]);
+  const {
+    data: apiQuiz,
+    isLoading: quizLoading,
+    isError: quizError,
+    refetch,
+  } = useGetQuizByLessonQuery(lessonId ?? "", { skip: !lessonId || lessonId === "error" });
+  const [startAttempt] = useStartQuizAttemptMutation();
+  const [submitQuizAnswer] = useSubmitQuizAnswerMutation();
+  const [completeAttempt] = useCompleteQuizAttemptMutation();
+  const quiz = apiQuiz ?? fallbackQuiz;
   const question = quiz?.questions[questionIndex];
   const progress = quiz ? (questionIndex + 1) / quiz.questions.length : 0;
   const answered = feedback !== "idle" && feedback !== "submitting";
@@ -42,12 +59,28 @@ export default function QuizGameplayScreen() {
         return;
       }
 
-      setLoadState(quiz ? "ready" : "empty");
-      setRemainingSeconds(quiz?.durationSeconds ?? 0);
+      if (quizLoading) {
+        setLoadState("loading");
+        return;
+      }
+
+      setLoadState(quiz && !quizError ? "ready" : fallbackQuiz ? "ready" : "empty");
+      setRemainingSeconds((apiQuiz ?? fallbackQuiz)?.durationSeconds ?? 0);
     }, 240);
 
     return () => clearTimeout(timeout);
-  }, [lessonId, quiz]);
+  }, [apiQuiz, fallbackQuiz, lessonId, quiz, quizError, quizLoading]);
+
+  useEffect(() => {
+    if (!quiz?.id || attemptId || loadState !== "ready") return;
+
+    startAttempt(quiz.id)
+      .unwrap()
+      .then((attempt) => setAttemptId(attempt.attemptId))
+      .catch(() => {
+        setAttemptId(null);
+      });
+  }, [attemptId, loadState, quiz?.id, startAttempt]);
 
   useEffect(() => {
     if (loadState !== "ready" || resultVisible || feedback === "timeout") {
@@ -70,6 +103,7 @@ export default function QuizGameplayScreen() {
 
   function retryLoad() {
     setLoadState("loading");
+    void refetch();
     setTimeout(() => setLoadState(quiz ? "ready" : "empty"), 260);
   }
 
@@ -79,6 +113,14 @@ export default function QuizGameplayScreen() {
     }
 
     setFeedback("submitting");
+
+    if (attemptId) {
+      void submitQuizAnswer({
+        attemptId,
+        questionId: question.id,
+        selectedOptionId,
+      }).catch(() => undefined);
+    }
 
     setTimeout(() => {
       const correct = selectedOptionId === question.correctOptionId;
@@ -93,6 +135,9 @@ export default function QuizGameplayScreen() {
     }
 
     if (questionIndex === quiz.questions.length - 1) {
+      if (attemptId) {
+        void completeAttempt(attemptId).catch(() => undefined);
+      }
       setResultVisible(true);
       return;
     }
@@ -109,6 +154,7 @@ export default function QuizGameplayScreen() {
     setCorrectCount(0);
     setResultVisible(false);
     setRemainingSeconds(quiz?.durationSeconds ?? 0);
+    setAttemptId(null);
   }
 
   if (loadState === "loading") {

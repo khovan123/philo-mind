@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk, type PayloadAction } from "@reduxjs/toolkit";
 import { bookmarkService } from "@/services/bookmark.service";
 import type { BookmarkItem, BookmarkTargetType } from "@/types/bookmark";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type BookmarkFilter = BookmarkTargetType | "ALL";
 

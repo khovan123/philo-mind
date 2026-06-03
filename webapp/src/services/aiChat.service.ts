@@ -77,7 +77,7 @@ export const aiChatService = {
     let buffer = "";
     for (const part of parts) {
       // small delay to simulate stream
-      // eslint-disable-next-line no-await-in-loop
+
       await new Promise((r) => setTimeout(r, 120));
       buffer += part;
       if (onProgress) onProgress(buffer);

@@ -1,13 +1,14 @@
 import { Image } from "expo-image";
 import { Redirect } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
-import { Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
 import { shouldShowOnboarding } from "@/lib/onboarding-state";
+import { useGetLearningDashboardQuery } from "@/services/rtk-api/learning.api";
 
 const Colors = {
   background: "#0C0C0E",
@@ -45,24 +46,53 @@ const learningItems = [
 ];
 
 export default function HomeScreen() {
+  const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
+
   if (shouldShowOnboarding()) {
     return <Redirect href="../onboarding" />;
   }
+
+  const visibleLearningItems =
+    dashboard?.continueLearning && dashboard.continueLearning.length > 0
+      ? dashboard.continueLearning.map((item) => ({
+          id: item.lessonId,
+          title: item.title,
+          subtitle: item.subtitle,
+          difficulty: item.difficulty,
+          progress: item.progress,
+          icon: Gavel,
+        }))
+      : learningItems;
+  const dailyHook = dashboard?.dailyHook;
+  const newStory = dashboard?.newStory;
+  const quote = dashboard?.quote;
 
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
         <AppHeader />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.content}
+          refreshControl={
+            <RefreshControl
+              refreshing={isFetching}
+              tintColor={Colors.primaryLight}
+              onRefresh={refetch}
+            />
+          }
+        >
           <View style={styles.streakCard}>
             <View style={styles.rowCenter}>
               <Flame color={Colors.primary} fill={Colors.primary} size={18} />
-              <ThemedText style={styles.streakText}>7 ngày liên tiếp</ThemedText>
+              <ThemedText style={styles.streakText}>
+                {dashboard?.streak.currentStreak ?? 0} ngày liên tiếp
+              </ThemedText>
             </View>
 
             <View style={styles.pointsGroup}>
-              <ThemedText style={styles.points}>342</ThemedText>
+              <ThemedText style={styles.points}>{dashboard?.points ?? 0}</ThemedText>
               <ThemedText style={styles.pointsLabel}>PTS</ThemedText>
             </View>
           </View>
@@ -72,20 +102,26 @@ export default function HomeScreen() {
             <View style={styles.imageScrim} />
             <View style={styles.hookContent}>
               <View style={styles.topicPill}>
-                <ThemedText style={styles.topicPillText}>AI VÀ ĐẠO ĐỨC</ThemedText>
+                <ThemedText style={styles.topicPillText}>
+                  {dailyHook?.topic ?? "Daily Hook"}
+                </ThemedText>
               </View>
 
               <ThemedText style={styles.hookTitle}>
-                Nếu AI có ý thức, tắt nó có phải giết người không?
+                {dailyHook?.title ?? "Chưa có daily hook từ database."}
               </ThemedText>
 
               <View style={styles.answerRow}>
                 <Pressable style={styles.primaryAnswer}>
-                  <ThemedText style={styles.primaryAnswerText}>Có, đó là giết</ThemedText>
+                  <ThemedText style={styles.primaryAnswerText}>
+                    {dailyHook?.primaryChoice ?? "Bắt đầu"}
+                  </ThemedText>
                 </Pressable>
 
                 <Pressable style={styles.secondaryAnswer}>
-                  <ThemedText style={styles.secondaryAnswerText}>Không, AI không sống</ThemedText>
+                  <ThemedText style={styles.secondaryAnswerText}>
+                    {dailyHook?.secondaryChoice ?? "Xem thêm"}
+                  </ThemedText>
                 </Pressable>
               </View>
             </View>
@@ -99,11 +135,14 @@ export default function HomeScreen() {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.learningList}
             >
-              {learningItems.map((item) => {
+              {visibleLearningItems.map((item, index) => {
                 const Icon = item.icon;
 
                 return (
-                  <Pressable key={item.title} style={styles.learningCard}>
+                  <Pressable
+                    key={(item as { id?: string }).id ?? `${item.title}-${index}`}
+                    style={styles.learningCard}
+                  >
                     <View style={styles.learningHeader}>
                       <View style={styles.learningIcon}>
                         <Icon color={Colors.primaryLight} size={16} />
@@ -135,17 +174,21 @@ export default function HomeScreen() {
 
           <View style={styles.statsGrid}>
             <View style={styles.statCard}>
-              <ThemedText style={styles.statValue}>12</ThemedText>
+              <ThemedText style={styles.statValue}>
+                {dashboard?.stats.learnedLessons ?? 12}
+              </ThemedText>
               <ThemedText style={styles.statLabel}>Bài đã học</ThemedText>
             </View>
 
             <View style={styles.statCard}>
-              <ThemedText style={styles.statValue}>4</ThemedText>
+              <ThemedText style={styles.statValue}>{dashboard?.stats.badges ?? 4}</ThemedText>
               <ThemedText style={styles.statLabel}>Huy hiệu</ThemedText>
             </View>
 
             <View style={styles.statCard}>
-              <ThemedText style={styles.statValue}>86%</ThemedText>
+              <ThemedText style={styles.statValue}>
+                {dashboard?.stats.quizAccuracy ?? 86}%
+              </ThemedText>
               <ThemedText style={styles.statLabel}>Quiz đúng</ThemedText>
             </View>
           </View>
@@ -158,15 +201,15 @@ export default function HomeScreen() {
 
               <View style={styles.storyContent}>
                 <View style={styles.storyMeta}>
-                  <ThemedText style={styles.storyBadge}>Thế kỷ XIX</ThemedText>
-                  <ThemedText style={styles.storyTime}>8 phút đọc</ThemedText>
+                  <ThemedText style={styles.storyBadge}>{newStory?.topic ?? "Story"}</ThemedText>
+                  <ThemedText style={styles.storyTime}>{newStory?.duration ?? "8 phút"}</ThemedText>
                 </View>
 
                 <ThemedText style={styles.storyTitle}>
-                  Chiến dịch Napoleon: Khát vọng và Sụp đổ
+                  {newStory?.title ?? "Chưa có câu chuyện mới"}
                 </ThemedText>
                 <ThemedText style={styles.storySubtitle} numberOfLines={1}>
-                  Bài học về quyền lực và sự vô hạn.
+                  {newStory?.subtitle ?? "Database chưa có story phù hợp."}
                 </ThemedText>
               </View>
             </Pressable>
@@ -175,10 +218,8 @@ export default function HomeScreen() {
           <View style={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
             <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>
-                Cuộc đời không được phản tỉnh là một cuộc đời không đáng sống.
-              </ThemedText>
-              <ThemedText style={styles.quoteAuthor}>- Socrates</ThemedText>
+              <ThemedText style={styles.quoteText}>{quote?.text ?? "Chưa có quote."}</ThemedText>
+              <ThemedText style={styles.quoteAuthor}>- {quote?.author ?? "PhiloMind"}</ThemedText>
             </View>
           </View>
         </ScrollView>
