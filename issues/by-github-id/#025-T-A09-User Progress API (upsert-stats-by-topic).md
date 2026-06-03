@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                         |
-| -------------- | ----------------------------------------------------------------------------- |
-| GitHub issue   | #25                                                                           |
-| Task ID        | T-A09                                                                         |
-| Title          | User Progress API (upsert/stats/by-topic)                                     |
-| State          | open                                                                          |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #25 |
+| Task ID | T-A09 |
+| Title | User Progress API (upsert/stats/by-topic) |
+| State | open |
 | Local log path | `issues/by-github-id/#025-T-A09-User Progress API (upsert-stats-by-topic).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị          |
-| ----------------- | ---------------- |
-| GitHub issue      | #25              |
-| Track             | A: Backend Core  |
-| Nhóm              | A-Content APIs   |
-| Loại việc         | backend          |
-| Priority          | medium           |
-| Owner gợi ý       | Backend Dev      |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #25 |
+| Track | A: Backend Core |
+| Nhóm | A-Content APIs |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Backend Dev |
 | Assignee hiện tại | @linhtv1209-fudn |
-| Estimate          | 3h               |
-| Milestone         | Week 3           |
-| Dependencies      | `T-A04`          |
+| Estimate | 3h |
+| Milestone | Week 3 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -68,12 +68,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint             | Input                                                                    | Output                                         |
-| ------ | -------------------- | ------------------------------------------------------------------------ | ---------------------------------------------- |
-| GET    | `/api/v1/topics`     | query: { page, limit, search, category, difficulty }                     | data: topics[]; meta: { page, limit, total }   |
-| GET    | `/api/v1/topics/:id` | params: id                                                               | data: topic detail + lesson/shortLesson counts |
-| POST   | `/api/v1/topics`     | body: { title, slug, description, category, difficulty, coverImageUrl? } | data: created topic; admin only                |
-| PATCH  | `/api/v1/topics/:id` | body: partial topic fields                                               | data: updated topic; admin only                |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/topics` | query: { page, limit, search, category, difficulty } | data: topics[]; meta: { page, limit, total } |
+| GET | `/api/v1/topics/:id` | params: id | data: topic detail + lesson/shortLesson counts |
+| POST | `/api/v1/topics` | body: { title, slug, description, category, difficulty, coverImageUrl? } | data: created topic; admin only |
+| PATCH | `/api/v1/topics/:id` | body: partial topic fields | data: updated topic; admin only |
+
 
 ## 4. Flow tích hợp
 

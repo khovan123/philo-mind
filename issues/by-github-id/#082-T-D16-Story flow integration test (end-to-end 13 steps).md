@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------- |
-| GitHub issue   | #82                                                                                   |
-| Task ID        | T-D16                                                                                 |
-| Title          | Story flow integration test (end-to-end 13 steps)                                     |
-| State          | open                                                                                  |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #82 |
+| Task ID | T-D16 |
+| Title | Story flow integration test (end-to-end 13 steps) |
+| State | open |
 | Local log path | `issues/by-github-id/#082-T-D16-Story flow integration test (end-to-end 13 steps).md` |
 
 ## Issue Body
@@ -56,7 +56,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 | Assignee hiện tại | @dklinh05            |
 | Estimate          | 3h                   |
 | Milestone         | Week 7               |
-| Dependencies      | `T-D08..T-D14`       |
+| Dependencies      | `T-D08..T-D14`              |
 
 ## 3. Requirement cụ thể
 

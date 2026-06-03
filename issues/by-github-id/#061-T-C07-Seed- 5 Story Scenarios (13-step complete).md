@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                          |
-| -------------- | ------------------------------------------------------------------------------ |
-| GitHub issue   | #61                                                                            |
-| Task ID        | T-C07                                                                          |
-| Title          | Seed: 5 Story Scenarios (13-step complete)                                     |
-| State          | open                                                                           |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #61 |
+| Task ID | T-C07 |
+| Title | Seed: 5 Story Scenarios (13-step complete) |
+| State | open |
 | Local log path | `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (13-step complete).md` |
 
 ## Issue Body
