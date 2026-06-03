@@ -46,7 +46,9 @@ export class LearningController {
         ? await ActivityLogService.getStreakDetails(userId)
         : { currentStreak: 0, longestStreak: 0, lastActive: null };
 
-      const completedLessons = progress.filter((item) => item.status === ProgressStatus.COMPLETED).length;
+      const completedLessons = progress.filter(
+        (item) => item.status === ProgressStatus.COMPLETED,
+      ).length;
       const quizStats = userId
         ? await prisma.quizAttempt.aggregate({
             where: { userId, completedAt: { not: null } },

@@ -54,8 +54,11 @@ export default function ShortLessonScreen() {
   const [submittedVoteId, setSubmittedVoteId] = useState<string | null>(null);
   const [translateX] = useState(() => new Animated.Value(0));
   const [fade] = useState(() => new Animated.Value(1));
-  const { data: shortLessons = [], isLoading: isListLoading, isError: isListError } =
-    useListShortLessonsQuery({ topicId, limit: 1 }, { skip: !!shortLessonId || !topicId });
+  const {
+    data: shortLessons = [],
+    isLoading: isListLoading,
+    isError: isListError,
+  } = useListShortLessonsQuery({ topicId, limit: 1 }, { skip: !!shortLessonId || !topicId });
   const resolvedShortLessonId = shortLessonId ?? shortLessons[0]?.id;
   const {
     data: apiShortLesson,

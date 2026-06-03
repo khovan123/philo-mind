@@ -1,4 +1,8 @@
-import type { ListShortLessonsFilters, ShortLessonDTO, ShortLessonDetailDTO } from "@/types/learning";
+import type {
+  ListShortLessonsFilters,
+  ShortLessonDTO,
+  ShortLessonDetailDTO,
+} from "@/types/learning";
 import { baseApi } from "./baseApi";
 
 export const shortLessonApi = baseApi.injectEndpoints({

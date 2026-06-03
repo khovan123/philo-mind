@@ -50,7 +50,9 @@ export default function FullLessonScreen() {
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
         <View style={[styles.screen, { alignItems: "center", justifyContent: "center", gap: 12 }]}>
           <ActivityIndicator color={Colors.primaryLight} size="large" />
-          <ThemedText style={styles.bodyText}>Đang tải bài học đầy đủ từ cơ sở dữ liệu...</ThemedText>
+          <ThemedText style={styles.bodyText}>
+            Đang tải bài học đầy đủ từ cơ sở dữ liệu...
+          </ThemedText>
         </View>
       </SafeAreaView>
     );
@@ -59,7 +61,12 @@ export default function FullLessonScreen() {
   if (isError || !lesson) {
     return (
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
-        <View style={[styles.screen, { alignItems: "center", justifyContent: "center", padding: 24, gap: 12 }]}>
+        <View
+          style={[
+            styles.screen,
+            { alignItems: "center", justifyContent: "center", padding: 24, gap: 12 },
+          ]}
+        >
           <ThemedText style={styles.sectionTitle}>Không tải được bài học</ThemedText>
           <ThemedText style={[styles.bodyText, { textAlign: "center" }]}>
             Bài học này chưa có trong cơ sở dữ liệu hoặc API đang lỗi.
@@ -197,16 +204,13 @@ type DbLessonContentProps = {
   questions: { id: string; question: string; questionType: string }[];
 };
 
-function DbLessonContent({
-  content,
-  conflict,
-  questions,
-  realLifeExample,
-}: DbLessonContentProps) {
+function DbLessonContent({ content, conflict, questions, realLifeExample }: DbLessonContentProps) {
   return (
     <>
       <MarkdownSection title="Nội dung chính" markdown={content} />
-      {realLifeExample ? <MarkdownSection title="Ví dụ thực tế" markdown={realLifeExample} /> : null}
+      {realLifeExample ? (
+        <MarkdownSection title="Ví dụ thực tế" markdown={realLifeExample} />
+      ) : null}
       {conflict ? <MarkdownSection title="Câu hỏi tranh luận" markdown={conflict} /> : null}
       {questions.length > 0 ? (
         <View style={styles.section}>

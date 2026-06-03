@@ -31,8 +31,11 @@ lessonRouter.post("/:id/progress", authGuard, validate(lessonIdSchema), (req, re
 );
 
 // POST /api/v1/lessons/questions/:questionId/answers (submit answer to review question)
-lessonRouter.post("/questions/:questionId/answers", authGuard, validate(submitAnswerSchema), (req, res) =>
-  controller.submitQuestionAnswer(req, res),
+lessonRouter.post(
+  "/questions/:questionId/answers",
+  authGuard,
+  validate(submitAnswerSchema),
+  (req, res) => controller.submitQuestionAnswer(req, res),
 );
 
 // ADMIN/MODERATOR ONLY ROUTES

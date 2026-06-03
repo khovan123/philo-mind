@@ -100,7 +100,10 @@ export class QuizController {
     try {
       const quizId = req.params.quizId as string;
       const userId = req.user!.id;
-      const quiz = await prisma.quiz.findUnique({ where: { id: quizId }, include: { questions: true } });
+      const quiz = await prisma.quiz.findUnique({
+        where: { id: quizId },
+        include: { questions: true },
+      });
 
       if (!quiz) return sendError(res, "QUIZ_NOT_FOUND", "Quiz khong ton tai", 404);
 
@@ -108,12 +111,16 @@ export class QuizController {
         data: { quizId, userId, score: 0 },
       });
 
-      return sendSuccess(res, {
-        attemptId: attempt.id,
-        quizId,
-        totalQuestions: quiz.questions.length,
-        startedAt: attempt.createdAt,
-      }, 201);
+      return sendSuccess(
+        res,
+        {
+          attemptId: attempt.id,
+          quizId,
+          totalQuestions: quiz.questions.length,
+          startedAt: attempt.createdAt,
+        },
+        201,
+      );
     } catch (err) {
       const error = err as Error;
       return sendError(res, "QUIZ_ATTEMPT_START_ERROR", error.message, 500);
@@ -130,7 +137,8 @@ export class QuizController {
         where: { id: attemptId, userId },
       });
       if (!attempt) return sendError(res, "ATTEMPT_NOT_FOUND", "Lan lam quiz khong ton tai", 404);
-      if (attempt.completedAt) return sendError(res, "ATTEMPT_COMPLETED", "Quiz da hoan thanh", 409);
+      if (attempt.completedAt)
+        return sendError(res, "ATTEMPT_COMPLETED", "Quiz da hoan thanh", 409);
 
       const question = await prisma.quizQuestion.findUnique({
         where: { id: questionId },
@@ -241,7 +249,10 @@ export class QuizController {
       title: quiz.title,
       topic: quiz.lesson?.topic?.category ?? quiz.lesson?.topic?.title ?? "Philosophy",
       difficulty: String(quiz.lesson?.topic?.difficulty ?? "MEDIUM").toLowerCase(),
-      durationSeconds: Math.max(180, (quiz.lesson?.estimatedMinutes ?? quiz.questions.length + 2) * 60),
+      durationSeconds: Math.max(
+        180,
+        (quiz.lesson?.estimatedMinutes ?? quiz.questions.length + 2) * 60,
+      ),
       questions: quiz.questions.map((question: any, index: number) => {
         const correctOption = question.options.find((option: any) => option.isCorrect);
         return {

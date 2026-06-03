@@ -243,88 +243,91 @@ export default function ExploreScreen() {
                       : `${lesson.title}-${index}`;
 
                   return (
-                  <View key={lessonKey} style={styles.featuredCard}>
-                    {lesson.image ? (
-                      <Image
-                        source={lesson.image}
-                        contentFit="cover"
-                        style={styles.featuredImage}
-                      />
-                    ) : (
-                      <View style={styles.featuredFallback}>
-                        <BookOpen color={Colors.locked} size={40} />
+                    <View key={lessonKey} style={styles.featuredCard}>
+                      {lesson.image ? (
+                        <Image
+                          source={lesson.image}
+                          contentFit="cover"
+                          style={styles.featuredImage}
+                        />
+                      ) : (
+                        <View style={styles.featuredFallback}>
+                          <BookOpen color={Colors.locked} size={40} />
+                        </View>
+                      )}
+
+                      <View style={styles.featuredBody}>
+                        <View style={styles.featuredMeta}>
+                          <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
+                          <View style={styles.metaDot} />
+                          <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
+                        </View>
+
+                        <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
+                        <ThemedText numberOfLines={2} style={styles.featuredDescription}>
+                          {lesson.description}
+                        </ThemedText>
+
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => {
+                            const topicId =
+                              "topicId" in lesson && typeof lesson.topicId === "string"
+                                ? lesson.topicId
+                                : null;
+
+                            if (topicId) {
+                              router.push({
+                                pathname: "/short-lesson" as never,
+                                params: { topicId },
+                              });
+                            } else {
+                              startLesson(lesson.shortRoute);
+                            }
+                          }}
+                          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
+                        >
+                          <ThemedText style={styles.startButtonText}>Short</ThemedText>
+                          <ArrowRight color={Colors.primaryText} size={16} />
+                        </Pressable>
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => {
+                            const topicId =
+                              "topicId" in lesson && typeof lesson.topicId === "string"
+                                ? lesson.topicId
+                                : null;
+
+                            if (topicId) {
+                              router.push({
+                                pathname: "/topic-lessons" as never,
+                                params: { topicId, topicTitle: lesson.title },
+                              });
+                            } else {
+                              startLesson(lesson.fullRoute);
+                            }
+                          }}
+                          style={({ pressed }) => [
+                            styles.fullLessonButton,
+                            pressed && styles.pressed,
+                          ]}
+                        >
+                          <BookOpen color={Colors.primaryLight} size={16} />
+                          <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                        </Pressable>
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => startLesson(lesson.scenarioRoute)}
+                          style={({ pressed }) => [
+                            styles.scenarioButton,
+                            pressed && styles.pressed,
+                          ]}
+                        >
+                          <Sparkles color={Colors.primaryLight} size={16} />
+                          <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
+                        </Pressable>
                       </View>
-                    )}
-
-                    <View style={styles.featuredBody}>
-                      <View style={styles.featuredMeta}>
-                        <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
-                        <View style={styles.metaDot} />
-                        <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
-                      </View>
-
-                      <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
-                      <ThemedText numberOfLines={2} style={styles.featuredDescription}>
-                        {lesson.description}
-                      </ThemedText>
-
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => {
-                          const topicId =
-                            "topicId" in lesson && typeof lesson.topicId === "string"
-                              ? lesson.topicId
-                              : null;
-
-                          if (topicId) {
-                            router.push({
-                              pathname: "/short-lesson" as never,
-                              params: { topicId },
-                            });
-                          } else {
-                            startLesson(lesson.shortRoute);
-                          }
-                        }}
-                        style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
-                      >
-                        <ThemedText style={styles.startButtonText}>Short</ThemedText>
-                        <ArrowRight color={Colors.primaryText} size={16} />
-                      </Pressable>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => {
-                          const topicId =
-                            "topicId" in lesson && typeof lesson.topicId === "string"
-                              ? lesson.topicId
-                              : null;
-
-                          if (topicId) {
-                            router.push({
-                              pathname: "/topic-lessons" as never,
-                              params: { topicId, topicTitle: lesson.title },
-                            });
-                          } else {
-                            startLesson(lesson.fullRoute);
-                          }
-                        }}
-                        style={({ pressed }) => [
-                          styles.fullLessonButton,
-                          pressed && styles.pressed,
-                        ]}
-                      >
-                        <BookOpen color={Colors.primaryLight} size={16} />
-                        <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
-                      </Pressable>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => startLesson(lesson.scenarioRoute)}
-                        style={({ pressed }) => [styles.scenarioButton, pressed && styles.pressed]}
-                      >
-                        <Sparkles color={Colors.primaryLight} size={16} />
-                        <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
-                      </Pressable>
                     </View>
-                  </View>
                   );
                 })}
               </ScrollView>

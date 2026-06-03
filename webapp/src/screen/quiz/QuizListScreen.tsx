@@ -24,7 +24,12 @@ export default function LearnScreen() {
   const theme = useTheme();
   const [query, setQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState(filters[0]);
-  const { data: apiQuizzes, isLoading, isError, refetch } = useListQuizzesQuery({
+  const {
+    data: apiQuizzes,
+    isLoading,
+    isError,
+    refetch,
+  } = useListQuizzesQuery({
     search: query || undefined,
     status: activeFilter === "Completed" ? "completed" : undefined,
   });

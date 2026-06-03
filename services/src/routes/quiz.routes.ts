@@ -21,8 +21,11 @@ quizRouter.get("/by-lesson/:lessonId", optionalAuth, validate(lessonQuizSchema),
 quizRouter.post("/:quizId/attempts", authGuard, validate(quizIdSchema), (req, res) =>
   quizController.startAttempt(req, res),
 );
-quizRouter.post("/attempts/:attemptId/answers", authGuard, validate(submitQuizAnswerSchema), (req, res) =>
-  quizController.submitAnswer(req, res),
+quizRouter.post(
+  "/attempts/:attemptId/answers",
+  authGuard,
+  validate(submitQuizAnswerSchema),
+  (req, res) => quizController.submitAnswer(req, res),
 );
 quizRouter.post("/attempts/:attemptId/complete", authGuard, validate(attemptIdSchema), (req, res) =>
   quizController.completeAttempt(req, res),

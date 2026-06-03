@@ -4,4 +4,6 @@ import { optionalAuth } from "../middleware/auth.middleware.js";
 
 export const learningRouter = Router();
 
-learningRouter.get("/dashboard", optionalAuth, (req, res) => learningController.dashboard(req, res));
+learningRouter.get("/dashboard", optionalAuth, (req, res) =>
+  learningController.dashboard(req, res),
+);

@@ -46,17 +46,9 @@ export function StatusBadge({
   }, [duration, resolvedTone, toneValue]);
 
   const badgeStyle = useAnimatedStyle(() => {
-    const borderColor = interpolateColor(
-      toneValue.value,
-      toneInputRange,
-      toneColors,
-    );
+    const borderColor = interpolateColor(toneValue.value, toneInputRange, toneColors);
 
-    const backgroundColor = interpolateColor(
-      toneValue.value,
-      toneInputRange,
-      toneBackgroundColors,
-    );
+    const backgroundColor = interpolateColor(toneValue.value, toneInputRange, toneBackgroundColors);
 
     return {
       backgroundColor,
@@ -65,11 +57,7 @@ export function StatusBadge({
   });
 
   const dotStyle = useAnimatedStyle(() => {
-    const backgroundColor = interpolateColor(
-      toneValue.value,
-      toneInputRange,
-      toneColors,
-    );
+    const backgroundColor = interpolateColor(toneValue.value, toneInputRange, toneColors);
 
     return {
       backgroundColor,
@@ -77,11 +65,7 @@ export function StatusBadge({
   });
 
   const textStyle = useAnimatedStyle(() => {
-    const color = interpolateColor(
-      toneValue.value,
-      toneInputRange,
-      toneColors,
-    );
+    const color = interpolateColor(toneValue.value, toneInputRange, toneColors);
 
     return {
       color,

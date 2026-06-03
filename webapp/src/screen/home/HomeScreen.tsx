@@ -201,12 +201,8 @@ export default function HomeScreen() {
 
               <View style={styles.storyContent}>
                 <View style={styles.storyMeta}>
-                  <ThemedText style={styles.storyBadge}>
-                    {newStory?.topic ?? "Story"}
-                  </ThemedText>
-                  <ThemedText style={styles.storyTime}>
-                    {newStory?.duration ?? "8 phút"}
-                  </ThemedText>
+                  <ThemedText style={styles.storyBadge}>{newStory?.topic ?? "Story"}</ThemedText>
+                  <ThemedText style={styles.storyTime}>{newStory?.duration ?? "8 phút"}</ThemedText>
                 </View>
 
                 <ThemedText style={styles.storyTitle}>
@@ -222,9 +218,7 @@ export default function HomeScreen() {
           <View style={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
             <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>
-                {quote?.text ?? "Chưa có quote."}
-              </ThemedText>
+              <ThemedText style={styles.quoteText}>{quote?.text ?? "Chưa có quote."}</ThemedText>
               <ThemedText style={styles.quoteAuthor}>- {quote?.author ?? "PhiloMind"}</ThemedText>
             </View>
           </View>
