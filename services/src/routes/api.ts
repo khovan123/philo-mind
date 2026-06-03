@@ -28,6 +28,7 @@ import { shortLessonRouter } from "./short-lesson.routes.js";
 import { quizRouter } from "./quiz.routes.js";
 import { learningRouter } from "./learning.routes.js";
 import { profileRouter } from "./profile.routes.js";
+import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -91,3 +92,5 @@ apiRouter.use("/short-lessons", shortLessonRouter);
 apiRouter.use("/quizzes", quizRouter);
 apiRouter.use("/learning", learningRouter);
 apiRouter.use("/profile", profileRouter);
+apiRouter.use("/debates", debateRouter);
+apiRouter.use("/debate-arguments", debateArgumentRouter);

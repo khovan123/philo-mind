@@ -1,5 +1,5 @@
-import { baseApi } from "./baseApi";
 import type { MindmapGraph, TopicSummary } from "@/types/mindmap";
+import { baseApi } from "./baseApi";
 
 export const mindmapApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

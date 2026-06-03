@@ -1,4 +1,3 @@
-import { Platform } from "react-native";
 import { getAccessToken } from "@/stores/auth.helpers";
 
 export class ApiError extends Error {

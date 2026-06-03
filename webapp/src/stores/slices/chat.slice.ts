@@ -1,6 +1,6 @@
-import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-import { aiChatService } from "@/services/aiChat.service";
 import type { Message, Session } from "@/services/aiChat.service";
+import { aiChatService } from "@/services/aiChat.service";
+import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export type ChatState = {
   sessions: Record<string, Session>;

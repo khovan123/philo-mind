@@ -1,11 +1,11 @@
+import type { MindmapNode } from "@/types/mindmap";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
-  fetchTopics,
   fetchGraphByTopic,
+  fetchTopics,
   selectNode as selectNodeAction,
   setSelectedTopicId,
 } from "./slices/mindmap.slice";
-import type { MindmapNode } from "@/types/mindmap";
 
 export function useMindmapStore() {
   const dispatch = useAppDispatch();

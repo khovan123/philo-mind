@@ -1,11 +1,11 @@
+import type { BookmarkItem } from "@/types/bookmark";
 import { useAppDispatch, useAppSelector } from "./hooks";
+import type { BookmarkFilter } from "./slices/bookmark.slice";
 import {
   fetchBookmarks,
   removeBookmark,
   setFilter as setFilterAction,
 } from "./slices/bookmark.slice";
-import type { BookmarkItem } from "@/types/bookmark";
-import type { BookmarkFilter } from "./slices/bookmark.slice";
 
 export function useBookmarkStore() {
   const dispatch = useAppDispatch();

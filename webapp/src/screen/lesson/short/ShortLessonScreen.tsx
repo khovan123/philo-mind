@@ -18,8 +18,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Button } from "@/components/ui";
 import { ThemedText } from "@/components/themed-text";
+import { Button } from "@/components/ui";
 
 import {
   lessonCards,

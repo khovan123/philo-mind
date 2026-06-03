@@ -1,15 +1,15 @@
+import type { ListStoriesFilters } from "@/types/story";
 import { useAppDispatch, useAppSelector } from "./hooks";
+import type { StoryStep } from "./slices/story.slice";
 import {
+  completeActiveSessionThunk,
   fetchStories,
   loadStoryDetail,
+  resetStoryStore,
+  setStep as setStepAction,
   startOrResumeSession,
   submitDecision,
-  completeActiveSessionThunk,
-  setStep as setStepAction,
-  resetStoryStore,
 } from "./slices/story.slice";
-import type { ListStoriesFilters } from "@/types/story";
-import type { StoryStep } from "./slices/story.slice";
 export type { StoryStep };
 
 export function useStoryStore() {

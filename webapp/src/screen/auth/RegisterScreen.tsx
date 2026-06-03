@@ -1,3 +1,10 @@
+import { Button, Input, ThemedText, ThemedView } from "@/components/ui";
+import { Radius, Spacing } from "@/constants/theme";
+import { useTheme } from "@/hooks/use-theme";
+import { useRegisterMutation } from "@/services/auth/api";
+import { useAppDispatch } from "@/stores/hooks";
+import { authFailed } from "@/stores/slices/auth.slice";
+import { useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Keyboard,
@@ -9,13 +16,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
-import { Button, Input, ThemedText, ThemedView } from "@/components/ui";
-import { Radius, Spacing } from "@/constants/theme";
-import { useTheme } from "@/hooks/use-theme";
-import { useRegisterMutation } from "@/services/auth/api";
-import { useAppDispatch } from "@/stores/hooks";
-import { authFailed } from "@/stores/slices/auth.slice";
 
 type RegisterFieldErrors = Partial<{
   fullName: string;

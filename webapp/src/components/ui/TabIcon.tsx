@@ -1,7 +1,5 @@
-import { Bookmark, Compass, Home, UserRound } from "lucide-react-native";
+import { Bookmark, BookOpen, Compass, Home, UserRound } from "lucide-react-native";
 import { StyleSheet, View, type ColorValue } from "react-native";
-import { Radius, Spacing } from "@/constants/theme";
-import { useTheme } from "@/hooks/use-theme";
 
 const Icons = {
   home: Home,

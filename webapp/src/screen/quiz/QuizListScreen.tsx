@@ -5,6 +5,7 @@ import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
+import { Radius, Spacing } from "@/constants/theme";
 import { QuizCard } from "@/features/quiz/QuizCard";
 import { QuizFilters } from "@/features/quiz/QuizFilters";
 import { QuizListEmpty } from "@/features/quiz/QuizListEmpty";
@@ -13,7 +14,6 @@ import { QuizSearchBox } from "@/features/quiz/QuizSearchBox";
 import { quizSummaries } from "@/features/quiz/mock";
 import type { QuizSummary } from "@/features/quiz/types";
 import { quizStyles as styles } from "@/features/quiz/ui";
-import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { useListQuizzesQuery } from "@/services/rtk-api/quiz.api";
 

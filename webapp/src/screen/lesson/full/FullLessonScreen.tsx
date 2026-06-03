@@ -13,8 +13,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { BookmarkButton } from "@/components/bookmark-button";
-import { ThemedText } from "@/components/themed-text";
 import { ProgressBadge } from "@/components/progress";
+import { ThemedText } from "@/components/themed-text";
 
 import { Colors, styles } from "@/features/lesson/full/ui";
 import { useGetLessonByIdQuery } from "@/services/rtk-api/lesson.api";

@@ -9,6 +9,7 @@ export const listQuizzesSchema = z.object({
     limit: positiveIntegerString.optional(),
     search: z.string().trim().optional(),
     topicId: uuid.optional(),
+    lessonId: uuid.optional(),
     status: z.enum(["not-started", "in-progress", "completed"]).optional(),
   }),
 });
@@ -44,3 +45,7 @@ export const submitQuizAnswerSchema = z.object({
 
 export type ListQuizzesInput = z.infer<typeof listQuizzesSchema>["query"];
 export type SubmitQuizAnswerInput = z.infer<typeof submitQuizAnswerSchema>["body"];
+
+export type ListQuizzesQuery = ListQuizzesInput;
+export type SubmitAnswerInput = SubmitQuizAnswerInput;
+

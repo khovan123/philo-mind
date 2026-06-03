@@ -1,5 +1,5 @@
+import type { ListTopicsFilters, TopicDTO, TopicDetailDTO } from "@/types/learning";
 import { baseApi } from "./baseApi";
-import type { TopicDTO, TopicDetailDTO, ListTopicsFilters } from "@/types/learning";
 
 export const topicApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

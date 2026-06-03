@@ -1,4 +1,6 @@
+import { authService } from "@/services/auth.service";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
   Bell,
   BookOpen,
@@ -7,17 +9,15 @@ import {
   Globe2,
   Info,
   Lock,
+  LogOut,
   ScrollText,
   Settings,
   ShieldCheck,
   Sparkles,
   Trophy,
-  LogOut,
 } from "lucide-react-native";
-import { authService } from "@/services/auth.service";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
