@@ -8,6 +8,7 @@ import {
   loadStoryDetail,
   resetStoryStore,
   setStep as setStepAction,
+  setSelectedRoleId,
   startOrResumeSession,
   submitDecision,
 } from "./slices/story.slice";
@@ -36,6 +37,9 @@ export function useStoryStore() {
     },
     setStep: (step: StoryStep) => {
       dispatch(setStepAction(step));
+    },
+    setSelectedRoleId: (roleId: string | null) => {
+      dispatch(setSelectedRoleId(roleId));
     },
     resetStore: () => {
       dispatch(resetStoryStore());
