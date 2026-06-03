@@ -14,6 +14,7 @@ import { statsRouter } from "./stats.routes.js";
 import { aiRouter } from "./ai.routes.js";
 import { aiChatRouter } from "./ai-chat.routes.js";
 import { aiCharacterRouter } from "./ai-character.route.js";
+import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
 
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
@@ -85,3 +86,5 @@ apiRouter.use("/minigames", miniGameRouter);
 apiRouter.use("/scenarios", scenarioRouter);
 apiRouter.use("/lessons", lessonRouter);
 apiRouter.use("/short-lessons", shortLessonRouter);
+apiRouter.use("/debates", debateRouter);
+apiRouter.use("/debate-arguments", debateArgumentRouter);
