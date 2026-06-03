@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                      |
-| -------------- | -------------------------------------------------------------------------- |
-| GitHub issue   | #105                                                                       |
-| Task ID        | T-G05                                                                      |
-| Title          | Bookmark system (button + list screen)                                     |
-| State          | done                                                                       |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #105 |
+| Task ID | T-G05 |
+| Title | Bookmark system (button + list screen) |
+| State | done |
 | Local log path | `issues/by-github-id/#105-T-G05-Bookmark system (button + list screen).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị                  |
-| ----------------- | ------------------------ |
-| GitHub issue      | #105                     |
-| Track             | G: Polish & Gamification |
-| Nhóm              | All                      |
-| Loại việc         | frontend                 |
-| Priority          | low                      |
-| Owner gợi ý       | Any Dev                  |
-| Assignee hiện tại | @kangdev03               |
-| Estimate          | 3h                       |
-| Milestone         | Week 7                   |
-| Dependencies      | `T-A14`                  |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #105 |
+| Track | G: Polish & Gamification |
+| Nhóm | All |
+| Loại việc | frontend |
+| Priority | low |
+| Owner gợi ý | Any Dev |
+| Assignee hiện tại | @kangdev03 |
+| Estimate | 3h |
+| Milestone | Week 7 |
+| Dependencies | `T-A14` |
 
 ## 3. Requirement cụ thể
 
@@ -69,10 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống   | Người dùng thao tác                            | Kết quả bắt buộc                                                 |
-| ------------ | ---------------------------------------------- | ---------------------------------------------------------------- |
-| Mở màn hình  | User vào `/bookmarks` từ tab/card/link phù hợp | Render màn hình chính của Bookmark system (button + list screen) |
-| Action chính | Bấm CTA/item chính                             | Thực hiện submit/navigate/update state theo domain               |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/bookmarks` từ tab/card/link phù hợp | Render màn hình chính của Bookmark system (button + list screen) |
+| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
+
 
 ## 4. Flow tích hợp
 
@@ -162,7 +163,6 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### Navigation and interaction
 
 - Primary CTA trên `/bookmarks` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

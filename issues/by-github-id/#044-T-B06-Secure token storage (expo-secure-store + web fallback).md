@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                                       |
-| -------------- | ------------------------------------------------------------------------------------------- |
-| GitHub issue   | #44                                                                                         |
-| Task ID        | T-B06                                                                                       |
-| Title          | Secure token storage (expo-secure-store + web fallback)                                     |
-| State          | done                                                                                        |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #44 |
+| Task ID | T-B06 |
+| Title | Secure token storage (expo-secure-store + web fallback) |
+| State | done |
 | Local log path | `issues/by-github-id/#044-T-B06-Secure token storage (expo-secure-store + web fallback).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị                       |
-| ----------------- | ----------------------------- |
-| GitHub issue      | #44                           |
-| Track             | B: Frontend Shell             |
-| Nhóm              | B-Foundation                  |
-| Loại việc         | frontend                      |
-| Priority          | high                          |
-| Owner gợi ý       | Frontend Dev                  |
-| Assignee hiện tại | @thuhataplamdev               |
-| Estimate          | 2h                            |
-| Milestone         | Week 2                        |
-| Dependencies      | Không có dependency bắt buộc. |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #44 |
+| Track | B: Frontend Shell |
+| Nhóm | B-Foundation |
+| Loại việc | frontend |
+| Priority | high |
+| Owner gợi ý | Frontend Dev |
+| Assignee hiện tại | @thuhataplamdev |
+| Estimate | 2h |
+| Milestone | Week 2 |
+| Dependencies | Không có dependency bắt buộc. |
 
 ## 3. Requirement cụ thể
 
@@ -69,10 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống   | Người dùng thao tác                   | Kết quả bắt buộc                                                                  |
-| ------------ | ------------------------------------- | --------------------------------------------------------------------------------- |
-| Mở màn hình  | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Secure token storage (expo-secure-store + web fallback) |
-| Action chính | Bấm CTA/item chính                    | Thực hiện submit/navigate/update state theo domain                                |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Secure token storage (expo-secure-store + web fallback) |
+| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
+
 
 ## 4. Flow tích hợp
 
@@ -161,7 +162,6 @@ Người dùng có thể tạo tài khoản, đăng nhập, duy trì phiên, là
 ### Navigation and interaction
 
 - Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

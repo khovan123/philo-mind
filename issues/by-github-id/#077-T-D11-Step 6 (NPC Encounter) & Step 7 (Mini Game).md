@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                           |
-| -------------- | ------------------------------------------------------------------------------- |
-| GitHub issue   | #77                                                                             |
-| Task ID        | T-D11                                                                           |
-| Title          | Step 6 (NPC Encounter) & Step 7 (Mini Game)                                     |
-| State          | open                                                                            |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #77 |
+| Task ID | T-D11 |
+| Title | Step 6 (NPC Encounter) & Step 7 (Mini Game) |
+| State | open |
 | Local log path | `issues/by-github-id/#077-T-D11-Step 6 (NPC Encounter) & Step 7 (Mini Game).md` |
 
 ## Issue Body

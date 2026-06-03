@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                           |
-| -------------- | ------------------------------------------------------------------------------- |
-| GitHub issue   | #24                                                                             |
-| Task ID        | T-A08                                                                           |
-| Title          | Short Lesson API (list/get/respond/comment)                                     |
-| State          | open                                                                            |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #24 |
+| Task ID | T-A08 |
+| Title | Short Lesson API (list/get/respond/comment) |
+| State | open |
 | Local log path | `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị          |
-| ----------------- | ---------------- |
-| GitHub issue      | #24              |
-| Track             | A: Backend Core  |
-| Nhóm              | A-Content APIs   |
-| Loại việc         | backend          |
-| Priority          | medium           |
-| Owner gợi ý       | Backend Dev      |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #24 |
+| Track | A: Backend Core |
+| Nhóm | A-Content APIs |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Backend Dev |
 | Assignee hiện tại | @linhtv1209-fudn |
-| Estimate          | 4h               |
-| Milestone         | Week 2           |
-| Dependencies      | `T-A04`          |
+| Estimate | 4h |
+| Milestone | Week 2 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -68,12 +68,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                             | Input                           | Output                                                     |
-| ------ | ------------------------------------ | ------------------------------- | ---------------------------------------------------------- |
-| GET    | `/api/v1/short-lessons`              | query: { topicId, page, limit } | data: shortLessons[] + communityStats                      |
-| GET    | `/api/v1/short-lessons/:id`          | params: id                      | data: short lesson detail + user response if authenticated |
-| POST   | `/api/v1/short-lessons/:id/respond`  | body: { stance, reason? }       | data: saved response + updated community stats             |
-| POST   | `/api/v1/short-lessons/:id/comments` | body: { content }               | data: created comment                                      |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/short-lessons` | query: { topicId, page, limit } | data: shortLessons[] + communityStats |
+| GET | `/api/v1/short-lessons/:id` | params: id | data: short lesson detail + user response if authenticated |
+| POST | `/api/v1/short-lessons/:id/respond` | body: { stance, reason? } | data: saved response + updated community stats |
+| POST | `/api/v1/short-lessons/:id/comments` | body: { content } | data: created comment |
+
 
 ## 4. Flow tích hợp
 

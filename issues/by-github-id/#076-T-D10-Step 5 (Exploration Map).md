@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                        |
-| -------------- | ------------------------------------------------------------ |
-| GitHub issue   | #76                                                          |
-| Task ID        | T-D10                                                        |
-| Title          | Step 5 (Exploration Map)                                     |
-| State          | open                                                         |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #76 |
+| Task ID | T-D10 |
+| Title | Step 5 (Exploration Map) |
+| State | open |
 | Local log path | `issues/by-github-id/#076-T-D10-Step 5 (Exploration Map).md` |
 
 ## Issue Body

@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------- |
-| GitHub issue   | #123                                                                                    |
-| Task ID        | T-J05                                                                                   |
-| Title          | E2E smoke test (Maestro: login-home-story-complete)                                     |
-| State          | open                                                                                    |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #123 |
+| Task ID | T-J05 |
+| Title | E2E smoke test (Maestro: login-home-story-complete) |
+| State | open |
 | Local log path | `issues/by-github-id/#123-T-J05-E2E smoke test (Maestro- login-home-story-complete).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị       |
-| ----------------- | ------------- |
-| GitHub issue      | #123          |
-| Track             | J: Testing    |
-| Nhóm              | All           |
-| Loại việc         | testing       |
-| Priority          | medium        |
-| Owner gợi ý       | Any Dev       |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #123 |
+| Track | J: Testing |
+| Nhóm | All |
+| Loại việc | testing |
+| Priority | medium |
+| Owner gợi ý | Any Dev |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate          | 4h            |
-| Milestone         | Week 7        |
-| Dependencies      | `T-D16`       |
+| Estimate | 4h |
+| Milestone | Week 7 |
+| Dependencies | `T-D16` |
 
 ## 3. Requirement cụ thể
 
@@ -64,6 +64,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Critical path automation; CI integration.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
+
 
 ## 4. Flow tích hợp
 

@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field          | Value                                                                           |
-| -------------- | ------------------------------------------------------------------------------- |
-| GitHub issue   | #97                                                                             |
-| Task ID        | T-F05                                                                           |
-| Title          | Debate CRUD + argument + vote + comment API                                     |
-| State          | open                                                                            |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #97 |
+| Task ID | T-F05 |
+| Title | Debate CRUD + argument + vote + comment API |
+| State | open |
 | Local log path | `issues/by-github-id/#097-T-F05-Debate CRUD + argument + vote + comment API.md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #97                  |
-| Track             | F: Scenario & Debate |
-| Nhóm              | F-Debate             |
-| Loại việc         | backend              |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @Ngoclee123          |
-| Estimate          | 5h                   |
-| Milestone         | Week 7               |
-| Dependencies      | `T-A04`              |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #97 |
+| Track | F: Scenario & Debate |
+| Nhóm | F-Debate |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @Ngoclee123 |
+| Estimate | 5h |
+| Milestone | Week 7 |
+| Dependencies | `T-A04` |
 
 ## 3. Requirement cụ thể
 
@@ -68,12 +68,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                             | Input                                    | Output                                                 |
-| ------ | ------------------------------------ | ---------------------------------------- | ------------------------------------------------------ |
-| GET    | `/api/v1/debates`                    | query: { topicId, stance?, page, limit } | data: debate list with counts                          |
-| GET    | `/api/v1/debates/:id`                | params: id                               | data: debate detail + for/against arguments + comments |
-| POST   | `/api/v1/debates/:id/arguments`      | body: { stance, content, sources? }      | data: created argument                                 |
-| POST   | `/api/v1/debate-arguments/:id/votes` | body: { value }                          | data: updated vote summary                             |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/debates` | query: { topicId, stance?, page, limit } | data: debate list with counts |
+| GET | `/api/v1/debates/:id` | params: id | data: debate detail + for/against arguments + comments |
+| POST | `/api/v1/debates/:id/arguments` | body: { stance, content, sources? } | data: created argument |
+| POST | `/api/v1/debate-arguments/:id/votes` | body: { value } | data: updated vote summary |
+
 
 ## 4. Flow tích hợp
 
