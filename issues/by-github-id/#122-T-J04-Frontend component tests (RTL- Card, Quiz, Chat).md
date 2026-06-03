@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #122 |
-| Task ID | T-J04 |
-| Title | Frontend component tests (RTL: Card, Quiz, Chat) |
-| State | open |
+| Field          | Value                                                                                |
+| -------------- | ------------------------------------------------------------------------------------ |
+| GitHub issue   | #122                                                                                 |
+| Task ID        | T-J04                                                                                |
+| Title          | Frontend component tests (RTL: Card, Quiz, Chat)                                     |
+| State          | open                                                                                 |
 | Local log path | `issues/by-github-id/#122-T-J04-Frontend component tests (RTL- Card, Quiz, Chat).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #122 |
-| Track | J: Testing |
-| Nhóm | All |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Any Dev |
+| Thuộc tính        | Giá trị       |
+| ----------------- | ------------- |
+| GitHub issue      | #122          |
+| Track             | J: Testing    |
+| Nhóm              | All           |
+| Loại việc         | testing       |
+| Priority          | medium        |
+| Owner gợi ý       | Any Dev       |
 | Assignee hiện tại | @NguyenDat204 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-B02` |
+| Estimate          | 4h            |
+| Milestone         | Week 7        |
+| Dependencies      | `T-B02`       |
 
 ## 3. Requirement cụ thể
 
@@ -64,7 +64,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Render; interaction; snapshot tests.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 

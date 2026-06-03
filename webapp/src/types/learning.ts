@@ -151,4 +151,3 @@ export interface ListShortLessonsFilters {
   limit?: number;
   topicId?: string;
 }
-

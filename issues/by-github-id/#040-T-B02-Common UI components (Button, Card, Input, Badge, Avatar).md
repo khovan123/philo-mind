@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #40 |
-| Task ID | T-B02 |
-| Title | Common UI components (Button, Card, Input, Badge, Avatar) |
-| State | done |
+| Field          | Value                                                                                         |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| GitHub issue   | #40                                                                                           |
+| Task ID        | T-B02                                                                                         |
+| Title          | Common UI components (Button, Card, Input, Badge, Avatar)                                     |
+| State          | done                                                                                          |
 | Local log path | `issues/by-github-id/#040-T-B02-Common UI components (Button, Card, Input, Badge, Avatar).md` |
 
 ## Issue Body
@@ -39,22 +39,26 @@
 ## T-B02: Common UI components (Button, Card, Input, Badge, Avatar)
 
 ### Mục tiêu
+
 Hoàn thành **Common UI components (Button, Card, Input, Badge, Avatar)** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-| Thuộc tính | Giá trị |
-| --- | --- |
-| Track | B: Frontend Shell |
-| Nhóm | B-Foundation |
-| Owner gợi ý | Frontend Dev |
-| Estimate | 4h |
-| Thời điểm dự kiến | Week 1-2 |
-| Dependencies | `T-B01` |
+
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Foundation      |
+| Owner gợi ý       | Frontend Dev      |
+| Estimate          | 4h                |
+| Thời điểm dự kiến | Week 1-2          |
+| Dependencies      | `T-B01`           |
 
 ### Dependency Notes
+
 Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc có contract/mock được thống nhất.
 
 ### Checklist triển khai
+
 - [ ] Khảo sát screen/component dùng chung hiện có và tái sử dụng design tokens của repo.
 - [ ] Triển khai đầy đủ UI flow **Common UI components (Button, Card, Input, Badge, Avatar)** gồm loading, empty, error và interaction state phù hợp.
 - [ ] Nối navigation, store và API service thật; chỉ dùng mock khi dependency backend chưa sẵn sàng.
@@ -62,22 +66,26 @@ Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc c
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Reusable primitives, dark theme.
 
 ### Acceptance Criteria
+
 - [ ] Reusable primitives
 - [ ] dark theme
 
 ### Kiểm chứng bắt buộc
+
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
+
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
+
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -112,6 +120,7 @@ Người học nhận động lực quay lại app qua tiến độ, streak, bad
 ### Navigation and interaction
 
 - Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

@@ -19,7 +19,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 | Assignee hiện tại | @dklinh05            |
 | Estimate          | 3h                   |
 | Milestone         | Week 7               |
-| Dependencies      | `T-D08..T-D14`              |
+| Dependencies      | `T-D08..T-D14`       |
 
 ## 3. Requirement cụ thể
 

@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #126 |
-| Task ID | T-K03 |
-| Title | Terms of Service + Privacy Policy screens (markdown render) |
-| State | done |
+| Field          | Value                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| GitHub issue   | #126                                                                                            |
+| Task ID        | T-K03                                                                                           |
+| Title          | Terms of Service + Privacy Policy screens (markdown render)                                     |
+| State          | done                                                                                            |
 | Local log path | `issues/by-github-id/#126-T-K03-Terms of Service + Privacy Policy screens (markdown render).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #126 |
-| Track | K: Admin & Settings |
-| Nhóm | All |
-| Loại việc | frontend |
-| Priority | low |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @NguyenDat204 |
-| Estimate | 1h |
-| Milestone | Week 7 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #126                |
+| Track             | K: Admin & Settings |
+| Nhóm              | All                 |
+| Loại việc         | frontend            |
+| Priority          | low                 |
+| Owner gợi ý       | Frontend Dev        |
+| Assignee hiện tại | @NguyenDat204       |
+| Estimate          | 1h                  |
+| Milestone         | Week 7              |
+| Dependencies      | `T-B02`             |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/settings/legal` từ tab/card/link phù hợp | Render màn hình chính của Terms of Service + Privacy Policy screens (markdown render) |
-| Mở legal page | Profile/Settings -> bấm Terms hoặc Privacy | Render markdown legal content |
-| Mở link | Bấm href nội bộ/ngoài | Nội bộ điều hướng trong app, link ngoài mở browser |
-
+| Tình huống    | Người dùng thao tác                                 | Kết quả bắt buộc                                                                      |
+| ------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/settings/legal` từ tab/card/link phù hợp | Render màn hình chính của Terms of Service + Privacy Policy screens (markdown render) |
+| Mở legal page | Profile/Settings -> bấm Terms hoặc Privacy          | Render markdown legal content                                                         |
+| Mở link       | Bấm href nội bộ/ngoài                               | Nội bộ điều hướng trong app, link ngoài mở browser                                    |
 
 ## 4. Flow tích hợp
 
@@ -165,6 +164,7 @@ Người dùng quản lý hồ sơ, cài đặt, pháp lý và quyền riêng t�
 
 - Settings/Profile -> Terms/Privacy.
 - Internal href dùng app route; external href mở browser.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

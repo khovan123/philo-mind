@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #72 |
-| Task ID | T-D06 |
-| Title | Story list screen (cards + filters + replay indicator) |
-| State | done |
+| Field          | Value                                                                                      |
+| -------------- | ------------------------------------------------------------------------------------------ |
+| GitHub issue   | #72                                                                                        |
+| Task ID        | T-D06                                                                                      |
+| Title          | Story list screen (cards + filters + replay indicator)                                     |
+| State          | done                                                                                       |
 | Local log path | `issues/by-github-id/#072-T-D06-Story list screen (cards + filters + replay indicator).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #72 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 4h |
-| Milestone | Week 5 |
-| Dependencies | `T-D02` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #72                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 4h                   |
+| Milestone         | Week 5               |
+| Dependencies      | `T-D02`              |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/(tabs)/story` từ tab/card/link phù hợp | Render màn hình chính của Story list screen (cards + filters + replay indicator) |
-| Bắt đầu/tiếp tục | Bấm story card hoặc CTA tiếp tục | Điều hướng đúng step kế tiếp, giữ storyId/sessionId |
-| Qua bước kế tiếp | Bấm CTA chính của step | Điều hướng theo chain story mode: list -> intro -> learn -> choose -> result -> knowledge -> reflect |
-
+| Tình huống       | Người dùng thao tác                               | Kết quả bắt buộc                                                                                     |
+| ---------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Mở màn hình      | User vào `/(tabs)/story` từ tab/card/link phù hợp | Render màn hình chính của Story list screen (cards + filters + replay indicator)                     |
+| Bắt đầu/tiếp tục | Bấm story card hoặc CTA tiếp tục                  | Điều hướng đúng step kế tiếp, giữ storyId/sessionId                                                  |
+| Qua bước kế tiếp | Bấm CTA chính của step                            | Điều hướng theo chain story mode: list -> intro -> learn -> choose -> result -> knowledge -> reflect |
 
 ## 4. Flow tích hợp
 
@@ -169,6 +168,7 @@ Người học đi qua story mode nhiều bước: hiểu bối cảnh, học kh
 
 - Story list -> intro -> learn -> dilemma/choose -> result -> knowledge -> reflect.
 - Back/continue giữ `storyId` và `sessionId`.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

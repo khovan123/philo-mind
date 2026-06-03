@@ -202,6 +202,112 @@ export class StoryService {
       };
     });
   }
+
+  /**
+   * Get detailed choice statistics and session completion info for a single story scenario
+   */
+  async getStoryStats(id: string) {
+    const story = await prisma.storyScenario.findUnique({
+      where: { id },
+      select: { id: true },
+    });
+
+    if (!story) {
+      throw new StoryError("STORY_NOT_FOUND", "Không tìm thấy câu chuyện", 404);
+    }
+
+    // 1. Group sessions by status to count total, completed, in-progress sessions
+    const sessionGroups = await prisma.storySession.groupBy({
+      by: ["status"],
+      where: { storyId: id },
+      _count: { id: true },
+    });
+
+    let completedSessions = 0;
+    let inProgressSessions = 0;
+    for (const group of sessionGroups) {
+      if (group.status === "COMPLETED") {
+        completedSessions = group._count.id;
+      } else if (group.status === "IN_PROGRESS") {
+        inProgressSessions = group._count.id;
+      }
+    }
+    const totalSessions = completedSessions + inProgressSessions;
+
+    // 2. We also call prisma.storySession.findMany to calculate average completion time
+    const completedSessionsList = await prisma.storySession.findMany({
+      where: {
+        storyId: id,
+        status: "COMPLETED",
+      },
+      select: {
+        startedAt: true,
+        completedAt: true,
+      },
+    });
+
+    let averageTime = 0;
+    if (completedSessionsList.length > 0) {
+      const totalTimeMs = completedSessionsList.reduce((sum, session) => {
+        if (session.completedAt && session.startedAt) {
+          return sum + (session.completedAt.getTime() - session.startedAt.getTime());
+        }
+        return sum;
+      }, 0);
+      averageTime = Math.round(totalTimeMs / completedSessionsList.length / 1000); // average time in seconds
+    }
+
+    // 3. Fetch choices for the story using storyId
+    const choices = await prisma.storyChoice.findMany({
+      where: { storyId: id },
+    });
+
+    const choiceIds = choices.map((c) => c.id);
+
+    // 4. Group decisions by choiceId to calculate distribution
+    const decisionGroups =
+      choiceIds.length > 0
+        ? ((await prisma.storyDecision.groupBy({
+            by: ["choiceId"] as const,
+            _count: {
+              id: true,
+            },
+            where: {
+              choiceId: { in: choiceIds },
+            },
+          } as any)) as any[])
+        : [];
+
+    const decisionStatsMap: Record<string, number> = {};
+    for (const item of decisionGroups) {
+      decisionStatsMap[item.choiceId] = item._count.id;
+    }
+
+    const totalDecisions = choices.reduce((sum, choice) => {
+      return sum + (decisionStatsMap[choice.id] || 0);
+    }, 0);
+
+    const choiceStats = choices.map((choice) => {
+      const count = decisionStatsMap[choice.id] || 0;
+      const percentage = totalDecisions > 0 ? Math.round((count / totalDecisions) * 100) : 0;
+      return {
+        choiceId: choice.id,
+        content: (choice as any).content || (choice as any).choiceText || "",
+        count,
+        percentage,
+      };
+    });
+
+    return {
+      storyId: id,
+      totalSessions,
+      completedSessions,
+      inProgressSessions,
+      totalCompletions: completedSessions,
+      averageTime,
+      choiceStats,
+    };
+  }
 }
 
 export const storyService = new StoryService();

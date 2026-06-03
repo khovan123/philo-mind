@@ -22,6 +22,23 @@ export type StoryStats = {
   choicesDistribution: StoryChoiceDistribution[];
 };
 
+export type StoryChoiceStats = {
+  choiceId: string;
+  content: string;
+  count: number;
+  percentage: number;
+};
+
+export type StoryStatsReport = {
+  storyId: string;
+  totalSessions: number;
+  completedSessions: number;
+  inProgressSessions: number;
+  totalCompletions: number;
+  averageTime: number;
+  choiceStats: StoryChoiceStats[];
+};
+
 export type StoryChoice = {
   id: string;
   choiceText: string;

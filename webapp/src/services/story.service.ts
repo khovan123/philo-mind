@@ -5,11 +5,20 @@ import type {
   StorySummary,
   StorySession,
   StoryDecision,
+  StoryStatsReport,
 } from "@/types/story";
 
 // ── T-D06: Story API service ──────────────────────────────────
 
 export const storyService = {
+  /**
+   * Fetch statistical report for a story scenario.
+   * Endpoint: GET /api/v1/stories/:id/stats
+   */
+  async getStoryStats(id: string): Promise<StoryStatsReport> {
+    return apiRequest<StoryStatsReport>(`/stories/${id}/stats`, { method: "GET" });
+  },
+
   /**
    * List paginated story scenarios with optional filters.
    * Endpoint: GET /api/v1/stories
