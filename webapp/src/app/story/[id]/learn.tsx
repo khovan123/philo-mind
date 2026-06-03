@@ -53,6 +53,12 @@ export default function StoryLearnPlaceholderScreen() {
             fullWidth
             style={{ marginTop: Spacing.four }}
           />
+          <Button
+            title="Tiến đến Gặp Gỡ NPC →"
+            onPress={() => router.push(`/story/${storyId}/encounter` as never)}
+            fullWidth
+            style={{ marginTop: Spacing.two }}
+          />
         </Card>
       </View>
     </SafeAreaView>

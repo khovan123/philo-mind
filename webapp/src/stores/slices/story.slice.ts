@@ -18,6 +18,8 @@ export type StoryState = {
   activeSession: StorySession | null;
   selectedRoleId: string | null;
   currentStep: StoryStep;
+  npcEncounterCompleted: boolean;
+  minigameScore: number | null;
   loadingStories: boolean;
   loadingStoryDetail: boolean;
   loadingSession: boolean;
@@ -33,6 +35,8 @@ const initialState: StoryState = {
   activeSession: null,
   selectedRoleId: null,
   currentStep: "intro",
+  npcEncounterCompleted: false,
+  minigameScore: null,
   loadingStories: false,
   loadingStoryDetail: false,
   loadingSession: false,
@@ -119,11 +123,19 @@ const storySlice = createSlice({
     setSelectedRoleId: (state, action: PayloadAction<string | null>) => {
       state.selectedRoleId = action.payload;
     },
+    setNpcEncounterCompleted: (state, action: PayloadAction<boolean>) => {
+      state.npcEncounterCompleted = action.payload;
+    },
+    setMinigameScore: (state, action: PayloadAction<number | null>) => {
+      state.minigameScore = action.payload;
+    },
     resetStoryStore: (state) => {
       state.currentStory = null;
       state.activeSession = null;
       state.selectedRoleId = null;
       state.currentStep = "intro";
+      state.npcEncounterCompleted = false;
+      state.minigameScore = null;
       state.error = null;
     },
     clearStoryMessages: (state) => {
@@ -215,6 +227,12 @@ const storySlice = createSlice({
   },
 });
 
-export const { setStep, resetStoryStore, clearStoryMessages, setSelectedRoleId } =
-  storySlice.actions;
+export const {
+  setStep,
+  resetStoryStore,
+  clearStoryMessages,
+  setSelectedRoleId,
+  setNpcEncounterCompleted,
+  setMinigameScore,
+} = storySlice.actions;
 export const storyReducer = storySlice.reducer;

@@ -53,6 +53,12 @@ export default function StoryDilemmaPlaceholderScreen() {
             fullWidth
             style={{ marginTop: Spacing.four }}
           />
+          <Button
+            title="Tiến đến Mini Game →"
+            onPress={() => router.push(`/story/${storyId}/minigame` as never)}
+            fullWidth
+            style={{ marginTop: Spacing.two }}
+          />
         </Card>
       </View>
     </SafeAreaView>
