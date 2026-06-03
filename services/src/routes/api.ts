@@ -26,6 +26,8 @@ import { miniGameRouter } from "./minigame.routes.js";
 import { scenarioRouter } from "./scenario.routes.js";
 import { lessonRouter } from "./lesson.routes.js";
 import { shortLessonRouter } from "./short-lesson.routes.js";
+import { progressRouter } from "./progress.routes.js";
+import { quizRouter } from "./quiz.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -88,3 +90,8 @@ apiRouter.use("/lessons", lessonRouter);
 apiRouter.use("/short-lessons", shortLessonRouter);
 apiRouter.use("/debates", debateRouter);
 apiRouter.use("/debate-arguments", debateArgumentRouter);
+
+// T-A09: User Progress
+apiRouter.use("/progress", progressRouter);
+// T-A10: Quiz
+apiRouter.use("/quizzes", quizRouter);
