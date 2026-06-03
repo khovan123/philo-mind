@@ -532,11 +532,7 @@ describe("T-A10: QuizController", () => {
         userId: USER_ID,
         quizId: QUIZ_ID,
         quiz: { questions: [{ id: "q1" }, { id: "q2" }, { id: "q3" }] },
-        answers: [
-          { isCorrect: true },
-          { isCorrect: false },
-          { isCorrect: true },
-        ],
+        answers: [{ isCorrect: true }, { isCorrect: false }, { isCorrect: true }],
       });
       mockAttemptUpdate.mockResolvedValue({
         id: ATTEMPT_ID,

@@ -50,7 +50,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
 // Mock activity-log service to avoid badge evaluation side effects
 jest.unstable_mockModule("../services/activity-log.service.js", () => ({
   ActivityLogService: {
-    logActivity: jest.fn().mockResolvedValue({ log: {}, newlyEarnedBadges: [] }),
+    logActivity: (jest.fn() as any).mockResolvedValue({ log: {}, newlyEarnedBadges: [] }),
   },
   ActivityType: {
     WRITE_REFLECTION: "WRITE_REFLECTION",

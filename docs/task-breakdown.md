@@ -68,11 +68,11 @@ Track K: Admin & Settings     ██████                (T-K01 → T-K04
 
 | ID | Task | Est | Deps | AC Summary |
 |----|------|-----|------|------------|
-| T-A06 | Topic CRUD API (list/get/create/update + search/filter) | 3h | T-A04 | Paginated, category/difficulty filter, admin-only create |
-| T-A07 | Lesson CRUD API (list by topic, detail with questions) | 4h | T-A04 | Published-only for users, markdown content |
-| T-A08 | Short Lesson API (list/get/respond/comment) | 4h | T-A04 | Stance response, community stats, unique constraint |
-| T-A09 | User Progress API (upsert/stats/by-topic) | 3h | T-A04 | Auto-complete at 100%, status transitions |
-| T-A10 | Quiz API (attempt/answer/complete/score) | 4h | T-A04 | Score calculation, time tracking |
+| T-A06 ✅ | Topic CRUD API (list/get/create/update + search/filter) | 3h | T-A04 | Paginated, category/difficulty filter, admin-only create |
+| T-A07 ✅ | Lesson CRUD API (list by topic, detail with questions) | 4h | T-A04 | Published-only for users, markdown content |
+| T-A08 ✅ | Short Lesson API (list/get/respond/comment) | 4h | T-A04 | Stance response, community stats, unique constraint |
+| T-A09 ✅ | User Progress API (upsert/stats/by-topic) | 3h | T-A04 | Auto-complete at 100%, status transitions |
+| T-A10 ✅ | Quiz API (attempt/answer/complete/score) | 4h | T-A04 | Score calculation, time tracking |
 
 ### A-Advanced APIs (Week 4-5)
 

@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import type { Response, NextFunction } from "express";
+import type { NextFunction, Response } from "express";
 
 // Mock env before any imports
 jest.unstable_mockModule("../config/env.js", () => ({
@@ -43,16 +43,10 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
   },
 }));
 
-const {
-  upsertProgressSchema,
-  listProgressSchema,
-  progressByLessonSchema,
-  progressByTopicSchema,
-} = await import("../validators/progress.validator.js");
+const { upsertProgressSchema, listProgressSchema, progressByLessonSchema, progressByTopicSchema } =
+  await import("../validators/progress.validator.js");
 
-const { ProgressController } = await import(
-  "../controllers/progress.controller.js"
-);
+const { ProgressController } = await import("../controllers/progress.controller.js");
 
 const VALID_UUID = "550e8400-e29b-41d4-a716-446655440000";
 const USER_ID = "660e8400-e29b-41d4-a716-446655440099";
@@ -343,11 +337,7 @@ describe("T-A09: ProgressController", () => {
       } as any;
 
       mockTopicFindUnique.mockResolvedValue({ id: TOPIC_ID });
-      mockLessonFindMany.mockResolvedValue([
-        { id: "l1" },
-        { id: "l2" },
-        { id: "l3" },
-      ]);
+      mockLessonFindMany.mockResolvedValue([{ id: "l1" }, { id: "l2" }, { id: "l3" }]);
       mockProgressFindMany.mockResolvedValue([
         { status: "COMPLETED", progressPercent: 100 },
         { status: "IN_PROGRESS", progressPercent: 50 },

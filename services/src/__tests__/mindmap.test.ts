@@ -60,9 +60,7 @@ const {
   updateMindmapEdgeSchema,
 } = await import("../validators/mindmap.validator.js");
 
-const { MindmapService, MindmapError } = await import(
-  "../services/mindmap.service.js"
-);
+const { MindmapService, MindmapError } = await import("../services/mindmap.service.js");
 
 const VALID_UUID = "550e8400-e29b-41d4-a716-446655440000";
 const TOPIC_ID = "880e8400-e29b-41d4-a716-446655440022";
@@ -304,9 +302,9 @@ describe("T-A13: MindmapService", () => {
   describe("updateEdge", () => {
     it("throws EDGE_NOT_FOUND when edge doesn't exist", async () => {
       mockEdgeFindUnique.mockResolvedValue(null);
-      await expect(
-        service.updateEdge(VALID_UUID, { relationType: "CONTRADICTS" }),
-      ).rejects.toThrow(MindmapError);
+      await expect(service.updateEdge(VALID_UUID, { relationType: "CONTRADICTS" })).rejects.toThrow(
+        MindmapError,
+      );
     });
 
     it("throws when update would make source == target", async () => {
@@ -316,9 +314,9 @@ describe("T-A13: MindmapService", () => {
         targetNodeId: NODE_B,
       });
 
-      await expect(
-        service.updateEdge(VALID_UUID, { targetNodeId: NODE_A }),
-      ).rejects.toThrow(MindmapError);
+      await expect(service.updateEdge(VALID_UUID, { targetNodeId: NODE_A })).rejects.toThrow(
+        MindmapError,
+      );
     });
   });
 
