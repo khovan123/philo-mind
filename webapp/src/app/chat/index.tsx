@@ -53,7 +53,7 @@ export default function ChatGalleryScreen() {
     isLoading: loadingChars,
     error: charError,
     refetch: refetchChars,
-  } = useGetCharactersQuery();
+  } = useGetCharactersQuery(undefined, { refetchOnMountOrArgChange: true });
 
   const {
     data: sessionsData,

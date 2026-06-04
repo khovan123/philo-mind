@@ -77,8 +77,17 @@ function normalizeResult(
     };
   }
 
+  // Keep the full response object - let transformResponse handle unwrapping
+  // This way transformResponse can see both data and meta (for paginated responses)
+  if (isApiResponse(result.data)) {
+    return {
+      data: result.data,
+      meta: result.meta,
+    };
+  }
+
   return {
-    data: unwrapApiData(result.data),
+    data: result.data,
     meta: result.meta,
   };
 }
@@ -92,6 +101,9 @@ const rawBaseQuery = fetchBaseQuery({
     if (accessToken) {
       headers.set("Authorization", `Bearer ${accessToken}`);
     }
+
+    // Disable caching to avoid 304 Not Modified issues
+    headers.set("Cache-Control", "no-cache");
 
     return headers;
   },
