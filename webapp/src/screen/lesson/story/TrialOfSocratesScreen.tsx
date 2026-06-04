@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+﻿import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -48,7 +48,7 @@ export default function TrialOfSocratesScreen() {
   }
 
   function finishLesson() {
-    router.push("/explore");
+    router.push("/(tabs)/explore");
   }
 
   function openReflectionJournal() {

@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookOpen } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
@@ -192,7 +192,7 @@ export default function QuizGameplayScreen() {
         <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
           Try another lesson or come back later.
         </ThemedText>
-        <Pressable onPress={() => router.push("/learn")} style={styles.primaryButton}>
+        <Pressable onPress={() => router.push("/(tabs)/learn")} style={styles.primaryButton}>
           <ThemedText style={styles.primaryButtonText}>Back to Learning</ThemedText>
         </Pressable>
       </QuizState>

@@ -3,7 +3,7 @@ const { withNativewind } = require("nativewind/metro");
 const path = require("path");
 
 // ── Monorepo support ───────────────────────────────────────
-const monorepoRoot = path.resolve(__dirname, "../..");
+const monorepoRoot = path.resolve(__dirname, "..");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);

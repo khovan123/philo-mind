@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   AlertCircle,
   ArrowLeft,
@@ -90,7 +90,7 @@ export default function StoryReflectScreen() {
   async function handleCompleteStory() {
     try {
       await completeActiveSession();
-      router.replace("/story" as never);
+      router.replace("/(tabs)/story" as never);
     } catch {
       // Handled in store
     }

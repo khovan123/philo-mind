@@ -104,7 +104,7 @@ export default function BookmarksScreen() {
         router.push(`/story/${bookmark.targetId}/reflect` as never);
         return;
       case "DEBATE":
-        router.push("/debate" as never);
+        router.push("/(tabs)/debate" as never);
         return;
       case "TOPIC":
         router.push("/mindmap" as never);
@@ -198,7 +198,7 @@ export default function BookmarksScreen() {
               <ThemedText type="small" themeColor="textMuted" style={styles.centerText}>
                 Bookmark một topic từ mindmap hoặc quay lại học tập để tiếp tục.
               </ThemedText>
-              <Button title="Mở học tập" onPress={() => router.push("/learn" as never)} />
+              <Button title="Mở học tập" onPress={() => router.push("/(tabs)/learn" as never)} />
             </StatePanel>
           ) : null}
 

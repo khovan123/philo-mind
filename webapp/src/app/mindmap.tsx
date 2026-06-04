@@ -339,7 +339,7 @@ export default function MindmapScreen() {
 
           <Legend />
 
-          <NodeDetail node={selectedNode} onOpenLearn={() => router.push("/learn" as never)} />
+          <NodeDetail node={selectedNode} onOpenLearn={() => router.push("/(tabs)/learn" as never)} />
         </ScrollView>
       </View>
     </SafeAreaView>
