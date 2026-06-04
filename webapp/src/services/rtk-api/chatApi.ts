@@ -74,25 +74,43 @@ export const chatApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     // ── Characters ──
     getCharacters: build.query<AiCharacter[], void>({
-      query: () => ({ url: "/api/v1/ai/characters" }),
-      transformResponse: (res: SuccessResponse<AiCharacter[]>) => res.data,
+      query: () => ({ url: "/ai/characters" }),
+      transformResponse: (res: SuccessResponse<AiCharacter[]>) => {
+        console.log("[getCharacters] transformResponse received:", res);
+        // Handle both unwrapped array and full response
+        if (Array.isArray(res)) {
+          return res;
+        }
+        return (res && (res as any).data) ? (res as any).data : [];
+      },
       providesTags: ["Chat"],
+      refetchOnMountOrArgChange: true,
     }),
 
     getCharacterById: build.query<AiCharacterDetail, string>({
-      query: (id) => ({ url: `/api/v1/ai/characters/${id}` }),
-      transformResponse: (res: SuccessResponse<AiCharacterDetail>) => res.data,
+      query: (id) => ({ url: `/ai/characters/${id}` }),
+      transformResponse: (res: SuccessResponse<AiCharacterDetail>) => {
+        if (res && typeof res === 'object' && 'data' in res) {
+          return (res as any).data;
+        }
+        return res as AiCharacterDetail;
+      },
       providesTags: (_r, _e, id) => [{ type: "Chat", id: `char-${id}` }],
     }),
 
     // ── Sessions ──
     createChatSession: build.mutation<ChatSession, { characterId: string; title?: string }>({
       query: (body) => ({
-        url: "/api/v1/ai/chat/sessions",
+        url: "/ai/chat/sessions",
         method: "POST",
         body,
       }),
-      transformResponse: (res: SuccessResponse<ChatSession>) => res.data,
+      transformResponse: (res: SuccessResponse<ChatSession>) => {
+        if (res && typeof res === 'object' && 'data' in res) {
+          return (res as any).data;
+        }
+        return res as ChatSession;
+      },
       invalidatesTags: ["Chat"],
     }),
 
@@ -101,32 +119,42 @@ export const chatApi = baseApi.injectEndpoints({
       { page?: number; limit?: number } | void
     >({
       query: (params) => ({
-        url: "/api/v1/ai/chat/sessions",
+        url: "/ai/chat/sessions",
         params: params ?? { page: 1, limit: 20 },
       }),
       transformResponse: (res: PaginatedResponse<ChatSession>) => ({
-        sessions: res.data,
-        total: res.meta.total,
+        sessions: res.data || [],
+        total: res.meta?.total ?? 0,
       }),
       providesTags: ["Chat"],
     }),
 
     getChatSession: build.query<ChatSessionDetail, string>({
       query: (sessionId) => ({
-        url: `/api/v1/ai/chat/sessions/${sessionId}`,
+        url: `/ai/chat/sessions/${sessionId}`,
       }),
-      transformResponse: (res: SuccessResponse<ChatSessionDetail>) => res.data,
+      transformResponse: (res: SuccessResponse<ChatSessionDetail>) => {
+        if (res && typeof res === 'object' && 'data' in res) {
+          return (res as any).data;
+        }
+        return res as ChatSessionDetail;
+      },
       providesTags: (_r, _e, id) => [{ type: "Chat", id }],
     }),
 
     // ── Messages ──
     sendMessage: build.mutation<SendMessageResult, { sessionId: string; message: string }>({
       query: ({ sessionId, message }) => ({
-        url: `/api/v1/ai/chat/sessions/${sessionId}/messages`,
+        url: `/ai/chat/sessions/${sessionId}/messages`,
         method: "POST",
         body: { message },
       }),
-      transformResponse: (res: SuccessResponse<SendMessageResult>) => res.data,
+      transformResponse: (res: SuccessResponse<SendMessageResult>) => {
+        if (res && typeof res === 'object' && 'data' in res) {
+          return (res as any).data;
+        }
+        return res as SendMessageResult;
+      },
       invalidatesTags: (_r, _e, arg) => [{ type: "Chat", id: arg.sessionId }],
     }),
   }),

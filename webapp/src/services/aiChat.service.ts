@@ -20,7 +20,7 @@ function makeId(prefix = "s") {
 export const aiChatService = {
   async createSession({ characterId, title }: { characterId: string; title?: string }) {
     if (!useMock) {
-      const res = await fetch("/api/v1/ai/chat/sessions", {
+      const res = await fetch("/ai/chat/sessions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ characterId, title }),
@@ -37,7 +37,7 @@ export const aiChatService = {
 
   async getSession(sessionId: string) {
     if (!useMock) {
-      const res = await fetch(`/api/v1/ai/chat/sessions/${sessionId}`);
+      const res = await fetch(`/ai/chat/sessions/${sessionId}`);
       return await res.json();
     }
     const s = sessions[sessionId];
@@ -52,7 +52,7 @@ export const aiChatService = {
     onProgress?: (chunk: string) => void,
   ): Promise<Message> {
     if (!useMock) {
-      const res = await fetch(`/api/v1/ai/chat/sessions/${sessionId}/messages`, {
+      const res = await fetch(`/ai/chat/sessions/${sessionId}/messages`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt }),
@@ -98,7 +98,7 @@ export const aiChatService = {
   // helper to list messages
   async listMessages(sessionId: string) {
     if (!useMock) {
-      const res = await fetch(`/api/v1/ai/chat/sessions/${sessionId}/messages`);
+      const res = await fetch(`/ai/chat/sessions/${sessionId}/messages`);
       return await res.json();
     }
     return messages[sessionId] ?? [];
