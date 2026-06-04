@@ -1,4 +1,4 @@
-import { Bookmark, BookOpen, Compass, Home, UserRound } from "lucide-react-native";
+import { Bookmark, BookOpen, Compass, Home, MessageCircle, UserRound } from "lucide-react-native";
 import { StyleSheet, View, type ColorValue } from "react-native";
 
 const Icons = {
@@ -7,6 +7,7 @@ const Icons = {
   debate: Bookmark,
   profile: UserRound,
   story: BookOpen,
+  chat: MessageCircle,
 } as const;
 
 export type TabIconName = keyof typeof Icons;
