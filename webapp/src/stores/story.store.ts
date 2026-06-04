@@ -1,20 +1,26 @@
+import { RootState } from "@/stores";
+import type { ListStoriesFilters } from "@/types/story";
 import { useAppDispatch, useAppSelector } from "./hooks";
+import type { StoryStep } from "./slices/story.slice";
 import {
+  completeActiveSessionThunk,
   fetchStories,
   loadStoryDetail,
+  resetStoryStore,
+  setStep as setStepAction,
+  setSelectedRoleId,
+  setNpcEncounterCompleted as setNpcEncounterCompletedAction,
+  setMinigameScore as setMinigameScoreAction,
+  setQuizScore as setQuizScoreAction,
+  setReflectionJournal as setReflectionJournalAction,
   startOrResumeSession,
   submitDecision,
-  completeActiveSessionThunk,
-  setStep as setStepAction,
-  resetStoryStore,
 } from "./slices/story.slice";
-import type { ListStoriesFilters } from "@/types/story";
-import type { StoryStep } from "./slices/story.slice";
 export type { StoryStep };
 
 export function useStoryStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.story);
+  const state = useAppSelector((s: RootState) => s.story);
 
   return {
     ...state,
@@ -35,6 +41,21 @@ export function useStoryStore() {
     },
     setStep: (step: StoryStep) => {
       dispatch(setStepAction(step));
+    },
+    setSelectedRoleId: (roleId: string | null) => {
+      dispatch(setSelectedRoleId(roleId));
+    },
+    setNpcEncounterCompleted: (completed: boolean) => {
+      dispatch(setNpcEncounterCompletedAction(completed));
+    },
+    setMinigameScore: (score: number | null) => {
+      dispatch(setMinigameScoreAction(score));
+    },
+    setQuizScore: (score: number | null) => {
+      dispatch(setQuizScoreAction(score));
+    },
+    setReflectionJournal: (text: string | null) => {
+      dispatch(setReflectionJournalAction(text));
     },
     resetStore: () => {
       dispatch(resetStoryStore());

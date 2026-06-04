@@ -14,7 +14,6 @@ import { statsRouter } from "./stats.routes.js";
 import { aiRouter } from "./ai.routes.js";
 import { aiChatRouter } from "./ai-chat.routes.js";
 import { aiCharacterRouter } from "./ai-character.route.js";
-import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
 
 import { philosophyTagRouter } from "./philosophy-tag.routes.js";
 import { storyLearnCardRouter } from "./story-learn-card.routes.js";
@@ -26,8 +25,11 @@ import { miniGameRouter } from "./minigame.routes.js";
 import { scenarioRouter } from "./scenario.routes.js";
 import { lessonRouter } from "./lesson.routes.js";
 import { shortLessonRouter } from "./short-lesson.routes.js";
-import { progressRouter } from "./progress.routes.js";
 import { quizRouter } from "./quiz.routes.js";
+import { progressRouter } from "./progress.routes.js";
+import { learningRouter } from "./learning.routes.js";
+import { profileRouter } from "./profile.routes.js";
+import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -88,11 +90,9 @@ apiRouter.use("/minigames", miniGameRouter);
 apiRouter.use("/scenarios", scenarioRouter);
 apiRouter.use("/lessons", lessonRouter);
 apiRouter.use("/short-lessons", shortLessonRouter);
+apiRouter.use("/quizzes", quizRouter);
+apiRouter.use("/progress", progressRouter);
+apiRouter.use("/learning", learningRouter);
+apiRouter.use("/profile", profileRouter);
 apiRouter.use("/debates", debateRouter);
 apiRouter.use("/debate-arguments", debateArgumentRouter);
-
-// T-A09: User Progress
-apiRouter.use("/progress", progressRouter);
-// T-A10: Quiz
-apiRouter.use("/quizzes", quizRouter);
-

@@ -89,8 +89,6 @@ const rawBaseQuery = fetchBaseQuery({
     const state = getState() as RootState;
     const accessToken = state.auth.accessToken;
 
-    headers.set("Content-Type", "application/json");
-
     if (accessToken) {
       headers.set("Authorization", `Bearer ${accessToken}`);
     }

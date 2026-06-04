@@ -4,12 +4,11 @@ import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { apiRequest } from "@/services/api";
-import { TopicDTO } from "@philo-mind/shared";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
 
 const Colors = {
   background: "#0C0C0E",
@@ -79,25 +78,54 @@ export default function ExploreScreen() {
   const router = useRouter();
   const [activeFilter, setActiveFilter] = useState(filters[0]);
   const [query, setQuery] = useState("");
-  const [dbTopics, setDbTopics] = useState<TopicDTO[]>([]);
+  const [debouncedQuery, setDebouncedQuery] = useState("");
 
   useEffect(() => {
-    async function fetchTopics() {
-      try {
-        const data = await apiRequest<TopicDTO[]>("/topics");
-        setDbTopics(data);
-      } catch {
-        // Fallback to static topics if request fails
-      }
+    const timeout = setTimeout(() => setDebouncedQuery(query.trim()), 300);
+    return () => clearTimeout(timeout);
+  }, [query]);
+
+  const topicCategory = activeFilter === filters[0] ? undefined : activeFilter;
+  const { data: dbTopics = [] } = useListTopicsQuery({
+    search: debouncedQuery || undefined,
+    category: topicCategory,
+    limit: 30,
+  });
+  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
+  const visibleFilters = useMemo(() => {
+    if (allTopics.length === 0) {
+      return filters;
     }
-    fetchTopics();
-  }, []);
+
+    const categories = Array.from(
+      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
+    );
+    return [filters[0], ...categories];
+  }, [allTopics]);
 
   const normalizedQuery = query.trim().toLowerCase();
 
+  const featuredLessonsToUse = useMemo(() => {
+    if (dbTopics.length === 0) {
+      return featuredLessons;
+    }
+
+    return dbTopics.slice(0, 6).map((topic) => ({
+      topicId: topic.id,
+      title: topic.title,
+      category: topic.category ?? "Triết học",
+      duration: `${topic._count?.lessons ?? 0} bài học`,
+      description: topic.description ?? "Khám phá chủ đề triết học từ database.",
+      image: featuredImage,
+      fullRoute: "/full-lesson",
+      scenarioRoute: "/trial-of-socrates",
+      shortRoute: "/short-lesson",
+    }));
+  }, [dbTopics]);
+
   const filteredLessons = useMemo(
     () =>
-      featuredLessons.filter((lesson) => {
+      featuredLessonsToUse.filter((lesson) => {
         const matchesFilter = activeFilter === "Tất cả" || lesson.category === activeFilter;
         const matchesQuery =
           !normalizedQuery ||
@@ -107,7 +135,7 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, normalizedQuery],
+    [activeFilter, featuredLessonsToUse, normalizedQuery],
   );
 
   const topicsToUse = useMemo(() => {
@@ -115,8 +143,8 @@ export default function ExploreScreen() {
       return dbTopics.map((t, index) => ({
         id: t.id,
         title: t.title,
-        lessons: "5 bài học",
-        progress: index === 0 ? 34 : 66,
+        lessons: `${t._count?.lessons ?? 0} bài học`,
+        progress: Math.min(100, index === 0 ? 34 : 18 + index * 12),
         category: t.category ?? "Đạo đức",
       }));
     }
@@ -172,7 +200,7 @@ export default function ExploreScreen() {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.filterList}
           >
-            {filters.map((filter) => {
+            {visibleFilters.map((filter) => {
               const active = filter === activeFilter;
 
               return (
@@ -208,62 +236,100 @@ export default function ExploreScreen() {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={styles.featuredList}
               >
-                {filteredLessons.map((lesson) => (
-                  <View key={lesson.title} style={styles.featuredCard}>
-                    {lesson.image ? (
-                      <Image
-                        source={lesson.image}
-                        contentFit="cover"
-                        style={styles.featuredImage}
-                      />
-                    ) : (
-                      <View style={styles.featuredFallback}>
-                        <BookOpen color={Colors.locked} size={40} />
+                {filteredLessons.map((lesson, index) => {
+                  const lessonKey =
+                    "topicId" in lesson && typeof lesson.topicId === "string"
+                      ? lesson.topicId
+                      : `${lesson.title}-${index}`;
+
+                  return (
+                    <View key={lessonKey} style={styles.featuredCard}>
+                      {lesson.image ? (
+                        <Image
+                          source={lesson.image}
+                          contentFit="cover"
+                          style={styles.featuredImage}
+                        />
+                      ) : (
+                        <View style={styles.featuredFallback}>
+                          <BookOpen color={Colors.locked} size={40} />
+                        </View>
+                      )}
+
+                      <View style={styles.featuredBody}>
+                        <View style={styles.featuredMeta}>
+                          <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
+                          <View style={styles.metaDot} />
+                          <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
+                        </View>
+
+                        <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
+                        <ThemedText numberOfLines={2} style={styles.featuredDescription}>
+                          {lesson.description}
+                        </ThemedText>
+
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => {
+                            const topicId =
+                              "topicId" in lesson && typeof lesson.topicId === "string"
+                                ? lesson.topicId
+                                : null;
+
+                            if (topicId) {
+                              router.push({
+                                pathname: "/short-lesson" as never,
+                                params: { topicId },
+                              });
+                            } else {
+                              startLesson(lesson.shortRoute);
+                            }
+                          }}
+                          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
+                        >
+                          <ThemedText style={styles.startButtonText}>Short</ThemedText>
+                          <ArrowRight color={Colors.primaryText} size={16} />
+                        </Pressable>
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => {
+                            const topicId =
+                              "topicId" in lesson && typeof lesson.topicId === "string"
+                                ? lesson.topicId
+                                : null;
+
+                            if (topicId) {
+                              router.push({
+                                pathname: "/topic-lessons" as never,
+                                params: { topicId, topicTitle: lesson.title },
+                              });
+                            } else {
+                              startLesson(lesson.fullRoute);
+                            }
+                          }}
+                          style={({ pressed }) => [
+                            styles.fullLessonButton,
+                            pressed && styles.pressed,
+                          ]}
+                        >
+                          <BookOpen color={Colors.primaryLight} size={16} />
+                          <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                        </Pressable>
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() => startLesson(lesson.scenarioRoute)}
+                          style={({ pressed }) => [
+                            styles.scenarioButton,
+                            pressed && styles.pressed,
+                          ]}
+                        >
+                          <Sparkles color={Colors.primaryLight} size={16} />
+                          <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
+                        </Pressable>
                       </View>
-                    )}
-
-                    <View style={styles.featuredBody}>
-                      <View style={styles.featuredMeta}>
-                        <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
-                        <View style={styles.metaDot} />
-                        <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
-                      </View>
-
-                      <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
-                      <ThemedText numberOfLines={2} style={styles.featuredDescription}>
-                        {lesson.description}
-                      </ThemedText>
-
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => startLesson(lesson.shortRoute)}
-                        style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
-                      >
-                        <ThemedText style={styles.startButtonText}>Short</ThemedText>
-                        <ArrowRight color={Colors.primaryText} size={16} />
-                      </Pressable>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => startLesson(lesson.fullRoute)}
-                        style={({ pressed }) => [
-                          styles.fullLessonButton,
-                          pressed && styles.pressed,
-                        ]}
-                      >
-                        <BookOpen color={Colors.primaryLight} size={16} />
-                        <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
-                      </Pressable>
-                      <Pressable
-                        accessibilityRole="button"
-                        onPress={() => startLesson(lesson.scenarioRoute)}
-                        style={({ pressed }) => [styles.scenarioButton, pressed && styles.pressed]}
-                      >
-                        <Sparkles color={Colors.primaryLight} size={16} />
-                        <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
-                      </Pressable>
                     </View>
-                  </View>
-                ))}
+                  );
+                })}
               </ScrollView>
             )}
           </View>
@@ -277,12 +343,12 @@ export default function ExploreScreen() {
             <View style={styles.topicGrid}>
               {filteredTopics.map((topic) => (
                 <Pressable
-                  key={topic.title}
+                  key={topic.id ?? topic.title}
                   accessibilityRole="button"
                   onPress={() => {
                     if (topic.id) {
                       router.push({
-                        pathname: "/topic-perspectives" as never,
+                        pathname: "/topic-lessons" as never,
                         params: { topicId: topic.id, topicTitle: topic.title },
                       });
                     } else {

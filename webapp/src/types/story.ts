@@ -36,7 +36,13 @@ export type StoryStatsReport = {
   inProgressSessions: number;
   totalCompletions: number;
   averageTime: number;
+  /** Average time in minutes (derived from averageTime) */
+  averageTimeMinutes?: number;
+  /** Percentage of sessions completed */
+  completionRate?: number;
   choiceStats: StoryChoiceStats[];
+  /** Map of choiceId → count, used for distribution visualization */
+  decisionDistribution?: Record<string, number>;
 };
 
 export type StoryChoice = {

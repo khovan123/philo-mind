@@ -23,11 +23,11 @@ function renderTabIcon(name: TabIconName) {
 
 const TAB_BAR_HEIGHT =
   Platform.select({
-    ios: 78,
-    android: 78,
-    web: 72,
-    default: 72,
-  }) ?? 72;
+    ios: 86,
+    android: 86,
+    web: 82,
+    default: 82,
+  }) ?? 82;
 
 export default function AppTabs() {
   const theme = useTheme();
@@ -47,16 +47,16 @@ export default function AppTabs() {
 
         tabBarLabelStyle: {
           fontFamily: Fonts.body,
-          fontSize: 11,
-          lineHeight: 14,
-          fontWeight: "700",
-          marginTop: 0,
+          fontSize: 12,
+          lineHeight: 16,
+          fontWeight: "600",
+          marginTop: 2,
         },
 
         tabBarItemStyle: {
-          paddingTop: Spacing.one,
-          paddingBottom: Spacing.one,
-          borderRadius: Radius.lg,
+          paddingTop: Spacing.two,
+          paddingBottom: Spacing.two,
+          borderRadius: Radius.md,
         },
 
         tabBarIconStyle: {
@@ -66,7 +66,7 @@ export default function AppTabs() {
         tabBarStyle: [
           styles.tabBar,
           {
-            backgroundColor: theme.surface,
+            backgroundColor: "#111113",
             borderTopColor: theme.border,
           },
         ],
@@ -84,8 +84,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Explore",
-
+          title: "Khám phá",
           tabBarLabel: "Khám phá",
           tabBarIcon: renderTabIcon("explore"),
         }}
@@ -103,17 +102,23 @@ export default function AppTabs() {
       <Tabs.Screen
         name="learn"
         options={{
-          title: "Learn",
-          tabBarLabel: "Học tập",
-          tabBarIcon: renderTabIcon("learn"),
+          href: null,
+        }}
+      />
+
+      <Tabs.Screen
+        name="onboarding"
+        options={{
+          href: null,
+          tabBarStyle: { display: "none" },
         }}
       />
 
       <Tabs.Screen
         name="debate"
         options={{
-          title: "Debate",
-          tabBarLabel: "Tranh luận",
+          title: "Lưu trữ",
+          tabBarLabel: "Lưu trữ",
           tabBarIcon: renderTabIcon("debate"),
         }}
       />
@@ -147,15 +152,15 @@ export default function AppTabs() {
 const styles = StyleSheet.create({
   tabBar: {
     height: TAB_BAR_HEIGHT,
-    paddingTop: Spacing.one,
+    paddingTop: Spacing.two,
     paddingBottom:
       Platform.select({
-        ios: Spacing.two,
-        android: Spacing.two,
-        web: Spacing.two,
-        default: Spacing.two,
-      }) ?? Spacing.two,
-    paddingHorizontal: Spacing.two,
+        ios: Spacing.three,
+        android: Spacing.three,
+        web: Spacing.three,
+        default: Spacing.three,
+      }) ?? Spacing.three,
+    paddingHorizontal: Spacing.three,
     borderTopWidth: StyleSheet.hairlineWidth,
     elevation: 0,
     shadowOpacity: 0,

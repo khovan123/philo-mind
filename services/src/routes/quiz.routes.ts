@@ -1,50 +1,32 @@
 import { Router } from "express";
 import { quizController } from "../controllers/quiz.controller.js";
-import { authGuard } from "../middleware/auth.middleware.js";
+import { authGuard, optionalAuth } from "../middleware/auth.middleware.js";
 import { validate } from "../middleware/validate.middleware.js";
 import {
   attemptIdSchema,
-  completeAttemptSchema,
+  lessonQuizSchema,
   listQuizzesSchema,
   quizIdSchema,
-  startAttemptSchema,
-  submitAnswerSchema,
+  submitQuizAnswerSchema,
 } from "../validators/quiz.validator.js";
-
-// ── T-A10: Quiz Routes ──────────────────────────────────────
 
 export const quizRouter = Router();
 
-quizRouter.use(authGuard);
-
-// List quizzes
-quizRouter.get("/", validate(listQuizzesSchema), (req, res, next) =>
-  quizController.list(req, res, next),
+quizRouter.get("/", optionalAuth, validate(listQuizzesSchema), (req, res) =>
+  quizController.list(req, res),
 );
-
-// Get a quiz with questions
-quizRouter.get("/:quizId", validate(quizIdSchema), (req, res, next) =>
-  quizController.getById(req, res, next),
+quizRouter.get("/by-lesson/:lessonId", optionalAuth, validate(lessonQuizSchema), (req, res) =>
+  quizController.getByLesson(req, res),
 );
-
-// Start an attempt
-quizRouter.post("/:quizId/attempts", validate(startAttemptSchema), (req, res, next) =>
-  quizController.startAttempt(req, res, next),
+quizRouter.post("/:quizId/attempts", authGuard, validate(quizIdSchema), (req, res) =>
+  quizController.startAttempt(req, res),
 );
-
-// Submit an answer within an attempt
-quizRouter.post("/attempts/:attemptId/answers", validate(submitAnswerSchema), (req, res, next) =>
-  quizController.submitAnswer(req, res, next),
-);
-
-// Complete an attempt
 quizRouter.post(
-  "/attempts/:attemptId/complete",
-  validate(completeAttemptSchema),
-  (req, res, next) => quizController.completeAttempt(req, res, next),
+  "/attempts/:attemptId/answers",
+  authGuard,
+  validate(submitQuizAnswerSchema),
+  (req, res) => quizController.submitAnswer(req, res),
 );
-
-// Get attempt details
-quizRouter.get("/attempts/:attemptId", validate(attemptIdSchema), (req, res, next) =>
-  quizController.getAttempt(req, res, next),
+quizRouter.post("/attempts/:attemptId/complete", authGuard, validate(attemptIdSchema), (req, res) =>
+  quizController.completeAttempt(req, res),
 );
