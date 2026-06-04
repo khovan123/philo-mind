@@ -92,6 +92,12 @@ describe("StoryService.getStoryStats", () => {
       inProgressSessions: 5,
       totalCompletions: 10,
       averageTime: 90,
+      averageTimeMinutes: 2,
+      completionRate: 67,
+      decisionDistribution: {
+        "choice-1": 8,
+        "choice-2": 2,
+      },
       choiceStats: [
         {
           choiceId: "choice-1",
@@ -132,6 +138,11 @@ describe("StoryService.getStoryStats", () => {
       inProgressSessions: 0,
       totalCompletions: 0,
       averageTime: 0,
+      averageTimeMinutes: 0,
+      completionRate: 0,
+      decisionDistribution: {
+        "choice-1": 0,
+      },
       choiceStats: [
         {
           choiceId: "choice-1",
