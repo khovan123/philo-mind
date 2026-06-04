@@ -1,4 +1,5 @@
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
 import {
   Bell,
   BookOpen,
@@ -69,6 +70,7 @@ const settingsItems = [
 ];
 
 export default function ProfileScreen() {
+  const router = useRouter();
   return (
     <View style={styles.screen}>
       <SafeAreaView edges={["top"]} style={styles.safeArea}>
@@ -140,7 +142,7 @@ export default function ProfileScreen() {
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
               <ThemedText style={styles.sectionTitle}>Huy hiệu</ThemedText>
-              <Pressable>
+              <Pressable onPress={() => router.push("/badges" as never)}>
                 <ThemedText style={styles.sectionAction}>Xem tất cả</ThemedText>
               </Pressable>
             </View>

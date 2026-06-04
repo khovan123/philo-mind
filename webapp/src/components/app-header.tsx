@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
+import { NotificationBell } from "@/components/notification-bell";
 import { Fonts, Spacing } from "@/constants/theme";
 
 const Colors = {
@@ -35,9 +36,12 @@ export function AppHeader({ title, showBackButton }: AppHeaderProps) {
       </View>
 
       {!showBackButton && (
-        <Pressable style={styles.headerIconButton}>
-          <Settings color={Colors.primaryLight} size={18} />
-        </Pressable>
+        <View style={styles.headerActions}>
+          <NotificationBell />
+          <Pressable style={styles.headerIconButton}>
+            <Settings color={Colors.primaryLight} size={18} />
+          </Pressable>
+        </View>
       )}
     </View>
   );
@@ -66,6 +70,12 @@ const styles = StyleSheet.create({
     height: 34,
     alignItems: "center",
     justifyContent: "center",
+  },
+
+  headerActions: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.one,
   },
 
   logo: {
