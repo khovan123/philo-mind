@@ -76,7 +76,6 @@ export const chatApi = baseApi.injectEndpoints({
     getCharacters: build.query<AiCharacter[], void>({
       query: () => ({ url: "/ai/characters" }),
       transformResponse: (res: SuccessResponse<AiCharacter[]>) => {
-        console.log("[getCharacters] transformResponse received:", res);
         // Handle both unwrapped array and full response
         if (Array.isArray(res)) {
           return res;
@@ -84,7 +83,6 @@ export const chatApi = baseApi.injectEndpoints({
         return (res && (res as any).data) ? (res as any).data : [];
       },
       providesTags: ["Chat"],
-      refetchOnMountOrArgChange: true,
     }),
 
     getCharacterById: build.query<AiCharacterDetail, string>({
