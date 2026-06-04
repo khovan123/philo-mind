@@ -17,16 +17,19 @@ interface ShortLessonRow {
 }
 
 export async function seedShortLessons(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.shortLesson.count();
-  if (existing > 0) {
-    seedSkip("ShortLesson", `already has ${existing} records`);
-    return;
-  }
-
   const rows = readCsv<ShortLessonRow>("02-short-lessons.csv");
   let created = 0;
+  let skipped = 0;
 
   for (const row of rows) {
+    // Check if already exists
+    const existing = await prisma.shortLesson.findFirst({
+      where: { title: row.tiêu_đề },
+    });
+    if (existing) {
+      skipped++;
+      continue;
+    }
     // Find topic by category (chủ_đề column matches topic.category)
     const topic = await prisma.topic.findFirst({
       where: {
@@ -55,5 +58,10 @@ export async function seedShortLessons(prisma: PrismaClient): Promise<void> {
     created++;
   }
 
-  seedLog("ShortLesson", created);
+  if (created > 0) {
+    seedLog("ShortLesson", created);
+  }
+  if (skipped > 0) {
+    seedSkip("ShortLesson", `${skipped} records already exist`);
+  }
 }
