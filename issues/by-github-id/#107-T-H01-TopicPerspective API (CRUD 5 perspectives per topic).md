@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #107 |
-| Task ID | T-H01 |
-| Title | TopicPerspective API (CRUD 5 perspectives per topic) |
-| State | done |
+| Field          | Value                                                                                    |
+| -------------- | ---------------------------------------------------------------------------------------- |
+| GitHub issue   | #107                                                                                     |
+| Task ID        | T-H01                                                                                    |
+| Title          | TopicPerspective API (CRUD 5 perspectives per topic)                                     |
+| State          | done                                                                                     |
 | Local log path | `issues/by-github-id/#107-T-H01-TopicPerspective API (CRUD 5 perspectives per topic).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #107 |
-| Track | H: Missing Features |
-| Nhóm | H-MultiPerspective |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 3h |
-| Milestone | Week 5 |
-| Dependencies | `T-A04`, `T-A06` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #107                |
+| Track             | H: Missing Features |
+| Nhóm              | H-MultiPerspective  |
+| Loại việc         | backend             |
+| Priority          | medium              |
+| Owner gợi ý       | Fullstack Dev       |
+| Assignee hiện tại | @Ngoclee123         |
+| Estimate          | 3h                  |
+| Milestone         | Week 5              |
+| Dependencies      | `T-A04`, `T-A06`    |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/topics/:topicId/perspectives` | params: topicId; query: perspective? | data: perspectives[] gồm id, name, summary, arguments, examples |
-| POST | `/api/v1/topics/:topicId/perspectives` | body: { perspective, summary, arguments[], examples[] } | data: created perspective; admin/moderator only |
-| PATCH | `/api/v1/topic-perspectives/:id` | body: partial perspective fields | data: updated perspective |
-
+| Method | Endpoint                               | Input                                                   | Output                                                          |
+| ------ | -------------------------------------- | ------------------------------------------------------- | --------------------------------------------------------------- |
+| GET    | `/api/v1/topics/:topicId/perspectives` | params: topicId; query: perspective?                    | data: perspectives[] gồm id, name, summary, arguments, examples |
+| POST   | `/api/v1/topics/:topicId/perspectives` | body: { perspective, summary, arguments[], examples[] } | data: created perspective; admin/moderator only                 |
+| PATCH  | `/api/v1/topic-perspectives/:id`       | body: partial perspective fields                        | data: updated perspective                                       |
 
 ## 4. Flow tích hợp
 

@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #100 |
-| Task ID | T-F08 |
-| Title | Scenario + Debate integration tests |
-| State | open |
+| Field          | Value                                                                   |
+| -------------- | ----------------------------------------------------------------------- |
+| GitHub issue   | #100                                                                    |
+| Task ID        | T-F08                                                                   |
+| Title          | Scenario + Debate integration tests                                     |
+| State          | open                                                                    |
 | Local log path | `issues/by-github-id/#100-T-F08-Scenario + Debate integration tests.md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #100 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Debate |
-| Loại việc | testing |
-| Priority | low |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 2h |
-| Milestone | Week 7 |
-| Dependencies | `T-F04`, `T-F07` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #100                 |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Debate             |
+| Loại việc         | testing              |
+| Priority          | low                  |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 2h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-F04`, `T-F07`     |
 
 ## 3. Requirement cụ thể
 
@@ -64,7 +64,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Full flow verification.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 

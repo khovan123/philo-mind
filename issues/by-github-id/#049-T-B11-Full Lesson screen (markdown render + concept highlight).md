@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #49 |
-| Task ID | T-B11 |
-| Title | Full Lesson screen (markdown render + concept highlight) |
-| State | open |
+| Field          | Value                                                                                        |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| GitHub issue   | #49                                                                                          |
+| Task ID        | T-B11                                                                                        |
+| Title          | Full Lesson screen (markdown render + concept highlight)                                     |
+| State          | open                                                                                         |
 | Local log path | `issues/by-github-id/#049-T-B11-Full Lesson screen (markdown render + concept highlight).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #49 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Main Screens |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @anhthungye |
-| Estimate | 5h |
-| Milestone | Week 3 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #49               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Main Screens    |
+| Loại việc         | frontend          |
+| Priority          | medium            |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @anhthungye       |
+| Estimate          | 5h                |
+| Milestone         | Week 3            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -68,12 +68,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/lessons/[id]` từ tab/card/link phù hợp | Render màn hình chính của Full Lesson screen (markdown render + concept highlight) |
-| Mở bài | Bấm lesson card | Render markdown lesson, progress bar và concept highlight |
-| Làm quiz/bookmark | Bấm quiz/bookmark CTA | Điều hướng quiz hoặc cập nhật bookmark state |
-
+| Tình huống        | Người dùng thao tác                               | Kết quả bắt buộc                                                                   |
+| ----------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| Mở màn hình       | User vào `/lessons/[id]` từ tab/card/link phù hợp | Render màn hình chính của Full Lesson screen (markdown render + concept highlight) |
+| Mở bài            | Bấm lesson card                                   | Render markdown lesson, progress bar và concept highlight                          |
+| Làm quiz/bookmark | Bấm quiz/bookmark CTA                             | Điều hướng quiz hoặc cập nhật bookmark state                                       |
 
 ## 4. Flow tích hợp
 
@@ -167,6 +166,7 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 ### Navigation and interaction
 
 - Primary CTA trên `/lessons/[id]` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
