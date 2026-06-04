@@ -1,4 +1,4 @@
-import { buildChatPrompt } from "../services/ai-chat.service.js";
+import { buildChatPrompt } from "../services/ai-chat-prompt.js";
 
 describe("AI Chat Service", () => {
   it("builds a prompt with character instruction and conversation history", () => {

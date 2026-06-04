@@ -10,6 +10,7 @@
  * 5. Rate limiting
  */
 import { afterAll, beforeAll, describe, expect, it, jest } from "@jest/globals";
+import "dotenv/config";
 import type { Express } from "express";
 import request from "supertest";
 import type { PrismaClient } from "../prisma/generated/client.js";
@@ -44,22 +45,26 @@ jest.unstable_mockModule("@google/generative-ai", () => ({
   },
 }));
 
-const { prisma } = (await import("../config/prisma.js")) as { prisma: PrismaClient };
-const { default: app } = (await import("../index.js")) as { default: Express };
-
-const API_BASE = app;
 const TEST_PASSWORD = "TestPass123!";
 const TEST_RUN_ID = Date.now();
 const TEST_CHARACTER_NAME = `Test Philosopher ${TEST_RUN_ID}`;
+const describeIfDatabase = process.env.DATABASE_URL ? describe : describe.skip;
 
-describe("AI Chat E2E Flow", () => {
+describeIfDatabase("AI Chat E2E Flow", () => {
+  let app: Express;
+  let prisma: PrismaClient;
   let authToken: string;
   let characterId: string;
   let sessionId: string;
 
   beforeAll(async () => {
+    const prismaModule = (await import("../config/prisma.js")) as { prisma: PrismaClient };
+    const appModule = (await import("../index.js")) as { default: Express };
+    prisma = prismaModule.prisma;
+    app = appModule.default;
+
     const email = `ai-chat-e2e-${TEST_RUN_ID}@example.com`;
-    const registerRes = await request(API_BASE)
+    const registerRes = await request(app)
       .post("/api/v1/auth/register")
       .send({
         email,
@@ -82,7 +87,7 @@ describe("AI Chat E2E Flow", () => {
 
   describe("T-E02: Character Management", () => {
     it("should list all characters", async () => {
-      const res = await request(API_BASE)
+      const res = await request(app)
         .get("/api/v1/ai/characters")
         .expect("Content-Type", /json/)
         .expect(200);
@@ -99,7 +104,7 @@ describe("AI Chat E2E Flow", () => {
     });
 
     it("should create a new character", async () => {
-      const res = await request(API_BASE)
+      const res = await request(app)
         .post("/api/v1/ai/characters")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
@@ -120,7 +125,7 @@ describe("AI Chat E2E Flow", () => {
     it("should get character by ID", async () => {
       if (!characterId) return;
 
-      const res = await request(API_BASE).get(`/api/v1/ai/characters/${characterId}`).expect(200);
+      const res = await request(app).get(`/api/v1/ai/characters/${characterId}`).expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.id).toBe(characterId);
@@ -132,7 +137,7 @@ describe("AI Chat E2E Flow", () => {
     it("should create a chat session", async () => {
       if (!characterId) return;
 
-      const res = await request(API_BASE)
+      const res = await request(app)
         .post("/api/v1/ai/chat/sessions")
         .set("Authorization", `Bearer ${authToken}`)
         .send({
@@ -149,7 +154,7 @@ describe("AI Chat E2E Flow", () => {
     });
 
     it("should list chat sessions", async () => {
-      const res = await request(API_BASE)
+      const res = await request(app)
         .get("/api/v1/ai/chat/sessions")
         .set("Authorization", `Bearer ${authToken}`)
         .query({ page: 1, limit: 10 })
@@ -163,7 +168,7 @@ describe("AI Chat E2E Flow", () => {
     it("should get a specific session", async () => {
       if (!sessionId) return;
 
-      const res = await request(API_BASE)
+      const res = await request(app)
         .get(`/api/v1/ai/chat/sessions/${sessionId}`)
         .set("Authorization", `Bearer ${authToken}`)
         .expect(200);
@@ -177,7 +182,7 @@ describe("AI Chat E2E Flow", () => {
     it("should send a message and get AI response", async () => {
       if (!sessionId) return;
 
-      const res = await request(API_BASE)
+      const res = await request(app)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "What is the meaning of life?" })
@@ -194,7 +199,7 @@ describe("AI Chat E2E Flow", () => {
     it("should reject empty messages", async () => {
       if (!sessionId) return;
 
-      await request(API_BASE)
+      await request(app)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "" })
@@ -206,7 +211,7 @@ describe("AI Chat E2E Flow", () => {
     it("should accept POST to stream endpoint", async () => {
       if (!sessionId) return;
 
-      const res = await request(API_BASE)
+      const res = await request(app)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/stream`)
         .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "Tell me about ethics" });
@@ -224,7 +229,7 @@ describe("AI Chat E2E Flow", () => {
       // Send more requests than the rate limit allows
       const results = await Promise.all(
         Array.from({ length: 20 }, (_, i) =>
-          request(API_BASE)
+          request(app)
             .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
             .set("Authorization", `Bearer ${authToken}`)
             .send({ message: `Rate limit test ${i}` }),
@@ -239,21 +244,21 @@ describe("AI Chat E2E Flow", () => {
 
   describe("Validation", () => {
     it("should reject invalid session ID format", async () => {
-      await request(API_BASE)
+      await request(app)
         .get("/api/v1/ai/chat/sessions/not-a-uuid")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(400);
     });
 
     it("should return 404 for non-existent session", async () => {
-      await request(API_BASE)
+      await request(app)
         .get("/api/v1/ai/chat/sessions/550e8400-e29b-41d4-a716-446655440000")
         .set("Authorization", `Bearer ${authToken}`)
         .expect(404);
     });
 
     it("should reject character creation without required fields", async () => {
-      await request(API_BASE)
+      await request(app)
         .post("/api/v1/ai/characters")
         .set("Authorization", `Bearer ${authToken}`)
         .send({ name: "X" })
