@@ -21,24 +21,24 @@
  * Closes: https://github.com/khovan123/philo-mind/issues/82
  */
 
-import { configureStore, type EnhancedStore } from "@reduxjs/toolkit";
+import type { StoryState, StoryStep } from "@/stores/slices/story.slice";
 import {
-  storyReducer,
-  setStep,
-  resetStoryStore,
-  setSelectedRoleId,
-  setNpcEncounterCompleted,
-  setMinigameScore,
-  setQuizScore,
-  setReflectionJournal,
+  completeActiveSessionThunk,
   fetchStories,
   loadStoryDetail,
+  resetStoryStore,
+  setMinigameScore,
+  setNpcEncounterCompleted,
+  setQuizScore,
+  setReflectionJournal,
+  setSelectedRoleId,
+  setStep,
   startOrResumeSession,
+  storyReducer,
   submitDecision,
-  completeActiveSessionThunk,
 } from "@/stores/slices/story.slice";
-import type { StoryState, StoryStep } from "@/stores/slices/story.slice";
-import type { StorySummary, StorySession, StoryDecision, StoryChoice } from "@/types/story";
+import type { StoryChoice, StoryDecision, StorySession, StorySummary } from "@/types/story";
+import { configureStore } from "@reduxjs/toolkit";
 
 // ─── Mock Data ───────────────────────────────────────────────────────────────
 
@@ -164,10 +164,12 @@ function createTestStore(preloadedState?: Partial<StoryState>) {
   });
 }
 
+type TestStore = ReturnType<typeof createTestStore>;
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
-function getStory(store: EnhancedStore) {
-  return store.getState().story as StoryState;
+function getStory(store: TestStore) {
+  return store.getState().story;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -175,7 +177,7 @@ function getStory(store: EnhancedStore) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe("[T-D16] Story Flow — 13-Step Integration", () => {
-  let store: EnhancedStore;
+  let store: TestStore;
 
   beforeEach(() => {
     jest.clearAllMocks();
