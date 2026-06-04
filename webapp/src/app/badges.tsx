@@ -11,7 +11,7 @@ import {
   Sparkles,
   Trophy,
 } from "lucide-react-native";
-import { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useMemo } from "react";
 import { ActivityIndicator, Animated, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -48,7 +48,6 @@ const ICONS: Record<string, LucideIcon> = {
   brain: Brain,
   award: Award,
 };
-const icon = (k: string) => ICONS[k] ?? Award;
 
 const FILTERS = [
   { key: "all" as const, label: "Tất cả" },
@@ -74,17 +73,18 @@ const FilterChip = memo(function FilterChip({
 
 const EarnedCard = memo(function EarnedCard({
   badge,
+  iconComponent,
   onPress,
 }: {
   badge: UserBadgeDTO;
+  iconComponent: LucideIcon;
   onPress: () => void;
 }) {
-  const Icon = icon(badge.badge.icon);
   return (
     <Pressable style={s.card} onPress={onPress}>
       {badge.isNew && <View style={s.dot} />}
       <View style={s.iconCircle}>
-        <Icon color={C.primaryLight} size={24} />
+        {React.createElement(iconComponent, { color: C.primaryLight, size: 24 })}
       </View>
       <ThemedText style={s.cardName}>{badge.badge.name}</ThemedText>
       <ThemedText style={s.cardDesc} numberOfLines={2}>
@@ -115,12 +115,12 @@ const Toast = memo(function Toast() {
   const dispatch = useAppDispatch();
   const { isToastVisible, currentToast } = useAppSelector((st) => st.badge);
   if (!isToastVisible || !currentToast) return null;
-  const Icon = icon(currentToast.badgeIcon);
+  const ResolvedIcon = ICONS[currentToast.badgeIcon] ?? Award;
   return (
     <Animated.View style={s.toastWrap}>
       <Pressable style={s.toast} onPress={() => dispatch(dismissBadgeToast())}>
         <View style={s.toastIcon}>
-          <Icon color={C.primaryLight} size={20} />
+          {React.createElement(ResolvedIcon, { color: C.primaryLight, size: 20 })}
         </View>
         <View style={s.toastBody}>
           <ThemedText style={s.toastTitle}>🏅 Huy hiệu mới!</ThemedText>
@@ -232,7 +232,12 @@ export default function BadgesScreen() {
               <ThemedText style={s.secTitle}>Đã đạt ({filtered.earned.length})</ThemedText>
               <View style={s.grid}>
                 {filtered.earned.map((ub) => (
-                  <EarnedCard key={ub.id} badge={ub} onPress={() => onBadge(ub)} />
+                  <EarnedCard
+                    key={ub.id}
+                    badge={ub}
+                    iconComponent={ICONS[ub.badge.icon] ?? Award}
+                    onPress={() => onBadge(ub)}
+                  />
                 ))}
               </View>
             </View>

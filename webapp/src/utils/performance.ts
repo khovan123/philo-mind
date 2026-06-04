@@ -18,7 +18,10 @@ import React, { type ComponentType, type PropsWithChildren } from "react";
  */
 export function optimizedMemo<P extends object>(
   Component: ComponentType<P>,
-  areEqual?: (prevProps: Readonly<PropsWithChildren<P>>, nextProps: Readonly<PropsWithChildren<P>>) => boolean,
+  areEqual?: (
+    prevProps: Readonly<PropsWithChildren<P>>,
+    nextProps: Readonly<PropsWithChildren<P>>,
+  ) => boolean,
 ): React.MemoExoticComponent<ComponentType<P>> {
   const Memoized = React.memo(Component, areEqual);
   Memoized.displayName = `Memo(${Component.displayName || Component.name || "Component"})`;
