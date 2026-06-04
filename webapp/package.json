@@ -69,6 +69,7 @@
     "lint:fix": "expo lint -- --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "test": "jest --config jest.config.js",
     "eas:validate": "node scripts/validate-eas-config.js"
   }
 }

@@ -14,7 +14,10 @@ export default [
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ["src/app/(tabs)/legal/__tests__/legal.test.tsx"],
+          allowDefaultProject: [
+            "src/app/(tabs)/legal/__tests__/legal.test.tsx",
+            "src/__tests__/story-flow-integration.test.ts",
+          ],
         },
         tsconfigRootDir: import.meta.dirname,
       },
