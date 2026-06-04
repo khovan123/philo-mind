@@ -146,16 +146,17 @@ export default function HomeScreen() {
             >
               {visibleLearningItems.map((item, index) => {
                 const Icon = item.icon;
+                const lessonId = (item as { id?: string }).id;
 
                 return (
                   <Pressable
                     key={(item as { id?: string }).id ?? `${item.title}-${index}`}
                     accessibilityRole="button"
                     onPress={() =>
-                      "id" in item && item.id
+                      lessonId
                         ? router.push({
                             pathname: "/full-lesson" as never,
-                            params: { lessonId: item.id },
+                            params: { lessonId },
                           })
                         : router.push("/(tabs)/explore" as never)
                     }
