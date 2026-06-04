@@ -20,6 +20,8 @@ import { reflectionReducer } from "./slices/reflection.slice";
 import { storyReducer } from "./slices/story.slice";
 import { debateReducer } from "./slices/debate.slice";
 import { scenarioReducer } from "./slices/scenario.slice";
+import { badgeReducer } from "./slices/badge.slice";
+import { notificationReducer } from "./slices/notification.slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -40,6 +42,8 @@ export const store = configureStore({
     chat: chatReducer,
     debate: debateReducer,
     scenario: scenarioReducer,
+    badge: badgeReducer,
+    notification: notificationReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

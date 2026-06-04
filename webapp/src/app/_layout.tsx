@@ -19,6 +19,8 @@ function AppLayout() {
         <Stack.Screen name="mindmap" />
         <Stack.Screen name="minigames" />
         <Stack.Screen name="story" />
+        <Stack.Screen name="badges" />
+        <Stack.Screen name="notifications" />
         <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>
