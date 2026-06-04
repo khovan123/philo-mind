@@ -20,6 +20,8 @@ export type StoryState = {
   currentStep: StoryStep;
   npcEncounterCompleted: boolean;
   minigameScore: number | null;
+  /** The choiceId from the most recent decision in this session */
+  lastDecisionChoiceId: string | null;
   loadingStories: boolean;
   loadingStoryDetail: boolean;
   loadingSession: boolean;
@@ -37,6 +39,7 @@ const initialState: StoryState = {
   currentStep: "intro",
   npcEncounterCompleted: false,
   minigameScore: null,
+  lastDecisionChoiceId: null,
   loadingStories: false,
   loadingStoryDetail: false,
   loadingSession: false,
@@ -136,6 +139,7 @@ const storySlice = createSlice({
       state.currentStep = "intro";
       state.npcEncounterCompleted = false;
       state.minigameScore = null;
+      state.lastDecisionChoiceId = null;
       state.error = null;
     },
     clearStoryMessages: (state) => {
@@ -202,6 +206,7 @@ const storySlice = createSlice({
           ];
           state.activeSession.decisions = updatedDecisions;
         }
+        state.lastDecisionChoiceId = decision.choiceId;
         state.currentStep = "result";
         state.submittingDecision = false;
       })
@@ -218,6 +223,7 @@ const storySlice = createSlice({
         state.activeSession = null;
         state.currentStory = null;
         state.currentStep = "intro";
+        state.lastDecisionChoiceId = null;
         state.completingSession = false;
       })
       .addCase(completeActiveSessionThunk.rejected, (state, action) => {
