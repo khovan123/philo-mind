@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, Brain, Lock, Sparkles, User } from "lucide-react-native";
 import { useState, useRef, useMemo } from "react";
 import {
@@ -92,7 +92,7 @@ export default function RoleSelectionScreen() {
           </ThemedText>
           <Button
             title="Quay lại"
-            onPress={() => router.replace("/story" as never)}
+            onPress={() => router.replace("/(tabs)/story" as never)}
             variant="outline"
           />
         </View>

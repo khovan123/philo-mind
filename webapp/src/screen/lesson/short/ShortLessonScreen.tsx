@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   BarChart3,
   BookOpen,
@@ -224,7 +224,7 @@ export default function ShortLessonScreen() {
         <BookOpen color={Colors.mutedText} size={34} />
         <ThemedText style={styles.stateTitle}>Chưa có bài học ngắn</ThemedText>
         <ThemedText style={styles.stateText}>Chủ đề này chưa có dữ liệu short lesson.</ThemedText>
-        <Button title="Quay lại Khám phá" onPress={() => router.push("/explore")} />
+        <Button title="Quay lại Khám phá" onPress={() => router.push("/(tabs)/explore")} />
       </StateScaffold>
     );
   }

@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   AlertCircle,
   ArrowLeft,
@@ -106,7 +106,7 @@ export default function StoryDetailScreen() {
             <Button title="Thử lại" onPress={() => refetch()} variant="primary" />
             <Button
               title="Quay lại"
-              onPress={() => router.replace("/story" as never)}
+              onPress={() => router.replace("/(tabs)/story" as never)}
               variant="outline"
             />
           </View>
@@ -123,7 +123,7 @@ export default function StoryDetailScreen() {
       <View style={styles.header}>
         <Pressable
           accessibilityRole="button"
-          onPress={() => router.replace("/story" as never)}
+          onPress={() => router.replace("/(tabs)/story" as never)}
           style={[styles.iconButton, { backgroundColor: theme.backgroundElement }]}
         >
           <ArrowLeft color={theme.text} size={20} />

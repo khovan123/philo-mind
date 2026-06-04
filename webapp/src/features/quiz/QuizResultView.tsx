@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+﻿import { useRouter } from "expo-router";
 import { Home, RefreshCcw, Trophy } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Animated, Pressable, ScrollView, View } from "react-native";
@@ -98,11 +98,11 @@ export function QuizResultView({
             <RefreshCcw color={QuizColors.buttonText} size={16} />
             <ThemedText style={styles.primaryButtonText}>Retry Quiz</ThemedText>
           </Pressable>
-          <Pressable onPress={() => router.push("/learn")} style={styles.outlineButton}>
+          <Pressable onPress={() => router.push("/(tabs)/learn")} style={styles.outlineButton}>
             <Home color={QuizColors.text} size={16} />
             <ThemedText style={styles.outlineButtonText}>Back to Learning</ThemedText>
           </Pressable>
-          <Pressable onPress={() => router.push("/profile")} style={styles.outlineButton}>
+          <Pressable onPress={() => router.push("/(tabs)/profile")} style={styles.outlineButton}>
             <Trophy color={QuizColors.text} size={16} />
             <ThemedText style={styles.outlineButtonText}>View Progress</ThemedText>
           </Pressable>

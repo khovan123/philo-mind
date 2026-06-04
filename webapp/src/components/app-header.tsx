@@ -28,7 +28,7 @@ export function AppHeader({ title, showBackButton }: AppHeaderProps) {
             <ChevronLeft color={Colors.primaryLight} size={24} />
           </Pressable>
         ) : (
-          <Pressable style={styles.headerIconButton}>
+          <Pressable style={styles.headerIconButton} onPress={() => router.push("/(tabs)" as never)}>
             <Menu color={Colors.primaryLight} size={20} />
           </Pressable>
         )}
@@ -38,7 +38,7 @@ export function AppHeader({ title, showBackButton }: AppHeaderProps) {
       {!showBackButton && (
         <View style={styles.headerActions}>
           <NotificationBell />
-          <Pressable style={styles.headerIconButton}>
+          <Pressable style={styles.headerIconButton} onPress={() => router.push("/settings" as never)}>
             <Settings color={Colors.primaryLight} size={18} />
           </Pressable>
         </View>

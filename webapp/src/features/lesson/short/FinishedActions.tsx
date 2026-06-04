@@ -10,7 +10,7 @@ export function FinishedActions() {
 
   return (
     <View style={styles.actionStack}>
-      <Button title="Take Quiz" onPress={() => router.push("/learn")} fullWidth />
+      <Button title="Take Quiz" onPress={() => router.push("/(tabs)/learn")} fullWidth />
       <Button
         title="Read Full Lesson"
         variant="outline"
@@ -20,10 +20,10 @@ export function FinishedActions() {
       <Button
         title="Explore More"
         variant="secondary"
-        onPress={() => router.push("/explore")}
+        onPress={() => router.push("/(tabs)/explore")}
         fullWidth
       />
-      <Button title="Back to Home" variant="ghost" onPress={() => router.push("/")} fullWidth />
+      <Button title="Back to Home" variant="ghost" onPress={() => router.push("/(tabs)")} fullWidth />
     </View>
   );
 }

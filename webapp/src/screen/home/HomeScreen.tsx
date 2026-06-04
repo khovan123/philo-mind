@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Redirect } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -46,6 +46,7 @@ const learningItems = [
 ];
 
 export default function HomeScreen() {
+  const router = useRouter();
   const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
 
   if (shouldShowOnboarding()) {
@@ -97,7 +98,7 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          <Pressable style={styles.hookCard}>
+          <View style={styles.hookCard}>
             <Image source={dailyHookImage} contentFit="cover" style={StyleSheet.absoluteFill} />
             <View style={styles.imageScrim} />
             <View style={styles.hookContent}>
@@ -112,20 +113,28 @@ export default function HomeScreen() {
               </ThemedText>
 
               <View style={styles.answerRow}>
-                <Pressable style={styles.primaryAnswer}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => router.push("/(tabs)/story" as never)}
+                  style={({ pressed }) => [styles.primaryAnswer, pressed && styles.pressed]}
+                >
                   <ThemedText style={styles.primaryAnswerText}>
                     {dailyHook?.primaryChoice ?? "Bắt đầu"}
                   </ThemedText>
                 </Pressable>
 
-                <Pressable style={styles.secondaryAnswer}>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => router.push("/(tabs)/explore" as never)}
+                  style={({ pressed }) => [styles.secondaryAnswer, pressed && styles.pressed]}
+                >
                   <ThemedText style={styles.secondaryAnswerText}>
                     {dailyHook?.secondaryChoice ?? "Xem thêm"}
                   </ThemedText>
                 </Pressable>
               </View>
             </View>
-          </Pressable>
+          </View>
 
           <View style={styles.section}>
             <ThemedText style={styles.sectionTitle}>Tiếp tục học</ThemedText>
@@ -137,11 +146,21 @@ export default function HomeScreen() {
             >
               {visibleLearningItems.map((item, index) => {
                 const Icon = item.icon;
+                const lessonId = (item as { id?: string }).id;
 
                 return (
                   <Pressable
                     key={(item as { id?: string }).id ?? `${item.title}-${index}`}
-                    style={styles.learningCard}
+                    accessibilityRole="button"
+                    onPress={() =>
+                      lessonId
+                        ? router.push({
+                            pathname: "/full-lesson" as never,
+                            params: { lessonId },
+                          })
+                        : router.push("/(tabs)/explore" as never)
+                    }
+                    style={({ pressed }) => [styles.learningCard, pressed && styles.pressed]}
                   >
                     <View style={styles.learningHeader}>
                       <View style={styles.learningIcon}>
@@ -173,30 +192,53 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.statsGrid}>
-            <View style={styles.statCard}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push("/(tabs)/learn" as never)}
+              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+            >
               <ThemedText style={styles.statValue}>
                 {dashboard?.stats.learnedLessons ?? 12}
               </ThemedText>
               <ThemedText style={styles.statLabel}>Bài đã học</ThemedText>
-            </View>
+            </Pressable>
 
-            <View style={styles.statCard}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push("/badges" as never)}
+              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+            >
               <ThemedText style={styles.statValue}>{dashboard?.stats.badges ?? 4}</ThemedText>
               <ThemedText style={styles.statLabel}>Huy hiệu</ThemedText>
-            </View>
+            </Pressable>
 
-            <View style={styles.statCard}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push("/(tabs)/learn" as never)}
+              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+            >
               <ThemedText style={styles.statValue}>
                 {dashboard?.stats.quizAccuracy ?? 86}%
               </ThemedText>
               <ThemedText style={styles.statLabel}>Quiz đúng</ThemedText>
-            </View>
+            </Pressable>
           </View>
 
           <View style={styles.section}>
             <ThemedText style={styles.sectionTitle}>Câu chuyện mới</ThemedText>
 
-            <Pressable style={styles.storyCard}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() =>
+                newStory?.id
+                  ? router.push({
+                      pathname: "/story/[id]" as never,
+                      params: { id: newStory.id },
+                    })
+                  : router.push("/(tabs)/story" as never)
+              }
+              style={({ pressed }) => [styles.storyCard, pressed && styles.pressed]}
+            >
               <Image source={storyImage} contentFit="cover" style={styles.storyImage} />
 
               <View style={styles.storyContent}>
@@ -607,5 +649,10 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     fontWeight: "800",
     textTransform: "uppercase",
+  },
+
+  pressed: {
+    opacity: 0.78,
+    transform: [{ scale: 0.98 }],
   },
 });

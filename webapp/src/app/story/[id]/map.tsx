@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+﻿import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, Check, Info, Lock, MapPin } from "lucide-react-native";
 import { useState, useMemo } from "react";
 import { ActivityIndicator, ImageBackground, Pressable, StyleSheet, View } from "react-native";
@@ -129,7 +129,7 @@ export default function ExplorationMapScreen() {
           </ThemedText>
           <Button
             title="Quay lại"
-            onPress={() => router.replace("/story" as never)}
+            onPress={() => router.replace("/(tabs)/story" as never)}
             variant="outline"
           />
         </View>
