@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { authGuard } from "../middleware/auth.middleware.js";
+import { aiRateLimit } from "../middleware/ai-rate-limit.js";
 import { validate } from "../middleware/validate.middleware.js";
 import { aiChatController } from "../controllers/ai-chat.controller.js";
 import {
@@ -26,12 +27,18 @@ aiChatRouter.get("/sessions/:id", validate(sessionIdSchema), (req, res, next) =>
   aiChatController.get(req, res, next),
 );
 
-aiChatRouter.post("/sessions/:id/messages", validate(sendChatMessageSchema), (req, res, next) =>
-  aiChatController.sendMessage(req, res, next),
+aiChatRouter.post(
+  "/sessions/:id/messages",
+  validate(sendChatMessageSchema),
+  aiRateLimit,
+  (req, res, next) => aiChatController.sendMessage(req, res, next),
 );
 
-aiChatRouter.post("/sessions/:id/stream", validate(streamChatMessageSchema), (req, res, next) =>
-  aiChatController.stream(req, res, next),
+aiChatRouter.post(
+  "/sessions/:id/stream",
+  validate(streamChatMessageSchema),
+  aiRateLimit,
+  (req, res, next) => aiChatController.stream(req, res, next),
 );
 
 export default aiChatRouter;

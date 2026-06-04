@@ -2,13 +2,15 @@
  * T-E01: Rate limit middleware tests
  * Closes #83
  */
+import { jest, describe, it, expect, beforeEach, afterEach } from "@jest/globals";
 import type { Request, Response, NextFunction } from "express";
-import { aiRateLimit } from "../middleware/ai-rate-limit.js";
 
 // Mock env
-jest.mock("../config/env.js", () => ({
+jest.unstable_mockModule("../config/env.js", () => ({
   env: { AI_RATE_LIMIT_PER_MIN: 3 },
 }));
+
+const { aiRateLimit } = await import("../middleware/ai-rate-limit.js");
 
 function createMockReq(userId?: string, ip?: string): Partial<Request> {
   return {

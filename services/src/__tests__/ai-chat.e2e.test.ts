@@ -9,15 +9,76 @@
  * 4. Session retrieval with messages
  * 5. Rate limiting
  */
+import { afterAll, beforeAll, describe, expect, it, jest } from "@jest/globals";
+import type { Express } from "express";
 import request from "supertest";
-import { describe, it, expect, beforeAll } from "@jest/globals";
+import type { PrismaClient } from "../prisma/generated/client.js";
 
-// These tests require a running server
-const API_BASE = process.env.TEST_API_URL ?? "http://localhost:3000";
+jest.unstable_mockModule("@google/generative-ai", () => ({
+  GoogleGenerativeAI: class {
+    getGenerativeModel() {
+      return {
+        generateContent: async () => ({
+          response: {
+            text: () => "Mock philosophical response",
+          },
+        }),
+        generateContentStream: async () => ({
+          stream: [
+            {
+              text: () => "Mock streamed philosophical response",
+            },
+          ],
+        }),
+      };
+    }
+  },
+  HarmBlockThreshold: {
+    BLOCK_MEDIUM_AND_ABOVE: "BLOCK_MEDIUM_AND_ABOVE",
+  },
+  HarmCategory: {
+    HARM_CATEGORY_DANGEROUS_CONTENT: "HARM_CATEGORY_DANGEROUS_CONTENT",
+    HARM_CATEGORY_HARASSMENT: "HARM_CATEGORY_HARASSMENT",
+    HARM_CATEGORY_HATE_SPEECH: "HARM_CATEGORY_HATE_SPEECH",
+    HARM_CATEGORY_SEXUALLY_EXPLICIT: "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+  },
+}));
+
+const { prisma } = (await import("../config/prisma.js")) as { prisma: PrismaClient };
+const { default: app } = (await import("../index.js")) as { default: Express };
+
+const API_BASE = app;
+const TEST_PASSWORD = "TestPass123!";
+const TEST_RUN_ID = Date.now();
+const TEST_CHARACTER_NAME = `Test Philosopher ${TEST_RUN_ID}`;
 
 describe("AI Chat E2E Flow", () => {
+  let authToken: string;
   let characterId: string;
   let sessionId: string;
+
+  beforeAll(async () => {
+    const email = `ai-chat-e2e-${TEST_RUN_ID}@example.com`;
+    const registerRes = await request(API_BASE)
+      .post("/api/v1/auth/register")
+      .send({
+        email,
+        password: TEST_PASSWORD,
+        fullName: "AI Chat E2E Admin",
+      })
+      .expect(201);
+
+    await prisma.user.update({
+      where: { id: registerRes.body.data.user.id },
+      data: { role: "ADMIN" },
+    });
+
+    authToken = registerRes.body.data.tokens.accessToken;
+  });
+
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
 
   describe("T-E02: Character Management", () => {
     it("should list all characters", async () => {
@@ -40,8 +101,9 @@ describe("AI Chat E2E Flow", () => {
     it("should create a new character", async () => {
       const res = await request(API_BASE)
         .post("/api/v1/ai/characters")
+        .set("Authorization", `Bearer ${authToken}`)
         .send({
-          name: "Test Philosopher",
+          name: TEST_CHARACTER_NAME,
           type: "Test Type",
           bio: "A test philosopher for E2E testing",
           promptInstruction: "You are a test philosopher. Respond thoughtfully to all questions.",
@@ -51,7 +113,7 @@ describe("AI Chat E2E Flow", () => {
 
       expect(res.body.success).toBe(true);
       expect(res.body.data).toHaveProperty("id");
-      expect(res.body.data.name).toBe("Test Philosopher");
+      expect(res.body.data.name).toBe(TEST_CHARACTER_NAME);
       characterId = res.body.data.id;
     });
 
@@ -62,7 +124,7 @@ describe("AI Chat E2E Flow", () => {
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.id).toBe(characterId);
-      expect(res.body.data.name).toBe("Test Philosopher");
+      expect(res.body.data.name).toBe(TEST_CHARACTER_NAME);
     });
   });
 
@@ -72,6 +134,7 @@ describe("AI Chat E2E Flow", () => {
 
       const res = await request(API_BASE)
         .post("/api/v1/ai/chat/sessions")
+        .set("Authorization", `Bearer ${authToken}`)
         .send({
           characterId,
           title: "E2E Test Session",
@@ -88,6 +151,7 @@ describe("AI Chat E2E Flow", () => {
     it("should list chat sessions", async () => {
       const res = await request(API_BASE)
         .get("/api/v1/ai/chat/sessions")
+        .set("Authorization", `Bearer ${authToken}`)
         .query({ page: 1, limit: 10 })
         .expect(200);
 
@@ -99,7 +163,10 @@ describe("AI Chat E2E Flow", () => {
     it("should get a specific session", async () => {
       if (!sessionId) return;
 
-      const res = await request(API_BASE).get(`/api/v1/ai/chat/sessions/${sessionId}`).expect(200);
+      const res = await request(API_BASE)
+        .get(`/api/v1/ai/chat/sessions/${sessionId}`)
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.id).toBe(sessionId);
@@ -112,8 +179,9 @@ describe("AI Chat E2E Flow", () => {
 
       const res = await request(API_BASE)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
+        .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "What is the meaning of life?" })
-        .expect(200);
+        .expect(201);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data).toHaveProperty("userMessage");
@@ -128,30 +196,9 @@ describe("AI Chat E2E Flow", () => {
 
       await request(API_BASE)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
+        .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "" })
         .expect(400);
-    });
-  });
-
-  describe("T-E01: Rate Limiting", () => {
-    it("should eventually rate limit excessive requests", async () => {
-      if (!sessionId) return;
-
-      const promises = [];
-      // Send more requests than the rate limit allows
-      for (let i = 0; i < 20; i++) {
-        promises.push(
-          request(API_BASE)
-            .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
-            .send({ message: `Rate limit test ${i}` }),
-        );
-      }
-
-      const results = await Promise.all(promises);
-      const rateLimited = results.some((r) => r.status === 429);
-
-      // At least some should be rate limited
-      expect(rateLimited).toBe(true);
     });
   });
 
@@ -161,6 +208,7 @@ describe("AI Chat E2E Flow", () => {
 
       const res = await request(API_BASE)
         .post(`/api/v1/ai/chat/sessions/${sessionId}/stream`)
+        .set("Authorization", `Bearer ${authToken}`)
         .send({ message: "Tell me about ethics" });
 
       // Should return 200 with event-stream content type
@@ -169,19 +217,47 @@ describe("AI Chat E2E Flow", () => {
     });
   });
 
+  describe("T-E01: Rate Limiting", () => {
+    it("should eventually rate limit excessive requests", async () => {
+      if (!sessionId) return;
+
+      // Send more requests than the rate limit allows
+      const results = await Promise.all(
+        Array.from({ length: 20 }, (_, i) =>
+          request(API_BASE)
+            .post(`/api/v1/ai/chat/sessions/${sessionId}/messages`)
+            .set("Authorization", `Bearer ${authToken}`)
+            .send({ message: `Rate limit test ${i}` }),
+        ),
+      );
+      const rateLimited = results.some((r) => r.status === 429);
+
+      // At least some should be rate limited
+      expect(rateLimited).toBe(true);
+    });
+  });
+
   describe("Validation", () => {
     it("should reject invalid session ID format", async () => {
-      await request(API_BASE).get("/api/v1/ai/chat/sessions/not-a-uuid").expect(400);
+      await request(API_BASE)
+        .get("/api/v1/ai/chat/sessions/not-a-uuid")
+        .set("Authorization", `Bearer ${authToken}`)
+        .expect(400);
     });
 
     it("should return 404 for non-existent session", async () => {
       await request(API_BASE)
         .get("/api/v1/ai/chat/sessions/550e8400-e29b-41d4-a716-446655440000")
+        .set("Authorization", `Bearer ${authToken}`)
         .expect(404);
     });
 
     it("should reject character creation without required fields", async () => {
-      await request(API_BASE).post("/api/v1/ai/characters").send({ name: "X" }).expect(400);
+      await request(API_BASE)
+        .post("/api/v1/ai/characters")
+        .set("Authorization", `Bearer ${authToken}`)
+        .send({ name: "X" })
+        .expect(400);
     });
   });
 });

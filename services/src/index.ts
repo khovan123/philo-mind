@@ -41,8 +41,10 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // ── Start ──────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
+  });
+}
 
 export default app;
