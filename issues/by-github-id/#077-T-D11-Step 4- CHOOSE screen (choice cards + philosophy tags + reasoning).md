@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #77 |
-| Task ID | T-D11 |
-| Title | Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning) |
-| State | open |
+| Field          | Value                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------ |
+| GitHub issue   | #77                                                                                                    |
+| Task ID        | T-D11                                                                                                  |
+| Title          | Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning)                                     |
+| State          | open                                                                                                   |
 | Local log path | `issues/by-github-id/#077-T-D11-Step 4- CHOOSE screen (choice cards + philosophy tags + reasoning).md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #77 |
-| Track | D: Story Mode Engine |
-| Nhóm | D-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @dklinh05 |
-| Estimate | 5h |
-| Milestone | Week 6 |
-| Dependencies | `T-D07` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #77                  |
+| Track             | D: Story Mode Engine |
+| Nhóm              | D-Frontend           |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @dklinh05            |
+| Estimate          | 5h                   |
+| Milestone         | Week 6               |
+| Dependencies      | `T-D07`              |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +68,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/story/[id]/choose` từ tab/card/link phù hợp | Render màn hình chính của Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                                    | Kết quả bắt buộc                                                                             |
+| ------------ | ------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/story/[id]/choose` từ tab/card/link phù hợp | Render màn hình chính của Step 4: CHOOSE screen (choice cards + philosophy tags + reasoning) |
+| Action chính | Bấm CTA/item chính                                     | Thực hiện submit/navigate/update state theo domain                                           |
 
 ## 4. Flow tích hợp
 
@@ -163,6 +162,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### Navigation and interaction
 
 - Primary CTA trên `/story/[id]/choose` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

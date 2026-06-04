@@ -1,6 +1,7 @@
 import {
   listStoryScenariosSchema,
   getStoryScenarioDetailSchema,
+  getStoryStatsSchema,
 } from "../validators/story.validator.js";
 
 // ── T-D02: StoryScenario Validator Tests ───────────────────────
@@ -81,6 +82,22 @@ describe("getStoryScenarioDetailSchema", () => {
 
   it("rejects invalid story ID parameter", () => {
     const result = getStoryScenarioDetailSchema.safeParse({
+      params: { id: "not-a-uuid" },
+    });
+    expect(result.success).toBe(false);
+  });
+});
+
+describe("getStoryStatsSchema", () => {
+  it("accepts a valid story ID parameter", () => {
+    const result = getStoryStatsSchema.safeParse({
+      params: { id: VALID_UUID },
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects invalid story ID parameter", () => {
+    const result = getStoryStatsSchema.safeParse({
       params: { id: "not-a-uuid" },
     });
     expect(result.success).toBe(false);

@@ -86,8 +86,15 @@ export const styles = StyleSheet.create({
     maxWidth: 780,
     alignSelf: "center",
     padding: Spacing.three,
-    paddingBottom: BottomTabInset + 150,
+    paddingBottom: BottomTabInset + Spacing.five,
     gap: Spacing.four,
+  },
+  lessonActions: {
+    width: "100%",
+    maxWidth: 520,
+    alignSelf: "center",
+    gap: Spacing.two,
+    paddingTop: Spacing.two,
   },
   metaWrap: {
     gap: Spacing.three,

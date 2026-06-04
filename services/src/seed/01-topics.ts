@@ -14,15 +14,19 @@ interface TopicRow {
 }
 
 export async function seedTopics(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.topic.count();
-  if (existing > 0) {
-    seedSkip("Topic", `already has ${existing} records`);
-    return;
-  }
-
   const rows = readCsv<TopicRow>("01-topics.csv");
+  let created = 0;
+  let skipped = 0;
 
   for (const row of rows) {
+    const existing = await prisma.topic.findFirst({
+      where: { title: row.tên_chủ_đề },
+    });
+    if (existing) {
+      skipped++;
+      continue;
+    }
+
     await prisma.topic.create({
       data: {
         title: row.tên_chủ_đề,
@@ -31,7 +35,13 @@ export async function seedTopics(prisma: PrismaClient): Promise<void> {
         difficulty: mapDifficulty(row.độ_khó),
       },
     });
+    created++;
   }
 
-  seedLog("Topic", rows.length);
+  if (created > 0) {
+    seedLog("Topic", created);
+  }
+  if (skipped > 0) {
+    seedSkip("Topic", `${skipped} records already exist`);
+  }
 }

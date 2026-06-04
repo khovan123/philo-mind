@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#94](https://github.com/khovan123/philo-mind/issues/94)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: backend
 - Priority: medium
 - Milestone: Week 5
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:36Z
+- Updated at: 2026-06-02T18:16:31Z
+- Closed at: 2026-06-02T18:16:31Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #94 |
-| Task ID | T-F02 |
-| Title | Real-life Scenario API (CRUD + perspectives + respond + stats) |
-| State | open |
+| Field          | Value                                                                                              |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| GitHub issue   | #94                                                                                                |
+| Task ID        | T-F02                                                                                              |
+| Title          | Real-life Scenario API (CRUD + perspectives + respond + stats)                                     |
+| State          | done                                                                                               |
 | Local log path | `issues/by-github-id/#094-T-F02-Real-life Scenario API (CRUD + perspectives + respond + stats).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #94 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Scenario |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 5h |
-| Milestone | Week 5 |
-| Dependencies | `T-F01`, `T-A04` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #94                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Scenario           |
+| Loại việc         | backend              |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 5h                   |
+| Milestone         | Week 5               |
+| Dependencies      | `T-F01`, `T-A04`     |
 
 ## 3. Requirement cụ thể
 
@@ -68,13 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| GET | `/api/v1/scenarios` | query: { topicId, page, limit } | data: scenario cards[] |
-| GET | `/api/v1/scenarios/:id` | params: id | data: situation + perspectives[] + framework[] |
-| POST | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning } | data: saved response + perspective stats |
-| PATCH | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response |
-
+| Method | Endpoint                        | Input                                 | Output                                         |
+| ------ | ------------------------------- | ------------------------------------- | ---------------------------------------------- |
+| GET    | `/api/v1/scenarios`             | query: { topicId, page, limit }       | data: scenario cards[]                         |
+| GET    | `/api/v1/scenarios/:id`         | params: id                            | data: situation + perspectives[] + framework[] |
+| POST   | `/api/v1/scenarios/:id/respond` | body: { initialPosition, reasoning }  | data: saved response + perspective stats       |
+| PATCH  | `/api/v1/scenarios/:id/rethink` | body: { revisedPosition, reflection } | data: updated response                         |
 
 ## 4. Flow tích hợp
 

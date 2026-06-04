@@ -6,6 +6,7 @@ import { validate } from "../middleware/validate.middleware.js";
 import {
   listStoryScenariosSchema,
   getStoryScenarioDetailSchema,
+  getStoryStatsSchema,
 } from "../validators/story.validator.js";
 
 import { storySessionController } from "../controllers/story-session.controller.js";
@@ -19,6 +20,14 @@ const controller = new StoryController();
 // GET /api/v1/stories (paginated, filterable, cached for 5 minutes)
 storiesRouter.get("/", validate(listStoryScenariosSchema), cacheMiddleware(300), (req, res, next) =>
   controller.getAll(req, res, next),
+);
+
+// GET /api/v1/stories/:id/stats (detailed stats, cached for 5 minutes)
+storiesRouter.get(
+  "/:id/stats",
+  validate(getStoryStatsSchema),
+  cacheMiddleware(300),
+  (req, res, next) => controller.getStats(req, res, next),
 );
 
 // GET /api/v1/stories/:id (story detail with learn cards, cached for 5 minutes)

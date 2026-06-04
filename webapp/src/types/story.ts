@@ -22,6 +22,29 @@ export type StoryStats = {
   choicesDistribution: StoryChoiceDistribution[];
 };
 
+export type StoryChoiceStats = {
+  choiceId: string;
+  content: string;
+  count: number;
+  percentage: number;
+};
+
+export type StoryStatsReport = {
+  storyId: string;
+  totalSessions: number;
+  completedSessions: number;
+  inProgressSessions: number;
+  totalCompletions: number;
+  averageTime: number;
+  /** Average time in minutes (derived from averageTime) */
+  averageTimeMinutes?: number;
+  /** Percentage of sessions completed */
+  completionRate?: number;
+  choiceStats: StoryChoiceStats[];
+  /** Map of choiceId → count, used for distribution visualization */
+  decisionDistribution?: Record<string, number>;
+};
+
 export type StoryChoice = {
   id: string;
   choiceText: string;

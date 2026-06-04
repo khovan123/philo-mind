@@ -1,4 +1,4 @@
-import type { QuizStatus, QuizSummary } from "./mock";
+import type { QuizStatus, QuizSummary } from "./types";
 import { QuizColors } from "./ui";
 
 export function formatTime(seconds: number) {

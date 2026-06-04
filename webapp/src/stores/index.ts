@@ -1,5 +1,5 @@
+import { baseApi } from "@/services/rtk-api/baseApi";
 import { configureStore } from "@reduxjs/toolkit";
-import { setupListeners } from "@reduxjs/toolkit/query";
 import {
   FLUSH,
   PAUSE,
@@ -10,15 +10,18 @@ import {
   persistReducer,
   persistStore,
 } from "redux-persist";
-import { baseApi } from "@/services/rtk-api/baseApi";
-import { chatReducer } from "./slices/chat.slice";
+import { securePersistStorage } from "./persistStorage";
 import { authReducer } from "./slices/auth.slice";
 import { bookmarkReducer } from "./slices/bookmark.slice";
+import { chatReducer } from "./slices/chat.slice";
 import { mindmapReducer } from "./slices/mindmap.slice";
 import { minigameReducer } from "./slices/minigame.slice";
 import { reflectionReducer } from "./slices/reflection.slice";
 import { storyReducer } from "./slices/story.slice";
-import { securePersistStorage } from "./persistStorage";
+import { debateReducer } from "./slices/debate.slice";
+import { scenarioReducer } from "./slices/scenario.slice";
+import { badgeReducer } from "./slices/badge.slice";
+import { notificationReducer } from "./slices/notification.slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -37,6 +40,10 @@ export const store = configureStore({
     reflection: reflectionReducer,
     story: storyReducer,
     chat: chatReducer,
+    debate: debateReducer,
+    scenario: scenarioReducer,
+    badge: badgeReducer,
+    notification: notificationReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

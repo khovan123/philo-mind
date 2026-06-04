@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #120 |
-| Task ID | T-J02 |
-| Title | Backend unit tests: Story + Quiz services |
-| State | open |
+| Field          | Value                                                                         |
+| -------------- | ----------------------------------------------------------------------------- |
+| GitHub issue   | #120                                                                          |
+| Task ID        | T-J02                                                                         |
+| Title          | Backend unit tests: Story + Quiz services                                     |
+| State          | open                                                                          |
 | Local log path | `issues/by-github-id/#120-T-J02-Backend unit tests- Story + Quiz services.md` |
 
 ## Issue Body
@@ -45,18 +45,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #120 |
-| Track | J: Testing |
-| Nhóm | All |
-| Loại việc | testing |
-| Priority | medium |
-| Owner gợi ý | Any Dev |
-| Assignee hiện tại | @NguyenDat204 |
-| Estimate | 3h |
-| Milestone | Week 6 |
-| Dependencies | `T-D03`, `T-A10` |
+| Thuộc tính        | Giá trị          |
+| ----------------- | ---------------- |
+| GitHub issue      | #120             |
+| Track             | J: Testing       |
+| Nhóm              | All              |
+| Loại việc         | testing          |
+| Priority          | medium           |
+| Owner gợi ý       | Any Dev          |
+| Assignee hiện tại | @NguyenDat204    |
+| Estimate          | 3h               |
+| Milestone         | Week 6           |
+| Dependencies      | `T-D03`, `T-A10` |
 
 ## 3. Requirement cụ thể
 
@@ -64,7 +64,6 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Session lifecycle; score calculation edge cases.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
-
 
 ## 4. Flow tích hợp
 

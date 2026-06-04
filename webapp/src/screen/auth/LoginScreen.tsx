@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import {
   Alert,
@@ -11,7 +12,6 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
 
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";

@@ -6,36 +6,36 @@
 ## Summary
 
 - Total tracked GitHub issues: 112
-- Done / closed: 62
-- Open / remaining: 50
-- Completion: 55%
+- Done / closed: 63
+- Open / remaining: 49
+- Completion: 56%
 - Local issue logs available: 112
 - GitHub issues currently missing Status Log: 0
 - Sync action this run: 0 new local logs, 0 GitHub bodies patched
 
 ## Progress By Track
 
-| Track | Name | Total | Done | Open |
-| --- | --- | ---: | ---: | ---: |
-| Track A | Backend Core | 22 | 15 | 7 |
-| Track B | Frontend Shell | 16 | 10 | 6 |
-| Track C | Shared Types & Seed | 13 | 11 | 2 |
-| Track D | Story Mode Engine | 16 | 6 | 10 |
-| Track E | AI & Chat System | 10 | 0 | 10 |
-| Track F | Scenario & Debate | 8 | 1 | 7 |
-| Track G | Polish & Gamification | 6 | 3 | 3 |
-| Track H | Missing Features | 5 | 5 | 0 |
-| Track I | DevOps & Deploy | 7 | 7 | 0 |
-| Track J | Testing | 5 | 0 | 5 |
-| Track K | Admin & Settings | 4 | 4 | 0 |
+| Track   | Name                  | Total | Done | Open |
+| ------- | --------------------- | ----: | ---: | ---: |
+| Track A | Backend Core          |    22 |   15 |    7 |
+| Track B | Frontend Shell        |    16 |   10 |    6 |
+| Track C | Shared Types & Seed   |    13 |   11 |    2 |
+| Track D | Story Mode Engine     |    16 |    6 |   10 |
+| Track E | AI & Chat System      |    10 |    0 |   10 |
+| Track F | Scenario & Debate     |     8 |    2 |    6 |
+| Track G | Polish & Gamification |     6 |    3 |    3 |
+| Track H | Missing Features      |     5 |    5 |    0 |
+| Track I | DevOps & Deploy       |     7 |    7 |    0 |
+| Track J | Testing               |     5 |    0 |    5 |
+| Track K | Admin & Settings      |     4 |    4 |    0 |
 
 ## Open Issues By Priority
 
 | Priority | Open |
-| --- | ---: |
-| high | 4 |
-| medium | 43 |
-| low | 3 |
+| -------- | ---: |
+| high     |    4 |
+| medium   |   42 |
+| low      |    3 |
 
 ## Next Recommended Work
 
@@ -63,7 +63,7 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [ ] #51 `T-B13` Quiz gameplay screen (questions + timer + result) (Frontend Shell, medium, @anhthungye)
 - [ ] #54 `T-B16` Profile screen (stats grid + badge gallery + activity graph) (Frontend Shell, medium, @anhthungye)
 - [ ] #61 `T-C07` Seed: 5 Story Scenarios (13-step complete) (Shared Types & Seed, medium, @thuhataplamdev)
-- [ ] #71 `T-D05` Community stats aggregation (% per choice, cache) (Story Mode Engine, medium, @dklinh05)
+- [ ] #71 `T-D05` Community stats aggregation (% per choice, cache) (Story Mode Engine, medium, @khovan123, @dklinh05)
 - [ ] #74 `T-D08` Step 1 (Story Detail) & Step 2 (Cinematic Opening) (Story Mode Engine, medium, @dklinh05)
 - [ ] #75 `T-D09` Step 3 (Role Selection) & Step 4 (Role Intro) (Story Mode Engine, medium, @dklinh05)
 - [ ] #76 `T-D10` Step 5 (Exploration Map) (Story Mode Engine, medium, @dklinh05)
@@ -83,7 +83,6 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [ ] #90 `T-E08` ChatInput component (text + send + suggested prompts) (AI & Chat System, medium, @VinhHoang03)
 - [ ] #91 `T-E09` StreamingText component (character-by-character render) (AI & Chat System, medium, @VinhHoang03)
 - [ ] #92 `T-E10` AI Chat integration test (full conversation flow) (AI & Chat System, medium, @VinhHoang03)
-- [ ] #94 `T-F02` Real-life Scenario API (CRUD + perspectives + respond + stats) (Scenario & Debate, medium, @Ngoclee123)
 - [ ] #95 `T-F03` Scenario SITUATION + PERSPECTIVES screens (Scenario & Debate, medium, @Ngoclee123)
 - [ ] #96 `T-F04` Scenario FRAMEWORK + RETHINK screens (Scenario & Debate, medium, @Ngoclee123)
 - [ ] #97 `T-F05` Debate CRUD + argument + vote + comment API (Scenario & Debate, medium, @Ngoclee123)
@@ -102,6 +101,7 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 
 ## Recently Closed Issues
 
+- [x] #94 `T-F02` Real-life Scenario API (CRUD + perspectives + respond + stats) (closed 2026-06-02T18:16:31Z)
 - [x] #46 `T-B08` Auth Redux Toolkit slice + Redux Persist (login/register/logout/checkAuth) (closed 2026-06-01T12:30:46Z)
 - [x] #66 `T-C12` Seed: TopicPerspective data (5 perspectives x 10 topics) (closed 2026-06-01T12:17:19Z)
 - [x] #65 `T-C11` Seed: 5 MiniGames (matching, guess-who, logic) (closed 2026-06-01T12:04:19Z)
@@ -121,4 +121,3 @@ Run dev/review workflow for #22 `T-A06` Topic CRUD API (list/get/create/update +
 - [x] #105 `T-G05` Bookmark system (button + list screen) (closed 2026-05-31T19:21:46Z)
 - [x] #107 `T-H01` TopicPerspective API (CRUD 5 perspectives per topic) (closed 2026-05-31T19:12:37Z)
 - [x] #108 `T-H02` Multi-perspective viewer screen (tabs/swipe per perspective) (closed 2026-05-31T19:12:37Z)
-- [x] #104 `T-G04` Mindmap visualization (SVG + zoom + pan) (closed 2026-05-31T19:06:07Z)

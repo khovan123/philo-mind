@@ -1,4 +1,3 @@
-import { baseApi } from "./baseApi";
 import type {
   CreateReflectionInput,
   CriticalQuestion,
@@ -6,6 +5,7 @@ import type {
   ReflectionEntry,
   UpdateReflectionInput,
 } from "@/types/reflection";
+import { baseApi } from "./baseApi";
 
 export const reflectionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

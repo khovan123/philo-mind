@@ -1,6 +1,11 @@
 import type { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { aiService, AiError } from "./ai.service.js";
+import { buildChatPrompt } from "./ai-chat-prompt.js";
+import type { AiChatMessageContext, AiChatPromptCharacter } from "./ai-chat-prompt.js";
+
+export { buildChatPrompt };
+export type { AiChatMessageContext, AiChatPromptCharacter };
 
 const MAX_CHAT_HISTORY = 20;
 
@@ -13,49 +18,6 @@ export class AiChatError extends Error {
     super(message);
     this.name = "AiChatError";
   }
-}
-
-export interface AiChatPromptCharacter {
-  id: string;
-  name: string;
-  promptInstruction: string;
-  worldview?: string | null;
-}
-
-export interface AiChatMessageContext {
-  senderType: "USER" | "AI";
-  message: string;
-}
-
-function buildCharacterInstruction(character: AiChatPromptCharacter) {
-  const pieces = [`You are ${character.name}.`, character.promptInstruction];
-
-  if (character.worldview) {
-    pieces.push(`Worldview: ${character.worldview}`);
-  }
-
-  return pieces.filter(Boolean).join(" ");
-}
-
-export function buildChatPrompt(
-  character: AiChatPromptCharacter,
-  history: AiChatMessageContext[],
-  userMessage: string,
-) {
-  const lines = [buildCharacterInstruction(character), ""];
-
-  for (const item of history) {
-    if (item.senderType === "USER") {
-      lines.push(`User: ${item.message}`);
-    } else {
-      lines.push(`Assistant: ${item.message}`);
-    }
-  }
-
-  lines.push(`User: ${userMessage}`);
-  lines.push("Assistant:");
-
-  return lines.join("\n");
 }
 
 export class AiChatService {

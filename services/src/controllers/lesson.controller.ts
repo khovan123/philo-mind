@@ -35,14 +35,9 @@ export class LessonController {
         ];
       }
 
-      // Role-based status filtering
       const isAdminOrModerator = req.user && ["ADMIN", "MODERATOR"].includes(req.user.role);
 
-      if (!isAdminOrModerator) {
-        // Standard users can only view PUBLISHED lessons
-        where.status = ContentStatus.PUBLISHED;
-      } else if (status) {
-        // Admin/Mod can specify status in query parameters
+      if (status && isAdminOrModerator) {
         where.status = status;
       }
 
@@ -116,12 +111,6 @@ export class LessonController {
       });
 
       if (!lesson) {
-        return sendError(res, "LESSON_NOT_FOUND", "Bài học không tồn tại", 404);
-      }
-
-      // Enforce published-only check for standard users
-      const isAdminOrModerator = req.user && ["ADMIN", "MODERATOR"].includes(req.user.role);
-      if (!isAdminOrModerator && lesson.status !== ContentStatus.PUBLISHED) {
         return sendError(res, "LESSON_NOT_FOUND", "Bài học không tồn tại", 404);
       }
 

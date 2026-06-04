@@ -22,5 +22,12 @@ export const getStoryScenarioDetailSchema = z.object({
   }),
 });
 
+export const getStoryStatsSchema = z.object({
+  params: z.object({
+    id: z.string().uuid("ID story scenario không hợp lệ"),
+  }),
+});
+
 export type ListStoryScenariosInput = z.infer<typeof listStoryScenariosSchema>["query"];
 export type GetStoryScenarioDetailInput = z.infer<typeof getStoryScenarioDetailSchema>["params"];
+export type GetStoryStatsInput = z.infer<typeof getStoryStatsSchema>["params"];

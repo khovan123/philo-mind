@@ -25,13 +25,14 @@ export class AiService {
   }
 
   private async withTimeout<T>(promise: Promise<T>, timeoutMs = 30000): Promise<T> {
+    let timeout: ReturnType<typeof setTimeout>;
     const timeoutPromise = new Promise<never>((_, reject) => {
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         reject(new AiError("AI_TIMEOUT", "Gemini request timeout after 30 seconds", 504));
       }, timeoutMs);
     });
 
-    return Promise.race([promise, timeoutPromise]);
+    return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeout));
   }
 
   private getModel() {

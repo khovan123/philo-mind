@@ -1,17 +1,18 @@
-import { useAppDispatch, useAppSelector } from "./hooks";
-import {
-  fetchMiniGames,
-  fetchMiniGameDetail,
-  submitMiniGameAttempt,
-  setMiniGameFilter,
-  resetAttempt as resetAttemptAction,
-} from "./slices/minigame.slice";
+import { RootState } from "@/stores";
 import type { MiniGameAnswers } from "@/types/minigame";
+import { useAppDispatch, useAppSelector } from "./hooks";
 import type { MiniGameFilter } from "./slices/minigame.slice";
+import {
+  fetchMiniGameDetail,
+  fetchMiniGames,
+  resetAttempt as resetAttemptAction,
+  setMiniGameFilter,
+  submitMiniGameAttempt,
+} from "./slices/minigame.slice";
 
 export function useMiniGameStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.minigame);
+  const state = useAppSelector((s: RootState) => s.minigame);
 
   return {
     ...state,

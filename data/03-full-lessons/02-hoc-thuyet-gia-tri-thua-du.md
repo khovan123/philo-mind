@@ -3,21 +3,23 @@ chủ_đề: Chủ nghĩa Mác-Lênin
 tiêu_đề: Học thuyết giá trị thặng dư
 thời_gian_đọc: 8 phút
 ---
+
 ## Nội dung chính
 
 Hãy nhắm mắt lại và quay về nước Anh thế kỷ 19 – thời kỳ Cách mạng Công nghiệp đang ở độ rực rỡ nhất, nhưng cũng là lúc bóng tối của sự bóc lột phủ cái bóng dài nhất lên tầng lớp lao động. Hình ảnh một công nhân nhà máy dệt tại Manchester, khuôn mặt lấm lem khói bụi, vắt kiệt sức lực bên cỗ máy hơi nước ồn ào suốt 16 giờ mỗi ngày là một thước phim nghẹt thở về hiện thực xã hội lúc bấy giờ. Mặc dù họ làm việc không ngừng nghỉ, tạo ra vô số cuộn vải tuyệt đẹp cho giới chủ, bản thân họ lại sống trong những khu ổ chuột tối tăm, chỉ nhận được đồng lương chết đói. Bí ẩn đằng sau sự nghịch lý này – tại sao người làm ra của cải lại nghèo, còn người không trực tiếp sản xuất lại ngày càng giàu sụ? Karl Marx đã giải mã bí ẩn đó thông qua **Học thuyết giá trị thặng dư** – "hòn đá tảng" của toàn bộ kinh tế chính trị học Mác-xít.
 
 Marx nhận ra rằng, trong xã hội tư bản chủ nghĩa, mọi thứ đều có thể biến thành hàng hóa để mua bán. Tuy nhiên, có một loại hàng hóa vô cùng đặc biệt, kỳ diệu hơn mọi thứ khác, đó chính là **Hàng hóa sức lao động**. Sức lao động không phải là con người công nhân, mà là thể lực và trí lực mà người công nhân bán cho nhà tư bản trong một khoảng thời gian nhất định (ví dụ: 8 giờ hoặc 16 giờ/ngày).
 
-Sự kỳ diệu của **Hàng hóa sức lao động** nằm ở chỗ: khi được mang ra sử dụng (tức là khi người công nhân làm việc), nó có khả năng tạo ra một lượng giá trị *mới* lớn hơn rất nhiều so với giá trị của chính bản thân nó (tức là tiền lương mà nhà tư bản trả cho công nhân để họ duy trì cuộc sống). 
+Sự kỳ diệu của **Hàng hóa sức lao động** nằm ở chỗ: khi được mang ra sử dụng (tức là khi người công nhân làm việc), nó có khả năng tạo ra một lượng giá trị _mới_ lớn hơn rất nhiều so với giá trị của chính bản thân nó (tức là tiền lương mà nhà tư bản trả cho công nhân để họ duy trì cuộc sống).
 
-Hãy phân tích quá trình này thông qua hai khái niệm then chốt: **Tư bản bất biến** (ký hiệu là **c**) và **Tư bản khả biến** (ký hiệu là **v**). 
-- **Tư bản bất biến (c)** là tiền nhà tư bản bỏ ra mua máy móc, nhà xưởng, nguyên vật liệu (bông, sợi). Giá trị của chúng chỉ được *chuyển dịch* một cách nguyên vẹn vào sản phẩm mới, không hề tăng lên.
-- **Tư bản khả biến (v)** là khoản tiền nhà tư bản dùng để trả lương cho công nhân mua **sức lao động**. Đây mới chính là "con ngỗng đẻ trứng vàng". 
+Hãy phân tích quá trình này thông qua hai khái niệm then chốt: **Tư bản bất biến** (ký hiệu là **c**) và **Tư bản khả biến** (ký hiệu là **v**).
+
+- **Tư bản bất biến (c)** là tiền nhà tư bản bỏ ra mua máy móc, nhà xưởng, nguyên vật liệu (bông, sợi). Giá trị của chúng chỉ được _chuyển dịch_ một cách nguyên vẹn vào sản phẩm mới, không hề tăng lên.
+- **Tư bản khả biến (v)** là khoản tiền nhà tư bản dùng để trả lương cho công nhân mua **sức lao động**. Đây mới chính là "con ngỗng đẻ trứng vàng".
 
 Giả sử, để sống sót và phục hồi sức khỏe, người công nhân cần một số tiền lương là 50 USD/ngày. Trong nhà máy, chỉ mất 4 giờ lao động là người công nhân đã làm ra lượng vải có giá trị tương đương 50 USD đó. Khung thời gian 4 giờ này được Marx gọi là **thời gian lao động tất yếu**. Nếu công nhân dừng lại và ra về sau 4 giờ, nhà tư bản sẽ không có lãi. Nhưng bản hợp đồng lao động buộc công nhân phải làm việc 8 giờ, 12 giờ, thậm chí 16 giờ như thế kỷ 19.
 
-Những giờ lao động dôi ra sau 4 giờ đầu tiên đó được gọi là **thời gian lao động thặng dư**. Trong khoảng thời gian này, công nhân tiếp tục dệt vải, tiếp tục tạo ra giá trị mới, nhưng toàn bộ lượng giá trị mới này rơi thẳng vào túi nhà tư bản mà họ không phải trả thêm một xu tiền lương nào. Phần giá trị dôi ra đó chính là **Giá trị thặng dư** (ký hiệu là **m**). 
+Những giờ lao động dôi ra sau 4 giờ đầu tiên đó được gọi là **thời gian lao động thặng dư**. Trong khoảng thời gian này, công nhân tiếp tục dệt vải, tiếp tục tạo ra giá trị mới, nhưng toàn bộ lượng giá trị mới này rơi thẳng vào túi nhà tư bản mà họ không phải trả thêm một xu tiền lương nào. Phần giá trị dôi ra đó chính là **Giá trị thặng dư** (ký hiệu là **m**).
 
 Nói một cách ngắn gọn, **Giá trị thặng dư** là phần giá trị mới do người lao động tạo ra ngoài phần bù đắp lại giá trị sức lao động (tiền lương), bị nhà tư bản chiếm không. Toàn bộ lợi nhuận, địa tô, tiền lãi ngân hàng trong xã hội tư bản thực chất đều được cắt nếm từ chiếc bánh "giá trị thặng dư" khổng lồ được nặn từ mồ hôi và nước mắt của người lao động. Sự bóc lột này không mang tính cá nhân hay đạo đức của một vài ông chủ ác độc, mà nó là quy luật sinh tồn khách quan của phương thức sản xuất tư bản chủ nghĩa: muốn vốn (tư bản) phình to, bắt buộc phải vắt kiệt giá trị thặng dư.
 

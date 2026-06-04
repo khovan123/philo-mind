@@ -1,11 +1,12 @@
-import { baseApi } from "./baseApi";
 import type {
   ListStoriesFilters,
   ListStoriesResponse,
-  StorySummary,
-  StorySession,
   StoryDecision,
+  StorySession,
+  StoryStatsReport,
+  StorySummary,
 } from "@/types/story";
+import { baseApi } from "./baseApi";
 
 export const storyApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -50,6 +51,14 @@ export const storyApi = baseApi.injectEndpoints({
       providesTags: (result, error, id) => [{ type: "Story", id }],
     }),
 
+    getStoryStats: builder.query<StoryStatsReport, string>({
+      query: (id) => ({
+        url: `/stories/${id}/stats`,
+        method: "GET",
+      }),
+      providesTags: (result, error, id) => [{ type: "Story", id: `STATS-${id}` }],
+    }),
+
     startSession: builder.mutation<StorySession, string>({
       query: (storyId) => ({
         url: `/stories/${storyId}/sessions`,
@@ -78,9 +87,11 @@ export const storyApi = baseApi.injectEndpoints({
         url: `/story-sessions/${sessionId}/complete`,
         method: "POST",
       }),
-      invalidatesTags: () => [
+      invalidatesTags: (result, _error, _sessionId) => [
         { type: "Story", id: "LIST" },
         { type: "Story", id: "SESSION-ACTIVE" },
+        // Also invalidate the stats cache since a session was completed
+        { type: "Story", id: `STATS-${result?.storyId}` },
       ],
     }),
   }),
@@ -90,6 +101,7 @@ export const storyApi = baseApi.injectEndpoints({
 export const {
   useListStoriesQuery,
   useGetStoryDetailQuery,
+  useGetStoryStatsQuery,
   useStartSessionMutation,
   useMakeDecisionMutation,
   useCompleteSessionMutation,

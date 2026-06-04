@@ -1,17 +1,18 @@
+import { RootState } from "@/stores";
+import type { CreateReflectionInput, ListReflectionsFilters } from "@/types/reflection";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
-  fetchReflections,
-  fetchQuestions,
-  getReflectionDetail,
-  createNewReflection,
-  selectReflectionById,
   clearSelection as clearSelectionAction,
+  createNewReflection,
+  fetchQuestions,
+  fetchReflections,
+  getReflectionDetail,
+  selectReflectionById,
 } from "./slices/reflection.slice";
-import type { CreateReflectionInput, ListReflectionsFilters } from "@/types/reflection";
 
 export function useReflectionStore() {
   const dispatch = useAppDispatch();
-  const state = useAppSelector((s) => s.reflection);
+  const state = useAppSelector((s: RootState) => s.reflection);
 
   return {
     ...state,
