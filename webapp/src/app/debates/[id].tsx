@@ -1,5 +1,5 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
 import { VoteValue } from "@philo-mind/shared";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   ArrowLeft,
   MessageSquare,
@@ -18,17 +18,17 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  StyleProp,
   StyleSheet,
   Text,
   TextInput,
   View,
-  StyleProp,
   ViewStyle,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
-import { Radius, Spacing } from "@/constants/theme";
+import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import {
   useCreateArgumentMutation,
@@ -233,6 +233,47 @@ export default function DebateDetailScreen() {
   const noteworthyArguments = [...argumentsList]
     .sort((a, b) => b.voteCount - a.voteCount)
     .slice(0, 2);
+
+  // Compact card renderer for split columns
+  const renderSplitCard = (arg: (typeof argumentsList)[0], accentColor: string) => {
+    const matches = arg.argumentText.match(/^\*\*(.*?)\*\*\n\n([\s\S]*)/);
+    const cardTitle = matches ? matches[1] : "";
+    const cardBody = matches ? matches[2] : arg.argumentText;
+    return (
+      <Pressable
+        key={arg.id}
+        style={[
+          styles.splitCard,
+          {
+            backgroundColor: theme.surface,
+            borderLeftColor: accentColor,
+            borderColor: theme.border,
+          },
+        ]}
+        onPress={() => setSelectedStanceFilter(arg.stance)}
+      >
+        {cardTitle ? (
+          <ThemedText style={styles.splitCardTitle} numberOfLines={2}>
+            {cardTitle}
+          </ThemedText>
+        ) : null}
+        <ThemedText style={styles.splitCardBody} themeColor="textSecondary" numberOfLines={3}>
+          {cardBody}
+        </ThemedText>
+        <View style={styles.splitCardFooter}>
+          <View style={styles.splitCardVotes}>
+            <ThumbsUp size={12} color={theme.textMuted} />
+            <Text style={[styles.splitCardVoteText, { color: theme.textMuted }]}>
+              {arg.voteCount}
+            </Text>
+          </View>
+          <Text style={[styles.splitCardAuthor, { color: theme.textMuted }]}>
+            {arg.user.fullName?.split(" ").pop()}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  };
 
   if (isLoading) {
     return (
@@ -543,58 +584,178 @@ export default function DebateDetailScreen() {
             </View>
           )}
 
-          {/* TAB 2: ARGUMENTS SPLIT VIEW */}
+          {/* TAB 2: ARGUMENTS SPLIT FOR/AGAINST VIEW */}
           {activeTab === "ARGUMENTS" && (
             <View style={styles.tabContent}>
-              {/* Filter Chips */}
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.filterChipsContainer}
-              >
-                {[
-                  { value: "ALL", label: "Tất cả" },
-                  { value: "AGREE", label: labels.AGREE },
-                  { value: "DISAGREE", label: labels.DISAGREE },
-                  { value: "NEUTRAL", label: labels.NEUTRAL },
-                ].map((chip) => {
-                  const isSelected = selectedStanceFilter === chip.value;
-                  return (
-                    <Pressable
-                      key={chip.value}
-                      style={[
-                        styles.chip,
-                        {
-                          backgroundColor: isSelected ? theme.primary : theme.surface,
-                          borderColor: isSelected ? theme.primary : theme.border,
-                        },
-                      ]}
-                      onPress={() => setSelectedStanceFilter(chip.value)}
-                    >
-                      <Text
-                        style={[
-                          styles.chipText,
-                          {
-                            color: isSelected ? "#0C0C0E" : theme.text,
-                            fontWeight: isSelected ? "bold" : "500",
-                          },
-                        ]}
-                      >
-                        {chip.label}
-                      </Text>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+              {/* Split FOR vs AGAINST header bar */}
+              <View style={styles.splitHeader}>
+                <Pressable
+                  style={[
+                    styles.splitHeaderTab,
+                    {
+                      backgroundColor:
+                        selectedStanceFilter === "AGREE"
+                          ? "rgba(34, 197, 94, 0.15)"
+                          : theme.surface,
+                      borderColor: selectedStanceFilter === "AGREE" ? theme.success : theme.border,
+                    },
+                  ]}
+                  onPress={() =>
+                    setSelectedStanceFilter(selectedStanceFilter === "AGREE" ? "ALL" : "AGREE")
+                  }
+                >
+                  <View style={[styles.splitDot, { backgroundColor: theme.success }]} />
+                  <Text
+                    style={[
+                      styles.splitHeaderText,
+                      {
+                        color: selectedStanceFilter === "AGREE" ? theme.success : theme.text,
+                      },
+                    ]}
+                  >
+                    {labels.AGREE} ({agreeCount})
+                  </Text>
+                </Pressable>
 
-              {/* Arguments list */}
-              {filteredArguments.length === 0 ? (
+                <View style={styles.splitVsDivider}>
+                  <Text style={[styles.vsText, { color: theme.textMuted }]}>VS</Text>
+                </View>
+
+                <Pressable
+                  style={[
+                    styles.splitHeaderTab,
+                    {
+                      backgroundColor:
+                        selectedStanceFilter === "DISAGREE"
+                          ? "rgba(239, 44, 68, 0.15)"
+                          : theme.surface,
+                      borderColor:
+                        selectedStanceFilter === "DISAGREE" ? theme.danger : theme.border,
+                    },
+                  ]}
+                  onPress={() =>
+                    setSelectedStanceFilter(
+                      selectedStanceFilter === "DISAGREE" ? "ALL" : "DISAGREE",
+                    )
+                  }
+                >
+                  <View style={[styles.splitDot, { backgroundColor: theme.danger }]} />
+                  <Text
+                    style={[
+                      styles.splitHeaderText,
+                      {
+                        color: selectedStanceFilter === "DISAGREE" ? theme.danger : theme.text,
+                      },
+                    ]}
+                  >
+                    {labels.DISAGREE} ({disagreeCount})
+                  </Text>
+                </Pressable>
+              </View>
+
+              {/* Neutral chip toggle */}
+              {neutralCount > 0 && (
+                <Pressable
+                  style={[
+                    styles.neutralChip,
+                    {
+                      backgroundColor:
+                        selectedStanceFilter === "NEUTRAL"
+                          ? "rgba(245, 158, 11, 0.15)"
+                          : theme.surface,
+                      borderColor:
+                        selectedStanceFilter === "NEUTRAL" ? theme.warning : theme.border,
+                    },
+                  ]}
+                  onPress={() =>
+                    setSelectedStanceFilter(selectedStanceFilter === "NEUTRAL" ? "ALL" : "NEUTRAL")
+                  }
+                >
+                  <View style={[styles.splitDot, { backgroundColor: theme.warning }]} />
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "600",
+                      color:
+                        selectedStanceFilter === "NEUTRAL" ? theme.warning : theme.textSecondary,
+                    }}
+                  >
+                    {labels.NEUTRAL} ({neutralCount})
+                  </Text>
+                </Pressable>
+              )}
+
+              {/* Split columns layout – show side-by-side when filter is ALL */}
+              {selectedStanceFilter === "ALL" ? (
+                <View style={styles.splitColumnsContainer}>
+                  {/* FOR Column */}
+                  <View style={styles.splitColumn}>
+                    <View
+                      style={[
+                        styles.splitColumnHeader,
+                        { backgroundColor: "rgba(34, 197, 94, 0.08)" },
+                      ]}
+                    >
+                      <View style={[styles.splitColumnDot, { backgroundColor: theme.success }]} />
+                      <Text style={[styles.splitColumnLabel, { color: theme.success }]}>
+                        {labels.AGREE}
+                      </Text>
+                    </View>
+                    {argumentsList.filter((a) => a.stance === "AGREE").length === 0 ? (
+                      <View style={styles.splitEmptyCol}>
+                        <ThemedText
+                          style={{ fontSize: 11, textAlign: "center" }}
+                          themeColor="textSecondary"
+                        >
+                          Chưa có lập luận
+                        </ThemedText>
+                      </View>
+                    ) : (
+                      argumentsList
+                        .filter((a) => a.stance === "AGREE")
+                        .map((arg) => renderSplitCard(arg, theme.success))
+                    )}
+                  </View>
+
+                  {/* AGAINST Column */}
+                  <View style={styles.splitColumn}>
+                    <View
+                      style={[
+                        styles.splitColumnHeader,
+                        { backgroundColor: "rgba(239, 44, 68, 0.08)" },
+                      ]}
+                    >
+                      <View style={[styles.splitColumnDot, { backgroundColor: theme.danger }]} />
+                      <Text style={[styles.splitColumnLabel, { color: theme.danger }]}>
+                        {labels.DISAGREE}
+                      </Text>
+                    </View>
+                    {argumentsList.filter((a) => a.stance === "DISAGREE").length === 0 ? (
+                      <View style={styles.splitEmptyCol}>
+                        <ThemedText
+                          style={{ fontSize: 11, textAlign: "center" }}
+                          themeColor="textSecondary"
+                        >
+                          Chưa có lập luận
+                        </ThemedText>
+                      </View>
+                    ) : (
+                      argumentsList
+                        .filter((a) => a.stance === "DISAGREE")
+                        .map((arg) => renderSplitCard(arg, theme.danger))
+                    )}
+                  </View>
+                </View>
+              ) : null}
+
+              {/* Filtered full-width argument cards (when a specific stance is selected) */}
+              {selectedStanceFilter !== "ALL" && filteredArguments.length === 0 ? (
                 <View style={styles.emptyContainer}>
                   <ThemedText themeColor="textSecondary">
                     Không tìm thấy lập luận nào cho bộ lọc này.
                   </ThemedText>
                 </View>
-              ) : (
+              ) : selectedStanceFilter !== "ALL" ? (
                 filteredArguments.map((arg) => {
                   const isExpanded = expandedArgumentId === arg.id;
 
@@ -802,22 +963,20 @@ export default function DebateDetailScreen() {
                     </View>
                   );
                 })
-              )}
+              ) : null}
             </View>
           )}
 
           <View style={{ height: Spacing.five }} />
         </ScrollView>
 
-        {/* Float CTA: Write Argument */}
-        {!isWritingArgument && (
-          <Pressable
-            style={[styles.floatCta, { backgroundColor: theme.primary }]}
-            onPress={() => setIsWritingArgument(true)}
-          >
-            <Plus size={24} color="#0C0C0E" />
-          </Pressable>
-        )}
+        {/* Float CTA: Write Argument — navigates to dedicated argue screen */}
+        <Pressable
+          style={[styles.floatCta, { backgroundColor: theme.primary }]}
+          onPress={() => router.push(`/debates/argue?debateId=${id}` as never)}
+        >
+          <Plus size={24} color="#0C0C0E" />
+        </Pressable>
 
         {/* Modal-style Stance & Argument Wizard Overlay */}
         {isWritingArgument && (
@@ -1721,5 +1880,121 @@ const styles = StyleSheet.create({
   previewHeading: {
     fontSize: 11,
     marginBottom: Spacing.one,
+  },
+
+  /* ====== Split FOR / AGAINST View Styles ====== */
+  splitHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Spacing.two,
+    marginBottom: Spacing.three,
+  },
+  splitHeaderTab: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingVertical: 10,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+  },
+  splitDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+  },
+  splitHeaderText: {
+    fontSize: 13,
+    fontWeight: "700",
+    fontFamily: Fonts.sans,
+  },
+  splitVsDivider: {
+    width: 32,
+    alignItems: "center",
+  },
+  vsText: {
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1,
+    fontFamily: Fonts.sans,
+  },
+  neutralChip: {
+    flexDirection: "row",
+    alignSelf: "center",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+    borderWidth: 1,
+    marginBottom: Spacing.three,
+  },
+  splitColumnsContainer: {
+    flexDirection: "row",
+    gap: Spacing.two,
+  },
+  splitColumn: {
+    flex: 1,
+  },
+  splitColumnHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: Radius.sm,
+    marginBottom: Spacing.two,
+  },
+  splitColumnDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  splitColumnLabel: {
+    fontSize: 11,
+    fontWeight: "800",
+    letterSpacing: 0.5,
+    fontFamily: Fonts.sans,
+  },
+  splitCard: {
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderLeftWidth: 3,
+    padding: Spacing.two,
+    marginBottom: Spacing.two,
+  },
+  splitCardTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    marginBottom: 4,
+    fontFamily: Fonts.sans,
+  },
+  splitCardBody: {
+    fontSize: 12,
+    lineHeight: 17,
+  },
+  splitCardFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: Spacing.one,
+  },
+  splitCardVotes: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+  },
+  splitCardVoteText: {
+    fontSize: 11,
+    fontWeight: "600",
+  },
+  splitCardAuthor: {
+    fontSize: 10,
+    fontWeight: "500",
+  },
+  splitEmptyCol: {
+    paddingVertical: Spacing.four,
+    alignItems: "center",
   },
 });

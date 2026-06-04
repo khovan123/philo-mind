@@ -18,6 +18,8 @@ import { mindmapReducer } from "./slices/mindmap.slice";
 import { minigameReducer } from "./slices/minigame.slice";
 import { reflectionReducer } from "./slices/reflection.slice";
 import { storyReducer } from "./slices/story.slice";
+import { debateReducer } from "./slices/debate.slice";
+import { scenarioReducer } from "./slices/scenario.slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -36,6 +38,8 @@ export const store = configureStore({
     reflection: reflectionReducer,
     story: storyReducer,
     chat: chatReducer,
+    debate: debateReducer,
+    scenario: scenarioReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
