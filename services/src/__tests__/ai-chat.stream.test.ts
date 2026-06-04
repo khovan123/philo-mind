@@ -1,4 +1,4 @@
-import { buildChatPrompt } from "../services/ai-chat.service.js";
+import { buildChatPrompt } from "../services/ai-chat-prompt.js";
 
 describe("AI Chat Streaming", () => {
   it("builds a proper SSE format data object", () => {
