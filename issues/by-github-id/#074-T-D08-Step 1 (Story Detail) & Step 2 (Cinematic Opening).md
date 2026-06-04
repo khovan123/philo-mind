@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #74 |
-| Task ID | T-D08 |
-| Title | Step 1 (Story Detail) & Step 2 (Cinematic Opening) |
-| State | open |
+| Field          | Value                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------- |
+| GitHub issue   | #74                                                                                    |
+| Task ID        | T-D08                                                                                  |
+| Title          | Step 1 (Story Detail) & Step 2 (Cinematic Opening)                                     |
+| State          | open                                                                                   |
 | Local log path | `issues/by-github-id/#074-T-D08-Step 1 (Story Detail) & Step 2 (Cinematic Opening).md` |
 
 ## Issue Body

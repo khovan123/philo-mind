@@ -25,12 +25,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #80 |
-| Task ID | T-D14 |
-| Title | Step 12 (Quick Quiz) & Step 13 (Episode Complete) |
-| State | open |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| GitHub issue   | #80                                                                                   |
+| Task ID        | T-D14                                                                                 |
+| Title          | Step 12 (Quick Quiz) & Step 13 (Episode Complete)                                     |
+| State          | open                                                                                  |
 | Local log path | `issues/by-github-id/#080-T-D14-Step 12 (Quick Quiz) & Step 13 (Episode Complete).md` |
 
 ## Issue Body

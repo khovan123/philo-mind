@@ -16,7 +16,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 | Loại việc         | frontend            |
 | Priority          | medium              |
 | Owner gợi ý       | Backend+AI Dev      |
-| Assignee hiện tại | @NguyenDat204        |
+| Assignee hiện tại | @NguyenDat204       |
 | Estimate          | 2h                  |
 | Milestone         | Week 7              |
 | Dependencies      | `T-E07`             |

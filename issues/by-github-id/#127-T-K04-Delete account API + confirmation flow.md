@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #127 |
-| Task ID | T-K04 |
-| Title | Delete account API + confirmation flow |
-| State | done |
+| Field          | Value                                                                      |
+| -------------- | -------------------------------------------------------------------------- |
+| GitHub issue   | #127                                                                       |
+| Task ID        | T-K04                                                                      |
+| Title          | Delete account API + confirmation flow                                     |
+| State          | done                                                                       |
 | Local log path | `issues/by-github-id/#127-T-K04-Delete account API + confirmation flow.md` |
 
 ## Issue Body
@@ -39,22 +39,26 @@
 ## T-K04: Delete account API + confirmation flow
 
 ### Mục tiêu
+
 Hoàn thành **Delete account API + confirmation flow** theo contract và convention hiện có của PhiloMind, tạo đầu ra có thể review và tích hợp độc lập.
 
 ### Thông tin triển khai
-| Thuộc tính | Giá trị |
-| --- | --- |
-| Track | K: Admin & Settings |
-| Nhóm | All |
-| Owner gợi ý | Frontend Dev |
-| Estimate | 2h |
-| Thời điểm dự kiến | Week 7 |
-| Dependencies | `T-A04` |
+
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| Track             | K: Admin & Settings |
+| Nhóm              | All                 |
+| Owner gợi ý       | Frontend Dev        |
+| Estimate          | 2h                  |
+| Thời điểm dự kiến | Week 7              |
+| Dependencies      | `T-A04`             |
 
 ### Dependency Notes
+
 Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc có contract/mock được thống nhất.
 
 ### Checklist triển khai
+
 - [ ] Triển khai end-to-end scope **Delete account API + confirmation flow** theo cấu trúc hiện có của repo.
 - [ ] Cập nhật API contract, frontend integration và state/error handling liên quan.
 - [ ] Bổ sung migration hoặc type changes nếu feature yêu cầu.
@@ -62,23 +66,27 @@ Chỉ bắt đầu integration sau khi các dependency trên đã merge hoặc c
 - [ ] Đối chiếu kết quả với yêu cầu cốt lõi: Soft delete, 30-day grace, confirmation modal.
 
 ### Acceptance Criteria
+
 - [ ] Soft delete
 - [ ] 30-day grace
 - [ ] confirmation modal
 
 ### Kiểm chứng bắt buộc
+
 - [ ] Chạy lint/typecheck/test phù hợp với package bị thay đổi.
 - [ ] Ghi rõ command đã chạy và kết quả trong PR.
 - [ ] Kiểm tra không commit secret, file `.env` thật hoặc artifact local.
 - [ ] Nếu thay đổi contract dùng chung, cập nhật consumer hoặc ghi rõ follow-up dependency.
 
 ### Definition of Done
+
 - [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
 - [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
 - [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
 - [ ] Không còn TODO thuộc trực tiếp scope issue này.
 
 ---
+
 _Generated from `docs/task-breakdown.md`. Nếu scope thay đổi, cập nhật breakdown và issue cùng lúc._
 
 ## Feature Output Contract
@@ -113,6 +121,7 @@ Người dùng quản lý hồ sơ, cài đặt, pháp lý và quyền riêng t�
 ### Navigation and interaction
 
 - Primary CTA trên `/delete-account` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.
