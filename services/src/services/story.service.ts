@@ -298,6 +298,16 @@ export class StoryService {
       };
     });
 
+    // Build decision distribution map for visualization
+    const decisionDistribution: Record<string, number> = {};
+    for (const choice of choices) {
+      decisionDistribution[choice.id] = decisionStatsMap[choice.id] || 0;
+    }
+
+    const completionRate =
+      totalSessions > 0 ? Math.round((completedSessions / totalSessions) * 100) : 0;
+    const averageTimeMinutes = averageTime > 0 ? Math.round(averageTime / 60) : 0;
+
     return {
       storyId: id,
       totalSessions,
@@ -305,7 +315,10 @@ export class StoryService {
       inProgressSessions,
       totalCompletions: completedSessions,
       averageTime,
+      averageTimeMinutes,
+      completionRate,
       choiceStats,
+      decisionDistribution,
     };
   }
 }

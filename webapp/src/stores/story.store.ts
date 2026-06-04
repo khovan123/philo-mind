@@ -11,6 +11,8 @@ import {
   setSelectedRoleId,
   setNpcEncounterCompleted as setNpcEncounterCompletedAction,
   setMinigameScore as setMinigameScoreAction,
+  setQuizScore as setQuizScoreAction,
+  setReflectionJournal as setReflectionJournalAction,
   startOrResumeSession,
   submitDecision,
 } from "./slices/story.slice";
@@ -48,6 +50,12 @@ export function useStoryStore() {
     },
     setMinigameScore: (score: number | null) => {
       dispatch(setMinigameScoreAction(score));
+    },
+    setQuizScore: (score: number | null) => {
+      dispatch(setQuizScoreAction(score));
+    },
+    setReflectionJournal: (text: string | null) => {
+      dispatch(setReflectionJournalAction(text));
     },
     resetStore: () => {
       dispatch(resetStoryStore());

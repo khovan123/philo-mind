@@ -9,7 +9,9 @@ export type StoryStep =
   | "choose"
   | "result"
   | "knowledge"
-  | "reflect";
+  | "reflect"
+  | "quiz"
+  | "complete";
 
 export type StoryState = {
   stories: StorySummary[];
@@ -22,6 +24,10 @@ export type StoryState = {
   minigameScore: number | null;
   /** The choiceId from the most recent decision in this session */
   lastDecisionChoiceId: string | null;
+  /** Quiz score from the Quick Quiz step (Step 12) */
+  quizScore: number | null;
+  /** Reflection journal text from Episode Complete (Step 13) */
+  reflectionJournal: string | null;
   loadingStories: boolean;
   loadingStoryDetail: boolean;
   loadingSession: boolean;
@@ -40,6 +46,8 @@ const initialState: StoryState = {
   npcEncounterCompleted: false,
   minigameScore: null,
   lastDecisionChoiceId: null,
+  quizScore: null,
+  reflectionJournal: null,
   loadingStories: false,
   loadingStoryDetail: false,
   loadingSession: false,
@@ -132,6 +140,12 @@ const storySlice = createSlice({
     setMinigameScore: (state, action: PayloadAction<number | null>) => {
       state.minigameScore = action.payload;
     },
+    setQuizScore: (state, action: PayloadAction<number | null>) => {
+      state.quizScore = action.payload;
+    },
+    setReflectionJournal: (state, action: PayloadAction<string | null>) => {
+      state.reflectionJournal = action.payload;
+    },
     resetStoryStore: (state) => {
       state.currentStory = null;
       state.activeSession = null;
@@ -140,6 +154,8 @@ const storySlice = createSlice({
       state.npcEncounterCompleted = false;
       state.minigameScore = null;
       state.lastDecisionChoiceId = null;
+      state.quizScore = null;
+      state.reflectionJournal = null;
       state.error = null;
     },
     clearStoryMessages: (state) => {
@@ -240,5 +256,7 @@ export const {
   setSelectedRoleId,
   setNpcEncounterCompleted,
   setMinigameScore,
+  setQuizScore,
+  setReflectionJournal,
 } = storySlice.actions;
 export const storyReducer = storySlice.reducer;
