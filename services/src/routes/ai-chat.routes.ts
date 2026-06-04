@@ -22,7 +22,7 @@ aiChatRouter.get("/sessions", validate(listChatSessionsSchema), (req, res, next)
   aiChatController.list(req, res, next),
 );
 
-aiChatRouter.get("/sessions/:id/stream", validate(sessionIdSchema), (req, res, next) =>
+aiChatRouter.get("/sessions/:id", validate(sessionIdSchema), (req, res, next) =>
   aiChatController.get(req, res, next),
 );
 
