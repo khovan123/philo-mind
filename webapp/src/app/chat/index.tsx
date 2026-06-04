@@ -6,14 +6,7 @@
  * plus a list of existing chat sessions.
  */
 import { useRouter } from "expo-router";
-import {
-  AlertCircle,
-  ArrowLeft,
-  Clock,
-  MessageCircle,
-  Sparkles,
-  User,
-} from "lucide-react-native";
+import { AlertCircle, ArrowLeft, Clock, MessageCircle, Sparkles, User } from "lucide-react-native";
 import { useCallback, useState } from "react";
 import {
   ActivityIndicator,
@@ -120,11 +113,7 @@ export default function ChatGalleryScreen() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintColor={theme.primary}
-          />
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.primary} />
         }
       >
         {/* Error State */}
@@ -178,11 +167,7 @@ export default function ChatGalleryScreen() {
                       <View style={[styles.charAvatar, { backgroundColor: color + "20" }]}>
                         <User color={color} size={28} />
                       </View>
-                      <ThemedText
-                        type="smallBold"
-                        numberOfLines={1}
-                        style={styles.charName}
-                      >
+                      <ThemedText type="smallBold" numberOfLines={1} style={styles.charName}>
                         {item.name}
                       </ThemedText>
                       <ThemedText
@@ -238,8 +223,7 @@ export default function ChatGalleryScreen() {
                         {session.title}
                       </ThemedText>
                       <ThemedText type="label" themeColor="textSecondary" numberOfLines={1}>
-                        {session.character?.name ?? "AI"} •{" "}
-                        {formatRelativeTime(session.createdAt)}
+                        {session.character?.name ?? "AI"} • {formatRelativeTime(session.createdAt)}
                       </ThemedText>
                       {session.lastMessage && (
                         <ThemedText

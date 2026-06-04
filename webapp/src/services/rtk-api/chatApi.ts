@@ -86,10 +86,7 @@ export const chatApi = baseApi.injectEndpoints({
     }),
 
     // ── Sessions ──
-    createChatSession: build.mutation<
-      ChatSession,
-      { characterId: string; title?: string }
-    >({
+    createChatSession: build.mutation<ChatSession, { characterId: string; title?: string }>({
       query: (body) => ({
         url: "/api/v1/ai/chat/sessions",
         method: "POST",
@@ -123,10 +120,7 @@ export const chatApi = baseApi.injectEndpoints({
     }),
 
     // ── Messages ──
-    sendMessage: build.mutation<
-      SendMessageResult,
-      { sessionId: string; message: string }
-    >({
+    sendMessage: build.mutation<SendMessageResult, { sessionId: string; message: string }>({
       query: ({ sessionId, message }) => ({
         url: `/api/v1/ai/chat/sessions/${sessionId}/messages`,
         method: "POST",

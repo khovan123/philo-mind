@@ -96,7 +96,11 @@ export default function ChatConversationScreen() {
   const theme = useTheme();
   const dispatch = useAppDispatch();
 
-  const { data: session, isLoading, refetch } = useGetChatSessionQuery(sessionId ?? "", {
+  const {
+    data: session,
+    isLoading,
+    refetch,
+  } = useGetChatSessionQuery(sessionId ?? "", {
     skip: !sessionId,
   });
 
@@ -412,7 +416,11 @@ const styles = StyleSheet.create({
   bubbleUser: { borderBottomRightRadius: 4 },
   bubbleAi: { borderBottomLeftRadius: 4 },
   bubbleStreaming: { opacity: 0.9 },
-  errorBanner: { paddingHorizontal: Spacing.three, paddingVertical: Spacing.two, alignItems: "center" },
+  errorBanner: {
+    paddingHorizontal: Spacing.three,
+    paddingVertical: Spacing.two,
+    alignItems: "center",
+  },
   inputBar: {
     flexDirection: "row",
     alignItems: "flex-end",

@@ -44,8 +44,7 @@ describe("AI Chat E2E Flow", () => {
           name: "Test Philosopher",
           type: "Test Type",
           bio: "A test philosopher for E2E testing",
-          promptInstruction:
-            "You are a test philosopher. Respond thoughtfully to all questions.",
+          promptInstruction: "You are a test philosopher. Respond thoughtfully to all questions.",
         })
         .expect("Content-Type", /json/)
         .expect(201);
@@ -59,9 +58,7 @@ describe("AI Chat E2E Flow", () => {
     it("should get character by ID", async () => {
       if (!characterId) return;
 
-      const res = await request(API_BASE)
-        .get(`/api/v1/ai/characters/${characterId}`)
-        .expect(200);
+      const res = await request(API_BASE).get(`/api/v1/ai/characters/${characterId}`).expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.id).toBe(characterId);
@@ -102,9 +99,7 @@ describe("AI Chat E2E Flow", () => {
     it("should get a specific session", async () => {
       if (!sessionId) return;
 
-      const res = await request(API_BASE)
-        .get(`/api/v1/ai/chat/sessions/${sessionId}`)
-        .expect(200);
+      const res = await request(API_BASE).get(`/api/v1/ai/chat/sessions/${sessionId}`).expect(200);
 
       expect(res.body.success).toBe(true);
       expect(res.body.data.id).toBe(sessionId);
@@ -176,9 +171,7 @@ describe("AI Chat E2E Flow", () => {
 
   describe("Validation", () => {
     it("should reject invalid session ID format", async () => {
-      await request(API_BASE)
-        .get("/api/v1/ai/chat/sessions/not-a-uuid")
-        .expect(400);
+      await request(API_BASE).get("/api/v1/ai/chat/sessions/not-a-uuid").expect(400);
     });
 
     it("should return 404 for non-existent session", async () => {
@@ -188,10 +181,7 @@ describe("AI Chat E2E Flow", () => {
     });
 
     it("should reject character creation without required fields", async () => {
-      await request(API_BASE)
-        .post("/api/v1/ai/characters")
-        .send({ name: "X" })
-        .expect(400);
+      await request(API_BASE).post("/api/v1/ai/characters").send({ name: "X" }).expect(400);
     });
   });
 });

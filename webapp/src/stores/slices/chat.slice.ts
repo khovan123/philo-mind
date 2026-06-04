@@ -44,13 +44,9 @@ const chatSlice = createSlice({
       state.streamingText[action.payload] = "";
     },
 
-    appendStreamingText(
-      state,
-      action: PayloadAction<{ sessionId: string; text: string }>,
-    ) {
+    appendStreamingText(state, action: PayloadAction<{ sessionId: string; text: string }>) {
       const { sessionId, text } = action.payload;
-      state.streamingText[sessionId] =
-        (state.streamingText[sessionId] ?? "") + text;
+      state.streamingText[sessionId] = (state.streamingText[sessionId] ?? "") + text;
     },
 
     finishStreaming(state, action: PayloadAction<string>) {

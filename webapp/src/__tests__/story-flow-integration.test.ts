@@ -158,7 +158,9 @@ const { storyService } = require("@/services/story.service");
 function createTestStore(preloadedState?: Partial<StoryState>) {
   return configureStore({
     reducer: { story: storyReducer },
-    preloadedState: preloadedState ? { story: { ...storyReducer(undefined, { type: "@@INIT" }), ...preloadedState } } : undefined,
+    preloadedState: preloadedState
+      ? { story: { ...storyReducer(undefined, { type: "@@INIT" }), ...preloadedState } }
+      : undefined,
   });
 }
 
@@ -344,7 +346,9 @@ describe("[T-D16] Story Flow — 13-Step Integration", () => {
       storyService.makeDecision.mockResolvedValueOnce(mockDecision);
       store.dispatch(setStep("choose"));
 
-      await store.dispatch(submitDecision({ choiceId: CHOICE_A_ID, userReason: "Vì lẽ phải quan trọng hơn" }));
+      await store.dispatch(
+        submitDecision({ choiceId: CHOICE_A_ID, userReason: "Vì lẽ phải quan trọng hơn" }),
+      );
 
       const s = getStory(store);
       expect(s.lastDecisionChoiceId).toBe(CHOICE_A_ID);
