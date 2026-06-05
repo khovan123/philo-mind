@@ -7,10 +7,10 @@ import { quizStyles as styles } from "./ui";
 export function QuizListStats() {
   return (
     <View style={styles.statsGrid}>
-      <StatCard label="Total" value="12" />
-      <StatCard label="Completed" value="5" />
-      <StatCard label="Avg Score" value="78%" />
-      <StatCard label="Streak" value="3 days" />
+      <StatCard label="Tổng cộng" value="12" />
+      <StatCard label="Hoàn thành" value="5" />
+      <StatCard label="Điểm TB" value="78%" />
+      <StatCard label="Chuỗi" value="3 ngày" />
     </View>
   );
 }

@@ -65,7 +65,7 @@ export default function NpcEncounterScreen() {
 
   const handleComplete = () => {
     setNpcEncounterCompleted(true);
-    router.push(`/story/${storyId}/minigame` as never);
+    router.push(`/story/${storyId}/dilemma` as never);
   };
 
   // ─── Loading ──────────────────────────────────────────────────────────────
@@ -121,7 +121,7 @@ export default function NpcEncounterScreen() {
         <View style={styles.headerCopy}>
           <ThemedText type="smallBold">Gặp Gỡ NPC</ThemedText>
           <ThemedText type="label" themeColor="textSecondary">
-            Bước 6/7 • {story.title}
+            Bước 7/13 • {story.title}
           </ThemedText>
         </View>
         {phase === "response" && (
@@ -431,7 +431,7 @@ export default function NpcEncounterScreen() {
                 variant="outline"
                 style={{ flex: 1 }}
               />
-              <Button title="Tiến đến Mini Game" onPress={handleComplete} style={{ flex: 1 }} />
+              <Button title="Tiến đến Tình Huống" onPress={handleComplete} style={{ flex: 1 }} />
             </View>
           </View>
         )}
@@ -450,12 +450,12 @@ export default function NpcEncounterScreen() {
               themeColor="textSecondary"
               style={{ textAlign: "center", lineHeight: 20 }}
             >
-              Bạn đã hoàn thành cuộc đối thoại với NPC. Hãy tiến đến thử thách Mini Game để thu thập
-              manh mối triết học.
+              Bạn đã hoàn thành cuộc đối thoại với NPC. Hãy tiến đến Tình Huống Nan Giải để đưa ra
+              quyết định đạo đức.
             </ThemedText>
             <Button
-              title="Vào Mini Game →"
-              onPress={() => router.push(`/story/${storyId}/minigame` as never)}
+              title="Tiến đến Tình Huống →"
+              onPress={() => router.push(`/story/${storyId}/dilemma` as never)}
               fullWidth
               style={{ marginTop: Spacing.four }}
             />

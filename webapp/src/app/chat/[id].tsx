@@ -35,13 +35,18 @@ async function streamMessage(
   onChunk: (text: string) => void,
   onDone: () => void,
   onError: (error: string) => void,
+  accessToken: string | null,
   signal?: AbortSignal,
 ) {
   try {
-    const baseUrl = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3000";
+    const baseUrl = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3001";
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
     const response = await fetch(`${baseUrl}/api/v1/ai/chat/sessions/${sessionId}/stream`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ message }),
       signal,
     });
@@ -109,6 +114,7 @@ export default function ChatConversationScreen() {
   const streamingText = useAppSelector(
     (s) => (sessionId ? s.chat.streamingText[sessionId] : undefined) ?? "",
   );
+  const accessToken = useAppSelector((s) => s.auth.accessToken);
 
   const [inputText, setInputText] = useState("");
   const [optimisticMessages, setOptimisticMessages] = useState<ChatMessage[]>([]);
@@ -180,9 +186,10 @@ export default function ChatConversationScreen() {
             /* already errored */
           });
       },
+      accessToken,
       abortController.signal,
     );
-  }, [inputText, sessionId, isStreaming, dispatch, refetch, sendMessage]);
+  }, [inputText, sessionId, isStreaming, dispatch, refetch, sendMessage, accessToken]);
 
   // Cleanup abort on unmount
   useEffect(() => {

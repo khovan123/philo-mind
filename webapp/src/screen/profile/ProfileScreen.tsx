@@ -41,7 +41,7 @@ const avatarImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuB47zYBVc4mzCb6eGEp98KgZT-1GawU6wYikMQdhbQMzBX9uzUV60BiUsOSyaAHRaYia4MB-FhyRI8zScldy4LZgDWy5WeMEm-JHMad7yqODMymhvbJDXegFnpHkotGK6bUjGf1qmmvcaBFO9dMnaQ3nxQ59xS7gJ6gEzKH3clLaNRhBlRPbks65lXVZIL12u9DGjMl-dCSM6cbFat_-fLjdHoO9GtipP7Wo3GOhJ-BQM1HLl0NdeNsYT47SsatC2eX90nDrs97jrqj";
 
 const stats = [
-  { label: "Streak", value: "7 ngày", icon: Flame, tone: "primary" },
+  { label: "Chuỗi ngày", value: "7 ngày", icon: Flame, tone: "primary" },
   { label: "Điểm tư duy", value: "342", icon: Sparkles, tone: "primary" },
   { label: "Câu chuyện", value: "12", icon: BookOpen, tone: "text" },
 ];
@@ -86,7 +86,7 @@ export default function ProfileScreen() {
   const visibleStats = profileSummary
     ? [
         {
-          label: "Streak",
+          label: "Chuỗi ngày",
           value: `${profileSummary.stats.streakDays} ngày`,
           icon: Flame,
           tone: "primary",

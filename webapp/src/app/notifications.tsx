@@ -46,7 +46,7 @@ const C = {
 
 const TYPE_META: Record<NotificationType, { icon: typeof Bell; color: string; label: string }> = {
   badge_earned: { icon: Award, color: C.primaryLight, label: "Huy hiệu" },
-  streak_milestone: { icon: Flame, color: "#F59E0B", label: "Streak" },
+  streak_milestone: { icon: Flame, color: "#F59E0B", label: "Chuỗi ngày" },
   debate_reply: { icon: MessageCircle, color: C.info, label: "Tranh luận" },
   quiz_result: { icon: Trophy, color: C.success, label: "Quiz" },
   story_complete: { icon: Sparkles, color: C.primaryLight, label: "Câu chuyện" },
@@ -57,7 +57,7 @@ const TYPE_FILTERS: { key: NotificationType | "all"; label: string }[] = [
   { key: "all", label: "Tất cả" },
   { key: "badge_earned", label: "Huy hiệu" },
   { key: "debate_reply", label: "Tranh luận" },
-  { key: "streak_milestone", label: "Streak" },
+  { key: "streak_milestone", label: "Chuỗi ngày" },
   { key: "system", label: "Hệ thống" },
 ];
 

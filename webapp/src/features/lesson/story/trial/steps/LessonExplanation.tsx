@@ -26,20 +26,20 @@ export function LessonExplanation({
 }: LessonExplanationProps) {
   return (
     <View style={styles.stack}>
-      <Text style={styles.lessonLabel}>Synthesis</Text>
-      <Text style={styles.heroTitle}>What This Teaches</Text>
+      <Text style={styles.lessonLabel}>Tổng hợp</Text>
+      <Text style={styles.heroTitle}>Bài học rút ra</Text>
       <InfoCard
         icon={<CheckCircle2 color={Colors.primaryLight} size={18} />}
-        title="Your decision revealed"
-        body={`You chose ${decision.title}. This revealed a value for ${decision.principle.toLowerCase()}.`}
+        title="Lựa chọn của bạn cho thấy"
+        body={`Bạn đã chọn ${decision.title}. Điều này thể hiện giá trị về ${decision.principle.toLowerCase()}.`}
       />
 
       <MarkdownBlock lines={lessonMarkdown} />
 
       <View style={styles.conceptPanel}>
-        <Text style={styles.cardTitle}>Mastered concepts</Text>
+        <Text style={styles.cardTitle}>Khái niệm đã nắm vững</Text>
         <View style={styles.conceptRow}>
-          {["Moral Integrity", "Justice", "Truth", "Civic Duty"].map((concept) => (
+          {["Chính trực đạo đức", "Công lý", "Sự thật", "Bổn phận công dân"].map((concept) => (
             <View key={concept} style={styles.conceptChip}>
               <Text style={styles.conceptText}>{concept}</Text>
             </View>
@@ -54,8 +54,8 @@ export function LessonExplanation({
           onPress={onReflection}
           style={[styles.actionCard, reflectionDone && styles.actionCardActive]}
         >
-          <Text style={styles.actionTitle}>Write reflection</Text>
-          <Text style={styles.actionMeta}>{reflectionDone ? "Opened" : "Open journal"}</Text>
+          <Text style={styles.actionTitle}>Viết suy ngẫm</Text>
+          <Text style={styles.actionMeta}>{reflectionDone ? "Đã mở" : "Mở nhật ký"}</Text>
         </Pressable>
 
         {["Integrity", "Safety"].map((choice) => {
@@ -70,15 +70,15 @@ export function LessonExplanation({
             >
               <Text style={styles.actionTitle}>Quiz: {choice}</Text>
               <Text style={styles.actionMeta}>
-                {active ? (choice === "Integrity" ? "Correct" : "Try again") : "Choose"}
+                {active ? (choice === "Integrity" ? "Đúng" : "Thử lại") : "Chọn"}
               </Text>
             </Pressable>
           );
         })}
       </View>
 
-      <SecondaryButton label="Try another character" onPress={onRetry} />
-      <PrimaryButton label="Finish lesson" onPress={onFinish} />
+      <SecondaryButton label="Thử nhân vật khác" onPress={onRetry} />
+      <PrimaryButton label="Hoàn thành bài học" onPress={onFinish} />
     </View>
   );
 }

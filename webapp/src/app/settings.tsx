@@ -499,7 +499,7 @@ export default function SettingsScreen() {
             />
 
             <NotifRow
-              label="Streak hàng ngày"
+              label="Chuỗi ngày"
               description="Nhắc nhở duy trì chuỗi học liên tiếp"
               value={notifStreak}
               onToggle={() => setNotifStreak((prev) => !prev)}

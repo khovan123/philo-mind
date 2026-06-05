@@ -19,28 +19,28 @@ export function ConsequenceResult({ decision, onRetry, onNext }: ConsequenceResu
       <View style={styles.imageCard}>
         <Image source={sceneImage} contentFit="cover" style={styles.sceneImage} />
         <View style={styles.imageShade} />
-        <Text style={styles.verdictTitle}>The Verdict</Text>
+        <Text style={styles.verdictTitle}>Phán quyết</Text>
       </View>
 
       <InfoCard
         icon={<ScrollText color={Colors.danger} size={18} />}
-        title="Immediate consequence"
-        body="The court sees your stance as defiant and dangerous."
+        title="Hậu quả tức thì"
+        body="Tòa án coi lập trường của bạn là bất tuân và nguy hiểm."
       />
       <InfoCard
         icon={<Sparkles color={Colors.primaryLight} size={18} />}
-        title="Philosophical meaning"
-        body="This choice shows that some people may value truth and moral consistency more than personal survival."
+        title="Ý nghĩa triết học"
+        body="Lựa chọn này cho thấy rằng một số người có thể coi trọng sự thật và tính nhất quán đạo đức hơn sự sống còn cá nhân."
       />
 
       <View style={styles.metricCard}>
-        <Metric label="Public trust" value={45} />
-        <Metric label="Personal safety" value={15} danger />
-        <Metric label="Moral integrity" value={92} success />
+        <Metric label="Niềm tin công chúng" value={45} />
+        <Metric label="An toàn cá nhân" value={15} danger />
+        <Metric label="Chính trực đạo đức" value={92} success />
       </View>
 
-      <PrimaryButton label="Continue to lesson" onPress={onNext} />
-      <SecondaryButton label="Try another decision" onPress={onRetry} />
+      <PrimaryButton label="Tiếp tục bài học" onPress={onNext} />
+      <SecondaryButton label="Thử quyết định khác" onPress={onRetry} />
     </View>
   );
 }

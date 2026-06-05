@@ -17,7 +17,7 @@ type BookmarkButtonProps = BookmarkTarget & {
 export function BookmarkButton({
   targetType,
   targetId,
-  label = "Bookmark",
+  label = "Lưu lại",
   disabled = false,
   compact = false,
 }: BookmarkButtonProps) {

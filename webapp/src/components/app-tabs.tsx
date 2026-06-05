@@ -75,7 +75,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Trang chủ",
           tabBarLabel: "Trang chủ",
           tabBarIcon: renderTabIcon("home"),
         }}
@@ -93,7 +93,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="story"
         options={{
-          title: "Stories",
+          title: "Câu chuyện",
           tabBarLabel: "Câu chuyện",
           tabBarIcon: renderTabIcon("story"),
         }}
@@ -111,7 +111,9 @@ export default function AppTabs() {
       <Tabs.Screen
         name="learn"
         options={{
-          href: null,
+          title: "Học tập",
+          tabBarLabel: "Học tập",
+          tabBarIcon: renderTabIcon("learn"),
         }}
       />
 
@@ -135,7 +137,7 @@ export default function AppTabs() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "Hồ sơ",
           tabBarLabel: "Hồ sơ",
           tabBarIcon: renderTabIcon("profile"),
         }}

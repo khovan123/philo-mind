@@ -21,6 +21,9 @@ function AppLayout() {
         <Stack.Screen name="story" />
         <Stack.Screen name="badges" />
         <Stack.Screen name="notifications" />
+        <Stack.Screen name="study-plan" />
+        <Stack.Screen name="concept-comparison" />
+        <Stack.Screen name="debates" />
         <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>

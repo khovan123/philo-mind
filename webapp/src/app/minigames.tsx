@@ -22,9 +22,9 @@ import { miniGameTypes, type MiniGame, type MiniGameType } from "@/types/minigam
 type FilterType = MiniGameType | "ALL";
 
 const gameTypeCopy: Record<MiniGameType, { label: string; detail: string; color: string }> = {
-  matching: { label: "Matching cards", detail: "Ghép cặp khái niệm", color: "#38BDF8" },
-  "guess-who": { label: "Portrait quiz", detail: "Đoán nhân vật qua gợi ý", color: "#A78BFA" },
-  "logic-puzzle": { label: "Argument sorting", detail: "Sắp xếp lập luận", color: "#34D399" },
+  matching: { label: "Ghép thẻ", detail: "Ghép cặp khái niệm", color: "#38BDF8" },
+  "guess-who": { label: "Đoán chân dung", detail: "Đoán nhân vật qua gợi ý", color: "#A78BFA" },
+  "logic-puzzle": { label: "Sắp xếp lập luận", detail: "Sắp xếp lập luận", color: "#34D399" },
 };
 
 export default function MiniGamesScreen() {
@@ -47,9 +47,9 @@ export default function MiniGamesScreen() {
             <ArrowLeft color={theme.text} size={20} />
           </Pressable>
           <View style={styles.topTitle}>
-            <ThemedText type="smallBold">MiniGames</ThemedText>
+            <ThemedText type="smallBold">Trò chơi nhỏ</ThemedText>
             <ThemedText type="label" themeColor="textMuted">
-              score + animation
+              điểm + hoạt ảnh
             </ThemedText>
           </View>
           <Pressable

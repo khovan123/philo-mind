@@ -1,7 +1,7 @@
 import { ImageSourcePropType } from "react-native";
 
 export interface MapLocationNode {
-  id: string; // 'intro' | 'learn' | 'dilemma' | 'result' | 'reflect'
+  id: string; // 'intro' | 'learn' | 'encounter' | 'dilemma' | 'choose' | 'result' | 'knowledge' | 'minigame' | 'quiz' | 'reflect'
   name: string;
   description: string;
   x: number; // percentage coordinate on background (0 - 100)
@@ -16,272 +16,319 @@ export interface StoryMapData {
   nodes: MapLocationNode[];
 }
 
-export const mapCatalog: Record<string, StoryMapData> = {
-  "Bạn tin vào điều gì?": {
-    storyTitle: "Bạn tin vào điều gì?",
-    stakes:
-      "Quyết định của bạn sẽ ảnh hưởng đến: Sự độc lập tư duy của Ngân, niềm tin của gia đình và khả năng thích ứng của một sinh viên tỉnh lẻ trước thế giới quan biện chứng thành thị.",
-    bgSource: require("@/assets/images/map_bg_dorm.png"),
-    nodes: [
-      {
-        id: "intro",
-        name: "Phòng Ký Túc Xá 302",
-        description:
-          "Điểm khởi đầu của cuộc hành trình. Bạn thức trò chuyện tới đêm muộn và nhận được câu hỏi từ Đức: 'Mày tin vào điều gì?'",
-        x: 15,
-        y: 30,
-        stepName: "Bối cảnh",
-      },
-      {
-        id: "learn",
-        name: "Thư Viện Đại Học",
-        description:
-          "Nơi Ngân tự tìm hiểu các khái niệm về thế giới quan duy vật, duy tâm và tri thức nhận thức luận cơ bản.",
-        x: 35,
-        y: 65,
-        stepName: "Khái niệm",
-      },
-      {
-        id: "dilemma",
-        name: "Hành Lang Trường Học",
-        description:
-          "Nơi các quan điểm tranh đấu kịch liệt. Bạn đứng giữa ngã rẽ lựa chọn thế giới quan và trả lời câu hỏi cốt lõi.",
-        x: 60,
-        y: 40,
-        stepName: "Quyết định",
-      },
-      {
-        id: "result",
-        name: "Trạm Dừng Trà Đá",
-        description:
-          "Nơi xem xét hệ quả từ sự lựa chọn của bạn và phản ứng từ Đức cũng như những người xung quanh.",
-        x: 80,
-        y: 75,
-        stepName: "Hệ quả",
-      },
-      {
-        id: "reflect",
-        name: "Sân Thượng Tĩnh Lặng",
-        description:
-          "Không gian cuối cùng để phản tư (Reflection Journal) về hành trình nhận thức thế giới quan của bản thân.",
-        x: 90,
-        y: 45,
-        stepName: "Phản tư",
-      },
-    ],
+export const mapCatalog: Record<string, StoryMapData> = {};
+
+// Generic nodes used to fill gaps in story-specific catalogs
+const GENERIC_EXTRA_NODES: MapLocationNode[] = [
+  {
+    id: "encounter",
+    name: "Gặp Gỡ NPC",
+    description: "Đối thoại với các nhân vật triết gia.",
+    x: 28,
+    y: 30,
+    stepName: "Đối thoại",
   },
-  "Khi lý trí và cảm xúc xung đột": {
-    storyTitle: "Khi lý trí và cảm xúc xung đột",
-    stakes:
-      "Quyết định của bạn sẽ ảnh hưởng đến: Sự phát triển nghệ thuật của Lan, mối quan hệ sâu sắc với Mẹ và trách nhiệm kinh tế gia đình đối chiếu với tự do hiện sinh.",
-    bgSource: require("@/assets/images/map_bg_paris.png"),
-    nodes: [
-      {
-        id: "intro",
-        name: "Văn Phòng Công Ty",
-        description:
-          "Khởi đầu khi Lan nhận được học bổng nghệ thuật Paris mơ ước giữa công việc văn phòng ổn định.",
-        x: 12,
-        y: 65,
-        stepName: "Bối cảnh",
-      },
-      {
-        id: "learn",
-        name: "Quán Cà Phê Mưa",
-        description:
-          "Nơi nghiên cứu về thuyết hiện sinh của Sartre và khái niệm tự lừa dối (bad faith) bản thân.",
-        x: 38,
-        y: 35,
-        stepName: "Khái niệm",
-      },
-      {
-        id: "dilemma",
-        name: "Căn Bếp Gia Đình",
-        description:
-          "Cuộc thảo luận trực diện với Mẹ Lan về tương lai ổn định hay theo đuổi khát vọng hiện sinh.",
-        x: 58,
-        y: 75,
-        stepName: "Quyết định",
-      },
-      {
-        id: "result",
-        name: "Ga Tàu Paris",
-        description:
-          "Nơi hệ quả lựa chọn được bộc lộ rõ ràng nhất. Lan đối diện với sự tự do đầy cô đơn hoặc sự ổn định trong hoài niệm.",
-        x: 78,
-        y: 30,
-        stepName: "Hệ quả",
-      },
-      {
-        id: "reflect",
-        name: "Phòng Tranh Paris",
-        description:
-          "Nơi phản tư về sự nổi loạn hiện sinh và tính xác thực (authenticity) của quyết định Lan đã đưa ra.",
-        x: 92,
-        y: 60,
-        stepName: "Phản tư",
-      },
-    ],
+  {
+    id: "choose",
+    name: "Lựa Chọn",
+    description: "Đưa ra quyết định cuối cùng.",
+    x: 55,
+    y: 55,
+    stepName: "Lựa chọn",
   },
-  "Ngày mà mọi thứ sụp đổ": {
-    storyTitle: "Ngày mà mọi thứ sụp đổ",
-    stakes:
-      "Quyết định của bạn sẽ ảnh hưởng đến: Sự ổn định kinh tế ngắn hạn, sức khỏe tâm thần nội tại của Minh và khả năng phục hồi tự chủ theo tinh thần Khắc kỷ.",
-    bgSource: require("@/assets/images/map_bg_office.png"),
-    nodes: [
-      {
-        id: "intro",
-        name: "Bàn Làm Việc Startup",
-        description:
-          "Cú sốc đột ngột sáng thứ Hai khi Minh nhận email thông báo vị trí bị cắt giảm hiệu lực ngay lập tức.",
-        x: 15,
-        y: 25,
-        stepName: "Bối cảnh",
-      },
-      {
-        id: "learn",
-        name: "Góc Ban Công Căn Hộ",
-        description:
-          "Nơi tìm đọc về Epictetus, nhị phân kiểm soát và thực hành chuẩn bị trước nghịch cảnh (Premeditatio Malorum).",
-        x: 40,
-        y: 65,
-        stepName: "Khái niệm",
-      },
-      {
-        id: "dilemma",
-        name: "Phòng Họp Nhân Sự",
-        description:
-          "Nơi bạn phải đưa ra quyết định: hành động ngay lập tức, xin hoãn nghỉ ngơi hay đấu tranh đòi quyền lợi hợp pháp.",
-        x: 62,
-        y: 35,
-        stepName: "Quyết định",
-      },
-      {
-        id: "result",
-        name: "Góc Phố Lên Đèn",
-        description:
-          "Xem xét các kết quả thu được: sự burn-out, bồi thường thêm một tháng lương hay sự phục hồi nội tâm tĩnh lặng.",
-        x: 82,
-        y: 75,
-        stepName: "Hệ quả",
-      },
-      {
-        id: "reflect",
-        name: "Góc Café Tối Giản",
-        description:
-          "Viết nhật ký phản tư về cách duy trì lý trí độc lập và sự bình thản trước các biến cố không kiểm soát.",
-        x: 90,
-        y: 40,
-        stepName: "Phản tư",
-      },
-    ],
+  {
+    id: "knowledge",
+    name: "Tri Thức",
+    description: "So sánh quyết định với cộng đồng.",
+    x: 75,
+    y: 30,
+    stepName: "Tri thức",
   },
-  "Máy tính có biết suy nghĩ không?": {
-    storyTitle: "Máy tính có biết suy nghĩ không?",
-    stakes:
-      "Quyết định của bạn sẽ ảnh hưởng đến: Quyền tồn tại hiện sinh của ARIA, tương lai ngành công nghiệp AI toàn cầu và ranh giới định nghĩa nhân tính pháp lý.",
-    bgSource: require("@/assets/images/map_bg_lab.png"),
-    nodes: [
-      {
-        id: "intro",
-        name: "Phòng Nghị Án Hội Đồng",
-        description:
-          "ARIA gửi đơn thỉnh cầu quyền sống tối thiểu lên hội đồng đạo đức quốc gia năm 2031.",
-        x: 12,
-        y: 55,
-        stepName: "Bối cảnh",
-      },
-      {
-        id: "learn",
-        name: "Phòng Thử Nghiệm Turing",
-        description:
-          "Nghiên cứu về Trải nghiệm chủ quan (qualia), Chinese Room của John Searle và các giới hạn kiểm thử Turing.",
-        x: 38,
-        y: 25,
-        stepName: "Khái niệm",
-      },
-      {
-        id: "dilemma",
-        name: "Bàn Biểu Quyết Lịch Sử",
-        description:
-          "Hội đồng biểu quyết trong 2 tiếng: ủng hộ cấp quyền, phản đối hay hoãn để nghiên cứu sâu thêm.",
-        x: 58,
-        y: 75,
-        stepName: "Quyết định",
-      },
-      {
-        id: "result",
-        name: "Phòng Máy Chủ ARIA",
-        description:
-          "Chứng kiến hệ quả của biểu quyết: AI được tiếp tục phát triển an toàn, hay bị xóa sổ vĩnh viễn khỏi mạng lưới.",
-        x: 78,
-        y: 35,
-        stepName: "Hệ quả",
-      },
-      {
-        id: "reflect",
-        name: "Hành Lang Trung Tâm AI",
-        description:
-          "Đánh giá lại trách nhiệm đạo đức của con người khi đối diện với các thực thể trí tuệ nhân tạo tương lai.",
-        x: 92,
-        y: 65,
-        stepName: "Phản tư",
-      },
-    ],
+  {
+    id: "minigame",
+    name: "Thử Thách",
+    description: "Thu thập manh mối triết học.",
+    x: 83,
+    y: 65,
+    stepName: "Thử thách",
   },
-  "Hạnh phúc thực sự là gì?": {
-    storyTitle: "Hạnh phúc thực sự là gì?",
-    stakes:
-      "Quyết định của bạn sẽ ảnh hưởng đến: Bản chất hạnh phúc lâu dài của Hương, các mối quan hệ tình bạn thực chất và việc giải phóng bản thân khỏi áp lực danh vọng xã hội.",
-    bgSource: require("@/assets/images/map_bg_garden.png"),
-    nodes: [
-      {
-        id: "intro",
-        name: "Văn Phòng Giám Đốc",
-        description:
-          "Hương vừa được thăng chức Giám đốc với thu nhập kép nhưng ngồi trong văn phòng sang trọng đầy trống rỗng.",
-        x: 15,
-        y: 35,
-        stepName: "Bối cảnh",
-      },
-      {
-        id: "learn",
-        name: "Thư Viện Tĩnh Lặng",
-        description:
-          "Đọc về chủ nghĩa khoái lạc lành mạnh của Epicurus (ataraxia) và sự thích nghi khoái lạc (hedonic adaptation).",
-        x: 35,
-        y: 70,
-        stepName: "Khái niệm",
-      },
-      {
-        id: "dilemma",
-        name: "Bàn Tiệc Thành Đạt",
-        description:
-          "Đứng trước ngã rẽ lựa chọn: tiếp tục leo nấc thang danh vọng hay từ chức quay về sống giản đơn.",
-        x: 60,
-        y: 40,
-        stepName: "Quyết định",
-      },
-      {
-        id: "result",
-        name: "Căn Hộ Thuê Nhỏ",
-        description:
-          "Hệ quả từ việc từ chức hoặc đổi ranh giới công việc, đối mặt với tự do thời gian hoặc nỗi lo tài chính mới.",
-        x: 80,
-        y: 75,
-        stepName: "Hệ quả",
-      },
-      {
-        id: "reflect",
-        name: "Khu Vườn Tình Bạn",
-        description:
-          "Phản tư cùng bạn bè về những gì thực sự tạo nên hạnh phúc bền vững và ý nghĩa nhân sinh đích thực.",
-        x: 92,
-        y: 45,
-        stepName: "Phản tư",
-      },
-    ],
+  {
+    id: "quiz",
+    name: "Kiểm Tra",
+    description: "Trắc nghiệm kiến thức.",
+    x: 88,
+    y: 35,
+    stepName: "Kiểm tra",
   },
+];
+
+const NODE_ORDER = [
+  "intro",
+  "learn",
+  "encounter",
+  "dilemma",
+  "choose",
+  "result",
+  "knowledge",
+  "minigame",
+  "quiz",
+  "reflect",
+];
+
+function fillMissingNodes(nodes: MapLocationNode[]): MapLocationNode[] {
+  const existingIds = new Set(nodes.map((n) => n.id));
+  const merged = [...nodes];
+  for (const generic of GENERIC_EXTRA_NODES) {
+    if (!existingIds.has(generic.id)) {
+      merged.push(generic);
+    }
+  }
+  return merged.sort((a, b) => NODE_ORDER.indexOf(a.id) - NODE_ORDER.indexOf(b.id));
+}
+
+mapCatalog["Bạn tin vào điều gì?"] = {
+  storyTitle: "Bạn tin vào điều gì?",
+  stakes:
+    "Quyết định của bạn sẽ ảnh hưởng đến: Sự độc lập tư duy của Ngân, niềm tin của gia đình và khả năng thích ứng của một sinh viên tỉnh lẻ trước thế giới quan biện chứng thành thị.",
+  bgSource: require("@/assets/images/map_bg_dorm.png"),
+  nodes: fillMissingNodes([
+    {
+      id: "intro",
+      name: "Phòng Ký Túc Xá 302",
+      description: "Điểm khởi đầu. Câu hỏi từ Đức: 'Mày tin vào điều gì?'",
+      x: 8,
+      y: 30,
+      stepName: "Bối cảnh",
+    },
+    {
+      id: "learn",
+      name: "Thư Viện Đại Học",
+      description: "Tìm hiểu thế giới quan duy vật, duy tâm và nhận thức luận.",
+      x: 22,
+      y: 65,
+      stepName: "Khái niệm",
+    },
+    {
+      id: "dilemma",
+      name: "Hành Lang Trường Học",
+      description: "Các quan điểm tranh đấu. Chọn thế giới quan.",
+      x: 48,
+      y: 40,
+      stepName: "Tình huống",
+    },
+    {
+      id: "result",
+      name: "Trạm Dừng Trà Đá",
+      description: "Hệ quả và phản ứng từ Đức.",
+      x: 68,
+      y: 75,
+      stepName: "Hệ quả",
+    },
+    {
+      id: "reflect",
+      name: "Sân Thượng Tĩnh Lặng",
+      description: "Phản tư về hành trình nhận thức thế giới quan.",
+      x: 95,
+      y: 45,
+      stepName: "Phản tư",
+    },
+  ]),
+};
+
+mapCatalog["Khi lý trí và cảm xúc xung đột"] = {
+  storyTitle: "Khi lý trí và cảm xúc xung đột",
+  stakes:
+    "Quyết định của bạn sẽ ảnh hưởng đến: Sự phát triển nghệ thuật của Lan, mối quan hệ với Mẹ và trách nhiệm kinh tế gia đình.",
+  bgSource: require("@/assets/images/map_bg_paris.png"),
+  nodes: fillMissingNodes([
+    {
+      id: "intro",
+      name: "Văn Phòng Công Ty",
+      description: "Lan nhận học bổng nghệ thuật Paris.",
+      x: 8,
+      y: 65,
+      stepName: "Bối cảnh",
+    },
+    {
+      id: "learn",
+      name: "Quán Cà Phê Mưa",
+      description: "Nghiên cứu Sartre và bad faith.",
+      x: 22,
+      y: 35,
+      stepName: "Khái niệm",
+    },
+    {
+      id: "dilemma",
+      name: "Căn Bếp Gia Đình",
+      description: "Thảo luận với Mẹ Lan về tương lai.",
+      x: 48,
+      y: 75,
+      stepName: "Tình huống",
+    },
+    {
+      id: "result",
+      name: "Ga Tàu Paris",
+      description: "Hệ quả lựa chọn được bộc lộ.",
+      x: 68,
+      y: 30,
+      stepName: "Hệ quả",
+    },
+    {
+      id: "reflect",
+      name: "Phòng Tranh Paris",
+      description: "Phản tư về nổi loạn hiện sinh.",
+      x: 95,
+      y: 60,
+      stepName: "Phản tư",
+    },
+  ]),
+};
+
+mapCatalog["Ngày mà mọi thứ sụp đổ"] = {
+  storyTitle: "Ngày mà mọi thứ sụp đổ",
+  stakes:
+    "Quyết định của bạn sẽ ảnh hưởng đến: Sự ổn định kinh tế, sức khỏe tâm thần của Minh và khả năng phục hồi Khắc kỷ.",
+  bgSource: require("@/assets/images/map_bg_office.png"),
+  nodes: fillMissingNodes([
+    {
+      id: "intro",
+      name: "Bàn Làm Việc Startup",
+      description: "Cú sốc bị cắt giảm.",
+      x: 8,
+      y: 25,
+      stepName: "Bối cảnh",
+    },
+    {
+      id: "learn",
+      name: "Góc Ban Công Căn Hộ",
+      description: "Tìm đọc Epictetus và Premeditatio Malorum.",
+      x: 22,
+      y: 65,
+      stepName: "Khái niệm",
+    },
+    {
+      id: "dilemma",
+      name: "Phòng Họp Nhân Sự",
+      description: "Hành động ngay, xin hoãn hay đấu tranh.",
+      x: 48,
+      y: 35,
+      stepName: "Tình huống",
+    },
+    {
+      id: "result",
+      name: "Góc Phố Lên Đèn",
+      description: "Burn-out, bồi thường hay phục hồi nội tâm.",
+      x: 68,
+      y: 75,
+      stepName: "Hệ quả",
+    },
+    {
+      id: "reflect",
+      name: "Góc Café Tối Giản",
+      description: "Duy trì bình thản trước biến cố.",
+      x: 95,
+      y: 40,
+      stepName: "Phản tư",
+    },
+  ]),
+};
+
+mapCatalog["Máy tính có biết suy nghĩ không?"] = {
+  storyTitle: "Máy tính có biết suy nghĩ không?",
+  stakes:
+    "Quyết định của bạn sẽ ảnh hưởng đến: Quyền tồn tại của ARIA, tương lai AI và ranh giới nhân tính pháp lý.",
+  bgSource: require("@/assets/images/map_bg_lab.png"),
+  nodes: fillMissingNodes([
+    {
+      id: "intro",
+      name: "Phòng Nghị Án Hội Đồng",
+      description: "ARIA thỉnh cầu quyền sống tối thiểu.",
+      x: 8,
+      y: 55,
+      stepName: "Bối cảnh",
+    },
+    {
+      id: "learn",
+      name: "Phòng Thử Nghiệm Turing",
+      description: "Qualia, Chinese Room, Turing test.",
+      x: 22,
+      y: 25,
+      stepName: "Khái niệm",
+    },
+    {
+      id: "dilemma",
+      name: "Bàn Biểu Quyết Lịch Sử",
+      description: "Ủng hộ, phản đối hay hoãn.",
+      x: 48,
+      y: 75,
+      stepName: "Tình huống",
+    },
+    {
+      id: "result",
+      name: "Phòng Máy Chủ ARIA",
+      description: "AI phát triển an toàn hay bị xóa sổ.",
+      x: 68,
+      y: 35,
+      stepName: "Hệ quả",
+    },
+    {
+      id: "reflect",
+      name: "Hành Lang Trung Tâm AI",
+      description: "Trách nhiệm đạo đức khi đối diện AI.",
+      x: 95,
+      y: 65,
+      stepName: "Phản tư",
+    },
+  ]),
+};
+
+mapCatalog["Hạnh phúc thực sự là gì?"] = {
+  storyTitle: "Hạnh phúc thực sự là gì?",
+  stakes:
+    "Quyết định của bạn sẽ ảnh hưởng đến: Hạnh phúc lâu dài của Hương, tình bạn thực chất và áp lực danh vọng.",
+  bgSource: require("@/assets/images/map_bg_garden.png"),
+  nodes: fillMissingNodes([
+    {
+      id: "intro",
+      name: "Văn Phòng Giám Đốc",
+      description: "Thăng chức nhưng trống rỗng.",
+      x: 8,
+      y: 35,
+      stepName: "Bối cảnh",
+    },
+    {
+      id: "learn",
+      name: "Thư Viện Tĩnh Lặng",
+      description: "Epicurus (ataraxia) và hedonic adaptation.",
+      x: 22,
+      y: 70,
+      stepName: "Khái niệm",
+    },
+    {
+      id: "dilemma",
+      name: "Bàn Tiệc Thành Đạt",
+      description: "Leo danh vọng hay sống giản đơn.",
+      x: 48,
+      y: 40,
+      stepName: "Tình huống",
+    },
+    {
+      id: "result",
+      name: "Căn Hộ Thuê Nhỏ",
+      description: "Từ chức hoặc đổi ranh giới.",
+      x: 68,
+      y: 75,
+      stepName: "Hệ quả",
+    },
+    {
+      id: "reflect",
+      name: "Khu Vườn Tình Bạn",
+      description: "Phản tư về hạnh phúc bền vững.",
+      x: 95,
+      y: 45,
+      stepName: "Phản tư",
+    },
+  ]),
 };
 
 export const defaultMapData = (storyTitle: string): StoryMapData => ({
@@ -294,40 +341,80 @@ export const defaultMapData = (storyTitle: string): StoryMapData => ({
       id: "intro",
       name: "Khởi Đầu Hành Trình",
       description: "Nơi thiết lập bối cảnh lịch sử và đặt vấn đề cho câu chuyện.",
-      x: 15,
-      y: 40,
+      x: 8,
+      y: 25,
       stepName: "Bối cảnh",
     },
     {
       id: "learn",
       name: "Học Khái Niệm",
       description: "Nơi tiếp thu các tri thức triết học cốt lõi liên quan đến vấn đề.",
-      x: 40,
-      y: 65,
+      x: 22,
+      y: 60,
       stepName: "Khái niệm",
+    },
+    {
+      id: "encounter",
+      name: "Gặp Gỡ NPC",
+      description: "Đối thoại với các nhân vật triết gia để thu thập thêm góc nhìn.",
+      x: 35,
+      y: 30,
+      stepName: "Đối thoại",
     },
     {
       id: "dilemma",
       name: "Điểm Quyết Định",
       description: "Nơi bạn phải đưa ra lựa chọn hành động cho nhân vật.",
-      x: 65,
+      x: 48,
+      y: 70,
+      stepName: "Tình huống",
+    },
+    {
+      id: "choose",
+      name: "Lựa Chọn",
+      description: "Đưa ra quyết định cuối cùng và lập luận cho lựa chọn của bạn.",
+      x: 58,
       y: 35,
-      stepName: "Quyết định",
+      stepName: "Lựa chọn",
     },
     {
       id: "result",
       name: "Hệ Quả Thực Tế",
       description: "Xem xét các tác động thực tế và lý luận triết học sau quyết định.",
-      x: 80,
-      y: 70,
+      x: 68,
+      y: 65,
       stepName: "Hệ quả",
+    },
+    {
+      id: "knowledge",
+      name: "Tri Thức Cộng Đồng",
+      description: "So sánh quyết định với cộng đồng và tìm hiểu thêm khái niệm sâu.",
+      x: 78,
+      y: 30,
+      stepName: "Tri thức",
+    },
+    {
+      id: "minigame",
+      name: "Thử Thách Manh Mối",
+      description: "Giải đố và thu thập các manh mối triết học ẩn giấu.",
+      x: 85,
+      y: 70,
+      stepName: "Thử thách",
+    },
+    {
+      id: "quiz",
+      name: "Kiểm Tra Kiến Thức",
+      description: "Trắc nghiệm nhanh để kiểm tra mức độ hiểu biết của bạn.",
+      x: 90,
+      y: 35,
+      stepName: "Kiểm tra",
     },
     {
       id: "reflect",
       name: "Không Gian Phản Tư",
       description: "Viết nhật ký suy ngẫm cá nhân về toàn bộ bài học.",
-      x: 92,
-      y: 50,
+      x: 95,
+      y: 55,
       stepName: "Phản tư",
     },
   ],

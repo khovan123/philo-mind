@@ -570,8 +570,8 @@ export default function MinigameScreen() {
             </View>
 
             <Button
-              title="Tiến đến Phản Tư →"
-              onPress={() => router.push(`/story/${storyId}/reflect` as never)}
+              title="Tiến đến Kiểm Tra →"
+              onPress={() => router.push(`/story/${storyId}/quiz` as never)}
               fullWidth
               style={{ marginTop: Spacing.three }}
             />

@@ -4,13 +4,19 @@ import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/tool
 
 export type StoryStep =
   | "intro"
+  | "cinematic"
+  | "role-selection"
+  | "role-intro"
+  | "map"
   | "learn"
+  | "encounter"
   | "dilemma"
   | "choose"
   | "result"
   | "knowledge"
-  | "reflect"
+  | "minigame"
   | "quiz"
+  | "reflect"
   | "complete";
 
 export type StoryState = {
