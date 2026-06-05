@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #78 |
-| Task ID | T-D12 |
-| Title | Step 8 (Evidence Board) & Step 9 (Build Argument) |
-| State | done |
+| Field          | Value                                                                                 |
+| -------------- | ------------------------------------------------------------------------------------- |
+| GitHub issue   | #78                                                                                   |
+| Task ID        | T-D12                                                                                 |
+| Title          | Step 8 (Evidence Board) & Step 9 (Build Argument)                                     |
+| State          | done                                                                                  |
 | Local log path | `issues/by-github-id/#078-T-D12-Step 8 (Evidence Board) & Step 9 (Build Argument).md` |
 
 ## Issue Body

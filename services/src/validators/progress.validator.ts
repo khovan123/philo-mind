@@ -5,5 +5,5 @@ export {
   progressByLessonSchema,
   progressByTopicSchema,
   type UpsertProgressInput,
-  type ListProgressQuery
+  type ListProgressQuery,
 } from "@philo-mind/shared";

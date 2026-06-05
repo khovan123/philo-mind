@@ -6,5 +6,5 @@ export {
   topicPerspectiveIdSchema,
   listTopicPerspectivesSchema,
   type CreateTopicPerspectiveInput,
-  type UpdateTopicPerspectiveInput
+  type UpdateTopicPerspectiveInput,
 } from "@philo-mind/shared";

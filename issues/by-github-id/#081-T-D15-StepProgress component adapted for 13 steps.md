@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #81 |
-| Task ID | T-D15 |
-| Title | StepProgress component adapted for 13 steps |
-| State | done |
+| Field          | Value                                                                           |
+| -------------- | ------------------------------------------------------------------------------- |
+| GitHub issue   | #81                                                                             |
+| Task ID        | T-D15                                                                           |
+| Title          | StepProgress component adapted for 13 steps                                     |
+| State          | done                                                                            |
 | Local log path | `issues/by-github-id/#081-T-D15-StepProgress component adapted for 13 steps.md` |
 
 ## Issue Body

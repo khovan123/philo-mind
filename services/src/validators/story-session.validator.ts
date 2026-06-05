@@ -5,5 +5,5 @@ export {
   completeStorySessionSchema,
   type StartStorySessionInput,
   type DecideStorySessionInput,
-  type CompleteStorySessionInput
+  type CompleteStorySessionInput,
 } from "@philo-mind/shared";

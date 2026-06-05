@@ -10,5 +10,5 @@ export {
   type CreateMindmapNodeInput,
   type UpdateMindmapNodeInput,
   type CreateMindmapEdgeInput,
-  type UpdateMindmapEdgeInput
+  type UpdateMindmapEdgeInput,
 } from "@philo-mind/shared";

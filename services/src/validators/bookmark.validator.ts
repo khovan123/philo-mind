@@ -7,5 +7,5 @@ export {
   bookmarkIdSchema,
   type BookmarkTargetType,
   type ListBookmarksQuery,
-  type BookmarkTargetInput
+  type BookmarkTargetInput,
 } from "@philo-mind/shared";

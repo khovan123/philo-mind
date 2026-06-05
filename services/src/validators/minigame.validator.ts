@@ -10,5 +10,5 @@ export {
   type ListMiniGamesQuery,
   type CreateMiniGameInput,
   type UpdateMiniGameInput,
-  type PlayMiniGameInput
+  type PlayMiniGameInput,
 } from "@philo-mind/shared";

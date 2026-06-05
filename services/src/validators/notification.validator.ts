@@ -6,5 +6,5 @@ export {
   updateNotificationSchema,
   type ListNotificationsQuery,
   type CreateNotificationInput,
-  type UpdateNotificationInput
+  type UpdateNotificationInput,
 } from "@philo-mind/shared";

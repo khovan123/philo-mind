@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #87 |
-| Task ID | T-E05 |
-| Title | AI Chat RTK Query service + Redux slice |
-| State | done |
+| Field          | Value                                                                       |
+| -------------- | --------------------------------------------------------------------------- |
+| GitHub issue   | #87                                                                         |
+| Task ID        | T-E05                                                                       |
+| Title          | AI Chat RTK Query service + Redux slice                                     |
+| State          | done                                                                        |
 | Local log path | `issues/by-github-id/#087-T-E05-AI Chat RTK Query service + Redux slice.md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #87 |
-| Track | E: AI & Chat System |
-| Nhóm | E-Frontend |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Backend+AI Dev |
-| Assignee hiện tại | @VinhHoang03 |
-| Estimate | 2h |
-| Milestone | Week 6 |
-| Dependencies | `T-E03` |
+| Thuộc tính        | Giá trị             |
+| ----------------- | ------------------- |
+| GitHub issue      | #87                 |
+| Track             | E: AI & Chat System |
+| Nhóm              | E-Frontend          |
+| Loại việc         | frontend            |
+| Priority          | medium              |
+| Owner gợi ý       | Backend+AI Dev      |
+| Assignee hiện tại | @VinhHoang03        |
+| Estimate          | 2h                  |
+| Milestone         | Week 6              |
+| Dependencies      | `T-E03`             |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của AI Chat RTK Query service + Redux slice |
-| Chọn nhân vật | Bấm character card | Tạo/mở session và điều hướng `/ai/chat/[sessionId]` |
-| Gửi tin nhắn | Nhập prompt -> bấm send | Disable input khi gửi, stream response và auto-scroll |
-
+| Tình huống    | Người dùng thao tác                                      | Kết quả bắt buộc                                                  |
+| ------------- | -------------------------------------------------------- | ----------------------------------------------------------------- |
+| Mở màn hình   | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của AI Chat RTK Query service + Redux slice |
+| Chọn nhân vật | Bấm character card                                       | Tạo/mở session và điều hướng `/ai/chat/[sessionId]`               |
+| Gửi tin nhắn  | Nhập prompt -> bấm send                                  | Disable input khi gửi, stream response và auto-scroll             |
 
 ## 4. Flow tích hợp
 
@@ -168,6 +167,7 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 - Character card -> create/open session -> `/ai/chat/[sessionId]`.
 - Send message giữ user ở conversation và stream response inline.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

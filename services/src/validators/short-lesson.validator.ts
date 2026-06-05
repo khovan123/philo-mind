@@ -6,5 +6,5 @@ export {
   commentShortLessonSchema,
   type ListShortLessonsInput,
   type RespondShortLessonInput,
-  type CommentShortLessonInput
+  type CommentShortLessonInput,
 } from "@philo-mind/shared";

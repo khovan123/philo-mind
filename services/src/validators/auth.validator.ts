@@ -15,5 +15,5 @@ export {
   type VerifyOtpInput,
   type ResetInput,
   type UpdateProfileInput,
-  type ChangePasswordInput
+  type ChangePasswordInput,
 } from "@philo-mind/shared";

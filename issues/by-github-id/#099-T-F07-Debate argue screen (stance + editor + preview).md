@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #99 |
-| Task ID | T-F07 |
-| Title | Debate argue screen (stance + editor + preview) |
-| State | done |
+| Field          | Value                                                                               |
+| -------------- | ----------------------------------------------------------------------------------- |
+| GitHub issue   | #99                                                                                 |
+| Task ID        | T-F07                                                                               |
+| Title          | Debate argue screen (stance + editor + preview)                                     |
+| State          | done                                                                                |
 | Local log path | `issues/by-github-id/#099-T-F07-Debate argue screen (stance + editor + preview).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #99 |
-| Track | F: Scenario & Debate |
-| Nhóm | F-Debate |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Fullstack Dev |
-| Assignee hiện tại | @Ngoclee123 |
-| Estimate | 4h |
-| Milestone | Week 7 |
-| Dependencies | `T-F05` |
+| Thuộc tính        | Giá trị              |
+| ----------------- | -------------------- |
+| GitHub issue      | #99                  |
+| Track             | F: Scenario & Debate |
+| Nhóm              | F-Debate             |
+| Loại việc         | frontend             |
+| Priority          | medium               |
+| Owner gợi ý       | Fullstack Dev        |
+| Assignee hiện tại | @Ngoclee123          |
+| Estimate          | 4h                   |
+| Milestone         | Week 7               |
+| Dependencies      | `T-F05`              |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate argue screen (stance + editor + preview) |
-| Mở debate | Bấm debate card | Điều hướng debate detail split FOR/AGAINST |
-| Gửi luận điểm | Bấm argue CTA | Mở editor, preview, submit argument |
-
+| Tình huống    | Người dùng thao tác                          | Kết quả bắt buộc                                                          |
+| ------------- | -------------------------------------------- | ------------------------------------------------------------------------- |
+| Mở màn hình   | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate argue screen (stance + editor + preview) |
+| Mở debate     | Bấm debate card                              | Điều hướng debate detail split FOR/AGAINST                                |
+| Gửi luận điểm | Bấm argue CTA                                | Mở editor, preview, submit argument                                       |
 
 ## 4. Flow tích hợp
 
@@ -169,6 +168,7 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 - Debate card -> detail split FOR/AGAINST.
 - Argue CTA -> editor/preview -> submitted argument.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

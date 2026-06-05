@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #34 |
-| Task ID | T-A18 |
-| Title | Content moderation (report/action/auto-flag) |
-| State | done |
+| Field          | Value                                                                            |
+| -------------- | -------------------------------------------------------------------------------- |
+| GitHub issue   | #34                                                                              |
+| Task ID        | T-A18                                                                            |
+| Title          | Content moderation (report/action/auto-flag)                                     |
+| State          | done                                                                             |
 | Local log path | `issues/by-github-id/#034-T-A18-Content moderation (report-action-auto-flag).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #34 |
-| Track | A: Backend Core |
-| Nhóm | A-Platform APIs |
-| Loại việc | backend |
-| Priority | medium |
-| Owner gợi ý | Backend Dev |
-| Assignee hiện tại | @NTA1210 |
-| Estimate | 3h |
-| Milestone | Week 4 |
-| Dependencies | `T-A04` |
+| Thuộc tính        | Giá trị         |
+| ----------------- | --------------- |
+| GitHub issue      | #34             |
+| Track             | A: Backend Core |
+| Nhóm              | A-Platform APIs |
+| Loại việc         | backend         |
+| Priority          | medium          |
+| Owner gợi ý       | Backend Dev     |
+| Assignee hiện tại | @NTA1210        |
+| Estimate          | 3h              |
+| Milestone         | Week 4          |
+| Dependencies      | `T-A04`         |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint | Input | Output |
-| --- | --- | --- | --- |
-| POST | `/api/v1/moderation/reports` | body: { targetType, targetId, reason, details? } | data: created report |
-| GET | `/api/v1/moderation/reports` | query: { status, page, limit } | data: reports[]; admin/moderator only |
-| PATCH | `/api/v1/moderation/reports/:id/action` | body: { action, note? } | data: updated report + target moderation state |
-
+| Method | Endpoint                                | Input                                            | Output                                         |
+| ------ | --------------------------------------- | ------------------------------------------------ | ---------------------------------------------- |
+| POST   | `/api/v1/moderation/reports`            | body: { targetType, targetId, reason, details? } | data: created report                           |
+| GET    | `/api/v1/moderation/reports`            | query: { status, page, limit }                   | data: reports[]; admin/moderator only          |
+| PATCH  | `/api/v1/moderation/reports/:id/action` | body: { action, note? }                          | data: updated report + target moderation state |
 
 ## 4. Flow tích hợp
 

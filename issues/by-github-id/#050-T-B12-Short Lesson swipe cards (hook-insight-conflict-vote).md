@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #50 |
-| Task ID | T-B12 |
-| Title | Short Lesson swipe cards (hook-insight-conflict-vote) |
-| State | done |
+| Field          | Value                                                                                     |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| GitHub issue   | #50                                                                                       |
+| Task ID        | T-B12                                                                                     |
+| Title          | Short Lesson swipe cards (hook-insight-conflict-vote)                                     |
+| State          | done                                                                                      |
 | Local log path | `issues/by-github-id/#050-T-B12-Short Lesson swipe cards (hook-insight-conflict-vote).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #50 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Main Screens |
-| Loại việc | frontend |
-| Priority | medium |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @anhthungye |
-| Estimate | 6h |
-| Milestone | Week 3 |
-| Dependencies | `T-B02` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #50               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Main Screens    |
+| Loại việc         | frontend          |
+| Priority          | medium            |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @anhthungye       |
+| Estimate          | 6h                |
+| Milestone         | Week 3            |
+| Dependencies      | `T-B02`           |
 
 ## 3. Requirement cụ thể
 
@@ -69,12 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/lessons/[id]` từ tab/card/link phù hợp | Render màn hình chính của Short Lesson swipe cards (hook-insight-conflict-vote) |
-| Mở bài | Bấm lesson card | Render markdown lesson, progress bar và concept highlight |
-| Làm quiz/bookmark | Bấm quiz/bookmark CTA | Điều hướng quiz hoặc cập nhật bookmark state |
-
+| Tình huống        | Người dùng thao tác                               | Kết quả bắt buộc                                                                |
+| ----------------- | ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Mở màn hình       | User vào `/lessons/[id]` từ tab/card/link phù hợp | Render màn hình chính của Short Lesson swipe cards (hook-insight-conflict-vote) |
+| Mở bài            | Bấm lesson card                                   | Render markdown lesson, progress bar và concept highlight                       |
+| Làm quiz/bookmark | Bấm quiz/bookmark CTA                             | Điều hướng quiz hoặc cập nhật bookmark state                                    |
 
 ## 4. Flow tích hợp
 
@@ -167,6 +166,7 @@ Người học đọc bài, trả lời quiz/micro-lesson, nhận kết quả v�
 ### Navigation and interaction
 
 - Primary CTA trên `/lessons/[id]` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

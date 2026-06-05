@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #45 |
-| Task ID | T-B07 |
-| Title | RTK Query API layer (baseQuery + reauth + token persistence) |
-| State | done |
+| Field          | Value                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------ |
+| GitHub issue   | #45                                                                                              |
+| Task ID        | T-B07                                                                                            |
+| Title          | RTK Query API layer (baseQuery + reauth + token persistence)                                     |
+| State          | done                                                                                             |
 | Local log path | `issues/by-github-id/#045-T-B07-RTK Query API layer (baseQuery + reauth + token persistence).md` |
 
 ## Issue Body
@@ -46,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính | Giá trị |
-| --- | --- |
-| GitHub issue | #45 |
-| Track | B: Frontend Shell |
-| Nhóm | B-Foundation |
-| Loại việc | frontend |
-| Priority | high |
-| Owner gợi ý | Frontend Dev |
-| Assignee hiện tại | @thuhataplamdev |
-| Estimate | 3h |
-| Milestone | Week 2 |
-| Dependencies | `T-B06` |
+| Thuộc tính        | Giá trị           |
+| ----------------- | ----------------- |
+| GitHub issue      | #45               |
+| Track             | B: Frontend Shell |
+| Nhóm              | B-Foundation      |
+| Loại việc         | frontend          |
+| Priority          | high              |
+| Owner gợi ý       | Frontend Dev      |
+| Assignee hiện tại | @thuhataplamdev   |
+| Estimate          | 3h                |
+| Milestone         | Week 2            |
+| Dependencies      | `T-B06`           |
 
 ## 3. Requirement cụ thể
 
@@ -69,11 +69,10 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
-| --- | --- | --- |
-| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của RTK Query API layer (baseQuery + reauth + token persistence) |
-| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
-
+| Tình huống   | Người dùng thao tác                   | Kết quả bắt buộc                                                                       |
+| ------------ | ------------------------------------- | -------------------------------------------------------------------------------------- |
+| Mở màn hình  | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của RTK Query API layer (baseQuery + reauth + token persistence) |
+| Action chính | Bấm CTA/item chính                    | Thực hiện submit/navigate/update state theo domain                                     |
 
 ## 4. Flow tích hợp
 
@@ -163,6 +162,7 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### Navigation and interaction
 
 - Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
+
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

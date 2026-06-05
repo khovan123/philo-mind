@@ -2,5 +2,5 @@
 export {
   createPhilosophyTagSchema,
   tagIdSchema,
-  type CreatePhilosophyTagInput
+  type CreatePhilosophyTagInput,
 } from "@philo-mind/shared";

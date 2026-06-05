@@ -12,5 +12,5 @@ export {
   type RandomCriticalQuestionQuery,
   type AdminListCriticalQuestionsQuery,
   type CreateCriticalQuestionInput,
-  type UpdateCriticalQuestionInput
+  type UpdateCriticalQuestionInput,
 } from "@philo-mind/shared";

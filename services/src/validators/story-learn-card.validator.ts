@@ -5,5 +5,5 @@ export {
   storyLearnCardIdSchema,
   listStoryLearnCardsSchema,
   type CreateStoryLearnCardInput,
-  type UpdateStoryLearnCardInput
+  type UpdateStoryLearnCardInput,
 } from "@philo-mind/shared";

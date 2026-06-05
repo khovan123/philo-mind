@@ -5,5 +5,5 @@ export {
   getStoryStatsSchema,
   type ListStoryScenariosInput,
   type GetStoryScenarioDetailInput,
-  type GetStoryStatsInput
+  type GetStoryStatsInput,
 } from "@philo-mind/shared";

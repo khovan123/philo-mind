@@ -2,5 +2,5 @@
 export {
   createCharacterSchema,
   updateCharacterSchema,
-  characterIdSchema
+  characterIdSchema,
 } from "@philo-mind/shared";

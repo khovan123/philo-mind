@@ -3,5 +3,5 @@ export {
   createActivitySchema,
   listActivitiesSchema,
   type CreateActivityInput,
-  type ListActivitiesQuery
+  type ListActivitiesQuery,
 } from "@philo-mind/shared";

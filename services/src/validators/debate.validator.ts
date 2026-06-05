@@ -8,5 +8,5 @@ export {
   type ListDebatesQuery,
   type CreateArgumentInput,
   type VoteArgumentInput,
-  type CreateCommentInput
+  type CreateCommentInput,
 } from "@philo-mind/shared";

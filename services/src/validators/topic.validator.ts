@@ -6,6 +6,5 @@ export {
   updateTopicSchema,
   type ListTopicsInput,
   type CreateTopicInput,
-  type UpdateTopicInput
+  type UpdateTopicInput,
 } from "@philo-mind/shared";
-

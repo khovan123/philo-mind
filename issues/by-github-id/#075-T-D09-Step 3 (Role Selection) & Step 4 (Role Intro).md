@@ -26,12 +26,12 @@
 
 ## Source Snapshot
 
-| Field | Value |
-| --- | --- |
-| GitHub issue | #75 |
-| Task ID | T-D09 |
-| Title | Step 3 (Role Selection) & Step 4 (Role Intro) |
-| State | done |
+| Field          | Value                                                                             |
+| -------------- | --------------------------------------------------------------------------------- |
+| GitHub issue   | #75                                                                               |
+| Task ID        | T-D09                                                                             |
+| Title          | Step 3 (Role Selection) & Step 4 (Role Intro)                                     |
+| State          | done                                                                              |
 | Local log path | `issues/by-github-id/#075-T-D09-Step 3 (Role Selection) & Step 4 (Role Intro).md` |
 
 ## Issue Body

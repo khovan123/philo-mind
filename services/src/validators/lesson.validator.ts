@@ -8,5 +8,5 @@ export {
   type ListLessonsInput,
   type CreateLessonInput,
   type UpdateLessonInput,
-  type SubmitAnswerInput
+  type SubmitAnswerInput,
 } from "@philo-mind/shared";

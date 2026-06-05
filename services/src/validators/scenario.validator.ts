@@ -6,5 +6,5 @@ export {
   rethinkScenarioSchema,
   type ListScenariosQuery,
   type RespondScenarioInput,
-  type RethinkScenarioInput
+  type RethinkScenarioInput,
 } from "@philo-mind/shared";

@@ -7,5 +7,5 @@ export {
   listAnalysisTabsSchema,
   type AnalysisTabTypeValue,
   type CreateAnalysisTabInput,
-  type UpdateAnalysisTabInput
+  type UpdateAnalysisTabInput,
 } from "@philo-mind/shared";

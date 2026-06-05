@@ -6,5 +6,5 @@ export {
   updateReflectionSchema,
   type ListReflectionsQuery,
   type CreateReflectionInput,
-  type UpdateReflectionInput
+  type UpdateReflectionInput,
 } from "@philo-mind/shared";

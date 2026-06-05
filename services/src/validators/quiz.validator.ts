@@ -9,8 +9,7 @@ export {
   submitQuizAnswerSchema,
   type ListQuizzesInput,
   type SubmitQuizAnswerInput,
-  type ListQuizzesQuery
+  type ListQuizzesQuery,
 } from "@philo-mind/shared";
 
 export type SubmitAnswerInput = SubmitQuizAnswerInput;
-

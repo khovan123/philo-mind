@@ -1,0 +1,5 @@
+{
+  "cleanUrls": true,
+  "buildCommand": "npm run shared:build && npm run build -w webapp",
+  "outputDirectory": "webapp/dist"
+}

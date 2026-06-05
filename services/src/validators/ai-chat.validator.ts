@@ -4,5 +4,5 @@ export {
   listChatSessionsSchema,
   sessionIdSchema,
   sendChatMessageSchema,
-  streamChatMessageSchema
+  streamChatMessageSchema,
 } from "@philo-mind/shared";
