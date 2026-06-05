@@ -1,4 +1,5 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookOpen } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
@@ -26,6 +27,7 @@ import {
 
 export default function QuizGameplayScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { lessonId } = useLocalSearchParams<{ lessonId: string }>();
   const [loadState, setLoadState] = useState<LoadState>("loading");
   const [questionIndex, setQuestionIndex] = useState(0);
@@ -161,9 +163,9 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <ActivityIndicator color={QuizColors.primaryLight} size="large" />
-        <ThemedText style={styles.cardTitle}>Loading quiz</ThemedText>
+        <ThemedText style={styles.cardTitle}>{t("quiz.loading_quiz")}</ThemedText>
         <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          Preparing questions, timer, and answer states.
+          {t("quiz.preparing_questions")}
         </ThemedText>
       </QuizState>
     );
@@ -173,12 +175,12 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <BookOpen color={QuizColors.primaryLight} size={52} />
-        <ThemedText style={styles.cardTitle}>Failed to load quiz.</ThemedText>
+        <ThemedText style={styles.cardTitle}>{t("quiz.failed_to_load")}</ThemedText>
         <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          Please check your connection and try again.
+          {t("quiz.check_connection")}
         </ThemedText>
         <Pressable onPress={retryLoad} style={styles.primaryButton}>
-          <ThemedText style={styles.primaryButtonText}>Retry</ThemedText>
+          <ThemedText style={styles.primaryButtonText}>{t("quiz.retry")}</ThemedText>
         </Pressable>
       </QuizState>
     );
@@ -188,12 +190,12 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <BookOpen color={QuizColors.primaryLight} size={52} />
-        <ThemedText style={styles.cardTitle}>No quiz available for this lesson.</ThemedText>
+        <ThemedText style={styles.cardTitle}>{t("quiz.no_quiz_available")}</ThemedText>
         <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          Try another lesson or come back later.
+          {t("quiz.try_another_lesson")}
         </ThemedText>
         <Pressable onPress={() => router.push("/(tabs)/learn")} style={styles.primaryButton}>
-          <ThemedText style={styles.primaryButtonText}>Back to Learning</ThemedText>
+          <ThemedText style={styles.primaryButtonText}>{t("quiz.back_to_learning")}</ThemedText>
         </Pressable>
       </QuizState>
     );
@@ -251,7 +253,7 @@ export default function QuizGameplayScreen() {
 
           {feedback === "idle" && !selectedOptionId ? (
             <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-              Select an option to continue the inquiry.
+              {t("quiz.select_option_to_continue")}
             </ThemedText>
           ) : null}
         </ScrollView>

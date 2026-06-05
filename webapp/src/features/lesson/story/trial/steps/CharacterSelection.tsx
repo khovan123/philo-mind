@@ -1,4 +1,5 @@
 import { CheckCircle2, Users } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
 import { characters, Colors } from "../data";
@@ -11,15 +12,21 @@ type CharacterSelectionProps = {
 };
 
 export function CharacterSelection({ characterId, onChange, onNext }: CharacterSelectionProps) {
+  const { t } = useTranslation();
+
+  const selectedCharName = t(`story_trial.character_selection.characters.${characterId}.name`);
+
   return (
     <View style={styles.stack}>
-      <Text style={styles.centerTitle}>Chọn vai trò</Text>
-      <Text style={styles.centerSubtitle}>
-        Vai trò của bạn thay đổi cách bạn trải nghiệm xung đột.
-      </Text>
+      <Text style={styles.centerTitle}>{t("story_trial.character_selection.title")}</Text>
+      <Text style={styles.centerSubtitle}>{t("story_trial.character_selection.subtitle")}</Text>
 
       {characters.map((character) => {
         const active = character.id === characterId;
+        const charName = t(`story_trial.character_selection.characters.${character.id}.name`);
+        const charRole = t(`story_trial.character_selection.characters.${character.id}.role`);
+        const charGoal = t(`story_trial.character_selection.characters.${character.id}.goal`);
+        const charCost = t(`story_trial.character_selection.characters.${character.id}.cost`);
 
         return (
           <Pressable
@@ -30,26 +37,24 @@ export function CharacterSelection({ characterId, onChange, onNext }: CharacterS
           >
             <View style={styles.optionHeader}>
               <View>
-                <Text style={styles.optionTitle}>{character.name}</Text>
-                <Text style={styles.optionMeta}>{character.role}</Text>
+                <Text style={styles.optionTitle}>{charName}</Text>
+                <Text style={styles.optionMeta}>{charRole}</Text>
               </View>
               {active && <CheckCircle2 color={Colors.primaryLight} size={20} />}
             </View>
-            <LabelValue label="Mục tiêu chính" value={character.goal} />
-            <LabelValue label="Rủi ro" value={character.cost} />
+            <LabelValue label={t("story_trial.character_selection.main_goal")} value={charGoal} />
+            <LabelValue label={t("story_trial.character_selection.risk")} value={charCost} />
           </Pressable>
         );
       })}
 
       <InfoCard
         icon={<Users color={Colors.primaryLight} size={18} />}
-        title="Góc nhìn"
-        body={`Bạn sẽ trải nghiệm kịch bản với tư cách ${
-          characters.find((item) => item.id === characterId)?.name
-        }.`}
+        title={t("story_trial.character_selection.perspective_title")}
+        body={t("story_trial.character_selection.perspective_body", { name: selectedCharName })}
       />
 
-      <PrimaryButton label="Tiếp tục" onPress={onNext} />
+      <PrimaryButton label={t("story_trial.character_selection.cta_next")} onPress={onNext} />
     </View>
   );
 }

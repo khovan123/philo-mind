@@ -1,6 +1,7 @@
-﻿import { useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { Home, RefreshCcw, Trophy } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Animated, Pressable, ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -26,6 +27,7 @@ export function QuizResultView({
   totalQuestions,
 }: QuizResultViewProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const [celebration] = useState(() => new Animated.Value(0));
   const accuracy = Math.round((correctCount / totalQuestions) * 100);
 
@@ -42,7 +44,7 @@ export function QuizResultView({
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <View style={styles.screen}>
-        <QuizHeader title="Quiz Completed" timer={formatTime(remainingSeconds)} />
+        <QuizHeader title={t("quiz.completed")} timer={formatTime(remainingSeconds)} />
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
           <Animated.View
@@ -63,48 +65,57 @@ export function QuizResultView({
           >
             <View style={styles.scoreRing}>
               <ThemedText style={styles.scoreText}>{accuracy}%</ThemedText>
-              <ThemedText style={styles.statLabel}>Accuracy</ThemedText>
+              <ThemedText style={styles.statLabel}>{t("quiz.accuracy")}</ThemedText>
             </View>
             <ThemedText style={[styles.title, { textAlign: "center" }]}>
-              {accuracy >= 70
-                ? "Excellent. You understood the core conflict."
-                : "Review and try again."}
+              {accuracy >= 70 ? t("quiz.excellent_score") : t("quiz.review_score")}
             </ThemedText>
             <ThemedText style={[styles.subtitle, { textAlign: "center" }]}>
-              Score {correctCount}/{totalQuestions} • Time {formatDuration(timeSpentSeconds)}
+              {t("quiz.score_summary", {
+                correct: correctCount,
+                total: totalQuestions,
+                time: formatDuration(timeSpentSeconds, t),
+              })}
             </ThemedText>
           </Animated.View>
 
           <View style={styles.statsGrid}>
-            <ResultStat label="Correct" value={`${correctCount}/${totalQuestions}`} />
-            <ResultStat label="Time" value={formatDuration(timeSpentSeconds)} />
-            <ResultStat label="Rank" value={accuracy >= 70 ? "Master" : "Learner"} />
-            <ResultStat label="Badge" value={accuracy >= 70 ? "Truth Seeker" : "Pending"} />
+            <ResultStat
+              label={t("quiz.stat_correct")}
+              value={`${correctCount}/${totalQuestions}`}
+            />
+            <ResultStat label={t("quiz.stat_time")} value={formatDuration(timeSpentSeconds, t)} />
+            <ResultStat
+              label={t("quiz.stat_rank")}
+              value={accuracy >= 70 ? t("quiz.rank_master") : t("quiz.rank_learner")}
+            />
+            <ResultStat
+              label={t("quiz.stat_badge")}
+              value={accuracy >= 70 ? t("quiz.badge_truth_seeker") : t("quiz.badge_pending")}
+            />
           </View>
 
           <View style={styles.stateCard}>
             <Trophy color={QuizColors.primaryLight} size={42} />
             <ThemedText style={styles.cardTitle}>
-              {accuracy >= 70 ? "Truth Seeker" : "Keep Practicing"}
+              {accuracy >= 70 ? t("quiz.badge_truth_seeker") : t("quiz.keep_practicing")}
             </ThemedText>
             <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-              {accuracy >= 70
-                ? "Badge earned for defending the philosophical core."
-                : "Revisit the lesson and strengthen the concepts."}
+              {accuracy >= 70 ? t("quiz.badge_earned") : t("quiz.badge_not_earned")}
             </ThemedText>
           </View>
 
           <Pressable onPress={onRetry} style={styles.primaryButton}>
             <RefreshCcw color={QuizColors.buttonText} size={16} />
-            <ThemedText style={styles.primaryButtonText}>Retry Quiz</ThemedText>
+            <ThemedText style={styles.primaryButtonText}>{t("quiz.retry_quiz")}</ThemedText>
           </Pressable>
           <Pressable onPress={() => router.push("/(tabs)/learn")} style={styles.outlineButton}>
             <Home color={QuizColors.text} size={16} />
-            <ThemedText style={styles.outlineButtonText}>Back to Learning</ThemedText>
+            <ThemedText style={styles.outlineButtonText}>{t("quiz.back_to_learning")}</ThemedText>
           </Pressable>
           <Pressable onPress={() => router.push("/(tabs)/profile")} style={styles.outlineButton}>
             <Trophy color={QuizColors.text} size={16} />
-            <ThemedText style={styles.outlineButtonText}>View Progress</ThemedText>
+            <ThemedText style={styles.outlineButtonText}>{t("quiz.view_progress")}</ThemedText>
           </Pressable>
         </ScrollView>
       </View>

@@ -22,6 +22,7 @@ import { debateReducer } from "./slices/debate.slice";
 import { scenarioReducer } from "./slices/scenario.slice";
 import { badgeReducer } from "./slices/badge.slice";
 import { notificationReducer } from "./slices/notification.slice";
+import { settingsReducer } from "./slices/settings.slice";
 
 const authPersistConfig = {
   key: "auth",
@@ -29,11 +30,19 @@ const authPersistConfig = {
   whitelist: ["user", "accessToken", "refreshToken", "status"],
 };
 
+const settingsPersistConfig = {
+  key: "settings",
+  storage: securePersistStorage,
+  whitelist: ["language"],
+};
+
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
+const persistedSettingsReducer = persistReducer(settingsPersistConfig, settingsReducer);
 
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
+    settings: persistedSettingsReducer,
     bookmark: bookmarkReducer,
     mindmap: mindmapReducer,
     minigame: minigameReducer,

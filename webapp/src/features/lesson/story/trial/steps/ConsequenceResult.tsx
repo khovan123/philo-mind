@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import { ScrollText, Sparkles } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import type { LessonDecision } from "../data";
@@ -13,34 +14,48 @@ type ConsequenceResultProps = {
 };
 
 export function ConsequenceResult({ decision, onRetry, onNext }: ConsequenceResultProps) {
+  const { t } = useTranslation();
+
+  const decisionTitle = t(`story_trial.decision_selection.decisions.${decision.id}.title`);
+
   return (
     <View style={styles.stack}>
-      <StatusPill label={`Decision · ${decision.title}`} />
+      <StatusPill
+        label={t("story_trial.consequence_result.decision_pill", { title: decisionTitle })}
+      />
       <View style={styles.imageCard}>
         <Image source={sceneImage} contentFit="cover" style={styles.sceneImage} />
         <View style={styles.imageShade} />
-        <Text style={styles.verdictTitle}>Phán quyết</Text>
+        <Text style={styles.verdictTitle}>{t("story_trial.consequence_result.verdict")}</Text>
       </View>
 
       <InfoCard
         icon={<ScrollText color={Colors.danger} size={18} />}
-        title="Hậu quả tức thì"
-        body="Tòa án coi lập trường của bạn là bất tuân và nguy hiểm."
+        title={t("story_trial.consequence_result.immediate_consequence")}
+        body={t("story_trial.consequence_result.immediate_consequence_body")}
       />
       <InfoCard
         icon={<Sparkles color={Colors.primaryLight} size={18} />}
-        title="Ý nghĩa triết học"
-        body="Lựa chọn này cho thấy rằng một số người có thể coi trọng sự thật và tính nhất quán đạo đức hơn sự sống còn cá nhân."
+        title={t("story_trial.consequence_result.philosophical_meaning")}
+        body={t("story_trial.consequence_result.philosophical_meaning_body")}
       />
 
       <View style={styles.metricCard}>
-        <Metric label="Niềm tin công chúng" value={45} />
-        <Metric label="An toàn cá nhân" value={15} danger />
-        <Metric label="Chính trực đạo đức" value={92} success />
+        <Metric label={t("story_trial.consequence_result.metrics.public_trust")} value={45} />
+        <Metric
+          label={t("story_trial.consequence_result.metrics.personal_safety")}
+          value={15}
+          danger
+        />
+        <Metric
+          label={t("story_trial.consequence_result.metrics.moral_integrity")}
+          value={92}
+          success
+        />
       </View>
 
-      <PrimaryButton label="Tiếp tục bài học" onPress={onNext} />
-      <SecondaryButton label="Thử quyết định khác" onPress={onRetry} />
+      <PrimaryButton label={t("story_trial.consequence_result.cta_continue")} onPress={onNext} />
+      <SecondaryButton label={t("story_trial.consequence_result.cta_retry")} onPress={onRetry} />
     </View>
   );
 }

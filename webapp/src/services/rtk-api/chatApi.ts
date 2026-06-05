@@ -47,22 +47,6 @@ export interface ChatSessionDetail extends ChatSession {
   messages: ChatMessage[];
 }
 
-interface PaginatedResponse<T> {
-  success: boolean;
-  data: T[];
-  meta: {
-    total: number;
-    page: number;
-    limit: number;
-    totalPages: number;
-  };
-}
-
-interface SuccessResponse<T> {
-  success: boolean;
-  data: T;
-}
-
 interface SendMessageResult {
   sessionId: string;
   userMessage: ChatMessage;
@@ -75,24 +59,11 @@ export const chatApi = baseApi.injectEndpoints({
     // ── Characters ──
     getCharacters: build.query<AiCharacter[], void>({
       query: () => ({ url: "/ai/characters" }),
-      transformResponse: (res: SuccessResponse<AiCharacter[]>) => {
-        // Handle both unwrapped array and full response
-        if (Array.isArray(res)) {
-          return res;
-        }
-        return (res && (res as any).data) ? (res as any).data : [];
-      },
       providesTags: ["Chat"],
     }),
 
     getCharacterById: build.query<AiCharacterDetail, string>({
       query: (id) => ({ url: `/ai/characters/${id}` }),
-      transformResponse: (res: SuccessResponse<AiCharacterDetail>) => {
-        if (res && typeof res === 'object' && 'data' in res) {
-          return (res as any).data;
-        }
-        return res as AiCharacterDetail;
-      },
       providesTags: (_r, _e, id) => [{ type: "Chat", id: `char-${id}` }],
     }),
 
@@ -103,12 +74,6 @@ export const chatApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      transformResponse: (res: SuccessResponse<ChatSession>) => {
-        if (res && typeof res === 'object' && 'data' in res) {
-          return (res as any).data;
-        }
-        return res as ChatSession;
-      },
       invalidatesTags: ["Chat"],
     }),
 
@@ -120,9 +85,9 @@ export const chatApi = baseApi.injectEndpoints({
         url: "/ai/chat/sessions",
         params: params ?? { page: 1, limit: 20 },
       }),
-      transformResponse: (res: PaginatedResponse<ChatSession>) => ({
-        sessions: res.data || [],
-        total: res.meta?.total ?? 0,
+      transformResponse: (res: ChatSession[], meta: any) => ({
+        sessions: res || [],
+        total: meta?.apiMeta?.total ?? res?.length ?? 0,
       }),
       providesTags: ["Chat"],
     }),
@@ -131,12 +96,6 @@ export const chatApi = baseApi.injectEndpoints({
       query: (sessionId) => ({
         url: `/ai/chat/sessions/${sessionId}`,
       }),
-      transformResponse: (res: SuccessResponse<ChatSessionDetail>) => {
-        if (res && typeof res === 'object' && 'data' in res) {
-          return (res as any).data;
-        }
-        return res as ChatSessionDetail;
-      },
       providesTags: (_r, _e, id) => [{ type: "Chat", id }],
     }),
 
@@ -147,12 +106,6 @@ export const chatApi = baseApi.injectEndpoints({
         method: "POST",
         body: { message },
       }),
-      transformResponse: (res: SuccessResponse<SendMessageResult>) => {
-        if (res && typeof res === 'object' && 'data' in res) {
-          return (res as any).data;
-        }
-        return res as SendMessageResult;
-      },
       invalidatesTags: (_r, _e, arg) => [{ type: "Chat", id: arg.sessionId }],
     }),
   }),

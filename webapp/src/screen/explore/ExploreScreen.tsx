@@ -4,11 +4,14 @@ import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
 import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
+
+type TFunction = (key: string, options?: { count?: number; [key: string]: unknown }) => string;
 
 const Colors = {
   background: "#0C0C0E",
@@ -28,36 +31,40 @@ const Colors = {
 const featuredImage =
   "https://lh3.googleusercontent.com/aida/ADBb0uhB-BsNh_Qy7s6akK1COFe_ezvtoKv-rL3DQfw0HQaL96njTcP3KNp2pMCO15nzCnD0Bdkq3XO8B7uxVMIsK4jyNnJTRUnEeiN0BDMnsilmtR5ITDbnHNNgY1VmcZNNeMfHCWnKO10H-r0_bPpCvxFutPxvx7zn_Pxyr6bkr22qEzKFJ52m0XOKIlQqVl2kXiUzOxTREEGwi-z5HVNoGTTJIoNRL0pdLhSQ8tp_Y2rylPldVEoeheiiMfzw";
 
-const filters = ["Tất cả", "Đạo đức", "Lịch sử", "Chính trị", "Xã hội"];
+const filterItems = [
+  { key: "all", dbValue: "Tất cả", labelKey: "explore.filter_all" },
+  { key: "ethics", dbValue: "Đạo đức", labelKey: "explore.filter_ethics" },
+  { key: "history", dbValue: "Lịch sử", labelKey: "explore.filter_history" },
+  { key: "politics", dbValue: "Chính trị", labelKey: "explore.filter_politics" },
+  { key: "society", dbValue: "Xã hội", labelKey: "explore.filter_society" },
+];
 
-const featuredLessons = [
+const getFeaturedLessons = (t: TFunction) => [
   {
-    title: "Phiên tòa Socrates",
-    category: "Đạo đức",
-    duration: "8 phút",
-    description:
-      "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
+    title: t("home.learning_socrates_title"),
+    category: t("explore.filter_ethics"),
+    duration: t("explore.lessons_suffix", { count: 8 }),
+    description: t("explore.fallback_socrates_desc"),
     image: featuredImage,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
-    title: "Tự do là gì? Góc nhìn của Sartre",
-    category: "Hiện sinh",
-    duration: "5 phút",
-    description:
-      "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
+    title: t("explore.fallback_sartre_title"),
+    category: t("explore.fallback_sartre_category"),
+    duration: t("explore.lessons_suffix", { count: 5 }),
+    description: t("explore.fallback_sartre_desc"),
     image: featuredImage,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
-    title: "Khế ước xã hội hiện đại",
-    category: "Xã hội",
-    duration: "8 phút",
-    description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
+    title: t("explore.fallback_social_contract_title"),
+    category: t("explore.fallback_social_contract_category"),
+    duration: t("explore.lessons_suffix", { count: 8 }),
+    description: t("explore.fallback_social_contract_desc"),
     image: null,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
@@ -65,18 +72,101 @@ const featuredLessons = [
   },
 ];
 
-const topics = [
-  { title: "Đạo đức", lessons: "12 bài học", progress: 34, category: "Đạo đức" },
-  { title: "Hạnh phúc", lessons: "8 bài học", progress: 66, category: "Đạo đức" },
-  { title: "Công bằng", lessons: "15 bài học", progress: 25, category: "Chính trị" },
-  { title: "Hiện sinh", lessons: "20 bài học", progress: 100, category: "Đạo đức" },
-  { title: "Logic", lessons: "10 bài học", progress: 50, category: "Đạo đức" },
-  { title: "AI Ethics", lessons: "6 bài học", progress: 12, category: "Xã hội" },
+const getTopicsFallback = (t: TFunction) => [
+  {
+    title: t("explore.filter_ethics"),
+    lessons: t("explore.lessons_suffix", { count: 12 }),
+    progress: 34,
+    category: "Đạo đức",
+  },
+  {
+    title: t("home.learning_socrates_subtitle"),
+    lessons: t("explore.lessons_suffix", { count: 8 }),
+    progress: 66,
+    category: "Đạo đức",
+  },
+  {
+    title: t("explore.filter_politics"),
+    lessons: t("explore.lessons_suffix", { count: 15 }),
+    progress: 25,
+    category: "Chính trị",
+  },
+  {
+    title: t("explore.fallback_sartre_category"),
+    lessons: t("explore.lessons_suffix", { count: 20 }),
+    progress: 100,
+    category: "Đạo đức",
+  },
+  {
+    title: "Logic",
+    lessons: t("explore.lessons_suffix", { count: 10 }),
+    progress: 50,
+    category: "Đạo đức",
+  },
+  {
+    title: "AI Ethics",
+    lessons: t("explore.lessons_suffix", { count: 6 }),
+    progress: 12,
+    category: "Xã hội",
+  },
 ];
 
+const getCategoryTranslation = (cat: string, t: TFunction) => {
+  const normalized = cat.toLowerCase();
+  switch (normalized) {
+    case "đạo đức":
+    case "ethics":
+      return t("explore.filter_ethics");
+    case "lịch sử":
+    case "history":
+      return t("explore.filter_history");
+    case "chính trị":
+    case "politics":
+      return t("explore.filter_politics");
+    case "xã hội":
+    case "society":
+      return t("explore.filter_society");
+    case "tất cả":
+    case "all":
+      return t("explore.filter_all");
+    default:
+      return cat;
+  }
+};
+
 export default function ExploreScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState(filters[0]);
+
+  // Set up visible filters dynamically
+  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
+  const visibleFilters = useMemo(() => {
+    const categories = Array.from(
+      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
+    );
+
+    // Ensure default dbValues are mapped or added if they aren't in database
+    const baseItems = filterItems.map((item) => ({
+      key: item.key,
+      dbValue: item.dbValue,
+      label: t(item.labelKey),
+    }));
+
+    // Add any categories from db not in the default items
+    categories.forEach((cat) => {
+      if (!baseItems.some((item) => item.dbValue === cat)) {
+        baseItems.push({
+          key: cat,
+          dbValue: cat,
+          label: getCategoryTranslation(cat, t),
+        });
+      }
+    });
+
+    return baseItems;
+  }, [allTopics, t]);
+
+  const [activeFilterKey, setActiveFilterKey] = useState("all");
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
@@ -85,48 +175,47 @@ export default function ExploreScreen() {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  const topicCategory = activeFilter === filters[0] ? undefined : activeFilter;
+  const activeFilterItem = useMemo(() => {
+    return (
+      visibleFilters.find((f) => f.key === activeFilterKey) ||
+      visibleFilters[0] || { key: "all", dbValue: "Tất cả", label: t("explore.filter_all") }
+    );
+  }, [activeFilterKey, visibleFilters, t]);
+
+  const topicCategory = activeFilterItem.key === "all" ? undefined : activeFilterItem.dbValue;
   const { data: dbTopics = [] } = useListTopicsQuery({
     search: debouncedQuery || undefined,
     category: topicCategory,
     limit: 30,
   });
-  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
-  const visibleFilters = useMemo(() => {
-    if (allTopics.length === 0) {
-      return filters;
-    }
-
-    const categories = Array.from(
-      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
-    );
-    return [filters[0], ...categories];
-  }, [allTopics]);
 
   const normalizedQuery = query.trim().toLowerCase();
 
   const featuredLessonsToUse = useMemo(() => {
     if (dbTopics.length === 0) {
-      return featuredLessons;
+      return getFeaturedLessons(t);
     }
 
     return dbTopics.slice(0, 6).map((topic) => ({
       topicId: topic.id,
       title: topic.title,
-      category: topic.category ?? "Triết học",
-      duration: `${topic._count?.lessons ?? 0} bài học`,
-      description: topic.description ?? "Khám phá chủ đề triết học từ database.",
+      category: getCategoryTranslation(topic.category ?? "Triết học", t),
+      duration: t("explore.lessons_suffix", { count: topic._count?.lessons ?? 0 }),
+      description: topic.description ?? t("explore.empty_text"),
       image: featuredImage,
       fullRoute: "/full-lesson",
       scenarioRoute: "/trial-of-socrates",
       shortRoute: "/short-lesson",
     }));
-  }, [dbTopics]);
+  }, [dbTopics, t]);
 
   const filteredLessons = useMemo(
     () =>
       featuredLessonsToUse.filter((lesson) => {
-        const matchesFilter = activeFilter === "Tất cả" || lesson.category === activeFilter;
+        const matchesFilter =
+          activeFilterItem.key === "all" ||
+          lesson.category === activeFilterItem.label ||
+          lesson.category === activeFilterItem.dbValue;
         const matchesQuery =
           !normalizedQuery ||
           `${lesson.title} ${lesson.category} ${lesson.description}`
@@ -135,26 +224,29 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, featuredLessonsToUse, normalizedQuery],
+    [activeFilterItem, featuredLessonsToUse, normalizedQuery],
   );
 
   const topicsToUse = useMemo(() => {
     if (dbTopics && dbTopics.length > 0) {
-      return dbTopics.map((t, index) => ({
-        id: t.id,
-        title: t.title,
-        lessons: `${t._count?.lessons ?? 0} bài học`,
+      return dbTopics.map((tItem, index) => ({
+        id: tItem.id,
+        title: tItem.title,
+        lessons: t("explore.lessons_suffix", { count: tItem._count?.lessons ?? 0 }),
         progress: Math.min(100, index === 0 ? 34 : 18 + index * 12),
-        category: t.category ?? "Đạo đức",
+        category: tItem.category ?? "Đạo đức",
       }));
     }
-    return topics.map((t) => ({ ...t, id: undefined as string | undefined }));
-  }, [dbTopics]);
+    return getTopicsFallback(t).map((tItem) => ({ ...tItem, id: undefined as string | undefined }));
+  }, [dbTopics, t]);
 
   const filteredTopics = useMemo(
     () =>
       topicsToUse.filter((topic) => {
-        const matchesFilter = activeFilter === "Tất cả" || topic.category === activeFilter;
+        const matchesFilter =
+          activeFilterItem.key === "all" ||
+          topic.category === activeFilterItem.dbValue ||
+          getCategoryTranslation(topic.category, t) === activeFilterItem.label;
         const matchesQuery =
           !normalizedQuery ||
           `${topic.title} ${topic.lessons} ${topic.category}`
@@ -163,7 +255,7 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, normalizedQuery, topicsToUse],
+    [activeFilterItem, normalizedQuery, topicsToUse, t],
   );
 
   function startLesson(route: string) {
@@ -177,10 +269,8 @@ export default function ExploreScreen() {
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
           <View style={styles.titleBlock}>
-            <ThemedText style={styles.title}>Khám phá</ThemedText>
-            <ThemedText style={styles.subtitle}>
-              Tìm chủ đề, bài học và câu hỏi triết học để tiếp tục hành trình.
-            </ThemedText>
+            <ThemedText style={styles.title}>{t("explore.title")}</ThemedText>
+            <ThemedText style={styles.subtitle}>{t("explore.subtitle")}</ThemedText>
           </View>
 
           <View style={[styles.searchBox, query.length > 0 && styles.searchBoxActive]}>
@@ -188,7 +278,7 @@ export default function ExploreScreen() {
             <TextInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Tìm chủ đề, triết gia..."
+              placeholder={t("explore.search_placeholder")}
               placeholderTextColor={Colors.locked}
               selectionColor={Colors.primaryLight}
               style={styles.searchInput}
@@ -201,13 +291,13 @@ export default function ExploreScreen() {
             contentContainerStyle={styles.filterList}
           >
             {visibleFilters.map((filter) => {
-              const active = filter === activeFilter;
+              const active = filter.key === activeFilterKey;
 
               return (
                 <Pressable
-                  key={filter}
+                  key={filter.key}
                   accessibilityRole="button"
-                  onPress={() => setActiveFilter(filter)}
+                  onPress={() => setActiveFilterKey(filter.key)}
                   style={({ pressed }) => [
                     styles.filterChip,
                     active && styles.filterActive,
@@ -215,7 +305,7 @@ export default function ExploreScreen() {
                   ]}
                 >
                   <ThemedText style={[styles.filterText, active && styles.filterTextActive]}>
-                    {filter}
+                    {filter.label}
                   </ThemedText>
                 </Pressable>
               );
@@ -224,8 +314,10 @@ export default function ExploreScreen() {
 
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Nổi bật</ThemedText>
-              <ThemedText style={styles.resultCount}>{filteredLessons.length} bài</ThemedText>
+              <ThemedText style={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
+              <ThemedText style={styles.resultCount}>
+                {t("explore.lessons_count", { count: filteredLessons.length })}
+              </ThemedText>
             </View>
 
             {filteredLessons.length === 0 ? (
@@ -287,7 +379,9 @@ export default function ExploreScreen() {
                           }}
                           style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
                         >
-                          <ThemedText style={styles.startButtonText}>Short</ThemedText>
+                          <ThemedText style={styles.startButtonText}>
+                            {t("explore.button_short")}
+                          </ThemedText>
                           <ArrowRight color={Colors.primaryText} size={16} />
                         </Pressable>
                         <Pressable
@@ -313,7 +407,9 @@ export default function ExploreScreen() {
                           ]}
                         >
                           <BookOpen color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
+                          <ThemedText style={styles.fullLessonButtonText}>
+                            {t("explore.button_full")}
+                          </ThemedText>
                         </Pressable>
                         <Pressable
                           accessibilityRole="button"
@@ -324,7 +420,9 @@ export default function ExploreScreen() {
                           ]}
                         >
                           <Sparkles color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
+                          <ThemedText style={styles.scenarioButtonText}>
+                            {t("explore.button_scenario")}
+                          </ThemedText>
                         </Pressable>
                       </View>
                     </View>
@@ -336,8 +434,10 @@ export default function ExploreScreen() {
 
           <View style={styles.section}>
             <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Chủ đề</ThemedText>
-              <ThemedText style={styles.resultCount}>{filteredTopics.length} mục</ThemedText>
+              <ThemedText style={styles.sectionTitle}>{t("explore.topics_title")}</ThemedText>
+              <ThemedText style={styles.resultCount}>
+                {t("explore.topics_count", { count: filteredTopics.length })}
+              </ThemedText>
             </View>
 
             <View style={styles.topicGrid}>
@@ -373,10 +473,8 @@ export default function ExploreScreen() {
           <View style={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
             <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>
-                Cuộc đời không được khảo sát thì không đáng sống.
-              </ThemedText>
-              <ThemedText style={styles.quoteAuthor}>- Socrates</ThemedText>
+              <ThemedText style={styles.quoteText}>{t("explore.quote_text")}</ThemedText>
+              <ThemedText style={styles.quoteAuthor}>{t("explore.quote_author")}</ThemedText>
             </View>
           </View>
         </ScrollView>
@@ -386,11 +484,12 @@ export default function ExploreScreen() {
 }
 
 function EmptyState() {
+  const { t } = useTranslation();
   return (
     <View style={styles.emptyState}>
       <BookOpen color={Colors.locked} size={28} />
-      <ThemedText style={styles.emptyTitle}>Không tìm thấy bài học</ThemedText>
-      <ThemedText style={styles.emptyText}>Thử đổi bộ lọc hoặc nhập từ khóa ngắn hơn.</ThemedText>
+      <ThemedText style={styles.emptyTitle}>{t("explore.empty_title")}</ThemedText>
+      <ThemedText style={styles.emptyText}>{t("explore.empty_text")}</ThemedText>
     </View>
   );
 }

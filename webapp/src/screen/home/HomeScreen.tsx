@@ -3,6 +3,7 @@ import { Redirect, useRouter } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -28,30 +29,33 @@ const dailyHookImage =
 const storyImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAPW4ODe4_QUeKZd9n42xhLw9sYnejBsAuagcIld_jq2mtm_RveitFBRLaL07LQXoK-Xl28v7qHCFtdnDOAMyC909PQTlIrZhLvoLmnrK0XySJ4vMgPvib8fe4u93sgseq8ZneAKqV4E9ehJ5kELZojHSx5CbiMq_YRMMjAc3zA5cw-FiHD1xSRZKkJ-_aTp29cThfdTpLIL8UT_R1EUSqp6JGENJw7VWDm_HQCqsvmpL3iLCr04A2BuMCMBjDMs0ait2XsnADraRIk";
 
-const learningItems = [
-  {
-    title: "Phiên tòa Socrates",
-    subtitle: "Đạo đức & Chính trị",
-    difficulty: "Trung bình",
-    progress: 60,
-    icon: Gavel,
-  },
-  {
-    title: "Siêu hình học Kant",
-    subtitle: "Triết học cổ điển",
-    difficulty: "Nâng cao",
-    progress: 35,
-    icon: BookOpen,
-  },
-];
-
 export default function HomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
 
   if (shouldShowOnboarding()) {
     return <Redirect href="../onboarding" />;
   }
+
+  const getDifficultyTranslation = (difficulty: string | undefined) => {
+    if (!difficulty) return "";
+    const lower = difficulty.toLowerCase();
+    if (lower === "dễ" || lower === "easy") return t("home.difficulty_easy");
+    if (lower === "trung bình" || lower === "medium") return t("home.difficulty_medium");
+    if (lower === "nâng cao" || lower === "khó" || lower === "advanced" || lower === "hard")
+      return t("home.difficulty_hard");
+    return difficulty;
+  };
+
+  const getDurationTranslation = (duration: string | undefined) => {
+    if (!duration) return "";
+    const match = duration.match(/^(\d+)\s*(phút|mins?|minutes?)$/i);
+    if (match) {
+      return t("home.new_story_duration", { count: parseInt(match[1], 10) });
+    }
+    return duration;
+  };
 
   const visibleLearningItems =
     dashboard?.continueLearning && dashboard.continueLearning.length > 0
@@ -59,11 +63,29 @@ export default function HomeScreen() {
           id: item.lessonId,
           title: item.title,
           subtitle: item.subtitle,
-          difficulty: item.difficulty,
+          difficulty: getDifficultyTranslation(item.difficulty),
           progress: item.progress,
           icon: Gavel,
         }))
-      : learningItems;
+      : [
+          {
+            id: undefined,
+            title: t("home.learning_socrates_title"),
+            subtitle: t("home.learning_socrates_subtitle"),
+            difficulty: t("home.difficulty_medium"),
+            progress: 60,
+            icon: Gavel,
+          },
+          {
+            id: undefined,
+            title: t("home.learning_kant_title"),
+            subtitle: t("home.learning_kant_subtitle"),
+            difficulty: t("home.difficulty_hard"),
+            progress: 35,
+            icon: BookOpen,
+          },
+        ];
+
   const dailyHook = dashboard?.dailyHook;
   const newStory = dashboard?.newStory;
   const quote = dashboard?.quote;
@@ -88,13 +110,13 @@ export default function HomeScreen() {
             <View style={styles.rowCenter}>
               <Flame color={Colors.primary} fill={Colors.primary} size={18} />
               <ThemedText style={styles.streakText}>
-                {dashboard?.streak.currentStreak ?? 0} ngày liên tiếp
+                {t("home.streak_days", { count: dashboard?.streak?.currentStreak ?? 0 })}
               </ThemedText>
             </View>
 
             <View style={styles.pointsGroup}>
               <ThemedText style={styles.points}>{dashboard?.points ?? 0}</ThemedText>
-              <ThemedText style={styles.pointsLabel}>PTS</ThemedText>
+              <ThemedText style={styles.pointsLabel}>{t("home.points_label")}</ThemedText>
             </View>
           </View>
 
@@ -104,12 +126,12 @@ export default function HomeScreen() {
             <View style={styles.hookContent}>
               <View style={styles.topicPill}>
                 <ThemedText style={styles.topicPillText}>
-                  {dailyHook?.topic ?? "Daily Hook"}
+                  {dailyHook?.topic ?? t("home.daily_hook_fallback")}
                 </ThemedText>
               </View>
 
               <ThemedText style={styles.hookTitle}>
-                {dailyHook?.title ?? "Chưa có daily hook từ database."}
+                {dailyHook?.title ?? t("home.daily_hook_no_data")}
               </ThemedText>
 
               <View style={styles.answerRow}>
@@ -119,7 +141,7 @@ export default function HomeScreen() {
                   style={({ pressed }) => [styles.primaryAnswer, pressed && styles.pressed]}
                 >
                   <ThemedText style={styles.primaryAnswerText}>
-                    {dailyHook?.primaryChoice ?? "Bắt đầu"}
+                    {dailyHook?.primaryChoice ?? t("home.daily_hook_start")}
                   </ThemedText>
                 </Pressable>
 
@@ -129,7 +151,7 @@ export default function HomeScreen() {
                   style={({ pressed }) => [styles.secondaryAnswer, pressed && styles.pressed]}
                 >
                   <ThemedText style={styles.secondaryAnswerText}>
-                    {dailyHook?.secondaryChoice ?? "Xem thêm"}
+                    {dailyHook?.secondaryChoice ?? t("home.daily_hook_more")}
                   </ThemedText>
                 </Pressable>
               </View>
@@ -137,7 +159,7 @@ export default function HomeScreen() {
           </View>
 
           <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Tiếp tục học</ThemedText>
+            <ThemedText style={styles.sectionTitle}>{t("home.continue_learning")}</ThemedText>
 
             <ScrollView
               horizontal
@@ -178,7 +200,9 @@ export default function HomeScreen() {
                     </View>
 
                     <View style={styles.progressMeta}>
-                      <ThemedText style={styles.progressLabel}>Tiến độ</ThemedText>
+                      <ThemedText style={styles.progressLabel}>
+                        {t("home.progress_label")}
+                      </ThemedText>
                       <ThemedText style={styles.progressLabel}>{item.progress}%</ThemedText>
                     </View>
 
@@ -198,9 +222,9 @@ export default function HomeScreen() {
               style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
             >
               <ThemedText style={styles.statValue}>
-                {dashboard?.stats.learnedLessons ?? 12}
+                {dashboard?.stats?.learnedLessons ?? 12}
               </ThemedText>
-              <ThemedText style={styles.statLabel}>Bài đã học</ThemedText>
+              <ThemedText style={styles.statLabel}>{t("home.stats_lessons")}</ThemedText>
             </Pressable>
 
             <Pressable
@@ -208,8 +232,8 @@ export default function HomeScreen() {
               onPress={() => router.push("/badges" as never)}
               style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
             >
-              <ThemedText style={styles.statValue}>{dashboard?.stats.badges ?? 4}</ThemedText>
-              <ThemedText style={styles.statLabel}>Huy hiệu</ThemedText>
+              <ThemedText style={styles.statValue}>{dashboard?.stats?.badges ?? 4}</ThemedText>
+              <ThemedText style={styles.statLabel}>{t("home.stats_badges")}</ThemedText>
             </Pressable>
 
             <Pressable
@@ -218,14 +242,14 @@ export default function HomeScreen() {
               style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
             >
               <ThemedText style={styles.statValue}>
-                {dashboard?.stats.quizAccuracy ?? 86}%
+                {dashboard?.stats?.quizAccuracy ?? 86}%
               </ThemedText>
-              <ThemedText style={styles.statLabel}>Quiz đúng</ThemedText>
+              <ThemedText style={styles.statLabel}>{t("home.stats_accuracy")}</ThemedText>
             </Pressable>
           </View>
 
           <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Câu chuyện mới</ThemedText>
+            <ThemedText style={styles.sectionTitle}>{t("home.new_story")}</ThemedText>
 
             <Pressable
               accessibilityRole="button"
@@ -243,15 +267,20 @@ export default function HomeScreen() {
 
               <View style={styles.storyContent}>
                 <View style={styles.storyMeta}>
-                  <ThemedText style={styles.storyBadge}>{newStory?.topic ?? "Story"}</ThemedText>
-                  <ThemedText style={styles.storyTime}>{newStory?.duration ?? "8 phút"}</ThemedText>
+                  <ThemedText style={styles.storyBadge}>
+                    {newStory?.topic ?? t("navigation.story")}
+                  </ThemedText>
+                  <ThemedText style={styles.storyTime}>
+                    {getDurationTranslation(newStory?.duration) ||
+                      t("home.new_story_duration", { count: 8 })}
+                  </ThemedText>
                 </View>
 
                 <ThemedText style={styles.storyTitle}>
-                  {newStory?.title ?? "Chưa có câu chuyện mới"}
+                  {newStory?.title ?? t("home.no_new_story")}
                 </ThemedText>
                 <ThemedText style={styles.storySubtitle} numberOfLines={1}>
-                  {newStory?.subtitle ?? "Database chưa có story phù hợp."}
+                  {newStory?.subtitle ?? t("home.no_new_story_desc")}
                 </ThemedText>
               </View>
             </Pressable>
@@ -260,7 +289,9 @@ export default function HomeScreen() {
           <View style={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
             <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>{quote?.text ?? "Chưa có quote."}</ThemedText>
+              <ThemedText style={styles.quoteText}>
+                {quote?.text ?? t("home.quote_fallback")}
+              </ThemedText>
               <ThemedText style={styles.quoteAuthor}>- {quote?.author ?? "PhiloMind"}</ThemedText>
             </View>
           </View>

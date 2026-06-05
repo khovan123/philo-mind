@@ -78,28 +78,28 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { data: profileSummary } = useGetProfileSummaryQuery();
 
-  const profileName = profileSummary?.user.fullName ?? "Minh Dev";
-  const profileHandle = profileSummary?.user.email
+  const profileName = profileSummary?.user?.fullName ?? "Minh Dev";
+  const profileHandle = profileSummary?.user?.email
     ? `@${profileSummary.user.email.split("@")[0]}`
     : "@minhdev";
-  const profileAvatar = profileSummary?.user.avatarUrl ?? avatarImage;
+  const profileAvatar = profileSummary?.user?.avatarUrl ?? avatarImage;
   const visibleStats = profileSummary
     ? [
         {
           label: "Chuỗi ngày",
-          value: `${profileSummary.stats.streakDays} ngày`,
+          value: `${profileSummary.stats?.streakDays ?? 0} ngày`,
           icon: Flame,
           tone: "primary",
         },
         {
           label: "Điểm tư duy",
-          value: String(profileSummary.stats.points),
+          value: String(profileSummary.stats?.points ?? 0),
           icon: Sparkles,
           tone: "primary",
         },
         {
           label: "Câu chuyện",
-          value: String(profileSummary.stats.stories),
+          value: String(profileSummary.stats?.stories ?? 0),
           icon: BookOpen,
           tone: "text",
         },

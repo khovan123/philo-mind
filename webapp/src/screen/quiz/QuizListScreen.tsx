@@ -125,9 +125,7 @@ export default function LearnScreen() {
               </ThemedText>
             </Pressable>
           ) : null}
-          {isLoading ? (
-            <ThemedText style={styles.cardText}>Đang tải câu hỏi...</ThemedText>
-          ) : null}
+          {isLoading ? <ThemedText style={styles.cardText}>Đang tải câu hỏi...</ThemedText> : null}
           <QuizSearchBox value={query} onChange={setQuery} />
           <QuizFilters filters={filters} activeFilter={activeFilter} onChange={setActiveFilter} />
 

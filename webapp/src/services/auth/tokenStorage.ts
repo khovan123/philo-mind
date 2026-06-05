@@ -25,7 +25,10 @@ export async function setTokens(tokens: AuthTokens) {
 
 export async function getTokens(): Promise<AuthTokens | null> {
   const [accessToken, refreshToken] = canUseWebStorage()
-    ? [window.localStorage.getItem(ACCESS_TOKEN_KEY), window.localStorage.getItem(REFRESH_TOKEN_KEY)]
+    ? [
+        window.localStorage.getItem(ACCESS_TOKEN_KEY),
+        window.localStorage.getItem(REFRESH_TOKEN_KEY),
+      ]
     : await Promise.all([
         SecureStore.getItemAsync(ACCESS_TOKEN_KEY),
         SecureStore.getItemAsync(REFRESH_TOKEN_KEY),

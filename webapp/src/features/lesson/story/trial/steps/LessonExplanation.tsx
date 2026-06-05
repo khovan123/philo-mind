@@ -1,8 +1,9 @@
 import { CheckCircle2 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
 import type { LessonDecision } from "../data";
-import { Colors, lessonMarkdown } from "../data";
+import { Colors } from "../data";
 import { InfoCard, MarkdownBlock, PrimaryButton, SecondaryButton, styles } from "../ui";
 
 type LessonExplanationProps = {
@@ -24,24 +25,46 @@ export function LessonExplanation({
   onRetry,
   onFinish,
 }: LessonExplanationProps) {
+  const { t } = useTranslation();
+
+  const decisionTitle = t(`story_trial.decision_selection.decisions.${decision.id}.title`);
+  const decisionPrinciple = t(
+    `story_trial.decision_selection.decisions.${decision.id}.principle`,
+  ).toLowerCase();
+
+  const localizedMarkdown = [
+    t("story_trial.lesson_explanation.markdown.moral_integrity"),
+    t("story_trial.lesson_explanation.markdown.body_1"),
+    t("story_trial.lesson_explanation.markdown.quote"),
+    t("story_trial.lesson_explanation.markdown.body_2"),
+    t("story_trial.lesson_explanation.markdown.body_3"),
+  ];
+
   return (
     <View style={styles.stack}>
-      <Text style={styles.lessonLabel}>Tổng hợp</Text>
-      <Text style={styles.heroTitle}>Bài học rút ra</Text>
+      <Text style={styles.lessonLabel}>{t("story_trial.lesson_explanation.eyebrow")}</Text>
+      <Text style={styles.heroTitle}>{t("story_trial.lesson_explanation.title")}</Text>
       <InfoCard
         icon={<CheckCircle2 color={Colors.primaryLight} size={18} />}
-        title="Lựa chọn của bạn cho thấy"
-        body={`Bạn đã chọn ${decision.title}. Điều này thể hiện giá trị về ${decision.principle.toLowerCase()}.`}
+        title={t("story_trial.lesson_explanation.your_choice_shows")}
+        body={t("story_trial.lesson_explanation.your_choice_shows_body", {
+          title: decisionTitle,
+          principle: decisionPrinciple,
+        })}
       />
 
-      <MarkdownBlock lines={lessonMarkdown} />
+      <MarkdownBlock lines={localizedMarkdown} />
 
       <View style={styles.conceptPanel}>
-        <Text style={styles.cardTitle}>Khái niệm đã nắm vững</Text>
+        <Text style={styles.cardTitle}>
+          {t("story_trial.lesson_explanation.concepts_mastered")}
+        </Text>
         <View style={styles.conceptRow}>
-          {["Chính trực đạo đức", "Công lý", "Sự thật", "Bổn phận công dân"].map((concept) => (
-            <View key={concept} style={styles.conceptChip}>
-              <Text style={styles.conceptText}>{concept}</Text>
+          {["moral_integrity", "justice", "truth", "civic_duty"].map((conceptKey) => (
+            <View key={conceptKey} style={styles.conceptChip}>
+              <Text style={styles.conceptText}>
+                {t(`story_trial.lesson_explanation.concepts.${conceptKey}`)}
+              </Text>
             </View>
           ))}
         </View>
@@ -54,8 +77,14 @@ export function LessonExplanation({
           onPress={onReflection}
           style={[styles.actionCard, reflectionDone && styles.actionCardActive]}
         >
-          <Text style={styles.actionTitle}>Viết suy ngẫm</Text>
-          <Text style={styles.actionMeta}>{reflectionDone ? "Đã mở" : "Mở nhật ký"}</Text>
+          <Text style={styles.actionTitle}>
+            {t("story_trial.lesson_explanation.write_reflection")}
+          </Text>
+          <Text style={styles.actionMeta}>
+            {reflectionDone
+              ? t("story_trial.lesson_explanation.reflection_opened")
+              : t("story_trial.lesson_explanation.open_journal")}
+          </Text>
         </Pressable>
 
         {["Integrity", "Safety"].map((choice) => {
@@ -68,17 +97,30 @@ export function LessonExplanation({
               onPress={() => onQuiz(choice)}
               style={[styles.actionCard, active && styles.actionCardActive]}
             >
-              <Text style={styles.actionTitle}>Quiz: {choice}</Text>
+              <Text style={styles.actionTitle}>
+                {t(
+                  choice === "Integrity"
+                    ? "story_trial.lesson_explanation.quiz_integrity"
+                    : "story_trial.lesson_explanation.quiz_safety",
+                )}
+              </Text>
               <Text style={styles.actionMeta}>
-                {active ? (choice === "Integrity" ? "Đúng" : "Thử lại") : "Chọn"}
+                {active
+                  ? choice === "Integrity"
+                    ? t("story_trial.lesson_explanation.quiz_correct")
+                    : t("story_trial.lesson_explanation.quiz_try_again")
+                  : t("story_trial.lesson_explanation.quiz_select")}
               </Text>
             </Pressable>
           );
         })}
       </View>
 
-      <SecondaryButton label="Thử nhân vật khác" onPress={onRetry} />
-      <PrimaryButton label="Hoàn thành bài học" onPress={onFinish} />
+      <SecondaryButton
+        label={t("story_trial.lesson_explanation.cta_retry_character")}
+        onPress={onRetry}
+      />
+      <PrimaryButton label={t("story_trial.lesson_explanation.cta_finish")} onPress={onFinish} />
     </View>
   );
 }

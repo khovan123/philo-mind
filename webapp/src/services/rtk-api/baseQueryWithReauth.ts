@@ -47,8 +47,12 @@ function isApiResponse(value: unknown): value is ApiResponse<unknown> {
   return typeof value === "object" && value !== null && "success" in value;
 }
 
+function isApiSuccessResponse(value: unknown): value is ApiSuccessResponse<unknown> {
+  return isApiResponse(value) && value.success === true;
+}
+
 function unwrapApiData<T>(data: unknown): T {
-  if (isApiResponse(data) && data.success === true) {
+  if (isApiSuccessResponse(data)) {
     return data.data as T;
   }
 
@@ -77,12 +81,15 @@ function normalizeResult(
     };
   }
 
-  // Keep the full response object - let transformResponse handle unwrapping
-  // This way transformResponse can see both data and meta (for paginated responses)
-  if (isApiResponse(result.data)) {
+  // Automatically unwrap the data layer for successful responses, while preserving
+  // backend meta information on the query's meta object for custom pagination handlers
+  if (isApiSuccessResponse(result.data)) {
     return {
-      data: result.data,
-      meta: result.meta,
+      data: result.data.data,
+      meta: {
+        ...result.meta,
+        apiMeta: result.data.meta,
+      } as any,
     };
   }
 

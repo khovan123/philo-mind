@@ -17,6 +17,17 @@ config.resolver.nodeModulesPaths = [
   path.resolve(monorepoRoot, "node_modules"),
 ];
 
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  if (moduleName === "react-i18next") {
+    return context.resolveRequest(
+      context,
+      "react-i18next/dist/commonjs/index.js",
+      platform
+    );
+  }
+  return context.resolveRequest(context, moduleName, platform);
+};
+
 module.exports = withNativewind(config, {
   // inline variables break PlatformColor in CSS variables
   inlineVariables: false,

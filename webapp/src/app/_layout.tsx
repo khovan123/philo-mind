@@ -4,8 +4,19 @@ import { PersistGate } from "redux-persist/integration/react";
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { persistor, store } from "@/stores";
 import { AuthBootstrap } from "@/navigation/AuthBootstrap";
+import i18n from "@/lib/i18n";
+import { useAppSelector } from "@/stores/hooks";
+import { useEffect } from "react";
 
 function AppLayout() {
+  const language = useAppSelector((state) => state.settings.language);
+
+  useEffect(() => {
+    if (language) {
+      void i18n.changeLanguage(language);
+    }
+  }, [language]);
+
   return (
     <ThemeProvider value={DarkTheme}>
       <AnimatedSplashOverlay />
