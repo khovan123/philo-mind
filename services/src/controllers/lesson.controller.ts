@@ -37,8 +37,12 @@ export class LessonController {
 
       const isAdminOrModerator = req.user && ["ADMIN", "MODERATOR"].includes(req.user.role);
 
-      if (status && isAdminOrModerator) {
-        where.status = status;
+      if (isAdminOrModerator) {
+        if (status) {
+          where.status = status;
+        }
+      } else {
+        where.status = ContentStatus.PUBLISHED;
       }
 
       // Count total matches
@@ -111,6 +115,11 @@ export class LessonController {
       });
 
       if (!lesson) {
+        return sendError(res, "LESSON_NOT_FOUND", "Bài học không tồn tại", 404);
+      }
+
+      const isAdminOrModerator = req.user && ["ADMIN", "MODERATOR"].includes(req.user.role);
+      if (!isAdminOrModerator && lesson.status !== ContentStatus.PUBLISHED) {
         return sendError(res, "LESSON_NOT_FOUND", "Bài học không tồn tại", 404);
       }
 

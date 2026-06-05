@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#92](https://github.com/khovan123/philo-mind/issues/92)
-- State: open
+- State: done
 - Track: E - AI & Chat System
 - Type: testing
 - Priority: medium
 - Milestone: Week 7
 - Assignees: @VinhHoang03
-- Updated at: 2026-06-01T05:30:38Z
+- Updated at: 2026-06-04T07:03:02Z
+- Closed at: 2026-06-04T07:03:02Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------- |
-| GitHub issue   | #92                                                                                   |
-| Task ID        | T-E10                                                                                 |
-| Title          | AI Chat integration test (full conversation flow)                                     |
-| State          | open                                                                                  |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #92 |
+| Task ID | T-E10 |
+| Title | AI Chat integration test (full conversation flow) |
+| State | done |
 | Local log path | `issues/by-github-id/#092-T-E10-AI Chat integration test (full conversation flow).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #92                 |
-| Track             | E: AI & Chat System |
-| Nhóm              | E-Frontend          |
-| Loại việc         | testing             |
-| Priority          | medium              |
-| Owner gợi ý       | Backend+AI Dev      |
-| Assignee hiện tại | @VinhHoang03        |
-| Estimate          | 2h                  |
-| Milestone         | Week 7              |
-| Dependencies      | `T-E07`             |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #92 |
+| Track | E: AI & Chat System |
+| Nhóm | E-Frontend |
+| Loại việc | testing |
+| Priority | medium |
+| Owner gợi ý | Backend+AI Dev |
+| Assignee hiện tại | @VinhHoang03 |
+| Estimate | 2h |
+| Milestone | Week 7 |
+| Dependencies | `T-E07` |
 
 ## 3. Requirement cụ thể
 
@@ -64,6 +65,7 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 - Scope test bao phủ: Start session → send 3 messages → verify streaming.
 - Fixture phải deterministic; mock network/Prisma/external service khi flow không cần integration thật.
 - Output mong muốn là suite fail khi chức năng vỡ và pass ổn định trong CI.
+
 
 ## 4. Flow tích hợp
 

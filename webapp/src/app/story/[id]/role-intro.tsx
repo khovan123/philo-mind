@@ -30,8 +30,8 @@ export default function RoleIntroScreen() {
   }, [story, selectedRoleId]);
 
   const handleStartGameplay = () => {
-    // Navigate to Step 5: Exploration Map
-    router.push(`/story/${storyId}/map` as never);
+    // Navigate to Step 5: Cinematic
+    router.push(`/story/${storyId}/cinematic` as never);
   };
 
   const renderHighlightedText = (text: string, concepts: string[]) => {

@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#106](https://github.com/khovan123/philo-mind/issues/106)
-- State: open
+- State: done
 - Track: G - Polish & Gamification
 - Type: fullstack
 - Priority: medium
 - Milestone: Week 7
 - Assignees: @kangdev03
-- Updated at: 2026-06-01T05:30:24Z
+- Updated at: 2026-06-04T09:46:25Z
+- Closed at: 2026-06-04T09:46:25Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                             |
-| -------------- | ------------------------------------------------------------------------------------------------- |
-| GitHub issue   | #106                                                                                              |
-| Task ID        | T-G06                                                                                             |
-| Title          | Performance optimization (caching + lazy load + bundle audit)                                     |
-| State          | open                                                                                              |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #106 |
+| Task ID | T-G06 |
+| Title | Performance optimization (caching + lazy load + bundle audit) |
+| State | done |
 | Local log path | `issues/by-github-id/#106-T-G06-Performance optimization (caching + lazy load + bundle audit).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị                  |
-| ----------------- | ------------------------ |
-| GitHub issue      | #106                     |
-| Track             | G: Polish & Gamification |
-| Nhóm              | All                      |
-| Loại việc         | fullstack                |
-| Priority          | medium                   |
-| Owner gợi ý       | Any Dev                  |
-| Assignee hiện tại | @kangdev03               |
-| Estimate          | 4h                       |
-| Milestone         | Week 7                   |
-| Dependencies      | `All`                    |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #106 |
+| Track | G: Polish & Gamification |
+| Nhóm | All |
+| Loại việc | fullstack |
+| Priority | medium |
+| Owner gợi ý | Any Dev |
+| Assignee hiện tại | @kangdev03 |
+| Estimate | 4h |
+| Milestone | Week 7 |
+| Dependencies | `All` |
 
 ## 3. Requirement cụ thể
 
@@ -73,16 +74,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint  | Input                                             | Output                            |
-| ------ | --------- | ------------------------------------------------- | --------------------------------- |
-| TBD    | `/api/v1` | input/output xác định theo domain model liên quan | data đủ phục vụ AC và UI consumer |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| TBD | `/api/v1` | input/output xác định theo domain model liên quan | data đủ phục vụ AC và UI consumer |
+
 
 ### UI/navigation contract đề xuất
 
-| Tình huống   | Người dùng thao tác                   | Kết quả bắt buộc                                                                        |
-| ------------ | ------------------------------------- | --------------------------------------------------------------------------------------- |
-| Mở màn hình  | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Performance optimization (caching + lazy load + bundle audit) |
-| Action chính | Bấm CTA/item chính                    | Thực hiện submit/navigate/update state theo domain                                      |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/` từ tab/card/link phù hợp | Render màn hình chính của Performance optimization (caching + lazy load + bundle audit) |
+| Action chính | Bấm CTA/item chính | Thực hiện submit/navigate/update state theo domain |
+
 
 ## 4. Flow tích hợp
 
@@ -168,7 +171,6 @@ _Updated by BMAD PM requirements pass on 2026-05-31. Nội dung này thay thế 
 ### Navigation and interaction
 
 - Primary CTA trên `/` phải dẫn tới detail, submit hoặc bước kế tiếp rõ ràng.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

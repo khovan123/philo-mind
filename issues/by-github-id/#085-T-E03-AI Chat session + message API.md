@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#85](https://github.com/khovan123/philo-mind/issues/85)
-- State: open
+- State: done
 - Track: E - AI & Chat System
 - Type: backend
 - Priority: high
 - Milestone: Week 4
 - Assignees: @VinhHoang03
-- Updated at: 2026-06-01T05:30:46Z
+- Updated at: 2026-06-04T07:02:59Z
+- Closed at: 2026-06-04T07:02:59Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                             |
-| -------------- | ----------------------------------------------------------------- |
-| GitHub issue   | #85                                                               |
-| Task ID        | T-E03                                                             |
-| Title          | AI Chat session + message API                                     |
-| State          | open                                                              |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #85 |
+| Task ID | T-E03 |
+| Title | AI Chat session + message API |
+| State | done |
 | Local log path | `issues/by-github-id/#085-T-E03-AI Chat session + message API.md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #85                 |
-| Track             | E: AI & Chat System |
-| Nhóm              | E-Backend           |
-| Loại việc         | backend             |
-| Priority          | high                |
-| Owner gợi ý       | Backend+AI Dev      |
-| Assignee hiện tại | @VinhHoang03        |
-| Estimate          | 5h                  |
-| Milestone         | Week 4              |
-| Dependencies      | `T-E02`             |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #85 |
+| Track | E: AI & Chat System |
+| Nhóm | E-Backend |
+| Loại việc | backend |
+| Priority | high |
+| Owner gợi ý | Backend+AI Dev |
+| Assignee hiện tại | @VinhHoang03 |
+| Estimate | 5h |
+| Milestone | Week 4 |
+| Dependencies | `T-E02` |
 
 ## 3. Requirement cụ thể
 
@@ -68,12 +69,13 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method | Endpoint                                | Input                               | Output                                           |
-| ------ | --------------------------------------- | ----------------------------------- | ------------------------------------------------ |
-| POST   | `/api/v1/ai/chat/sessions`              | body: { characterId, topicId? }     | data: chat session                               |
-| GET    | `/api/v1/ai/chat/sessions`              | auth user                           | data: session list                               |
-| POST   | `/api/v1/ai/chat/sessions/:id/messages` | body: { content }                   | data: user message + assistant response metadata |
-| GET    | `/api/v1/ai/chat/sessions/:id/stream`   | query/header: session token context | SSE text chunks + done/error events              |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| POST | `/api/v1/ai/chat/sessions` | body: { characterId, topicId? } | data: chat session |
+| GET | `/api/v1/ai/chat/sessions` | auth user | data: session list |
+| POST | `/api/v1/ai/chat/sessions/:id/messages` | body: { content } | data: user message + assistant response metadata |
+| GET | `/api/v1/ai/chat/sessions/:id/stream` | query/header: session token context | SSE text chunks + done/error events |
+
 
 ## 4. Flow tích hợp
 

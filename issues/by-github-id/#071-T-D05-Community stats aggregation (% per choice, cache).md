@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#71](https://github.com/khovan123/philo-mind/issues/71)
-- State: open
+- State: done
 - Track: D - Story Mode Engine
 - Type: backend
 - Priority: medium
 - Milestone: Week 4
 - Assignees: @khovan123, @dklinh05
-- Updated at: 2026-06-03T01:29:17Z
+- Updated at: 2026-06-04T04:35:41Z
+- Closed at: 2026-06-04T04:35:41Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                 |
-| -------------- | ------------------------------------------------------------------------------------- |
-| GitHub issue   | #71                                                                                   |
-| Task ID        | T-D05                                                                                 |
-| Title          | Community stats aggregation (% per choice, cache)                                     |
-| State          | open                                                                                  |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #71 |
+| Task ID | T-D05 |
+| Title | Community stats aggregation (% per choice, cache) |
+| State | done |
 | Local log path | `issues/by-github-id/#071-T-D05-Community stats aggregation (% per choice, cache).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #71                  |
-| Track             | D: Story Mode Engine |
-| Nhóm              | D-Backend            |
-| Loại việc         | backend              |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @dklinh05            |
-| Estimate          | 2h                   |
-| Milestone         | Week 4               |
-| Dependencies      | `T-D03`              |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #71 |
+| Track | D: Story Mode Engine |
+| Nhóm | D-Backend |
+| Loại việc | backend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @dklinh05 |
+| Estimate | 2h |
+| Milestone | Week 4 |
+| Dependencies | `T-D03` |
 
 ## 3. Requirement cụ thể
 
@@ -68,10 +69,11 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method   | Endpoint                    | Input                     | Output                                                  |
-| -------- | --------------------------- | ------------------------- | ------------------------------------------------------- |
-| GET      | `/api/v1/stories/:id/stats` | params: story id          | data: choice percentages, totalCompletions, averageTime |
-| Internal | `on decision submit`        | input: choiceId/sessionId | output: recomputed or cache-invalidated stats           |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| GET | `/api/v1/stories/:id/stats` | params: story id | data: choice percentages, totalCompletions, averageTime |
+| Internal | `on decision submit` | input: choiceId/sessionId | output: recomputed or cache-invalidated stats |
+
 
 ## 4. Flow tích hợp
 

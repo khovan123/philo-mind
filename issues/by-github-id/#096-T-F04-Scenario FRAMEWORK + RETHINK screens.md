@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#96](https://github.com/khovan123/philo-mind/issues/96)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: frontend
 - Priority: medium
 - Milestone: Week 6
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:34Z
+- Updated at: 2026-06-04T09:29:19Z
+- Closed at: 2026-06-04T09:29:19Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                    |
-| -------------- | ------------------------------------------------------------------------ |
-| GitHub issue   | #96                                                                      |
-| Task ID        | T-F04                                                                    |
-| Title          | Scenario FRAMEWORK + RETHINK screens                                     |
-| State          | open                                                                     |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #96 |
+| Task ID | T-F04 |
+| Title | Scenario FRAMEWORK + RETHINK screens |
+| State | done |
 | Local log path | `issues/by-github-id/#096-T-F04-Scenario FRAMEWORK + RETHINK screens.md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #96                  |
-| Track             | F: Scenario & Debate |
-| Nhóm              | F-Scenario           |
-| Loại việc         | frontend             |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @Ngoclee123          |
-| Estimate          | 4h                   |
-| Milestone         | Week 6               |
-| Dependencies      | `T-F02`              |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #96 |
+| Track | F: Scenario & Debate |
+| Nhóm | F-Scenario |
+| Loại việc | frontend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @Ngoclee123 |
+| Estimate | 4h |
+| Milestone | Week 6 |
+| Dependencies | `T-F02` |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống     | Người dùng thao tác                                 | Kết quả bắt buộc                                               |
-| -------------- | --------------------------------------------------- | -------------------------------------------------------------- |
-| Mở màn hình    | User vào `/scenarios/[id]` từ tab/card/link phù hợp | Render màn hình chính của Scenario FRAMEWORK + RETHINK screens |
-| Mở tình huống  | Bấm scenario card                                   | Render situation + perspectives                                |
-| Gửi lập trường | Bấm respond/rethink CTA                             | Submit response, cập nhật stats và bước rethink                |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/scenarios/[id]` từ tab/card/link phù hợp | Render màn hình chính của Scenario FRAMEWORK + RETHINK screens |
+| Mở tình huống | Bấm scenario card | Render situation + perspectives |
+| Gửi lập trường | Bấm respond/rethink CTA | Submit response, cập nhật stats và bước rethink |
+
 
 ## 4. Flow tích hợp
 
@@ -166,7 +168,6 @@ Người học phân tích tình huống đời thực hoặc tranh luận qua n
 
 - Scenario card -> scenario detail.
 - Respond/rethink CTA -> form -> updated perspective/stats view.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

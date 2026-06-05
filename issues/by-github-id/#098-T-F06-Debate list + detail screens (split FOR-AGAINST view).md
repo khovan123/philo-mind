@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#98](https://github.com/khovan123/philo-mind/issues/98)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: frontend
 - Priority: medium
 - Milestone: Week 7
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:32Z
+- Updated at: 2026-06-04T09:29:33Z
+- Closed at: 2026-06-04T09:29:33Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                     |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| GitHub issue   | #98                                                                                       |
-| Task ID        | T-F06                                                                                     |
-| Title          | Debate list + detail screens (split FOR/AGAINST view)                                     |
-| State          | open                                                                                      |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #98 |
+| Task ID | T-F06 |
+| Title | Debate list + detail screens (split FOR/AGAINST view) |
+| State | done |
 | Local log path | `issues/by-github-id/#098-T-F06-Debate list + detail screens (split FOR-AGAINST view).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị              |
-| ----------------- | -------------------- |
-| GitHub issue      | #98                  |
-| Track             | F: Scenario & Debate |
-| Nhóm              | F-Debate             |
-| Loại việc         | frontend             |
-| Priority          | medium               |
-| Owner gợi ý       | Fullstack Dev        |
-| Assignee hiện tại | @Ngoclee123          |
-| Estimate          | 5h                   |
-| Milestone         | Week 7               |
-| Dependencies      | `T-F05`              |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #98 |
+| Track | F: Scenario & Debate |
+| Nhóm | F-Debate |
+| Loại việc | frontend |
+| Priority | medium |
+| Owner gợi ý | Fullstack Dev |
+| Assignee hiện tại | @Ngoclee123 |
+| Estimate | 5h |
+| Milestone | Week 7 |
+| Dependencies | `T-F05` |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống    | Người dùng thao tác                          | Kết quả bắt buộc                                                                |
-| ------------- | -------------------------------------------- | ------------------------------------------------------------------------------- |
-| Mở màn hình   | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
-| Mở debate     | Bấm debate card                              | Điều hướng debate detail split FOR/AGAINST                                      |
-| Gửi luận điểm | Bấm argue CTA                                | Mở editor, preview, submit argument                                             |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/debates` từ tab/card/link phù hợp | Render màn hình chính của Debate list + detail screens (split FOR/AGAINST view) |
+| Mở debate | Bấm debate card | Điều hướng debate detail split FOR/AGAINST |
+| Gửi luận điểm | Bấm argue CTA | Mở editor, preview, submit argument |
+
 
 ## 4. Flow tích hợp
 
@@ -167,7 +169,6 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 - Debate card -> detail split FOR/AGAINST.
 - Argue CTA -> editor/preview -> submitted argument.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#83](https://github.com/khovan123/philo-mind/issues/83)
-- State: open
+- State: done
 - Track: E - AI & Chat System
 - Type: backend
 - Priority: high
 - Milestone: Week 4
 - Assignees: @VinhHoang03
-- Updated at: 2026-06-01T05:30:48Z
+- Updated at: 2026-06-04T07:02:59Z
+- Closed at: 2026-06-04T07:02:59Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------- |
-| GitHub issue   | #83                                                                                     |
-| Task ID        | T-E01                                                                                   |
-| Title          | Gemini API service (generate + stream + rate limit)                                     |
-| State          | open                                                                                    |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #83 |
+| Task ID | T-E01 |
+| Title | Gemini API service (generate + stream + rate limit) |
+| State | done |
 | Local log path | `issues/by-github-id/#083-T-E01-Gemini API service (generate + stream + rate limit).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị                       |
-| ----------------- | ----------------------------- |
-| GitHub issue      | #83                           |
-| Track             | E: AI & Chat System           |
-| Nhóm              | E-Backend                     |
-| Loại việc         | backend                       |
-| Priority          | high                          |
-| Owner gợi ý       | Backend+AI Dev                |
-| Assignee hiện tại | @VinhHoang03                  |
-| Estimate          | 4h                            |
-| Milestone         | Week 4                        |
-| Dependencies      | Không có dependency bắt buộc. |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #83 |
+| Track | E: AI & Chat System |
+| Nhóm | E-Backend |
+| Loại việc | backend |
+| Priority | high |
+| Owner gợi ý | Backend+AI Dev |
+| Assignee hiện tại | @VinhHoang03 |
+| Estimate | 4h |
+| Milestone | Week 4 |
+| Dependencies | Không có dependency bắt buộc. |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### API contract đề xuất
 
-| Method   | Endpoint                     | Input                                    | Output                                 |
-| -------- | ---------------------------- | ---------------------------------------- | -------------------------------------- |
-| POST     | `/api/v1/ai/generate`        | body: { prompt, characterId?, context? } | data: generated text + safety metadata |
-| POST     | `/api/v1/ai/generate/stream` | body: prompt/context                     | SSE chunks or stream token events      |
-| Internal | `rate limit`                 | input: userId + timestamp                | output: allow/deny + retryAfter        |
+| Method | Endpoint | Input | Output |
+| --- | --- | --- | --- |
+| POST | `/api/v1/ai/generate` | body: { prompt, characterId?, context? } | data: generated text + safety metadata |
+| POST | `/api/v1/ai/generate/stream` | body: prompt/context | SSE chunks or stream token events |
+| Internal | `rate limit` | input: userId + timestamp | output: allow/deny + retryAfter |
+
 
 ## 4. Flow tích hợp
 

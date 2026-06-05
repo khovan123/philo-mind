@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#90](https://github.com/khovan123/philo-mind/issues/90)
-- State: open
+- State: done
 - Track: E - AI & Chat System
 - Type: frontend
 - Priority: medium
 - Milestone: Week 6
 - Assignees: @VinhHoang03
-- Updated at: 2026-06-01T05:30:40Z
+- Updated at: 2026-06-04T07:03:01Z
+- Closed at: 2026-06-04T07:03:01Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                                     |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| GitHub issue   | #90                                                                                       |
-| Task ID        | T-E08                                                                                     |
-| Title          | ChatInput component (text + send + suggested prompts)                                     |
-| State          | open                                                                                      |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #90 |
+| Task ID | T-E08 |
+| Title | ChatInput component (text + send + suggested prompts) |
+| State | done |
 | Local log path | `issues/by-github-id/#090-T-E08-ChatInput component (text + send + suggested prompts).md` |
 
 ## Issue Body
@@ -45,18 +46,18 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ## 2. Bối cảnh và phạm vi
 
-| Thuộc tính        | Giá trị             |
-| ----------------- | ------------------- |
-| GitHub issue      | #90                 |
-| Track             | E: AI & Chat System |
-| Nhóm              | E-Frontend          |
-| Loại việc         | frontend            |
-| Priority          | medium              |
-| Owner gợi ý       | Backend+AI Dev      |
-| Assignee hiện tại | @VinhHoang03        |
-| Estimate          | 2h                  |
-| Milestone         | Week 6              |
-| Dependencies      | `T-E07`             |
+| Thuộc tính | Giá trị |
+| --- | --- |
+| GitHub issue | #90 |
+| Track | E: AI & Chat System |
+| Nhóm | E-Frontend |
+| Loại việc | frontend |
+| Priority | medium |
+| Owner gợi ý | Backend+AI Dev |
+| Assignee hiện tại | @VinhHoang03 |
+| Estimate | 2h |
+| Milestone | Week 6 |
+| Dependencies | `T-E07` |
 
 ## 3. Requirement cụ thể
 
@@ -68,11 +69,12 @@ Nó không chỉ là một checklist code. Đầu ra cần là một phần sả
 
 ### UI/navigation contract đề xuất
 
-| Tình huống    | Người dùng thao tác                                      | Kết quả bắt buộc                                                                |
-| ------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| Mở màn hình   | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của ChatInput component (text + send + suggested prompts) |
-| Chọn nhân vật | Bấm character card                                       | Tạo/mở session và điều hướng `/ai/chat/[sessionId]`                             |
-| Gửi tin nhắn  | Nhập prompt -> bấm send                                  | Disable input khi gửi, stream response và auto-scroll                           |
+| Tình huống | Người dùng thao tác | Kết quả bắt buộc |
+| --- | --- | --- |
+| Mở màn hình | User vào `/ai/chat/[sessionId]` từ tab/card/link phù hợp | Render màn hình chính của ChatInput component (text + send + suggested prompts) |
+| Chọn nhân vật | Bấm character card | Tạo/mở session và điều hướng `/ai/chat/[sessionId]` |
+| Gửi tin nhắn | Nhập prompt -> bấm send | Disable input khi gửi, stream response và auto-scroll |
+
 
 ## 4. Flow tích hợp
 
@@ -166,7 +168,6 @@ Người học trò chuyện với nhân vật triết học AI theo ngữ cản
 
 - Character card -> create/open session -> `/ai/chat/[sessionId]`.
 - Send message giữ user ở conversation và stream response inline.
-
 ### Evidence required in PR
 
 - Screenshot, API sample, test output, seed log, or CI/deploy log that proves the expected output above exists.

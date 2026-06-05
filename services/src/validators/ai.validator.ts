@@ -1,7 +1,4 @@
-import { z } from "zod";
-
-export const generateSchema = z.object({
-  body: z.object({
-    prompt: z.string().min(1).max(5000),
-  }),
-});
+// Redirecting to shared library
+export {
+  generateSchema
+} from "@philo-mind/shared";

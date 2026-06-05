@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#61](https://github.com/khovan123/philo-mind/issues/61)
-- State: open
+- State: done
 - Track: C - Shared Types & Seed
 - Type: seed-data
 - Priority: medium
 - Milestone: Week 3
 - Assignees: @thuhataplamdev
-- Updated at: 2026-06-02T16:21:50Z
+- Updated at: 2026-06-04T04:35:40Z
+- Closed at: 2026-06-04T04:35:40Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,16 +22,16 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
-| Field          | Value                                                                          |
-| -------------- | ------------------------------------------------------------------------------ |
-| GitHub issue   | #61                                                                            |
-| Task ID        | T-C07                                                                          |
-| Title          | Seed: 5 Story Scenarios (13-step complete)                                     |
-| State          | open                                                                           |
+| Field | Value |
+| --- | --- |
+| GitHub issue | #61 |
+| Task ID | T-C07 |
+| Title | Seed: 5 Story Scenarios (13-step complete) |
+| State | done |
 | Local log path | `issues/by-github-id/#061-T-C07-Seed- 5 Story Scenarios (13-step complete).md` |
 
 ## Issue Body

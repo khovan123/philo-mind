@@ -21,6 +21,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { useLoginMutation } from "@/services/auth/api";
 import { useAppDispatch } from "@/stores/hooks";
 import { authErrorCleared, authFailed, authStateSet } from "@/stores/slices/auth.slice";
+import { loginSchema } from "@philo-mind/shared";
 
 function getApiErrorMessage(error: unknown) {
   const data = (error as { data?: unknown })?.data;
@@ -65,10 +66,6 @@ export default function LoginScreen() {
     general?: string;
   }>({});
 
-  function isValidEmail(value: string) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-  }
-
   async function handleLogin() {
     Keyboard.dismiss();
     setErrors({});
@@ -76,23 +73,28 @@ export default function LoginScreen() {
 
     const normalizedEmail = email.trim().toLowerCase();
 
-    const nextErrors: {
-      email?: string;
-      password?: string;
-      general?: string;
-    } = {};
+    const validationResult = loginSchema.safeParse({
+      body: {
+        email: normalizedEmail,
+        password,
+      },
+    });
 
-    if (!normalizedEmail) {
-      nextErrors.email = "Vui lòng nhập email";
-    } else if (!isValidEmail(normalizedEmail)) {
-      nextErrors.email = "Email không hợp lệ";
-    }
+    if (!validationResult.success) {
+      const nextErrors: {
+        email?: string;
+        password?: string;
+        general?: string;
+      } = {};
 
-    if (!password) {
-      nextErrors.password = "Vui lòng nhập mật khẩu";
-    }
+      validationResult.error.issues.forEach((issue) => {
+        const path = issue.path;
+        if (path[0] === "body" && path[1]) {
+          const field = path[1] as "email" | "password";
+          nextErrors[field] = issue.message;
+        }
+      });
 
-    if (Object.keys(nextErrors).length > 0) {
       setErrors(nextErrors);
       return;
     }
