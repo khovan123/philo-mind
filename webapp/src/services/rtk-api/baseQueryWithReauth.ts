@@ -20,11 +20,8 @@ const DEFAULT_API_URL = Platform.select({
   default: "http://localhost:3001/api/v1",
 });
 
-const API_BASE_URL = (
-  process.env.EXPO_PUBLIC_API_URL?.trim() ||
-  DEFAULT_API_URL ||
-  "http://localhost:3001/api/v1"
-).replace(/\/$/, "");
+const rawUrl = (process.env.EXPO_PUBLIC_API_URL || DEFAULT_API_URL || "http://localhost:3001/api/v1").trim().replace(/\/$/, "");
+const API_BASE_URL = rawUrl.endsWith("/api/v1") ? rawUrl : `${rawUrl}/api/v1`;
 
 type ApiSuccessResponse<T> = {
   success: true;
@@ -116,6 +113,15 @@ const rawBaseQuery = fetchBaseQuery({
   },
 });
 
+function resolveUrl(url: string): string {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+  const base = API_BASE_URL.replace(/\/$/, "");
+  const path = url.startsWith("/") ? url : `/${url}`;
+  return `${base}${path}`;
+}
+
 export const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
@@ -123,7 +129,10 @@ export const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   await mutex.waitForUnlock();
 
-  let result = await rawBaseQuery(args, api, extraOptions);
+  const resolvedArgs =
+    typeof args === "string" ? resolveUrl(args) : { ...args, url: resolveUrl(args.url) };
+
+  let result = await rawBaseQuery(resolvedArgs, api, extraOptions);
 
   if (result.error?.status !== 401) {
     return normalizeResult(result);
@@ -143,7 +152,7 @@ export const baseQueryWithReauth: BaseQueryFn<
 
       const refreshResult = await rawBaseQuery(
         {
-          url: "/auth/refresh",
+          url: resolveUrl("/auth/refresh"),
           method: "POST",
           body: { refreshToken },
         },
@@ -156,7 +165,8 @@ export const baseQueryWithReauth: BaseQueryFn<
 
         api.dispatch(tokenReceived(response.tokens));
 
-        result = await rawBaseQuery(args, api, extraOptions);
+        // Re-run the query with the resolvedArgs
+        result = await rawBaseQuery(resolvedArgs, api, extraOptions);
       } else {
         api.dispatch(loggedOut());
       }
@@ -165,7 +175,7 @@ export const baseQueryWithReauth: BaseQueryFn<
     }
   } else {
     await mutex.waitForUnlock();
-    result = await rawBaseQuery(args, api, extraOptions);
+    result = await rawBaseQuery(resolvedArgs, api, extraOptions);
   }
 
   return normalizeResult(result);

@@ -27,6 +27,7 @@ import {
 } from "@/services/rtk-api/chatApi";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { startStreaming, appendStreamingText, finishStreaming } from "@/stores/slices/chat.slice";
+import { API_BASE_URL } from "@/services/api";
 
 /** SSE streaming helper */
 async function streamMessage(
@@ -39,12 +40,11 @@ async function streamMessage(
   signal?: AbortSignal,
 ) {
   try {
-    const baseUrl = process.env.EXPO_PUBLIC_API_URL ?? "http://localhost:3001";
     const headers: Record<string, string> = { "Content-Type": "application/json" };
     if (accessToken) {
       headers["Authorization"] = `Bearer ${accessToken}`;
     }
-    const response = await fetch(`${baseUrl}/api/v1/ai/chat/sessions/${sessionId}/stream`, {
+    const response = await fetch(`${API_BASE_URL}/ai/chat/sessions/${sessionId}/stream`, {
       method: "POST",
       headers,
       body: JSON.stringify({ message }),

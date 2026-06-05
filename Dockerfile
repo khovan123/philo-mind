@@ -17,6 +17,7 @@ COPY tsconfig.base.json tsconfig.json ./
 COPY libs ./libs
 COPY services ./services
 
+RUN npm run build --workspace=libs/shared
 RUN npm run prisma:generate --workspace=services
 RUN npm run build --workspace=services
 
