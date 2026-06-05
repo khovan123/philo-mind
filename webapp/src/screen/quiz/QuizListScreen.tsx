@@ -17,7 +17,7 @@ import { quizStyles as styles } from "@/features/quiz/ui";
 import { useTheme } from "@/hooks/use-theme";
 import { useListQuizzesQuery } from "@/services/rtk-api/quiz.api";
 
-const filters = ["All", "Philosophy", "History", "Ethics", "Politics", "Completed"];
+const filters = ["Tất cả", "Triết học", "Lịch sử", "Đạo đức", "Chính trị", "Đã hoàn thành"];
 
 export default function LearnScreen() {
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function LearnScreen() {
     refetch,
   } = useListQuizzesQuery({
     search: query || undefined,
-    status: activeFilter === "Completed" ? "completed" : undefined,
+    status: activeFilter === "Đã hoàn thành" ? "completed" : undefined,
   });
   const quizzes = apiQuizzes && apiQuizzes.length > 0 ? apiQuizzes : quizSummaries;
 
@@ -51,7 +51,7 @@ export default function LearnScreen() {
       <View style={styles.screen}>
         <View style={styles.header}>
           <View style={styles.headerSide} />
-          <ThemedText style={styles.brand}>Quizzes</ThemedText>
+          <ThemedText style={styles.brand}>Câu hỏi</ThemedText>
           <View style={styles.headerSide} />
         </View>
 
@@ -59,7 +59,7 @@ export default function LearnScreen() {
           <View>
             <ThemedText style={styles.title}>Học tập</ThemedText>
             <ThemedText style={styles.subtitle}>
-              Test your understanding and strengthen your thinking.
+              Kiểm tra hiểu biết và rèn luyện tư duy của bạn.
             </ThemedText>
           </View>
 
@@ -92,9 +92,9 @@ export default function LearnScreen() {
               <Heart color="#0C0C0E" fill="#0C0C0E" size={20} />
             </View>
             <View style={mindmapEntryStyles.copy}>
-              <ThemedText type="smallBold">Bookmark đã lưu</ThemedText>
+              <ThemedText type="smallBold">Đã lưu</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
-                Xem danh sách bookmark được nhóm theo bài học, topic, story và debate.
+                Xem danh sách đã lưu được nhóm theo bài học, chủ đề, câu chuyện và tranh luận.
               </ThemedText>
             </View>
           </Pressable>
@@ -110,9 +110,9 @@ export default function LearnScreen() {
               <Gamepad2 color="#0C0C0E" size={20} />
             </View>
             <View style={mindmapEntryStyles.copy}>
-              <ThemedText type="smallBold">MiniGame luyện tập</ThemedText>
+              <ThemedText type="smallBold">Trò chơi luyện tập</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
-                Chơi matching cards, portrait quiz và argument sorting để ghi điểm.
+                Chơi ghép thẻ, đoán chân dung và sắp xếp lập luận để ghi điểm.
               </ThemedText>
             </View>
           </Pressable>
@@ -126,7 +126,7 @@ export default function LearnScreen() {
             </Pressable>
           ) : null}
           {isLoading ? (
-            <ThemedText style={styles.cardText}>Loading quizzes from API...</ThemedText>
+            <ThemedText style={styles.cardText}>Đang tải câu hỏi...</ThemedText>
           ) : null}
           <QuizSearchBox value={query} onChange={setQuery} />
           <QuizFilters filters={filters} activeFilter={activeFilter} onChange={setActiveFilter} />
@@ -172,9 +172,9 @@ function matchesQuiz(quiz: QuizSummary, query: string, activeFilter: string) {
     !normalizedQuery ||
     `${quiz.title} ${quiz.topic} ${quiz.description}`.toLowerCase().includes(normalizedQuery);
   const matchesFilter =
-    activeFilter === "All" ||
+    activeFilter === "Tất cả" ||
     quiz.topic.toLowerCase().includes(activeFilter.toLowerCase()) ||
-    (activeFilter === "Completed" && quiz.status === "completed");
+    (activeFilter === "Đã hoàn thành" && quiz.status === "completed");
 
   return matchesQuery && matchesFilter;
 }

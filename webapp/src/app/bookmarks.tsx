@@ -26,10 +26,10 @@ type FilterType = BookmarkTargetType | "ALL";
 const targetCopy: Record<BookmarkTargetType, { label: string; routeLabel: string; color: string }> =
   {
     LESSON: { label: "Bài học", routeLabel: "Mở bài học", color: "#38BDF8" },
-    SHORT_LESSON: { label: "Short lesson", routeLabel: "Mở short lesson", color: "#34D399" },
-    STORY: { label: "Story", routeLabel: "Mở reflection", color: "#A78BFA" },
-    DEBATE: { label: "Debate", routeLabel: "Mở debate", color: "#FB7185" },
-    TOPIC: { label: "Topic", routeLabel: "Mở mindmap", color: "#F59E0B" },
+    SHORT_LESSON: { label: "Bài ngắn", routeLabel: "Mở bài ngắn", color: "#34D399" },
+    STORY: { label: "Câu chuyện", routeLabel: "Mở suy ngẫm", color: "#A78BFA" },
+    DEBATE: { label: "Tranh luận", routeLabel: "Mở tranh luận", color: "#FB7185" },
+    TOPIC: { label: "Chủ đề", routeLabel: "Mở bản đồ tư duy", color: "#F59E0B" },
   };
 
 export default function BookmarksScreen() {
@@ -120,9 +120,9 @@ export default function BookmarksScreen() {
             <ArrowLeft color={theme.text} size={20} />
           </Pressable>
           <View style={styles.topTitle}>
-            <ThemedText type="smallBold">Bookmarks</ThemedText>
+            <ThemedText type="smallBold">Đã lưu</ThemedText>
             <ThemedText type="label" themeColor="textMuted">
-              grouped by type
+              theo danh mục
             </ThemedText>
           </View>
           <Pressable

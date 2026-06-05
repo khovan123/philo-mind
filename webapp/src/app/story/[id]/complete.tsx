@@ -95,6 +95,11 @@ export default function StoryCompleteScreen() {
     router.replace("/(tabs)/story" as never);
   }, [resetStore, router]);
 
+  const handleGoToMindmap = useCallback(() => {
+    resetStore();
+    router.replace("/(tabs)/learn" as never);
+  }, [resetStore, router]);
+
   // ── Render ──────────────────────────────────────────────────
   return (
     <SafeAreaView edges={["top"]} style={[styles.safeArea, { backgroundColor: theme.background }]}>
@@ -297,11 +302,18 @@ export default function StoryCompleteScreen() {
         ) : (
           <View style={styles.footerRow}>
             <Button
-              title="Về trang chủ"
-              onPress={handleGoHome}
+              title="Khám phá Mindmap 🧠"
+              onPress={handleGoToMindmap}
               variant="primary"
               fullWidth
               style={{ flex: 1 }}
+            />
+            <Button
+              title="Về trang chủ"
+              onPress={handleGoHome}
+              variant="outline"
+              fullWidth
+              style={{ flex: 1, marginTop: Spacing.two }}
             />
           </View>
         )}

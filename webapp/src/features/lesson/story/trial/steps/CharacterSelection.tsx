@@ -13,8 +13,10 @@ type CharacterSelectionProps = {
 export function CharacterSelection({ characterId, onChange, onNext }: CharacterSelectionProps) {
   return (
     <View style={styles.stack}>
-      <Text style={styles.centerTitle}>Choose Your Role</Text>
-      <Text style={styles.centerSubtitle}>Your role changes how you experience the conflict.</Text>
+      <Text style={styles.centerTitle}>Chọn vai trò</Text>
+      <Text style={styles.centerSubtitle}>
+        Vai trò của bạn thay đổi cách bạn trải nghiệm xung đột.
+      </Text>
 
       {characters.map((character) => {
         const active = character.id === characterId;
@@ -33,21 +35,21 @@ export function CharacterSelection({ characterId, onChange, onNext }: CharacterS
               </View>
               {active && <CheckCircle2 color={Colors.primaryLight} size={20} />}
             </View>
-            <LabelValue label="Primary goal" value={character.goal} />
-            <LabelValue label="Cost/risk" value={character.cost} />
+            <LabelValue label="Mục tiêu chính" value={character.goal} />
+            <LabelValue label="Rủi ro" value={character.cost} />
           </Pressable>
         );
       })}
 
       <InfoCard
         icon={<Users color={Colors.primaryLight} size={18} />}
-        title="Perspective"
-        body={`You will experience the scenario as ${
+        title="Góc nhìn"
+        body={`Bạn sẽ trải nghiệm kịch bản với tư cách ${
           characters.find((item) => item.id === characterId)?.name
         }.`}
       />
 
-      <PrimaryButton label="Continue" onPress={onNext} />
+      <PrimaryButton label="Tiếp tục" onPress={onNext} />
     </View>
   );
 }

@@ -1,4 +1,4 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   AlertCircle,
   ArrowLeft,
@@ -21,9 +21,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { ThemedText } from "@/components/themed-text";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { ThemedText } from "@/components/themed-text";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { storyService } from "@/services/story.service";
@@ -41,16 +41,16 @@ const markdownActions = [
 
 const trialStory: StorySummary = {
   id: "trial-of-socrates",
-  title: "Trial of Socrates",
-  description: "Reflect on truth, civic duty, and the cost of integrity.",
+  title: "Phiên tòa Socrates",
+  description: "Suy ngẫm về sự thật, bổn phận công dân, và cái giá của sự chính trực.",
   difficulty: "MEDIUM",
   estimatedMinutes: 12,
   coverImageUrl: null,
   createdAt: new Date(0).toISOString(),
   topic: {
     id: "trial-of-socrates-topic",
-    title: "Moral Integrity",
-    category: "Ethics",
+    title: "Chính trực đạo đức",
+    category: "Đạo đức",
   },
   choices: [],
   stats: {
@@ -90,7 +90,7 @@ export default function StoryReflectScreen() {
   async function handleCompleteStory() {
     try {
       await completeActiveSession();
-      router.replace("/(tabs)/story" as never);
+      router.replace(`/story/${storyId}/complete` as never);
     } catch {
       // Handled in store
     }
@@ -132,7 +132,7 @@ export default function StoryReflectScreen() {
         ]);
       } catch (err) {
         if (!isMounted) return;
-        setStoryError(err instanceof Error ? err.message : "Could not load story context");
+        setStoryError(err instanceof Error ? err.message : "Không thể tải ngữ cảnh câu chuyện");
       } finally {
         if (isMounted) setStoryLoading(false);
       }
@@ -183,7 +183,7 @@ export default function StoryReflectScreen() {
         ]);
       })
       .catch((err) =>
-        setStoryError(err instanceof Error ? err.message : "Could not load story context"),
+        setStoryError(err instanceof Error ? err.message : "Không thể tải ngữ cảnh câu chuyện"),
       )
       .finally(() => setStoryLoading(false));
   }
@@ -203,9 +203,9 @@ export default function StoryReflectScreen() {
             <ArrowLeft color={theme.text} size={22} />
           </Pressable>
           <View style={styles.headerCopy}>
-            <ThemedText type="smallBold">Reflection Journal</ThemedText>
+            <ThemedText type="smallBold">Nhật ký suy ngẫm</ThemedText>
             <ThemedText type="label" themeColor="textSecondary" numberOfLines={1}>
-              {story?.title ?? "Story reflection"}
+              {story?.title ?? "Suy ngẫm câu chuyện"}
             </ThemedText>
           </View>
           <Pressable
@@ -229,10 +229,10 @@ export default function StoryReflectScreen() {
                   <BookOpenText color={theme.primaryLight} size={24} />
                 </View>
                 <View style={styles.heroCopy}>
-                  <ThemedText style={styles.title}>Reflect after the story</ThemedText>
+                  <ThemedText style={styles.title}>Suy ngẫm sau câu chuyện</ThemedText>
                   <ThemedText type="small" themeColor="textSecondary">
-                    Capture the reasoning behind your choice, then compare it with your earlier
-                    journal entries.
+                    Ghi lại lý do đằng sau lựa chọn của bạn, sau đó so sánh với các bài nhật ký
+                    trước đó.
                   </ThemedText>
                 </View>
               </View>
@@ -287,7 +287,7 @@ function LoadingState() {
   return (
     <Card style={styles.stateCard}>
       <ActivityIndicator />
-      <ThemedText type="smallBold">Loading reflection space</ThemedText>
+      <ThemedText type="smallBold">Đang tải không gian suy ngẫm</ThemedText>
     </Card>
   );
 }
@@ -298,11 +298,11 @@ function ErrorState({ message, onRetry }: { message: string; onRetry: () => void
   return (
     <Card style={styles.stateCard}>
       <AlertCircle color={theme.danger} size={24} />
-      <ThemedText type="smallBold">Reflection could not load</ThemedText>
+      <ThemedText type="smallBold">Không thể tải suy ngẫm</ThemedText>
       <ThemedText type="small" themeColor="textSecondary" style={styles.centerText}>
         {message}
       </ThemedText>
-      <Button title="Retry" onPress={onRetry} variant="outline" />
+      <Button title="Thử lại" onPress={onRetry} variant="outline" />
     </Card>
   );
 }
@@ -342,9 +342,9 @@ function ReflectionList({
       <View style={styles.panelHeader}>
         <View style={styles.rowTitle}>
           <List color={theme.primaryLight} size={18} />
-          <ThemedText type="smallBold">Entries</ThemedText>
+          <ThemedText type="smallBold">Bài viết</ThemedText>
         </View>
-        <Button title="New" size="sm" variant="outline" onPress={onNew} />
+        <Button title="Mới" size="sm" variant="outline" onPress={onNew} />
       </View>
 
       {loading ? (
@@ -355,7 +355,7 @@ function ReflectionList({
         <View style={styles.mutedState}>
           <FileText color={theme.textMuted} size={22} />
           <ThemedText type="small" themeColor="textSecondary" style={styles.centerText}>
-            No reflections yet.
+            Chưa có bài suy ngẫm nào.
           </ThemedText>
         </View>
       ) : (
@@ -420,7 +420,7 @@ function ReflectionComposer({
       <View style={styles.panelHeader}>
         <View style={styles.rowTitle}>
           <PenLine color={theme.primaryLight} size={18} />
-          <ThemedText type="smallBold">New reflection</ThemedText>
+          <ThemedText type="smallBold">Suy ngẫm mới</ThemedText>
         </View>
         <ThemedText type="label" themeColor="textSecondary">
           {content.trim().length}/10000
@@ -429,13 +429,13 @@ function ReflectionComposer({
 
       <View style={styles.questionBlock}>
         <ThemedText type="label" themeColor="textSecondary">
-          Guided critical question
+          Câu hỏi phản biện có hướng dẫn
         </ThemedText>
         {questionsLoading ? (
           <ActivityIndicator />
         ) : questions.length === 0 ? (
           <ThemedText type="small" themeColor="textSecondary">
-            No critical questions available.
+            Chưa có câu hỏi phản biện.
           </ThemedText>
         ) : (
           <ScrollView
@@ -470,7 +470,7 @@ function ReflectionComposer({
 
       {selectedQuestion ? (
         <View style={[styles.promptBox, { backgroundColor: theme.backgroundElement }]}>
-          <ThemedText type="smallBold">Question</ThemedText>
+          <ThemedText type="smallBold">Câu hỏi</ThemedText>
           <ThemedText type="small" themeColor="textSecondary">
             {selectedQuestion.question}
           </ThemedText>
@@ -494,7 +494,7 @@ function ReflectionComposer({
         multiline
         value={content}
         onChangeText={onChangeContent}
-        placeholder="Write your reflection in markdown..."
+        placeholder="Viết suy ngẫm của bạn dạng markdown..."
         placeholderTextColor={theme.textMuted}
         textAlignVertical="top"
         style={[
@@ -509,12 +509,7 @@ function ReflectionComposer({
 
       <MarkdownPreview content={content} />
 
-      <Button
-        title="Save reflection"
-        onPress={onSubmit}
-        disabled={!canSubmit}
-        loading={submitting}
-      />
+      <Button title="Lưu suy ngẫm" onPress={onSubmit} disabled={!canSubmit} loading={submitting} />
     </Card>
   );
 }
@@ -527,14 +522,14 @@ function ReflectionDetail({ reflection }: { reflection?: ReflectionEntry }) {
       <View style={styles.panelHeader}>
         <View style={styles.rowTitle}>
           <FileText color={theme.primaryLight} size={18} />
-          <ThemedText type="smallBold">Detail</ThemedText>
+          <ThemedText type="smallBold">Chi tiết</ThemedText>
         </View>
       </View>
 
       {!reflection ? (
         <View style={styles.mutedState}>
           <ThemedText type="small" themeColor="textSecondary" style={styles.centerText}>
-            Select an entry to open its detail.
+            Chọn một bài viết để xem chi tiết.
           </ThemedText>
         </View>
       ) : (
@@ -544,7 +539,7 @@ function ReflectionDetail({ reflection }: { reflection?: ReflectionEntry }) {
           </ThemedText>
           {reflection.question ? (
             <View style={[styles.promptBox, { backgroundColor: theme.backgroundElement }]}>
-              <ThemedText type="smallBold">Guided by</ThemedText>
+              <ThemedText type="smallBold">Theo hướng dẫn</ThemedText>
               <ThemedText type="small" themeColor="textSecondary">
                 {reflection.question.question}
               </ThemedText>
@@ -559,7 +554,8 @@ function ReflectionDetail({ reflection }: { reflection?: ReflectionEntry }) {
 
 function MarkdownPreview({ content }: { content: string }) {
   const theme = useTheme();
-  const lines = content.trim().length > 0 ? content.trim().split("\n") : ["Preview appears here."];
+  const lines =
+    content.trim().length > 0 ? content.trim().split("\n") : ["Bản xem trước hiện tại."];
 
   return (
     <View style={[styles.preview, { borderColor: theme.border }]}>
@@ -599,7 +595,7 @@ function firstMarkdownText(content: string) {
 
 function formatDate(value: string) {
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "Just now";
+  if (Number.isNaN(date.getTime())) return "Vừa xong";
   return new Intl.DateTimeFormat(undefined, {
     month: "short",
     day: "numeric",

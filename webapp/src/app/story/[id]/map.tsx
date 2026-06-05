@@ -1,4 +1,4 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, Check, Info, Lock, MapPin } from "lucide-react-native";
 import { useState, useMemo } from "react";
 import { ActivityIndicator, ImageBackground, Pressable, StyleSheet, View } from "react-native";
@@ -14,6 +14,20 @@ import { useGetStoryDetailQuery } from "@/services/rtk-api/story.api";
 import { useStoryStore } from "@/stores/story.store";
 import { mapCatalog, defaultMapData } from "@/features/story/mapData";
 
+// Sequential step order for map nodes
+const STEP_ORDER = [
+  "intro",
+  "learn",
+  "encounter",
+  "dilemma",
+  "choose",
+  "result",
+  "knowledge",
+  "minigame",
+  "quiz",
+  "reflect",
+];
+
 export default function ExplorationMapScreen() {
   const router = useRouter();
   const theme = useTheme();
@@ -21,7 +35,7 @@ export default function ExplorationMapScreen() {
   const storyId = Array.isArray(id) ? id[0] : id;
 
   const { data: story, isLoading, error } = useGetStoryDetailQuery(storyId);
-  const { activeSession, currentStep } = useStoryStore();
+  const { activeSession: _activeSession, currentStep } = useStoryStore();
 
   const [selectedNodeId, setSelectedNodeId] = useState<string>("learn");
 
@@ -31,56 +45,34 @@ export default function ExplorationMapScreen() {
     return mapCatalog[story.title] || defaultMapData(story.title);
   }, [story]);
 
-  const hasDecided = useMemo(() => {
-    return !!(activeSession?.decisions && activeSession.decisions.length > 0);
-  }, [activeSession]);
-
   const nodesWithStatus = useMemo(() => {
     if (!mapData) return [];
+
+    const currentStepIndex = STEP_ORDER.indexOf(currentStep);
+
     return mapData.nodes.map((node) => {
+      const nodeIndex = STEP_ORDER.indexOf(node.id);
       let status: "completed" | "current" | "locked" = "locked";
 
-      switch (node.id) {
-        case "intro":
-          status = "completed";
-          break;
-        case "learn":
-          if (hasDecided || ["dilemma", "choose", "result", "reflect"].includes(currentStep)) {
-            status = "completed";
-          } else {
-            status = "current";
-          }
-          break;
-        case "dilemma":
-          if (hasDecided || ["result", "reflect"].includes(currentStep)) {
-            status = "completed";
-          } else if (currentStep === "intro" || currentStep === "learn") {
-            status = "locked";
-          } else {
-            status = "current";
-          }
-          break;
-        case "result":
-          if (currentStep === "reflect") {
-            status = "completed";
-          } else if (hasDecided || currentStep === "result") {
-            status = "current";
-          } else {
-            status = "locked";
-          }
-          break;
-        case "reflect":
-          if (currentStep === "reflect") {
-            status = "current";
-          } else {
-            status = "locked";
-          }
-          break;
+      if (nodeIndex < 0) {
+        // Not in the step order — default to locked
+        status = "locked";
+      } else if (nodeIndex < currentStepIndex) {
+        status = "completed";
+      } else if (nodeIndex === currentStepIndex) {
+        status = "current";
+      } else {
+        status = "locked";
+      }
+
+      // Override: intro is always completed once you reach the map
+      if (node.id === "intro") {
+        status = "completed";
       }
 
       return { ...node, status };
     });
-  }, [mapData, currentStep, hasDecided]);
+  }, [mapData, currentStep]);
 
   const selectedNode = useMemo(() => {
     return nodesWithStatus.find((n) => n.id === selectedNodeId) || nodesWithStatus[1];
@@ -89,14 +81,22 @@ export default function ExplorationMapScreen() {
   const handleCTA = () => {
     if (!selectedNode) return;
 
-    if (selectedNode.id === "learn") {
-      router.push(`/story/${storyId}/learn` as never);
-    } else if (selectedNode.id === "dilemma") {
-      router.push(`/story/${storyId}/dilemma` as never);
-    } else if (selectedNode.id === "result" || selectedNode.id === "reflect") {
-      router.push(`/story/${storyId}/reflect` as never);
-    } else if (selectedNode.id === "intro") {
-      router.push(`/story/${storyId}/cinematic` as never);
+    const routeMap: Record<string, string> = {
+      intro: "cinematic",
+      learn: "learn",
+      encounter: "encounter",
+      dilemma: "dilemma",
+      choose: "choose",
+      result: "consequence",
+      knowledge: "knowledge",
+      minigame: "minigame",
+      quiz: "quiz",
+      reflect: "reflect",
+    };
+
+    const route = routeMap[selectedNode.id];
+    if (route) {
+      router.push(`/story/${storyId}/${route}` as never);
     }
   };
 

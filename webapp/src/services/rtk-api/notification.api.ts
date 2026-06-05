@@ -59,7 +59,7 @@ export const notificationApi = baseApi.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.notifications.map(({ id }) => ({
+              ...(result.notifications ?? []).map(({ id }) => ({
                 type: "Notification" as const,
                 id,
               })),

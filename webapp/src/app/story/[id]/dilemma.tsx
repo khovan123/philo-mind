@@ -28,7 +28,7 @@ export default function StoryDilemmaPlaceholderScreen() {
         <View style={styles.headerCopy}>
           <ThemedText type="smallBold">Quyết định đạo đức</ThemedText>
           <ThemedText type="label" themeColor="textSecondary">
-            Bước 3 • Tình huống nan giải
+            Bước 8/13 • Tình huống nan giải
           </ThemedText>
         </View>
       </View>
@@ -54,8 +54,8 @@ export default function StoryDilemmaPlaceholderScreen() {
             style={{ marginTop: Spacing.four }}
           />
           <Button
-            title="Tiến đến Mini Game →"
-            onPress={() => router.push(`/story/${storyId}/minigame` as never)}
+            title="Tiến đến Lựa Chọn →"
+            onPress={() => router.push(`/story/${storyId}/choose` as never)}
             fullWidth
             style={{ marginTop: Spacing.two }}
           />

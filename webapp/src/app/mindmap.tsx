@@ -23,8 +23,8 @@ import Svg, {
 } from "react-native-svg";
 
 import { BookmarkButton } from "@/components/bookmark-button";
-import { Button } from "@/components/ui/Button";
 import { ThemedText } from "@/components/themed-text";
+import { Button } from "@/components/ui/Button";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { useMindmapStore } from "@/stores/mindmap.store";
@@ -151,9 +151,9 @@ export default function MindmapScreen() {
             <ArrowLeft color={theme.text} size={20} />
           </Pressable>
           <View style={styles.topTitle}>
-            <ThemedText type="smallBold">Mindmap</ThemedText>
+            <ThemedText type="smallBold">Bản đồ tư duy</ThemedText>
             <ThemedText type="label" themeColor="textMuted">
-              SVG • zoom • pan
+              phóng to • kéo thả
             </ThemedText>
           </View>
           <Pressable
@@ -339,7 +339,10 @@ export default function MindmapScreen() {
 
           <Legend />
 
-          <NodeDetail node={selectedNode} onOpenLearn={() => router.push("/(tabs)/learn" as never)} />
+          <NodeDetail
+            node={selectedNode}
+            onOpenLearn={() => router.push("/(tabs)/learn" as never)}
+          />
         </ScrollView>
       </View>
     </SafeAreaView>

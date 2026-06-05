@@ -13,8 +13,8 @@ type DecisionSelectionProps = {
 export function DecisionSelection({ decisionId, onChange, onNext }: DecisionSelectionProps) {
   return (
     <View style={styles.stack}>
-      <Text style={styles.centerTitle}>Choose Your Decision</Text>
-      <Text style={styles.centerSubtitle}>Every decision reveals a value.</Text>
+      <Text style={styles.centerTitle}>Chọn quyết định</Text>
+      <Text style={styles.centerSubtitle}>Mỗi quyết định bộc lộ một giá trị.</Text>
 
       {decisions.map((decision) => {
         const active = decision.id === decisionId;
@@ -39,11 +39,11 @@ export function DecisionSelection({ decisionId, onChange, onNext }: DecisionSele
 
       <InfoCard
         icon={<Clock3 color={Colors.primaryLight} size={18} />}
-        title="Consequence"
-        body="Your choice will shape the consequence and lesson."
+        title="Hệ quả"
+        body="Lựa chọn của bạn sẽ định hình hậu quả và bài học."
       />
 
-      <PrimaryButton label="Confirm decision" onPress={onNext} />
+      <PrimaryButton label="Xác nhận quyết định" onPress={onNext} />
     </View>
   );
 }

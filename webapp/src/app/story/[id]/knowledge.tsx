@@ -83,8 +83,8 @@ export default function KnowledgeScreen() {
   }, [story]);
 
   function handleContinue() {
-    setStep("reflect");
-    router.push(`/story/${storyId}/reflect` as never);
+    setStep("minigame");
+    router.push(`/story/${storyId}/minigame` as never);
   }
 
   if (!story) {
@@ -396,7 +396,7 @@ export default function KnowledgeScreen() {
       {/* Footer */}
       <View style={[styles.footer, { borderTopColor: theme.border }]}>
         <Button
-          title="Tiếp tục: Suy ngẫm"
+          title="Tiếp tục: Mini Game"
           onPress={handleContinue}
           style={{ flex: 1, backgroundColor: theme.primary }}
         />

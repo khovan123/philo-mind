@@ -19,9 +19,9 @@ export function ConceptModal({ concept, onClose }: ConceptModalProps) {
         <Pressable style={styles.modalCard}>
           <View style={styles.modalHeader}>
             <Info color={Colors.primaryLight} size={22} />
-            <ThemedText style={styles.modalTitle}>{concept ?? "Concept"}</ThemedText>
+            <ThemedText style={styles.modalTitle}>{concept ?? "Khái niệm"}</ThemedText>
             <Pressable
-              accessibilityLabel="Close concept"
+              accessibilityLabel="Đóng"
               accessibilityRole="button"
               onPress={onClose}
               style={({ pressed }) => [styles.iconButton, pressed && styles.pressed]}
@@ -37,7 +37,7 @@ export function ConceptModal({ concept, onClose }: ConceptModalProps) {
             onPress={onClose}
             style={({ pressed }) => [styles.secondaryButton, pressed && styles.pressed]}
           >
-            <ThemedText style={styles.secondaryButtonText}>Understood</ThemedText>
+            <ThemedText style={styles.secondaryButtonText}>Đã hiểu</ThemedText>
           </Pressable>
         </Pressable>
       </Pressable>

@@ -82,7 +82,7 @@ export function MiniGameResult({ result, leaderboard, onReplay, onBack }: MiniGa
       <View style={[styles.leaderboard, { borderColor: theme.border }]}>
         <View style={styles.leaderboardTitle}>
           <Trophy color={theme.primaryLight} size={18} />
-          <ThemedText type="smallBold">Top 10 leaderboard</ThemedText>
+          <ThemedText type="smallBold">Bảng xếp hạng Top 10</ThemedText>
         </View>
 
         {topTen.length === 0 ? (
