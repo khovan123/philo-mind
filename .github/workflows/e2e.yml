@@ -118,31 +118,15 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            # 1. Cài đặt file ứng dụng vào máy ảo
+            # 1. Cài đặt file ứng dụng vào máy ảo (Dòng độc lập - Chạy thành công)
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
             
-            # 2. Di chuyển hẳn vào thư mục chứa dự án webapp
-            cd "$GITHUB_WORKSPACE/webapp"
-            
-            # 3. Tạo thư mục chứa báo cáo kết quả
-            mkdir -p test-results
+            # 2. Tạo thư mục kết quả ngay từ thư mục gốc để không phụ thuộc vào cd
+            mkdir -p "$GITHUB_WORKSPACE/webapp/test-results"
             sleep 5
             
-            # 4. Lấy tên kịch bản test
-            INPUT_FLOW="${{ github.event.inputs.flow }}"
-            CHOSEN_FLOW="${INPUT_FLOW:-.maestro/smoke_login_story_complete.yaml}"
-            
-            # Kiểm tra chắc chắn file test có tồn tại tại local trước khi gọi Maestro
-            if [ ! -f "$CHOSEN_FLOW" ]; then
-              echo "❌ ERROR: Không tìm thấy file kịch bản test tại vị trí: webapp/$CHOSEN_FLOW"
-              ls -la .maestro/ || echo "Thư mục .maestro rỗng hoặc không tồn tại"
-              exit 1
-            fi
-            
-            echo "🚀 Đang tiến hành chạy kịch bản kiểm thử: $CHOSEN_FLOW"
-            
-            # 5. GIẢI PHÁP TRIỆT ĐỂ: Thêm cờ '--directory .' để ép Maestro CHỈ quét cấu hình bên trong 'webapp', cô lập hoàn toàn file docker-compose.yml bị lỗi bên ngoài thư mục gốc.
-            maestro test --directory . --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml "$CHOSEN_FLOW"
+            # 3. ÉP CHẠY TRÊN MỘT DÒNG DUY NHẤT: Di chuyển vào thư mục webapp, kiểm tra file tồn tại, nếu có thì chạy Maestro với cờ cô lập thư mục, nếu không có thì báo lỗi trực quan.
+            cd "$GITHUB_WORKSPACE/webapp" && [ -f ".maestro/smoke_login_story_complete.yaml" ] && maestro test --directory . --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml ".maestro/smoke_login_story_complete.yaml" || (echo "❌ ERROR: Khấu trừ kiểm tra thất bại! File test không tồn tại hoặc Maestro gặp sự cố nghiêm trọng." && exit 1)
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
