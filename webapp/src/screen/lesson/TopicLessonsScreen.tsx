@@ -1,11 +1,10 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, BookOpen, ChevronRight } from "lucide-react-native";
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { ThemedText } from "@/components/themed-text";
-import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
 import { useListLessonsQuery } from "@/services/rtk-api/lesson.api";
+import { Pressable, ScrollView, Text, View } from "@/tw";
 
 const Colors = {
   background: "#0C0C0E",
@@ -34,44 +33,66 @@ export default function TopicLessonsScreen() {
   } = useListLessonsQuery({ topicId, limit: 50 }, { skip: !topicId });
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.safeArea}>
-      <View style={styles.screen}>
-        <View style={styles.header}>
-          <Pressable onPress={() => router.back()} style={styles.iconButton}>
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#0C0C0E]">
+      <View className="flex-1 bg-[#0C0C0E]">
+        <View className="flex-row items-center gap-2 border-b border-[#353437] px-3 py-3">
+          <Pressable
+            onPress={() => router.back()}
+            className="h-[42px] w-[42px] items-center justify-center rounded-full"
+          >
             <ArrowLeft color={Colors.primaryLight} size={22} />
           </Pressable>
-          <View style={styles.headerCopy}>
-            <ThemedText style={styles.eyebrow}>Chủ đề</ThemedText>
-            <ThemedText numberOfLines={2} style={styles.title}>
+          <View className="flex-1 gap-0.5">
+            <Text className="text-[11px] font-black uppercase leading-[15px] text-[#FFB77D]">
+              Chủ đề
+            </Text>
+            <Text
+              numberOfLines={2}
+              className="font-sans text-[22px] font-black leading-[29px] text-[#E4E4E7]"
+            >
               {topicTitle ?? "Bài học"}
-            </ThemedText>
+            </Text>
           </View>
         </View>
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="w-full max-w-[820px] self-center gap-2 p-3 pb-[180px]"
+        >
           {isLoading ? (
-            <View style={styles.stateCard}>
+            <View className="min-h-[180px] items-center justify-center gap-2 rounded-md border border-[#353437] bg-[#161618] p-4">
               <ActivityIndicator color={Colors.primaryLight} />
-              <ThemedText style={styles.stateText}>Đang tải bài học từ database...</ThemedText>
+              <Text className="text-center text-[13px] font-semibold leading-[19px] text-[#A1A1AA]">
+                Đang tải bài học từ database...
+              </Text>
             </View>
           ) : null}
 
           {isError ? (
-            <View style={styles.stateCard}>
-              <ThemedText style={styles.stateTitle}>Không tải được bài học</ThemedText>
-              <Pressable onPress={() => refetch()} style={styles.retryButton}>
-                <ThemedText style={styles.retryButtonText}>Thử lại</ThemedText>
+            <View className="min-h-[180px] items-center justify-center gap-2 rounded-md border border-[#353437] bg-[#161618] p-4">
+              <Text className="text-center text-[16px] font-black leading-[22px] text-[#E4E4E7]">
+                Không tải được bài học
+              </Text>
+              <Pressable
+                onPress={() => refetch()}
+                className="min-h-[42px] items-center justify-center rounded-sm bg-[#FFB77D] px-4"
+              >
+                <Text className="text-[13px] font-black leading-[18px] text-[#0C0C0E]">
+                  Thử lại
+                </Text>
               </Pressable>
             </View>
           ) : null}
 
           {!isLoading && !isError && lessons.length === 0 ? (
-            <View style={styles.stateCard}>
+            <View className="min-h-[180px] items-center justify-center gap-2 rounded-md border border-[#353437] bg-[#161618] p-4">
               <BookOpen color={Colors.muted} size={34} />
-              <ThemedText style={styles.stateTitle}>Chưa có bài học trong chủ đề này</ThemedText>
-              <ThemedText style={styles.stateText}>
+              <Text className="text-center text-[16px] font-black leading-[22px] text-[#E4E4E7]">
+                Chưa có bài học trong chủ đề này
+              </Text>
+              <Text className="text-center text-[13px] font-semibold leading-[19px] text-[#A1A1AA]">
                 Kiểm tra lại seed full lessons hoặc chọn chủ đề khác.
-              </ThemedText>
+              </Text>
             </View>
           ) : null}
 
@@ -84,21 +105,31 @@ export default function TopicLessonsScreen() {
                   params: { lessonId: lesson.id },
                 })
               }
-              style={({ pressed }) => [styles.lessonCard, pressed && styles.pressed]}
+              className="min-h-[116px] flex-row items-center gap-3 rounded-md border border-[#353437] bg-[#1E1E21] p-3"
+              style={({ pressed }) =>
+                pressed ? { opacity: 0.78, transform: [{ scale: 0.98 }] } : undefined
+              }
             >
-              <View style={styles.lessonIcon}>
+              <View className="h-[42px] w-[42px] items-center justify-center rounded-sm bg-[#27272A]">
                 <BookOpen color={Colors.primaryLight} size={18} />
               </View>
-              <View style={styles.lessonCopy}>
-                <ThemedText style={styles.lessonTitle}>{lesson.title}</ThemedText>
-                <ThemedText numberOfLines={2} style={styles.lessonDescription}>
+              <View className="flex-1 gap-1">
+                <Text className="text-[16px] font-black leading-[22px] text-[#E4E4E7]">
+                  {lesson.title}
+                </Text>
+                <Text
+                  numberOfLines={2}
+                  className="text-[13px] font-semibold leading-[19px] text-[#A1A1AA]"
+                >
                   {lesson.conflict || lesson.realLifeExample || "Đọc full lesson từ database."}
-                </ThemedText>
-                <View style={styles.metaRow}>
-                  <ThemedText style={styles.metaText}>
+                </Text>
+                <View className="flex-row flex-wrap gap-2">
+                  <Text className="text-[11px] font-extrabold leading-[15px] text-[#FFB77D]">
                     {lesson.estimatedMinutes ?? 8} phút đọc
-                  </ThemedText>
-                  <ThemedText style={styles.metaText}>{lesson.status}</ThemedText>
+                  </Text>
+                  <Text className="text-[11px] font-extrabold leading-[15px] text-[#FFB77D]">
+                    {lesson.status}
+                  </Text>
                 </View>
               </View>
               <ChevronRight color={Colors.muted} size={20} />
@@ -109,145 +140,3 @@ export default function TopicLessonsScreen() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.three,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.border,
-  },
-  iconButton: {
-    width: 42,
-    height: 42,
-    borderRadius: Radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerCopy: {
-    flex: 1,
-    gap: Spacing.half,
-  },
-  eyebrow: {
-    color: Colors.primaryLight,
-    fontSize: 11,
-    lineHeight: 15,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  title: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 22,
-    lineHeight: 29,
-    fontWeight: "900",
-  },
-  content: {
-    width: "100%",
-    maxWidth: 820,
-    alignSelf: "center",
-    padding: Spacing.three,
-    paddingBottom: BottomTabInset + 80,
-    gap: Spacing.two,
-  },
-  stateCard: {
-    minHeight: 180,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: Spacing.four,
-    gap: Spacing.two,
-  },
-  stateTitle: {
-    color: Colors.text,
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: "900",
-    textAlign: "center",
-  },
-  stateText: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  retryButton: {
-    minHeight: 42,
-    paddingHorizontal: Spacing.four,
-    borderRadius: Radius.sm,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.primaryLight,
-  },
-  retryButtonText: {
-    color: Colors.buttonText,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  lessonCard: {
-    minHeight: 116,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.card,
-    padding: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.three,
-  },
-  lessonIcon: {
-    width: 42,
-    height: 42,
-    borderRadius: Radius.sm,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.chip,
-  },
-  lessonCopy: {
-    flex: 1,
-    gap: Spacing.one,
-  },
-  lessonTitle: {
-    color: Colors.text,
-    fontSize: 16,
-    lineHeight: 22,
-    fontWeight: "900",
-  },
-  lessonDescription: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-  },
-  metaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-  metaText: {
-    color: Colors.primaryLight,
-    fontSize: 11,
-    lineHeight: 15,
-    fontWeight: "800",
-  },
-  pressed: {
-    opacity: 0.78,
-    transform: [{ scale: 0.98 }],
-  },
-});

@@ -1,15 +1,15 @@
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { cn } from "@/lib/utils";
 import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
+import { Pressable, ScrollView, TextInput, View } from "@/tw";
+import { Image } from "@/tw/image";
 
 type TFunction = (key: string, options?: { count?: number; [key: string]: unknown }) => string;
 
@@ -263,17 +263,17 @@ export default function ExploreScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
+    <View className={styles.screen}>
+      <SafeAreaView edges={["top"]} className={styles.safeArea}>
         <AppHeader />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-          <View style={styles.titleBlock}>
-            <ThemedText style={styles.title}>{t("explore.title")}</ThemedText>
-            <ThemedText style={styles.subtitle}>{t("explore.subtitle")}</ThemedText>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={styles.content}>
+          <View className={styles.titleBlock}>
+            <ThemedText className={styles.title}>{t("explore.title")}</ThemedText>
+            <ThemedText className={styles.subtitle}>{t("explore.subtitle")}</ThemedText>
           </View>
 
-          <View style={[styles.searchBox, query.length > 0 && styles.searchBoxActive]}>
+          <View className={cn(styles.searchBox, query.length > 0 && styles.searchBoxActive)}>
             <Search color={query.length > 0 ? Colors.primaryLight : Colors.locked} size={18} />
             <TextInput
               value={query}
@@ -281,14 +281,14 @@ export default function ExploreScreen() {
               placeholder={t("explore.search_placeholder")}
               placeholderTextColor={Colors.locked}
               selectionColor={Colors.primaryLight}
-              style={styles.searchInput}
+              className={styles.searchInput}
             />
           </View>
 
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.filterList}
+            contentContainerClassName={styles.filterList}
           >
             {visibleFilters.map((filter) => {
               const active = filter.key === activeFilterKey;
@@ -298,13 +298,10 @@ export default function ExploreScreen() {
                   key={filter.key}
                   accessibilityRole="button"
                   onPress={() => setActiveFilterKey(filter.key)}
-                  style={({ pressed }) => [
-                    styles.filterChip,
-                    active && styles.filterActive,
-                    pressed && styles.pressed,
-                  ]}
+                  className={cn(styles.filterChip, active && styles.filterActive)}
+                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                 >
-                  <ThemedText style={[styles.filterText, active && styles.filterTextActive]}>
+                  <ThemedText className={cn(styles.filterText, active && styles.filterTextActive)}>
                     {filter.label}
                   </ThemedText>
                 </Pressable>
@@ -312,10 +309,10 @@ export default function ExploreScreen() {
             })}
           </ScrollView>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
-              <ThemedText style={styles.resultCount}>
+          <View className={styles.section}>
+            <View className={styles.sectionHeader}>
+              <ThemedText className={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
+              <ThemedText className={styles.resultCount}>
                 {t("explore.lessons_count", { count: filteredLessons.length })}
               </ThemedText>
             </View>
@@ -326,7 +323,7 @@ export default function ExploreScreen() {
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.featuredList}
+                contentContainerClassName={styles.featuredList}
               >
                 {filteredLessons.map((lesson, index) => {
                   const lessonKey =
@@ -335,28 +332,32 @@ export default function ExploreScreen() {
                       : `${lesson.title}-${index}`;
 
                   return (
-                    <View key={lessonKey} style={styles.featuredCard}>
+                    <View key={lessonKey} className={styles.featuredCard}>
                       {lesson.image ? (
                         <Image
                           source={lesson.image}
                           contentFit="cover"
-                          style={styles.featuredImage}
+                          className={styles.featuredImage}
                         />
                       ) : (
-                        <View style={styles.featuredFallback}>
+                        <View className={styles.featuredFallback}>
                           <BookOpen color={Colors.locked} size={40} />
                         </View>
                       )}
 
-                      <View style={styles.featuredBody}>
-                        <View style={styles.featuredMeta}>
-                          <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
-                          <View style={styles.metaDot} />
-                          <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
+                      <View className={styles.featuredBody}>
+                        <View className={styles.featuredMeta}>
+                          <ThemedText className={styles.featuredCategory}>
+                            {lesson.category}
+                          </ThemedText>
+                          <View className={styles.metaDot} />
+                          <ThemedText className={styles.featuredDuration}>
+                            {lesson.duration}
+                          </ThemedText>
                         </View>
 
-                        <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
-                        <ThemedText numberOfLines={2} style={styles.featuredDescription}>
+                        <ThemedText className={styles.featuredTitle}>{lesson.title}</ThemedText>
+                        <ThemedText numberOfLines={2} className={styles.featuredDescription}>
                           {lesson.description}
                         </ThemedText>
 
@@ -377,9 +378,10 @@ export default function ExploreScreen() {
                               startLesson(lesson.shortRoute);
                             }
                           }}
-                          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
+                          className={styles.startButton}
+                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                         >
-                          <ThemedText style={styles.startButtonText}>
+                          <ThemedText className={styles.startButtonText}>
                             {t("explore.button_short")}
                           </ThemedText>
                           <ArrowRight color={Colors.primaryText} size={16} />
@@ -401,26 +403,22 @@ export default function ExploreScreen() {
                               startLesson(lesson.fullRoute);
                             }
                           }}
-                          style={({ pressed }) => [
-                            styles.fullLessonButton,
-                            pressed && styles.pressed,
-                          ]}
+                          className={styles.fullLessonButton}
+                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                         >
                           <BookOpen color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.fullLessonButtonText}>
+                          <ThemedText className={styles.fullLessonButtonText}>
                             {t("explore.button_full")}
                           </ThemedText>
                         </Pressable>
                         <Pressable
                           accessibilityRole="button"
                           onPress={() => startLesson(lesson.scenarioRoute)}
-                          style={({ pressed }) => [
-                            styles.scenarioButton,
-                            pressed && styles.pressed,
-                          ]}
+                          className={styles.scenarioButton}
+                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                         >
                           <Sparkles color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.scenarioButtonText}>
+                          <ThemedText className={styles.scenarioButtonText}>
                             {t("explore.button_scenario")}
                           </ThemedText>
                         </Pressable>
@@ -432,15 +430,15 @@ export default function ExploreScreen() {
             )}
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>{t("explore.topics_title")}</ThemedText>
-              <ThemedText style={styles.resultCount}>
+          <View className={styles.section}>
+            <View className={styles.sectionHeader}>
+              <ThemedText className={styles.sectionTitle}>{t("explore.topics_title")}</ThemedText>
+              <ThemedText className={styles.resultCount}>
                 {t("explore.topics_count", { count: filteredTopics.length })}
               </ThemedText>
             </View>
 
-            <View style={styles.topicGrid}>
+            <View className={styles.topicGrid}>
               {filteredTopics.map((topic) => (
                 <Pressable
                   key={topic.id ?? topic.title}
@@ -455,26 +453,27 @@ export default function ExploreScreen() {
                       setQuery(topic.title);
                     }
                   }}
-                  style={({ pressed }) => [styles.topicCard, pressed && styles.pressed]}
+                  className={styles.topicCard}
+                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                 >
-                  <View style={styles.topicCopy}>
-                    <ThemedText style={styles.topicTitle}>{topic.title}</ThemedText>
-                    <ThemedText style={styles.topicLessons}>{topic.lessons}</ThemedText>
+                  <View className={styles.topicCopy}>
+                    <ThemedText className={styles.topicTitle}>{topic.title}</ThemedText>
+                    <ThemedText className={styles.topicLessons}>{topic.lessons}</ThemedText>
                   </View>
 
-                  <View style={styles.progressTrack}>
-                    <View style={[styles.progressFill, { width: `${topic.progress}%` }]} />
+                  <View className={styles.progressTrack}>
+                    <View className={styles.progressFill} style={{ width: `${topic.progress}%` }} />
                   </View>
                 </Pressable>
               ))}
             </View>
           </View>
 
-          <View style={styles.quoteCard}>
+          <View className={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
-            <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>{t("explore.quote_text")}</ThemedText>
-              <ThemedText style={styles.quoteAuthor}>{t("explore.quote_author")}</ThemedText>
+            <View className={styles.quoteCopy}>
+              <ThemedText className={styles.quoteText}>{t("explore.quote_text")}</ThemedText>
+              <ThemedText className={styles.quoteAuthor}>{t("explore.quote_author")}</ThemedText>
             </View>
           </View>
         </ScrollView>
@@ -486,323 +485,70 @@ export default function ExploreScreen() {
 function EmptyState() {
   const { t } = useTranslation();
   return (
-    <View style={styles.emptyState}>
+    <View className={styles.emptyState}>
       <BookOpen color={Colors.locked} size={28} />
-      <ThemedText style={styles.emptyTitle}>{t("explore.empty_title")}</ThemedText>
-      <ThemedText style={styles.emptyText}>{t("explore.empty_text")}</ThemedText>
+      <ThemedText className={styles.emptyTitle}>{t("explore.empty_title")}</ThemedText>
+      <ThemedText className={styles.emptyText}>{t("explore.empty_text")}</ThemedText>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  content: {
-    padding: Spacing.three,
-    paddingBottom: BottomTabInset + 120,
-    gap: Spacing.three,
-    maxWidth: 820,
-    width: "100%",
-    alignSelf: "center",
-  },
-  titleBlock: {
-    gap: Spacing.one,
-  },
-  title: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "800",
-  },
-  subtitle: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-  },
-  searchBox: {
-    minHeight: 46,
-    borderRadius: Radius.md,
-    paddingHorizontal: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.input,
-    borderWidth: 1,
-    borderColor: "transparent",
-  },
-  searchBoxActive: {
-    borderColor: Colors.primary,
-  },
-  searchInput: {
-    flex: 1,
-    minHeight: 44,
-    color: Colors.text,
-    fontFamily: Fonts.body,
-    fontSize: 14,
-    fontWeight: "600",
-    padding: 0,
-  },
-  filterList: {
-    gap: Spacing.two,
-    paddingRight: Spacing.three,
-  },
-  filterChip: {
-    minHeight: 36,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "transparent",
-    backgroundColor: Colors.input,
-  },
-  filterActive: {
-    borderColor: Colors.primary,
-  },
-  filterText: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-  },
-  filterTextActive: {
-    color: Colors.primaryLight,
-  },
-  section: {
-    gap: Spacing.two,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  sectionTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 20,
-    lineHeight: 26,
-    fontWeight: "800",
-  },
-  resultCount: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-  },
-  featuredList: {
-    gap: Spacing.three,
-    paddingRight: Spacing.three,
-  },
-  featuredCard: {
-    width: Platform.select({ web: 360, default: 300 }),
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surfaceSoft,
-    overflow: "hidden",
-  },
-  featuredImage: {
-    width: "100%",
-    height: 190,
-  },
-  featuredFallback: {
-    width: "100%",
-    height: 190,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.input,
-  },
-  featuredBody: {
-    padding: Spacing.three,
-    gap: Spacing.two,
-  },
-  featuredMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-  featuredCategory: {
-    color: Colors.primaryLight,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  metaDot: {
-    width: 4,
-    height: 4,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.locked,
-  },
-  featuredDuration: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "700",
-  },
-  featuredTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "800",
-  },
-  featuredDescription: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-  },
-  startButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.primary,
-  },
-  startButtonText: {
-    color: Colors.primaryText,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  fullLessonButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: "transparent",
-  },
-  fullLessonButtonText: {
-    color: Colors.primaryLight,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  scenarioButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.input,
-  },
-  scenarioButtonText: {
-    color: Colors.primaryLight,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  topicGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-  topicCard: {
-    width: "48%",
-    minHeight: 128,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    padding: Spacing.three,
-    justifyContent: "space-between",
-    backgroundColor: Colors.surface,
-  },
-  topicCopy: {
-    gap: Spacing.half,
-  },
-  topicTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "800",
-  },
-  topicLessons: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "700",
-  },
-  progressTrack: {
-    height: 4,
-    borderRadius: Radius.full,
-    overflow: "hidden",
-    backgroundColor: Colors.input,
-  },
-  progressFill: {
-    height: "100%",
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-  },
-  emptyState: {
-    minHeight: 180,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.one,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-  },
-  emptyTitle: {
-    color: Colors.text,
-    fontSize: 15,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-  emptyText: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "600",
-  },
-  quoteCard: {
-    flexDirection: "row",
-    gap: Spacing.two,
-    paddingTop: Spacing.three,
-    borderTopWidth: 1,
-    borderTopColor: Colors.chip,
-  },
-  quoteCopy: {
-    flex: 1,
-    paddingLeft: Spacing.two,
-    borderLeftWidth: 2,
-    borderLeftColor: Colors.primary,
-    gap: Spacing.one,
-  },
-  quoteText: {
-    color: Colors.muted,
-    fontSize: 14,
-    lineHeight: 21,
-    fontStyle: "italic",
-    fontWeight: "600",
-  },
-  quoteAuthor: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-    textTransform: "uppercase",
-  },
-  pressed: {
-    opacity: 0.78,
-    transform: [{ scale: 0.98 }],
-  },
-});
+const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
+
+const styles = {
+  screen: "flex-1 bg-[#0C0C0E]",
+  safeArea: "flex-1",
+  content: "w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]",
+  titleBlock: "gap-1",
+  title: "font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]",
+  subtitle: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
+  searchBox:
+    "min-h-[46px] flex-row items-center gap-2 rounded-md border border-transparent bg-[#1E1E22] px-3",
+  searchBoxActive: "border-[#D97706]",
+  searchInput: "min-h-[44px] flex-1 p-0 font-sans text-[14px] font-semibold text-[#E5E1E4]",
+  filterList: "gap-2 pr-3",
+  filterChip:
+    "min-h-[36px] items-center justify-center rounded-full border border-transparent bg-[#1E1E22] px-3",
+  filterActive: "border-[#D97706]",
+  filterText: "text-[12px] font-extrabold leading-[16px] text-[#A1A1AA]",
+  filterTextActive: "text-[#FFB77D]",
+  section: "gap-2",
+  sectionHeader: "flex-row items-center justify-between",
+  sectionTitle: "font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]",
+  resultCount: "text-[12px] font-extrabold leading-[16px] text-[#FFB77D]",
+  featuredList: "gap-3 pr-3",
+  featuredCard: "w-[300px] overflow-hidden rounded-md border border-[#27272A] bg-[#18181B]",
+  featuredImage: "h-[190px] w-full",
+  featuredFallback: "h-[190px] w-full items-center justify-center bg-[#1E1E22]",
+  featuredBody: "gap-2 p-3",
+  featuredMeta: "flex-row items-center gap-2",
+  featuredCategory: "text-[10px] font-black uppercase leading-[14px] text-[#FFB77D]",
+  metaDot: "h-1 w-1 rounded-full bg-[#52525B]",
+  featuredDuration: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
+  featuredTitle: "font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]",
+  featuredDescription: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
+  startButton: "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm bg-[#D97706]",
+  startButtonText: "text-[14px] font-black leading-[18px] text-[#0C0C0E]",
+  fullLessonButton:
+    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#D97706]",
+  fullLessonButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
+  scenarioButton:
+    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#27272A] bg-[#1E1E22]",
+  scenarioButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
+  topicGrid: "flex-row flex-wrap gap-2",
+  topicCard:
+    "min-h-[128px] w-[48%] justify-between rounded-md border border-[#27272A] bg-[#161618] p-3",
+  topicCopy: "gap-0.5",
+  topicTitle: "font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
+  topicLessons: "text-[12px] font-bold leading-[16px] text-[#A1A1AA]",
+  progressTrack: "h-1 overflow-hidden rounded-full bg-[#1E1E22]",
+  progressFill: "h-full rounded-full bg-[#D97706]",
+  emptyState:
+    "min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618]",
+  emptyTitle: "text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]",
+  emptyText: "text-[13px] font-semibold leading-[18px] text-[#A1A1AA]",
+  quoteCard: "flex-row gap-2 border-t border-[#27272A] pt-3",
+  quoteCopy: "flex-1 gap-1 border-l-2 border-[#D97706] pl-2",
+  quoteText: "text-[14px] font-semibold italic leading-[21px] text-[#A1A1AA]",
+  quoteAuthor: "text-[12px] font-extrabold uppercase leading-[16px] text-[#FFB77D]",
+};

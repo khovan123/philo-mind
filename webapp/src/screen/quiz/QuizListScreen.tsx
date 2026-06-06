@@ -1,11 +1,9 @@
 import { useRouter } from "expo-router";
 import { Gamepad2, GitBranch, Heart } from "lucide-react-native";
 import { useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
-import { Radius, Spacing } from "@/constants/theme";
 import { QuizCard } from "@/features/quiz/QuizCard";
 import { QuizFilters } from "@/features/quiz/QuizFilters";
 import { QuizListEmpty } from "@/features/quiz/QuizListEmpty";
@@ -16,6 +14,7 @@ import type { QuizSummary } from "@/features/quiz/types";
 import { quizStyles as styles } from "@/features/quiz/ui";
 import { useTheme } from "@/hooks/use-theme";
 import { useListQuizzesQuery } from "@/services/rtk-api/quiz.api";
+import { Pressable, ScrollView, View } from "@/tw";
 
 const filters = ["Tất cả", "Triết học", "Lịch sử", "Đạo đức", "Chính trị", "Đã hoàn thành"];
 
@@ -65,15 +64,16 @@ export default function LearnScreen() {
 
           <Pressable
             onPress={() => router.push("/mindmap" as never)}
-            style={[
-              mindmapEntryStyles.card,
-              { backgroundColor: theme.surface, borderColor: theme.border },
-            ]}
+            className="flex-row items-center gap-3 rounded-md border p-3"
+            style={{ backgroundColor: theme.surface, borderColor: theme.border }}
           >
-            <View style={[mindmapEntryStyles.icon, { backgroundColor: theme.primary }]}>
+            <View
+              className="h-11 w-11 items-center justify-center rounded-md"
+              style={{ backgroundColor: theme.primary }}
+            >
               <GitBranch color={theme.buttonText} size={20} />
             </View>
-            <View style={mindmapEntryStyles.copy}>
+            <View className="flex-1 gap-0.5">
               <ThemedText type="smallBold">Mindmap khái niệm</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
                 Mở SVG force-directed map, zoom, pan và chạm node để xem chi tiết.
@@ -83,15 +83,16 @@ export default function LearnScreen() {
 
           <Pressable
             onPress={() => router.push("/bookmarks" as never)}
-            style={[
-              mindmapEntryStyles.card,
-              { backgroundColor: theme.surface, borderColor: theme.border },
-            ]}
+            className="flex-row items-center gap-3 rounded-md border p-3"
+            style={{ backgroundColor: theme.surface, borderColor: theme.border }}
           >
-            <View style={[mindmapEntryStyles.icon, { backgroundColor: "#FB7185" }]}>
+            <View
+              className="h-11 w-11 items-center justify-center rounded-md"
+              style={{ backgroundColor: "#FB7185" }}
+            >
               <Heart color="#0C0C0E" fill="#0C0C0E" size={20} />
             </View>
-            <View style={mindmapEntryStyles.copy}>
+            <View className="flex-1 gap-0.5">
               <ThemedText type="smallBold">Đã lưu</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
                 Xem danh sách đã lưu được nhóm theo bài học, chủ đề, câu chuyện và tranh luận.
@@ -101,15 +102,16 @@ export default function LearnScreen() {
 
           <Pressable
             onPress={() => router.push("/minigames" as never)}
-            style={[
-              mindmapEntryStyles.card,
-              { backgroundColor: theme.surface, borderColor: theme.border },
-            ]}
+            className="flex-row items-center gap-3 rounded-md border p-3"
+            style={{ backgroundColor: theme.surface, borderColor: theme.border }}
           >
-            <View style={[mindmapEntryStyles.icon, { backgroundColor: "#34D399" }]}>
+            <View
+              className="h-11 w-11 items-center justify-center rounded-md"
+              style={{ backgroundColor: "#34D399" }}
+            >
               <Gamepad2 color="#0C0C0E" size={20} />
             </View>
-            <View style={mindmapEntryStyles.copy}>
+            <View className="flex-1 gap-0.5">
               <ThemedText type="smallBold">Trò chơi luyện tập</ThemedText>
               <ThemedText type="small" themeColor="textMuted">
                 Chơi ghép thẻ, đoán chân dung và sắp xếp lập luận để ghi điểm.
@@ -141,28 +143,6 @@ export default function LearnScreen() {
     </SafeAreaView>
   );
 }
-
-const mindmapEntryStyles = StyleSheet.create({
-  card: {
-    borderWidth: 1,
-    borderRadius: Radius.md,
-    padding: Spacing.three,
-    flexDirection: "row",
-    gap: Spacing.three,
-    alignItems: "center",
-  },
-  icon: {
-    width: 44,
-    height: 44,
-    borderRadius: Radius.md,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  copy: {
-    flex: 1,
-    gap: Spacing.half,
-  },
-});
 
 function matchesQuiz(quiz: QuizSummary, query: string, activeFilter: string) {
   const normalizedQuery = query.trim().toLowerCase();
