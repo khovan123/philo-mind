@@ -1,0 +1,35 @@
+---
+# T-J05 · Smoke: Login with invalid credentials (error state)
+# Covers: Wrong password → validation error message rendered, user stays on login screen.
+#
+# This test intentionally triggers the failure path to ensure CI catches regressions
+# in error handling / API contract (e.g., 401 response must surface a readable error).
+
+appId: com.khovan123.philomind
+---
+- launchApp:
+    clearState: true
+
+# Assert login screen
+- assertVisible: "Đăng nhập"
+
+# Enter valid email but wrong password
+- tapOn:
+    placeholder: "example@philomind.com"
+- inputText: "${MAESTRO_TEST_EMAIL:-test@philomind.com}"
+- tapOn:
+    placeholder: "••••••••"
+- inputText: "WrongPassword999!"
+
+- hideKeyboard
+- tapOn: "Đăng nhập"
+
+# Error message should appear and user must still be on login screen
+- waitForAnimationToEnd
+- assertVisible:
+    text: "Đăng nhập"    # Still on login screen
+    maxWait: 5000
+# One of these error strings must be visible
+- assertVisible:
+    text: "thất bại"     # Partial match of: "Đăng nhập thất bại, vui lòng thử lại"
+    maxWait: 5000

@@ -1,0 +1,37 @@
+---
+# T-J05 · Smoke: Login flow
+# Covers: Launch → Login screen visible → Enter credentials → Submit → Home screen visible
+#
+# Dependency: T-A05 (Auth API contract must be stable)
+# Evidence: This file is the PR evidence for the "Critical path automation" criterion.
+
+appId: com.khovan123.philomind
+---
+- launchApp:
+    clearState: true   # Always start with a fresh logged-out state
+
+# ── 1. Assert login screen is shown ─────────────────────────────────────────────
+- assertVisible: "Đăng nhập"
+
+# ── 2. Enter email ───────────────────────────────────────────────────────────────
+- tapOn:
+    placeholder: "example@philomind.com"
+- inputText: "${MAESTRO_TEST_EMAIL:-test@philomind.com}"
+
+# ── 3. Enter password ────────────────────────────────────────────────────────────
+- tapOn:
+    placeholder: "••••••••"
+- inputText: "${MAESTRO_TEST_PASSWORD:-Test@123456}"
+
+# ── 4. Dismiss keyboard and submit ───────────────────────────────────────────────
+- hideKeyboard
+- tapOn: "Đăng nhập"
+
+# ── 5. Wait for home tabs to appear (auth redirect: /(tabs)) ─────────────────────
+- waitForAnimationToEnd
+- assertVisible:
+    text: "Khám phá"      # Tab bar label present = home loaded successfully
+    maxWait: 8000
+
+# ── 6. Negative case: Verify wrong credentials show error (separate run) ─────────
+# See: smoke_login_error.yaml

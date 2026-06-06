@@ -1,0 +1,18 @@
+---
+# Maestro E2E Test Configuration (T-J05 / #123)
+#
+# Usage:
+#   Run all flows:          maestro test .maestro/
+#   Run single smoke test:  maestro test .maestro/smoke_login_story_complete.yaml
+#
+# Prerequisites:
+#   1. Android emulator running, or iOS simulator open.
+#   2. Expo dev server started: `npm run start -w webapp`
+#   3. App installed on the device: `expo run:android` or `expo run:ios`
+#   4. Test user seeded (see .maestro/fixtures/test-user.txt for credentials).
+#
+# Environment variables (override via --env flag or export before running):
+#   MAESTRO_TEST_EMAIL     - Email for the smoke-test account (default: test@philomind.com)
+#   MAESTRO_TEST_PASSWORD  - Password for that account       (default: Test@123456)
+
+appId: com.khovan123.philomind

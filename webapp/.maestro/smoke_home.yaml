@@ -1,0 +1,31 @@
+---
+# T-J05 · Smoke: Home screen navigation
+# Covers: After login → tabs visible → navigate to Story section from home.
+#
+# Assumes smoke_login.yaml state OR logged-in session already persisted (Redux Persist).
+# Run after smoke_login.yaml in a full suite.
+
+appId: com.khovan123.philomind
+---
+# ── 1. Login first ───────────────────────────────────────────────────────────────
+- runFlow: smoke_login.yaml
+
+# ── 2. Home tab is active — verify key home content is visible ───────────────────
+- assertVisible:
+    text: "Khám phá"     # Home / Explore tab label in bottom navigation
+    maxWait: 8000
+
+# ── 3. Navigate to Story section ─────────────────────────────────────────────────
+# The home screen or story tab contains "Kịch bản nhập vai" (story mode CTA)
+- scrollUntilVisible:
+    element:
+      text: "Kịch bản nhập vai"
+    direction: DOWN
+    timeout: 6000
+- tapOn: "Kịch bản nhập vai"
+
+# ── 4. Story list screen is shown ────────────────────────────────────────────────
+- waitForAnimationToEnd
+- assertVisible:
+    text: "Học triết học qua các quyết định lịch sử"
+    maxWait: 8000

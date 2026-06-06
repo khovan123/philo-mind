@@ -1,0 +1,109 @@
+---
+# T-J05 · Smoke: Story flow — List → Detail → Session Start → Decide → Complete
+#
+# This is the core "login → home → story → complete" critical path.
+# Covers:
+#   • Story list screen loads with items
+#   • Tapping a story card starts a session (POST /api/v1/stories/:id/sessions)
+#   • Role selection screen is visible
+#   • Navigating through dilemma → choice → completion screens
+#
+# Dependency: T-D16 (Story Redux slice contract must be stable)
+
+appId: com.khovan123.philomind
+---
+# ── 1. Login ─────────────────────────────────────────────────────────────────────
+- runFlow: smoke_login.yaml
+
+# ── 2. Navigate to story list ────────────────────────────────────────────────────
+- scrollUntilVisible:
+    element:
+      text: "Kịch bản nhập vai"
+    direction: DOWN
+    timeout: 6000
+- tapOn: "Kịch bản nhập vai"
+
+- waitForAnimationToEnd
+- assertVisible:
+    text: "Học triết học qua các quyết định lịch sử"
+    maxWait: 8000
+
+# ── 3. Start first story (tap Bắt đầu on any card) ───────────────────────────────
+- scrollUntilVisible:
+    element:
+      text: "Bắt đầu"
+    direction: DOWN
+    timeout: 6000
+- tapOn: "Bắt đầu"
+
+# ── 4. Story detail / role-selection screen ──────────────────────────────────────
+- waitForAnimationToEnd
+# Role selection screen shows the story intro or character selection
+- assertVisible:
+    text: "Vai trò"         # "Role" section heading on role-selection screen
+    maxWait: 8000
+
+# Select the first available role
+- tapOn:
+    index: 0
+    text: "Chọn"            # "Select" button on each role card
+
+# ── 5. Proceed through the story screens ─────────────────────────────────────────
+# Role intro → cinematic → map are read-only screens with a "Tiếp tục" (Continue) button
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+- tapOn: "Tiếp tục"        # Cinematic → Map
+- waitForAnimationToEnd
+
+- tapOn: "Tiếp tục"        # Map → NPC Encounter
+- waitForAnimationToEnd
+
+# ── 6. NPC Encounter ─────────────────────────────────────────────────────────────
+# Encounter screen has a "Bắt đầu thách thức" or "Tiếp tục" button
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+# ── 7. Learn cards ────────────────────────────────────────────────────────────────
+- assertVisible:
+    text: "Bài học"          # Learn cards section heading
+    maxWait: 6000
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+# ── 8. Dilemma screen ────────────────────────────────────────────────────────────
+- assertVisible:
+    text: "Tình huống"       # Dilemma heading
+    maxWait: 6000
+- tapOn: "Đưa ra quyết định"
+- waitForAnimationToEnd
+
+# ── 9. Choose screen (select option A) ───────────────────────────────────────────
+# Tap the first choice option card
+- tapOn:
+    index: 0
+    text: "Chọn"
+- waitForAnimationToEnd
+
+# ── 10. Consequence / Result screen ──────────────────────────────────────────────
+- assertVisible:
+    text: "Hậu quả"          # Result screen heading
+    maxWait: 6000
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+# ── 11. Knowledge → Reflect ──────────────────────────────────────────────────────
+- assertVisible:
+    text: "Kiến thức"        # Knowledge screen heading
+    maxWait: 6000
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+# Reflect screen
+- tapOn: "Tiếp tục"
+- waitForAnimationToEnd
+
+# ── 12. Complete screen ───────────────────────────────────────────────────────────
+- assertVisible:
+    text: "Hoàn thành"       # Episode complete screen
+    maxWait: 8000

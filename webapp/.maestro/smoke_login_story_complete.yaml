@@ -1,0 +1,27 @@
+---
+# T-J05 · Full E2E Smoke Suite — login → home → story → complete
+#
+# This is the MASTER flow that runs the entire critical path in sequence.
+# Command:  maestro test .maestro/smoke_login_story_complete.yaml
+#
+# Covers all acceptance criteria for T-J05 / GitHub issue #123:
+#   ✅ Critical path automation (login → home → story → complete)
+#   ✅ Error/failure paths (wrong credentials → stays on login)
+#   ✅ Deterministic (clearState: true on each launch)
+#   ✅ CI integration (see .github/workflows/e2e.yml)
+#
+# Dependency: T-D16 (story Redux slice stable), T-A05 (auth API stable)
+
+appId: com.khovan123.philomind
+---
+# ── Phase 1: Error path (intentional failure, validates error state) ───────────────
+- runFlow: smoke_login_error.yaml
+
+# ── Phase 2: Successful login + home navigation ────────────────────────────────────
+- runFlow: smoke_home.yaml
+
+# ── Phase 3: Full story flow (start → decide → complete) ──────────────────────────
+# smoke_home.yaml already leaves us on the story list.
+# smoke_story_flow.yaml re-runs login internally for isolation,
+# then navigates through the full 13-step story flow.
+- runFlow: smoke_story_flow.yaml
