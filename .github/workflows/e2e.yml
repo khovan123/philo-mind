@@ -71,6 +71,23 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      # ── Generate Expo native project (android/ is gitignored) ────────────────
+      - name: Expo Prebuild (generate android/)
+        working-directory: webapp
+        env:
+          # Suppress interactive prompts
+          CI: "1"
+        run: npx expo prebuild --platform android --non-interactive --clean
+
+      # ── Cache Gradle dependencies ─────────────────────────────────────────────
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('webapp/android/**/*.gradle*', 'webapp/android/**/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
       - uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 33
@@ -78,18 +95,23 @@ jobs:
           profile: pixel_5
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
-          # Build & install the Expo app, then run Maestro tests
+          # Script runs from repo root
           script: |
+            # ── Build APK ──────────────────────────────────────────────────────
             cd webapp/android
+            ./gradlew assembleRelease --no-daemon 2>&1 | tail -40
 
-            ./gradlew assembleRelease
-
-            echo "=== APK FILES ==="
+            echo "=== APK files produced ==="
             find app/build/outputs -name "*.apk"
 
+            # ── Install on emulator ────────────────────────────────────────────
             adb install -r app/build/outputs/apk/release/app-release.apk
 
-            cd ..
+            # ── Run Maestro from webapp/ so relative paths work ────────────────
+            cd ..   # now in webapp/
+
+            # Give app a moment to stabilise after install
+            sleep 3
 
             maestro test \
               --env MAESTRO_TEST_EMAIL=test@philomind.com \
