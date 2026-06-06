@@ -118,15 +118,10 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            # 1. Cài đặt file ứng dụng vào máy ảo (Dòng độc lập - Chạy thành công)
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
-            
-            # 2. Tạo thư mục kết quả ngay từ thư mục gốc để không phụ thuộc vào cd
             mkdir -p "$GITHUB_WORKSPACE/webapp/test-results"
             sleep 5
-            
-            # 3. ÉP CHẠY TRÊN MỘT DÒNG DUY NHẤT: Di chuyển vào thư mục webapp, kiểm tra file tồn tại, nếu có thì chạy Maestro với cờ cô lập thư mục, nếu không có thì báo lỗi trực quan.
-            cd "$GITHUB_WORKSPACE/webapp" && [ -f ".maestro/smoke_login_story_complete.yaml" ] && maestro test --directory . --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml ".maestro/smoke_login_story_complete.yaml" || (echo "❌ ERROR: Khấu trừ kiểm tra thất bại! File test không tồn tại hoặc Maestro gặp sự cố nghiêm trọng." && exit 1)
+            cd "$GITHUB_WORKSPACE/webapp" && maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output "$GITHUB_WORKSPACE/webapp/test-results/maestro.xml" ".maestro/smoke_login_story_complete.yaml"
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
