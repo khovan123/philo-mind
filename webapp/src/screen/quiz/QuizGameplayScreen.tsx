@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookOpen } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, View } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
@@ -16,7 +16,7 @@ import { QuizState } from "@/features/quiz/QuizState";
 import { SubmitAction } from "@/features/quiz/SubmitAction";
 import { getQuizByLessonId } from "@/features/quiz/mock";
 import type { FeedbackState, LoadState } from "@/features/quiz/types";
-import { QuizColors, quizStyles as styles } from "@/features/quiz/ui";
+import { QuizColors } from "@/features/quiz/ui";
 import { formatTime } from "@/features/quiz/utils";
 import {
   useCompleteQuizAttemptMutation,
@@ -24,6 +24,7 @@ import {
   useStartQuizAttemptMutation,
   useSubmitQuizAnswerMutation,
 } from "@/services/rtk-api/quiz.api";
+import { Pressable, ScrollView, View } from "@/tw";
 
 export default function QuizGameplayScreen() {
   const router = useRouter();
@@ -163,10 +164,8 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <ActivityIndicator color={QuizColors.primaryLight} size="large" />
-        <ThemedText style={styles.cardTitle}>{t("quiz.loading_quiz")}</ThemedText>
-        <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          {t("quiz.preparing_questions")}
-        </ThemedText>
+        <ThemedText className={tw.cardTitle}>{t("quiz.loading_quiz")}</ThemedText>
+        <ThemedText className={tw.centerCardText}>{t("quiz.preparing_questions")}</ThemedText>
       </QuizState>
     );
   }
@@ -175,12 +174,10 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <BookOpen color={QuizColors.primaryLight} size={52} />
-        <ThemedText style={styles.cardTitle}>{t("quiz.failed_to_load")}</ThemedText>
-        <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          {t("quiz.check_connection")}
-        </ThemedText>
-        <Pressable onPress={retryLoad} style={styles.primaryButton}>
-          <ThemedText style={styles.primaryButtonText}>{t("quiz.retry")}</ThemedText>
+        <ThemedText className={tw.cardTitle}>{t("quiz.failed_to_load")}</ThemedText>
+        <ThemedText className={tw.centerCardText}>{t("quiz.check_connection")}</ThemedText>
+        <Pressable onPress={retryLoad} className={tw.primaryButton}>
+          <ThemedText className={tw.primaryButtonText}>{t("quiz.retry")}</ThemedText>
         </Pressable>
       </QuizState>
     );
@@ -190,12 +187,10 @@ export default function QuizGameplayScreen() {
     return (
       <QuizState title="PhiloMind">
         <BookOpen color={QuizColors.primaryLight} size={52} />
-        <ThemedText style={styles.cardTitle}>{t("quiz.no_quiz_available")}</ThemedText>
-        <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
-          {t("quiz.try_another_lesson")}
-        </ThemedText>
-        <Pressable onPress={() => router.push("/(tabs)/learn")} style={styles.primaryButton}>
-          <ThemedText style={styles.primaryButtonText}>{t("quiz.back_to_learning")}</ThemedText>
+        <ThemedText className={tw.cardTitle}>{t("quiz.no_quiz_available")}</ThemedText>
+        <ThemedText className={tw.centerCardText}>{t("quiz.try_another_lesson")}</ThemedText>
+        <Pressable onPress={() => router.push("/(tabs)/learn")} className={tw.primaryButton}>
+          <ThemedText className={tw.primaryButtonText}>{t("quiz.back_to_learning")}</ThemedText>
         </Pressable>
       </QuizState>
     );
@@ -214,11 +209,11 @@ export default function QuizGameplayScreen() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.safeArea}>
-      <View style={styles.screen}>
+    <SafeAreaView edges={["top"]} className={tw.safeArea}>
+      <View className={tw.screen}>
         <QuizHeader title={quiz.title} timer={formatTime(remainingSeconds)} />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={tw.content}>
           <QuestionProgress
             current={questionIndex + 1}
             progress={progress}
@@ -227,7 +222,7 @@ export default function QuizGameplayScreen() {
 
           <QuestionCard question={question} />
 
-          <View style={{ gap: 10 }}>
+          <View className="gap-2.5">
             {question.options.map((option) => (
               <AnswerOption
                 key={option.id}
@@ -252,7 +247,7 @@ export default function QuizGameplayScreen() {
           />
 
           {feedback === "idle" && !selectedOptionId ? (
-            <ThemedText style={[styles.cardText, { textAlign: "center" }]}>
+            <ThemedText className={tw.centerCardText}>
               {t("quiz.select_option_to_continue")}
             </ThemedText>
           ) : null}
@@ -261,3 +256,13 @@ export default function QuizGameplayScreen() {
     </SafeAreaView>
   );
 }
+
+const tw = {
+  safeArea: "flex-1 bg-[#0C0C0E]",
+  screen: "flex-1 bg-[#0C0C0E]",
+  content: "w-full max-w-[760px] self-center gap-3 p-3 pb-[120px]",
+  cardTitle: "font-serif text-[21px] font-black leading-[27px] text-[#E4E4E7]",
+  centerCardText: "text-center text-[13px] font-bold leading-[19px] text-[#A1A1AA]",
+  primaryButton: "min-h-[46px] flex-row items-center justify-center gap-2 rounded-sm bg-[#FFB77D]",
+  primaryButtonText: "text-[13px] font-black leading-[18px] text-[#0C0C0E]",
+};
