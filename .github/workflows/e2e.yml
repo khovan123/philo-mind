@@ -99,13 +99,13 @@ jobs:
           script: |
             # ── Build APK ──────────────────────────────────────────────────────
             cd webapp/android
-            ./gradlew assembleRelease --no-daemon 2>&1 | tail -40
+            ./gradlew assembleDebug --no-daemon 2>&1 | tail -40
 
             echo "=== APK files produced ==="
             find app/build/outputs -name "*.apk"
 
             # ── Install on emulator ────────────────────────────────────────────
-            adb install -r app/build/outputs/apk/release/app-release.apk
+            adb install -r app/build/outputs/apk/debug/app-debug.apk
 
             # ── Run Maestro from webapp/ so relative paths work ────────────────
             cd ..   # now in webapp/
