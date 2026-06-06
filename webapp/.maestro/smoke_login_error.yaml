@@ -15,10 +15,10 @@ appId: com.khovan123.philomind
 
 # Enter valid email but wrong password
 - tapOn:
-    placeholder: "example@philomind.com"
+    text: "example@philomind.com"
 - inputText: "${MAESTRO_TEST_EMAIL:-test@philomind.com}"
 - tapOn:
-    placeholder: "••••••••"
+    text: "••••••••"
 - inputText: "WrongPassword999!"
 
 - hideKeyboard

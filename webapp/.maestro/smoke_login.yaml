@@ -15,12 +15,12 @@ appId: com.khovan123.philomind
 
 # ── 2. Enter email ───────────────────────────────────────────────────────────────
 - tapOn:
-    placeholder: "example@philomind.com"
+    text: "example@philomind.com"
 - inputText: "${MAESTRO_TEST_EMAIL:-test@philomind.com}"
 
 # ── 3. Enter password ────────────────────────────────────────────────────────────
 - tapOn:
-    placeholder: "••••••••"
+    text: "••••••••"
 - inputText: "${MAESTRO_TEST_PASSWORD:-Test@123456}"
 
 # ── 4. Dismiss keyboard and submit ───────────────────────────────────────────────
