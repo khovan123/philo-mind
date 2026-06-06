@@ -118,19 +118,24 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            # 1. Cài đặt file ứng dụng vào máy ảo
+            # 1. Cài đặt file ứng dụng vào máy ảo (Giữ nguyên đường dẫn tuyệt đối cho adb vì adb đứng ở đâu chạy cũng được)
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
             
-            # 2. Tạo thư mục chứa báo cáo kết quả đầu ra
-            mkdir -p "$GITHUB_WORKSPACE/webapp/test-results"
+            # 2. Di chuyển hẳn vào thư mục chứa dự án webapp
+            cd "$GITHUB_WORKSPACE/webapp"
+            
+            # 3. Tạo thư mục chứa báo cáo kết quả (Lúc này chỉ cần ghi tương đối)
+            mkdir -p test-results
             sleep 5
             
-            # 3. Lấy tên file test: Nếu trigger thủ công thì dùng input.flow, ngược lại dùng file mặc định
+            # 4. Lấy tên kịch bản test (Tự động nhận diện flow truyền bằng tay hoặc dùng mặc định)
             INPUT_FLOW="${{ github.event.inputs.flow }}"
             CHOSEN_FLOW="${INPUT_FLOW:-.maestro/smoke_login_story_complete.yaml}"
             
-            # 4. Thực thi chạy lệnh kiểm thử Maestro
-            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output "$GITHUB_WORKSPACE/webapp/test-results/maestro.xml" "$GITHUB_WORKSPACE/webapp/$CHOSEN_FLOW"
+            echo "🚀 Đang tiến hành chạy kịch bản: $CHOSEN_FLOW"
+            
+            # 5. Thực thi lệnh Maestro với đường dẫn tương đối ngắn gọn (Viết trên 1 dòng duy nhất)
+            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml "$CHOSEN_FLOW"
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
