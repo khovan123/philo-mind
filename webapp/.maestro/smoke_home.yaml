@@ -13,7 +13,7 @@ appId: com.khovan123.philomind
 # ── 2. Home tab is active — verify key home content is visible ───────────────────
 - assertVisible:
     text: "Khám phá"     # Home / Explore tab label in bottom navigation
-    maxWait: 8000
+    timeout: 8000
 
 # ── 3. Navigate to Story section ─────────────────────────────────────────────────
 # The home screen or story tab contains "Kịch bản nhập vai" (story mode CTA)
@@ -28,4 +28,4 @@ appId: com.khovan123.philomind
 - waitForAnimationToEnd
 - assertVisible:
     text: "Học triết học qua các quyết định lịch sử"
-    maxWait: 8000
+    timeout: 8000

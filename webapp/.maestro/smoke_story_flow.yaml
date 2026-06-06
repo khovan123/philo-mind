@@ -26,7 +26,7 @@ appId: com.khovan123.philomind
 - waitForAnimationToEnd
 - assertVisible:
     text: "Học triết học qua các quyết định lịch sử"
-    maxWait: 8000
+    timeout: 8000
 
 # ── 3. Start first story (tap Bắt đầu on any card) ───────────────────────────────
 - scrollUntilVisible:
@@ -41,7 +41,7 @@ appId: com.khovan123.philomind
 # Role selection screen shows the story intro or character selection
 - assertVisible:
     text: "Vai trò"         # "Role" section heading on role-selection screen
-    maxWait: 8000
+    timeout: 8000
 
 # Select the first available role
 - tapOn:
@@ -67,14 +67,14 @@ appId: com.khovan123.philomind
 # ── 7. Learn cards ────────────────────────────────────────────────────────────────
 - assertVisible:
     text: "Bài học"          # Learn cards section heading
-    maxWait: 6000
+    timeout: 6000
 - tapOn: "Tiếp tục"
 - waitForAnimationToEnd
 
 # ── 8. Dilemma screen ────────────────────────────────────────────────────────────
 - assertVisible:
     text: "Tình huống"       # Dilemma heading
-    maxWait: 6000
+    timeout: 6000
 - tapOn: "Đưa ra quyết định"
 - waitForAnimationToEnd
 
@@ -88,14 +88,14 @@ appId: com.khovan123.philomind
 # ── 10. Consequence / Result screen ──────────────────────────────────────────────
 - assertVisible:
     text: "Hậu quả"          # Result screen heading
-    maxWait: 6000
+    timeout: 6000
 - tapOn: "Tiếp tục"
 - waitForAnimationToEnd
 
 # ── 11. Knowledge → Reflect ──────────────────────────────────────────────────────
 - assertVisible:
     text: "Kiến thức"        # Knowledge screen heading
-    maxWait: 6000
+    timeout: 6000
 - tapOn: "Tiếp tục"
 - waitForAnimationToEnd
 
@@ -106,4 +106,4 @@ appId: com.khovan123.philomind
 # ── 12. Complete screen ───────────────────────────────────────────────────────────
 - assertVisible:
     text: "Hoàn thành"       # Episode complete screen
-    maxWait: 8000
+    timeout: 8000

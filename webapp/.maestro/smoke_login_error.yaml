@@ -28,8 +28,8 @@ appId: com.khovan123.philomind
 - waitForAnimationToEnd
 - assertVisible:
     text: "Đăng nhập"    # Still on login screen
-    maxWait: 5000
+    timeout: 5000
 # One of these error strings must be visible
 - assertVisible:
     text: "thất bại"     # Partial match of: "Đăng nhập thất bại, vui lòng thử lại"
-    maxWait: 5000
+    timeout: 5000

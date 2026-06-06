@@ -31,7 +31,7 @@ appId: com.khovan123.philomind
 - waitForAnimationToEnd
 - assertVisible:
     text: "Khám phá"      # Tab bar label present = home loaded successfully
-    maxWait: 8000
+    timeout: 8000
 
 # ── 6. Negative case: Verify wrong credentials show error (separate run) ─────────
 # See: smoke_login_error.yaml
