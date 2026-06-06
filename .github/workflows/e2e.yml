@@ -116,12 +116,7 @@ jobs:
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
             cd "$GITHUB_WORKSPACE/webapp"
             sleep 5
-            maestro test \
-              --env MAESTRO_TEST_EMAIL=test@philomind.com \
-              --env MAESTRO_TEST_PASSWORD=Test@123456 \
-              .maestro/smoke_login_story_complete.yaml \
-              --format junit \
-              --output test-results/maestro.xml
+            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml .maestro/smoke_login_story_complete.yaml
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
