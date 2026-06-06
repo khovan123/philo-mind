@@ -1,5 +1,10 @@
 name: E2E Smoke Tests (Maestro)
 
+# T-J05 / GitHub issue #123
+#
+# Runs Maestro E2E smoke tests on an Android emulator.
+# android/ is gitignored so expo prebuild generates it in CI.
+
 on:
   workflow_dispatch:
     inputs:
@@ -24,6 +29,11 @@ jobs:
     name: E2E Smoke (Android)
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    # ── Cấp đủ quyền ghi báo cáo JUnit lên Giao diện PR ──────────────────────────
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
 
     steps:
       - uses: actions/checkout@v4
@@ -108,11 +118,19 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
+            # 1. Cài đặt file ứng dụng vào máy ảo
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
-            cd "$GITHUB_WORKSPACE/webapp"
-            mkdir -p test-results
+            
+            # 2. Tạo thư mục chứa báo cáo kết quả đầu ra
+            mkdir -p "$GITHUB_WORKSPACE/webapp/test-results"
             sleep 5
-            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml .maestro/smoke_login_story_complete.yaml
+            
+            # 3. Lấy tên file test: Nếu trigger thủ công thì dùng input.flow, ngược lại dùng file mặc định
+            INPUT_FLOW="${{ github.event.inputs.flow }}"
+            CHOSEN_FLOW="${INPUT_FLOW:-.maestro/smoke_login_story_complete.yaml}"
+            
+            # 4. Thực thi chạy lệnh kiểm thử Maestro
+            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output "$GITHUB_WORKSPACE/webapp/test-results/maestro.xml" "$GITHUB_WORKSPACE/webapp/$CHOSEN_FLOW"
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
