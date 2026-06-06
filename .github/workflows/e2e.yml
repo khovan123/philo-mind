@@ -80,18 +80,21 @@ jobs:
           disable-animations: true
           # Build & install the Expo app, then run Maestro tests
           script: |
-            # Build Expo app in release mode (no Metro server needed by Maestro)
-            cd webapp
-            npx expo run:android --no-install --variant release 2>&1 | tail -30
+            cd webapp/android
 
-            # Install the generated APK on the emulator
-            adb install -r android/app/build/outputs/apk/release/app-release.apk
+            ./gradlew assembleRelease
 
-            # Run Maestro smoke suite
+            echo "=== APK FILES ==="
+            find app/build/outputs -name "*.apk"
+
+            adb install -r app/build/outputs/apk/release/app-release.apk
+
+            cd ..
+
             maestro test \
               --env MAESTRO_TEST_EMAIL=test@philomind.com \
               --env MAESTRO_TEST_PASSWORD=Test@123456 \
-              "${{ github.event.inputs.flow || '.maestro/smoke_login_story_complete.yaml' }}" \
+              .maestro/smoke_login_story_complete.yaml \
               --format junit \
               --output test-results/maestro.xml
 
