@@ -1,10 +1,5 @@
 name: E2E Smoke Tests (Maestro)
 
-# T-J05 / GitHub issue #123
-#
-# Runs Maestro E2E smoke tests on an Android emulator.
-# android/ is gitignored so expo prebuild generates it in CI.
-
 on:
   workflow_dispatch:
     inputs:
