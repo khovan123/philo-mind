@@ -13,14 +13,21 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 import { Button, Input } from "@/components/ui";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
-import { useLoginMutation } from "@/services/auth/api";
+import { useLoginMutation, useLazyCheckAuthQuery } from "@/services/auth/api";
 import { useAppDispatch } from "@/stores/hooks";
-import { authErrorCleared, authFailed, authStateSet } from "@/stores/slices/auth.slice";
+import {
+  authErrorCleared,
+  authFailed,
+  authStateSet,
+  tokenReceived,
+} from "@/stores/slices/auth.slice";
 import { loginSchema } from "@philo-mind/shared";
 
 function getApiErrorMessage(error: unknown) {
@@ -44,6 +51,11 @@ function getApiErrorMessage(error: unknown) {
   return "Đăng nhập thất bại, vui lòng thử lại";
 }
 
+const rawUrl = (process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001/api/v1")
+  .trim()
+  .replace(/\/$/, "");
+const API_BASE_URL = rawUrl.endsWith("/api/v1") ? rawUrl : `${rawUrl}/api/v1`;
+
 export default function LoginScreen() {
   const router = useRouter();
   const theme = useTheme();
@@ -60,6 +72,8 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
+  const [checkAuth] = useLazyCheckAuthQuery();
+  const [isSocialLoading, setIsSocialLoading] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
@@ -126,8 +140,64 @@ export default function LoginScreen() {
     }
   }
 
-  function handleSocialLogin(provider: "Google" | "Apple") {
-    Alert.alert("Chưa hỗ trợ", `Hiện tại chưa có đăng nhập bằng ${provider}.`);
+  async function handleSocialLogin(provider: "Google" | "Apple") {
+    if (provider === "Apple") {
+      Alert.alert("Chưa hỗ trợ", `Hiện tại chưa có đăng nhập bằng ${provider}.`);
+      return;
+    }
+
+    setIsSocialLoading(true);
+    dispatch(authErrorCleared());
+    try {
+      const redirectUri = Linking.createURL("auth-callback");
+      const authUrl = `${API_BASE_URL}/auth/google?redirect_uri=${encodeURIComponent(redirectUri)}`;
+
+      if (Platform.OS === "web") {
+        window.location.href = authUrl;
+        return;
+      }
+
+      const result = await WebBrowser.openAuthSessionAsync(authUrl, redirectUri);
+
+      if (result.type === "success" && result.url) {
+        const { queryParams } = Linking.parse(result.url);
+        const accessToken = queryParams?.accessToken;
+        const refreshToken = queryParams?.refreshToken;
+
+        if (typeof accessToken === "string" && typeof refreshToken === "string") {
+          dispatch(
+            tokenReceived({
+              accessToken,
+              refreshToken,
+            }),
+          );
+
+          const user = await checkAuth().unwrap();
+
+          dispatch(
+            authStateSet({
+              user,
+              accessToken,
+              refreshToken,
+            }),
+          );
+
+          if (mountedRef.current) {
+            router.replace("/(tabs)" as never);
+          }
+        } else {
+          throw new Error("Không nhận được token đăng nhập từ máy chủ.");
+        }
+      }
+    } catch (error: any) {
+      console.error("[Google Login error]:", error);
+      Alert.alert(
+        "Đăng nhập thất bại",
+        error?.message || "Đã xảy ra lỗi khi đăng nhập bằng Google.",
+      );
+    } finally {
+      setIsSocialLoading(false);
+    }
   }
 
   return (
@@ -243,17 +313,20 @@ export default function LoginScreen() {
             </View>
 
             <Pressable
+              disabled={isLoading || isSocialLoading}
               onPress={() => handleSocialLogin("Google")}
               style={({ pressed }) => [
                 styles.socialButton,
                 {
                   borderColor: theme.border,
                   backgroundColor: theme.surfaceElevated,
-                  opacity: pressed ? 0.85 : 1,
+                  opacity: pressed || isLoading || isSocialLoading ? 0.6 : 1,
                 },
               ]}
             >
-              <ThemedText type="smallBold">Tiếp tục với Google</ThemedText>
+              <ThemedText type="smallBold">
+                {isSocialLoading ? "Đang xử lý..." : "Tiếp tục với Google"}
+              </ThemedText>
             </Pressable>
           </ThemedView>
 
