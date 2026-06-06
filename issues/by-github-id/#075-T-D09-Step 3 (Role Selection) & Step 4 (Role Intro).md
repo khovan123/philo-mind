@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#75](https://github.com/khovan123/philo-mind/issues/75)
-- State: open
+- State: done
 - Track: D - Story Mode Engine
 - Type: frontend
 - Priority: medium
 - Milestone: Week 5
 - Assignees: @dklinh05
-- Updated at: 2026-06-02T16:21:52Z
+- Updated at: 2026-06-03T12:29:16Z
+- Closed at: 2026-06-03T12:29:16Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #75                                                                               |
 | Task ID        | T-D09                                                                             |
 | Title          | Step 3 (Role Selection) & Step 4 (Role Intro)                                     |
-| State          | open                                                                              |
+| State          | done                                                                              |
 | Local log path | `issues/by-github-id/#075-T-D09-Step 3 (Role Selection) & Step 4 (Role Intro).md` |
 
 ## Issue Body

@@ -4,6 +4,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { useRegisterMutation } from "@/services/auth/api";
 import { useAppDispatch } from "@/stores/hooks";
 import { authFailed } from "@/stores/slices/auth.slice";
+import { registerSchema } from "@philo-mind/shared";
 import { useRouter } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -141,17 +142,25 @@ export default function RegisterScreen() {
 
       const nextErrors: RegisterFieldErrors = {};
 
-      if (normalizedFullName.length < 2) {
-        nextErrors.fullName = "Tên hiển thị tối thiểu 2 ký tự";
+      const validationResult = registerSchema.safeParse({
+        body: {
+          fullName: normalizedFullName,
+          email: normalizedEmail,
+          password,
+        },
+      });
+
+      if (!validationResult.success) {
+        validationResult.error.issues.forEach((issue) => {
+          const path = issue.path;
+          if (path[0] === "body" && path[1]) {
+            const field = path[1] as "fullName" | "email" | "password";
+            nextErrors[field] = issue.message;
+          }
+        });
       }
 
-      if (!normalizedEmail.includes("@")) {
-        nextErrors.email = "Email không hợp lệ";
-      }
-
-      if (password.length < 8) {
-        nextErrors.password = "Mật khẩu tối thiểu 8 ký tự";
-      } else if (passwordScore < 4) {
+      if (!nextErrors.password && passwordScore < 4) {
         nextErrors.password = "Mật khẩu cần có chữ hoa, chữ thường, số và ký tự đặc biệt";
       }
 
@@ -350,7 +359,7 @@ export default function RegisterScreen() {
                 Đã có tài khoản?{" "}
               </ThemedText>
 
-              <Pressable onPress={() => router.replace("/login" as any)}>
+              <Pressable onPress={() => router.replace("/login" as never)}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Đăng nhập
                 </ThemedText>
@@ -358,7 +367,7 @@ export default function RegisterScreen() {
             </View>
 
             <View style={[styles.loginRow, { marginTop: Spacing.two }]}>
-              <Pressable onPress={() => router.push("/(auth)/forgot-password" as any)}>
+              <Pressable onPress={() => router.push("/(auth)/forgot-password" as never)}>
                 <ThemedText type="smallBold" style={{ color: theme.primary }}>
                   Quên mật khẩu?
                 </ThemedText>

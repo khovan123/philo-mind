@@ -128,6 +128,7 @@ export class BookmarkService {
           await prisma.topic.findUnique({ where: { id: input.targetId }, select: { id: true } }),
         );
     }
+    return false;
   }
 
   private isUniqueConstraintError(err: unknown): boolean {

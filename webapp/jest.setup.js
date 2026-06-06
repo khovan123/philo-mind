@@ -1,7 +1,8 @@
-const React = require('react');
+global.__DEV__ = true;
+const React = require("react");
 
-jest.mock('react-native-safe-area-context', () => {
-  const { View } = require('react-native');
+jest.mock("react-native-safe-area-context", () => {
+  const { View } = require("react-native");
   return {
     SafeAreaProvider: ({ children }) => React.createElement(View, null, children),
     SafeAreaView: ({ children, style }) => React.createElement(View, { style }, children),
@@ -9,3 +10,12 @@ jest.mock('react-native-safe-area-context', () => {
     SafeAreaConsumer: ({ children }) => children({ top: 0, right: 0, bottom: 0, left: 0 }),
   };
 });
+
+jest.mock("expo-secure-store", () => {
+  return {
+    getItemAsync: jest.fn().mockResolvedValue(null),
+    setItemAsync: jest.fn().mockResolvedValue(undefined),
+    deleteItemAsync: jest.fn().mockResolvedValue(undefined),
+  };
+});
+

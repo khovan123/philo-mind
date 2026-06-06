@@ -20,6 +20,8 @@ export default {
     "^@/(.*)$": "<rootDir>/src/$1",
     "^@libs/shared$": "<rootDir>/../libs/shared/src/index.ts",
     "^@libs/shared/(.*)$": "<rootDir>/../libs/shared/src/$1",
+    "^@philo-mind/shared$": "<rootDir>/../libs/shared/src/index.ts",
+    "^@philo-mind/shared/(.*)$": "<rootDir>/../libs/shared/src/$1",
     "^(\\.{1,2}/.*)\\.js$": "$1",
   },
   extensionsToTreatAsEsm: [".ts"],

@@ -13,7 +13,30 @@ const PORT = env.PORT;
 
 // ── Middleware ──────────────────────────────────────────────
 app.use(helmet());
-app.use(cors());
+const allowedOrigins = [
+  "https://philo-mind-orpin.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:8081",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (
+        !origin ||
+        allowedOrigins.includes(origin) ||
+        origin.endsWith(".vercel.app") ||
+        process.env.NODE_ENV !== "production"
+      ) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 app.use(
   compression({
     level: 6, // balanced compression (1=fast, 9=best ratio)

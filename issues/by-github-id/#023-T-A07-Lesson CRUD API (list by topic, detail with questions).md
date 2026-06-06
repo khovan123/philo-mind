@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#23](https://github.com/khovan123/philo-mind/issues/23)
-- State: open
+- State: done
 - Track: A - Backend Core
 - Type: backend
 - Priority: medium
 - Milestone: Week 2
 - Assignees: @linhtv1209-fudn
-- Updated at: 2026-06-01T05:31:50Z
+- Updated at: 2026-06-03T10:50:11Z
+- Closed at: 2026-06-03T10:50:11Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #23                                                                                        |
 | Task ID        | T-A07                                                                                      |
 | Title          | Lesson CRUD API (list by topic, detail with questions)                                     |
-| State          | open                                                                                       |
+| State          | done                                                                                       |
 | Local log path | `issues/by-github-id/#023-T-A07-Lesson CRUD API (list by topic, detail with questions).md` |
 
 ## Issue Body

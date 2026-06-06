@@ -3,25 +3,26 @@
 ## GitHub Link
 
 - Issue: [#216](https://github.com/khovan123/philo-mind/issues/216)
-- State: open
+- State: closed
 - Track: C - Shared Types & Seed
 - Type: fullstack
 - Priority: medium
 - Milestone: Unassigned
 - Assignees: @thuhataplamdev
-- Updated at: 2026-06-02T15:49:28Z
+- Updated at: 2026-06-05T10:08:00Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Closed on GitHub. This task is completed.
 
 ## Status Log
 
+- 2026-06-05: Refactoring of validation logic to the shared library is completed. All validators migrated, exported from the shared library, and imported correctly in the backend and frontend services.
 - 2026-05-31: Synced from GitHub issue state. This local file exists so the plan has an auditable log for issue #216 / `T-C13`.
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- None.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #216                                                                            |
 | Task ID        | T-C13                                                                           |
 | Title          | Refactor validation logic to shared library                                     |
-| State          | open                                                                            |
+| State          | closed                                                                          |
 | Local log path | `issues/by-github-id/#216-T-C13-Refactor validation logic to shared library.md` |
 
 ## Issue Body
@@ -72,33 +73,34 @@
 
 ## 6. Acceptance Criteria chi tiết
 
-- [ ] Định nghĩa các shared schemas trong `libs/shared/src/validators` (Auth, Topics, Lessons, Story, v.v.).
-- [ ] Export hoàn toàn các schemas và các kiểu dữ liệu suy diễn tương ứng trong `libs/shared/src/index.ts`.
-- [ ] Build thành công shared library mà không gặp lỗi TypeScript/cú pháp.
-- [ ] Thay thế các import validators cũ trong backend (`services/src/validators/...`) bằng shared schemas.
-- [ ] Áp dụng shared schemas cho validation form ở frontend (`webapp/src/...`).
+- [x] Định nghĩa các shared schemas trong `libs/shared/src/validators` (Auth, Topics, Lessons, Story, v.v.).
+- [x] Export hoàn toàn các schemas và các kiểu dữ liệu suy diễn tương ứng trong `libs/shared/src/index.ts`.
+- [x] Build thành công shared library mà không gặp lỗi TypeScript/cú pháp.
+- [x] Thay thế các import validators cũ trong backend (`services/src/validators/...`) bằng shared schemas.
+- [x] Áp dụng shared schemas cho validation form ở frontend (`webapp/src/...`).
 
 ## 7. Checklist triển khai
 
-- [ ] Di chuyển các Zod schemas từ backend sang `libs/shared/src/validators`.
-- [ ] Cập nhật file build/compile và entry-point index.ts của `libs/shared`.
-- [ ] Cập nhật backend controller/middleware sử dụng shared schemas.
-- [ ] Cập nhật frontend forms sử dụng shared schemas.
-- [ ] Chạy lint/typecheck/tests ở cả backend, frontend và libs để kiểm chứng.
+- [x] Di chuyển các Zod schemas từ backend sang `libs/shared/src/validators`.
+- [x] Cập nhật file build/compile và entry-point index.ts của `libs/shared`.
+- [x] Cập nhật backend controller/middleware sử dụng shared schemas.
+- [x] Cập nhật frontend forms sử dụng shared schemas.
+- [x] Chạy lint/typecheck/tests ở cả backend, frontend và libs để kiểm chứng.
 
 ## 8. Kiểm chứng bắt buộc
 
-- [ ] Đảm bảo `npm run build` hoặc lệnh tương đương của shared library chạy thành công.
-- [ ] Kiểm tra backend không bị lỗi validation bằng cách gửi sample request không hợp lệ (ví dụ: sai format email, mật khẩu quá ngắn) và xem response trả về lỗi chuẩn.
-- [ ] Kiểm tra frontend form validation chặn input sai định dạng thành công và hiển thị đúng thông báo lỗi từ shared library.
+- [x] Đảm bảo `npm run build` hoặc lệnh tương đương của shared library chạy thành công.
+- [x] Kiểm tra backend không bị lỗi validation bằng cách gửi sample request không hợp lệ (ví dụ: sai format email, mật khẩu quá ngắn) và xem response trả về lỗi chuẩn.
+- [x] Kiểm tra frontend form validation chặn input sai định dạng thành công và hiển thị đúng thông báo lỗi từ shared library.
 
 ## 9. Definition of Done
 
-- [ ] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
-- [ ] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
-- [ ] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
-- [ ] Không còn TODO thuộc trực tiếp scope issue này.
+- [x] Code/config đã commit trên branch riêng và mở PR liên kết issue này.
+- [x] PR mô tả phạm vi thay đổi, cách kiểm chứng và rủi ro còn lại.
+- [x] CI xanh hoặc PR ghi rõ blocker có thể tái hiện.
+- [x] Không còn TODO thuộc trực tiếp scope issue này.
 
 ## Status Log
 
+- 2026-06-05: Completed validator refactoring to shared library. Checked all validation tests.
 - 2026-05-31: BMAD sprint-status sync checked GitHub issue #216 for `T-C13`. Current source-of-truth status: **OPEN**. Local log: `issues/by-github-id/#216-T-C13-Refactor validation logic to shared library.md`.

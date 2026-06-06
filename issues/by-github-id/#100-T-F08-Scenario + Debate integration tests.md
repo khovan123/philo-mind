@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#100](https://github.com/khovan123/philo-mind/issues/100)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: testing
 - Priority: low
 - Milestone: Week 7
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:31Z
+- Updated at: 2026-06-04T09:29:19Z
+- Closed at: 2026-06-04T09:29:19Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #100                                                                    |
 | Task ID        | T-F08                                                                   |
 | Title          | Scenario + Debate integration tests                                     |
-| State          | open                                                                    |
+| State          | done                                                                    |
 | Local log path | `issues/by-github-id/#100-T-F08-Scenario + Debate integration tests.md` |
 
 ## Issue Body

@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#33](https://github.com/khovan123/philo-mind/issues/33)
-- State: open
+- State: done
 - Track: A - Backend Core
 - Type: backend
 - Priority: medium
 - Milestone: Week 4
 - Assignees: @NTA1210
-- Updated at: 2026-06-01T05:31:40Z
+- Updated at: 2026-06-03T10:50:31Z
+- Closed at: 2026-06-03T10:50:31Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #33                                                                            |
 | Task ID        | T-A17                                                                          |
 | Title          | Activity logging service + streak tracking                                     |
-| State          | open                                                                           |
+| State          | done                                                                           |
 | Local log path | `issues/by-github-id/#033-T-A17-Activity logging service + streak tracking.md` |
 
 ## Issue Body

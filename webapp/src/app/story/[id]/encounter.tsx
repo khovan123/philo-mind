@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, ArrowRight, CheckCircle2, MessageCircle, User } from "lucide-react-native";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -31,7 +31,11 @@ export default function NpcEncounterScreen() {
 
   // TODO: swap to RTK Query GET /story-sessions/:id/npc when backend available
   const { data: story, isLoading, error } = useGetStoryDetailQuery(storyId);
-  const { setNpcEncounterCompleted } = useStoryStore();
+  const { setNpcEncounterCompleted, setStep } = useStoryStore();
+
+  useEffect(() => {
+    setStep("encounter");
+  }, [setStep]);
 
   const [phase, setPhase] = useState<EncounterPhase>("select");
   const [selectedNpcIndex, setSelectedNpcIndex] = useState<number>(0);
@@ -65,7 +69,8 @@ export default function NpcEncounterScreen() {
 
   const handleComplete = () => {
     setNpcEncounterCompleted(true);
-    router.push(`/story/${storyId}/dilemma` as never);
+    setStep("learn");
+    router.push(`/story/${storyId}/learn` as never);
   };
 
   // ─── Loading ──────────────────────────────────────────────────────────────
@@ -454,8 +459,11 @@ export default function NpcEncounterScreen() {
               quyết định đạo đức.
             </ThemedText>
             <Button
-              title="Tiến đến Tình Huống →"
-              onPress={() => router.push(`/story/${storyId}/dilemma` as never)}
+              title="Tiến đến Khái niệm →"
+              onPress={() => {
+                setStep("learn");
+                router.push(`/story/${storyId}/learn` as never);
+              }}
               fullWidth
               style={{ marginTop: Spacing.four }}
             />

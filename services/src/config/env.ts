@@ -44,6 +44,11 @@ const envSchema = z
     SMTP_PASS: z.string().optional(),
     SMTP_FROM: z.string().email().optional(),
 
+    // ─── Google Auth ───────────────────────────────────────────
+    GOOGLE_CLIENT_ID: z.string().optional(),
+    GOOGLE_CLIENT_SECRET: z.string().optional(),
+    GOOGLE_CALLBACK_URL: z.string().url().optional(),
+
     // ─── Logging ───────────────────────────────────────────────
     LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
   })

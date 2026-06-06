@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#54](https://github.com/khovan123/philo-mind/issues/54)
-- State: open
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
 - Priority: medium
 - Milestone: Week 5
 - Assignees: @anhthungye
-- Updated at: 2026-06-01T05:31:18Z
+- Updated at: 2026-06-03T11:11:07Z
+- Closed at: 2026-06-03T11:11:06Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #54                                                                                              |
 | Task ID        | T-B16                                                                                            |
 | Title          | Profile screen (stats grid + badge gallery + activity graph)                                     |
-| State          | open                                                                                             |
+| State          | done                                                                                             |
 | Local log path | `issues/by-github-id/#054-T-B16-Profile screen (stats grid + badge gallery + activity graph).md` |
 
 ## Issue Body

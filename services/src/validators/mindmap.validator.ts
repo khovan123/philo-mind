@@ -2,11 +2,13 @@ import { z } from "zod";
 
 // ── T-A13: Mindmap Validation Schemas ────────────────────────
 
-export const topicIdSchema = z.object({
+export const mindmapTopicIdSchema = z.object({
   params: z.object({
     topicId: z.string().uuid("Topic id không hợp lệ"),
   }),
 });
+
+export const topicIdSchema = mindmapTopicIdSchema;
 
 export const nodeIdSchema = z.object({
   params: z.object({

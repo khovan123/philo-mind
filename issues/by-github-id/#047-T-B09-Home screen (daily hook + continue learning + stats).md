@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#47](https://github.com/khovan123/philo-mind/issues/47)
-- State: open
+- State: done
 - Track: B - Frontend Shell
 - Type: frontend
 - Priority: medium
 - Milestone: Week 3
 - Assignees: @anhthungye
-- Updated at: 2026-06-01T05:31:25Z
+- Updated at: 2026-06-03T11:10:44Z
+- Closed at: 2026-06-03T11:10:44Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #47                                                                                      |
 | Task ID        | T-B09                                                                                    |
 | Title          | Home screen (daily hook + continue learning + stats)                                     |
-| State          | open                                                                                     |
+| State          | done                                                                                     |
 | Local log path | `issues/by-github-id/#047-T-B09-Home screen (daily hook + continue learning + stats).md` |
 
 ## Issue Body
