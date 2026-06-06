@@ -1,12 +1,15 @@
 import { DarkTheme, ThemeProvider, Stack } from "expo-router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import * as WebBrowser from "expo-web-browser";
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { persistor, store } from "@/stores";
 import { AuthBootstrap } from "@/navigation/AuthBootstrap";
 import i18n from "@/lib/i18n";
 import { useAppSelector } from "@/stores/hooks";
 import { useEffect } from "react";
+
+WebBrowser.maybeCompleteAuthSession();
 
 function AppLayout() {
   const language = useAppSelector((state) => state.settings.language);
@@ -25,6 +28,7 @@ function AppLayout() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
+        <Stack.Screen name="auth-callback" />
         <Stack.Screen name="(lesson)" />
         <Stack.Screen name="bookmarks" />
         <Stack.Screen name="mindmap" />
