@@ -114,19 +114,10 @@ jobs:
           disable-animations: true
           script: |
             adb install -r "$GITHUB_WORKSPACE/webapp/android/app/build/outputs/apk/debug/app-debug.apk"
-            
             cd "$GITHUB_WORKSPACE/webapp"
             mkdir -p test-results
             sleep 5
-            
-            CHOSEN_FLOW="${{ github.event.inputs.flow }}"
-            if [ -z "$CHOSEN_FLOW" ]; then
-              CHOSEN_FLOW=".maestro/smoke_login_story_complete.yaml"
-            fi
-            
-            echo "🚀 Đang tiến hành chạy test với file: $CHOSEN_FLOW"
-            
-            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml "$CHOSEN_FLOW"
+            maestro test --env MAESTRO_TEST_EMAIL=test@philomind.com --env MAESTRO_TEST_PASSWORD=Test@123456 --format junit --output test-results/maestro.xml .maestro/smoke_login_story_complete.yaml
 
       # ── Upload results ────────────────────────────────────────────────────────
       - name: Upload Maestro test results
