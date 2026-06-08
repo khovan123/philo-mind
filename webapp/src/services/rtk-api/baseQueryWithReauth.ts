@@ -20,7 +20,13 @@ const DEFAULT_API_URL = Platform.select({
   default: "http://localhost:3001/api/v1",
 });
 
-const rawUrl = (process.env.EXPO_PUBLIC_API_URL || DEFAULT_API_URL || "http://localhost:3001/api/v1").trim().replace(/\/$/, "");
+const rawUrl = (
+  process.env.EXPO_PUBLIC_API_URL ||
+  DEFAULT_API_URL ||
+  "http://localhost:3001/api/v1"
+)
+  .trim()
+  .replace(/\/$/, "");
 const API_BASE_URL = rawUrl.endsWith("/api/v1") ? rawUrl : `${rawUrl}/api/v1`;
 
 type ApiSuccessResponse<T> = {

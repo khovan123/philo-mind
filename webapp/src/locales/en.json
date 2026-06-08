@@ -151,6 +151,8 @@
   },
   "explore": {
     "title": "Explore",
+    "tab_discovery": "Discovery",
+    "tab_chapters": "Chapters",
     "subtitle": "Find topics, lessons, and philosophical questions to continue your journey.",
     "search_placeholder": "Search topics, philosophers...",
     "filter_all": "All",
@@ -165,6 +167,7 @@
     "topics_count_one": "{{count}} topic",
     "empty_title": "No lessons found",
     "empty_text": "Try changing the filter or entering a shorter keyword.",
+    "no_lessons_in_topic": "No lessons in this chapter.",
     "button_scenario": "Scenario",
     "button_short": "Short",
     "button_full": "Full",

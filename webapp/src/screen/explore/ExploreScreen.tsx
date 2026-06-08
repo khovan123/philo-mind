@@ -1,5 +1,12 @@
 import { useRouter } from "expo-router";
-import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
+import {
+  ArrowRight,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  Sparkles,
+} from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
@@ -7,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { cn } from "@/lib/utils";
+import { useListLessonsQuery } from "@/services/rtk-api/lesson.api";
 import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
 import { Pressable, ScrollView, TextInput, View } from "@/tw";
 import { Image } from "@/tw/image";
@@ -137,6 +145,23 @@ const getCategoryTranslation = (cat: string, t: TFunction) => {
 export default function ExploreScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState<"discovery" | "chapters">("discovery");
+  const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({});
+  const { data: dbLessons = [] } = useListLessonsQuery({ limit: 100 });
+
+  const lessonsByTopic = useMemo(() => {
+    const map: Record<string, typeof dbLessons> = {};
+
+    for (const lesson of dbLessons) {
+      if (!lesson.topicId) continue;
+      if (!map[lesson.topicId]) {
+        map[lesson.topicId] = [];
+      }
+      map[lesson.topicId].push(lesson);
+    }
+
+    return map;
+  }, [dbLessons]);
 
   // Set up visible filters dynamically
   const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
@@ -285,189 +310,405 @@ export default function ExploreScreen() {
             />
           </View>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerClassName={styles.filterList}
-          >
-            {visibleFilters.map((filter) => {
-              const active = filter.key === activeFilterKey;
-
-              return (
-                <Pressable
-                  key={filter.key}
-                  accessibilityRole="button"
-                  onPress={() => setActiveFilterKey(filter.key)}
-                  className={cn(styles.filterChip, active && styles.filterActive)}
-                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                >
-                  <ThemedText className={cn(styles.filterText, active && styles.filterTextActive)}>
-                    {filter.label}
-                  </ThemedText>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-
-          <View className={styles.section}>
-            <View className={styles.sectionHeader}>
-              <ThemedText className={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
-              <ThemedText className={styles.resultCount}>
-                {t("explore.lessons_count", { count: filteredLessons.length })}
+          <View className={styles.tabsContainer}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setActiveTab("discovery")}
+              className={cn(styles.tabButton, activeTab === "discovery" && styles.tabButtonActive)}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+            >
+              <ThemedText
+                className={cn(
+                  styles.tabButtonText,
+                  activeTab === "discovery" && styles.tabButtonTextActive,
+                )}
+              >
+                {t("explore.tab_discovery")}
               </ThemedText>
-            </View>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setActiveTab("chapters")}
+              className={cn(styles.tabButton, activeTab === "chapters" && styles.tabButtonActive)}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+            >
+              <ThemedText
+                className={cn(
+                  styles.tabButtonText,
+                  activeTab === "chapters" && styles.tabButtonTextActive,
+                )}
+              >
+                {t("explore.tab_chapters")}
+              </ThemedText>
+            </Pressable>
+          </View>
 
-            {filteredLessons.length === 0 ? (
-              <EmptyState />
-            ) : (
+          {activeTab === "discovery" ? (
+            <>
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerClassName={styles.featuredList}
+                contentContainerClassName={styles.filterList}
               >
-                {filteredLessons.map((lesson, index) => {
-                  const lessonKey =
-                    "topicId" in lesson && typeof lesson.topicId === "string"
-                      ? lesson.topicId
-                      : `${lesson.title}-${index}`;
+                {visibleFilters.map((filter) => {
+                  const active = filter.key === activeFilterKey;
 
                   return (
-                    <View key={lessonKey} className={styles.featuredCard}>
-                      {lesson.image ? (
-                        <Image
-                          source={lesson.image}
-                          contentFit="cover"
-                          className={styles.featuredImage}
-                        />
-                      ) : (
-                        <View className={styles.featuredFallback}>
-                          <BookOpen color={Colors.locked} size={40} />
-                        </View>
-                      )}
-
-                      <View className={styles.featuredBody}>
-                        <View className={styles.featuredMeta}>
-                          <ThemedText className={styles.featuredCategory}>
-                            {lesson.category}
-                          </ThemedText>
-                          <View className={styles.metaDot} />
-                          <ThemedText className={styles.featuredDuration}>
-                            {lesson.duration}
-                          </ThemedText>
-                        </View>
-
-                        <ThemedText className={styles.featuredTitle}>{lesson.title}</ThemedText>
-                        <ThemedText numberOfLines={2} className={styles.featuredDescription}>
-                          {lesson.description}
-                        </ThemedText>
-
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => {
-                            const topicId =
-                              "topicId" in lesson && typeof lesson.topicId === "string"
-                                ? lesson.topicId
-                                : null;
-
-                            if (topicId) {
-                              router.push({
-                                pathname: "/short-lesson" as never,
-                                params: { topicId },
-                              });
-                            } else {
-                              startLesson(lesson.shortRoute);
-                            }
-                          }}
-                          className={styles.startButton}
-                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                        >
-                          <ThemedText className={styles.startButtonText}>
-                            {t("explore.button_short")}
-                          </ThemedText>
-                          <ArrowRight color={Colors.primaryText} size={16} />
-                        </Pressable>
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => {
-                            const topicId =
-                              "topicId" in lesson && typeof lesson.topicId === "string"
-                                ? lesson.topicId
-                                : null;
-
-                            if (topicId) {
-                              router.push({
-                                pathname: "/topic-lessons" as never,
-                                params: { topicId, topicTitle: lesson.title },
-                              });
-                            } else {
-                              startLesson(lesson.fullRoute);
-                            }
-                          }}
-                          className={styles.fullLessonButton}
-                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                        >
-                          <BookOpen color={Colors.primaryLight} size={16} />
-                          <ThemedText className={styles.fullLessonButtonText}>
-                            {t("explore.button_full")}
-                          </ThemedText>
-                        </Pressable>
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => startLesson(lesson.scenarioRoute)}
-                          className={styles.scenarioButton}
-                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                        >
-                          <Sparkles color={Colors.primaryLight} size={16} />
-                          <ThemedText className={styles.scenarioButtonText}>
-                            {t("explore.button_scenario")}
-                          </ThemedText>
-                        </Pressable>
-                      </View>
-                    </View>
+                    <Pressable
+                      key={filter.key}
+                      accessibilityRole="button"
+                      onPress={() => setActiveFilterKey(filter.key)}
+                      className={cn(styles.filterChip, active && styles.filterActive)}
+                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                    >
+                      <ThemedText
+                        className={cn(styles.filterText, active && styles.filterTextActive)}
+                      >
+                        {filter.label}
+                      </ThemedText>
+                    </Pressable>
                   );
                 })}
               </ScrollView>
-            )}
-          </View>
 
-          <View className={styles.section}>
-            <View className={styles.sectionHeader}>
-              <ThemedText className={styles.sectionTitle}>{t("explore.topics_title")}</ThemedText>
-              <ThemedText className={styles.resultCount}>
-                {t("explore.topics_count", { count: filteredTopics.length })}
-              </ThemedText>
+              <View className={styles.section}>
+                <View className={styles.sectionHeader}>
+                  <ThemedText className={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
+                  <ThemedText className={styles.resultCount}>
+                    {t("explore.lessons_count", { count: filteredLessons.length })}
+                  </ThemedText>
+                </View>
+
+                {filteredLessons.length === 0 ? (
+                  <EmptyState />
+                ) : (
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerClassName={styles.featuredList}
+                  >
+                    {filteredLessons.map((lesson, index) => {
+                      const lessonKey =
+                        "topicId" in lesson && typeof lesson.topicId === "string"
+                          ? lesson.topicId
+                          : `${lesson.title}-${index}`;
+
+                      return (
+                        <View key={lessonKey} className={styles.featuredCard}>
+                          {lesson.image ? (
+                            <Image
+                              source={lesson.image}
+                              contentFit="cover"
+                              className={styles.featuredImage}
+                            />
+                          ) : (
+                            <View className={styles.featuredFallback}>
+                              <BookOpen color={Colors.locked} size={40} />
+                            </View>
+                          )}
+
+                          <View className={styles.featuredBody}>
+                            <View className={styles.featuredMeta}>
+                              <ThemedText className={styles.featuredCategory}>
+                                {lesson.category}
+                              </ThemedText>
+                              <View className={styles.metaDot} />
+                              <ThemedText className={styles.featuredDuration}>
+                                {lesson.duration}
+                              </ThemedText>
+                            </View>
+
+                            <ThemedText className={styles.featuredTitle}>{lesson.title}</ThemedText>
+                            <ThemedText numberOfLines={2} className={styles.featuredDescription}>
+                              {lesson.description}
+                            </ThemedText>
+
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => {
+                                const topicId =
+                                  "topicId" in lesson && typeof lesson.topicId === "string"
+                                    ? lesson.topicId
+                                    : null;
+
+                                if (topicId) {
+                                  router.push({
+                                    pathname: "/short-lesson" as never,
+                                    params: { topicId },
+                                  });
+                                } else {
+                                  startLesson(lesson.shortRoute);
+                                }
+                              }}
+                              className={styles.startButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <ThemedText className={styles.startButtonText}>
+                                {t("explore.button_short")}
+                              </ThemedText>
+                              <ArrowRight color={Colors.primaryText} size={16} />
+                            </Pressable>
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => {
+                                const topicId =
+                                  "topicId" in lesson && typeof lesson.topicId === "string"
+                                    ? lesson.topicId
+                                    : null;
+
+                                if (topicId) {
+                                  router.push({
+                                    pathname: "/topic-lessons" as never,
+                                    params: { topicId, topicTitle: lesson.title },
+                                  });
+                                } else {
+                                  startLesson(lesson.fullRoute);
+                                }
+                              }}
+                              className={styles.fullLessonButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <BookOpen color={Colors.primaryLight} size={16} />
+                              <ThemedText className={styles.fullLessonButtonText}>
+                                {t("explore.button_full")}
+                              </ThemedText>
+                            </Pressable>
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => startLesson(lesson.scenarioRoute)}
+                              className={styles.scenarioButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <Sparkles color={Colors.primaryLight} size={16} />
+                              <ThemedText className={styles.scenarioButtonText}>
+                                {t("explore.button_scenario")}
+                              </ThemedText>
+                            </Pressable>
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </ScrollView>
+                )}
+              </View>
+
+              <View className={styles.section}>
+                <View className={styles.sectionHeader}>
+                  <ThemedText className={styles.sectionTitle}>
+                    {t("explore.topics_title")}
+                  </ThemedText>
+                  <ThemedText className={styles.resultCount}>
+                    {t("explore.topics_count", { count: filteredTopics.length })}
+                  </ThemedText>
+                </View>
+
+                <View className={styles.topicGrid}>
+                  {filteredTopics.map((topic) => (
+                    <Pressable
+                      key={topic.id ?? topic.title}
+                      accessibilityRole="button"
+                      onPress={() => {
+                        if (topic.id) {
+                          router.push({
+                            pathname: "/topic-lessons" as never,
+                            params: { topicId: topic.id, topicTitle: topic.title },
+                          });
+                        } else {
+                          setQuery(topic.title);
+                        }
+                      }}
+                      className={styles.topicCard}
+                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                    >
+                      <View className={styles.topicCopy}>
+                        <ThemedText className={styles.topicTitle}>{topic.title}</ThemedText>
+                        <ThemedText className={styles.topicLessons}>{topic.lessons}</ThemedText>
+                      </View>
+
+                      <View className={styles.progressTrack}>
+                        <View
+                          className={styles.progressFill}
+                          style={{ width: `${topic.progress}%` }}
+                        />
+                      </View>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </>
+          ) : (
+            <View className={styles.section}>
+              <View className={styles.sectionHeader}>
+                <ThemedText className={styles.sectionTitle}>{t("explore.tab_chapters")}</ThemedText>
+                <ThemedText className={styles.resultCount}>
+                  {t("explore.topics_count", { count: filteredTopics.length })}
+                </ThemedText>
+              </View>
+
+              {filteredTopics.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <View className={styles.accordionContainer}>
+                  {filteredTopics.map((topic) => {
+                    const topicKey = topic.id ?? topic.title;
+                    const isExpanded = !!expandedTopics[topicKey];
+                    const topicLessons = topic.id ? lessonsByTopic[topic.id] || [] : [];
+
+                    return (
+                      <View
+                        key={topicKey}
+                        className={cn(
+                          styles.accordionItem,
+                          isExpanded && styles.accordionItemExpanded,
+                        )}
+                      >
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() =>
+                            setExpandedTopics((prev) => ({
+                              ...prev,
+                              [topicKey]: !prev[topicKey],
+                            }))
+                          }
+                          className={styles.accordionHeader}
+                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                        >
+                          <View className={styles.accordionHeaderMain}>
+                            <View className={styles.accordionTitleRow}>
+                              <ThemedText className={styles.accordionTitle}>
+                                {topic.title}
+                              </ThemedText>
+                              {topic.category ? (
+                                <View className={styles.categoryBadge}>
+                                  <ThemedText className={styles.categoryBadgeText}>
+                                    {getCategoryTranslation(topic.category, t)}
+                                  </ThemedText>
+                                </View>
+                              ) : null}
+                            </View>
+                            <ThemedText className={styles.accordionSubtitle}>
+                              {topic.lessons}
+                            </ThemedText>
+                          </View>
+                          {isExpanded ? (
+                            <ChevronUp color={Colors.primaryLight} size={20} />
+                          ) : (
+                            <ChevronDown color={Colors.muted} size={20} />
+                          )}
+                        </Pressable>
+
+                        {isExpanded ? (
+                          <View className={styles.accordionContent}>
+                            <View className={styles.accordionProgressTrack}>
+                              <View
+                                className={styles.accordionProgressFill}
+                                style={{ width: `${topic.progress}%` }}
+                              />
+                            </View>
+
+                            {topicLessons.length === 0 ? (
+                              <View className={styles.accordionEmpty}>
+                                <ThemedText className={styles.accordionEmptyText}>
+                                  {t("explore.no_lessons_in_topic")}
+                                </ThemedText>
+                              </View>
+                            ) : (
+                              <View className={styles.accordionLessonsList}>
+                                {topicLessons.map((lesson) => (
+                                  <View key={lesson.id} className={styles.accordionLessonCard}>
+                                    <View className={styles.accordionLessonHeader}>
+                                      <BookOpen color={Colors.primaryLight} size={16} />
+                                      <ThemedText className={styles.accordionLessonTitle}>
+                                        {lesson.title}
+                                      </ThemedText>
+                                    </View>
+
+                                    {lesson.conflict ? (
+                                      <ThemedText
+                                        numberOfLines={2}
+                                        className={styles.accordionLessonDesc}
+                                      >
+                                        {lesson.conflict}
+                                      </ThemedText>
+                                    ) : null}
+
+                                    <View className={styles.accordionLessonActions}>
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() => {
+                                          if (topic.id) {
+                                            router.push({
+                                              pathname: "/short-lesson" as never,
+                                              params: { topicId: topic.id },
+                                            });
+                                          }
+                                        }}
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionShort,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <ArrowRight color={Colors.primaryText} size={12} />
+                                        <ThemedText className={styles.accordionActionShortText}>
+                                          {t("explore.button_short")}
+                                        </ThemedText>
+                                      </Pressable>
+
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() =>
+                                          router.push({
+                                            pathname: "/full-lesson" as never,
+                                            params: { lessonId: lesson.id },
+                                          })
+                                        }
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionFull,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <BookOpen color={Colors.primaryLight} size={12} />
+                                        <ThemedText className={styles.accordionActionFullText}>
+                                          {t("explore.button_full")}
+                                        </ThemedText>
+                                      </Pressable>
+
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() => router.push("/trial-of-socrates" as never)}
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionScenario,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <Sparkles color={Colors.primaryLight} size={12} />
+                                        <ThemedText className={styles.accordionActionScenarioText}>
+                                          {t("explore.button_scenario")}
+                                        </ThemedText>
+                                      </Pressable>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                            )}
+                          </View>
+                        ) : null}
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
             </View>
-
-            <View className={styles.topicGrid}>
-              {filteredTopics.map((topic) => (
-                <Pressable
-                  key={topic.id ?? topic.title}
-                  accessibilityRole="button"
-                  onPress={() => {
-                    if (topic.id) {
-                      router.push({
-                        pathname: "/topic-lessons" as never,
-                        params: { topicId: topic.id, topicTitle: topic.title },
-                      });
-                    } else {
-                      setQuery(topic.title);
-                    }
-                  }}
-                  className={styles.topicCard}
-                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                >
-                  <View className={styles.topicCopy}>
-                    <ThemedText className={styles.topicTitle}>{topic.title}</ThemedText>
-                    <ThemedText className={styles.topicLessons}>{topic.lessons}</ThemedText>
-                  </View>
-
-                  <View className={styles.progressTrack}>
-                    <View className={styles.progressFill} style={{ width: `${topic.progress}%` }} />
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </View>
+          )}
 
           <View className={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
@@ -512,6 +753,11 @@ const styles = {
   filterActive: "border-[#D97706]",
   filterText: "text-[12px] font-extrabold leading-[16px] text-[#A1A1AA]",
   filterTextActive: "text-[#FFB77D]",
+  tabsContainer: "my-1 flex-row rounded-md bg-[#1E1E22] p-1",
+  tabButton: "flex-1 items-center justify-center rounded-sm py-2",
+  tabButtonActive: "bg-[#161618]",
+  tabButtonText: "text-[14px] font-bold text-[#A1A1AA]",
+  tabButtonTextActive: "text-[#FFB77D]",
   section: "gap-2",
   sectionHeader: "flex-row items-center justify-between",
   sectionTitle: "font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]",
@@ -543,6 +789,35 @@ const styles = {
   topicLessons: "text-[12px] font-bold leading-[16px] text-[#A1A1AA]",
   progressTrack: "h-1 overflow-hidden rounded-full bg-[#1E1E22]",
   progressFill: "h-full rounded-full bg-[#D97706]",
+  accordionContainer: "gap-2",
+  accordionItem: "overflow-hidden rounded-md border border-[#27272A] bg-[#161618]",
+  accordionItemExpanded: "border-[#353437]",
+  accordionHeader: "flex-row items-center justify-between bg-[#161618] p-3",
+  accordionHeaderMain: "flex-1 gap-1 pr-2",
+  accordionTitleRow: "flex-row flex-wrap items-center gap-2",
+  accordionTitle: "flex-1 font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
+  categoryBadge: "rounded-full bg-[#27272A] px-2 py-0.5",
+  categoryBadgeText: "text-[10px] font-extrabold uppercase text-[#FFB77D]",
+  accordionSubtitle: "text-[12px] font-semibold leading-[16px] text-[#A1A1AA]",
+  accordionContent: "gap-3 border-t border-[#353437] bg-[#18181B] px-3 pb-3",
+  accordionProgressTrack: "mt-2 h-[3px] overflow-hidden rounded-full bg-[#1E1E22]",
+  accordionProgressFill: "h-full rounded-full bg-[#D97706]",
+  accordionEmpty: "items-center justify-center py-4",
+  accordionEmptyText: "text-[13px] font-semibold text-[#A1A1AA]",
+  accordionLessonsList: "gap-3",
+  accordionLessonCard: "gap-2 rounded-md border border-[#27272A] bg-[#161618] p-3",
+  accordionLessonHeader: "flex-row items-center gap-2",
+  accordionLessonTitle: "flex-1 font-sans text-[14px] font-bold leading-[18px] text-[#E5E1E4]",
+  accordionLessonDesc: "text-[12px] font-semibold leading-[17px] text-[#A1A1AA]",
+  accordionLessonActions: "mt-1 flex-row flex-wrap gap-2",
+  accordionActionBtn:
+    "min-h-[32px] min-w-[90px] flex-1 flex-row items-center justify-center gap-1 rounded-sm px-2",
+  accordionActionShort: "bg-[#D97706]",
+  accordionActionShortText: "text-[11px] font-extrabold text-[#0C0C0E]",
+  accordionActionFull: "border border-[#D97706]",
+  accordionActionFullText: "text-[11px] font-extrabold text-[#FFB77D]",
+  accordionActionScenario: "border border-[#27272A] bg-[#1E1E22]",
+  accordionActionScenarioText: "text-[11px] font-extrabold text-[#FFB77D]",
   emptyState:
     "min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618]",
   emptyTitle: "text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]",

@@ -151,6 +151,8 @@
   },
   "explore": {
     "title": "Khám phá",
+    "tab_discovery": "Khám phá",
+    "tab_chapters": "Theo chương",
     "subtitle": "Tìm chủ đề, bài học và câu hỏi triết học để tiếp tục hành trình.",
     "search_placeholder": "Tìm chủ đề, triết gia...",
     "filter_all": "Tất cả",
@@ -165,6 +167,7 @@
     "topics_count_one": "{{count}} mục",
     "empty_title": "Không tìm thấy bài học",
     "empty_text": "Thử đổi bộ lọc hoặc nhập từ khóa ngắn hơn.",
+    "no_lessons_in_topic": "Không có bài học nào trong chương này.",
     "button_scenario": "Tình huống",
     "button_short": "Tóm tắt",
     "button_full": "Chi tiết",
