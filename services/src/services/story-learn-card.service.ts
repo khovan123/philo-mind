@@ -44,7 +44,7 @@ export class StoryLearnCardService {
         ...(tagIds && tagIds.length > 0
           ? {
               tags: {
-                create: tagIds.map((tagId) => ({ tagId })),
+                create: tagIds.map((tagId: string) => ({ tagId })),
               },
             }
           : {}),
@@ -71,7 +71,7 @@ export class StoryLearnCardService {
         ...(tagIds !== undefined
           ? {
               tags: {
-                create: tagIds.map((tagId) => ({ tagId })),
+                create: tagIds.map((tagId: string) => ({ tagId })),
               },
             }
           : {}),

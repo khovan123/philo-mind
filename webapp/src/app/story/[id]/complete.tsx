@@ -19,6 +19,7 @@ import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { useGetStoryStatsQuery } from "@/services/rtk-api/story.api";
 import { useStoryStore } from "@/stores/story.store";
+import { useMindmapStore } from "@/stores/mindmap.store";
 
 // ── Main Component ───────────────────────────────────────────
 export default function StoryCompleteScreen() {
@@ -95,10 +96,19 @@ export default function StoryCompleteScreen() {
     router.replace("/(tabs)/story" as never);
   }, [resetStore, router]);
 
-  const handleGoToMindmap = useCallback(() => {
+  const { selectTopic } = useMindmapStore();
+
+  const handleGoToMindmap = useCallback(async () => {
+    if (currentStory?.topic?.id) {
+      try {
+        await selectTopic(currentStory.topic.id);
+      } catch {
+        // Safe to ignore or log
+      }
+    }
     resetStore();
-    router.replace("/(tabs)/learn" as never);
-  }, [resetStore, router]);
+    router.replace("/mindmap" as never);
+  }, [currentStory, resetStore, router, selectTopic]);
 
   // ── Render ──────────────────────────────────────────────────
   return (
@@ -313,7 +323,7 @@ export default function StoryCompleteScreen() {
               onPress={handleGoHome}
               variant="outline"
               fullWidth
-              style={{ flex: 1, marginTop: Spacing.two }}
+              style={{ flex: 1 }}
             />
           </View>
         )}

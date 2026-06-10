@@ -2,12 +2,16 @@
   "name": "@philo-mind/shared",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Shared types, constants, and utilities between frontend and backend",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "typescript": "^5.7.0"

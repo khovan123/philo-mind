@@ -333,6 +333,73 @@ export class AuthService {
     await prisma.user.update({ where: { id: userId }, data: { passwordHash } });
   }
 
+  async googleLogin(email: string, fullName: string, avatarUrl: string | null) {
+    const normalizedEmail = email.trim().toLowerCase();
+    let user = await prisma.user.findUnique({
+      where: { email: normalizedEmail },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        avatarUrl: true,
+        isActive: true,
+        createdAt: true,
+      },
+    });
+
+    if (user) {
+      if (!user.isActive) {
+        throw new AuthError("ACCOUNT_DISABLED", "Tài khoản đã bị vô hiệu hóa", 403);
+      }
+
+      if (!user.avatarUrl && avatarUrl) {
+        user = await prisma.user.update({
+          where: { id: user.id },
+          data: { avatarUrl },
+          select: {
+            id: true,
+            email: true,
+            fullName: true,
+            role: true,
+            avatarUrl: true,
+            isActive: true,
+            createdAt: true,
+          },
+        });
+      }
+    } else {
+      const randomPassword = crypto.randomBytes(32).toString("hex");
+      const passwordHash = await bcrypt.hash(randomPassword, BCRYPT_ROUNDS);
+
+      const created = await prisma.user.create({
+        data: {
+          email: normalizedEmail,
+          fullName: fullName || "Google User",
+          avatarUrl,
+          passwordHash,
+        },
+        select: {
+          id: true,
+          email: true,
+          fullName: true,
+          role: true,
+          avatarUrl: true,
+          createdAt: true,
+        },
+      });
+
+      user = {
+        ...created,
+        isActive: true,
+      };
+    }
+    const tokens = await this.createSession(user.id, user.role);
+
+    const { isActive: _, ...userWithoutIsActive } = user;
+    return { user: userWithoutIsActive, tokens };
+  }
+
   /**
    * Get current user profile.
    */

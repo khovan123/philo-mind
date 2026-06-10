@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
@@ -10,14 +11,16 @@ type QuestionProgressProps = {
 };
 
 export function QuestionProgress({ current, progress, total }: QuestionProgressProps) {
+  const { t } = useTranslation();
+
   return (
     <View>
       <View style={styles.rowBetween}>
         <ThemedText style={styles.statLabel}>
-          Question {current} of {total}
+          {t("quiz.question_progress", { current, total })}
         </ThemedText>
         <ThemedText style={[styles.statLabel, { color: QuizColors.primaryLight }]}>
-          {Math.round(progress * 100)}% Complete
+          {t("quiz.percent_complete", { percent: Math.round(progress * 100) })}
         </ThemedText>
       </View>
       <View style={[styles.progressTrack, { marginTop: 8 }]}>

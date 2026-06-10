@@ -1,14 +1,25 @@
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
-import { ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
+import {
+  ArrowRight,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  Sparkles,
+} from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import { Platform, Pressable, ScrollView, StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { cn } from "@/lib/utils";
+import { useListLessonsQuery } from "@/services/rtk-api/lesson.api";
 import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
+import { Pressable, ScrollView, TextInput, View } from "@/tw";
+import { Image } from "@/tw/image";
+
+type TFunction = (key: string, options?: { count?: number; [key: string]: unknown }) => string;
 
 const Colors = {
   background: "#0C0C0E",
@@ -28,36 +39,40 @@ const Colors = {
 const featuredImage =
   "https://lh3.googleusercontent.com/aida/ADBb0uhB-BsNh_Qy7s6akK1COFe_ezvtoKv-rL3DQfw0HQaL96njTcP3KNp2pMCO15nzCnD0Bdkq3XO8B7uxVMIsK4jyNnJTRUnEeiN0BDMnsilmtR5ITDbnHNNgY1VmcZNNeMfHCWnKO10H-r0_bPpCvxFutPxvx7zn_Pxyr6bkr22qEzKFJ52m0XOKIlQqVl2kXiUzOxTREEGwi-z5HVNoGTTJIoNRL0pdLhSQ8tp_Y2rylPldVEoeheiiMfzw";
 
-const filters = ["Tất cả", "Đạo đức", "Lịch sử", "Chính trị", "Xã hội"];
+const filterItems = [
+  { key: "all", dbValue: "Tất cả", labelKey: "explore.filter_all" },
+  { key: "ethics", dbValue: "Đạo đức", labelKey: "explore.filter_ethics" },
+  { key: "history", dbValue: "Lịch sử", labelKey: "explore.filter_history" },
+  { key: "politics", dbValue: "Chính trị", labelKey: "explore.filter_politics" },
+  { key: "society", dbValue: "Xã hội", labelKey: "explore.filter_society" },
+];
 
-const featuredLessons = [
+const getFeaturedLessons = (t: TFunction) => [
   {
-    title: "Phiên tòa Socrates",
-    category: "Đạo đức",
-    duration: "8 phút",
-    description:
-      "Nhập vai Socrates, lựa chọn trước tòa án Athens và khám phá bài học về chính trực đạo đức.",
+    title: t("home.learning_socrates_title"),
+    category: t("explore.filter_ethics"),
+    duration: t("explore.lessons_suffix", { count: 8 }),
+    description: t("explore.fallback_socrates_desc"),
     image: featuredImage,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
-    title: "Tự do là gì? Góc nhìn của Sartre",
-    category: "Hiện sinh",
-    duration: "5 phút",
-    description:
-      "Hành trình tìm kiếm ý nghĩa cá nhân trong một thế giới không có bản thiết kế sẵn.",
+    title: t("explore.fallback_sartre_title"),
+    category: t("explore.fallback_sartre_category"),
+    duration: t("explore.lessons_suffix", { count: 5 }),
+    description: t("explore.fallback_sartre_desc"),
     image: featuredImage,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
     shortRoute: "/short-lesson",
   },
   {
-    title: "Khế ước xã hội hiện đại",
-    category: "Xã hội",
-    duration: "8 phút",
-    description: "Vì sao con người chấp nhận giới hạn tự do để cùng sống trong trật tự?",
+    title: t("explore.fallback_social_contract_title"),
+    category: t("explore.fallback_social_contract_category"),
+    duration: t("explore.lessons_suffix", { count: 8 }),
+    description: t("explore.fallback_social_contract_desc"),
     image: null,
     fullRoute: "/full-lesson",
     scenarioRoute: "/trial-of-socrates",
@@ -65,18 +80,118 @@ const featuredLessons = [
   },
 ];
 
-const topics = [
-  { title: "Đạo đức", lessons: "12 bài học", progress: 34, category: "Đạo đức" },
-  { title: "Hạnh phúc", lessons: "8 bài học", progress: 66, category: "Đạo đức" },
-  { title: "Công bằng", lessons: "15 bài học", progress: 25, category: "Chính trị" },
-  { title: "Hiện sinh", lessons: "20 bài học", progress: 100, category: "Đạo đức" },
-  { title: "Logic", lessons: "10 bài học", progress: 50, category: "Đạo đức" },
-  { title: "AI Ethics", lessons: "6 bài học", progress: 12, category: "Xã hội" },
+const getTopicsFallback = (t: TFunction) => [
+  {
+    title: t("explore.filter_ethics"),
+    lessons: t("explore.lessons_suffix", { count: 12 }),
+    progress: 34,
+    category: "Đạo đức",
+  },
+  {
+    title: t("home.learning_socrates_subtitle"),
+    lessons: t("explore.lessons_suffix", { count: 8 }),
+    progress: 66,
+    category: "Đạo đức",
+  },
+  {
+    title: t("explore.filter_politics"),
+    lessons: t("explore.lessons_suffix", { count: 15 }),
+    progress: 25,
+    category: "Chính trị",
+  },
+  {
+    title: t("explore.fallback_sartre_category"),
+    lessons: t("explore.lessons_suffix", { count: 20 }),
+    progress: 100,
+    category: "Đạo đức",
+  },
+  {
+    title: "Logic",
+    lessons: t("explore.lessons_suffix", { count: 10 }),
+    progress: 50,
+    category: "Đạo đức",
+  },
+  {
+    title: "AI Ethics",
+    lessons: t("explore.lessons_suffix", { count: 6 }),
+    progress: 12,
+    category: "Xã hội",
+  },
 ];
 
+const getCategoryTranslation = (cat: string, t: TFunction) => {
+  const normalized = cat.toLowerCase();
+  switch (normalized) {
+    case "đạo đức":
+    case "ethics":
+      return t("explore.filter_ethics");
+    case "lịch sử":
+    case "history":
+      return t("explore.filter_history");
+    case "chính trị":
+    case "politics":
+      return t("explore.filter_politics");
+    case "xã hội":
+    case "society":
+      return t("explore.filter_society");
+    case "tất cả":
+    case "all":
+      return t("explore.filter_all");
+    default:
+      return cat;
+  }
+};
+
 export default function ExploreScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState(filters[0]);
+  const [activeTab, setActiveTab] = useState<"discovery" | "chapters">("discovery");
+  const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({});
+  const { data: dbLessons = [] } = useListLessonsQuery({ limit: 100 });
+
+  const lessonsByTopic = useMemo(() => {
+    const map: Record<string, typeof dbLessons> = {};
+
+    for (const lesson of dbLessons) {
+      if (!lesson.topicId) continue;
+      if (!map[lesson.topicId]) {
+        map[lesson.topicId] = [];
+      }
+      map[lesson.topicId].push(lesson);
+    }
+
+    return map;
+  }, [dbLessons]);
+
+  // Set up visible filters dynamically
+  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
+  const visibleFilters = useMemo(() => {
+    const categories = Array.from(
+      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
+    );
+
+    // Ensure default dbValues are mapped or added if they aren't in database
+    const baseItems = filterItems.map((item) => ({
+      key: item.key,
+      dbValue: item.dbValue,
+      label: t(item.labelKey),
+    }));
+
+    // Add any categories from db not in the default items
+    categories.forEach((cat) => {
+      if (!baseItems.some((item) => item.dbValue === cat)) {
+        baseItems.push({
+          key: cat,
+          dbValue: cat,
+          label: getCategoryTranslation(cat, t),
+        });
+      }
+    });
+
+    return baseItems;
+  }, [allTopics, t]);
+
+  const [activeFilterKey, setActiveFilterKey] = useState("all");
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
 
@@ -85,48 +200,47 @@ export default function ExploreScreen() {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  const topicCategory = activeFilter === filters[0] ? undefined : activeFilter;
+  const activeFilterItem = useMemo(() => {
+    return (
+      visibleFilters.find((f) => f.key === activeFilterKey) ||
+      visibleFilters[0] || { key: "all", dbValue: "Tất cả", label: t("explore.filter_all") }
+    );
+  }, [activeFilterKey, visibleFilters, t]);
+
+  const topicCategory = activeFilterItem.key === "all" ? undefined : activeFilterItem.dbValue;
   const { data: dbTopics = [] } = useListTopicsQuery({
     search: debouncedQuery || undefined,
     category: topicCategory,
     limit: 30,
   });
-  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
-  const visibleFilters = useMemo(() => {
-    if (allTopics.length === 0) {
-      return filters;
-    }
-
-    const categories = Array.from(
-      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
-    );
-    return [filters[0], ...categories];
-  }, [allTopics]);
 
   const normalizedQuery = query.trim().toLowerCase();
 
   const featuredLessonsToUse = useMemo(() => {
     if (dbTopics.length === 0) {
-      return featuredLessons;
+      return getFeaturedLessons(t);
     }
 
     return dbTopics.slice(0, 6).map((topic) => ({
       topicId: topic.id,
       title: topic.title,
-      category: topic.category ?? "Triết học",
-      duration: `${topic._count?.lessons ?? 0} bài học`,
-      description: topic.description ?? "Khám phá chủ đề triết học từ database.",
+      category: getCategoryTranslation(topic.category ?? "Triết học", t),
+      duration: t("explore.lessons_suffix", { count: topic._count?.lessons ?? 0 }),
+      description: topic.description ?? t("explore.empty_text"),
       image: featuredImage,
       fullRoute: "/full-lesson",
       scenarioRoute: "/trial-of-socrates",
       shortRoute: "/short-lesson",
     }));
-  }, [dbTopics]);
+  }, [dbTopics, t]);
 
   const filteredLessons = useMemo(
     () =>
       featuredLessonsToUse.filter((lesson) => {
-        const matchesFilter = activeFilter === "Tất cả" || lesson.category === activeFilter;
+        const matchesFilter =
+          activeFilterItem.key === "all" ||
+          lesson.category === activeFilterItem.label ||
+          lesson.category === activeFilterItem.dbValue;
         const matchesQuery =
           !normalizedQuery ||
           `${lesson.title} ${lesson.category} ${lesson.description}`
@@ -135,26 +249,29 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, featuredLessonsToUse, normalizedQuery],
+    [activeFilterItem, featuredLessonsToUse, normalizedQuery],
   );
 
   const topicsToUse = useMemo(() => {
     if (dbTopics && dbTopics.length > 0) {
-      return dbTopics.map((t, index) => ({
-        id: t.id,
-        title: t.title,
-        lessons: `${t._count?.lessons ?? 0} bài học`,
+      return dbTopics.map((tItem, index) => ({
+        id: tItem.id,
+        title: tItem.title,
+        lessons: t("explore.lessons_suffix", { count: tItem._count?.lessons ?? 0 }),
         progress: Math.min(100, index === 0 ? 34 : 18 + index * 12),
-        category: t.category ?? "Đạo đức",
+        category: tItem.category ?? "Đạo đức",
       }));
     }
-    return topics.map((t) => ({ ...t, id: undefined as string | undefined }));
-  }, [dbTopics]);
+    return getTopicsFallback(t).map((tItem) => ({ ...tItem, id: undefined as string | undefined }));
+  }, [dbTopics, t]);
 
   const filteredTopics = useMemo(
     () =>
       topicsToUse.filter((topic) => {
-        const matchesFilter = activeFilter === "Tất cả" || topic.category === activeFilter;
+        const matchesFilter =
+          activeFilterItem.key === "all" ||
+          topic.category === activeFilterItem.dbValue ||
+          getCategoryTranslation(topic.category, t) === activeFilterItem.label;
         const matchesQuery =
           !normalizedQuery ||
           `${topic.title} ${topic.lessons} ${topic.category}`
@@ -163,7 +280,7 @@ export default function ExploreScreen() {
 
         return matchesFilter && matchesQuery;
       }),
-    [activeFilter, normalizedQuery, topicsToUse],
+    [activeFilterItem, normalizedQuery, topicsToUse, t],
   );
 
   function startLesson(route: string) {
@@ -171,212 +288,433 @@ export default function ExploreScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
+    <View className={styles.screen}>
+      <SafeAreaView edges={["top"]} className={styles.safeArea}>
         <AppHeader />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-          <View style={styles.titleBlock}>
-            <ThemedText style={styles.title}>Khám phá</ThemedText>
-            <ThemedText style={styles.subtitle}>
-              Tìm chủ đề, bài học và câu hỏi triết học để tiếp tục hành trình.
-            </ThemedText>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={styles.content}>
+          <View className={styles.titleBlock}>
+            <ThemedText className={styles.title}>{t("explore.title")}</ThemedText>
+            <ThemedText className={styles.subtitle}>{t("explore.subtitle")}</ThemedText>
           </View>
 
-          <View style={[styles.searchBox, query.length > 0 && styles.searchBoxActive]}>
+          <View className={cn(styles.searchBox, query.length > 0 && styles.searchBoxActive)}>
             <Search color={query.length > 0 ? Colors.primaryLight : Colors.locked} size={18} />
             <TextInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Tìm chủ đề, triết gia..."
+              placeholder={t("explore.search_placeholder")}
               placeholderTextColor={Colors.locked}
               selectionColor={Colors.primaryLight}
-              style={styles.searchInput}
+              className={styles.searchInput}
             />
           </View>
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.filterList}
-          >
-            {visibleFilters.map((filter) => {
-              const active = filter === activeFilter;
+          <View className={styles.tabsContainer}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setActiveTab("discovery")}
+              className={cn(styles.tabButton, activeTab === "discovery" && styles.tabButtonActive)}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+            >
+              <ThemedText
+                className={cn(
+                  styles.tabButtonText,
+                  activeTab === "discovery" && styles.tabButtonTextActive,
+                )}
+              >
+                {t("explore.tab_discovery")}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setActiveTab("chapters")}
+              className={cn(styles.tabButton, activeTab === "chapters" && styles.tabButtonActive)}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+            >
+              <ThemedText
+                className={cn(
+                  styles.tabButtonText,
+                  activeTab === "chapters" && styles.tabButtonTextActive,
+                )}
+              >
+                {t("explore.tab_chapters")}
+              </ThemedText>
+            </Pressable>
+          </View>
 
-              return (
-                <Pressable
-                  key={filter}
-                  accessibilityRole="button"
-                  onPress={() => setActiveFilter(filter)}
-                  style={({ pressed }) => [
-                    styles.filterChip,
-                    active && styles.filterActive,
-                    pressed && styles.pressed,
-                  ]}
-                >
-                  <ThemedText style={[styles.filterText, active && styles.filterTextActive]}>
-                    {filter}
-                  </ThemedText>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Nổi bật</ThemedText>
-              <ThemedText style={styles.resultCount}>{filteredLessons.length} bài</ThemedText>
-            </View>
-
-            {filteredLessons.length === 0 ? (
-              <EmptyState />
-            ) : (
+          {activeTab === "discovery" ? (
+            <>
               <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.featuredList}
+                contentContainerClassName={styles.filterList}
               >
-                {filteredLessons.map((lesson, index) => {
-                  const lessonKey =
-                    "topicId" in lesson && typeof lesson.topicId === "string"
-                      ? lesson.topicId
-                      : `${lesson.title}-${index}`;
+                {visibleFilters.map((filter) => {
+                  const active = filter.key === activeFilterKey;
 
                   return (
-                    <View key={lessonKey} style={styles.featuredCard}>
-                      {lesson.image ? (
-                        <Image
-                          source={lesson.image}
-                          contentFit="cover"
-                          style={styles.featuredImage}
-                        />
-                      ) : (
-                        <View style={styles.featuredFallback}>
-                          <BookOpen color={Colors.locked} size={40} />
-                        </View>
-                      )}
-
-                      <View style={styles.featuredBody}>
-                        <View style={styles.featuredMeta}>
-                          <ThemedText style={styles.featuredCategory}>{lesson.category}</ThemedText>
-                          <View style={styles.metaDot} />
-                          <ThemedText style={styles.featuredDuration}>{lesson.duration}</ThemedText>
-                        </View>
-
-                        <ThemedText style={styles.featuredTitle}>{lesson.title}</ThemedText>
-                        <ThemedText numberOfLines={2} style={styles.featuredDescription}>
-                          {lesson.description}
-                        </ThemedText>
-
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => {
-                            const topicId =
-                              "topicId" in lesson && typeof lesson.topicId === "string"
-                                ? lesson.topicId
-                                : null;
-
-                            if (topicId) {
-                              router.push({
-                                pathname: "/short-lesson" as never,
-                                params: { topicId },
-                              });
-                            } else {
-                              startLesson(lesson.shortRoute);
-                            }
-                          }}
-                          style={({ pressed }) => [styles.startButton, pressed && styles.pressed]}
-                        >
-                          <ThemedText style={styles.startButtonText}>Short</ThemedText>
-                          <ArrowRight color={Colors.primaryText} size={16} />
-                        </Pressable>
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => {
-                            const topicId =
-                              "topicId" in lesson && typeof lesson.topicId === "string"
-                                ? lesson.topicId
-                                : null;
-
-                            if (topicId) {
-                              router.push({
-                                pathname: "/topic-lessons" as never,
-                                params: { topicId, topicTitle: lesson.title },
-                              });
-                            } else {
-                              startLesson(lesson.fullRoute);
-                            }
-                          }}
-                          style={({ pressed }) => [
-                            styles.fullLessonButton,
-                            pressed && styles.pressed,
-                          ]}
-                        >
-                          <BookOpen color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.fullLessonButtonText}>Full</ThemedText>
-                        </Pressable>
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() => startLesson(lesson.scenarioRoute)}
-                          style={({ pressed }) => [
-                            styles.scenarioButton,
-                            pressed && styles.pressed,
-                          ]}
-                        >
-                          <Sparkles color={Colors.primaryLight} size={16} />
-                          <ThemedText style={styles.scenarioButtonText}>Tình huống</ThemedText>
-                        </Pressable>
-                      </View>
-                    </View>
+                    <Pressable
+                      key={filter.key}
+                      accessibilityRole="button"
+                      onPress={() => setActiveFilterKey(filter.key)}
+                      className={cn(styles.filterChip, active && styles.filterActive)}
+                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                    >
+                      <ThemedText
+                        className={cn(styles.filterText, active && styles.filterTextActive)}
+                      >
+                        {filter.label}
+                      </ThemedText>
+                    </Pressable>
                   );
                 })}
               </ScrollView>
-            )}
-          </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Chủ đề</ThemedText>
-              <ThemedText style={styles.resultCount}>{filteredTopics.length} mục</ThemedText>
+              <View className={styles.section}>
+                <View className={styles.sectionHeader}>
+                  <ThemedText className={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
+                  <ThemedText className={styles.resultCount}>
+                    {t("explore.lessons_count", { count: filteredLessons.length })}
+                  </ThemedText>
+                </View>
+
+                {filteredLessons.length === 0 ? (
+                  <EmptyState />
+                ) : (
+                  <ScrollView
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerClassName={styles.featuredList}
+                  >
+                    {filteredLessons.map((lesson, index) => {
+                      const lessonKey =
+                        "topicId" in lesson && typeof lesson.topicId === "string"
+                          ? lesson.topicId
+                          : `${lesson.title}-${index}`;
+
+                      return (
+                        <View key={lessonKey} className={styles.featuredCard}>
+                          {lesson.image ? (
+                            <Image
+                              source={lesson.image}
+                              contentFit="cover"
+                              className={styles.featuredImage}
+                            />
+                          ) : (
+                            <View className={styles.featuredFallback}>
+                              <BookOpen color={Colors.locked} size={40} />
+                            </View>
+                          )}
+
+                          <View className={styles.featuredBody}>
+                            <View className={styles.featuredMeta}>
+                              <ThemedText className={styles.featuredCategory}>
+                                {lesson.category}
+                              </ThemedText>
+                              <View className={styles.metaDot} />
+                              <ThemedText className={styles.featuredDuration}>
+                                {lesson.duration}
+                              </ThemedText>
+                            </View>
+
+                            <ThemedText className={styles.featuredTitle}>{lesson.title}</ThemedText>
+                            <ThemedText numberOfLines={2} className={styles.featuredDescription}>
+                              {lesson.description}
+                            </ThemedText>
+
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => {
+                                const topicId =
+                                  "topicId" in lesson && typeof lesson.topicId === "string"
+                                    ? lesson.topicId
+                                    : null;
+
+                                if (topicId) {
+                                  router.push({
+                                    pathname: "/short-lesson" as never,
+                                    params: { topicId },
+                                  });
+                                } else {
+                                  startLesson(lesson.shortRoute);
+                                }
+                              }}
+                              className={styles.startButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <ThemedText className={styles.startButtonText}>
+                                {t("explore.button_short")}
+                              </ThemedText>
+                              <ArrowRight color={Colors.primaryText} size={16} />
+                            </Pressable>
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => {
+                                const topicId =
+                                  "topicId" in lesson && typeof lesson.topicId === "string"
+                                    ? lesson.topicId
+                                    : null;
+
+                                if (topicId) {
+                                  router.push({
+                                    pathname: "/topic-lessons" as never,
+                                    params: { topicId, topicTitle: lesson.title },
+                                  });
+                                } else {
+                                  startLesson(lesson.fullRoute);
+                                }
+                              }}
+                              className={styles.fullLessonButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <BookOpen color={Colors.primaryLight} size={16} />
+                              <ThemedText className={styles.fullLessonButtonText}>
+                                {t("explore.button_full")}
+                              </ThemedText>
+                            </Pressable>
+                            <Pressable
+                              accessibilityRole="button"
+                              onPress={() => startLesson(lesson.scenarioRoute)}
+                              className={styles.scenarioButton}
+                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                            >
+                              <Sparkles color={Colors.primaryLight} size={16} />
+                              <ThemedText className={styles.scenarioButtonText}>
+                                {t("explore.button_scenario")}
+                              </ThemedText>
+                            </Pressable>
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </ScrollView>
+                )}
+              </View>
+
+              <View className={styles.section}>
+                <View className={styles.sectionHeader}>
+                  <ThemedText className={styles.sectionTitle}>
+                    {t("explore.topics_title")}
+                  </ThemedText>
+                  <ThemedText className={styles.resultCount}>
+                    {t("explore.topics_count", { count: filteredTopics.length })}
+                  </ThemedText>
+                </View>
+
+                <View className={styles.topicGrid}>
+                  {filteredTopics.map((topic) => (
+                    <Pressable
+                      key={topic.id ?? topic.title}
+                      accessibilityRole="button"
+                      onPress={() => {
+                        if (topic.id) {
+                          router.push({
+                            pathname: "/topic-lessons" as never,
+                            params: { topicId: topic.id, topicTitle: topic.title },
+                          });
+                        } else {
+                          setQuery(topic.title);
+                        }
+                      }}
+                      className={styles.topicCard}
+                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                    >
+                      <View className={styles.topicCopy}>
+                        <ThemedText className={styles.topicTitle}>{topic.title}</ThemedText>
+                        <ThemedText className={styles.topicLessons}>{topic.lessons}</ThemedText>
+                      </View>
+
+                      <View className={styles.progressTrack}>
+                        <View
+                          className={styles.progressFill}
+                          style={{ width: `${topic.progress}%` }}
+                        />
+                      </View>
+                    </Pressable>
+                  ))}
+                </View>
+              </View>
+            </>
+          ) : (
+            <View className={styles.section}>
+              <View className={styles.sectionHeader}>
+                <ThemedText className={styles.sectionTitle}>{t("explore.tab_chapters")}</ThemedText>
+                <ThemedText className={styles.resultCount}>
+                  {t("explore.topics_count", { count: filteredTopics.length })}
+                </ThemedText>
+              </View>
+
+              {filteredTopics.length === 0 ? (
+                <EmptyState />
+              ) : (
+                <View className={styles.accordionContainer}>
+                  {filteredTopics.map((topic) => {
+                    const topicKey = topic.id ?? topic.title;
+                    const isExpanded = !!expandedTopics[topicKey];
+                    const topicLessons = topic.id ? lessonsByTopic[topic.id] || [] : [];
+
+                    return (
+                      <View
+                        key={topicKey}
+                        className={cn(
+                          styles.accordionItem,
+                          isExpanded && styles.accordionItemExpanded,
+                        )}
+                      >
+                        <Pressable
+                          accessibilityRole="button"
+                          onPress={() =>
+                            setExpandedTopics((prev) => ({
+                              ...prev,
+                              [topicKey]: !prev[topicKey],
+                            }))
+                          }
+                          className={styles.accordionHeader}
+                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+                        >
+                          <View className={styles.accordionHeaderMain}>
+                            <View className={styles.accordionTitleRow}>
+                              <ThemedText className={styles.accordionTitle}>
+                                {topic.title}
+                              </ThemedText>
+                              {topic.category ? (
+                                <View className={styles.categoryBadge}>
+                                  <ThemedText className={styles.categoryBadgeText}>
+                                    {getCategoryTranslation(topic.category, t)}
+                                  </ThemedText>
+                                </View>
+                              ) : null}
+                            </View>
+                            <ThemedText className={styles.accordionSubtitle}>
+                              {topic.lessons}
+                            </ThemedText>
+                          </View>
+                          {isExpanded ? (
+                            <ChevronUp color={Colors.primaryLight} size={20} />
+                          ) : (
+                            <ChevronDown color={Colors.muted} size={20} />
+                          )}
+                        </Pressable>
+
+                        {isExpanded ? (
+                          <View className={styles.accordionContent}>
+                            <View className={styles.accordionProgressTrack}>
+                              <View
+                                className={styles.accordionProgressFill}
+                                style={{ width: `${topic.progress}%` }}
+                              />
+                            </View>
+
+                            {topicLessons.length === 0 ? (
+                              <View className={styles.accordionEmpty}>
+                                <ThemedText className={styles.accordionEmptyText}>
+                                  {t("explore.no_lessons_in_topic")}
+                                </ThemedText>
+                              </View>
+                            ) : (
+                              <View className={styles.accordionLessonsList}>
+                                {topicLessons.map((lesson) => (
+                                  <View key={lesson.id} className={styles.accordionLessonCard}>
+                                    <View className={styles.accordionLessonHeader}>
+                                      <BookOpen color={Colors.primaryLight} size={16} />
+                                      <ThemedText className={styles.accordionLessonTitle}>
+                                        {lesson.title}
+                                      </ThemedText>
+                                    </View>
+
+                                    {lesson.conflict ? (
+                                      <ThemedText
+                                        numberOfLines={2}
+                                        className={styles.accordionLessonDesc}
+                                      >
+                                        {lesson.conflict}
+                                      </ThemedText>
+                                    ) : null}
+
+                                    <View className={styles.accordionLessonActions}>
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() => {
+                                          if (topic.id) {
+                                            router.push({
+                                              pathname: "/short-lesson" as never,
+                                              params: { topicId: topic.id },
+                                            });
+                                          }
+                                        }}
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionShort,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <ArrowRight color={Colors.primaryText} size={12} />
+                                        <ThemedText className={styles.accordionActionShortText}>
+                                          {t("explore.button_short")}
+                                        </ThemedText>
+                                      </Pressable>
+
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() =>
+                                          router.push({
+                                            pathname: "/full-lesson" as never,
+                                            params: { lessonId: lesson.id },
+                                          })
+                                        }
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionFull,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <BookOpen color={Colors.primaryLight} size={12} />
+                                        <ThemedText className={styles.accordionActionFullText}>
+                                          {t("explore.button_full")}
+                                        </ThemedText>
+                                      </Pressable>
+
+                                      <Pressable
+                                        accessibilityRole="button"
+                                        onPress={() => router.push("/trial-of-socrates" as never)}
+                                        className={cn(
+                                          styles.accordionActionBtn,
+                                          styles.accordionActionScenario,
+                                        )}
+                                        style={({ pressed }) =>
+                                          pressed ? pressedStyle : undefined
+                                        }
+                                      >
+                                        <Sparkles color={Colors.primaryLight} size={12} />
+                                        <ThemedText className={styles.accordionActionScenarioText}>
+                                          {t("explore.button_scenario")}
+                                        </ThemedText>
+                                      </Pressable>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                            )}
+                          </View>
+                        ) : null}
+                      </View>
+                    );
+                  })}
+                </View>
+              )}
             </View>
+          )}
 
-            <View style={styles.topicGrid}>
-              {filteredTopics.map((topic) => (
-                <Pressable
-                  key={topic.id ?? topic.title}
-                  accessibilityRole="button"
-                  onPress={() => {
-                    if (topic.id) {
-                      router.push({
-                        pathname: "/topic-lessons" as never,
-                        params: { topicId: topic.id, topicTitle: topic.title },
-                      });
-                    } else {
-                      setQuery(topic.title);
-                    }
-                  }}
-                  style={({ pressed }) => [styles.topicCard, pressed && styles.pressed]}
-                >
-                  <View style={styles.topicCopy}>
-                    <ThemedText style={styles.topicTitle}>{topic.title}</ThemedText>
-                    <ThemedText style={styles.topicLessons}>{topic.lessons}</ThemedText>
-                  </View>
-
-                  <View style={styles.progressTrack}>
-                    <View style={[styles.progressFill, { width: `${topic.progress}%` }]} />
-                  </View>
-                </Pressable>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.quoteCard}>
+          <View className={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
-            <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>
-                Cuộc đời không được khảo sát thì không đáng sống.
-              </ThemedText>
-              <ThemedText style={styles.quoteAuthor}>- Socrates</ThemedText>
+            <View className={styles.quoteCopy}>
+              <ThemedText className={styles.quoteText}>{t("explore.quote_text")}</ThemedText>
+              <ThemedText className={styles.quoteAuthor}>{t("explore.quote_author")}</ThemedText>
             </View>
           </View>
         </ScrollView>
@@ -386,324 +724,106 @@ export default function ExploreScreen() {
 }
 
 function EmptyState() {
+  const { t } = useTranslation();
   return (
-    <View style={styles.emptyState}>
+    <View className={styles.emptyState}>
       <BookOpen color={Colors.locked} size={28} />
-      <ThemedText style={styles.emptyTitle}>Không tìm thấy bài học</ThemedText>
-      <ThemedText style={styles.emptyText}>Thử đổi bộ lọc hoặc nhập từ khóa ngắn hơn.</ThemedText>
+      <ThemedText className={styles.emptyTitle}>{t("explore.empty_title")}</ThemedText>
+      <ThemedText className={styles.emptyText}>{t("explore.empty_text")}</ThemedText>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-  safeArea: {
-    flex: 1,
-  },
-  content: {
-    padding: Spacing.three,
-    paddingBottom: BottomTabInset + 120,
-    gap: Spacing.three,
-    maxWidth: 820,
-    width: "100%",
-    alignSelf: "center",
-  },
-  titleBlock: {
-    gap: Spacing.one,
-  },
-  title: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "800",
-  },
-  subtitle: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-  },
-  searchBox: {
-    minHeight: 46,
-    borderRadius: Radius.md,
-    paddingHorizontal: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.input,
-    borderWidth: 1,
-    borderColor: "transparent",
-  },
-  searchBoxActive: {
-    borderColor: Colors.primary,
-  },
-  searchInput: {
-    flex: 1,
-    minHeight: 44,
-    color: Colors.text,
-    fontFamily: Fonts.body,
-    fontSize: 14,
-    fontWeight: "600",
-    padding: 0,
-  },
-  filterList: {
-    gap: Spacing.two,
-    paddingRight: Spacing.three,
-  },
-  filterChip: {
-    minHeight: 36,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: "transparent",
-    backgroundColor: Colors.input,
-  },
-  filterActive: {
-    borderColor: Colors.primary,
-  },
-  filterText: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-  },
-  filterTextActive: {
-    color: Colors.primaryLight,
-  },
-  section: {
-    gap: Spacing.two,
-  },
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  sectionTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 20,
-    lineHeight: 26,
-    fontWeight: "800",
-  },
-  resultCount: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-  },
-  featuredList: {
-    gap: Spacing.three,
-    paddingRight: Spacing.three,
-  },
-  featuredCard: {
-    width: Platform.select({ web: 360, default: 300 }),
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surfaceSoft,
-    overflow: "hidden",
-  },
-  featuredImage: {
-    width: "100%",
-    height: 190,
-  },
-  featuredFallback: {
-    width: "100%",
-    height: 190,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.input,
-  },
-  featuredBody: {
-    padding: Spacing.three,
-    gap: Spacing.two,
-  },
-  featuredMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-  featuredCategory: {
-    color: Colors.primaryLight,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  metaDot: {
-    width: 4,
-    height: 4,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.locked,
-  },
-  featuredDuration: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "700",
-  },
-  featuredTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "800",
-  },
-  featuredDescription: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "600",
-  },
-  startButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.primary,
-  },
-  startButtonText: {
-    color: Colors.primaryText,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  fullLessonButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: "transparent",
-  },
-  fullLessonButtonText: {
-    color: Colors.primaryLight,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  scenarioButton: {
-    minHeight: 42,
-    borderRadius: Radius.sm,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.two,
-    backgroundColor: Colors.input,
-  },
-  scenarioButtonText: {
-    color: Colors.primaryLight,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "900",
-  },
-  topicGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-  topicCard: {
-    width: "48%",
-    minHeight: 128,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    padding: Spacing.three,
-    justifyContent: "space-between",
-    backgroundColor: Colors.surface,
-  },
-  topicCopy: {
-    gap: Spacing.half,
-  },
-  topicTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "800",
-  },
-  topicLessons: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "700",
-  },
-  progressTrack: {
-    height: 4,
-    borderRadius: Radius.full,
-    overflow: "hidden",
-    backgroundColor: Colors.input,
-  },
-  progressFill: {
-    height: "100%",
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-  },
-  emptyState: {
-    minHeight: 180,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.one,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-  },
-  emptyTitle: {
-    color: Colors.text,
-    fontSize: 15,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-  emptyText: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "600",
-  },
-  quoteCard: {
-    flexDirection: "row",
-    gap: Spacing.two,
-    paddingTop: Spacing.three,
-    borderTopWidth: 1,
-    borderTopColor: Colors.chip,
-  },
-  quoteCopy: {
-    flex: 1,
-    paddingLeft: Spacing.two,
-    borderLeftWidth: 2,
-    borderLeftColor: Colors.primary,
-    gap: Spacing.one,
-  },
-  quoteText: {
-    color: Colors.muted,
-    fontSize: 14,
-    lineHeight: 21,
-    fontStyle: "italic",
-    fontWeight: "600",
-  },
-  quoteAuthor: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-    textTransform: "uppercase",
-  },
-  pressed: {
-    opacity: 0.78,
-    transform: [{ scale: 0.98 }],
-  },
-});
+const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
+
+const styles = {
+  screen: "flex-1 bg-[#0C0C0E]",
+  safeArea: "flex-1",
+  content: "w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]",
+  titleBlock: "gap-1",
+  title: "font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]",
+  subtitle: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
+  searchBox:
+    "min-h-[46px] flex-row items-center gap-2 rounded-md border border-transparent bg-[#1E1E22] px-3",
+  searchBoxActive: "border-[#D97706]",
+  searchInput: "min-h-[44px] flex-1 p-0 font-sans text-[14px] font-semibold text-[#E5E1E4]",
+  filterList: "gap-2 pr-3",
+  filterChip:
+    "min-h-[36px] items-center justify-center rounded-full border border-transparent bg-[#1E1E22] px-3",
+  filterActive: "border-[#D97706]",
+  filterText: "text-[12px] font-extrabold leading-[16px] text-[#A1A1AA]",
+  filterTextActive: "text-[#FFB77D]",
+  tabsContainer: "my-1 flex-row rounded-md bg-[#1E1E22] p-1",
+  tabButton: "flex-1 items-center justify-center rounded-sm py-2",
+  tabButtonActive: "bg-[#161618]",
+  tabButtonText: "text-[14px] font-bold text-[#A1A1AA]",
+  tabButtonTextActive: "text-[#FFB77D]",
+  section: "gap-2",
+  sectionHeader: "flex-row items-center justify-between",
+  sectionTitle: "font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]",
+  resultCount: "text-[12px] font-extrabold leading-[16px] text-[#FFB77D]",
+  featuredList: "gap-3 pr-3",
+  featuredCard: "w-[300px] overflow-hidden rounded-md border border-[#27272A] bg-[#18181B]",
+  featuredImage: "h-[190px] w-full",
+  featuredFallback: "h-[190px] w-full items-center justify-center bg-[#1E1E22]",
+  featuredBody: "gap-2 p-3",
+  featuredMeta: "flex-row items-center gap-2",
+  featuredCategory: "text-[10px] font-black uppercase leading-[14px] text-[#FFB77D]",
+  metaDot: "h-1 w-1 rounded-full bg-[#52525B]",
+  featuredDuration: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
+  featuredTitle: "font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]",
+  featuredDescription: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
+  startButton: "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm bg-[#D97706]",
+  startButtonText: "text-[14px] font-black leading-[18px] text-[#0C0C0E]",
+  fullLessonButton:
+    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#D97706]",
+  fullLessonButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
+  scenarioButton:
+    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#27272A] bg-[#1E1E22]",
+  scenarioButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
+  topicGrid: "flex-row flex-wrap gap-2",
+  topicCard:
+    "min-h-[128px] w-[48%] justify-between rounded-md border border-[#27272A] bg-[#161618] p-3",
+  topicCopy: "gap-0.5",
+  topicTitle: "font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
+  topicLessons: "text-[12px] font-bold leading-[16px] text-[#A1A1AA]",
+  progressTrack: "h-1 overflow-hidden rounded-full bg-[#1E1E22]",
+  progressFill: "h-full rounded-full bg-[#D97706]",
+  accordionContainer: "gap-2",
+  accordionItem: "overflow-hidden rounded-md border border-[#27272A] bg-[#161618]",
+  accordionItemExpanded: "border-[#353437]",
+  accordionHeader: "flex-row items-center justify-between bg-[#161618] p-3",
+  accordionHeaderMain: "flex-1 gap-1 pr-2",
+  accordionTitleRow: "flex-row flex-wrap items-center gap-2",
+  accordionTitle: "flex-1 font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
+  categoryBadge: "rounded-full bg-[#27272A] px-2 py-0.5",
+  categoryBadgeText: "text-[10px] font-extrabold uppercase text-[#FFB77D]",
+  accordionSubtitle: "text-[12px] font-semibold leading-[16px] text-[#A1A1AA]",
+  accordionContent: "gap-3 border-t border-[#353437] bg-[#18181B] px-3 pb-3",
+  accordionProgressTrack: "mt-2 h-[3px] overflow-hidden rounded-full bg-[#1E1E22]",
+  accordionProgressFill: "h-full rounded-full bg-[#D97706]",
+  accordionEmpty: "items-center justify-center py-4",
+  accordionEmptyText: "text-[13px] font-semibold text-[#A1A1AA]",
+  accordionLessonsList: "gap-3",
+  accordionLessonCard: "gap-2 rounded-md border border-[#27272A] bg-[#161618] p-3",
+  accordionLessonHeader: "flex-row items-center gap-2",
+  accordionLessonTitle: "flex-1 font-sans text-[14px] font-bold leading-[18px] text-[#E5E1E4]",
+  accordionLessonDesc: "text-[12px] font-semibold leading-[17px] text-[#A1A1AA]",
+  accordionLessonActions: "mt-1 flex-row flex-wrap gap-2",
+  accordionActionBtn:
+    "min-h-[32px] min-w-[90px] flex-1 flex-row items-center justify-center gap-1 rounded-sm px-2",
+  accordionActionShort: "bg-[#D97706]",
+  accordionActionShortText: "text-[11px] font-extrabold text-[#0C0C0E]",
+  accordionActionFull: "border border-[#D97706]",
+  accordionActionFullText: "text-[11px] font-extrabold text-[#FFB77D]",
+  accordionActionScenario: "border border-[#27272A] bg-[#1E1E22]",
+  accordionActionScenarioText: "text-[11px] font-extrabold text-[#FFB77D]",
+  emptyState:
+    "min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618]",
+  emptyTitle: "text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]",
+  emptyText: "text-[13px] font-semibold leading-[18px] text-[#A1A1AA]",
+  quoteCard: "flex-row gap-2 border-t border-[#27272A] pt-3",
+  quoteCopy: "flex-1 gap-1 border-l-2 border-[#D97706] pl-2",
+  quoteText: "text-[14px] font-semibold italic leading-[21px] text-[#A1A1AA]",
+  quoteAuthor: "text-[12px] font-extrabold uppercase leading-[16px] text-[#FFB77D]",
+};

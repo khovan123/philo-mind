@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#24](https://github.com/khovan123/philo-mind/issues/24)
-- State: open
+- State: done
 - Track: A - Backend Core
 - Type: backend
 - Priority: medium
 - Milestone: Week 2
 - Assignees: @linhtv1209-fudn
-- Updated at: 2026-06-01T05:31:49Z
+- Updated at: 2026-06-03T10:50:14Z
+- Closed at: 2026-06-03T10:50:14Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #24                                                                             |
 | Task ID        | T-A08                                                                           |
 | Title          | Short Lesson API (list/get/respond/comment)                                     |
-| State          | open                                                                            |
+| State          | done                                                                            |
 | Local log path | `issues/by-github-id/#024-T-A08-Short Lesson API (list-get-respond-comment).md` |
 
 ## Issue Body

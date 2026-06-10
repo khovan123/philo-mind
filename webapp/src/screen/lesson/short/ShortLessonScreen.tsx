@@ -1,4 +1,4 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   BarChart3,
   BookOpen,
@@ -8,18 +8,13 @@ import {
   RotateCcw,
 } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
-import {
-  ActivityIndicator,
-  Animated,
-  PanResponder,
-  Pressable,
-  ScrollView,
-  View,
-} from "react-native";
+import { ActivityIndicator, Animated, PanResponder } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { ThemedText } from "@/components/themed-text";
 import { Button } from "@/components/ui";
+import { cn } from "@/lib/utils";
+import { Pressable, ScrollView, View } from "@/tw";
 
 import {
   lessonCards,
@@ -33,7 +28,7 @@ import { FinishedActions } from "@/features/lesson/short/FinishedActions";
 import { LessonSwipeCard } from "@/features/lesson/short/LessonSwipeCard";
 import { ShortLessonHeader } from "@/features/lesson/short/ShortLessonHeader";
 import { StateScaffold } from "@/features/lesson/short/StateScaffold";
-import { Colors, styles } from "@/features/lesson/short/ui";
+import { Colors } from "@/features/lesson/short/ui";
 import { VoteCard } from "@/features/lesson/short/VoteCard";
 import { FinishedResult, VoteResult } from "@/features/lesson/short/VoteResult";
 import {
@@ -210,8 +205,8 @@ export default function ShortLessonScreen() {
     return (
       <StateScaffold title={lessonTitle}>
         <ActivityIndicator color={Colors.primaryLight} size="large" />
-        <ThemedText style={styles.stateTitle}>Đang tải bài học ngắn</ThemedText>
-        <ThemedText style={styles.stateText}>
+        <ThemedText className={tw.stateTitle}>Đang tải bài học ngắn</ThemedText>
+        <ThemedText className={tw.stateText}>
           Đang lấy thẻ bài học và lựa chọn biểu quyết từ cơ sở dữ liệu.
         </ThemedText>
       </StateScaffold>
@@ -222,8 +217,8 @@ export default function ShortLessonScreen() {
     return (
       <StateScaffold title={resolvedTitle}>
         <BookOpen color={Colors.mutedText} size={34} />
-        <ThemedText style={styles.stateTitle}>Chưa có bài học ngắn</ThemedText>
-        <ThemedText style={styles.stateText}>Chủ đề này chưa có dữ liệu short lesson.</ThemedText>
+        <ThemedText className={tw.stateTitle}>Chưa có bài học ngắn</ThemedText>
+        <ThemedText className={tw.stateText}>Chủ đề này chưa có dữ liệu short lesson.</ThemedText>
         <Button title="Quay lại Khám phá" onPress={() => router.push("/(tabs)/explore")} />
       </StateScaffold>
     );
@@ -233,8 +228,8 @@ export default function ShortLessonScreen() {
     return (
       <StateScaffold title={resolvedTitle}>
         <RefreshCcw color={Colors.danger} size={34} />
-        <ThemedText style={styles.stateTitle}>Không tải được bài học</ThemedText>
-        <ThemedText style={styles.stateText}>Thử lại request hoặc quay về Khám phá.</ThemedText>
+        <ThemedText className={tw.stateTitle}>Không tải được bài học</ThemedText>
+        <ThemedText className={tw.stateText}>Thử lại request hoặc quay về Khám phá.</ThemedText>
         <Button title="Thử lại" onPress={retry} />
       </StateScaffold>
     );
@@ -242,8 +237,8 @@ export default function ShortLessonScreen() {
 
   if (screenState === "finished") {
     return (
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
-        <View style={styles.screen}>
+      <SafeAreaView edges={["top"]} className={tw.safeArea}>
+        <View className={tw.screen}>
           <ShortLessonHeader
             countLabel="4/4 (Done)"
             progress={1}
@@ -251,7 +246,7 @@ export default function ShortLessonScreen() {
             onBack={() => setScreenState("ready")}
           />
 
-          <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+          <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={tw.content}>
             <FinishedResult option={fallbackOption} />
             <FinishedActions />
           </ScrollView>
@@ -261,8 +256,8 @@ export default function ShortLessonScreen() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} style={styles.safeArea}>
-      <View style={styles.screen}>
+    <SafeAreaView edges={["top"]} className={tw.safeArea}>
+      <View className={tw.screen}>
         <ShortLessonHeader
           countLabel={`${cardIndex + 1}/${mappedCards.length}`}
           progress={progress}
@@ -270,11 +265,11 @@ export default function ShortLessonScreen() {
           onBack={goPrevious}
         />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={tw.content}>
           <Animated.View
             {...panResponder.panHandlers}
             style={[
-              styles.animatedCardWrap,
+              { minHeight: 520 },
               {
                 opacity: fade,
                 transform: [{ translateX }],
@@ -295,14 +290,15 @@ export default function ShortLessonScreen() {
 
           {submittedVoteId ? <VoteResult option={fallbackOption} /> : null}
 
-          <View style={styles.navigationRow}>
+          <View className={tw.navigationRow}>
             <Pressable
               accessibilityRole="button"
               onPress={goPrevious}
-              style={({ pressed }) => [styles.outlineAction, pressed && styles.pressed]}
+              className={tw.outlineAction}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
             >
               <ChevronLeft color={Colors.secondaryText} size={16} />
-              <ThemedText style={styles.outlineActionText}>Trước</ThemedText>
+              <ThemedText className={tw.outlineActionText}>Trước</ThemedText>
             </Pressable>
 
             {isVoteCard ? (
@@ -310,13 +306,13 @@ export default function ShortLessonScreen() {
                 accessibilityRole="button"
                 disabled={!selectedVoteId || !!submittedVoteId}
                 onPress={submitVote}
-                style={({ pressed }) => [
-                  styles.primaryAction,
-                  (!selectedVoteId || !!submittedVoteId) && styles.disabledAction,
-                  pressed && styles.pressed,
-                ]}
+                className={cn(
+                  tw.primaryAction,
+                  (!selectedVoteId || !!submittedVoteId) && "opacity-45",
+                )}
+                style={({ pressed }) => (pressed ? pressedStyle : undefined)}
               >
-                <ThemedText style={styles.primaryActionText}>
+                <ThemedText className={tw.primaryActionText}>
                   {submittedVoteId ? "Đã gửi lựa chọn" : "Gửi lựa chọn"}
                 </ThemedText>
                 <BarChart3 color={Colors.buttonText} size={16} />
@@ -325,31 +321,34 @@ export default function ShortLessonScreen() {
               <Pressable
                 accessibilityRole="button"
                 onPress={goNext}
-                style={({ pressed }) => [styles.primaryAction, pressed && styles.pressed]}
+                className={tw.primaryAction}
+                style={({ pressed }) => (pressed ? pressedStyle : undefined)}
               >
-                <ThemedText style={styles.primaryActionText}>Tiếp</ThemedText>
+                <ThemedText className={tw.primaryActionText}>Tiếp</ThemedText>
                 <ChevronRight color={Colors.buttonText} size={16} />
               </Pressable>
             )}
           </View>
 
           {submittedVoteId ? (
-            <View style={styles.navigationRow}>
+            <View className={tw.navigationRow}>
               <Pressable
                 accessibilityRole="button"
                 onPress={restartLesson}
-                style={({ pressed }) => [styles.outlineAction, pressed && styles.pressed]}
+                className={tw.outlineAction}
+                style={({ pressed }) => (pressed ? pressedStyle : undefined)}
               >
                 <RotateCcw color={Colors.secondaryText} size={16} />
-                <ThemedText style={styles.outlineActionText}>Xem lại</ThemedText>
+                <ThemedText className={tw.outlineActionText}>Xem lại</ThemedText>
               </Pressable>
 
               <Pressable
                 accessibilityRole="button"
                 onPress={() => setScreenState("finished")}
-                style={({ pressed }) => [styles.primaryAction, pressed && styles.pressed]}
+                className={tw.primaryAction}
+                style={({ pressed }) => (pressed ? pressedStyle : undefined)}
               >
-                <ThemedText style={styles.primaryActionText}>Hành động tiếp</ThemedText>
+                <ThemedText className={tw.primaryActionText}>Hành động tiếp</ThemedText>
                 <ChevronRight color={Colors.buttonText} size={16} />
               </Pressable>
             </View>
@@ -359,6 +358,23 @@ export default function ShortLessonScreen() {
     </SafeAreaView>
   );
 }
+
+const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
+
+const tw = {
+  safeArea: "flex-1 bg-[#0C0C0E]",
+  screen: "flex-1 bg-[#0C0C0E]",
+  content: "w-full max-w-[520px] flex-grow self-center gap-3 p-3 pb-[150px]",
+  navigationRow: "flex-row gap-2",
+  outlineAction:
+    "min-h-[54px] flex-1 flex-row items-center justify-center gap-1 rounded-md border border-[#3A3028]",
+  outlineActionText: "text-[13px] font-black leading-[18px] text-[#E4E4E7]",
+  primaryAction:
+    "min-h-[54px] flex-[1.2] flex-row items-center justify-center gap-2 rounded-md bg-[#FFB77D]",
+  primaryActionText: "text-[13px] font-black leading-[18px] text-[#0C0C0E]",
+  stateTitle: "text-[18px] font-black leading-[24px] text-[#E4E4E7]",
+  stateText: "max-w-[300px] text-center text-[14px] font-semibold leading-[20px] text-[#A1A1AA]",
+};
 
 const cardImages = [
   "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",

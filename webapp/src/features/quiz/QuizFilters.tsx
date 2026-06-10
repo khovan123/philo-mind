@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
@@ -11,6 +12,8 @@ type QuizFiltersProps = {
 };
 
 export function QuizFilters({ activeFilter, filters, onChange }: QuizFiltersProps) {
+  const { t } = useTranslation();
+
   return (
     <ScrollView
       horizontal
@@ -32,7 +35,7 @@ export function QuizFilters({ activeFilter, filters, onChange }: QuizFiltersProp
             ]}
           >
             <ThemedText style={[styles.chipText, active && styles.chipTextActive]}>
-              {filter}
+              {t(`quiz.filter_${filter}`)}
             </ThemedText>
           </Pressable>
         );

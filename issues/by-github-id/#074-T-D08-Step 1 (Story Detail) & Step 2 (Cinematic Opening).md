@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#74](https://github.com/khovan123/philo-mind/issues/74)
-- State: open
+- State: done
 - Track: D - Story Mode Engine
 - Type: frontend
 - Priority: medium
 - Milestone: Week 5
 - Assignees: @dklinh05
-- Updated at: 2026-06-02T16:21:51Z
+- Updated at: 2026-06-03T07:27:32Z
+- Closed at: 2026-06-03T07:27:32Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #74                                                                                    |
 | Task ID        | T-D08                                                                                  |
 | Title          | Step 1 (Story Detail) & Step 2 (Cinematic Opening)                                     |
-| State          | open                                                                                   |
+| State          | done                                                                                   |
 | Local log path | `issues/by-github-id/#074-T-D08-Step 1 (Story Detail) & Step 2 (Cinematic Opening).md` |
 
 ## Issue Body

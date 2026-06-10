@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { ChevronLeft, Lock, User } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 
 import { Avatar, Button, Input, ThemedText } from "@/components/ui";
 import { BottomTabInset, Radius, Spacing } from "@/constants/theme";
@@ -24,6 +25,7 @@ import { baseApi } from "@/services/rtk-api/baseApi";
 import { selectAuthUser } from "@/stores/auth.helpers";
 import { useAppDispatch, useAppSelector } from "@/stores/hooks";
 import { authStateSet, loggedOut } from "@/stores/slices/auth.slice";
+import { setLanguage } from "@/stores/slices/settings.slice";
 
 // ── Helpers ────────────────────────────────────────────────
 
@@ -130,11 +132,13 @@ const strengthStyles = StyleSheet.create({
 type SettingsState = "idle" | "loading" | "success" | "error";
 
 export default function SettingsScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
   const theme = useTheme();
 
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector(selectAuthUser);
+  const currentLanguage = useAppSelector((state) => state.settings.language);
 
   const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
 
@@ -190,12 +194,12 @@ export default function SettingsScreen() {
     const trimmed = profileFullName.trim();
 
     if (trimmed.length < 2) {
-      setProfileError("Tên tối thiểu 2 ký tự");
+      setProfileError(t("settings.name_min_chars"));
       return;
     }
 
     if (trimmed === currentUser?.fullName) {
-      setProfileError("Tên chưa thay đổi");
+      setProfileError(t("settings.name_not_changed"));
       return;
     }
 
@@ -228,24 +232,24 @@ export default function SettingsScreen() {
     } catch (error) {
       if (!mountedRef.current) return;
 
-      setProfileError(getApiErrorMessage(error, "Cập nhật thất bại"));
+      setProfileError(getApiErrorMessage(error, t("settings.update_failed")));
       setProfileState("error");
     }
   }
 
   async function handleChangePassword() {
     if (!currentPassword) {
-      setPasswordError("Vui lòng nhập mật khẩu hiện tại");
+      setPasswordError(t("settings.enter_current_password"));
       return;
     }
 
     if (newPassword.length < 8) {
-      setPasswordError("Mật khẩu mới tối thiểu 8 ký tự");
+      setPasswordError(t("settings.password_min_chars"));
       return;
     }
 
     if (newPassword !== confirmPassword) {
-      setPasswordError("Xác nhận mật khẩu không khớp");
+      setPasswordError(t("settings.confirm_password_mismatch"));
       return;
     }
 
@@ -265,7 +269,7 @@ export default function SettingsScreen() {
       setConfirmPassword("");
       setPasswordState("success");
 
-      Alert.alert("Thành công", "Mật khẩu đã được thay đổi");
+      Alert.alert(t("settings.success"), t("settings.password_changed"));
 
       if (passwordTimerRef.current) {
         clearTimeout(passwordTimerRef.current);
@@ -279,13 +283,13 @@ export default function SettingsScreen() {
     } catch (error) {
       if (!mountedRef.current) return;
 
-      setPasswordError(getApiErrorMessage(error, "Đổi mật khẩu thất bại"));
+      setPasswordError(getApiErrorMessage(error, t("settings.change_password_failed")));
       setPasswordState("error");
     }
   }
 
   function handleSaveNotifications() {
-    Alert.alert("Đã lưu", "Cài đặt thông báo đã được cập nhật");
+    Alert.alert(t("settings.saved"), t("settings.notif_settings_updated"));
   }
 
   async function handleLogout() {
@@ -315,7 +319,7 @@ export default function SettingsScreen() {
           </Pressable>
 
           <ThemedText type="smallBold" style={styles.headerTitle}>
-            Cài đặt
+            {t("settings.title")}
           </ThemedText>
 
           <View style={styles.backBtn} />
@@ -337,7 +341,7 @@ export default function SettingsScreen() {
             ]}
           >
             <SectionHeader
-              title="Thông tin cá nhân"
+              title={t("settings.personal_info")}
               icon={<User size={16} color={theme.textSecondary} strokeWidth={2} />}
             />
 
@@ -354,14 +358,14 @@ export default function SettingsScreen() {
             </View>
 
             <Input
-              label="Tên hiển thị"
+              label={t("settings.display_name")}
               value={profileFullName}
               onChangeText={(text) => {
                 setFullName(text);
                 setProfileError(null);
                 setProfileState("idle");
               }}
-              placeholder="Nhập tên của bạn"
+              placeholder={t("settings.enter_name")}
               autoCapitalize="words"
               autoCorrect={false}
               containerStyle={styles.field}
@@ -375,18 +379,68 @@ export default function SettingsScreen() {
 
             {profileState === "success" ? (
               <ThemedText type="label" style={[styles.errorText, { color: theme.success }]}>
-                ✓ Đã cập nhật
+                {t("settings.updated")}
               </ThemedText>
             ) : null}
 
             <Button
-              title={isUpdatingProfile ? "Đang lưu…" : "Lưu thay đổi"}
+              title={isUpdatingProfile ? t("settings.saving") : t("settings.save_changes")}
               loading={isUpdatingProfile}
               disabled={isUpdatingProfile}
               onPress={handleSaveProfile}
               fullWidth
               style={styles.actionBtn}
             />
+          </View>
+
+          {/* ── Language section ── */}
+          <View
+            style={[
+              styles.card,
+              {
+                backgroundColor: theme.surface,
+                borderColor: theme.border,
+              },
+            ]}
+          >
+            <SectionHeader
+              title={t("settings.language")}
+              icon={
+                <ThemedText type="label" themeColor="textSecondary">
+                  🌐
+                </ThemedText>
+              }
+            />
+
+            <View style={styles.languageContainer}>
+              <Pressable
+                onPress={() => dispatch(setLanguage("vi"))}
+                style={[
+                  styles.languageOption,
+                  {
+                    borderColor: currentLanguage === "vi" ? theme.primary : theme.border,
+                    backgroundColor:
+                      currentLanguage === "vi" ? theme.backgroundSelected : "transparent",
+                  },
+                ]}
+              >
+                <ThemedText type="smallBold">{t("settings.language_vi")}</ThemedText>
+              </Pressable>
+
+              <Pressable
+                onPress={() => dispatch(setLanguage("en"))}
+                style={[
+                  styles.languageOption,
+                  {
+                    borderColor: currentLanguage === "en" ? theme.primary : theme.border,
+                    backgroundColor:
+                      currentLanguage === "en" ? theme.backgroundSelected : "transparent",
+                  },
+                ]}
+              >
+                <ThemedText type="smallBold">{t("settings.language_en")}</ThemedText>
+              </Pressable>
+            </View>
           </View>
 
           {/* ── Password section ── */}
@@ -400,12 +454,12 @@ export default function SettingsScreen() {
             ]}
           >
             <SectionHeader
-              title="Đổi mật khẩu"
+              title={t("settings.change_password")}
               icon={<Lock size={16} color={theme.textSecondary} strokeWidth={2} />}
             />
 
             <Input
-              label="Mật khẩu hiện tại"
+              label={t("settings.current_password")}
               value={currentPassword}
               onChangeText={(text) => {
                 setCurrentPassword(text);
@@ -419,7 +473,7 @@ export default function SettingsScreen() {
             />
 
             <Input
-              label="Mật khẩu mới"
+              label={t("settings.new_password")}
               value={newPassword}
               onChangeText={(text) => {
                 setNewPassword(text);
@@ -436,7 +490,7 @@ export default function SettingsScreen() {
             <PasswordStrength password={newPassword} />
 
             <Input
-              label="Xác nhận mật khẩu mới"
+              label={t("settings.confirm_new_password")}
               value={confirmPassword}
               onChangeText={(text) => {
                 setConfirmPassword(text);
@@ -458,12 +512,12 @@ export default function SettingsScreen() {
 
             {passwordState === "success" ? (
               <ThemedText type="label" style={[styles.errorText, { color: theme.success }]}>
-                ✓ Đã đổi mật khẩu
+                {t("settings.password_updated_success")}
               </ThemedText>
             ) : null}
 
             <Button
-              title={isChangingPassword ? "Đang lưu…" : "Đổi mật khẩu"}
+              title={isChangingPassword ? t("settings.saving") : t("settings.change_password")}
               loading={isChangingPassword}
               disabled={isChangingPassword}
               onPress={handleChangePassword}
@@ -483,7 +537,7 @@ export default function SettingsScreen() {
             ]}
           >
             <SectionHeader
-              title="Thông báo"
+              title={t("settings.notifications")}
               icon={
                 <ThemedText type="label" themeColor="textSecondary">
                   🔔
@@ -492,28 +546,28 @@ export default function SettingsScreen() {
             />
 
             <NotifRow
-              label="Nhắc nhở học tập"
-              description="Nhận thông báo khi có bài học mới"
+              label={t("settings.learning_reminders")}
+              description={t("settings.learning_reminders_desc")}
               value={notifLearning}
               onToggle={() => setNotifLearning((prev) => !prev)}
             />
 
             <NotifRow
-              label="Chuỗi ngày"
-              description="Nhắc nhở duy trì chuỗi học liên tiếp"
+              label={t("settings.streaks")}
+              description={t("settings.streaks_desc")}
               value={notifStreak}
               onToggle={() => setNotifStreak((prev) => !prev)}
             />
 
             <NotifRow
-              label="Tranh luận mới"
-              description="Thông báo khi có debate mới trong chủ đề bạn theo dõi"
+              label={t("settings.new_debates")}
+              description={t("settings.new_debates_desc")}
               value={notifDebate}
               onToggle={() => setNotifDebate((prev) => !prev)}
             />
 
             <Button
-              title="Lưu cài đặt thông báo"
+              title={t("settings.save_notif_settings")}
               variant="secondary"
               onPress={handleSaveNotifications}
               fullWidth
@@ -522,7 +576,7 @@ export default function SettingsScreen() {
           </View>
 
           <Button
-            title={isLoggingOut ? "Đang đăng xuất…" : "Đăng xuất"}
+            title={isLoggingOut ? t("settings.logging_out") : t("settings.logout")}
             variant="secondary"
             loading={isLoggingOut}
             disabled={isLoggingOut}
@@ -686,5 +740,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 1,
     elevation: 2,
+  },
+
+  languageContainer: {
+    flexDirection: "row",
+    gap: Spacing.three,
+    marginTop: Spacing.three,
+  },
+
+  languageOption: {
+    flex: 1,
+    padding: Spacing.three,
+    borderWidth: 1,
+    borderRadius: Radius.md,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

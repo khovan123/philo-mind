@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { router, useSegments } from "expo-router";
+import { router, usePathname, useSegments } from "expo-router";
 
 import { useLazyCheckAuthQuery } from "@/services/auth/api";
 import { selectAccessToken, selectIsAuthenticated } from "@/stores/auth.helpers";
@@ -9,6 +9,7 @@ import { authStateSet, hydrateStarted, loggedOut } from "@/stores/slices/auth.sl
 export function AuthBootstrap() {
   const dispatch = useAppDispatch();
   const segments = useSegments();
+  const pathname = usePathname();
 
   const accessToken = useAppSelector(selectAccessToken);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -16,8 +17,13 @@ export function AuthBootstrap() {
   const [checkAuth] = useLazyCheckAuthQuery();
 
   const checkedRef = useRef(false);
+  const isAuthCallback = pathname === "/auth-callback";
 
   useEffect(() => {
+    if (isAuthCallback) {
+      return;
+    }
+
     if (!accessToken) {
       checkedRef.current = false;
       return;
@@ -37,9 +43,13 @@ export function AuthBootstrap() {
         dispatch(loggedOut());
         router.replace("/login" as never);
       });
-  }, [accessToken, checkAuth, dispatch]);
+  }, [accessToken, checkAuth, dispatch, isAuthCallback]);
 
   useEffect(() => {
+    if (isAuthCallback) {
+      return;
+    }
+
     const rootSegment = segments[0];
 
     const isAuthRoute = rootSegment === "(auth)";
@@ -53,7 +63,7 @@ export function AuthBootstrap() {
     if (!isAuthenticated && isProtectedRoute) {
       router.replace("/login" as never);
     }
-  }, [isAuthenticated, segments]);
+  }, [isAuthenticated, segments, isAuthCallback]);
 
   return null;
 }

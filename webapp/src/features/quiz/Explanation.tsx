@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
@@ -12,12 +13,14 @@ type ExplanationProps = {
 };
 
 export function Explanation({ feedback, question }: ExplanationProps) {
+  const { t } = useTranslation();
+
   const title =
     feedback === "timeout"
-      ? "Time is up"
+      ? t("quiz.explanation_timeout")
       : feedback === "correct"
-        ? "Explanation"
-        : "Stoic Insight";
+        ? t("quiz.explanation_correct")
+        : t("quiz.explanation_incorrect");
 
   return (
     <View style={styles.explanation}>

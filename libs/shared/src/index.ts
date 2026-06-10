@@ -46,43 +46,74 @@ export const HTTP_STATUS = {
 // ── Re-exports ─────────────────────────────────────────────
 
 // Auth
-export { UserRole } from "./types/auth";
+export { UserRole } from "./types/auth.js";
 export type {
-  RegisterDTO,
+  AuthResponse,
+  AuthTokens,
   LoginDTO,
   RefreshTokenRequest,
-  AuthTokens,
+  RegisterDTO,
   UserProfile,
-  AuthResponse,
-} from "./types/auth";
+} from "./types/auth.js";
 
 // Learning
-export { Difficulty, ContentStatus, PerspectiveType } from "./types/learning";
-export type { TopicDTO, LessonDTO, QuizAttemptDTO, TopicPerspectiveDTO } from "./types/learning";
+export { ContentStatus, Difficulty, PerspectiveType } from "./types/learning.js";
+export type { LessonDTO, QuizAttemptDTO, TopicDTO, TopicPerspectiveDTO } from "./types/learning.js";
 
 // Story
-export { StorySessionStatus, AnalysisType } from "./types/story";
+export { AnalysisType, StorySessionStatus } from "./types/story.js";
 export type {
-  StoryScenarioDTO,
-  StoryChoiceDTO,
-  StorySessionDTO,
-  StoryDecisionDTO,
-  StoryConsequenceDTO,
   AnalysisTabDTO,
-} from "./types/story";
+  StoryChoiceDTO,
+  StoryConsequenceDTO,
+  StoryDecisionDTO,
+  StoryScenarioDTO,
+  StorySessionDTO,
+} from "./types/story.js";
 
 // Interactive (AI Chat, Scenario, Debate)
-export { SenderType, DebateStatus, DebateStance, VoteValue } from "./types/interactive";
+export { DebateStance, DebateStatus, SenderType, VoteValue } from "./types/interactive.js";
 export type {
   AiCharacterDTO,
-  AiChatSessionDTO,
   AiChatMessageDTO,
-  ScenarioDTO,
-  ScenarioResponseDTO,
-  ScenarioPerspectiveDTO,
-  ScenarioFrameworkDTO,
-  DebateDTO,
+  AiChatSessionDTO,
   DebateArgumentDTO,
   DebateCommentDTO,
+  DebateDTO,
   DebateVoteDTO,
-} from "./types/interactive";
+  ScenarioDTO,
+  ScenarioFrameworkDTO,
+  ScenarioPerspectiveDTO,
+  ScenarioResponseDTO,
+} from "./types/interactive.js";
+
+// Activity
+export { ActivityType, TargetType } from "./types/activity.js";
+
+// ── Shared Validators ─────────────────────────────────────
+
+export * from "./validators/activity.validator.js";
+export * from "./validators/ai-character.validator.js";
+export * from "./validators/ai-chat.validator.js";
+export * from "./validators/ai.validator.js";
+export * from "./validators/analysis-tab.validator.js";
+export * from "./validators/auth.validator.js";
+export * from "./validators/bookmark.validator.js";
+export * from "./validators/choice.validator.js";
+export * from "./validators/critical-question.validator.js";
+export * from "./validators/debate.validator.js";
+export * from "./validators/lesson.validator.js";
+export * from "./validators/mindmap.validator.js";
+export * from "./validators/minigame.validator.js";
+export * from "./validators/notification.validator.js";
+export * from "./validators/philosophy-tag.validator.js";
+export * from "./validators/progress.validator.js";
+export * from "./validators/quiz.validator.js";
+export * from "./validators/reflection.validator.js";
+export * from "./validators/scenario.validator.js";
+export * from "./validators/short-lesson.validator.js";
+export * from "./validators/story-learn-card.validator.js";
+export * from "./validators/story-session.validator.js";
+export * from "./validators/story.validator.js";
+export * from "./validators/topic-perspective.validator.js";
+export * from "./validators/topic.validator.js";

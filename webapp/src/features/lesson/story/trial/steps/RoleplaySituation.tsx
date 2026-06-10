@@ -1,4 +1,5 @@
 import { Shield } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 import type { LessonCharacter } from "../data";
@@ -11,37 +12,39 @@ type RoleplaySituationProps = {
 };
 
 export function RoleplaySituation({ character, onNext }: RoleplaySituationProps) {
+  const { t } = useTranslation();
+
+  const characterName = t(`story_trial.character_selection.characters.${character.id}.name`);
+
   return (
     <View style={styles.stack}>
-      <StatusPill label={`Playing as ${character.name}`} />
+      <StatusPill label={t("story_trial.roleplay_situation.playing_as", { name: characterName })} />
       <View style={styles.quotePanel}>
-        <Text style={styles.dropCap}>Y</Text>
-        <Text style={styles.quoteBody}>
-          ou are standing before the Athenian court. The judges offer a chance to apologize and stop
-          teaching philosophy. If you accept, you may live. If you refuse, you may be punished
-          severely.
-        </Text>
+        <Text style={styles.dropCap}>{t("story_trial.roleplay_situation.drop_cap")}</Text>
+        <Text style={styles.quoteBody}>{t("story_trial.roleplay_situation.quote_body")}</Text>
       </View>
 
       <View style={styles.callout}>
-        <Text style={styles.calloutText}>Will you protect your life, or defend your beliefs?</Text>
+        <Text style={styles.calloutText}>{t("story_trial.roleplay_situation.callout")}</Text>
       </View>
 
       <View style={styles.virtueGrid}>
-        {["Truth", "Safety", "Justice", "Loyalty"].map((virtue) => (
-          <View key={virtue} style={styles.virtueChip}>
-            <Text style={styles.virtueText}>{virtue}</Text>
+        {["truth", "safety", "justice", "loyalty"].map((virtueKey) => (
+          <View key={virtueKey} style={styles.virtueChip}>
+            <Text style={styles.virtueText}>
+              {t(`story_trial.roleplay_situation.virtues.${virtueKey}`)}
+            </Text>
           </View>
         ))}
       </View>
 
       <InfoCard
         icon={<Shield color={Colors.primaryLight} size={18} />}
-        title="What is at stake?"
-        body="Your legacy, the future of Athenian philosophy, and the meaning of public courage."
+        title={t("story_trial.roleplay_situation.stake_title")}
+        body={t("story_trial.roleplay_situation.stake_body")}
       />
 
-      <PrimaryButton label="Make a decision" onPress={onNext} />
+      <PrimaryButton label={t("story_trial.roleplay_situation.cta_decision")} onPress={onNext} />
     </View>
   );
 }

@@ -1,4 +1,4 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   AlertCircle,
   ArrowLeft,
@@ -46,7 +46,7 @@ export default function StoryDetailScreen() {
     setErrorMsg(null);
     try {
       await startOrResumeSession(storyId);
-      router.push(`/story/${storyId}/cinematic` as never);
+      router.push(`/story/${storyId}/role-selection` as never);
     } catch (err: unknown) {
       setErrorMsg(err instanceof Error ? err.message : "Không thể khởi tạo hành trình kịch bản.");
     } finally {

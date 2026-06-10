@@ -17,8 +17,8 @@ import { mapCatalog, defaultMapData } from "@/features/story/mapData";
 // Sequential step order for map nodes
 const STEP_ORDER = [
   "intro",
-  "learn",
   "encounter",
+  "learn",
   "dilemma",
   "choose",
   "result",
@@ -37,7 +37,7 @@ export default function ExplorationMapScreen() {
   const { data: story, isLoading, error } = useGetStoryDetailQuery(storyId);
   const { activeSession: _activeSession, currentStep } = useStoryStore();
 
-  const [selectedNodeId, setSelectedNodeId] = useState<string>("learn");
+  const [selectedNodeId, setSelectedNodeId] = useState<string>("encounter");
 
   // Get map config
   const mapData = useMemo(() => {

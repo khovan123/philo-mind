@@ -1,7 +1,8 @@
 import { ArrowLeft } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
-import { Colors, steps } from "./data";
+import { Colors } from "./data";
 import { styles } from "./ui";
 
 type LessonTopBarProps = {
@@ -9,7 +10,21 @@ type LessonTopBarProps = {
   onBack: () => void;
 };
 
+const STEP_KEYS = [
+  "context",
+  "character",
+  "situation",
+  "decision",
+  "consequence",
+  "lesson",
+] as const;
+
 export function LessonTopBar({ stepIndex, onBack }: LessonTopBarProps) {
+  const { t } = useTranslation();
+
+  const currentStepKey = STEP_KEYS[stepIndex];
+  const stepName = currentStepKey ? t(`story_trial.steps.${currentStepKey}`) : "";
+
   return (
     <View style={styles.topBar}>
       <Pressable accessibilityRole="button" onPress={onBack} style={styles.iconButton}>
@@ -17,9 +32,13 @@ export function LessonTopBar({ stepIndex, onBack }: LessonTopBarProps) {
       </Pressable>
 
       <View style={styles.topTitleBlock}>
-        <Text style={styles.lessonEyebrow}>The Trial of Socrates</Text>
+        <Text style={styles.lessonEyebrow}>{t("story_trial.title")}</Text>
         <Text style={styles.stepText}>
-          Step {stepIndex + 1} of {steps.length} · {steps[stepIndex]}
+          {t("story_trial.step_progress", {
+            current: stepIndex + 1,
+            total: STEP_KEYS.length,
+            stepName,
+          })}
         </Text>
       </View>
 

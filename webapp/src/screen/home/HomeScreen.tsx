@@ -1,14 +1,15 @@
-import { Image } from "expo-image";
 import { Redirect, useRouter } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
-import { Platform, Pressable, RefreshControl, ScrollView, StyleSheet, View } from "react-native";
+import { RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
 import { shouldShowOnboarding } from "@/lib/onboarding-state";
 import { useGetLearningDashboardQuery } from "@/services/rtk-api/learning.api";
+import { Pressable, ScrollView, View } from "@/tw";
+import { Image } from "@/tw/image";
 
 const Colors = {
   background: "#0C0C0E",
@@ -28,30 +29,33 @@ const dailyHookImage =
 const storyImage =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuAPW4ODe4_QUeKZd9n42xhLw9sYnejBsAuagcIld_jq2mtm_RveitFBRLaL07LQXoK-Xl28v7qHCFtdnDOAMyC909PQTlIrZhLvoLmnrK0XySJ4vMgPvib8fe4u93sgseq8ZneAKqV4E9ehJ5kELZojHSx5CbiMq_YRMMjAc3zA5cw-FiHD1xSRZKkJ-_aTp29cThfdTpLIL8UT_R1EUSqp6JGENJw7VWDm_HQCqsvmpL3iLCr04A2BuMCMBjDMs0ait2XsnADraRIk";
 
-const learningItems = [
-  {
-    title: "Phiên tòa Socrates",
-    subtitle: "Đạo đức & Chính trị",
-    difficulty: "Trung bình",
-    progress: 60,
-    icon: Gavel,
-  },
-  {
-    title: "Siêu hình học Kant",
-    subtitle: "Triết học cổ điển",
-    difficulty: "Nâng cao",
-    progress: 35,
-    icon: BookOpen,
-  },
-];
-
 export default function HomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
 
   if (shouldShowOnboarding()) {
     return <Redirect href="../onboarding" />;
   }
+
+  const getDifficultyTranslation = (difficulty: string | undefined) => {
+    if (!difficulty) return "";
+    const lower = difficulty.toLowerCase();
+    if (lower === "dễ" || lower === "easy") return t("home.difficulty_easy");
+    if (lower === "trung bình" || lower === "medium") return t("home.difficulty_medium");
+    if (lower === "nâng cao" || lower === "khó" || lower === "advanced" || lower === "hard")
+      return t("home.difficulty_hard");
+    return difficulty;
+  };
+
+  const getDurationTranslation = (duration: string | undefined) => {
+    if (!duration) return "";
+    const match = duration.match(/^(\d+)\s*(phút|mins?|minutes?)$/i);
+    if (match) {
+      return t("home.new_story_duration", { count: parseInt(match[1], 10) });
+    }
+    return duration;
+  };
 
   const visibleLearningItems =
     dashboard?.continueLearning && dashboard.continueLearning.length > 0
@@ -59,23 +63,41 @@ export default function HomeScreen() {
           id: item.lessonId,
           title: item.title,
           subtitle: item.subtitle,
-          difficulty: item.difficulty,
+          difficulty: getDifficultyTranslation(item.difficulty),
           progress: item.progress,
           icon: Gavel,
         }))
-      : learningItems;
+      : [
+          {
+            id: undefined,
+            title: t("home.learning_socrates_title"),
+            subtitle: t("home.learning_socrates_subtitle"),
+            difficulty: t("home.difficulty_medium"),
+            progress: 60,
+            icon: Gavel,
+          },
+          {
+            id: undefined,
+            title: t("home.learning_kant_title"),
+            subtitle: t("home.learning_kant_subtitle"),
+            difficulty: t("home.difficulty_hard"),
+            progress: 35,
+            icon: BookOpen,
+          },
+        ];
+
   const dailyHook = dashboard?.dailyHook;
   const newStory = dashboard?.newStory;
   const quote = dashboard?.quote;
 
   return (
-    <View style={styles.screen}>
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
+    <View className={styles.screen}>
+      <SafeAreaView edges={["top"]} className={styles.safeArea}>
         <AppHeader />
 
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.content}
+          contentContainerClassName={styles.content}
           refreshControl={
             <RefreshControl
               refreshing={isFetching}
@@ -84,65 +106,67 @@ export default function HomeScreen() {
             />
           }
         >
-          <View style={styles.streakCard}>
-            <View style={styles.rowCenter}>
+          <View className={styles.streakCard}>
+            <View className={styles.rowCenter}>
               <Flame color={Colors.primary} fill={Colors.primary} size={18} />
-              <ThemedText style={styles.streakText}>
-                {dashboard?.streak.currentStreak ?? 0} ngày liên tiếp
+              <ThemedText className={styles.streakText}>
+                {t("home.streak_days", { count: dashboard?.streak?.currentStreak ?? 0 })}
               </ThemedText>
             </View>
 
-            <View style={styles.pointsGroup}>
-              <ThemedText style={styles.points}>{dashboard?.points ?? 0}</ThemedText>
-              <ThemedText style={styles.pointsLabel}>PTS</ThemedText>
+            <View className={styles.pointsGroup}>
+              <ThemedText className={styles.points}>{dashboard?.points ?? 0}</ThemedText>
+              <ThemedText className={styles.pointsLabel}>{t("home.points_label")}</ThemedText>
             </View>
           </View>
 
-          <View style={styles.hookCard}>
-            <Image source={dailyHookImage} contentFit="cover" style={StyleSheet.absoluteFill} />
-            <View style={styles.imageScrim} />
-            <View style={styles.hookContent}>
-              <View style={styles.topicPill}>
-                <ThemedText style={styles.topicPillText}>
-                  {dailyHook?.topic ?? "Daily Hook"}
+          <View className={styles.hookCard}>
+            <Image source={dailyHookImage} contentFit="cover" className="absolute inset-0" />
+            <View className={styles.imageScrim} />
+            <View className={styles.hookContent}>
+              <View className={styles.topicPill}>
+                <ThemedText className={styles.topicPillText}>
+                  {dailyHook?.topic ?? t("home.daily_hook_fallback")}
                 </ThemedText>
               </View>
 
-              <ThemedText style={styles.hookTitle}>
-                {dailyHook?.title ?? "Chưa có daily hook từ database."}
+              <ThemedText className={styles.hookTitle}>
+                {dailyHook?.title ?? t("home.daily_hook_no_data")}
               </ThemedText>
 
-              <View style={styles.answerRow}>
+              <View className={styles.answerRow}>
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => router.push("/(tabs)/story" as never)}
-                  style={({ pressed }) => [styles.primaryAnswer, pressed && styles.pressed]}
+                  className={styles.primaryAnswer}
+                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                 >
-                  <ThemedText style={styles.primaryAnswerText}>
-                    {dailyHook?.primaryChoice ?? "Bắt đầu"}
+                  <ThemedText className={styles.primaryAnswerText}>
+                    {dailyHook?.primaryChoice ?? t("home.daily_hook_start")}
                   </ThemedText>
                 </Pressable>
 
                 <Pressable
                   accessibilityRole="button"
                   onPress={() => router.push("/(tabs)/explore" as never)}
-                  style={({ pressed }) => [styles.secondaryAnswer, pressed && styles.pressed]}
+                  className={styles.secondaryAnswer}
+                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                 >
-                  <ThemedText style={styles.secondaryAnswerText}>
-                    {dailyHook?.secondaryChoice ?? "Xem thêm"}
+                  <ThemedText className={styles.secondaryAnswerText}>
+                    {dailyHook?.secondaryChoice ?? t("home.daily_hook_more")}
                   </ThemedText>
                 </Pressable>
               </View>
             </View>
           </View>
 
-          <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Tiếp tục học</ThemedText>
+          <View className={styles.section}>
+            <ThemedText className={styles.sectionTitle}>{t("home.continue_learning")}</ThemedText>
 
             <ScrollView
               horizontal
               showsHorizontalScrollIndicator={false}
-              contentContainerStyle={styles.learningList}
+              contentContainerClassName={styles.learningList}
             >
               {visibleLearningItems.map((item, index) => {
                 const Icon = item.icon;
@@ -160,30 +184,36 @@ export default function HomeScreen() {
                           })
                         : router.push("/(tabs)/explore" as never)
                     }
-                    style={({ pressed }) => [styles.learningCard, pressed && styles.pressed]}
+                    className={styles.learningCard}
+                    style={({ pressed }) => (pressed ? pressedStyle : undefined)}
                   >
-                    <View style={styles.learningHeader}>
-                      <View style={styles.learningIcon}>
+                    <View className={styles.learningHeader}>
+                      <View className={styles.learningIcon}>
                         <Icon color={Colors.primaryLight} size={16} />
                       </View>
 
-                      <View style={styles.difficultyPill}>
-                        <ThemedText style={styles.difficultyText}>{item.difficulty}</ThemedText>
+                      <View className={styles.difficultyPill}>
+                        <ThemedText className={styles.difficultyText}>{item.difficulty}</ThemedText>
                       </View>
                     </View>
 
-                    <View style={styles.learningBody}>
-                      <ThemedText style={styles.learningTitle}>{item.title}</ThemedText>
-                      <ThemedText style={styles.learningSubtitle}>{item.subtitle}</ThemedText>
+                    <View className={styles.learningBody}>
+                      <ThemedText className={styles.learningTitle}>{item.title}</ThemedText>
+                      <ThemedText className={styles.learningSubtitle}>{item.subtitle}</ThemedText>
                     </View>
 
-                    <View style={styles.progressMeta}>
-                      <ThemedText style={styles.progressLabel}>Tiến độ</ThemedText>
-                      <ThemedText style={styles.progressLabel}>{item.progress}%</ThemedText>
+                    <View className={styles.progressMeta}>
+                      <ThemedText className={styles.progressLabel}>
+                        {t("home.progress_label")}
+                      </ThemedText>
+                      <ThemedText className={styles.progressLabel}>{item.progress}%</ThemedText>
                     </View>
 
-                    <View style={styles.progressTrack}>
-                      <View style={[styles.progressFill, { width: `${item.progress}%` }]} />
+                    <View className={styles.progressTrack}>
+                      <View
+                        className={styles.progressFill}
+                        style={{ width: `${item.progress}%` }}
+                      />
                     </View>
                   </Pressable>
                 );
@@ -191,41 +221,44 @@ export default function HomeScreen() {
             </ScrollView>
           </View>
 
-          <View style={styles.statsGrid}>
+          <View className={styles.statsGrid}>
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push("/(tabs)/learn" as never)}
-              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+              className={styles.statCard}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
             >
-              <ThemedText style={styles.statValue}>
-                {dashboard?.stats.learnedLessons ?? 12}
+              <ThemedText className={styles.statValue}>
+                {dashboard?.stats?.learnedLessons ?? 12}
               </ThemedText>
-              <ThemedText style={styles.statLabel}>Bài đã học</ThemedText>
+              <ThemedText className={styles.statLabel}>{t("home.stats_lessons")}</ThemedText>
             </Pressable>
 
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push("/badges" as never)}
-              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+              className={styles.statCard}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
             >
-              <ThemedText style={styles.statValue}>{dashboard?.stats.badges ?? 4}</ThemedText>
-              <ThemedText style={styles.statLabel}>Huy hiệu</ThemedText>
+              <ThemedText className={styles.statValue}>{dashboard?.stats?.badges ?? 4}</ThemedText>
+              <ThemedText className={styles.statLabel}>{t("home.stats_badges")}</ThemedText>
             </Pressable>
 
             <Pressable
               accessibilityRole="button"
               onPress={() => router.push("/(tabs)/learn" as never)}
-              style={({ pressed }) => [styles.statCard, pressed && styles.pressed]}
+              className={styles.statCard}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
             >
-              <ThemedText style={styles.statValue}>
-                {dashboard?.stats.quizAccuracy ?? 86}%
+              <ThemedText className={styles.statValue}>
+                {dashboard?.stats?.quizAccuracy ?? 86}%
               </ThemedText>
-              <ThemedText style={styles.statLabel}>Quiz đúng</ThemedText>
+              <ThemedText className={styles.statLabel}>{t("home.stats_accuracy")}</ThemedText>
             </Pressable>
           </View>
 
-          <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Câu chuyện mới</ThemedText>
+          <View className={styles.section}>
+            <ThemedText className={styles.sectionTitle}>{t("home.new_story")}</ThemedText>
 
             <Pressable
               accessibilityRole="button"
@@ -237,31 +270,41 @@ export default function HomeScreen() {
                     })
                   : router.push("/(tabs)/story" as never)
               }
-              style={({ pressed }) => [styles.storyCard, pressed && styles.pressed]}
+              className={styles.storyCard}
+              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
             >
-              <Image source={storyImage} contentFit="cover" style={styles.storyImage} />
+              <Image source={storyImage} contentFit="cover" className={styles.storyImage} />
 
-              <View style={styles.storyContent}>
-                <View style={styles.storyMeta}>
-                  <ThemedText style={styles.storyBadge}>{newStory?.topic ?? "Story"}</ThemedText>
-                  <ThemedText style={styles.storyTime}>{newStory?.duration ?? "8 phút"}</ThemedText>
+              <View className={styles.storyContent}>
+                <View className={styles.storyMeta}>
+                  <ThemedText className={styles.storyBadge}>
+                    {newStory?.topic ?? t("navigation.story")}
+                  </ThemedText>
+                  <ThemedText className={styles.storyTime}>
+                    {getDurationTranslation(newStory?.duration) ||
+                      t("home.new_story_duration", { count: 8 })}
+                  </ThemedText>
                 </View>
 
-                <ThemedText style={styles.storyTitle}>
-                  {newStory?.title ?? "Chưa có câu chuyện mới"}
+                <ThemedText className={styles.storyTitle}>
+                  {newStory?.title ?? t("home.no_new_story")}
                 </ThemedText>
-                <ThemedText style={styles.storySubtitle} numberOfLines={1}>
-                  {newStory?.subtitle ?? "Database chưa có story phù hợp."}
+                <ThemedText className={styles.storySubtitle} numberOfLines={1}>
+                  {newStory?.subtitle ?? t("home.no_new_story_desc")}
                 </ThemedText>
               </View>
             </Pressable>
           </View>
 
-          <View style={styles.quoteCard}>
+          <View className={styles.quoteCard}>
             <Sparkles color={Colors.primaryLight} size={16} />
-            <View style={styles.quoteCopy}>
-              <ThemedText style={styles.quoteText}>{quote?.text ?? "Chưa có quote."}</ThemedText>
-              <ThemedText style={styles.quoteAuthor}>- {quote?.author ?? "PhiloMind"}</ThemedText>
+            <View className={styles.quoteCopy}>
+              <ThemedText className={styles.quoteText}>
+                {quote?.text ?? t("home.quote_fallback")}
+              </ThemedText>
+              <ThemedText className={styles.quoteAuthor}>
+                - {quote?.author ?? "PhiloMind"}
+              </ThemedText>
             </View>
           </View>
         </ScrollView>
@@ -270,389 +313,65 @@ export default function HomeScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
+const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
 
-  safeArea: {
-    flex: 1,
-  },
-
-  content: {
-    padding: Spacing.three,
-    paddingBottom: BottomTabInset + 120,
-    gap: Spacing.three,
-    maxWidth: 820,
-    width: "100%",
-    alignSelf: "center",
-  },
-
-  streakCard: {
-    minHeight: 58,
-    borderRadius: Radius.md,
-    paddingHorizontal: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-  },
-
-  rowCenter: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-
-  streakText: {
-    color: Colors.text,
-    fontSize: 14,
-    lineHeight: 18,
-    fontWeight: "700",
-  },
-
-  pointsGroup: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    gap: Spacing.one,
-  },
-
-  points: {
-    color: Colors.primary,
-    fontFamily: Fonts.mono,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: "700",
-  },
-
-  pointsLabel: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "700",
-  },
-
-  hookCard: {
-    minHeight: 320,
-    borderRadius: Radius.md,
-    overflow: "hidden",
-    justifyContent: "flex-end",
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-  },
-
-  imageScrim: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    backgroundColor: "rgba(12, 12, 14, 0.58)",
-  },
-
-  hookContent: {
-    padding: Spacing.three,
-    gap: Spacing.three,
-  },
-
-  topicPill: {
-    alignSelf: "flex-start",
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.one,
-    borderRadius: Radius.sm,
-    backgroundColor: Colors.chip,
-  },
-
-  topicPillText: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "800",
-  },
-
-  hookTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "800",
-    maxWidth: 560,
-  },
-
-  answerRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-
-  primaryAnswer: {
-    minHeight: 42,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Radius.sm,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.primary,
-  },
-
-  primaryAnswerText: {
-    color: Colors.primaryText,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "800",
-  },
-
-  secondaryAnswer: {
-    minHeight: 42,
-    paddingHorizontal: Spacing.three,
-    borderRadius: Radius.sm,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: "rgba(12, 12, 14, 0.55)",
-  },
-
-  secondaryAnswerText: {
-    color: Colors.text,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "800",
-  },
-
-  section: {
-    gap: Spacing.two,
-  },
-
-  sectionTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "800",
-  },
-
-  learningList: {
-    gap: Spacing.two,
-    paddingRight: Spacing.three,
-  },
-
-  learningCard: {
-    width: Platform.select({ web: 280, default: 260 }),
-    minHeight: 176,
-    padding: Spacing.three,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-    justifyContent: "space-between",
-  },
-
-  learningHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  learningIcon: {
-    width: 34,
-    height: 34,
-    borderRadius: Radius.sm,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: Colors.chip,
-  },
-
-  difficultyPill: {
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.one,
-    borderRadius: Radius.sm,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-  },
-
-  difficultyText: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "800",
-    textTransform: "uppercase",
-  },
-
-  learningBody: {
-    gap: Spacing.half,
-  },
-
-  learningTitle: {
-    color: Colors.text,
-    fontSize: 17,
-    lineHeight: 22,
-    fontWeight: "800",
-  },
-
-  learningSubtitle: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "500",
-  },
-
-  progressMeta: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-
-  progressLabel: {
-    color: Colors.muted,
-    fontSize: 11,
-    lineHeight: 14,
-    fontWeight: "700",
-  },
-
-  progressTrack: {
-    height: 4,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.chip,
-    overflow: "hidden",
-  },
-
-  progressFill: {
-    height: "100%",
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-  },
-
-  statsGrid: {
-    flexDirection: "row",
-    gap: Spacing.two,
-  },
-
-  statCard: {
-    flex: 1,
-    minHeight: 82,
-    padding: Spacing.two,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-    justifyContent: "center",
-    gap: Spacing.half,
-  },
-
-  statValue: {
-    color: Colors.primaryLight,
-    fontFamily: Fonts.mono,
-    fontSize: 21,
-    lineHeight: 26,
-    fontWeight: "800",
-    textAlign: "center",
-  },
-
-  statLabel: {
-    color: Colors.muted,
-    fontSize: 11,
-    lineHeight: 15,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-
-  storyCard: {
-    minHeight: 112,
-    flexDirection: "row",
-    borderRadius: Radius.md,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: Colors.border,
-    backgroundColor: Colors.surface,
-  },
-
-  storyImage: {
-    width: 112,
-  },
-
-  storyContent: {
-    flex: 1,
-    padding: Spacing.three,
-    justifyContent: "center",
-    gap: Spacing.one,
-  },
-
-  storyMeta: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-
-  storyBadge: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "800",
-    paddingHorizontal: Spacing.two,
-    paddingVertical: Spacing.half,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.chip,
-  },
-
-  storyTime: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "700",
-  },
-
-  storyTitle: {
-    color: Colors.text,
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "800",
-  },
-
-  storySubtitle: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
-    fontStyle: "italic",
-  },
-
-  quoteCard: {
-    flexDirection: "row",
-    gap: Spacing.two,
-    paddingTop: Spacing.three,
-    borderTopWidth: 1,
-    borderTopColor: Colors.chip,
-  },
-
-  quoteCopy: {
-    flex: 1,
-    paddingLeft: Spacing.two,
-    borderLeftWidth: 2,
-    borderLeftColor: Colors.primary,
-    gap: Spacing.one,
-  },
-
-  quoteText: {
-    color: Colors.text,
-    fontSize: 15,
-    lineHeight: 22,
-    fontStyle: "italic",
-    fontWeight: "600",
-  },
-
-  quoteAuthor: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-    textTransform: "uppercase",
-  },
-
-  pressed: {
-    opacity: 0.78,
-    transform: [{ scale: 0.98 }],
-  },
-});
+const styles = {
+  screen: "flex-1 bg-[#0C0C0E]",
+  safeArea: "flex-1",
+  content: "w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]",
+  streakCard:
+    "min-h-[58px] flex-row items-center justify-between rounded-md border border-[#353437] bg-[#18181B] px-3",
+  rowCenter: "flex-row items-center gap-2",
+  streakText: "text-[14px] font-bold leading-[18px] text-[#E5E1E4]",
+  pointsGroup: "flex-row items-baseline gap-1",
+  points: "font-mono text-[16px] font-bold leading-[20px] text-[#D97706]",
+  pointsLabel: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
+  hookCard:
+    "min-h-[320px] justify-end overflow-hidden rounded-md border border-[#353437] bg-[#18181B]",
+  imageScrim: "absolute inset-0 bg-[#0C0C0E]/60",
+  hookContent: "gap-3 p-3",
+  topicPill: "self-start rounded-sm bg-[#27272A] px-2 py-1",
+  topicPillText: "text-[10px] font-extrabold leading-[14px] text-[#A1A1AA]",
+  hookTitle: "max-w-[560px] font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]",
+  answerRow: "flex-row flex-wrap gap-2",
+  primaryAnswer: "min-h-[42px] items-center justify-center rounded-sm bg-[#D97706] px-3",
+  primaryAnswerText: "text-[13px] font-extrabold leading-[18px] text-[#2F1500]",
+  secondaryAnswer:
+    "min-h-[42px] items-center justify-center rounded-sm border border-[#27272A] bg-[#0C0C0E]/55 px-3",
+  secondaryAnswerText: "text-[13px] font-extrabold leading-[18px] text-[#E5E1E4]",
+  section: "gap-2",
+  sectionTitle: "font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]",
+  learningList: "gap-2 pr-3",
+  learningCard:
+    "min-h-[176px] w-[260px] justify-between rounded-md border border-[#353437] bg-[#18181B] p-3",
+  learningHeader: "flex-row items-center justify-between",
+  learningIcon: "h-[34px] w-[34px] items-center justify-center rounded-sm bg-[#27272A]",
+  difficultyPill: "rounded-sm border border-[#27272A] px-2 py-1",
+  difficultyText: "text-[10px] font-extrabold uppercase leading-[14px] text-[#A1A1AA]",
+  learningBody: "gap-0.5",
+  learningTitle: "text-[17px] font-extrabold leading-[22px] text-[#E5E1E4]",
+  learningSubtitle: "text-[13px] font-medium leading-[18px] text-[#A1A1AA]",
+  progressMeta: "flex-row justify-between",
+  progressLabel: "text-[11px] font-bold leading-[14px] text-[#A1A1AA]",
+  progressTrack: "h-1 overflow-hidden rounded-full bg-[#27272A]",
+  progressFill: "h-full rounded-full bg-[#D97706]",
+  statsGrid: "flex-row gap-2",
+  statCard:
+    "min-h-[82px] flex-1 justify-center gap-0.5 rounded-md border border-[#353437] bg-[#18181B] p-2",
+  statValue: "text-center font-mono text-[21px] font-extrabold leading-[26px] text-[#FFB77D]",
+  statLabel: "text-center text-[11px] font-bold leading-[15px] text-[#A1A1AA]",
+  storyCard:
+    "min-h-[112px] flex-row overflow-hidden rounded-md border border-[#353437] bg-[#18181B]",
+  storyImage: "w-[112px]",
+  storyContent: "flex-1 justify-center gap-1 p-3",
+  storyMeta: "flex-row flex-wrap items-center gap-2",
+  storyBadge:
+    "rounded-full bg-[#27272A] px-2 py-0.5 text-[10px] font-extrabold leading-[14px] text-[#A1A1AA]",
+  storyTime: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
+  storyTitle: "text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
+  storySubtitle: "text-[13px] font-normal italic leading-[18px] text-[#A1A1AA]",
+  quoteCard: "flex-row gap-2 border-t border-[#27272A] pt-3",
+  quoteCopy: "flex-1 gap-1 border-l-2 border-[#D97706] pl-2",
+  quoteText: "text-[15px] font-semibold italic leading-[22px] text-[#E5E1E4]",
+  quoteAuthor: "text-[12px] font-extrabold uppercase leading-[16px] text-[#FFB77D]",
+};

@@ -1,5 +1,6 @@
 import { Image } from "expo-image";
 import { ArrowRight, Clock, Lock, RotateCcw } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Pressable, View } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
@@ -14,6 +15,7 @@ type QuizCardProps = {
 };
 
 export function QuizCard({ onPress, quiz }: QuizCardProps) {
+  const { t } = useTranslation();
   const locked = quiz.status === "locked";
   const completed = quiz.status === "completed";
 
@@ -25,7 +27,7 @@ export function QuizCard({ onPress, quiz }: QuizCardProps) {
         <View style={styles.rowBetween}>
           <ThemedText style={styles.topic}>{quiz.topic}</ThemedText>
           <ThemedText style={[styles.status, getQuizStatusColor(quiz.status)]}>
-            {getQuizStatusLabel(quiz)}
+            {getQuizStatusLabel(quiz, t)}
           </ThemedText>
         </View>
 
@@ -33,12 +35,18 @@ export function QuizCard({ onPress, quiz }: QuizCardProps) {
         <ThemedText style={styles.cardText}>{quiz.description}</ThemedText>
 
         <View style={styles.metaRow}>
-          <ThemedText style={styles.metaText}>{quiz.questions} Qs</ThemedText>
+          <ThemedText style={styles.metaText}>
+            {t("quiz.meta_questions", { count: quiz.questions })}
+          </ThemedText>
           <View style={styles.metaRow}>
             <Clock color={QuizColors.muted} size={14} />
-            <ThemedText style={styles.metaText}>{quiz.timeMinutes}m</ThemedText>
+            <ThemedText style={styles.metaText}>
+              {t("quiz.meta_time", { minutes: quiz.timeMinutes })}
+            </ThemedText>
           </View>
-          <ThemedText style={styles.metaText}>{quiz.difficulty.toUpperCase()}</ThemedText>
+          <ThemedText style={styles.metaText}>
+            {t(`quiz.difficulty_${quiz.difficulty}` as Parameters<typeof t>[0])}
+          </ThemedText>
         </View>
 
         {quiz.status === "in-progress" ? (
@@ -60,7 +68,7 @@ export function QuizCard({ onPress, quiz }: QuizCardProps) {
           {locked ? <Lock color={QuizColors.text} size={15} /> : null}
           {completed ? <RotateCcw color={QuizColors.primaryLight} size={15} /> : null}
           <ThemedText style={completed ? styles.outlineButtonText : styles.primaryButtonText}>
-            {getQuizCta(quiz.status)}
+            {getQuizCta(quiz.status, t)}
           </ThemedText>
           {!locked && !completed ? <ArrowRight color={QuizColors.buttonText} size={15} /> : null}
         </Pressable>

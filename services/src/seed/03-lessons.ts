@@ -21,12 +21,6 @@ interface Frontmatter {
 }
 
 export async function seedLessons(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.lesson.count();
-  if (existing > 0) {
-    seedSkip("Lesson", `already has ${existing} records`);
-    return;
-  }
-
   let files: string[] = [];
   try {
     files = readdirSync(LESSONS_DIR).filter((file) => file.endsWith(".md"));
@@ -36,6 +30,7 @@ export async function seedLessons(prisma: PrismaClient): Promise<void> {
   }
 
   let created = 0;
+  let skipped = 0;
 
   for (const file of files) {
     const filePath = resolve(LESSONS_DIR, file);
@@ -79,6 +74,19 @@ export async function seedLessons(prisma: PrismaClient): Promise<void> {
 
     if (!topic) {
       console.warn(`    ⚠ No topic found for category: "${category}" — skipping "${title}"`);
+      continue;
+    }
+
+    // Check if lesson already exists
+    const existingLesson = await prisma.lesson.findFirst({
+      where: {
+        title,
+        topicId: topic.id,
+      },
+    });
+
+    if (existingLesson) {
+      skipped++;
       continue;
     }
 
@@ -174,5 +182,10 @@ export async function seedLessons(prisma: PrismaClient): Promise<void> {
     created++;
   }
 
-  seedLog("Lesson", created);
+  if (created > 0) {
+    seedLog("Lesson", created);
+  }
+  if (skipped > 0) {
+    seedSkip("Lesson", `${skipped} records already exist`);
+  }
 }

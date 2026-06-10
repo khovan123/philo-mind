@@ -1,5 +1,6 @@
 import { Tabs } from "expo-router";
 import { Platform, StyleSheet, type ColorValue } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { TabIcon, type TabIconName } from "@/components/ui/TabIcon";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
@@ -31,6 +32,7 @@ const TAB_BAR_HEIGHT =
 
 export default function AppTabs() {
   const theme = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -75,8 +77,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Trang chủ",
-          tabBarLabel: "Trang chủ",
+          title: t("navigation.home"),
+          tabBarLabel: t("navigation.home"),
           tabBarIcon: renderTabIcon("home"),
         }}
       />
@@ -84,8 +86,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="explore"
         options={{
-          title: "Khám phá",
-          tabBarLabel: "Khám phá",
+          title: t("navigation.explore"),
+          tabBarLabel: t("navigation.explore"),
           tabBarIcon: renderTabIcon("explore"),
         }}
       />
@@ -93,8 +95,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="story"
         options={{
-          title: "Câu chuyện",
-          tabBarLabel: "Câu chuyện",
+          title: t("navigation.story"),
+          tabBarLabel: t("navigation.story"),
           tabBarIcon: renderTabIcon("story"),
         }}
       />
@@ -102,8 +104,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="chat"
         options={{
-          title: "Trò chuyện",
-          tabBarLabel: "Trò chuyện",
+          title: t("navigation.chat"),
+          tabBarLabel: t("navigation.chat"),
           tabBarIcon: renderTabIcon("chat"),
         }}
       />
@@ -111,8 +113,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="learn"
         options={{
-          title: "Học tập",
-          tabBarLabel: "Học tập",
+          title: t("navigation.learn"),
+          tabBarLabel: t("navigation.learn"),
           tabBarIcon: renderTabIcon("learn"),
         }}
       />
@@ -128,8 +130,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="debate"
         options={{
-          title: "Lưu trữ",
-          tabBarLabel: "Lưu trữ",
+          title: t("navigation.archive"),
+          tabBarLabel: t("navigation.archive"),
           tabBarIcon: renderTabIcon("debate"),
         }}
       />
@@ -137,8 +139,8 @@ export default function AppTabs() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Hồ sơ",
-          tabBarLabel: "Hồ sơ",
+          title: t("navigation.profile"),
+          tabBarLabel: t("navigation.profile"),
           tabBarIcon: renderTabIcon("profile"),
         }}
       />

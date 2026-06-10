@@ -18,14 +18,9 @@ interface QuizRow {
 }
 
 export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.quiz.count();
-  if (existing > 0) {
-    seedSkip("Quiz", `already has ${existing} records`);
-    return;
-  }
-
   const rows = readCsv<QuizRow>("04-quizzes.csv");
   let created = 0;
+  let skipped = 0;
 
   for (const row of rows) {
     if (!row.câu_hỏi || !row.bài_học) {
@@ -50,6 +45,20 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
       continue;
     }
 
+    // Check if this quiz already exists
+    const quizTitle = `Quiz: ${row.bài_học}`;
+    const existingQuiz = await prisma.quiz.findFirst({
+      where: {
+        lessonId: lesson.id,
+        title: quizTitle,
+      },
+    });
+
+    if (existingQuiz) {
+      skipped++;
+      continue;
+    }
+
     if (!row.đáp_án_đúng) {
       continue;
     }
@@ -64,7 +73,7 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
     await prisma.quiz.create({
       data: {
         lessonId: lesson.id,
-        title: `Quiz: ${row.bài_học}`,
+        title: quizTitle,
         quizType: row.loại || "trắc_nghiệm",
         questions: {
           create: [
@@ -85,5 +94,10 @@ export async function seedQuizzes(prisma: PrismaClient): Promise<void> {
     created++;
   }
 
-  seedLog("Quiz", created);
+  if (created > 0) {
+    seedLog("Quiz", created);
+  }
+  if (skipped > 0) {
+    seedSkip("Quiz", `${skipped} records already exist`);
+  }
 }

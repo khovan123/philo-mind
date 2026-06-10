@@ -1,4 +1,4 @@
-﻿import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, Brain, Lock, Sparkles, User } from "lucide-react-native";
 import { useState, useRef, useMemo } from "react";
 import {

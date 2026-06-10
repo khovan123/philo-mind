@@ -6,8 +6,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@libs/shared": ["../libs/shared/src/index.ts"],
-      "@libs/shared/*": ["../libs/shared/src/*"]
+      "@libs/shared": ["../libs/shared/dist/index.d.ts"],
+      "@libs/shared/*": ["../libs/shared/dist/*"],
+      "@philo-mind/shared": ["../libs/shared/dist/index.d.ts"],
+      "@philo-mind/shared/*": ["../libs/shared/dist/*"]
     }
   },
   "include": ["src/**/*"],

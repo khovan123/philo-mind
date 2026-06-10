@@ -1,5 +1,4 @@
 import { authService } from "@/services/auth.service";
-import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import {
   Bell,
@@ -16,13 +15,14 @@ import {
   Sparkles,
   Trophy,
 } from "lucide-react-native";
-import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { BottomTabInset, Fonts, Radius, Spacing } from "@/constants/theme";
+import { cn } from "@/lib/utils";
 import { useGetProfileSummaryQuery } from "@/services/rtk-api/profile.api";
+import { Pressable, ScrollView, View } from "@/tw";
+import { Image } from "@/tw/image";
 
 const Colors = {
   background: "#0C0C0E",
@@ -78,28 +78,28 @@ export default function ProfileScreen() {
   const router = useRouter();
   const { data: profileSummary } = useGetProfileSummaryQuery();
 
-  const profileName = profileSummary?.user.fullName ?? "Minh Dev";
-  const profileHandle = profileSummary?.user.email
+  const profileName = profileSummary?.user?.fullName ?? "Minh Dev";
+  const profileHandle = profileSummary?.user?.email
     ? `@${profileSummary.user.email.split("@")[0]}`
     : "@minhdev";
-  const profileAvatar = profileSummary?.user.avatarUrl ?? avatarImage;
+  const profileAvatar = profileSummary?.user?.avatarUrl ?? avatarImage;
   const visibleStats = profileSummary
     ? [
         {
           label: "Chuỗi ngày",
-          value: `${profileSummary.stats.streakDays} ngày`,
+          value: `${profileSummary.stats?.streakDays ?? 0} ngày`,
           icon: Flame,
           tone: "primary",
         },
         {
           label: "Điểm tư duy",
-          value: String(profileSummary.stats.points),
+          value: String(profileSummary.stats?.points ?? 0),
           icon: Sparkles,
           tone: "primary",
         },
         {
           label: "Câu chuyện",
-          value: String(profileSummary.stats.stories),
+          value: String(profileSummary.stats?.stories ?? 0),
           icon: BookOpen,
           tone: "text",
         },
@@ -138,23 +138,34 @@ export default function ProfileScreen() {
   }
 
   return (
-    <View style={styles.screen}>
-      <SafeAreaView edges={["top"]} style={styles.safeArea}>
+    <View className="flex-1 bg-[#0C0C0E]">
+      <SafeAreaView edges={["top"]} className="flex-1">
         <AppHeader />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
-          <View style={styles.profileHeader}>
-            <View style={styles.avatarFrame}>
-              <Image source={profileAvatar} contentFit="cover" style={styles.avatarImage} />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]"
+        >
+          <View className="items-center gap-2 pb-1 pt-2">
+            <View className="h-[76px] w-[76px] rounded-full border-2 border-[#D97706] bg-[#0C0C0E] p-[3px]">
+              <Image
+                source={profileAvatar}
+                contentFit="cover"
+                className="h-full w-full rounded-full"
+              />
             </View>
 
-            <View style={styles.profileCopy}>
-              <ThemedText style={styles.name}>{profileName}</ThemedText>
-              <ThemedText style={styles.handle}>{profileHandle}</ThemedText>
+            <View className="items-center gap-0.5">
+              <ThemedText className="font-sans text-[22px] font-extrabold leading-[28px] text-[#E5E1E4]">
+                {profileName}
+              </ThemedText>
+              <ThemedText className="text-[13px] font-semibold leading-[18px] text-[#A1A1AA]">
+                {profileHandle}
+              </ThemedText>
             </View>
           </View>
 
-          <View style={styles.statsCard}>
+          <View className="min-h-[82px] flex-row rounded-md border border-[#27272A] bg-[#161618]">
             {visibleStats.map((item, index) => {
               const Icon = item.icon;
               const isPrimary = item.tone === "primary";
@@ -162,94 +173,126 @@ export default function ProfileScreen() {
               return (
                 <View
                   key={item.label}
-                  style={[styles.statItem, index > 0 && styles.statItemDivider]}
+                  className={cn(
+                    "flex-1 items-center justify-center gap-1",
+                    index > 0 && "border-l border-[#27272A]",
+                  )}
                 >
-                  <View style={styles.statValueRow}>
+                  <View className="flex-row items-center gap-1">
                     <Icon
                       color={isPrimary ? Colors.primary : Colors.text}
                       fill={item.icon === Flame ? Colors.primary : "transparent"}
                       size={16}
                     />
                     <ThemedText
-                      style={[
-                        styles.statValue,
-                        { color: isPrimary ? Colors.primary : Colors.text },
-                      ]}
+                      className="font-mono text-[16px] font-extrabold leading-[20px]"
+                      style={{ color: isPrimary ? Colors.primary : Colors.text }}
                     >
                       {item.value}
                     </ThemedText>
                   </View>
-                  <ThemedText style={styles.statLabel}>{item.label}</ThemedText>
+                  <ThemedText className="text-[10px] font-extrabold uppercase leading-[14px] text-[#A1A1AA]">
+                    {item.label}
+                  </ThemedText>
                 </View>
               );
             })}
           </View>
 
-          <View style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Lộ trình học</ThemedText>
-            <View style={styles.pathCard}>
-              <View style={styles.pathLineOne} />
-              <View style={styles.pathLineTwo} />
-              <View style={styles.pathLineThree} />
+          <View className="gap-2">
+            <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
+              Lộ trình học
+            </ThemedText>
+            <View className="h-[190px] items-center justify-center overflow-hidden rounded-md border border-[#27272A] bg-[#161618]">
+              <View className="absolute left-[18%] top-[48%] h-0.5 w-[90px] -rotate-[28deg] bg-[#D97706] opacity-70" />
+              <View className="absolute left-[38%] top-[42%] h-0.5 w-[96px] rotate-[16deg] bg-[#D97706] opacity-70" />
+              <View className="absolute right-[16%] top-[50%] h-0.5 w-[96px] -rotate-[18deg] bg-[#52525B] opacity-80" />
 
-              <View style={[styles.pathNode, styles.pathNodeOne]} />
-              <View style={[styles.pathNode, styles.pathNodeTwo]} />
-              <View style={[styles.pathNodeActive, styles.pathNodeThree]} />
-              <View style={[styles.pathNodeLocked, styles.pathNodeFour]} />
-              <View style={[styles.pathNodeLocked, styles.pathNodeFive]} />
+              <View className="absolute left-[18%] top-[54%] h-3 w-3 rounded-full bg-[#D97706]" />
+              <View className="absolute left-[36%] top-[30%] h-3 w-3 rounded-full bg-[#D97706]" />
+              <View className="absolute left-[53%] top-[42%] h-4 w-4 rounded-full border-[3px] border-[#FFB77D59] bg-[#D97706]" />
+              <View className="absolute right-[26%] top-[67%] h-3 w-3 rounded-full bg-[#52525B]" />
+              <View className="absolute right-[17%] top-[30%] h-3 w-3 rounded-full bg-[#52525B]" />
 
-              <View style={styles.pathCopy}>
-                <ThemedText style={styles.pathTitle}>Khắc kỷ học: Giai đoạn 2</ThemedText>
-                <ThemedText style={styles.pathSubtitle}>65% hoàn thành</ThemedText>
+              <View className="items-center gap-0.5">
+                <ThemedText className="text-[15px] font-extrabold leading-[20px] text-[#FFB77D]">
+                  Khắc kỷ học: Giai đoạn 2
+                </ThemedText>
+                <ThemedText className="text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
+                  65% hoàn thành
+                </ThemedText>
               </View>
             </View>
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Huy hiệu</ThemedText>
+          <View className="gap-2">
+            <View className="flex-row items-center justify-between">
+              <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
+                Huy hiệu
+              </ThemedText>
               <Pressable>
-                <ThemedText style={styles.sectionAction}>Xem tất cả</ThemedText>
+                <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                  Xem tất cả
+                </ThemedText>
               </Pressable>
             </View>
 
-            <View style={styles.badgeGrid}>
+            <View className="flex-row flex-wrap gap-2">
               {visibleBadges.map((badge) => {
                 const Icon = badge.icon;
 
                 return (
                   <Pressable
                     key={badge.title}
-                    style={[styles.badgeCard, !badge.unlocked && styles.badgeLocked]}
+                    className={cn(
+                      "min-h-[116px] w-[48%] gap-1 rounded-md border border-[#27272A] bg-[#161618] p-3",
+                      !badge.unlocked && "opacity-60",
+                    )}
                   >
-                    <View style={[styles.badgeIcon, !badge.unlocked && styles.badgeIconLocked]}>
+                    <View
+                      className={cn(
+                        "h-[38px] w-[38px] items-center justify-center rounded-full bg-[#D9770624]",
+                        !badge.unlocked && "bg-[#27272A]",
+                      )}
+                    >
                       <Icon
                         color={badge.unlocked ? Colors.primaryLight : Colors.locked}
                         size={22}
                       />
                     </View>
-                    <ThemedText style={[styles.badgeTitle, !badge.unlocked && styles.lockedText]}>
+                    <ThemedText
+                      className={cn(
+                        "text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]",
+                        !badge.unlocked && "text-[#A1A1AA]",
+                      )}
+                    >
                       {badge.title}
                     </ThemedText>
-                    <ThemedText style={styles.badgeCaption}>{badge.caption}</ThemedText>
+                    <ThemedText className="text-[12px] font-semibold leading-[16px] text-[#A1A1AA]">
+                      {badge.caption}
+                    </ThemedText>
                   </Pressable>
                 );
               })}
             </View>
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Hoạt động tuần này</ThemedText>
-              <ThemedText style={styles.sectionAction}>+18%</ThemedText>
+          <View className="gap-2">
+            <View className="flex-row items-center justify-between">
+              <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
+                Hoạt động tuần này
+              </ThemedText>
+              <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                +18%
+              </ThemedText>
             </View>
 
-            <View style={styles.activityCard}>
-              <View style={styles.activityBars}>
+            <View className="min-h-[160px] justify-end rounded-md border border-[#27272A] bg-[#161618] p-3">
+              <View className="h-[118px] flex-row items-end justify-between">
                 {visibleActivity.map((height, index) => (
-                  <View key={`${height}-${index}`} style={styles.activityColumn}>
-                    <View style={[styles.activityBar, { height }]} />
-                    <ThemedText style={styles.activityDay}>
+                  <View key={`${height}-${index}`} className="items-center gap-2">
+                    <View className="w-[18px] rounded-full bg-[#D97706]" style={{ height }} />
+                    <ThemedText className="text-[10px] font-extrabold leading-[14px] text-[#A1A1AA]">
                       {["T2", "T3", "T4", "T5", "T6", "T7", "CN"][index]}
                     </ThemedText>
                   </View>
@@ -258,19 +301,31 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <ThemedText style={styles.sectionTitle}>Nhật ký triết học</ThemedText>
+          <View className="gap-2">
+            <View className="flex-row items-center justify-between">
+              <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
+                Nhật ký triết học
+              </ThemedText>
               <Pressable>
-                <ThemedText style={styles.sectionAction}>Xem tất cả</ThemedText>
+                <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                  Xem tất cả
+                </ThemedText>
               </Pressable>
             </View>
 
-            <View style={styles.journalList}>
+            <View className="gap-2">
               {visibleJournals.map((journal) => (
-                <Pressable key={journal.date} style={styles.journalCard}>
-                  <ThemedText style={styles.journalDate}>{journal.date}</ThemedText>
-                  <ThemedText numberOfLines={2} style={styles.journalText}>
+                <Pressable
+                  key={journal.date}
+                  className="gap-1 rounded-md border border-[#27272A] bg-[#161618] p-3"
+                >
+                  <ThemedText className="font-mono text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
+                    {journal.date}
+                  </ThemedText>
+                  <ThemedText
+                    numberOfLines={2}
+                    className="text-[14px] font-bold leading-[20px] text-[#E5E1E4]"
+                  >
                     {journal.text}
                   </ThemedText>
                 </Pressable>
@@ -278,7 +333,7 @@ export default function ProfileScreen() {
             </View>
           </View>
 
-          <View style={styles.settingsCard}>
+          <View className="overflow-hidden rounded-md border border-[#27272A] bg-[#161618]">
             {settingsItems.map((item, index) => {
               const Icon = item.icon;
 
@@ -290,11 +345,16 @@ export default function ProfileScreen() {
                       router.push(item.path as never);
                     }
                   }}
-                  style={[styles.settingsRow, index < settingsItems.length - 1 && styles.rowBorder]}
+                  className={cn(
+                    "min-h-[56px] flex-row items-center justify-between px-3",
+                    index < settingsItems.length - 1 && "border-b border-[#27272A]",
+                  )}
                 >
-                  <View style={styles.settingsLabel}>
+                  <View className="flex-row items-center gap-2">
                     <Icon color={Colors.muted} size={18} />
-                    <ThemedText style={styles.settingsText}>{item.label}</ThemedText>
+                    <ThemedText className="text-[14px] font-extrabold leading-[20px] text-[#E5E1E4]">
+                      {item.label}
+                    </ThemedText>
                   </View>
                   <ChevronRight color={Colors.locked} size={18} />
                 </Pressable>
@@ -302,38 +362,45 @@ export default function ProfileScreen() {
             })}
           </View>
 
-          <View style={styles.deleteSection}>
-            <Pressable onPress={handleLogout} style={styles.logoutButton}>
+          <View className="mt-4 gap-3 px-1">
+            <Pressable
+              onPress={handleLogout}
+              className="flex-row items-center justify-center gap-2 rounded-md border border-[#353437] bg-[#161618] py-3"
+            >
               <LogOut color={Colors.text} size={16} />
-              <ThemedText type="label" style={styles.logoutButtonText}>
+              <ThemedText type="label" className="font-extrabold text-[#E5E1E4]">
                 Đăng xuất
               </ThemedText>
             </Pressable>
 
             <Pressable
               onPress={() => router.push("/delete-account" as never)}
-              style={styles.deleteButton}
+              className="items-center rounded-md border border-[#D97706] py-3"
             >
-              <ThemedText type="label" style={styles.deleteButtonText}>
+              <ThemedText type="label" className="font-extrabold text-[#D97706]">
                 Xóa tài khoản
               </ThemedText>
             </Pressable>
 
-            <View style={styles.legalButtonsContainer}>
+            <View className="gap-2">
               <Pressable
                 onPress={() => router.push("/legal/terms" as never)}
-                style={styles.legalButton}
+                className="flex-row items-center gap-2 rounded-md border border-[#353437] px-2 py-2"
               >
                 <ScrollText color={Colors.muted} size={16} />
-                <ThemedText style={styles.legalButtonText}>Điều Khoản Dịch Vụ</ThemedText>
+                <ThemedText className="text-[14px] font-bold leading-[20px] text-[#A1A1AA]">
+                  Điều Khoản Dịch Vụ
+                </ThemedText>
               </Pressable>
 
               <Pressable
                 onPress={() => router.push("/legal/privacy" as never)}
-                style={styles.legalButton}
+                className="flex-row items-center gap-2 rounded-md border border-[#353437] px-2 py-2"
               >
                 <Lock color={Colors.muted} size={16} />
-                <ThemedText style={styles.legalButtonText}>Chính Sách Bảo Mật</ThemedText>
+                <ThemedText className="text-[14px] font-bold leading-[20px] text-[#A1A1AA]">
+                  Chính Sách Bảo Mật
+                </ThemedText>
               </Pressable>
             </View>
           </View>
@@ -342,454 +409,3 @@ export default function ProfileScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-    backgroundColor: Colors.background,
-  },
-
-  safeArea: {
-    flex: 1,
-  },
-
-  content: {
-    padding: Spacing.three,
-    paddingBottom: BottomTabInset + 120,
-    gap: Spacing.three,
-    maxWidth: 820,
-    width: "100%",
-    alignSelf: "center",
-  },
-
-  profileHeader: {
-    alignItems: "center",
-    gap: Spacing.two,
-    paddingTop: Spacing.two,
-    paddingBottom: Spacing.one,
-  },
-
-  avatarFrame: {
-    width: 76,
-    height: 76,
-    borderRadius: Radius.full,
-    padding: 3,
-    borderWidth: 2,
-    borderColor: Colors.primary,
-    backgroundColor: Colors.background,
-  },
-
-  avatarImage: {
-    width: "100%",
-    height: "100%",
-    borderRadius: Radius.full,
-  },
-
-  profileCopy: {
-    alignItems: "center",
-    gap: Spacing.half,
-  },
-
-  name: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 22,
-    lineHeight: 28,
-    fontWeight: "800",
-  },
-
-  handle: {
-    color: Colors.muted,
-    fontSize: 13,
-    lineHeight: 18,
-    fontWeight: "600",
-  },
-
-  statsCard: {
-    minHeight: 82,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    flexDirection: "row",
-  },
-
-  statItem: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: Spacing.one,
-  },
-
-  statItemDivider: {
-    borderLeftWidth: 1,
-    borderLeftColor: Colors.chip,
-  },
-
-  statValueRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.one,
-  },
-
-  statValue: {
-    fontFamily: Fonts.mono,
-    fontSize: 16,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-
-  statLabel: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "800",
-    textTransform: "uppercase",
-  },
-
-  section: {
-    gap: Spacing.two,
-  },
-
-  sectionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  sectionTitle: {
-    color: Colors.text,
-    fontFamily: Fonts.sans,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "800",
-  },
-
-  sectionAction: {
-    color: Colors.primaryLight,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "800",
-  },
-
-  pathCard: {
-    height: 190,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  pathLineOne: {
-    position: "absolute",
-    width: 90,
-    height: 2,
-    left: "18%",
-    top: "48%",
-    backgroundColor: Colors.primary,
-    transform: [{ rotate: "-28deg" }],
-    opacity: 0.7,
-  },
-
-  pathLineTwo: {
-    position: "absolute",
-    width: 96,
-    height: 2,
-    left: "38%",
-    top: "42%",
-    backgroundColor: Colors.primary,
-    transform: [{ rotate: "16deg" }],
-    opacity: 0.7,
-  },
-
-  pathLineThree: {
-    position: "absolute",
-    width: 96,
-    height: 2,
-    right: "16%",
-    top: "50%",
-    backgroundColor: Colors.locked,
-    transform: [{ rotate: "-18deg" }],
-    opacity: 0.8,
-  },
-
-  pathNode: {
-    position: "absolute",
-    width: 12,
-    height: 12,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-  },
-
-  pathNodeActive: {
-    position: "absolute",
-    width: 16,
-    height: 16,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-    borderWidth: 3,
-    borderColor: "rgba(255, 183, 125, 0.35)",
-  },
-
-  pathNodeLocked: {
-    position: "absolute",
-    width: 12,
-    height: 12,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.locked,
-  },
-
-  pathNodeOne: {
-    left: "18%",
-    top: "54%",
-  },
-
-  pathNodeTwo: {
-    left: "36%",
-    top: "30%",
-  },
-
-  pathNodeThree: {
-    left: "53%",
-    top: "42%",
-  },
-
-  pathNodeFour: {
-    right: "26%",
-    top: "67%",
-  },
-
-  pathNodeFive: {
-    right: "17%",
-    top: "30%",
-  },
-
-  pathCopy: {
-    alignItems: "center",
-    gap: Spacing.half,
-  },
-
-  pathTitle: {
-    color: Colors.primaryLight,
-    fontSize: 15,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-
-  pathSubtitle: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "700",
-  },
-
-  badgeGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: Spacing.two,
-  },
-
-  badgeCard: {
-    width: "48%",
-    minHeight: 116,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    padding: Spacing.three,
-    gap: Spacing.one,
-  },
-
-  badgeLocked: {
-    opacity: 0.62,
-  },
-
-  badgeIcon: {
-    width: 38,
-    height: 38,
-    borderRadius: Radius.full,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(217, 119, 6, 0.14)",
-  },
-
-  badgeIconLocked: {
-    backgroundColor: Colors.chip,
-  },
-
-  badgeTitle: {
-    color: Colors.text,
-    fontSize: 15,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-
-  badgeCaption: {
-    color: Colors.muted,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "600",
-  },
-
-  lockedText: {
-    color: Colors.muted,
-  },
-
-  activityCard: {
-    minHeight: 160,
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    padding: Spacing.three,
-    justifyContent: "flex-end",
-  },
-
-  activityBars: {
-    height: 118,
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-  },
-
-  activityColumn: {
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-
-  activityBar: {
-    width: 18,
-    borderRadius: Radius.full,
-    backgroundColor: Colors.primary,
-  },
-
-  activityDay: {
-    color: Colors.muted,
-    fontSize: 10,
-    lineHeight: 14,
-    fontWeight: "800",
-  },
-
-  journalList: {
-    gap: Spacing.two,
-  },
-
-  journalCard: {
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    padding: Spacing.three,
-    gap: Spacing.one,
-  },
-
-  journalDate: {
-    color: Colors.muted,
-    fontFamily: Fonts.mono,
-    fontSize: 12,
-    lineHeight: 16,
-    fontWeight: "700",
-  },
-
-  journalText: {
-    color: Colors.text,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "700",
-  },
-
-  settingsCard: {
-    borderRadius: Radius.md,
-    borderWidth: 1,
-    borderColor: Colors.chip,
-    backgroundColor: Colors.surface,
-    overflow: "hidden",
-  },
-
-  settingsRow: {
-    minHeight: 56,
-    paddingHorizontal: Spacing.three,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-
-  rowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.chip,
-  },
-
-  settingsLabel: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-  },
-
-  settingsText: {
-    color: Colors.text,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-
-  deleteSection: {
-    marginTop: Spacing.four,
-    paddingHorizontal: Spacing.one,
-    gap: Spacing.three,
-  },
-
-  deleteButton: {
-    borderWidth: 1,
-    borderColor: Colors.primary,
-    borderRadius: Radius.md,
-    paddingVertical: Spacing.three,
-    alignItems: "center",
-  },
-
-  deleteButtonText: {
-    color: Colors.primary,
-    fontWeight: "800",
-  },
-
-  legalButtonsContainer: {
-    gap: Spacing.two,
-  },
-
-  legalButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: Spacing.two,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: Radius.md,
-    paddingVertical: Spacing.two,
-    paddingHorizontal: Spacing.two,
-  },
-
-  legalButtonText: {
-    color: Colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "700",
-  },
-
-  logoutButton: {
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: Radius.md,
-    paddingVertical: Spacing.three,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "row",
-    gap: Spacing.two,
-    backgroundColor: Colors.surface,
-  },
-
-  logoutButtonText: {
-    color: Colors.text,
-    fontWeight: "800",
-  },
-});

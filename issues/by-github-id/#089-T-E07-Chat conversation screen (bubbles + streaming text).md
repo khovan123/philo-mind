@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#89](https://github.com/khovan123/philo-mind/issues/89)
-- State: open
+- State: done
 - Track: E - AI & Chat System
 - Type: frontend
 - Priority: medium
 - Milestone: Week 6
 - Assignees: @VinhHoang03
-- Updated at: 2026-06-01T05:30:41Z
+- Updated at: 2026-06-04T07:03:01Z
+- Closed at: 2026-06-04T07:03:01Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #89                                                                                     |
 | Task ID        | T-E07                                                                                   |
 | Title          | Chat conversation screen (bubbles + streaming text)                                     |
-| State          | open                                                                                    |
+| State          | done                                                                                    |
 | Local log path | `issues/by-github-id/#089-T-E07-Chat conversation screen (bubbles + streaming text).md` |
 
 ## Issue Body

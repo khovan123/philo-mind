@@ -62,11 +62,11 @@ export default function CinematicOpeningScreen() {
   }, [story, fadeAnimEra, fadeAnimIntro, fadeAnimRole, fadeAnimBtn]);
 
   function handleContinue() {
-    router.push(`/story/${storyId}/role-selection` as never);
+    router.push(`/story/${storyId}/map` as never);
   }
 
   function handleSkip() {
-    router.push(`/story/${storyId}/role-selection` as never);
+    router.push(`/story/${storyId}/map` as never);
   }
 
   if (isLoading) {

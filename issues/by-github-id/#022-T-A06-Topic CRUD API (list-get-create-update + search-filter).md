@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#22](https://github.com/khovan123/philo-mind/issues/22)
-- State: open
+- State: done
 - Track: A - Backend Core
 - Type: backend
 - Priority: medium
 - Milestone: Week 2
 - Assignees: @linhtv1209-fudn
-- Updated at: 2026-06-01T05:31:51Z
+- Updated at: 2026-06-03T10:50:08Z
+- Closed at: 2026-06-03T10:50:08Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #22                                                                                         |
 | Task ID        | T-A06                                                                                       |
 | Title          | Topic CRUD API (list/get/create/update + search/filter)                                     |
-| State          | open                                                                                        |
+| State          | done                                                                                        |
 | Local log path | `issues/by-github-id/#022-T-A06-Topic CRUD API (list-get-create-update + search-filter).md` |
 
 ## Issue Body

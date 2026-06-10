@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#97](https://github.com/khovan123/philo-mind/issues/97)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: backend
 - Priority: medium
 - Milestone: Week 7
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:33Z
+- Updated at: 2026-06-03T05:38:55Z
+- Closed at: 2026-06-03T05:38:55Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #97                                                                             |
 | Task ID        | T-F05                                                                           |
 | Title          | Debate CRUD + argument + vote + comment API                                     |
-| State          | open                                                                            |
+| State          | done                                                                            |
 | Local log path | `issues/by-github-id/#097-T-F05-Debate CRUD + argument + vote + comment API.md` |
 
 ## Issue Body

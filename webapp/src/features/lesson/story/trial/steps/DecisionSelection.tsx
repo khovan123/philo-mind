@@ -1,4 +1,5 @@
 import { Clock3 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
 import { Colors, decisions } from "../data";
@@ -11,13 +12,20 @@ type DecisionSelectionProps = {
 };
 
 export function DecisionSelection({ decisionId, onChange, onNext }: DecisionSelectionProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.stack}>
-      <Text style={styles.centerTitle}>Chọn quyết định</Text>
-      <Text style={styles.centerSubtitle}>Mỗi quyết định bộc lộ một giá trị.</Text>
+      <Text style={styles.centerTitle}>{t("story_trial.decision_selection.title")}</Text>
+      <Text style={styles.centerSubtitle}>{t("story_trial.decision_selection.subtitle")}</Text>
 
       {decisions.map((decision) => {
         const active = decision.id === decisionId;
+        const decisionTitle = t(`story_trial.decision_selection.decisions.${decision.id}.title`);
+        const decisionPrinciple = t(
+          `story_trial.decision_selection.decisions.${decision.id}.principle`,
+        );
+        const decisionTag = t(`story_trial.decision_selection.decisions.${decision.id}.tag`);
 
         return (
           <Pressable
@@ -28,22 +36,22 @@ export function DecisionSelection({ decisionId, onChange, onNext }: DecisionSele
             style={[styles.decisionCard, active && styles.decisionCardActive]}
           >
             <View style={styles.optionHeader}>
-              <Text style={styles.optionTitle}>{decision.title}</Text>
+              <Text style={styles.optionTitle}>{decisionTitle}</Text>
               <View style={[styles.radio, active && styles.radioActive]} />
             </View>
-            <Text style={styles.decisionBody}>{decision.principle}</Text>
-            <Text style={styles.decisionTag}>{decision.tag}</Text>
+            <Text style={styles.decisionBody}>{decisionPrinciple}</Text>
+            <Text style={styles.decisionTag}>{decisionTag}</Text>
           </Pressable>
         );
       })}
 
       <InfoCard
         icon={<Clock3 color={Colors.primaryLight} size={18} />}
-        title="Hệ quả"
-        body="Lựa chọn của bạn sẽ định hình hậu quả và bài học."
+        title={t("story_trial.decision_selection.consequence_title")}
+        body={t("story_trial.decision_selection.consequence_body")}
       />
 
-      <PrimaryButton label="Xác nhận quyết định" onPress={onNext} />
+      <PrimaryButton label={t("story_trial.decision_selection.cta_confirm")} onPress={onNext} />
     </View>
   );
 }

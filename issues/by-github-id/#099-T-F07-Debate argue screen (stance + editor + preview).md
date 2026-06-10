@@ -3,17 +3,18 @@
 ## GitHub Link
 
 - Issue: [#99](https://github.com/khovan123/philo-mind/issues/99)
-- State: open
+- State: done
 - Track: F - Scenario & Debate
 - Type: frontend
 - Priority: medium
 - Milestone: Week 7
 - Assignees: @Ngoclee123
-- Updated at: 2026-06-01T05:30:31Z
+- Updated at: 2026-06-04T09:29:41Z
+- Closed at: 2026-06-04T09:29:41Z
 
 ## Current Sprint Status
 
-- [ ] Open on GitHub. Treat this task as remaining work.
+- [x] Done on GitHub. Treat this task as complete unless reopened.
 
 ## Status Log
 
@@ -21,7 +22,7 @@
 
 ## Required Follow-up
 
-- Keep implementation, PR, and review updates linked to this GitHub issue. If work starts, include the issue number and task ID in PR title/body.
+- No implementation follow-up required from sprint-status unless QA reopens the issue.
 
 ## Source Snapshot
 
@@ -30,7 +31,7 @@
 | GitHub issue   | #99                                                                                 |
 | Task ID        | T-F07                                                                               |
 | Title          | Debate argue screen (stance + editor + preview)                                     |
-| State          | open                                                                                |
+| State          | done                                                                                |
 | Local log path | `issues/by-github-id/#099-T-F07-Debate argue screen (stance + editor + preview).md` |
 
 ## Issue Body
