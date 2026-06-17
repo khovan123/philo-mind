@@ -30,6 +30,7 @@ import { progressRouter } from "./progress.routes.js";
 import { learningRouter } from "./learning.routes.js";
 import { profileRouter } from "./profile.routes.js";
 import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
+import { chapterRouter } from "./chapter.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -96,3 +97,4 @@ apiRouter.use("/learning", learningRouter);
 apiRouter.use("/profile", profileRouter);
 apiRouter.use("/debates", debateRouter);
 apiRouter.use("/debate-arguments", debateArgumentRouter);
+apiRouter.use("/chapters", chapterRouter);

@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "tsx src/index.ts",
     "prebuild": "npm --prefix .. run shared:build",
     "build": "tsc",
     "start": "node dist/index.js",

@@ -1,0 +1,28 @@
+export type ChapterProgressStatus = "locked" | "available" | "done";
+
+export type ChapterLessonStep = 0 | 1 | 2 | 3;
+
+export type ChapterReviewState = {
+  hookChoice?: "A" | "B" | null;
+  hookDragPlacements?: Record<number, number>;
+  quizAnswers?: Record<number, number>;
+  debateChoice?: "A" | "B" | null;
+};
+
+export type ChapterDraftState = {
+  step: ChapterLessonStep;
+  review?: ChapterReviewState;
+  quizScore?: number;
+  theoryIndex?: number;
+  quizIndex?: number;
+  quizShowResult?: boolean;
+};
+
+export type ChapterProgressItem = {
+  status: ChapterProgressStatus;
+  score: number | null;
+  review?: ChapterReviewState;
+  draft?: ChapterDraftState;
+};
+
+export type ChapterProgress = Record<string, ChapterProgressItem>;

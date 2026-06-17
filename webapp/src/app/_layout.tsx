@@ -1,4 +1,5 @@
-import { DarkTheme, ThemeProvider, Stack } from "expo-router";
+import { Stack } from "expo-router";
+import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import * as WebBrowser from "expo-web-browser";
@@ -38,6 +39,7 @@ function AppLayout() {
         <Stack.Screen name="notifications" />
         <Stack.Screen name="study-plan" />
         <Stack.Screen name="concept-comparison" />
+        <Stack.Screen name="chapter/[chapter]/[muc]" />
         <Stack.Screen name="debates" />
         <Stack.Screen name="(tabs)" />
       </Stack>

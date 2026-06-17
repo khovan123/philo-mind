@@ -95,8 +95,6 @@ export default function MindmapScreen() {
 
   const panResponder = useMemo(
     () =>
-      // PanResponder callbacks are event handlers; the gesture ref is not read for rendering.
-      // eslint-disable-next-line react-hooks/refs
       PanResponder.create({
         onMoveShouldSetPanResponder: () => canInteract,
         onStartShouldSetPanResponder: () => canInteract,

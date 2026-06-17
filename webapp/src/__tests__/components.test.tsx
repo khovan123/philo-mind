@@ -33,6 +33,7 @@ if (typeof globalThis.document === "undefined") {
 }
 
 // ─── Helpers for react-native-web text queries ────────────────────────────────
+type TestChild = ReactTestInstance | string;
 
 function getByTextContent(
   instance: { root: ReactTestInstance } | ReactTestInstance,
@@ -49,8 +50,9 @@ function getByTextContent(
     if (typeof node === "string") {
       return null;
     }
+    const children = node.children as TestChild[];
     // Check direct children for text matching
-    if (node.children && node.children.some((c) => typeof c === "string" && c.includes(text))) {
+    if (children.some((child: TestChild) => typeof child === "string" && child.includes(text))) {
       return node;
     }
     // Check props.children for text matching
@@ -62,14 +64,16 @@ function getByTextContent(
       return node;
     }
     // Recurse children
-    if (node.children) {
-      for (const child of node.children) {
-        if (typeof child !== "string") {
-          const found = findNode(child);
-          if (found) return found;
+    for (const child of children) {
+      if (typeof child !== "string") {
+        const found = findNode(child);
+
+        if (found) {
+          return found;
         }
       }
     }
+
     return null;
   }
 }
@@ -98,7 +102,8 @@ function getPressable(node: ReactTestInstance): ReactTestInstance {
 
 function firePress(node: ReactTestInstance) {
   const pressable = getPressable(node);
-  if (pressable && pressable.props) {
+
+  if (pressable.props) {
     const isPropsDisabled =
       pressable.props.disabled === true ||
       pressable.props.accessibilityDisabled === true ||
@@ -169,7 +174,6 @@ describe("Frontend UI & Feature Component Tests", () => {
     jest.clearAllMocks();
   });
 
-  // 1. Card Component
   describe("Card Component", () => {
     it("renders children content successfully", () => {
       const renderResult = render(
@@ -191,7 +195,6 @@ describe("Frontend UI & Feature Component Tests", () => {
     });
   });
 
-  // 2. Button Component
   describe("Button Component", () => {
     it("renders with given title", () => {
       const renderResult = render(<Button title="Click Me" />);
@@ -209,17 +212,16 @@ describe("Frontend UI & Feature Component Tests", () => {
 
     it("does not call onPress and displays activity indicator when loading", () => {
       const onPressMock = jest.fn();
-      const renderResult = render(<Button title="Click Me" onPress={onPressMock} loading={true} />);
+      const renderResult = render(<Button title="Click Me" onPress={onPressMock} loading />);
 
       const pressableText = queryByTextContent(renderResult, "Click Me");
-      expect(pressableText).toBeNull(); // text is replaced by ActivityIndicator
+
+      expect(pressableText).toBeNull();
     });
 
     it("is disabled when disabled prop is true", () => {
       const onPressMock = jest.fn();
-      const renderResult = render(
-        <Button title="Click Me" onPress={onPressMock} disabled={true} />,
-      );
+      const renderResult = render(<Button title="Click Me" onPress={onPressMock} disabled />);
 
       const textNode = getByTextContent(renderResult, "Click Me");
       firePress(textNode);
@@ -227,7 +229,6 @@ describe("Frontend UI & Feature Component Tests", () => {
     });
   });
 
-  // 3. AnswerOption Component
   describe("AnswerOption Component", () => {
     const defaultOption = {
       id: "opt-1",
@@ -281,7 +282,7 @@ describe("Frontend UI & Feature Component Tests", () => {
         <AnswerOption
           option={defaultOption}
           correctOptionId="opt-1"
-          disabled={true}
+          disabled
           feedback="idle"
           selectedOptionId={null}
           onSelect={onSelectMock}
@@ -297,7 +298,6 @@ describe("Frontend UI & Feature Component Tests", () => {
     });
   });
 
-  // 4. QuestionProgress Component
   describe("QuestionProgress Component", () => {
     it("renders correct progress percent and counts", () => {
       const renderResult = render(<QuestionProgress current={2} progress={0.5} total={4} />);
@@ -310,12 +310,11 @@ describe("Frontend UI & Feature Component Tests", () => {
     });
   });
 
-  // 5. SubmitAction Component
   describe("SubmitAction Component", () => {
     it("renders next question label when answered and not last", () => {
       const renderResult = render(
         <SubmitAction
-          answered={true}
+          answered
           disabled={false}
           feedback="correct"
           isLast={false}
@@ -327,13 +326,7 @@ describe("Frontend UI & Feature Component Tests", () => {
 
     it("renders view result label when answered and is last question", () => {
       const renderResult = render(
-        <SubmitAction
-          answered={true}
-          disabled={false}
-          feedback="correct"
-          isLast={true}
-          onPress={() => {}}
-        />,
+        <SubmitAction answered disabled={false} feedback="correct" isLast onPress={() => {}} />,
       );
       expect(getByTextContent(renderResult, "quiz.view_result")).toBeDefined();
     });
@@ -365,7 +358,6 @@ describe("Frontend UI & Feature Component Tests", () => {
     });
   });
 
-  // 6. ChatConversationScreen Component (incorporates Chat requirements)
   describe("ChatConversationScreen Component", () => {
     it("renders loading state when session is loading", () => {
       mockGetChatSessionQuery.mockReturnValue({

@@ -64,10 +64,29 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 // ── Start ──────────────────────────────────────────────────
+let server: ReturnType<typeof app.listen> | undefined;
+let keepAlive: ReturnType<typeof setInterval> | undefined;
+
 if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
   });
 }
 
+if (server) {
+  keepAlive = setInterval(
+    () => {
+      // Keep the dev process alive in TSX/Windows shells that unref the HTTP server.
+    },
+    60 * 60 * 1000,
+  );
+
+  server.on("close", () => {
+    if (keepAlive) {
+      clearInterval(keepAlive);
+    }
+  });
+}
+
 export default app;
+export { keepAlive, server };
