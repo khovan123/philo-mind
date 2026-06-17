@@ -1,5 +1,6 @@
 import { z } from "zod";
-import "dotenv/config";
+import dotenv from "dotenv";
+dotenv.config({ override: true });
 
 // ── T-I02: Environment Configuration with Zod Validation ───
 // Fail-fast: server crashes immediately if env vars are missing/invalid
