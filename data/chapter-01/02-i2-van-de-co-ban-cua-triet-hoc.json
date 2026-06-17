@@ -1,0 +1,88 @@
+{
+  "order": 2,
+  "code": "I.2",
+  "topic": {
+    "title": "Vấn đề cơ bản của Triết học",
+    "slug": "van-de-co-ban-cua-triet-hoc",
+    "category": "Chương 1",
+    "difficulty": "EASY",
+    "description": "Mối quan hệ giữa vật chất và ý thức, giữa tồn tại và tư duy — hai mặt của vấn đề cơ bản của triết học."
+  },
+  "lesson": {
+    "title": "Vấn đề cơ bản của Triết học",
+    "hook": "Bạn đã bao giờ tự hỏi: suy nghĩ của chúng ta tạo ra thế giới, hay chính thế giới tạo ra suy nghĩ của chúng ta?",
+    "body": "## Khái niệm\n\nTheo triết học, vấn đề cơ bản của triết học là mối quan hệ giữa **vật chất và ý thức**, giữa **tồn tại và tư duy**. Đây là vấn đề nền tảng để giải quyết tất cả các vấn đề khác của triết học.\n\nVấn đề cơ bản của triết học gồm hai mặt:\n\n**Mặt thứ nhất:** Giữa vật chất và ý thức, cái nào có trước và cái nào quyết định cái nào?\n\n**Mặt thứ hai:** Con người có khả năng nhận thức được thế giới hay không?\n\nTùy theo cách trả lời hai câu hỏi này mà hình thành những lập trường triết học khác nhau.",
+    "examples": [
+      "Một chiếc điện thoại thông minh tồn tại trước khi bạn nhìn thấy nó. Tuy nhiên, để hiểu được chiếc điện thoại đó hoạt động như thế nào, con người phải quan sát, nghiên cứu và nhận thức về nó. Điều này gợi ra hai câu hỏi: thế giới vật chất có tồn tại độc lập với con người hay không? Và con người có thể hiểu được thế giới đó đến mức nào?"
+    ]
+  },
+  "quiz": [
+    {
+      "type": "SINGLE_CHOICE",
+      "prompt": "Vấn đề cơ bản của triết học là:",
+      "options": [
+        "Nguồn gốc của sự sống",
+        "Quan hệ giữa vật chất và ý thức",
+        "Sự phát triển của xã hội",
+        "Nguồn gốc của nhà nước"
+      ],
+      "correctIndex": 1,
+      "explanation": "Theo giáo trình, vấn đề cơ bản của triết học là mối quan hệ giữa vật chất với ý thức, giữa tồn tại với tư duy."
+    },
+    {
+      "type": "MORAL_DILEMMA",
+      "prompt": "An cho rằng suy nghĩ và ý thức của con người quyết định mọi thứ trong cuộc sống. Bình cho rằng điều kiện vật chất và hoàn cảnh sống mới là yếu tố quyết định. Hai bạn đang tranh luận về mặt nào của vấn đề cơ bản của triết học?",
+      "options": [
+        "Con người có khả năng nhận thức thế giới hay không",
+        "Nguồn gốc của nhà nước",
+        "Giữa vật chất và ý thức, cái nào có trước và quyết định cái nào",
+        "Vai trò của đạo đức trong xã hội"
+      ],
+      "correctIndex": 2,
+      "explanation": "Đây chính là nội dung của mặt thứ nhất trong vấn đề cơ bản của triết học."
+    },
+    {
+      "type": "LOGIC",
+      "prompt": "Một nhà khoa học dành nhiều năm nghiên cứu để tìm hiểu cấu tạo của một loại virus mới. Hoạt động này liên quan trực tiếp đến mặt nào của vấn đề cơ bản của triết học?",
+      "options": [
+        "Con người có khả năng nhận thức được thế giới hay không",
+        "Vai trò của đạo đức",
+        "Quan hệ giữa cá nhân và xã hội",
+        "Sự hình thành nhà nước"
+      ],
+      "correctIndex": 0,
+      "explanation": "Việc nghiên cứu khoa học xuất phát từ câu hỏi liệu con người có thể hiểu và khám phá thế giới khách quan hay không (mặt thứ hai của vấn đề cơ bản của triết học)."
+    }
+  ],
+  "scenario": {
+    "situation": "Một nhóm sinh viên thực hiện dự án môn học. Một thành viên cho rằng chỉ cần thay đổi tư duy và quyết tâm hơn thì nhóm sẽ đạt kết quả tốt. Một thành viên khác cho rằng nhóm cần thêm thời gian, tài liệu và nguồn lực thì mới có thể cải thiện kết quả.",
+    "perspectives": [
+      {
+        "type": "chủ quan",
+        "content": "Ý thức và quyết tâm đóng vai trò rất quan trọng trong việc thúc đẩy hành động."
+      },
+      {
+        "type": "khách quan",
+        "content": "Điều kiện vật chất và hoàn cảnh thực tế ảnh hưởng lớn đến kết quả cuối cùng."
+      },
+      {
+        "type": "biện chứng",
+        "content": "Kết quả thường chịu tác động đồng thời từ cả nhận thức của con người và điều kiện khách quan."
+      },
+      {
+        "type": "câu hỏi mở",
+        "content": "Khi đánh giá một vấn đề, liệu chúng ta nên tập trung nhiều hơn vào yếu tố chủ quan hay điều kiện khách quan?"
+      }
+    ],
+    "discussionQuestion": "Khi đánh giá một vấn đề, liệu chúng ta nên tập trung nhiều hơn vào yếu tố chủ quan hay điều kiện khách quan?",
+    "_note": "Mục I.2: 4 \"góc nhìn\" trong giáo trình KHÔNG phải 4 framework đạo đức chuẩn (thực dụng/nghĩa vụ/đức hạnh/quan tâm) mà là 4 góc nhìn về quan hệ vật chất–ý thức. Đã dán nhãn perspectiveType theo ngữ nghĩa thực, sát nội dung gốc giáo trình: \"chủ quan\" (Góc nhìn 1 — đề cao ý thức/quyết tâm), \"khách quan\" (Góc nhìn 2 — đề cao điều kiện vật chất), \"biện chứng\" (Góc nhìn 3 — kết hợp cả hai mặt), \"câu hỏi mở\" (Góc nhìn 4 — vốn là một câu hỏi gợi mở, không phải lập trường khẳng định). Content giữ nguyên giáo trình. Góc nhìn 4 đồng thời dùng làm discussionQuestion. Lưu ý cho Pixel/Forge: scenario mục này dùng bộ nhãn KHÁC với 5 mục còn lại (thực dụng/nghĩa vụ/đức hạnh/quan tâm), UI cần render perspectiveType động theo data, không hardcode 4 nhãn đạo đức."
+  },
+  "debate": {
+    "positionA": "Vật chất có trước và quyết định ý thức; ý thức là sự phản ánh thế giới vật chất.",
+    "positionB": "Ý thức, tinh thần hoặc ý niệm có trước và quyết định thế giới vật chất.",
+    "openQuestions": [
+      "Nếu hai người cùng quan sát một sự vật nhưng lại đưa ra hai nhận định khác nhau, điều đó cho thấy điều gì về quá trình nhận thức của con người?",
+      "Khi một ý tưởng mới xuất hiện trong xã hội, nó là nguyên nhân tạo ra sự thay đổi hay là kết quả của những thay đổi đã diễn ra từ trước?"
+    ]
+  }
+}

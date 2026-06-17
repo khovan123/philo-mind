@@ -1,0 +1,88 @@
+{
+  "order": 4,
+  "code": "II.1",
+  "topic": {
+    "title": "Sự ra đời và phát triển của triết học Mác – Lênin",
+    "slug": "su-ra-doi-va-phat-trien-triet-hoc-mac-lenin",
+    "category": "Chương 1",
+    "difficulty": "MEDIUM",
+    "description": "Điều kiện kinh tế - xã hội và tiền đề khoa học tự nhiên cho sự ra đời triết học Mác; thực chất cuộc cách mạng trong triết học của C. Mác và Ph. Ăngghen."
+  },
+  "lesson": {
+    "title": "Sự ra đời và phát triển của triết học Mác – Lênin",
+    "hook": "Tại sao có những lý thuyết chỉ nằm mãi trên trang giấy, trong khi có những tư tưởng lại trở thành vũ khí tạo ra những cuộc cách mạng thay đổi toàn bộ thế giới?",
+    "body": "Để trả lời câu hỏi này, chúng ta cần quay ngược thời gian về thế kỷ XIX để tìm hiểu về sự ra đời của triết học Mác - một cuộc cách mạng vĩ đại trong lịch sử triết học, là kết quả tất yếu của sự phát triển lịch sử tư tưởng và khoa học nhân loại. Triết học Mác không tự nhiên sinh ra mà phụ thuộc chặt chẽ vào các điều kiện kinh tế - xã hội và thực tiễn đấu tranh giai cấp thời bấy giờ.\n\n## 1. Những điều kiện lịch sử của sự ra đời triết học Mác\n\nVề mặt kinh tế - xã hội, thế kỷ XIX chứng kiến sự phát triển mạnh mẽ của lực lượng sản xuất do cuộc cách mạng công nghiệp tạo ra. Lúc này, giai cấp tư sản không còn là lực lượng cách mạng nữa, thay vào đó, giai cấp vô sản đã xuất hiện và vươn lên như một lực lượng cách mạng mới. Thực tiễn từ các cuộc đấu tranh giai cấp bùng nổ như khởi nghĩa thợ dệt ở Lyon (1831, 1834), phong trào Hiến chương ở Anh, hay cuộc đấu tranh của thợ dệt ở Xilêdi đã minh chứng rõ nét cho nhu cầu cấp thiết phải có một hệ thống lý luận cách mạng dẫn đường.\n\nBên cạnh đó, tiền đề khoa học tự nhiên cũng đóng vai trò quyết định. Sự phát triển bứt phá của khoa học thế kỷ XIX trong các lĩnh vực cơ học, vật lý, hóa học và sinh học đã tạo nền móng vững chắc. Đặc biệt, ba phát hiện lớn gồm: định luật bảo toàn và chuyển hóa năng lượng, học thuyết tiến hóa Darwin, và khám phá về cấu trúc nguyên tử đã cung cấp cơ sở khoa học không thể bác bỏ cho chủ nghĩa duy vật biện chứng.\n\n## 2. Thực chất cuộc cách mạng trong triết học do C. Mác và Ph. Ăngghen thực hiện\n\nCuộc cách mạng này không chỉ là sự kế thừa mà là một bước nhảy vọt. Nó thể hiện ở việc thống nhất chủ nghĩa duy vật với phương pháp biện chứng, đồng thời áp dụng thành công biện chứng duy vật vào lịch sử xã hội (tạo ra chủ nghĩa duy vật lịch sử). Triết học Mác đã cung cấp công cụ lý luận sắc bén cho cuộc cách mạng vô sản và giải thích một cách khoa học sự phát triển của xã hội cũng như vấn đề giai cấp. Về sau, V.I. Lênin đã tiếp tục bảo vệ triết học Mác chống lại các lập trường lệch lạc, áp dụng nó vào thực tiễn cuộc cách mạng Xôviết và phát triển các nguyên lý mới, khẳng định tính khoa học và cách mạng của học thuyết này.",
+    "examples": [
+      "Hãy tưởng tượng bạn đang tham gia phát triển một nền tảng công nghệ quản lý vận hành giáo dục (EdTech), chẳng hạn như xây dựng hệ thống \"Sổ thu tiền thông minh\" cho các trường học. Trước đây, nhà trường thu học phí bằng tiền mặt và ghi chép sổ sách thủ công. Khi quy mô tăng lên, phương thức cũ bộc lộ nhiều mâu thuẫn: sai sót, mất thời gian, phụ huynh bức xúc. Điều này đòi hỏi một công cụ quản lý mới, một hệ thống phần mềm minh bạch và tự động hóa. Quá trình này rất giống với bối cảnh ra đời của triết học Mác: Khi lực lượng sản xuất thay đổi mạnh mẽ (cách mạng công nghiệp), những phương thức và lý thuyết cũ không còn đáp ứng được, đòi hỏi phải có một hệ thống lý luận mới (triết học Mác) để giải quyết các mâu thuẫn xã hội thực tiễn và dẫn dắt sự phát triển."
+    ]
+  },
+  "quiz": [
+    {
+      "type": "SINGLE_CHOICE",
+      "prompt": "Ba phát hiện lớn của khoa học tự nhiên thế kỷ XIX cung cấp cơ sở khoa học cho chủ nghĩa duy vật biện chứng là gì?",
+      "options": [
+        "Thuyết tương đối, thuyết lượng tử, và định luật vạn vật hấp dẫn",
+        "Định luật bảo toàn và chuyển hóa năng lượng, học thuyết tiến hóa Darwin, và khám phá cấu trúc nguyên tử",
+        "Thuyết tiến hóa Darwin, định luật vạn vật hấp dẫn, và cấu trúc ADN",
+        "Khám phá cấu trúc nguyên tử, thuyết nhiệt động lực học, và thuyết tương đối"
+      ],
+      "correctIndex": 1,
+      "explanation": "Theo giáo trình, sự phát triển mạnh mẽ của khoa học thế kỷ XIX với ba phát hiện lớn là định luật bảo toàn và chuyển hóa năng lượng, học thuyết tiến hóa Darwin, khám phá cấu trúc nguyên tử đã cung cấp cơ sở khoa học cho chủ nghĩa duy vật biện chứng."
+    },
+    {
+      "type": "MORAL_DILEMMA",
+      "prompt": "Một nhóm sinh viên đang làm dự án khởi nghiệp ứng dụng gọi xe công nghệ. Dù app thiết kế rất đẹp (phần lý thuyết/ý tưởng tốt), nhưng dự án vẫn thất bại vì họ không đi khảo sát thực tế đời sống khó khăn và nhu cầu thực sự của các tài xế (thực tiễn xã hội). Bài học này phản ánh khía cạnh nào trong thực chất cuộc cách mạng triết học của C. Mác?",
+      "options": [
+        "Triết học là khoa học của mọi khoa học",
+        "Sự áp dụng biện chứng duy vật vào lịch sử xã hội và thống nhất chủ nghĩa duy vật với phương pháp biện chứng",
+        "Triết học tự nhiên phục hưng thời kỳ XV – XVIII",
+        "Phép biện chứng duy tâm của triết học cổ điển Đức"
+      ],
+      "correctIndex": 1,
+      "explanation": "Cuộc cách mạng trong triết học của Mác thể hiện ở việc không chỉ dừng lại ở lý thuyết suông mà thống nhất chủ nghĩa duy vật với phương pháp biện chứng, đồng thời áp dụng nó vào hiện thực lịch sử xã hội (chủ nghĩa duy vật lịch sử) để giải thích và cải tạo thế giới. Việc nhóm sinh viên thất bại do tách rời ý tưởng khỏi thực tiễn đời sống xã hội trái ngược với tinh thần cách mạng này."
+    },
+    {
+      "type": "LOGIC",
+      "prompt": "Nếu giai cấp tư sản từng là lực lượng cách mạng lật đổ chế độ phong kiến, tại sao triết học Mác lại không coi họ là lực lượng cách mạng trong thế kỷ XIX nữa?",
+      "options": [
+        "Vì giai cấp tư sản không biết áp dụng các thành tựu khoa học tự nhiên",
+        "Vì giai cấp vô sản đã tiêu diệt hoàn toàn giai cấp tư sản",
+        "Vì sau cách mạng công nghiệp, sự phát triển của lực lượng sản xuất đã làm xuất hiện giai cấp vô sản như một lực lượng cách mạng mới, trong khi giai cấp tư sản không còn giữ vai trò lực lượng cách mạng",
+        "Vì giai cấp tư sản chuyển sang ủng hộ chế độ cộng sản nguyên thủy"
+      ],
+      "correctIndex": 2,
+      "explanation": "Giáo trình chỉ rõ, do sự phát triển mạnh mẽ của lực lượng sản xuất từ cách mạng công nghiệp (thế kỷ XIX), giai cấp tư sản không còn là lực lượng cách mạng, và giai cấp vô sản đã xuất hiện như lực lượng cách mạng mới."
+    }
+  ],
+  "scenario": {
+    "situation": "Minh là một sinh viên chạy xe ôm công nghệ để trang trải chi phí sinh hoạt. Gần đây, ứng dụng của công ty có một lỗi hệ thống: nếu Minh dùng một thủ thuật nhỏ trên điện thoại, hệ thống sẽ ưu tiên phát toàn bộ các \"cuốc xe\" ngon (quãng đường ngắn, tiền cao) cho Minh, khiến các tài xế khác trong khu vực không nhận được chuyến nào cả ngày. Minh biết nhiều tài xế khác là những người lao động nghèo, mang gánh nặng gia đình lớn hơn mình rất nhiều. Minh nên tận dụng lỗ hổng này để tăng thu nhập cá nhân hay báo cáo cho công ty?",
+    "perspectives": [
+      {
+        "type": "thực dụng",
+        "content": "Hành động đúng là hành động mang lại lợi ích thực tế lớn nhất. Dưới góc nhìn này, nếu Minh nghĩ ngắn hạn, việc giữ bí mật giúp Minh kiếm được nhiều tiền nhất. Tuy nhiên, nếu bị phát hiện, Minh có thể bị khóa tài khoản vĩnh viễn. Lợi ích lâu dài yêu cầu Minh phải cân nhắc rủi ro bị tước quyền lao động."
+      },
+      {
+        "type": "nghĩa vụ",
+        "content": "Theo các nguyên tắc và thỏa thuận khi đăng ký làm đối tác, Minh có nghĩa vụ tuân thủ quy định của công ty công nghệ và không can thiệp vào hệ thống. Việc lợi dụng bug là vi phạm hợp đồng, do đó Minh bắt buộc phải báo cáo lỗi này."
+      },
+      {
+        "type": "đức hạnh",
+        "content": "Một người có nhân cách tốt sẽ không xây dựng thành công của mình trên sự tước đoạt bát cơm của người khác. Sự công bằng và trung thực là phẩm chất Minh cần rèn luyện để trở thành một con người tử tế trong xã hội."
+      },
+      {
+        "type": "quan tâm",
+        "content": "Minh đặt mình vào vị trí của những chú tài xế lớn tuổi đang chờ cuốc xe giữa trời nắng nóng ở ngã tư để mua sữa cho con. Sự thấu cảm sâu sắc giữa những người lao động sẽ thôi thúc Minh không sử dụng thủ thuật này, bảo vệ sinh kế chung của cả cộng đồng tài xế."
+      }
+    ],
+    "discussionQuestion": null,
+    "_note_discussionQuestion": "Giáo trình mục II.1 KHÔNG có câu hỏi thảo luận riêng cho tình huống đạo đức (chỉ có 4 góc nhìn đầy đủ). Để null."
+  },
+  "debate": {
+    "positionA": "Triết học chỉ là hệ thống những lý thuyết trừu tượng, cao siêu trên giảng đường, không có tác dụng gì trong việc giải quyết các vấn đề cơm áo gạo tiền hay đấu tranh quyền lợi thực tế của người lao động hiện nay.",
+    "positionB": "Triết học Mác ra đời chính là từ thực tiễn đấu tranh của người lao động. Nó cung cấp vũ khí lý luận sắc bén giúp họ nhận thức rõ bản chất bóc lột và phương hướng thay đổi hoàn cảnh xã hội.",
+    "openQuestions": [
+      "Trong bối cảnh Việt Nam 2024, sự bùng nổ của trí tuệ nhân tạo (AI) và tự động hóa đang làm thay đổi mạnh mẽ lực lượng sản xuất. Theo bạn, những biến đổi công nghệ này có thể dẫn đến những mâu thuẫn xã hội nào mới giữa người lao động và giới chủ, tương tự như những gì đã xảy ra trong cuộc cách mạng công nghiệp thế kỷ XIX?",
+      "Nếu coi triết học Mác – Lênin là vũ khí lý luận của giai cấp vô sản, thì sinh viên và những người lao động trẻ hiện nay có thể vận dụng \"vũ khí\" này như thế nào để bảo vệ quyền lợi hợp pháp của mình trong nền kinh tế gig (nền kinh tế việc làm tự do/ngắn hạn)?"
+    ]
+  }
+}
