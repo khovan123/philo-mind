@@ -73,7 +73,7 @@ export default function DebateListScreen() {
                 style={styles.featuredCard}
                 onPress={() => handleDebatePress(featuredDebate.id)}
               >
-                <Image source={{ uri: DEBATE_BANNER_BG }} style={StyleSheet.absoluteFill} />
+                <Image source={{ uri: DEBATE_BANNER_BG }} style={StyleSheet.absoluteFillObject} />
                 <View style={styles.scrim} />
 
                 <View style={styles.featuredContent}>
@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(217, 119, 6, 0.3)",
   },
   scrim: {
-    ...StyleSheet.absoluteFill,
+    ...StyleSheet.absoluteFillObject,
     backgroundColor: "rgba(12, 12, 14, 0.75)",
   },
   featuredContent: {
