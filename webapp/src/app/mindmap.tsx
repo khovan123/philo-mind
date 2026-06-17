@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, BookOpen, LocateFixed, Minus, Plus, RefreshCw } from "lucide-react-native";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -76,9 +76,18 @@ export default function MindmapScreen() {
     scale: 0.9,
   });
 
+  const { topicId: paramTopicId } = useLocalSearchParams<{ topicId?: string }>();
+
   useEffect(() => {
     loadTopics();
   }, [loadTopics]);
+
+  // Deep-link: preselect topic khi mở từ Learn (vd "Sơ đồ tư duy Chương 1").
+  useEffect(() => {
+    if (paramTopicId && topics.length > 0 && !selectedTopicId) {
+      selectTopic(paramTopicId);
+    }
+  }, [paramTopicId, topics.length, selectedTopicId, selectTopic]);
 
   const layoutNodes = useMemo(
     () => computeForceLayout(graph?.nodes ?? [], graph?.edges ?? []),

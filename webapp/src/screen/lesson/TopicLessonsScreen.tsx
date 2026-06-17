@@ -1,11 +1,19 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { ArrowLeft, BookOpen, ChevronRight, MessagesSquare, Scale } from "lucide-react-native";
+import {
+  ArrowLeft,
+  BookOpen,
+  ChevronRight,
+  Drama,
+  MessagesSquare,
+  Scale,
+} from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useListDebatesQuery } from "@/services/rtk-api/debate.api";
 import { useListLessonsQuery } from "@/services/rtk-api/lesson.api";
 import { useListScenariosQuery } from "@/services/rtk-api/scenario.api";
+import { useListStoriesQuery } from "@/services/rtk-api/story.api";
 import { Pressable, ScrollView, Text, View } from "@/tw";
 
 const Colors = {
@@ -35,8 +43,10 @@ export default function TopicLessonsScreen() {
   } = useListLessonsQuery({ topicId, limit: 50 }, { skip: !topicId });
   const { data: scenarios = [] } = useListScenariosQuery({ topicId, limit: 5 }, { skip: !topicId });
   const { data: debates = [] } = useListDebatesQuery({ topicId, limit: 5 }, { skip: !topicId });
+  const { data: storyData } = useListStoriesQuery({ topicId, limit: 5 }, { skip: !topicId });
   const scenarioId = scenarios[0]?.id;
   const debateId = debates[0]?.id;
+  const storyId = storyData?.stories?.[0]?.id;
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#0C0C0E]">
@@ -142,11 +152,34 @@ export default function TopicLessonsScreen() {
             </Pressable>
           ))}
 
-          {!isLoading && !isError && (scenarioId || debateId) ? (
+          {!isLoading && !isError && (storyId || scenarioId || debateId) ? (
             <View className="mt-2 gap-2">
               <Text className="text-[11px] font-black uppercase leading-[15px] text-[#FFB77D]">
                 Luyện tập & thảo luận
               </Text>
+
+              {storyId ? (
+                <Pressable
+                  onPress={() => router.push(`/story/${storyId}` as never)}
+                  className="min-h-[72px] flex-row items-center gap-3 rounded-md border border-[#353437] bg-[#1E1E21] p-3"
+                  style={({ pressed }) =>
+                    pressed ? { opacity: 0.78, transform: [{ scale: 0.98 }] } : undefined
+                  }
+                >
+                  <View className="h-[42px] w-[42px] items-center justify-center rounded-sm bg-[#27272A]">
+                    <Drama color={Colors.primaryLight} size={18} />
+                  </View>
+                  <View className="flex-1 gap-1">
+                    <Text className="text-[16px] font-black leading-[22px] text-[#E4E4E7]">
+                      Câu chuyện nhập vai
+                    </Text>
+                    <Text className="text-[13px] font-semibold leading-[19px] text-[#A1A1AA]">
+                      Nhập vai và ra quyết định theo tình huống.
+                    </Text>
+                  </View>
+                  <ChevronRight color={Colors.muted} size={20} />
+                </Pressable>
+              ) : null}
 
               {scenarioId ? (
                 <Pressable

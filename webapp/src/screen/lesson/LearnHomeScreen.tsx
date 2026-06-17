@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { BookOpen, ChevronRight, GraduationCap, Library } from "lucide-react-native";
+import { BookOpen, ChevronRight, GraduationCap, Library, Network } from "lucide-react-native";
 import { useMemo } from "react";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -55,6 +55,9 @@ export default function LearnHomeScreen() {
       params: { topicId: topic.id, topicTitle: topic.title },
     });
 
+  // Sơ đồ tư duy Chương 1 gắn vào mục I.1 (Khái lược về Triết học).
+  const mindmapTopicId = orderedTopics.find((t) => sectionMeta(t.title).code === "I.1")?.id;
+
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#0C0C0E]">
       <View className="flex-1 bg-[#0C0C0E]">
@@ -86,6 +89,34 @@ export default function LearnHomeScreen() {
               để bắt đầu đọc bài, làm quiz và luyện tư duy.
             </Text>
           </View>
+
+          {mindmapTopicId ? (
+            <Pressable
+              onPress={() =>
+                router.push({
+                  pathname: "/mindmap" as never,
+                  params: { topicId: mindmapTopicId },
+                })
+              }
+              className="flex-row items-center gap-3 rounded-md border border-[#353437] bg-[#1E1E21] p-3"
+              style={({ pressed }) =>
+                pressed ? { opacity: 0.78, transform: [{ scale: 0.98 }] } : undefined
+              }
+            >
+              <View className="h-[42px] w-[42px] items-center justify-center rounded-sm bg-[#27272A]">
+                <Network color={Colors.primaryLight} size={18} />
+              </View>
+              <View className="flex-1 gap-0.5">
+                <Text className="text-[16px] font-black leading-[22px] text-[#E4E4E7]">
+                  Sơ đồ tư duy Chương 1
+                </Text>
+                <Text className="text-[13px] font-semibold leading-[19px] text-[#A1A1AA]">
+                  Bản đồ khái niệm: duy vật/duy tâm, biện chứng/siêu hình…
+                </Text>
+              </View>
+              <ChevronRight color={Colors.muted} size={20} />
+            </Pressable>
+          ) : null}
 
           {isLoading ? (
             <View className="min-h-[180px] items-center justify-center gap-2 rounded-md border border-[#353437] bg-[#161618] p-4">
