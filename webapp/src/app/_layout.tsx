@@ -1,5 +1,5 @@
-import { Stack } from "expo-router";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
+import { Stack } from "expo-router";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import * as WebBrowser from "expo-web-browser";
