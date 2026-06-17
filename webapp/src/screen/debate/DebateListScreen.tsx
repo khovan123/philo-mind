@@ -8,7 +8,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { useTheme } from "@/hooks/use-theme";
-import { useListDebatesQuery, type DebateListItemDTO } from "@/services/rtk-api/debate.api";
+import { useListDebatesQuery } from "@/services/rtk-api/debate.api";
 import { Fonts, Radius, Spacing } from "@/constants/theme";
 
 const DEBATE_BANNER_BG =

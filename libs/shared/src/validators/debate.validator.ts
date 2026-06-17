@@ -5,7 +5,7 @@ import { z } from "zod";
 export const listDebatesSchema = z.object({
   query: z.object({
     topicId: z.string().uuid("Topic id không hợp lệ").optional(),
-    stance: z.enum(["AGREE", "DISAGREE", "NEUTRAL", "FOR", "AGAINST"]).optional(),
+    stance: z.enum(["AGREE", "DISAGREE", "NEUTRAL", "ALTERNATIVE", "FOR", "AGAINST"]).optional(),
     page: z.string().optional(),
     limit: z.string().optional(),
   }),
@@ -22,7 +22,7 @@ export const createArgumentSchema = z.object({
     id: z.string().uuid("Debate id không hợp lệ"),
   }),
   body: z.object({
-    stance: z.enum(["AGREE", "DISAGREE", "NEUTRAL", "FOR", "AGAINST"]),
+    stance: z.enum(["AGREE", "DISAGREE", "NEUTRAL", "ALTERNATIVE", "FOR", "AGAINST"]),
     content: z.string().trim().min(1, "Nội dung lập luận là bắt buộc"),
     sources: z.union([z.string(), z.array(z.string())]).optional(),
   }),

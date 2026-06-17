@@ -1144,8 +1144,7 @@ Ví dụ trong giáo trình: bác tài xế công nghệ ngồi nghỉ dưới t
     ],
     choices: [
       {
-        choiceText:
-          "Xóa tên Minh ngay — cậu ấy lười biếng bẩm sinh, không xứng làm việc chung",
+        choiceText: "Xóa tên Minh ngay — cậu ấy lười biếng bẩm sinh, không xứng làm việc chung",
         reasoningPrompt:
           "Bạn đang kết luận về Minh chỉ từ một lát cắt hành vi ba tuần qua, tách rời mọi hoàn cảnh. Liệu một con người có thật sự 'bẩm sinh' bất biến như một bức ảnh tĩnh không?",
         consequence: {

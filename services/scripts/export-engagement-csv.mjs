@@ -39,11 +39,8 @@ const badgeRows = BADGE_DEFINITIONS.map((b) =>
 const badgeCsv = `tên,mô_tả,icon,điều_kiện\n${badgeRows.join("\n")}\n`;
 
 writeFileSync(resolve(root, "data/08-debates.csv"), debateCsv, "utf8");
-writeFileSync(resolve(root, "data_real/08-debates.csv"), debateCsv, "utf8");
 writeFileSync(resolve(root, "data/09-critical-questions.csv"), questionCsv, "utf8");
-writeFileSync(resolve(root, "data_real/09-critical-questions.csv"), questionCsv, "utf8");
 writeFileSync(resolve(root, "data/10-badges.csv"), badgeCsv, "utf8");
-writeFileSync(resolve(root, "data_real/10-badges.csv"), badgeCsv, "utf8");
 
 console.log(
   `Exported ${DEBATES.length} debates, ${CRITICAL_QUESTIONS.length} questions, ${BADGE_DEFINITIONS.length} badges`,

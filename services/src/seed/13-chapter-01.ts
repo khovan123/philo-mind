@@ -238,22 +238,44 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
           },
         });
     if (admin) {
+      const argumentData: {
+        debateId: string;
+        userId: string;
+        stance: DebateStance;
+        argumentText: string;
+      }[] = [
+        {
+          debateId: debate.id,
+          userId: admin.id,
+          stance: DebateStance.AGREE,
+          argumentText: section.debate.positionA,
+        },
+        {
+          debateId: debate.id,
+          userId: admin.id,
+          stance: DebateStance.DISAGREE,
+          argumentText: section.debate.positionB,
+        },
+      ];
+      if ((section.debate as any).positionC) {
+        argumentData.push({
+          debateId: debate.id,
+          userId: admin.id,
+          stance: DebateStance.NEUTRAL,
+          argumentText: (section.debate as any).positionC,
+        });
+      }
+      if ((section.debate as any).positionD) {
+        argumentData.push({
+          debateId: debate.id,
+          userId: admin.id,
+          stance: DebateStance.ALTERNATIVE,
+          argumentText: (section.debate as any).positionD,
+        });
+      }
       await prisma.debateArgument.deleteMany({ where: { debateId: debate.id } });
       await prisma.debateArgument.createMany({
-        data: [
-          {
-            debateId: debate.id,
-            userId: admin.id,
-            stance: DebateStance.AGREE,
-            argumentText: section.debate.positionA,
-          },
-          {
-            debateId: debate.id,
-            userId: admin.id,
-            stance: DebateStance.DISAGREE,
-            argumentText: section.debate.positionB,
-          },
-        ],
+        data: argumentData,
       });
     }
     debates++;
@@ -281,7 +303,9 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   for (const deck of flashcards.decks) {
     const topicId = topicIdBySlug.get(deck.topicSlug) ?? null;
     if (!topicId) {
-      console.warn(`    ⚠ Flashcard deck "${deck.title}" — topic slug "${deck.topicSlug}" not found`);
+      console.warn(
+        `    ⚠ Flashcard deck "${deck.title}" — topic slug "${deck.topicSlug}" not found`,
+      );
     }
     const data = {
       topicId,

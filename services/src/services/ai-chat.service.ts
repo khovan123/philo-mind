@@ -1,4 +1,3 @@
-import type { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
 import { aiService, AiError } from "./ai.service.js";
 import { buildChatPrompt } from "./ai-chat-prompt.js";
@@ -188,7 +187,7 @@ export class AiChatService {
       message: item.message,
     }));
 
-    const userMessage = await prisma.aiChatMessage.create({
+    await prisma.aiChatMessage.create({
       data: {
         sessionId,
         senderType: "USER",

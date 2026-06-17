@@ -12,15 +12,15 @@ jest.mock("expo-router", () => ({
 
 // Mock components
 jest.mock("@/components/app-header", () => ({
-  AppHeader: ({ title }: any) => <></>,
+  AppHeader: () => <></>,
 }));
 
 jest.mock("@/components/themed-text", () => ({
-  ThemedText: ({ children, type, style }: any) => <>{children}</>,
+  ThemedText: ({ children }: any) => <>{children}</>,
 }));
 
 jest.mock("@/components/markdown-renderer", () => ({
-  MarkdownRenderer: ({ markdown }: any) => <></>,
+  MarkdownRenderer: () => <></>,
 }));
 
 describe("Legal Screens", () => {

@@ -117,3 +117,7 @@ export * from "./validators/story-session.validator.js";
 export * from "./validators/story.validator.js";
 export * from "./validators/topic-perspective.validator.js";
 export * from "./validators/topic.validator.js";
+
+export { topicIdSchema } from "./validators/topic.validator.js";
+export type { SubmitAnswerInput } from "./validators/lesson.validator.js";
+

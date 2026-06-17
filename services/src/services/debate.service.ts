@@ -61,6 +61,9 @@ export class DebateService {
         (a) => a.stance === DebateStance.DISAGREE,
       ).length;
       const neutralCount = debate.arguments.filter((a) => a.stance === DebateStance.NEUTRAL).length;
+      const alternativeCount = debate.arguments.filter(
+        (a) => a.stance === DebateStance.ALTERNATIVE,
+      ).length;
 
       return {
         id: debate.id,
@@ -74,6 +77,7 @@ export class DebateService {
           agree: agreeCount,
           disagree: disagreeCount,
           neutral: neutralCount,
+          alternative: alternativeCount,
         },
       };
     });
@@ -256,7 +260,7 @@ export class DebateService {
     const voteCount = upVotes - downVotes;
 
     // Update the argument's vote count score
-    const updatedArgument = await prisma.debateArgument.update({
+    await prisma.debateArgument.update({
       where: { id: argumentId },
       data: { voteCount },
     });

@@ -33,13 +33,7 @@ const rows = REAL_LIFE_SCENARIOS.map((scenario) => {
 });
 
 const csv = `${[header, ...rows].join("\n")}\n`;
-const targets = [
-  resolve(root, "data/07-scenarios.csv"),
-  resolve(root, "data_real/07-scenarios.csv"),
-];
+const target = resolve(root, "data/07-scenarios.csv");
+writeFileSync(target, csv, "utf8");
 
-for (const path of targets) {
-  writeFileSync(path, csv, "utf8");
-}
-
-console.log(`Wrote ${rows.length} scenario rows to data/ and data_real/`);
+console.log(`Wrote ${rows.length} scenario rows to data/`);

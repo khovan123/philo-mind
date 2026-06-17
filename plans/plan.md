@@ -65,27 +65,27 @@ Codebase **không có gì "vỡ"** — chất lượng kỹ thuật cao, nhưng 
 
 > ID `CH1-xx`. Agent: `atlas`(lead) `forge`(BE) `pixel`(FE) `muse`(AI/story) `sage`(UX/content) `verity`(QA).
 
-- [ ] **CH1-00 · atlas+sage** — Chốt mô hình dữ liệu chương: 6 mục = 6 Topic, `category="Chương 1"`; quy ước slug/thứ tự. **Verify:** ghi quy ước vào `docs/mvp-scope.md`.
-- [ ] **CH1-01 · sage+muse** — Chuẩn hóa `Chapter1.md` → **content spec canonical** (`data/chapter-01/` JSON/MD có cấu trúc): mỗi mục gồm 4 khối (reading / quiz[3] / scenario+4 perspectives / debate A,B + open questions), giữ nguyên đáp án + giải thích từ giáo trình. **Verify:** 6 mục × 4 khối đầy đủ, sage review đúng giáo trình.
-- [ ] **CH1-02 · forge+sage** — Map content spec → cấu trúc seed: Topic, Lesson, Quiz/QuizQuestion (đúng `QuestionType`), RealLifeScenario + 4 ScenarioPerspective (thực dụng/nghĩa vụ/đức hạnh/quan tâm), Debate (≥2 lập trường), CriticalQuestion (câu hỏi mở). **Verify:** bảng ánh xạ field-by-field được duyệt, không thiếu khối nào.
-- [ ] **CH1-03 · forge** — Viết/cập nhật seed files Chương 1, chạy `npm run seed` idempotent. **Verify:** seed pass; DB có 6 topic (category "Chương 1"), 6 lesson, ~18 quiz Q, 6 scenario × 4 perspective, 6 debate, các câu hỏi mở.
-- [ ] **CH1-04 · verity** — Test seed + API trả đúng nội dung Chương 1 (lesson/quiz/scenario/debate theo topic). **Verify:** test pass, bằng chứng đính kèm.
-- [ ] **CH1-05 · sage→pixel** — Learn flow tối thiểu cho Chương 1: Chapter List → "Chương 1" → Chapter Detail (6 mục) → Lesson Detail render bài đọc. Thay `(tabs)/learn.tsx` đang trỏ thẳng QuizList. **Verify:** điều hướng đủ nhánh, render nội dung thật từ API.
-- [ ] **CH1-06 · pixel** — Quiz Chương 1 chạy được cả 3 loại câu (trắc nghiệm/tình huống/logic) + màn Quiz Result hiển thị giải thích. **Verify:** làm hết 1 quiz mục bất kỳ, thấy đáp án + giải thích.
-- [ ] **CH1-07 · pixel** — Scenario screen hiển thị tình huống đạo đức + **4 góc nhìn** (swipe) + câu hỏi thảo luận, dùng dữ liệu Chương 1. **Verify:** mở 1 scenario, swipe đủ 4 góc nhìn.
-- [ ] **CH1-08 · pixel** — Debate screen hiển thị Quan điểm A/B + entry trả lời câu hỏi mở (reflection), dùng dữ liệu Chương 1. **Verify:** mở 1 debate Chương 1, thấy 2 lập trường + câu hỏi mở.
-- [ ] **CH1-09 · muse+sage** — Story Episode Chương 1 (đề xuất mục **I.3 Biện chứng/Siêu hình**) dùng investigation flow đã có. **Verify:** chơi xuyên 1 episode tới Episode Complete bằng nội dung Chương 1.
-- [ ] **CH1-10 · sage→pixel** — Mindmap Chương 1: Triết học → vấn đề cơ bản → duy vật/duy tâm → biện chứng/siêu hình → triết học Mác–Lênin → vai trò. **Verify:** mở mindmap Chương 1, tap node ra mô tả.
+- [x] **CH1-00 · atlas+sage** — Chốt mô hình dữ liệu chương: 6 mục = 6 Topic, `category="Chương 1"`; quy ước slug/thứ tự. **Verify:** ghi quy ước vào `docs/mvp-scope.md`.
+- [x] **CH1-01 · sage+muse** — Chuẩn hóa `Chapter1.md` → **content spec canonical** (`data/chapter-01/` JSON/MD có cấu trúc): mỗi mục gồm 4 khối (reading / quiz[3] / scenario+4 perspectives / debate A,B + open questions), giữ nguyên đáp án + giải thích từ giáo trình. **Verify:** 6 mục × 4 khối đầy đủ, sage review đúng giáo trình.
+- [x] **CH1-02 · forge+sage** — Map content spec → cấu trúc seed: Topic, Lesson, Quiz/QuizQuestion (đúng `QuestionType`), RealLifeScenario + 4 ScenarioPerspective (thực dụng/nghĩa vụ/đức hạnh/quan tâm), Debate (≥2 lập trường), CriticalQuestion (câu hỏi mở). **Verify:** bảng ánh xạ field-by-field được duyệt, không thiếu khối nào.
+- [x] **CH1-03 · forge** — Viết/cập nhật seed files Chương 1, chạy `npm run seed` idempotent. **Verify:** seed pass; DB có 6 topic (category "Chương 1"), 6 lesson, ~18 quiz Q, 6 scenario × 4 perspective, 6 debate, các câu hỏi mở.
+- [x] **CH1-04 · verity** — Test seed + API trả đúng nội dung Chương 1 (lesson/quiz/scenario/debate theo topic). **Verify:** test pass, bằng chứng đính kèm.
+- [x] **CH1-05 · sage→pixel** — Learn flow tối thiểu cho Chương 1: Chapter List → "Chương 1" → Chapter Detail (6 mục) → Lesson Detail render bài đọc. Thay `(tabs)/learn.tsx` đang trỏ thẳng QuizList. **Verify:** điều hướng đủ nhánh, render nội dung thật từ API.
+- [x] **CH1-06 · pixel** — Quiz Chương 1 chạy được cả 3 loại câu (trắc nghiệm/tình huống/logic) + màn Quiz Result hiển thị giải thích. **Verify:** làm hết 1 quiz mục bất kỳ, thấy đáp án + giải thích.
+- [x] **CH1-07 · pixel** — Scenario screen hiển thị tình huống đạo đức + **4 góc nhìn** (swipe) + câu hỏi thảo luận, dùng dữ liệu Chương 1. **Verify:** mở 1 scenario, swipe đủ 4 góc nhìn.
+- [x] **CH1-08 · pixel** — Debate screen hiển thị Quan điểm A/B + entry trả lời câu hỏi mở (reflection), dùng dữ liệu Chương 1. **Verify:** mở 1 debate Chương 1, thấy 2 lập trường + câu hỏi mở.
+- [x] **CH1-09 · muse+sage** — Story Episode Chương 1 (đề xuất mục **I.3 Biện chứng/Siêu hình**) dùng investigation flow đã có. **Verify:** chơi xuyên 1 episode tới Episode Complete bằng nội dung Chương 1.
+- [x] **CH1-10 · sage→pixel** — Mindmap Chương 1: Triết học → vấn đề cơ bản → duy vật/duy tâm → biện chứng/siêu hình → triết học Mác–Lênin → vai trò. **Verify:** mở mindmap Chương 1, tap node ra mô tả.
 
 ---
 
 ## 3. PHASE 2 — Cấu trúc UX & định hướng (sau khi nội dung Chương 1 lên)
 
-- [ ] **AUD-02 · sage+pixel** — Ẩn AI Chat khỏi tab chính (Phase 2), giữ code. **Verify:** bottom bar không còn tab Chat; test điều hướng pass.
-- [ ] **AUD-06 · sage→pixel** — Rút gọn bottom bar ≤5 tab; chuyển tab dư thành entry trong Home/Profile. **Verify:** ≤5 tab, mọi màn vẫn truy cập được.
-- [ ] **AUD-05 · muse+pixel** — Bổ sung bước **Evidence Board → Build Argument → Argument Result** vào story flow. **Verify:** 3 màn mới wired + state trong `story.slice.ts`, chạy E2E.
-- [ ] **AUD-08 · muse+forge** — Debate đa lập trường (vd vật chất quyết định / ý thức quyết định / cần phân tích / không thể biết) thay vì chỉ FOR-AGAINST. **Verify:** API + UI join-position; ≥1 debate Chương 1 đa lập trường; test BE.
-- [ ] **AUD-09 · muse+sage** — MiniGame phục vụ Chương 1: ghép khái niệm↔định nghĩa, phân loại duy vật/duy tâm, biện chứng/siêu hình, build-argument bằng thẻ. **Verify:** mỗi loại ≥1 bộ dữ liệu Chương 1, chơi & ghi điểm được.
+- [x] **AUD-02 · sage+pixel** — Ẩn AI Chat khỏi tab chính (Phase 2), giữ code. **Verify:** bottom bar không còn tab Chat; test điều hướng pass.
+- [x] **AUD-06 · sage→pixel** — Rút gọn bottom bar ≤5 tab; chuyển tab dư thành entry trong Home/Profile. **Verify:** ≤5 tab, mọi màn vẫn truy cập được.
+- [x] **AUD-05 · muse+pixel** — Bổ sung bước **Evidence Board → Build Argument → Argument Result** vào story flow. **Verify:** 3 màn mới wired + state trong `story.slice.ts`, chạy E2E.
+- [x] **AUD-08 · muse+forge** — Debate đa lập trường (vd vật chất quyết định / ý thức quyết định / cần phân tích / không thể biết) thay vì chỉ FOR-AGAINST. **Verify:** API + UI join-position; ≥1 debate Chương 1 đa lập trường; test BE.
+- [x] **AUD-09 · muse+sage** — MiniGame phục vụ Chương 1: ghép khái niệm↔định nghĩa, phân loại duy vật/duy tâm, biện chứng/siêu hình, build-argument bằng thẻ. **Verify:** mỗi loại ≥1 bộ dữ liệu Chương 1, chơi & ghi điểm được.
 
 ---
 

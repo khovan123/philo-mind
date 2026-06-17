@@ -26,7 +26,6 @@ const {
 } = await import("../validators/lesson.validator.js");
 
 const VALID_UUID = "550e8400-e29b-41d4-a716-446655440000";
-const OTHER_VALID_UUID = "350e8400-e29b-41d4-a716-446655440001";
 
 describe("listLessonsSchema", () => {
   it("accepts empty query parameters", () => {

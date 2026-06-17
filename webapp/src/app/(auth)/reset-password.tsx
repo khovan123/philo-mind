@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { useRouter, useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { ThemedText } from "@/components/themed-text";
 import { Button, Input } from "@/components/ui";
 import { authService } from "@/services/auth.service";
 import { Spacing, Radius } from "@/constants/theme";
 
 export default function ResetPasswordScreen() {
-  const router = useRouter();
   const params = useLocalSearchParams();
   const email = (params.email as string) || "";
   const resetToken = (params.resetToken as string) || "";

@@ -42,6 +42,7 @@ export class DebateController {
     if (s === "FOR" || s === "AGREE") return DebateStance.AGREE;
     if (s === "AGAINST" || s === "DISAGREE") return DebateStance.DISAGREE;
     if (s === "NEUTRAL") return DebateStance.NEUTRAL;
+    if (s === "ALTERNATIVE") return DebateStance.ALTERNATIVE;
     return undefined;
   }
 

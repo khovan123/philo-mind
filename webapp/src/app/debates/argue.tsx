@@ -29,7 +29,7 @@ import { Fonts, Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { useCreateArgumentMutation, useGetDebateDetailQuery } from "@/services/rtk-api/debate.api";
 
-type StanceType = "AGREE" | "DISAGREE" | "NEUTRAL";
+type StanceType = "AGREE" | "DISAGREE" | "NEUTRAL" | "ALTERNATIVE";
 
 const MIN_ARGUMENT_LENGTH = 50;
 
@@ -64,34 +64,73 @@ export default function ArgueScreen() {
   const isValidLength = totalLength >= MIN_ARGUMENT_LENGTH;
   const canProceedStep2 = title.trim().length > 0 && isValidLength;
 
+  const labels = useMemo(() => {
+    const titleText = debate?.title || "";
+    const isMaterialism =
+      titleText.includes("Vật chất") ||
+      titleText.includes("Duy vật") ||
+      titleText.includes("Duy tâm");
+    if (isMaterialism) {
+      return {
+        AGREE: "Duy vật",
+        DISAGREE: "Duy tâm",
+        NEUTRAL: "Biện chứng",
+        ALTERNATIVE: "Bất khả tri",
+      };
+    }
+    const isScience = titleText.includes("Khoa học");
+    if (isScience) {
+      return {
+        AGREE: "Duy khoa học",
+        DISAGREE: "Đa chiều",
+        NEUTRAL: "Trung lập",
+        ALTERNATIVE: "Khác",
+      };
+    }
+    return {
+      AGREE: "Ủng hộ",
+      DISAGREE: "Phản đối",
+      NEUTRAL: "Trung lập",
+      ALTERNATIVE: "Khác",
+    };
+  }, [debate?.title]);
+
   const stanceConfig = useMemo(
     () => ({
       AGREE: {
-        label: "Đồng ý",
-        sublabel: "Tôi ủng hộ luận điểm này",
+        label: labels.AGREE,
+        sublabel: `Tôi ủng hộ góc nhìn ${labels.AGREE}`,
         icon: Shield,
         color: theme.success,
         bgColor: "rgba(34, 197, 94, 0.12)",
         borderColor: "rgba(34, 197, 94, 0.3)",
       },
       DISAGREE: {
-        label: "Phản đối",
-        sublabel: "Tôi phản bác luận điểm này",
+        label: labels.DISAGREE,
+        sublabel: `Tôi ủng hộ góc nhìn ${labels.DISAGREE}`,
         icon: Swords,
         color: theme.danger,
         bgColor: "rgba(239, 44, 68, 0.12)",
         borderColor: "rgba(239, 44, 68, 0.3)",
       },
       NEUTRAL: {
-        label: "Trung lập",
-        sublabel: "Tôi muốn đóng góp ý kiến trung lập",
+        label: labels.NEUTRAL,
+        sublabel: `Tôi muốn đóng góp ý kiến ${labels.NEUTRAL}`,
         icon: Scale,
         color: theme.warning,
         bgColor: "rgba(245, 158, 11, 0.12)",
         borderColor: "rgba(245, 158, 11, 0.3)",
       },
+      ALTERNATIVE: {
+        label: labels.ALTERNATIVE,
+        sublabel: `Tôi đứng từ góc nhìn ${labels.ALTERNATIVE}`,
+        icon: Scale,
+        color: theme.info || "#38BDF8",
+        bgColor: "rgba(56, 189, 248, 0.12)",
+        borderColor: "rgba(56, 189, 248, 0.3)",
+      },
     }),
-    [theme],
+    [theme, labels],
   );
 
   // ─── Handlers ──────────────────────────────────────────────────────
@@ -244,7 +283,16 @@ export default function ArgueScreen() {
               </View>
 
               {/* Stance cards */}
-              {(["AGREE", "DISAGREE", "NEUTRAL"] as StanceType[]).map((s) => {
+              {(() => {
+                const availableStances: StanceType[] = ["AGREE", "DISAGREE", "NEUTRAL"];
+                if (
+                  debate.arguments?.some((a: any) => a.stance === "ALTERNATIVE") ||
+                  debate.title.includes("Vấn đề cơ bản")
+                ) {
+                  availableStances.push("ALTERNATIVE");
+                }
+                return availableStances;
+              })().map((s) => {
                 const config = stanceConfig[s];
                 const IconComp = config.icon;
                 return (

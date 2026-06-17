@@ -107,6 +107,7 @@ export default function AppTabs() {
           title: t("navigation.chat"),
           tabBarLabel: t("navigation.chat"),
           tabBarIcon: renderTabIcon("chat"),
+          href: null,
         }}
       />
 
@@ -133,6 +134,7 @@ export default function AppTabs() {
           title: t("navigation.archive"),
           tabBarLabel: t("navigation.archive"),
           tabBarIcon: renderTabIcon("debate"),
+          href: null,
         }}
       />
 

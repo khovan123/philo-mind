@@ -9,6 +9,7 @@ const resources = {
   vi: { translation: vi },
 };
 
+// eslint-disable-next-line import/no-named-as-default-member
 void i18n.use(initReactI18next).init({
   compatibilityJSON: "v4",
   resources,

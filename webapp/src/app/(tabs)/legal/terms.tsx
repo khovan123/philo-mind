@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { View, ScrollView, StyleSheet, ActivityIndicator, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { AppHeader } from "@/components/app-header";
-import { ThemedText } from "@/components/themed-text";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
-import { Spacing, Radius } from "@/constants/theme";
+import { Spacing } from "@/constants/theme";
 
 const Colors = {
   background: "#0C0C0E",
@@ -19,7 +18,6 @@ export default function TermsOfServiceScreen() {
   const router = useRouter();
   const [markdown, setMarkdown] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Load Terms of Service from data file
@@ -76,12 +74,6 @@ Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng t�
         {loading ? (
           <View style={styles.center}>
             <ActivityIndicator size="large" color={Colors.primary} />
-          </View>
-        ) : error ? (
-          <View style={styles.center}>
-            <ThemedText type="label" style={styles.errorText}>
-              {error}
-            </ThemedText>
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>

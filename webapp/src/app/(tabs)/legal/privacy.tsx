@@ -3,7 +3,6 @@ import { View, ScrollView, StyleSheet, ActivityIndicator, Linking } from "react-
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { AppHeader } from "@/components/app-header";
-import { ThemedText } from "@/components/themed-text";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { Spacing } from "@/constants/theme";
 
@@ -19,7 +18,6 @@ export default function PrivacyPolicyScreen() {
   const router = useRouter();
   const [markdown, setMarkdown] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Load Privacy Policy from data file
@@ -94,12 +92,6 @@ Nếu bạn có câu hỏi về Chính sách Bảo mật này, vui lòng liên h
         {loading ? (
           <View style={styles.center}>
             <ActivityIndicator size="large" color={Colors.primary} />
-          </View>
-        ) : error ? (
-          <View style={styles.center}>
-            <ThemedText type="label" style={styles.errorText}>
-              {error}
-            </ThemedText>
           </View>
         ) : (
           <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>

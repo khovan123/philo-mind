@@ -12,7 +12,7 @@ export class AiCharacterError extends Error {
 }
 
 export class AiCharacterService {
-  async getAll(topicId?: string) {
+  async getAll(_topicId?: string) {
     const characters = await prisma.aiCharacter.findMany({
       orderBy: {
         createdAt: "desc",

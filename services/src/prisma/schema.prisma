@@ -55,6 +55,7 @@ enum DebateStance {
   AGREE
   DISAGREE
   NEUTRAL
+  ALTERNATIVE
 }
 
 enum VoteValue {

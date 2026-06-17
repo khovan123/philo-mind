@@ -101,6 +101,7 @@ const db = {
 };
 
 function resetDb() {
+  mockEmailState.lastSentCode = "";
   db.users = [];
   db.userSessions = [];
   db.refreshTokens = [];
@@ -707,6 +708,7 @@ describe("API Integration Tests (In-Memory DB)", () => {
         .send({ email: testEmail, password: testPassword, fullName: testFullName });
 
       await request(app).post("/api/v1/auth/forgot").send({ email: testEmail });
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       const otp = mockEmailState.lastSentCode;
 
@@ -740,6 +742,7 @@ describe("API Integration Tests (In-Memory DB)", () => {
         .send({ email: testEmail, password: testPassword, fullName: testFullName });
 
       await request(app).post("/api/v1/auth/forgot").send({ email: testEmail });
+      await new Promise((resolve) => setTimeout(resolve, 10));
 
       const otp = mockEmailState.lastSentCode;
 

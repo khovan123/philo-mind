@@ -50,25 +50,25 @@
 | GitHub issues missing `Status Log` | 0 |
 | GitHub issues missing `Feature Output Contract` | 0 |
 | Dev story files trong `stories/` | 77 |
-| Done / closed | 49 |
-| Open / remaining | 62 |
-| Completion | 44% |
+| Done / closed | 107 |
+| Open / remaining | 5 |
+| Completion | 96% |
 
 ### Full Plan Trace By Track
 
 | Track | Scope | Task IDs | GitHub Issues | Total | Done | Open | Local Trace |
 | --- | --- | --- | --- | ---: | ---: | ---: | --- |
-| A | Backend Core | `T-A01`-`T-A22` | #17-#38 | 22 | 15 | 7 | `issues/by-github-id/#017...#038`, `stories/1-*` for open backend stories |
-| B | Frontend Shell | `T-B01`-`T-B16` | #39-#54 | 16 | 7 | 9 | `issues/by-github-id/#039...#054`, `stories/2-*` for open frontend stories |
-| C | Shared Types & Seed | `T-C01`-`T-C12` | #55-#66 | 12 | 4 | 8 | `issues/by-github-id/#055...#066`, `stories/3-*` for open seed/type stories |
-| D | Story Mode Engine | `T-D01`-`T-D16` | #67-#82 | 16 | 5 | 11 | `issues/by-github-id/#067...#082`, `stories/4-*` for open story-mode stories |
-| E | AI & Chat System | `T-E01`-`T-E10` | #83-#92 | 10 | 0 | 10 | `issues/by-github-id/#083...#092`, `stories/5-*` |
-| F | Scenario & Debate | `T-F01`-`T-F08` | #93-#100 | 8 | 0 | 8 | `issues/by-github-id/#093...#100`, `stories/6-*` |
-| G | Polish & Gamification | `T-G01`-`T-G06` | #101-#106 | 6 | 3 | 3 | `issues/by-github-id/#101...#106`, `stories/7-*` |
-| H | Missing Features | `T-H01`-`T-H05` | #107-#111 | 5 | 5 | 0 | `issues/by-github-id/#107...#111`, `stories/8-*` |
+| A | Backend Core | `T-A01`-`T-A22` | #17-#38 | 22 | 22 | 0 | `issues/by-github-id/#017...#038` |
+| B | Frontend Shell | `T-B01`-`T-B16` | #39-#54 | 16 | 16 | 0 | `issues/by-github-id/#039...#054` |
+| C | Shared Types & Seed | `T-C01`-`T-C13` | #55-#66, #216 | 13 | 13 | 0 | `issues/by-github-id/#055...#066`, `issues/by-github-id/#216` |
+| D | Story Mode Engine | `T-D01`-`T-D16` | #67-#82 | 16 | 16 | 0 | `issues/by-github-id/#067...#082` |
+| E | AI & Chat System | `T-E01`-`T-E10` | #83-#92 | 10 | 10 | 0 | `issues/by-github-id/#083...#092` |
+| F | Scenario & Debate | `T-F01`-`T-F08` | #93-#100 | 8 | 8 | 0 | `issues/by-github-id/#093...#100` |
+| G | Polish & Gamification | `T-G01`-`T-G06` | #101-#106 | 6 | 6 | 0 | `issues/by-github-id/#101...#106` |
+| H | Missing Features | `T-H01`-`T-H05` | #107-#111 | 5 | 5 | 0 | `issues/by-github-id/#107...#111` |
 | I | DevOps & Deploy | `T-I01`-`T-I07` | #112-#118 | 7 | 7 | 0 | `issues/by-github-id/#112...#118` |
 | J | Testing | `T-J01`-`T-J05` | #119-#123 | 5 | 0 | 5 | `issues/by-github-id/#119...#123`, `stories/10-*` |
-| K | Admin & Settings | `T-K01`-`T-K04` | #124-#127 | 4 | 3 | 1 | `issues/by-github-id/#124...#127`, `stories/11-*` |
+| K | Admin & Settings | `T-K01`-`T-K04` | #124-#127 | 4 | 4 | 0 | `issues/by-github-id/#124...#127` |
 
 ### Trace Rules For New Work
 
@@ -212,20 +212,15 @@ Schema duoc dat tai `services/src/prisma/schema.prisma`. Core domain gom auth/pr
 
 ### Done / Closed Highlights
 
-- Backend foundation: response helpers, validation, JWT auth service, auth middleware, auth routes.
-- Several backend advanced APIs: reflection, critical question, mindmap, bookmark, notification, indexes, Redis cache, compression, seed runner.
-- Frontend foundation: design tokens, common UI components, tab layout, register screen, onboarding, progress components.
-- Story backend foundation: story schema, story scenario/session/consequence APIs, story list screen.
-- DevOps/deploy track complete by issue state.
-- Admin/settings mostly complete except legal screens.
+- All functional tracks (Track A to Track I, Track K) are 100% complete.
+- **Chapter 1 MVP**: Complete end-to-end implementation including Learn, Quiz, Scenario, Debate, Story Mode, and Mindmap features using authentic curriculum content.
+- Backend validator refactoring is complete, mapping directly to `@philo-mind/shared`.
+- Backend and frontend lint warnings have been cleaned up and minimized.
+- Canonical data sources have been normalized by retaining `data/` and deleting `data_real/`.
 
 ### Remaining Focus
 
-1. `T-A06` Topic CRUD API is the next recommended work in `docs/sprint-status.md`.
-2. Backend content APIs remain open: topics, lessons, short lessons, progress, quiz, badge/activity/moderation.
-3. Frontend auth/client/main learning screens remain open.
-4. AI chat, scenario/debate, polish/gamification, missing-feature and testing tracks are still open.
-5. Track J testing has 0 closed issues, so implementation confidence still depends on adding automated tests.
+1. Track J testing remains open (Backend unit/integration tests, Frontend RTL component tests, E2E Maestro smoke tests).
 
 ---
 

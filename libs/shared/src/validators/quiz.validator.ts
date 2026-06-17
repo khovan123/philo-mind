@@ -47,3 +47,4 @@ export type ListQuizzesInput = z.infer<typeof listQuizzesSchema>["query"];
 export type SubmitQuizAnswerInput = z.infer<typeof submitQuizAnswerSchema>["body"];
 
 export type ListQuizzesQuery = ListQuizzesInput;
+export type SubmitAnswerInput = SubmitQuizAnswerInput;
