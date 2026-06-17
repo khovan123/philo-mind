@@ -74,9 +74,12 @@ if (process.env.NODE_ENV !== "test") {
 }
 
 if (server) {
-  keepAlive = setInterval(() => {
-    // Keep the dev process alive in TSX/Windows shells that unref the HTTP server.
-  }, 60 * 60 * 1000);
+  keepAlive = setInterval(
+    () => {
+      // Keep the dev process alive in TSX/Windows shells that unref the HTTP server.
+    },
+    60 * 60 * 1000,
+  );
 
   server.on("close", () => {
     if (keepAlive) {
