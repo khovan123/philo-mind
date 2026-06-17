@@ -1,6 +1,11 @@
 import type { AuthUser } from "@/types/auth";
 import { baseApi } from "./baseApi";
 
+type ApiSuccessResponse<T> = {
+  success: true;
+  data: T;
+};
+
 export type ProfileSummary = {
   user: AuthUser;
   stats: {
@@ -32,6 +37,13 @@ export const profileApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getProfileSummary: builder.query<ProfileSummary, void>({
       query: () => ({ url: "/profile/summary", method: "GET" }),
+      transformResponse: (response: ProfileSummary | ApiSuccessResponse<ProfileSummary>) => {
+        if (response && typeof response === "object" && "data" in response) {
+          return response.data;
+        }
+
+        return response;
+      },
       providesTags: [{ type: "Profile", id: "SUMMARY" }],
     }),
   }),

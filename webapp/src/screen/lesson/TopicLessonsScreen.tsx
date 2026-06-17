@@ -33,7 +33,7 @@ export default function TopicLessonsScreen() {
   } = useListLessonsQuery({ topicId, limit: 50 }, { skip: !topicId });
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#0C0C0E]">
+    <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
       <View className="flex-1 bg-[#0C0C0E]">
         <View className="flex-row items-center gap-2 border-b border-[#353437] px-3 py-3">
           <Pressable

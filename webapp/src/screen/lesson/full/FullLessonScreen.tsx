@@ -51,7 +51,7 @@ export default function FullLessonScreen() {
 
   if (isLoading) {
     return (
-      <SafeAreaView edges={["top"]} className={tw.safeArea}>
+      <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
         <View className={cn(tw.screen, "items-center justify-center gap-3")}>
           <ActivityIndicator color={Colors.primaryLight} size="large" />
           <ThemedText className={tw.bodyText}>
@@ -64,7 +64,7 @@ export default function FullLessonScreen() {
 
   if (isError || !lesson) {
     return (
-      <SafeAreaView edges={["top"]} className={tw.safeArea}>
+      <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
         <View className={cn(tw.screen, "items-center justify-center gap-3 p-6")}>
           <ThemedText className={tw.sectionTitle}>Không tải được bài học</ThemedText>
           <ThemedText className={cn(tw.bodyText, "text-center")}>
@@ -82,7 +82,7 @@ export default function FullLessonScreen() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} className={tw.safeArea}>
+    <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
       <View className={tw.screen}>
         <View className={tw.header}>
           <View className={tw.headerTop}>

@@ -92,7 +92,7 @@ export default function HomeScreen() {
 
   return (
     <View className={styles.screen}>
-      <SafeAreaView edges={["top"]} className={styles.safeArea}>
+      <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
         <AppHeader />
 
         <ScrollView

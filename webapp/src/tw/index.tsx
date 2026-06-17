@@ -42,7 +42,27 @@ Text.displayName = "CSS(Text)";
 
 // ── ScrollView ─────────────────────────────────────────────
 
-export const ScrollView = (
+const ScrollViewWeb = (
+  props: React.ComponentProps<typeof RNScrollView> & {
+    className?: string;
+    contentContainerClassName?: string;
+  },
+) => {
+  const { className, contentContainerClassName, style, contentContainerStyle, ...rest } = props;
+  const resolvedStyle = className ? [style, { $$css: true, className }] : style;
+  const resolvedContentContainerStyle = contentContainerClassName
+    ? [contentContainerStyle, { $$css: true, className: contentContainerClassName }]
+    : contentContainerStyle;
+  return (
+    <RNScrollView
+      {...rest}
+      style={resolvedStyle as any}
+      contentContainerStyle={resolvedContentContainerStyle as any}
+    />
+  );
+};
+
+const ScrollViewNative = (
   props: React.ComponentProps<typeof RNScrollView> & {
     className?: string;
     contentContainerClassName?: string;
@@ -57,6 +77,9 @@ export const ScrollView = (
     } as any,
   ) as React.ReactElement;
 };
+
+export const ScrollView =
+  process.env.EXPO_OS === "web" ? ScrollViewWeb : ScrollViewNative;
 ScrollView.displayName = "CSS(ScrollView)";
 
 // ── Pressable ──────────────────────────────────────────────

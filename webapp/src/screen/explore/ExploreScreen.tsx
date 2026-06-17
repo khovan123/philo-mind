@@ -289,7 +289,7 @@ export default function ExploreScreen() {
 
   return (
     <View className={styles.screen}>
-      <SafeAreaView edges={["top"]} className={styles.safeArea}>
+      <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
         <AppHeader />
 
         <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={styles.content}>

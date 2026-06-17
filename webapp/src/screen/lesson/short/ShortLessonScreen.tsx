@@ -237,7 +237,7 @@ export default function ShortLessonScreen() {
 
   if (screenState === "finished") {
     return (
-      <SafeAreaView edges={["top"]} className={tw.safeArea}>
+      <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
         <View className={tw.screen}>
           <ShortLessonHeader
             countLabel="4/4 (Done)"
@@ -256,7 +256,7 @@ export default function ShortLessonScreen() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} className={tw.safeArea}>
+    <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
       <View className={tw.screen}>
         <ShortLessonHeader
           countLabel={`${cardIndex + 1}/${mappedCards.length}`}

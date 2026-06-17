@@ -209,7 +209,7 @@ export default function QuizGameplayScreen() {
   }
 
   return (
-    <SafeAreaView edges={["top"]} className={tw.safeArea}>
+    <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
       <View className={tw.screen}>
         <QuizHeader title={quiz.title} timer={formatTime(remainingSeconds)} />
 

@@ -139,7 +139,7 @@ export default function ProfileScreen() {
 
   return (
     <View className="flex-1 bg-[#0C0C0E]">
-      <SafeAreaView edges={["top"]} className="flex-1">
+      <SafeAreaView edges={["top"]} style={{ flex: 1 }}>
         <AppHeader />
 
         <ScrollView
