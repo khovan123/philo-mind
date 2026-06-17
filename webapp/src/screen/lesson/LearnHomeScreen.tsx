@@ -59,7 +59,7 @@ export default function LearnHomeScreen() {
   const mindmapTopicId = orderedTopics.find((t) => sectionMeta(t.title).code === "I.1")?.id;
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#0C0C0E]">
+    <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
       <View className="flex-1 bg-[#0C0C0E]">
         <View className="flex-row items-center gap-2 border-b border-[#353437] px-3 py-3">
           <View className="h-[42px] w-[42px] items-center justify-center rounded-full bg-[#27272A]">

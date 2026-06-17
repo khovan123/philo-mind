@@ -10,6 +10,7 @@ import { ThemedText } from "@/components/themed-text";
 import { Radius, Spacing } from "@/constants/theme";
 import { useTheme } from "@/hooks/use-theme";
 import { useGetStoryDetailQuery } from "@/services/rtk-api/story.api";
+import { useStoryStore } from "@/stores/story.store";
 
 export default function CinematicOpeningScreen() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function CinematicOpeningScreen() {
   const storyId = Array.isArray(id) ? id[0] : id;
 
   const { data: story, isLoading, error } = useGetStoryDetailQuery(storyId || "");
+  const { setStep } = useStoryStore();
 
   // Animation values using stable useState initializers to avoid ref-render warning
   const [fadeAnimEra] = useState(() => new Animated.Value(0));
@@ -62,10 +64,12 @@ export default function CinematicOpeningScreen() {
   }, [story, fadeAnimEra, fadeAnimIntro, fadeAnimRole, fadeAnimBtn]);
 
   function handleContinue() {
+    setStep("encounter");
     router.push(`/story/${storyId}/map` as never);
   }
 
   function handleSkip() {
+    setStep("encounter");
     router.push(`/story/${storyId}/map` as never);
   }
 
