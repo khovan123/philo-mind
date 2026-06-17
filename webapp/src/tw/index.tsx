@@ -9,11 +9,11 @@ import {
   ScrollView as RNScrollView,
   TextInput as RNTextInput,
 } from "react-native";
+import { SafeAreaView as RNSafeAreaView } from "react-native-safe-area-context";
 
 // ── CSS-enabled Link ───────────────────────────────────────
 
 export const Link = (props: React.ComponentProps<typeof RouterLink> & { className?: string }) => {
-  // @ts-expect-error: useCssElement return type is too complex for TS to represent
   return useCssElement(RouterLink, props, { className: "style" });
 };
 
@@ -76,3 +76,10 @@ export const TextInput = (
   return useCssElement(RNTextInput, props, { className: "style" });
 };
 TextInput.displayName = "CSS(TextInput)";
+
+export const SafeAreaView = (
+  props: React.ComponentProps<typeof RNSafeAreaView> & { className?: string },
+) => {
+  return useCssElement(RNSafeAreaView, props, { className: "style" });
+};
+SafeAreaView.displayName = "CSS(SafeAreaView)";
