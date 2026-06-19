@@ -1,6 +1,6 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { ArrowLeft, BookOpen, LocateFixed, Minus, Plus, RefreshCw } from "lucide-react-native";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   ActivityIndicator,
   PanResponder,
@@ -67,18 +67,25 @@ export default function MindmapScreen() {
 
   const [scale, setScale] = useState(0.9);
   const [offset, setOffset] = useState({ x: -80, y: -40 });
-  const gesture = useRef({
-    startX: 0,
-    startY: 0,
+  const [gesture, setGesture] = useState({
     offsetX: -80,
     offsetY: -40,
     distance: 0,
     scale: 0.9,
   });
 
+  const { topicId: paramTopicId } = useLocalSearchParams<{ topicId?: string }>();
+
   useEffect(() => {
     loadTopics();
   }, [loadTopics]);
+
+  // Deep-link: preselect topic khi mở từ Learn (vd "Sơ đồ tư duy Chương 1").
+  useEffect(() => {
+    if (paramTopicId && topics.length > 0 && !selectedTopicId) {
+      selectTopic(paramTopicId);
+    }
+  }, [paramTopicId, topics.length, selectedTopicId, selectTopic]);
 
   const layoutNodes = useMemo(
     () => computeForceLayout(graph?.nodes ?? [], graph?.edges ?? []),
@@ -99,22 +106,19 @@ export default function MindmapScreen() {
         onMoveShouldSetPanResponder: () => canInteract,
         onStartShouldSetPanResponder: () => canInteract,
         onPanResponderGrant: (event) => {
-          gesture.current = {
-            ...gesture.current,
-            startX: event.nativeEvent.pageX,
-            startY: event.nativeEvent.pageY,
+          setGesture({
             offsetX: offset.x,
             offsetY: offset.y,
             distance: getTouchDistance(event.nativeEvent.touches),
             scale,
-          };
+          });
         },
         onPanResponderMove: (event, state) => {
           if (event.nativeEvent.touches.length >= 2) {
             const nextDistance = getTouchDistance(event.nativeEvent.touches);
-            if (gesture.current.distance > 0 && nextDistance > 0) {
+            if (gesture.distance > 0 && nextDistance > 0) {
               const nextScale = clamp(
-                gesture.current.scale * (nextDistance / gesture.current.distance),
+                gesture.scale * (nextDistance / gesture.distance),
                 MIN_SCALE,
                 MAX_SCALE,
               );
@@ -124,12 +128,12 @@ export default function MindmapScreen() {
           }
 
           setOffset({
-            x: gesture.current.offsetX + state.dx,
-            y: gesture.current.offsetY + state.dy,
+            x: gesture.offsetX + state.dx,
+            y: gesture.offsetY + state.dy,
           });
         },
       }),
-    [canInteract, offset.x, offset.y, scale],
+    [canInteract, gesture, offset.x, offset.y, scale],
   );
 
   function resetView() {

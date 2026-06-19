@@ -169,6 +169,7 @@ describe("DebateService", () => {
         agree: 1,
         disagree: 1,
         neutral: 0,
+        alternative: 0,
       });
       expect(result.total).toBe(1);
     });

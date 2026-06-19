@@ -746,7 +746,7 @@ const styles = {
   searchBox:
     "min-h-[46px] flex-row items-center gap-2 rounded-md border border-transparent bg-[#1E1E22] px-3",
   searchBoxActive: "border-[#D97706]",
-  searchInput: "min-h-[44px] flex-1 p-0 font-sans text-[14px] font-semibold text-[#E5E1E4]",
+  searchInput: "min-h-[44px] flex-1 p-0 text-[14px] font-semibold text-[#E5E1E4]",
   filterList: "gap-2 pr-3",
   filterChip:
     "min-h-[36px] items-center justify-center rounded-full border border-transparent bg-[#1E1E22] px-3",

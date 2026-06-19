@@ -167,7 +167,7 @@ export class QuizController {
         answer,
         isCorrect,
         correctOptionId: correctOption?.id ?? null,
-        explanation: this.buildExplanation(question.question, isCorrect),
+        explanation: question.explanation ?? this.buildExplanation(question.question, isCorrect),
       });
     } catch (err) {
       const error = err as Error;
@@ -258,6 +258,7 @@ export class QuizController {
         return {
           id: question.id,
           prompt: question.question,
+          questionType: question.questionType,
           context: index === 0 ? quiz.lesson?.title : undefined,
           options: question.options.map((option: any, optionIndex: number) => ({
             id: option.id,
@@ -265,7 +266,7 @@ export class QuizController {
             text: option.optionText,
           })),
           correctOptionId: correctOption?.id ?? "",
-          explanation: this.buildExplanation(question.question, true),
+          explanation: question.explanation ?? this.buildExplanation(question.question, true),
           concept: quiz.lesson?.topic?.category ?? "Core Concept",
         };
       }),

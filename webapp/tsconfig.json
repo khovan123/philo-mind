@@ -1,5 +1,5 @@
 {
-  "extends": ["../tsconfig.base.json", "expo/tsconfig.base"],
+  "extends": ["../tsconfig.base.json", "../node_modules/expo/tsconfig.base.json"],
   "compilerOptions": {
     "strict": true,
     "types": ["jest"],

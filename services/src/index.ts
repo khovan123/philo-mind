@@ -68,7 +68,7 @@ let server: ReturnType<typeof app.listen> | undefined;
 let keepAlive: ReturnType<typeof setInterval> | undefined;
 
 if (process.env.NODE_ENV !== "test") {
-  server = app.listen(PORT, () => {
+  app.listen(PORT, () => {
     console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
   });
 }

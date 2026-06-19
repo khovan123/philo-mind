@@ -88,23 +88,41 @@ function normalizeProgress(progress: ChapterProgress, order: string[]) {
 }
 
 export function useChapterProgress(chapter: string | undefined, order: string[]) {
-  const [progress, setProgress] = useState<ChapterProgress>(() => createInitialProgress(order));
-  const [ready, setReady] = useState(false);
-  const progressRef = useRef(progress);
+  const orderKey = order.join("|");
+  const stableOrder = useMemo(() => (orderKey ? orderKey.split("|") : []), [orderKey]);
+  const progressKey = `${chapter ?? ""}:${orderKey}`;
+  const [state, setState] = useState(() => ({
+    key: progressKey,
+    progress: createInitialProgress(stableOrder),
+    ready: false,
+  }));
+  const visibleProgress =
+    state.key === progressKey ? state.progress : createInitialProgress(stableOrder);
+  const visibleReady = state.key === progressKey && state.ready;
+  const progressRef = useRef(visibleProgress);
+
+  if (state.key !== progressKey) {
+    setState({
+      key: progressKey,
+      progress: createInitialProgress(stableOrder),
+      ready: false,
+    });
+  }
 
   useEffect(() => {
-    progressRef.current = progress;
-  }, [progress]);
+    progressRef.current = visibleProgress;
+  }, [visibleProgress]);
 
   useEffect(() => {
     let cancelled = false;
 
     async function load() {
       if (!chapter) {
-        const next = createInitialProgress(order);
+        const next = createInitialProgress(stableOrder);
         progressRef.current = next;
-        setProgress(next);
-        setReady(true);
+        setState((current) =>
+          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
+        );
         return;
       }
 
@@ -113,36 +131,42 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
 
       try {
         const parsed = raw ? (JSON.parse(raw) as ChapterProgress) : {};
-        const next = normalizeProgress(parsed, order);
+        const next = normalizeProgress(parsed, stableOrder);
         progressRef.current = next;
-        setProgress(next);
+        setState((current) =>
+          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
+        );
       } catch {
-        const next = createInitialProgress(order);
+        const next = createInitialProgress(stableOrder);
         progressRef.current = next;
-        setProgress(next);
-      } finally {
-        setReady(true);
+        setState((current) =>
+          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
+        );
       }
     }
 
-    setReady(false);
     void load();
 
     return () => {
       cancelled = true;
     };
-  }, [chapter, order.join("|")]);
+  }, [chapter, progressKey, stableOrder]);
 
   const persist = useCallback(
     async (updater: (current: ChapterProgress) => ChapterProgress) => {
       if (!chapter) return;
 
-      const next = updater(normalizeProgress(progressRef.current, order));
+      const next = updater(normalizeProgress(progressRef.current, stableOrder));
       progressRef.current = next;
-      setProgress(next);
-      await securePersistStorage.setItem(getChapterProgressStorageKey(chapter), JSON.stringify(next));
+      setState((current) =>
+        current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
+      );
+      await securePersistStorage.setItem(
+        getChapterProgressStorageKey(chapter),
+        JSON.stringify(next),
+      );
     },
-    [chapter, order],
+    [chapter, progressKey, stableOrder],
   );
 
   const saveNodeDraft = useCallback(
@@ -185,7 +209,7 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
       if (!chapter) return;
 
       await persist((current) => {
-        const index = order.indexOf(muc);
+        const index = stableOrder.indexOf(muc);
         const currentItem = current[muc];
         const finalReview = review ?? mergeReview(currentItem?.review, currentItem?.draft?.review);
         const finalDraft: ChapterDraftState = {
@@ -205,7 +229,7 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
           },
         };
 
-        const nextMuc = order[index + 1];
+        const nextMuc = stableOrder[index + 1];
 
         if (nextMuc && next[nextMuc]?.status !== "done") {
           next[nextMuc] = {
@@ -219,17 +243,17 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
         return next;
       });
     },
-    [chapter, order, persist],
+    [chapter, persist, stableOrder],
   );
 
   const completedCount = useMemo(
-    () => order.filter((muc) => progress[muc]?.status === "done").length,
-    [order, progress],
+    () => stableOrder.filter((muc) => visibleProgress[muc]?.status === "done").length,
+    [stableOrder, visibleProgress],
   );
 
   return {
-    ready,
-    progress,
+    ready: visibleReady,
+    progress: visibleProgress,
     completedCount,
     completeNode,
     saveNodeDraft,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import { cn, StepBadge } from "@/components/chapter-lesson/ChapterLessonUI";
@@ -20,10 +20,6 @@ export function TheoryStep({
   const safeIndex = Math.min(Math.max(index, 0), Math.max(node.theoryCards.length - 1, 0));
   const card = node.theoryCards[safeIndex];
   const last = safeIndex === node.theoryCards.length - 1;
-
-  useEffect(() => {
-    setIndex(initialIndex ?? 0);
-  }, [initialIndex]);
 
   if (!card) return null;
 

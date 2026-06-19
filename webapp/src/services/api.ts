@@ -17,7 +17,12 @@ const rawUrl = (process.env.EXPO_PUBLIC_API_URL || "http://localhost:3001/api/v1
   .replace(/\/$/, "");
 export const API_BASE_URL = rawUrl.endsWith("/api/v1") ? rawUrl : `${rawUrl}/api/v1`;
 
-const REQUEST_TIMEOUT_MS = 10000;
+function readPositiveNumber(value: string | undefined, fallback: number) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+const REQUEST_TIMEOUT_MS = readPositiveNumber(process.env.EXPO_PUBLIC_API_TIMEOUT_MS, 30000);
 
 type ApiSuccessResponse<T> = {
   success: true;

@@ -165,10 +165,10 @@ export class AuthController {
         env.GOOGLE_CALLBACK_URL ||
         `${req.protocol}://${req.get("host")}/api/v1/auth/google/callback`;
 
-      console.log("[Google OAuth] callbackUri =", callbackUri);
-      console.log("[Google OAuth] clientId =", env.GOOGLE_CLIENT_ID);
-      console.log("[Google OAuth] secret prefix =", env.GOOGLE_CLIENT_SECRET?.slice(0, 8));
-      console.log("[Google OAuth] secret length =", env.GOOGLE_CLIENT_SECRET?.length);
+      console.warn("[Google OAuth] callbackUri =", callbackUri);
+      console.warn("[Google OAuth] clientId =", env.GOOGLE_CLIENT_ID);
+      console.warn("[Google OAuth] secret prefix =", env.GOOGLE_CLIENT_SECRET?.slice(0, 8));
+      console.warn("[Google OAuth] secret length =", env.GOOGLE_CLIENT_SECRET?.length);
 
       const authorizeUrl =
         `https://accounts.google.com/o/oauth2/v2/auth` +

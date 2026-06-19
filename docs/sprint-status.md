@@ -1,14 +1,14 @@
 # PhiloMind Sprint Status From GitHub Issues
 
-> Last sync: 2026-05-31
+> Last sync: 2026-06-17
 > Source of truth: GitHub issues in `khovan123/philo-mind`
 
 ## Summary
 
 - Total tracked GitHub issues: 112
-- Done / closed: 106
-- Open / remaining: 6
-- Completion: 95%
+- Done / closed: 107
+- Open / remaining: 5
+- Completion: 96%
 - Local issue logs available: 112
 - GitHub issues currently missing Status Log: 0
 - Sync action this run: 0 new local logs, 0 GitHub bodies patched
@@ -19,7 +19,7 @@
 | --- | --- | ---: | ---: | ---: |
 | Track A | Backend Core | 22 | 22 | 0 |
 | Track B | Frontend Shell | 16 | 16 | 0 |
-| Track C | Shared Types & Seed | 13 | 12 | 1 |
+| Track C | Shared Types & Seed | 13 | 13 | 0 |
 | Track D | Story Mode Engine | 16 | 16 | 0 |
 | Track E | AI & Chat System | 10 | 10 | 0 |
 | Track F | Scenario & Debate | 8 | 8 | 0 |
@@ -33,11 +33,11 @@
 
 | Priority | Open |
 | --- | ---: |
-| medium | 6 |
+| medium | 5 |
 
 ## Next Recommended Work
 
-Run dev/review workflow for #216 `T-C13` Refactor validation logic to shared library.
+Run dev/review workflow for Track J testing tasks (#119-#123).
 
 ## Risks
 
@@ -52,10 +52,10 @@ Run dev/review workflow for #216 `T-C13` Refactor validation logic to shared lib
 - [ ] #121 `T-J03` API integration tests (Supertest: auth + CRUD + errors) (Testing, medium, @NguyenDat204)
 - [ ] #122 `T-J04` Frontend component tests (RTL: Card, Quiz, Chat) (Testing, medium, @NguyenDat204)
 - [ ] #123 `T-J05` E2E smoke test (Maestro: login-home-story-complete) (Testing, medium, @NguyenDat204)
-- [ ] #216 `T-C13` Refactor validation logic to shared library (Shared Types & Seed, medium, @thuhataplamdev)
 
 ## Recently Closed Issues
 
+- [x] #216 `T-C13` Refactor validation logic to shared library (closed 2026-06-17)
 - [x] #106 `T-G06` Performance optimization (caching + lazy load + bundle audit) (closed 2026-06-04T09:46:25Z)
 - [x] #101 `T-G01` Badge gallery + earn notifications (frontend) (closed 2026-06-04T09:46:24Z)
 - [x] #102 `T-G02` Notification bell + list screen (closed 2026-06-04T09:46:24Z)

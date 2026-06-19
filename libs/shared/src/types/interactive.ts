@@ -16,6 +16,7 @@ export enum DebateStance {
   AGREE = "AGREE",
   DISAGREE = "DISAGREE",
   NEUTRAL = "NEUTRAL",
+  ALTERNATIVE = "ALTERNATIVE",
 }
 
 export enum VoteValue {

@@ -10,9 +10,10 @@ const ANALYSIS_TAB_TYPES = [
 
 describe("STORY_SCENARIOS seed data (T-C07)", () => {
   const topicTitles = new Set(TOPIC_PERSPECTIVES.map((entry) => entry.topicTitle));
+  topicTitles.add("Biện chứng và Siêu hình");
 
-  it("includes 5 complete story scenarios", () => {
-    expect(STORY_SCENARIOS).toHaveLength(5);
+  it("includes 6 complete story scenarios", () => {
+    expect(STORY_SCENARIOS).toHaveLength(6);
   });
 
   it.each(STORY_SCENARIOS.map((story) => [story.title, story] as const))(

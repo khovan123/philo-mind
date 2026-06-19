@@ -97,6 +97,9 @@ jobs:
           DATABASE_URL: "postgresql://ci:ci@localhost:5432/ci"
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
+      - name: Build shared package
+        run: npm run shared:build
+
       - name: Type check
         working-directory: services
         run: npx tsc --noEmit

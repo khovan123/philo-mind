@@ -1,0 +1,59 @@
+{
+  "_note": "3 cặp khái niệm lưỡng phân cốt lõi Chương 1. Định nghĩa bám sát giáo trình (Chapter1.md mục I.2 và I.3). Dữ liệu này dự kiến seed qua model MiniGame (gameType: \"flashcard\" hoặc \"phân loại\") — KHÔNG đổi schema; Forge sẽ map sang MiniGame.config. Mỗi cặp gồm 2 card đối lập, liên kết qua trường pairWith. topicSlug trỏ về mục liên quan để gắn MiniGame.topicId.",
+  "decks": [
+    {
+      "topicSlug": "van-de-co-ban-cua-triet-hoc",
+      "code": "I.2",
+      "title": "Duy vật ↔ Duy tâm",
+      "axis": "Mặt thứ nhất của vấn đề cơ bản của triết học: giữa vật chất và ý thức, cái nào có trước và quyết định cái nào?",
+      "cards": [
+        {
+          "front": "Duy vật",
+          "back": "Vật chất có trước và quyết định ý thức; ý thức là sự phản ánh thế giới vật chất.",
+          "pairWith": "Duy tâm"
+        },
+        {
+          "front": "Duy tâm",
+          "back": "Ý thức, tinh thần hoặc ý niệm có trước và quyết định thế giới vật chất.",
+          "pairWith": "Duy vật"
+        }
+      ]
+    },
+    {
+      "topicSlug": "van-de-co-ban-cua-triet-hoc",
+      "code": "I.2",
+      "title": "Khả tri ↔ Bất khả tri",
+      "axis": "Mặt thứ hai của vấn đề cơ bản của triết học: con người có khả năng nhận thức được thế giới hay không?",
+      "cards": [
+        {
+          "front": "Khả tri",
+          "back": "Con người có khả năng nhận thức được thế giới. Việc nghiên cứu khoa học xuất phát từ niềm tin rằng con người có thể hiểu và khám phá thế giới khách quan.",
+          "pairWith": "Bất khả tri"
+        },
+        {
+          "front": "Bất khả tri",
+          "back": "Phủ nhận khả năng con người nhận thức được (hoàn toàn) bản chất của thế giới — đối lập với lập trường khả tri ở mặt thứ hai của vấn đề cơ bản của triết học.",
+          "pairWith": "Khả tri"
+        }
+      ]
+    },
+    {
+      "topicSlug": "bien-chung-va-sieu-hinh",
+      "code": "I.3",
+      "title": "Biện chứng ↔ Siêu hình",
+      "axis": "Hai phương pháp tư duy đối lập khi xem xét, lý giải sự vật, hiện tượng.",
+      "cards": [
+        {
+          "front": "Biện chứng",
+          "back": "Nhận thức đối tượng trong các mối liên hệ phổ biến vốn có của nó; mọi đối tượng luôn vận động, biến đổi không ngừng cả về lượng lẫn về chất; nguồn gốc vận động là sự đấu tranh giữa các mặt đối lập của mâu thuẫn nội tại bên trong sự vật.",
+          "pairWith": "Siêu hình"
+        },
+        {
+          "front": "Siêu hình",
+          "back": "Nhận thức đối tượng ở trạng thái cô lập, tách rời, tĩnh tại; chỉ thừa nhận biến đổi thuần túy về số lượng, và xem nguyên nhân của sự biến đổi nằm hoàn toàn bên ngoài đối tượng chứ bản thân sự vật không tự vận động.",
+          "pairWith": "Biện chứng"
+        }
+      ]
+    }
+  ]
+}

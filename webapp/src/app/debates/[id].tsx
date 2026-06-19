@@ -124,7 +124,8 @@ export default function DebateDetailScreen() {
       return {
         AGREE: "Duy vật",
         DISAGREE: "Duy tâm",
-        NEUTRAL: "Trung lập",
+        NEUTRAL: "Biện chứng",
+        ALTERNATIVE: "Bất khả tri",
       };
     }
     const isScience = title.includes("Khoa học");
@@ -133,12 +134,14 @@ export default function DebateDetailScreen() {
         AGREE: "Duy khoa học",
         DISAGREE: "Đa chiều",
         NEUTRAL: "Trung lập",
+        ALTERNATIVE: "Khác",
       };
     }
     return {
       AGREE: "Ủng hộ",
       DISAGREE: "Phản đối",
       NEUTRAL: "Trung lập",
+      ALTERNATIVE: "Khác",
     };
   };
 
@@ -149,11 +152,13 @@ export default function DebateDetailScreen() {
   const agreeCount = argumentsList.filter((a) => a.stance === "AGREE").length;
   const disagreeCount = argumentsList.filter((a) => a.stance === "DISAGREE").length;
   const neutralCount = argumentsList.filter((a) => a.stance === "NEUTRAL").length;
+  const alternativeCount = argumentsList.filter((a) => a.stance === "ALTERNATIVE").length;
   const totalCount = argumentsList.length;
 
   const agreePercent = totalCount > 0 ? Math.round((agreeCount / totalCount) * 100) : 0;
   const disagreePercent = totalCount > 0 ? Math.round((disagreeCount / totalCount) * 100) : 0;
   const neutralPercent = totalCount > 0 ? Math.round((neutralCount / totalCount) * 100) : 0;
+  const alternativePercent = totalCount > 0 ? Math.round((alternativeCount / totalCount) * 100) : 0;
 
   // Polarization level calculation
   const getPolarizationLevel = () => {
@@ -397,6 +402,17 @@ export default function DebateDetailScreen() {
                           ]}
                         />
                       )}
+                      {alternativePercent > 0 && (
+                        <View
+                          style={[
+                            styles.barSegment,
+                            {
+                              width: `${alternativePercent}%`,
+                              backgroundColor: theme.info || "#38BDF8",
+                            },
+                          ]}
+                        />
+                      )}
                     </View>
 
                     {/* Legends */}
@@ -419,6 +435,16 @@ export default function DebateDetailScreen() {
                           {labels.NEUTRAL}: {neutralPercent}%
                         </ThemedText>
                       </View>
+                      {alternativePercent > 0 && (
+                        <View style={styles.legendItem}>
+                          <View
+                            style={[styles.legendDot, { backgroundColor: theme.info || "#38BDF8" }]}
+                          />
+                          <ThemedText style={styles.legendText}>
+                            {labels.ALTERNATIVE}: {alternativePercent}%
+                          </ThemedText>
+                        </View>
+                      )}
                     </View>
                   </View>
                 )}
@@ -653,40 +679,96 @@ export default function DebateDetailScreen() {
                 </Pressable>
               </View>
 
-              {/* Neutral chip toggle */}
-              {neutralCount > 0 && (
-                <Pressable
-                  style={[
-                    styles.neutralChip,
-                    {
-                      backgroundColor:
-                        selectedStanceFilter === "NEUTRAL"
-                          ? "rgba(245, 158, 11, 0.15)"
-                          : theme.surface,
-                      borderColor:
-                        selectedStanceFilter === "NEUTRAL" ? theme.warning : theme.border,
-                    },
-                  ]}
-                  onPress={() =>
-                    setSelectedStanceFilter(selectedStanceFilter === "NEUTRAL" ? "ALL" : "NEUTRAL")
-                  }
+              {/* Neutral & Alternative chip toggles */}
+              {(neutralCount > 0 || alternativeCount > 0) && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    gap: Spacing.two,
+                    marginBottom: Spacing.three,
+                  }}
                 >
-                  <View style={[styles.splitDot, { backgroundColor: theme.warning }]} />
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "600",
-                      color:
-                        selectedStanceFilter === "NEUTRAL" ? theme.warning : theme.textSecondary,
-                    }}
-                  >
-                    {labels.NEUTRAL} ({neutralCount})
-                  </Text>
-                </Pressable>
+                  {neutralCount > 0 && (
+                    <Pressable
+                      style={[
+                        styles.neutralChip,
+                        {
+                          backgroundColor:
+                            selectedStanceFilter === "NEUTRAL"
+                              ? "rgba(245, 158, 11, 0.15)"
+                              : theme.surface,
+                          borderColor:
+                            selectedStanceFilter === "NEUTRAL" ? theme.warning : theme.border,
+                          marginBottom: 0,
+                        },
+                      ]}
+                      onPress={() =>
+                        setSelectedStanceFilter(
+                          selectedStanceFilter === "NEUTRAL" ? "ALL" : "NEUTRAL",
+                        )
+                      }
+                    >
+                      <View style={[styles.splitDot, { backgroundColor: theme.warning }]} />
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: "600",
+                          color:
+                            selectedStanceFilter === "NEUTRAL"
+                              ? theme.warning
+                              : theme.textSecondary,
+                        }}
+                      >
+                        {labels.NEUTRAL} ({neutralCount})
+                      </Text>
+                    </Pressable>
+                  )}
+
+                  {alternativeCount > 0 && (
+                    <Pressable
+                      style={[
+                        styles.neutralChip,
+                        {
+                          backgroundColor:
+                            selectedStanceFilter === "ALTERNATIVE"
+                              ? "rgba(56, 189, 248, 0.15)"
+                              : theme.surface,
+                          borderColor:
+                            selectedStanceFilter === "ALTERNATIVE"
+                              ? theme.info || "#38BDF8"
+                              : theme.border,
+                          marginBottom: 0,
+                        },
+                      ]}
+                      onPress={() =>
+                        setSelectedStanceFilter(
+                          selectedStanceFilter === "ALTERNATIVE" ? "ALL" : "ALTERNATIVE",
+                        )
+                      }
+                    >
+                      <View
+                        style={[styles.splitDot, { backgroundColor: theme.info || "#38BDF8" }]}
+                      />
+                      <Text
+                        style={{
+                          fontSize: 12,
+                          fontWeight: "600",
+                          color:
+                            selectedStanceFilter === "ALTERNATIVE"
+                              ? theme.info || "#38BDF8"
+                              : theme.textSecondary,
+                        }}
+                      >
+                        {labels.ALTERNATIVE} ({alternativeCount})
+                      </Text>
+                    </Pressable>
+                  )}
+                </View>
               )}
 
-              {/* Split columns layout – show side-by-side when filter is ALL */}
-              {selectedStanceFilter === "ALL" ? (
+              {/* Split columns layout – show side-by-side when filter is ALL and not a multi-stance debate */}
+              {selectedStanceFilter === "ALL" && alternativeCount === 0 ? (
                 <View style={styles.splitColumnsContainer}>
                   {/* FOR Column */}
                   <View style={styles.splitColumn}>
@@ -748,14 +830,15 @@ export default function DebateDetailScreen() {
                 </View>
               ) : null}
 
-              {/* Filtered full-width argument cards (when a specific stance is selected) */}
-              {selectedStanceFilter !== "ALL" && filteredArguments.length === 0 ? (
+              {/* Filtered full-width argument cards (when a specific stance is selected, or when ALL is selected in a multi-stance debate) */}
+              {(selectedStanceFilter !== "ALL" || alternativeCount > 0) &&
+              filteredArguments.length === 0 ? (
                 <View style={styles.emptyContainer}>
                   <ThemedText themeColor="textSecondary">
                     Không tìm thấy lập luận nào cho bộ lọc này.
                   </ThemedText>
                 </View>
-              ) : selectedStanceFilter !== "ALL" ? (
+              ) : selectedStanceFilter !== "ALL" || alternativeCount > 0 ? (
                 filteredArguments.map((arg) => {
                   const isExpanded = expandedArgumentId === arg.id;
 
@@ -800,13 +883,17 @@ export default function DebateDetailScreen() {
                                   ? "rgba(34, 197, 94, 0.15)"
                                   : arg.stance === "DISAGREE"
                                     ? "rgba(239, 44, 68, 0.15)"
-                                    : "rgba(245, 158, 11, 0.15)",
+                                    : arg.stance === "NEUTRAL"
+                                      ? "rgba(245, 158, 11, 0.15)"
+                                      : "rgba(56, 189, 248, 0.15)",
                               borderColor:
                                 arg.stance === "AGREE"
                                   ? theme.success
                                   : arg.stance === "DISAGREE"
                                     ? theme.danger
-                                    : theme.warning,
+                                    : arg.stance === "NEUTRAL"
+                                      ? theme.warning
+                                      : theme.info || "#38BDF8",
                             },
                           ]}
                         >
@@ -819,7 +906,9 @@ export default function DebateDetailScreen() {
                                     ? theme.success
                                     : arg.stance === "DISAGREE"
                                       ? theme.danger
-                                      : theme.warning,
+                                      : arg.stance === "NEUTRAL"
+                                        ? theme.warning
+                                        : theme.info || "#38BDF8",
                               },
                             ]}
                           >
@@ -1031,6 +1120,15 @@ export default function DebateDetailScreen() {
                         label: labels.NEUTRAL,
                         desc: "Đứng trung lập hoặc đề xuất cách tổng hợp biện chứng",
                       },
+                      ...(alternativeCount > 0
+                        ? [
+                            {
+                              value: "ALTERNATIVE",
+                              label: labels.ALTERNATIVE,
+                              desc: `Đứng từ góc nhìn ${labels.ALTERNATIVE} hoặc hoài nghi`,
+                            },
+                          ]
+                        : []),
                     ].map((item) => {
                       const isSelected = argumentStance === item.value;
                       return (

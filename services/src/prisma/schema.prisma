@@ -55,6 +55,7 @@ enum DebateStance {
   AGREE
   DISAGREE
   NEUTRAL
+  ALTERNATIVE
 }
 
 enum VoteValue {
@@ -633,6 +634,7 @@ model QuizQuestion {
   quizId       String       @map("quiz_id") @db.Uuid
   question     String
   questionType QuestionType @map("question_type")
+  explanation  String?
 
   quiz           Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
   options        QuizOption[]

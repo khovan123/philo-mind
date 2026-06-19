@@ -5,7 +5,6 @@ import { MINI_GAMES } from "../src/seed/data/minigames.ts";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const outDir = resolve(__dirname, "../../data/11-minigames");
-const outDirReal = resolve(__dirname, "../../data_real/11-minigames");
 
 function matchingMarkdown(game) {
   const pairs = game.config.pairs ?? [];
@@ -73,12 +72,10 @@ function bodyFor(game) {
   }
 }
 
-for (const dir of [outDir, outDirReal]) {
-  mkdirSync(dir, { recursive: true });
-  for (const game of MINI_GAMES) {
-    const content = `${frontmatter(game)}${bodyFor(game)}`;
-    writeFileSync(resolve(dir, slugify(game.title)), content, "utf8");
-  }
+mkdirSync(outDir, { recursive: true });
+for (const game of MINI_GAMES) {
+  const content = `${frontmatter(game)}${bodyFor(game)}`;
+  writeFileSync(resolve(outDir, slugify(game.title)), content, "utf8");
 }
 
 console.log(`Exported ${MINI_GAMES.length} minigame markdown files`);

@@ -1,6 +1,7 @@
 import { authService } from "@/services/auth.service";
 import { useRouter } from "expo-router";
 import {
+  Archive,
   Bell,
   BookOpen,
   ChevronRight,
@@ -9,6 +10,7 @@ import {
   Info,
   Lock,
   LogOut,
+  MessageSquare,
   ScrollText,
   Settings,
   ShieldCheck,
@@ -67,6 +69,8 @@ const journals = [
 ];
 
 const settingsItems = [
+  { label: "AI Chat với Triết gia", icon: MessageSquare, path: "/chat" },
+  { label: "Kho lưu trữ Tranh luận", icon: Archive, path: "/debate" },
   { label: "Cài đặt", icon: Settings, path: "/settings" },
   { label: "Ngôn ngữ", icon: Globe2 },
   { label: "Thông báo", icon: Bell, path: "/settings" },

@@ -29,6 +29,16 @@ export function readCsv<T extends object>(filename: string): T[] {
 }
 
 /**
+ * Read a JSON seed file from project-root/data/ (relative path allowed,
+ * e.g. "chapter-01/flashcards.json").
+ */
+export function readJson<T>(relativePath: string): T {
+  const filepath = resolve(DATA_DIR, relativePath);
+  const content = readFileSync(filepath, "utf-8");
+  return JSON.parse(content) as T;
+}
+
+/**
  * Map Vietnamese difficulty values to Prisma enum
  */
 export function mapDifficulty(vi: string): "EASY" | "MEDIUM" | "HARD" {

@@ -8,6 +8,8 @@ export const mindmapTopicIdSchema = z.object({
   }),
 });
 
+export const topicIdSchema = mindmapTopicIdSchema;
+
 export const nodeIdSchema = z.object({
   params: z.object({
     id: z.string().uuid("Node id không hợp lệ"),

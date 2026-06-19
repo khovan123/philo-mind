@@ -8,7 +8,7 @@ import {
   XCircle,
 } from "lucide-react-native";
 import { useState, useMemo } from "react";
-import { ActivityIndicator, Animated, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Button } from "@/components/ui/Button";

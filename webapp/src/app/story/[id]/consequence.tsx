@@ -105,8 +105,8 @@ export default function ConsequenceScreen() {
   }
 
   function handleContinue() {
-    setStep("knowledge");
-    router.push(`/story/${storyId}/knowledge` as never);
+    setStep("evidence-board");
+    router.push(`/story/${storyId}/evidence-board` as never);
   }
 
   if (isLoading) {
@@ -289,7 +289,7 @@ export default function ConsequenceScreen() {
       {/* Footer */}
       <View style={[styles.footer, { borderTopColor: theme.border }]}>
         <Button
-          title="Tiếp tục: Tri thức"
+          title="Tiếp tục: Bảng Chứng Cứ"
           onPress={handleContinue}
           style={{ flex: 1, backgroundColor: theme.primary }}
         />

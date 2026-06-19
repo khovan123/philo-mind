@@ -1,1 +1,1 @@
-export { default } from "@/screen/chapter/ChapterSkillTreeScreen";
+export { default } from "../../screen/lesson/LearnHomeScreen";

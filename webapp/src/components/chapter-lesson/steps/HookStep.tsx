@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import {
@@ -58,10 +58,6 @@ function HookChoice({
   onDone: (selected: "A" | "B") => void;
 }) {
   const [selected, setSelected] = useState<"A" | "B" | null>(initialSelected ?? null);
-
-  useEffect(() => {
-    setSelected(initialSelected ?? null);
-  }, [initialSelected]);
 
   if (node.hook.type !== "choice") return null;
 
@@ -131,12 +127,6 @@ function HookDrag({
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const [placements, setPlacements] = useState<Record<number, number>>(initialPlacements ?? {});
   const [checked, setChecked] = useState(shouldStartChecked(initialPlacements));
-
-  useEffect(() => {
-    setPlacements(initialPlacements ?? {});
-    setChecked(shouldStartChecked(initialPlacements));
-    setSelectedItem(null);
-  }, [initialPlacements]);
 
   if (node.hook.type !== "drag") return null;
 

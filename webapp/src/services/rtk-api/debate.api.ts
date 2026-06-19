@@ -129,7 +129,7 @@ export const debateApi = baseApi.injectEndpoints({
         method: "POST",
         body: { value },
       }),
-      invalidatesTags: (result, error, { argumentId }) => [
+      invalidatesTags: () => [
         { type: "Debate", id: "LIST" },
         // Since vote is inside a debate detail, we might want to invalidate the detail or list.
         // Usually, RTK query cache tags can be updated. We invalidate the whole "Debate" list to be safe,

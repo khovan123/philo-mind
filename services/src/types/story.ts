@@ -1,4 +1,4 @@
-import { Difficulty } from "./learning.js";
+import type { Difficulty } from "./learning.js";
 
 // ── Story Enums ────────────────────────────────────────────
 

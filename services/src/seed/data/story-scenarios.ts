@@ -96,6 +96,16 @@ export const PHILOSOPHY_TAGS: { name: string; description: string }[] = [
     name: "Đạo đức học",
     description: "Ngành triết học nghiên cứu về đúng sai, tốt xấu và trách nhiệm đạo đức.",
   },
+  {
+    name: "Phép biện chứng",
+    description:
+      "Phương pháp tư duy nhận thức đối tượng trong mối liên hệ phổ biến, vận động và phát triển, với nguồn gốc vận động là mâu thuẫn nội tại của bản thân sự vật.",
+  },
+  {
+    name: "Phương pháp siêu hình",
+    description:
+      "Phương pháp tư duy nhận thức đối tượng ở trạng thái cô lập, tách rời, tĩnh tại; chỉ thừa nhận biến đổi về lượng và xem nguyên nhân biến đổi nằm hoàn toàn bên ngoài đối tượng.",
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1065,6 +1075,207 @@ Nhưng bạn bắt đầu xây dựng phiên bản của riêng mình.`,
               tabType: "HISTORICAL",
               content:
                 "Thực hành 'Grand Tour' của giới trí thức châu Âu thế kỷ XVII-XIX — đi du lịch nhiều năm khắp châu Âu trước khi nhận các trách nhiệm sự nghiệp — được thiết kế để mở rộng nhận thức và trưởng thành. Ý tưởng rằng cần thời gian để khám phá trước khi cam kết không phải là mới — nó có trong truyền thống văn hóa của nhiều nền văn minh.",
+              order: 3,
+            },
+          ],
+        },
+      },
+    ],
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  // Story 6: Biện chứng và Siêu hình (Chương 1 — I.3) — Cú trượt môn của An
+  // ───────────────────────────────────────────────────────────────────────────
+  {
+    title: "Cú trượt môn và hai cách nhìn một con người",
+    topicTitle: "Biện chứng và Siêu hình",
+    description: `Bạn là Hoàng — sinh viên năm hai, trưởng nhóm một bài tập lớn chiếm 40% điểm môn học tại TP. Hồ Chí Minh, mùa hè 2024.
+
+Trong nhóm có Minh. Suốt ba tuần qua, Minh liên tục trễ hạn nộp bài, phần nội dung viết sơ sài, và vắng mặt ở các buổi họp Zoom. Cả nhóm bắt đầu sốt ruột vì deadline đến gần.
+
+Tối nay bạn mở lại bài của Minh — vẫn dở dang. Trong đầu bạn vang lên một câu kết luận: *"Minh đúng là kẻ lười biếng và vô trách nhiệm bẩm sinh."*
+
+Ngón tay bạn dừng trên nút xóa tên Minh khỏi nhóm.
+
+**Bạn đang nhìn Minh như một bức ảnh tĩnh — hay như một thước phim đang chuyển động?**`,
+    characterRole:
+      "Bạn là Hoàng — sinh viên năm hai, trưởng nhóm bài tập lớn, đang cân nhắc loại một thành viên liên tục trễ hạn",
+    historicalContext:
+      "TP. Hồ Chí Minh 2024 — sinh viên vừa học vừa làm thêm (chạy xe công nghệ, làm ca đêm) ngày càng phổ biến; áp lực điểm số nhóm và deadline khiến người ta dễ 'dán nhãn' nhau qua một lát cắt hành vi mà bỏ qua hoàn cảnh phía sau.",
+    difficulty: "MEDIUM",
+    learnCards: [
+      {
+        title: "Phương pháp siêu hình: nhìn sự vật như bức ảnh tĩnh",
+        body: `**Phương pháp siêu hình** nhận thức đối tượng ở trạng thái **cô lập, tách rời và tĩnh tại**:
+
+- Xem sự vật trong trạng thái đứng yên, **không liên hệ** với các sự vật xung quanh.
+- Nếu có biến đổi, chỉ thừa nhận đó là sự **tăng/giảm thuần túy về lượng**.
+- Nguyên nhân của biến đổi được cho là **nằm hoàn toàn bên ngoài** đối tượng — bản thân sự vật không tự vận động.
+
+Ví dụ trong giáo trình: khi An thi trượt Tiếng Anh và tự nhủ *"mình sinh ra đã không có năng khiếu, cố mấy cũng kém"* rồi đổ lỗi hết cho đề thi khó — đó là tư duy siêu hình: coi năng lực bản thân là **tĩnh tại, bất biến** và quy nguyên nhân cho yếu tố **bên ngoài**.`,
+        sourceRef: "Giáo trình Chương 1, I.3 — Biện chứng và Siêu hình",
+        order: 0,
+        tags: ["Phương pháp siêu hình"],
+      },
+      {
+        title: "Phép biện chứng: nhìn sự vật như thước phim chuyển động",
+        body: `**Phép biện chứng** nhận thức đối tượng trong **các mối liên hệ phổ biến** vốn có của nó:
+
+- Mọi đối tượng luôn **vận động, biến đổi không ngừng**, thay đổi cả về **lượng lẫn chất**.
+- Nguồn gốc của vận động, phát triển **không phải do tác động thần bí từ bên ngoài**, mà bắt nguồn từ **mâu thuẫn nội tại** bên trong bản thân sự vật.
+- Nhờ vậy, biện chứng phản ánh hiện thực **khách quan, đúng như nó tồn tại**.
+
+Ví dụ trong giáo trình: bác tài xế công nghệ ngồi nghỉ dưới tán cây trông như "rảnh rỗi, lười biếng" nếu nhìn bằng **một bức ảnh tĩnh**; nhưng nhìn bằng **một thước phim** mới thấy bác vừa chạy 3 tiếng dưới nắng, đang tái tạo sức lao động, và thu nhập gắn chặt với thuật toán, giá xăng, nhu cầu thị trường.`,
+        sourceRef: "Giáo trình Chương 1, I.3 — Biện chứng và Siêu hình",
+        order: 1,
+        tags: ["Phép biện chứng"],
+      },
+      {
+        title: "Ba hình thức của phép biện chứng trong lịch sử",
+        body: `Phép biện chứng đã trải qua **ba hình thức cơ bản**:
+
+1. **Biện chứng tự phát thời Cổ đại**: sớm thấy thế giới vận động và liên hệ, nhưng mới ở mức trực kiến, cảm tính, chưa được chứng minh bằng khoa học.
+2. **Biện chứng duy tâm** (đỉnh cao là triết học cổ điển Đức — Kant, Hegel): hệ thống hóa biện chứng sâu sắc nhưng đặt trên nền tảng duy tâm, coi sự vận động bắt đầu từ "Ý niệm tuyệt đối".
+3. **Biện chứng duy vật** (C. Mác, Ph. Ăngghen xây dựng giữa thế kỷ XIX, V.I. Lênin kế thừa): gạt bỏ tính thần bí, kế thừa "hạt nhân hợp lý", đạt **sự thống nhất hữu cơ giữa chủ nghĩa duy vật và phương pháp biện chứng** — hình thức cao nhất, hoàn thiện nhất.`,
+        sourceRef: "Giáo trình Chương 1, I.3 — Biện chứng và Siêu hình",
+        order: 2,
+        tags: ["Phép biện chứng", "Chủ nghĩa duy vật"],
+      },
+    ],
+    choices: [
+      {
+        choiceText: "Xóa tên Minh ngay — cậu ấy lười biếng bẩm sinh, không xứng làm việc chung",
+        reasoningPrompt:
+          "Bạn đang kết luận về Minh chỉ từ một lát cắt hành vi ba tuần qua, tách rời mọi hoàn cảnh. Liệu một con người có thật sự 'bẩm sinh' bất biến như một bức ảnh tĩnh không?",
+        consequence: {
+          resultText: `Bạn xóa tên Minh và không báo trước. Nhóm nộp bài đúng hạn.
+
+Hai hôm sau, một bạn cùng phòng kể: mẹ Minh đột ngột đổ bệnh nặng ở quê, Minh phải vừa đi học ban ngày vừa chạy xe công nghệ xuyên đêm gửi tiền lo viện phí — kiệt sức tới mức không làm nổi bài.
+
+Minh nhắn cho bạn một dòng ngắn: *"Mình xin lỗi vì đã không nói sớm."* Bạn ngồi lặng. Hóa ra bạn đã đóng khung một con người đang vận động dữ dội bên trong bằng một tấm ảnh chụp vội.`,
+          ethicalAnalysis:
+            "Dưới góc Đức hạnh (Virtue Ethics), việc khẳng định Minh 'lười biếng bẩm sinh' thể hiện sự cứng nhắc và thiếu lòng trắc ẩn. Một người có đức hạnh không nhìn bạn mình phiến diện mà chân thành hỏi han, lắng nghe. Đây cũng là vi phạm nghĩa vụ tôn trọng con người (góc Nghĩa vụ): tự ý tước quyền lợi của Minh mà không đối thoại.",
+          philosophicalAnalysis:
+            "Đây là biểu hiện điển hình của **phương pháp siêu hình**: cô lập hành vi nộp bài muộn của Minh khỏi hoàn cảnh thực tế, coi năng lực và tính cách Minh là tĩnh tại, bất biến ('bẩm sinh'), và quy nguyên nhân hoàn toàn vào bản thân đối tượng một cách phiến diện. Phép biện chứng chỉ ra: con người không phải thực thể tĩnh tại bất biến, hành vi luôn vận động và chịu tác động bởi các mối quan hệ xã hội phức tạp.",
+          politicalEconomicAnalysis:
+            "Dưới góc Thực dụng (Utilitarianism), hành động này bảo vệ điểm số cho số đông trước mắt, nhưng đánh đổi bằng việc đẩy một người bạn gặp hoạn nạn tới nguy cơ trượt môn. Tư duy siêu hình bỏ qua mối liên hệ giữa thay đổi thái độ đột ngột của Minh với biến cố kinh tế gia đình (viện phí, lao động ban đêm) — vốn là điều kiện vật chất thực đang chi phối hành vi.",
+          historicalImpact:
+            "Cách 'dán nhãn' tĩnh tại lên con người từng để lại nhiều hệ quả nặng nề trong lịch sử tư duy: khi một cá nhân hay một nhóm bị quy về một 'bản chất bất biến' và tách khỏi điều kiện lịch sử cụ thể, người ta dễ biện minh cho định kiến và đối xử bất công. Phép biện chứng duy vật ra đời giữa thế kỷ XIX chính là để thay lối nhìn 'ảnh tĩnh' bằng lối nhìn vận động, lịch sử - cụ thể.",
+          analysisTabs: [
+            {
+              tabType: "ETHICAL",
+              content:
+                "Góc Đức hạnh và Nghĩa vụ: gán nhãn 'lười biếng bẩm sinh' là thiếu thấu cảm và bao dung; tự ý xóa tên không đối thoại vi phạm bổn phận của một trưởng nhóm phải đối xử công bằng, tôn trọng thành viên và tuân thủ quy trình chung.",
+              order: 0,
+            },
+            {
+              tabType: "PHILOSOPHICAL",
+              content:
+                "Tư duy siêu hình: nhìn Minh ở trạng thái cô lập, tĩnh tại, bất biến và quy nguyên nhân phiến diện vào bản thân đối tượng. Trái lại, phép biện chứng nhận thức con người trong mối liên hệ phổ biến và sự vận động không ngừng do mâu thuẫn nội tại và hoàn cảnh.",
+              order: 1,
+            },
+            {
+              tabType: "POLITICAL_ECONOMIC",
+              content:
+                "Góc Thực dụng: tối ưu điểm số trước mắt nhưng bỏ qua mối liên hệ giữa hành vi của Minh và điều kiện kinh tế (mẹ bệnh, viện phí, lao động ban đêm). Tách hành vi khỏi điều kiện vật chất là sai lầm phương pháp luận điển hình của siêu hình.",
+              order: 2,
+            },
+            {
+              tabType: "HISTORICAL",
+              content:
+                "Lối nhìn 'bản chất bất biến', tách con người khỏi điều kiện lịch sử - cụ thể, từng là cơ sở cho nhiều định kiến trong lịch sử. Biện chứng duy vật (Mác - Ăngghen, giữa thế kỷ XIX) thay lối nhìn ảnh tĩnh bằng lối nhìn vận động và lịch sử - cụ thể.",
+              order: 3,
+            },
+          ],
+        },
+      },
+      {
+        choiceText:
+          "Khoan đã — chủ động nhắn hỏi Minh xem chuyện gì đang xảy ra trước khi quyết định",
+        reasoningPrompt:
+          "Nếu hành vi của một người 'thay đổi đột ngột', phép biện chứng gợi ý điều gì về mối liên hệ giữa sự thay đổi đó và các biến cố xung quanh?",
+        consequence: {
+          resultText: `Bạn gác con trỏ khỏi nút xóa và nhắn cho Minh: *"Dạo này cậu ổn không? Mình thấy khác hẳn mọi khi."*
+
+Minh gọi lại, giọng mệt mỏi, kể về mẹ ốm và những ca xe đêm. Bạn họp nhóm, san sẻ bớt phần việc của Minh cho cả nhóm, lùi một mốc nhỏ trong kế hoạch.
+
+Bài tập vẫn nộp đúng hạn và đạt chất lượng. Minh không trượt môn. Quan trọng hơn: bạn đã nhìn một con người như một thước phim đang chạy, chứ không phải một bức ảnh để phán xét.`,
+          ethicalAnalysis:
+            "Dưới góc Đức hạnh, chủ động hỏi han thể hiện sự thấu cảm, bao dung và lòng trắc ẩn — phẩm chất của người không nhìn bạn mình phiến diện. Dưới góc Nghĩa vụ, trưởng nhóm làm tròn bổn phận đối xử công bằng và xem xét khách quan trước khi ra quyết định kỷ luật.",
+          philosophicalAnalysis:
+            "Đây là vận dụng **phép biện chứng**: đặt hành vi của Minh trong mối liên hệ phổ biến với hoàn cảnh, thừa nhận con người luôn vận động và chịu tác động của mâu thuẫn nội tại lẫn quan hệ xã hội. Thay vì 'dán nhãn' tĩnh tại, bạn truy tìm nguồn gốc thực của sự thay đổi.",
+          politicalEconomicAnalysis:
+            "Dưới góc Thực dụng, cách làm này tối đa hóa lợi ích chung thực sự: nhóm có bài chất lượng, đồng thời một thành viên gặp hoạn nạn không bị bỏ rơi. Nhận diện điều kiện kinh tế chi phối hành vi (lao động đêm để lo viện phí) giúp ra quyết định sát thực tiễn hơn.",
+          historicalImpact:
+            "Tinh thần xem xét sự vật trong vận động và liên hệ — cốt lõi của phép biện chứng duy vật do Mác và Ăngghen xây dựng — chính là 'vũ khí lý luận' giúp con người nhận thức đúng hiện thực và cải tạo nó, thay vì dừng ở phán đoán bề mặt, phiến diện.",
+          analysisTabs: [
+            {
+              tabType: "ETHICAL",
+              content:
+                "Góc Đức hạnh và Nghĩa vụ: hỏi han trước khi phán xét thể hiện thấu cảm và bao dung, đồng thời làm tròn bổn phận của trưởng nhóm là đối xử công bằng và xem xét khách quan trước khi ra quyết định.",
+              order: 0,
+            },
+            {
+              tabType: "PHILOSOPHICAL",
+              content:
+                "Tư duy biện chứng: đặt hành vi trong mối liên hệ phổ biến và sự vận động, truy nguồn gốc thay đổi từ mâu thuẫn nội tại và hoàn cảnh — phản ánh hiện thực khách quan đúng như nó tồn tại.",
+              order: 1,
+            },
+            {
+              tabType: "POLITICAL_ECONOMIC",
+              content:
+                "Góc Thực dụng: tối đa hóa lợi ích chung thật sự — nhóm có bài tốt và người bạn gặp hoạn nạn không bị trượt môn. Nhận ra điều kiện kinh tế (viện phí, lao động đêm) đang chi phối hành vi giúp quyết định sát thực tiễn.",
+              order: 2,
+            },
+            {
+              tabType: "HISTORICAL",
+              content:
+                "Xem xét sự vật trong vận động và liên hệ là cốt lõi của phép biện chứng duy vật (Mác - Ăngghen) — công cụ tư duy giúp con người nhận thức đúng và cải tạo hiện thực, thay cho phán đoán bề mặt.",
+              order: 3,
+            },
+          ],
+        },
+      },
+      {
+        choiceText:
+          "Tạm 'bóc tách' để phân tích: đánh giá riêng phần việc đang thiếu, rồi mới nối lại bức tranh toàn cảnh và hoàn cảnh của Minh",
+        reasoningPrompt:
+          "Giáo trình thừa nhận phương pháp siêu hình có giá trị khi cần 'bóc tách' để phân tích chi tiết. Khi nào nên dùng nó, và khi nào bắt buộc phải quay lại tư duy biện chứng để không phiến diện?",
+        consequence: {
+          resultText: `Bạn lập một bảng: phần nào còn thiếu, ai gánh được, lùi mốc nào. Việc 'bóc tách, cô lập' tạm thời này giúp nhóm thấy rõ khối lượng còn dang dở và phân công lại chính xác.
+
+Nhưng bạn không dừng ở đó. Sau khi có bức tranh kỹ thuật, bạn nối nó lại với câu hỏi: *vì sao Minh đột nhiên sa sút?* — rồi mới nhắn hỏi cậu ấy. Kế hoạch rõ ràng, và quyết định cuối cùng vẫn đặt trên hoàn cảnh thật của con người.`,
+          ethicalAnalysis:
+            "Cách làm này thể hiện sự thận trọng (phronesis): vừa giữ công bằng với cả nhóm (phân tích rõ phần việc), vừa giữ lòng trắc ẩn với Minh (không kết luận về con người trước khi hiểu hoàn cảnh). Bổn phận đạo đức được làm tròn ở cả hai phía.",
+          philosophicalAnalysis:
+            "Đây là sự phối hợp đúng mực hai phương pháp như giáo trình gợi mở: dùng thao tác 'bóc tách, cô lập, giả định đứng yên tạm thời' (đặc trưng siêu hình) để phân tích định lượng cấu trúc công việc — nhưng **không tuyệt đối hóa nó**. Bức tranh chỉ hoàn chỉnh khi quay lại tư duy biện chứng: nối các phần vào mối liên hệ và sự vận động của hoàn cảnh. Siêu hình là công cụ phân tích cục bộ; biện chứng giữ vai trò phương pháp luận tổng quát.",
+          politicalEconomicAnalysis:
+            "Dưới góc Thực dụng, phân tích cục bộ trước rồi tổng hợp giúp phân bổ nguồn lực (thời gian, phần việc) hiệu quả mà vẫn không hy sinh con người. Đây cũng phản ánh thực tiễn nghiên cứu và quản trị: phải định lượng chi tiết, nhưng quyết định cuối cùng phải đặt trong bối cảnh động.",
+          historicalImpact:
+            "Giáo trình ghi nhận phương pháp siêu hình từng có công lớn cho cơ học cổ điển nhờ bóc tách, phân tích chi tiết đối tượng — nhưng bộc lộ hạn chế khi xử lý vấn đề phức tạp về vận động và mối liên hệ phổ biến. Lịch sử khoa học cho thấy phân tích cục bộ và tổng hợp biện chứng cần bổ sung cho nhau.",
+          analysisTabs: [
+            {
+              tabType: "ETHICAL",
+              content:
+                "Thận trọng (phronesis): giữ công bằng với cả nhóm qua phân tích rõ phần việc, đồng thời giữ lòng trắc ẩn bằng cách không kết luận về con người Minh trước khi hiểu hoàn cảnh.",
+              order: 0,
+            },
+            {
+              tabType: "PHILOSOPHICAL",
+              content:
+                "Phối hợp hai phương pháp: dùng thao tác bóc tách - cô lập (đặc trưng siêu hình) để phân tích cấu trúc công việc, nhưng không tuyệt đối hóa; quay lại tư duy biện chứng để nối vào mối liên hệ và sự vận động. Siêu hình là công cụ cục bộ, biện chứng là phương pháp luận tổng quát.",
+              order: 1,
+            },
+            {
+              tabType: "POLITICAL_ECONOMIC",
+              content:
+                "Góc Thực dụng: phân tích cục bộ rồi tổng hợp giúp phân bổ thời gian và phần việc hiệu quả mà không hy sinh con người — phản ánh thực tiễn quản trị: định lượng chi tiết nhưng quyết định trong bối cảnh động.",
+              order: 2,
+            },
+            {
+              tabType: "HISTORICAL",
+              content:
+                "Phương pháp siêu hình từng có công cho cơ học cổ điển nhờ bóc tách, phân tích chi tiết, nhưng hạn chế khi xử lý vận động và liên hệ phổ biến. Phân tích cục bộ và tổng hợp biện chứng bổ sung cho nhau trong lịch sử khoa học.",
               order: 3,
             },
           ],

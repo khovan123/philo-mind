@@ -17,7 +17,7 @@ import { securePersistStorage } from "@/stores/persistStorage";
 import type { ChapterProgress, ChapterProgressItem } from "@/types/chapterLesson";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
 
-function cn(...classes: Array<string | false | null | undefined>) {
+function cn(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
@@ -69,15 +69,9 @@ export default function ChapterSkillTreeScreen() {
     isError: isChaptersError,
   } = useGetChaptersQuery();
 
-  const [selectedChapter, setSelectedChapter] = useState<string | null>(null);
+  const [selectedChapterState, setSelectedChapter] = useState<string | null>(routeChapter ?? null);
   const [chapterProgress, setChapterProgress] = useState<Record<string, ChapterProgress>>({});
   const [isLoadingProgress, setIsLoadingProgress] = useState(true);
-
-  useEffect(() => {
-    if (routeChapter) {
-      setSelectedChapter(routeChapter);
-    }
-  }, [routeChapter]);
 
   useEffect(() => {
     let cancelled = false;
@@ -116,57 +110,80 @@ export default function ChapterSkillTreeScreen() {
     };
   }, [chapters]);
 
-  const chapterOverview = useMemo<ChapterOverviewItem[]>(() => {
-    let previousComplete = true;
+  const storedChapterOverview = useMemo<ChapterOverviewItem[]>(
+    () =>
+      (chapters ?? []).reduce<{ items: ChapterOverviewItem[]; previousComplete: boolean }>(
+        (acc, chapter, index) => {
+          const completedCount = countCompleted(chapterProgress[chapter.id], chapter.order);
+          const locked = index > 0 && !acc.previousComplete;
 
-    return (chapters ?? []).map((chapter, index) => {
-      const completedCount = countCompleted(chapterProgress[chapter.id], chapter.order);
-      const locked = index > 0 && !previousComplete;
+          return {
+            previousComplete: completedCount >= chapter.nodeCount,
+            items: [
+              ...acc.items,
+              {
+                ...chapter,
+                completedCount,
+                locked,
+              },
+            ],
+          };
+        },
+        { items: [], previousComplete: true },
+      ).items,
+    [chapterProgress, chapters],
+  );
 
-      previousComplete = completedCount >= chapter.nodeCount;
-
-      return {
-        ...chapter,
-        completedCount,
-        locked,
-      };
-    });
-  }, [chapterProgress, chapters]);
-
-  useEffect(() => {
-    if (!selectedChapter || !chapterOverview.length || isLoadingProgress) return;
-
-    const selected = chapterOverview.find((chapter) => chapter.id === selectedChapter);
-
-    if (selected?.locked) {
-      setSelectedChapter(null);
-    }
-  }, [chapterOverview, isLoadingProgress, selectedChapter]);
+  const selectedOverview = storedChapterOverview.find(
+    (chapter) => chapter.id === selectedChapterState,
+  );
+  const selectedChapter = selectedOverview?.locked ? null : selectedChapterState;
 
   const { data, isLoading, isError, refetch } = useGetChapterNodesQuery(selectedChapter ?? "", {
     skip: !selectedChapter,
   });
 
   const order = data?.order ?? [];
-  const { progress, completedCount, ready } = useChapterProgress(
-    selectedChapter ?? undefined,
-    order,
-  );
+  const { progress, completedCount } = useChapterProgress(selectedChapter ?? undefined, order);
   const currentChapter = chapters?.find((item) => item.id === selectedChapter);
   const progressPercent = order.length ? Math.round((completedCount / order.length) * 100) : 0;
   const progressClass = progressWidthClass(completedCount, order.length);
+  const visibleChapterProgress = useMemo(
+    () =>
+      selectedChapter
+        ? {
+            ...chapterProgress,
+            [selectedChapter]: progress,
+          }
+        : chapterProgress,
+    [chapterProgress, progress, selectedChapter],
+  );
+  const chapterOverview = useMemo<ChapterOverviewItem[]>(
+    () =>
+      (chapters ?? []).reduce<{ items: ChapterOverviewItem[]; previousComplete: boolean }>(
+        (acc, chapter, index) => {
+          const completedCount = countCompleted(visibleChapterProgress[chapter.id], chapter.order);
+          const locked = index > 0 && !acc.previousComplete;
 
-  useEffect(() => {
-    if (!selectedChapter || !ready) return;
-
-    setChapterProgress((current) => ({
-      ...current,
-      [selectedChapter]: progress,
-    }));
-  }, [progress, ready, selectedChapter]);
+          return {
+            previousComplete: completedCount >= chapter.nodeCount,
+            items: [
+              ...acc.items,
+              {
+                ...chapter,
+                completedCount,
+                locked,
+              },
+            ],
+          };
+        },
+        { items: [], previousComplete: true },
+      ).items,
+    [chapters, visibleChapterProgress],
+  );
 
   const sections = useMemo(() => {
-    const grouped: Array<{ label: string; nodes: ChapterNodeSummary[] }> = [];
+    const grouped: { label: string; nodes: ChapterNodeSummary[] }[] = [];
 
     for (const node of data?.nodes ?? []) {
       const label = sectionLabel(node.muc);
@@ -179,7 +196,7 @@ export default function ChapterSkillTreeScreen() {
       }
     }
 
-    return [] as Array<{ label: string; nodes: ChapterNodeSummary[] }>;
+    return [] as { label: string; nodes: ChapterNodeSummary[] }[];
   }, [data?.nodes]);
 
   if (isLoadingChapters || isLoadingProgress) {

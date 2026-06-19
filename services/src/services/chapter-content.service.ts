@@ -247,7 +247,7 @@ function buildQuizQuestion(row: ChapterCsvRow, index: 1 | 2 | 3): ChapterQuizQue
   };
 }
 
-function mapRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
+function _mapRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
   const hookType = row.hook_type === "drag" ? "drag" : "choice";
   const cards = splitTheoryCards(row.phan1_bai_doc);
   const icons = splitList(row.card_icons);

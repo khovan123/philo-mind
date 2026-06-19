@@ -30,6 +30,7 @@ import { seedBadges } from "./10-badges.js";
 import { seedTopicPerspectives } from "./11-topic-perspectives.js";
 import { seedMiniGames } from "./11-minigames.js";
 import { seedMindmaps } from "./12-mindmaps.js";
+import { seedChapter01 } from "./13-chapter-01.js";
 
 async function main() {
   console.log("\n🌱 PhiloMind Seed Runner");
@@ -59,6 +60,10 @@ async function main() {
   // ── Phase 3: Lesson-dependent (needs Lesson records) ─────
   seedHeader("Phase 3 — Lesson-Dependent");
   await seedQuizzes(prisma);
+
+  // ── Phase 4: Chapter 1 canonical content (self-contained) ─
+  seedHeader("Phase 4 — Chapter 1 Canonical Content");
+  await seedChapter01(prisma);
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(2);
   console.log(`\n${"═".repeat(50)}`);

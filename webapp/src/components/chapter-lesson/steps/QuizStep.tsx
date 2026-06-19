@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import { Callout, cn, PrimaryButton, StepBadge } from "@/components/chapter-lesson/ChapterLessonUI";
@@ -27,18 +27,6 @@ export function QuizStep({
   const safeIndex = Math.min(Math.max(index, 0), Math.max(node.quiz.length - 1, 0));
   const question = node.quiz[safeIndex];
   const selected = answers[safeIndex];
-
-  useEffect(() => {
-    setAnswers(initialAnswers ?? {});
-  }, [initialAnswers]);
-
-  useEffect(() => {
-    setIndex(initialIndex ?? 0);
-  }, [initialIndex]);
-
-  useEffect(() => {
-    setShowResult(Boolean(initialShowResult));
-  }, [initialShowResult]);
 
   const correctCount = useMemo(
     () => node.quiz.filter((q, itemIndex) => answers[itemIndex] === q.answerIndex).length,

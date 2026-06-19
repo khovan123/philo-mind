@@ -68,12 +68,6 @@ function extractTable(body: string, heading: string): Record<string, string>[] {
 }
 
 export async function seedMindmaps(prisma: PrismaClient): Promise<void> {
-  const existing = await prisma.mindmapNode.count();
-  if (existing > 0) {
-    seedSkip("MindmapNode", `already has ${existing} records`);
-    return;
-  }
-
   let files: string[] = [];
   try {
     files = readdirSync(MINDMAPS_DIR).filter((file) => file.endsWith(".md"));
@@ -103,6 +97,12 @@ export async function seedMindmaps(prisma: PrismaClient): Promise<void> {
 
     if (!topic) {
       console.warn(`    ⚠ No topic found for mindmap "${parsed.metadata.chủ_đề}" — skipping`);
+      continue;
+    }
+
+    // Idempotent per-topic: bỏ qua topic đã có node mindmap.
+    const topicHasNodes = await prisma.mindmapNode.count({ where: { topicId: topic.id } });
+    if (topicHasNodes > 0) {
       continue;
     }
 
