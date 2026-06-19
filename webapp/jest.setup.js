@@ -18,4 +18,3 @@ jest.mock("expo-secure-store", () => {
     deleteItemAsync: jest.fn().mockResolvedValue(undefined),
   };
 });
-

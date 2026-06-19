@@ -120,4 +120,3 @@ export * from "./validators/topic.validator.js";
 
 export { topicIdSchema } from "./validators/topic.validator.js";
 export type { SubmitAnswerInput } from "./validators/lesson.validator.js";
-

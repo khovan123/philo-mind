@@ -11,13 +11,13 @@ Codebase **không có gì "vỡ"** — chất lượng kỹ thuật cao, nhưng 
 
 ### Bằng chứng sức khỏe hệ thống (chạy 2026-06-16)
 
-| Kiểm tra | Lệnh | Kết quả |
-| --- | --- | --- |
-| Backend typecheck | `npx tsc -p services/tsconfig.json --noEmit` | ✅ 0 lỗi |
-| Backend tests | `npm run test -w services` | ✅ 546 pass / 38 suites |
-| Backend lint | `npm run lint -w services` | ✅ 0 error, 10 warning |
-| Frontend tests | `npm run test -w webapp` | ✅ 102 pass / 4 suites |
-| Frontend lint | `npm run lint -w webapp` | ✅ 0 error, 34 warning |
+| Kiểm tra          | Lệnh                                         | Kết quả                 |
+| ----------------- | -------------------------------------------- | ----------------------- |
+| Backend typecheck | `npx tsc -p services/tsconfig.json --noEmit` | ✅ 0 lỗi                |
+| Backend tests     | `npm run test -w services`                   | ✅ 546 pass / 38 suites |
+| Backend lint      | `npm run lint -w services`                   | ✅ 0 error, 10 warning  |
+| Frontend tests    | `npm run test -w webapp`                     | ✅ 102 pass / 4 suites  |
+| Frontend lint     | `npm run lint -w webapp`                     | ✅ 0 error, 34 warning  |
 
 ### Quyết định đã chốt (2026-06-17)
 
@@ -31,23 +31,23 @@ Codebase **không có gì "vỡ"** — chất lượng kỹ thuật cao, nhưng 
 
 `Chapter1.md` là **nguồn nội dung canonical** cho cả app. Gồm **6 mục**, mỗi mục có **cùng một khuôn 4 phần** map thẳng vào feature & schema:
 
-| Phần trong giáo trình | Feature app | Model / enum |
-| --- | --- | --- |
-| **Bài đọc chính** (hook + khái niệm + ví dụ thực tế) | Lesson / Short-lesson / Flashcard | `Lesson`, `ShortLesson` |
-| **Quiz** (3 câu: trắc nghiệm · tình huống · logic) | Quiz | `Quiz`, `QuizQuestion`, `QuestionType.SINGLE_CHOICE / MORAL_DILEMMA / LOGIC` |
-| **Tình huống đạo đức** (4 góc nhìn: thực dụng · nghĩa vụ · đức hạnh · quan tâm) | Scenario + perspectives | `RealLifeScenario`, `ScenarioPerspective` |
-| **Tranh luận** (Quan điểm A/B) + **câu hỏi mở** | Debate + Reflection | `Debate`, `DebateArgument`, `CriticalQuestion` |
+| Phần trong giáo trình                                                           | Feature app                       | Model / enum                                                                 |
+| ------------------------------------------------------------------------------- | --------------------------------- | ---------------------------------------------------------------------------- |
+| **Bài đọc chính** (hook + khái niệm + ví dụ thực tế)                            | Lesson / Short-lesson / Flashcard | `Lesson`, `ShortLesson`                                                      |
+| **Quiz** (3 câu: trắc nghiệm · tình huống · logic)                              | Quiz                              | `Quiz`, `QuizQuestion`, `QuestionType.SINGLE_CHOICE / MORAL_DILEMMA / LOGIC` |
+| **Tình huống đạo đức** (4 góc nhìn: thực dụng · nghĩa vụ · đức hạnh · quan tâm) | Scenario + perspectives           | `RealLifeScenario`, `ScenarioPerspective`                                    |
+| **Tranh luận** (Quan điểm A/B) + **câu hỏi mở**                                 | Debate + Reflection               | `Debate`, `DebateArgument`, `CriticalQuestion`                               |
 
 ### 6 mục Chương 1 → 6 Topic (gom bằng `Topic.category = "Chương 1"`)
 
-| # | Mục | Tiêu đề | Trục tư duy chính |
-| --- | --- | --- | --- |
-| 1 | I.1 | Khái lược về Triết học | nguồn gốc nhận thức/xã hội, thế giới quan |
-| 2 | I.2 | Vấn đề cơ bản của Triết học | vật chất ↔ ý thức; khả năng nhận thức |
-| 3 | I.3 | Biện chứng và Siêu hình | tĩnh/cô lập ↔ vận động/liên hệ |
-| 4 | II.1 | Sự ra đời & phát triển của triết học Mác–Lênin | điều kiện KT-XH, KHTN, cách mạng triết học |
-| 5 | II.2a | Đối tượng & chức năng của triết học Mác–Lênin | thế giới quan + phương pháp luận |
-| 6 | II.2b | Vai trò trong đời sống & đổi mới ở Việt Nam | lý luận → thực tiễn (Đổi mới 1986) |
+| #   | Mục   | Tiêu đề                                        | Trục tư duy chính                          |
+| --- | ----- | ---------------------------------------------- | ------------------------------------------ |
+| 1   | I.1   | Khái lược về Triết học                         | nguồn gốc nhận thức/xã hội, thế giới quan  |
+| 2   | I.2   | Vấn đề cơ bản của Triết học                    | vật chất ↔ ý thức; khả năng nhận thức      |
+| 3   | I.3   | Biện chứng và Siêu hình                        | tĩnh/cô lập ↔ vận động/liên hệ             |
+| 4   | II.1  | Sự ra đời & phát triển của triết học Mác–Lênin | điều kiện KT-XH, KHTN, cách mạng triết học |
+| 5   | II.2a | Đối tượng & chức năng của triết học Mác–Lênin  | thế giới quan + phương pháp luận           |
+| 6   | II.2b | Vai trò trong đời sống & đổi mới ở Việt Nam    | lý luận → thực tiễn (Đổi mới 1986)         |
 
 > **Lưu ý kiến trúc:** schema **không có model `Chapter`**. Dùng `Topic.category` để gom nhóm chương (không cần đổi schema). `Topic` đã liên kết sẵn lessons/shortLessons/scenarios/debates/criticalQuestions/mindmapNodes/perspectives → đủ cho toàn bộ mapping trên.
 

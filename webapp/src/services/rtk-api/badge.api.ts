@@ -42,20 +42,31 @@ export const badgeApi = baseApi.injectEndpoints({
       }),
       transformResponse: (response: any) => {
         const badges = Array.isArray(response) ? response : [];
-        
+
         const mapConditionToIcon = (cond: string) => {
           switch (cond) {
-            case "activity_count_1": return "sparkles";
-            case "reflection_count_5": return "brain";
-            case "lesson_count_5": return "book_open";
-            case "quiz_count_3": return "trophy";
-            case "debate_count_5": return "message_circle";
-            case "story_count_3": return "scroll_text";
-            case "streak_count_3": return "flame";
-            case "short_lesson_count_10": return "sparkles";
-            case "activity_count_20": return "shield_check";
-            case "streak_count_7": return "shield_check";
-            default: return "award";
+            case "activity_count_1":
+              return "sparkles";
+            case "reflection_count_5":
+              return "brain";
+            case "lesson_count_5":
+              return "book_open";
+            case "quiz_count_3":
+              return "trophy";
+            case "debate_count_5":
+              return "message_circle";
+            case "story_count_3":
+              return "scroll_text";
+            case "streak_count_3":
+              return "flame";
+            case "short_lesson_count_10":
+              return "sparkles";
+            case "activity_count_20":
+              return "shield_check";
+            case "streak_count_7":
+              return "shield_check";
+            default:
+              return "award";
           }
         };
 

@@ -140,7 +140,10 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
       const next = updater(normalizeProgress(progressRef.current, order));
       progressRef.current = next;
       setProgress(next);
-      await securePersistStorage.setItem(getChapterProgressStorageKey(chapter), JSON.stringify(next));
+      await securePersistStorage.setItem(
+        getChapterProgressStorageKey(chapter),
+        JSON.stringify(next),
+      );
     },
     [chapter, order],
   );

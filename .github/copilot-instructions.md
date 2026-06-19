@@ -1,4 +1,5 @@
 <!-- managed by ContextOS -->
+
 # ContextOS Integration
 
 This project uses [ContextOS](https://github.com/khovan123/contextOS) for task-aware context injection.

@@ -2,11 +2,5 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {},
   "Description": "Extend base configuration from root workspace",
-  "exclude": [
-    "node_modules",
-    "webapp",
-    "babel.config.js",
-    "jest.config.js",
-    "metro.config.js"
-  ]
+  "exclude": ["node_modules", "webapp", "babel.config.js", "jest.config.js", "metro.config.js"]
 }

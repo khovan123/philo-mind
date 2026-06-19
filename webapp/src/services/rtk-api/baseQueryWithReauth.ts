@@ -152,7 +152,11 @@ async function runBaseQueryWithRetry(
     return result;
   }
 
-  for (let attempt = 0; attempt < SAFE_RETRY_COUNT && isRetryableError(result.error); attempt += 1) {
+  for (
+    let attempt = 0;
+    attempt < SAFE_RETRY_COUNT && isRetryableError(result.error);
+    attempt += 1
+  ) {
     result = await rawBaseQuery(args, api, extraOptions);
   }
 
