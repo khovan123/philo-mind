@@ -15,6 +15,7 @@ import { useGetChapterNodeQuery, useGetChapterNodesQuery } from "@/services/rtk-
 import type {
   ChapterDraftState,
   ChapterLessonStep,
+  ChapterProgressItem,
   ChapterReviewState,
 } from "@/types/chapterLesson";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
