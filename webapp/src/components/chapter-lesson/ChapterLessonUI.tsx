@@ -5,7 +5,7 @@ import { LessonColors } from "@/constants/chapterLesson";
 import type { ChapterLessonStep } from "@/types/chapterLesson";
 import { Pressable, View } from "@/tw";
 
-export function cn(...classes: Array<string | false | null | undefined>) {
+export function cn(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { ThemedText } from "@/components/themed-text";
 import {
@@ -24,10 +24,6 @@ export function DebateStep({
   onDone: (score: number, selected: "A" | "B") => void;
 }) {
   const [selected, setSelected] = useState<"A" | "B" | null>(initialChoice ?? null);
-
-  useEffect(() => {
-    setSelected(initialChoice ?? null);
-  }, [initialChoice]);
 
   function selectOption(option: "A" | "B") {
     setSelected(option);

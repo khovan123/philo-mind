@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
@@ -22,6 +22,13 @@ import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
 const ACCENT = LessonColors.accent;
 
 type FlowStep = ChapterLessonStep;
+type FlowState = {
+  lessonKey: string;
+  hydrated: boolean;
+  step: FlowStep;
+  quizScore: number;
+  reviewState: ChapterReviewState;
+};
 
 function toFlowStep(value: unknown): FlowStep {
   return value === 1 || value === 2 || value === 3 ? value : 0;
@@ -29,6 +36,38 @@ function toFlowStep(value: unknown): FlowStep {
 
 function stepName(step: FlowStep) {
   return CHAPTER_LESSON_STEP_NAMES[step];
+}
+
+function createDefaultFlowState(lessonKey: string): FlowState {
+  return {
+    lessonKey,
+    hydrated: false,
+    step: 0,
+    quizScore: 0,
+    reviewState: {},
+  };
+}
+
+function createHydratedFlowState({
+  currentProgress,
+  isReplay,
+  lessonKey,
+}: {
+  currentProgress?: ChapterProgressItem;
+  isReplay: boolean;
+  lessonKey: string;
+}): FlowState {
+  const draft = currentProgress?.draft;
+  const reviewState = currentProgress?.review ?? draft?.review ?? {};
+
+  return {
+    lessonKey,
+    hydrated: true,
+    step: currentProgress?.status === "done" && isReplay ? 0 : toFlowStep(draft?.step),
+    quizScore:
+      currentProgress?.status === "done" ? (currentProgress.score ?? 0) : (draft?.quizScore ?? 0),
+    reviewState,
+  };
 }
 
 export default function ChapterLessonFlowScreen() {
@@ -52,38 +91,27 @@ export default function ChapterLessonFlowScreen() {
     { skip: !chapter || !muc },
   );
 
-  const [step, setStep] = useState<FlowStep>(0);
-  const [quizScore, setQuizScore] = useState(0);
-  const [reviewState, setReviewState] = useState<ChapterReviewState>({});
-  const hydratedLessonKey = useRef<string | null>(null);
-
   const { completeNode, saveNodeDraft, progress, ready } = useChapterProgress(chapter, order);
   const currentProgress = muc ? progress[muc] : undefined;
   const currentDraft = currentProgress?.draft;
+  const lessonKey = `${chapter ?? ""}:${muc ?? ""}:${isReplay ? "replay" : "learn"}`;
+  const [flowState, setFlowState] = useState<FlowState>(() => createDefaultFlowState(lessonKey));
 
-  useEffect(() => {
-    hydratedLessonKey.current = null;
-    setStep(0);
-    setQuizScore(0);
-    setReviewState({});
-  }, [chapter, muc]);
+  if (flowState.lessonKey !== lessonKey) {
+    setFlowState(createDefaultFlowState(lessonKey));
+  } else if (ready && muc && !flowState.hydrated) {
+    setFlowState(
+      createHydratedFlowState({
+        currentProgress,
+        isReplay,
+        lessonKey,
+      }),
+    );
+  }
 
-  useEffect(() => {
-    if (!ready || !muc) return;
-
-    const lessonKey = `${chapter ?? ""}:${muc}`;
-    if (hydratedLessonKey.current === lessonKey) return;
-
-    hydratedLessonKey.current = lessonKey;
-
-    const item = progress[muc];
-    const draft = item?.draft;
-    const review = item?.review ?? draft?.review ?? {};
-
-    setReviewState(review);
-    setQuizScore(item?.status === "done" ? (item.score ?? 0) : (draft?.quizScore ?? 0));
-    setStep(item?.status === "done" && isReplay ? 0 : toFlowStep(draft?.step));
-  }, [chapter, isReplay, muc, progress, ready]);
+  const activeFlowState =
+    flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey);
+  const { step, quizScore, reviewState } = activeFlowState;
 
   function persistDraft(next: Partial<ChapterDraftState>) {
     if (!muc) return;
@@ -102,7 +130,7 @@ export default function ChapterLessonFlowScreen() {
       ...nextReview,
     };
 
-    setReviewState(mergedReview);
+    setFlowState((current) => ({ ...current, reviewState: mergedReview }));
     persistDraft({
       review: mergedReview,
       ...nextDraft,
@@ -112,7 +140,7 @@ export default function ChapterLessonFlowScreen() {
   }
 
   function moveToStep(nextStep: FlowStep, nextDraft?: Partial<ChapterDraftState>) {
-    setStep(nextStep);
+    setFlowState((current) => ({ ...current, step: nextStep }));
     persistDraft({
       step: nextStep,
       ...nextDraft,
@@ -225,7 +253,7 @@ export default function ChapterLessonFlowScreen() {
                         { step: 3, quizScore: score, quizIndex: node.quiz.length - 1 },
                       );
 
-                      setQuizScore(score);
+                      setFlowState((current) => ({ ...current, quizScore: score }));
                       moveToStep(3, {
                         review: mergedReview,
                         quizScore: score,
