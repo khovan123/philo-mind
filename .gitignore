@@ -77,6 +77,8 @@ docs/*
 /.codex/config.toml.bak
 /.mcp.json
 /.mcp.json.bak
+/.vscode/mcp.json
+/.vscode/mcp.json.bak
 /AGENTS.md
 /AGENTS.md.bak
 /CLAUDE.md
