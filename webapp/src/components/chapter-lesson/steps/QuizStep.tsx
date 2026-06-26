@@ -11,6 +11,7 @@ export function QuizStep({
   initialAnswers,
   initialIndex,
   initialShowResult,
+  readOnly = false,
   onProgress,
   onDone,
 }: {
@@ -18,12 +19,14 @@ export function QuizStep({
   initialAnswers?: Record<number, number>;
   initialIndex?: number;
   initialShowResult?: boolean;
+  readOnly?: boolean;
   onProgress: (draft: Partial<ChapterDraftState>) => void;
   onDone: (score: number, answers: Record<number, number>) => void;
 }) {
   const [index, setIndex] = useState(initialIndex ?? 0);
   const [answers, setAnswers] = useState<Record<number, number>>(initialAnswers ?? {});
   const [showResult, setShowResult] = useState(Boolean(initialShowResult));
+
   const safeIndex = Math.min(Math.max(index, 0), Math.max(node.quiz.length - 1, 0));
   const question = node.quiz[safeIndex];
   const selected = answers[safeIndex];
@@ -40,12 +43,15 @@ export function QuizStep({
   }
 
   function chooseAnswer(optionIndex: number) {
+    if (readOnly || selected !== undefined) return;
+
     const nextAnswers = {
       ...answers,
       [safeIndex]: optionIndex,
     };
 
     setAnswers(nextAnswers);
+
     onProgress({
       review: { quizAnswers: nextAnswers },
       quizIndex: safeIndex,
@@ -57,23 +63,35 @@ export function QuizStep({
   function nextQuestion() {
     if (safeIndex === node.quiz.length - 1) {
       setShowResult(true);
-      onProgress({
-        review: { quizAnswers: answers },
-        quizIndex: safeIndex,
-        quizScore: correctCount,
-        quizShowResult: true,
-      });
+
+      if (!readOnly) {
+        onProgress({
+          review: { quizAnswers: answers },
+          quizIndex: safeIndex,
+          quizScore: correctCount,
+          quizShowResult: true,
+        });
+      }
+
       return;
     }
 
     const nextIndex = safeIndex + 1;
     setIndex(nextIndex);
-    onProgress({
-      review: { quizAnswers: answers },
-      quizIndex: nextIndex,
-      quizScore: correctCount,
-      quizShowResult: false,
-    });
+
+    if (!readOnly) {
+      onProgress({
+        review: { quizAnswers: answers },
+        quizIndex: nextIndex,
+        quizScore: correctCount,
+        quizShowResult: false,
+      });
+    }
+  }
+
+  function previousQuestion() {
+    if (safeIndex <= 0) return;
+    setIndex(safeIndex - 1);
   }
 
   if (done && showResult) {
@@ -89,10 +107,12 @@ export function QuizStep({
         </View>
 
         <ThemedText className="px-5 text-center text-[17px] font-semibold leading-7 text-white">
-          Ổn rồi. Giờ thử đứng trước hai quan điểm đối lập.
+          {readOnly ? "Bạn đang xem lại bài đã hoàn thành." : "Bạn đã hoàn thành bài học này."}
         </ThemedText>
 
-        <PrimaryButton label="Vào tranh luận →" onPress={() => onDone(correctCount, answers)} />
+        {!readOnly ? (
+          <PrimaryButton label="Hoàn thành bài" onPress={() => onDone(correctCount, answers)} />
+        ) : null}
       </View>
     );
   }
@@ -119,13 +139,14 @@ export function QuizStep({
       <View className="gap-3">
         {question.options.map((option, optionIndex) => {
           const isSelected = selected === optionIndex;
-          const isCorrect = selected !== undefined && optionIndex === question.answerIndex;
+          const hasSelected = selected !== undefined;
+          const isCorrect = hasSelected && optionIndex === question.answerIndex;
           const isWrong = isSelected && optionIndex !== question.answerIndex;
 
           return (
             <Pressable
               key={`${option}-${optionIndex}`}
-              disabled={selected !== undefined}
+              disabled={readOnly || hasSelected}
               className={cn(
                 "min-h-[58px] flex-row items-center gap-4 rounded-2xl border border-[#2D2D39] bg-[#171720] px-4 py-3",
                 isCorrect && "border-[#35B779]",
@@ -140,7 +161,12 @@ export function QuizStep({
                   isWrong && "border-[#E15A5A] bg-[#E15A5A]",
                 )}
               >
-                <ThemedText className="text-sm font-extrabold text-[#FF8517]">
+                <ThemedText
+                  className={cn(
+                    "text-sm font-extrabold text-[#FF8517]",
+                    (isCorrect || isWrong) && "text-[#101018]",
+                  )}
+                >
                   {String.fromCharCode(65 + optionIndex)}
                 </ThemedText>
               </View>
@@ -156,10 +182,26 @@ export function QuizStep({
       {selected !== undefined ? (
         <>
           <Callout text={question.explanation} />
-          <PrimaryButton
-            label={safeIndex === node.quiz.length - 1 ? "Xem kết quả →" : "Câu tiếp →"}
-            onPress={nextQuestion}
-          />
+
+          <View className="flex-row gap-3">
+            {safeIndex > 0 ? (
+              <Pressable
+                className="mt-2 min-h-[56px] flex-1 items-center justify-center rounded-2xl border border-[#2D2D39] bg-[#171720] px-5"
+                onPress={previousQuestion}
+              >
+                <ThemedText className="text-[16px] font-extrabold text-white">
+                  ← Câu trước
+                </ThemedText>
+              </Pressable>
+            ) : null}
+
+            <View className="flex-1">
+              <PrimaryButton
+                label={safeIndex === node.quiz.length - 1 ? "Xem kết quả →" : "Câu tiếp →"}
+                onPress={nextQuestion}
+              />
+            </View>
+          </View>
         </>
       ) : null}
     </View>

@@ -9,15 +9,33 @@ export function cn(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export function StepBar({ step }: { step: ChapterLessonStep }) {
+export function StepBar({
+  step,
+  maxPressableStep = step,
+  onStepPress,
+}: {
+  step: ChapterLessonStep;
+  maxPressableStep?: ChapterLessonStep;
+  onStepPress?: (step: ChapterLessonStep) => void;
+}) {
+  const steps: ChapterLessonStep[] = [0, 1, 2];
+
   return (
     <View className="mt-3 flex-row gap-1.5">
-      {[0, 1, 2, 3].map((item) => (
-        <View
-          key={item}
-          className={cn("h-1 flex-1 rounded-full bg-[#282832]", item <= step && "bg-[#FF8517]")}
-        />
-      ))}
+      {steps.map((item) => {
+        const canPress = Boolean(onStepPress) && item <= maxPressableStep;
+
+        return (
+          <Pressable
+            key={item}
+            disabled={!canPress}
+            className="h-5 flex-1 justify-center"
+            onPress={() => onStepPress?.(item)}
+          >
+            <View className={cn("h-1 rounded-full bg-[#282832]", item <= step && "bg-[#FF8517]")} />
+          </Pressable>
+        );
+      })}
     </View>
   );
 }

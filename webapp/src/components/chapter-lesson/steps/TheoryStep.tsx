@@ -80,7 +80,7 @@ export function TheoryStep({
           onPress={() => (last ? onDone(safeIndex) : changeIndex(safeIndex + 1))}
         >
           <ThemedText className="text-base font-extrabold text-[#FF8517]">
-            {last ? "Vào quiz →" : "Thẻ tiếp →"}
+            {last ? "Quiz →" : "Thẻ tiếp →"}
           </ThemedText>
         </Pressable>
       </View>

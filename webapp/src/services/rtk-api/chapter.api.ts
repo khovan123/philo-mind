@@ -37,7 +37,7 @@ export type ChapterNodeSummary = {
   title: string;
   order: number;
   hookType: "choice" | "drag";
-  steps: ["hook", "theory", "quiz", "debate"];
+  steps: ["hook", "theory", "quiz"];
 };
 
 export type ChapterNode = Omit<ChapterNodeSummary, "steps"> & {

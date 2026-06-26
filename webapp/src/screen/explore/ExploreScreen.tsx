@@ -1,829 +1,739 @@
+import { useMemo, useState } from "react";
 import { useRouter } from "expo-router";
-import {
-  ArrowRight,
-  BookOpen,
-  ChevronDown,
-  ChevronUp,
-  Search,
-  Sparkles,
-} from "lucide-react-native";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft, ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
+import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { cn } from "@/lib/utils";
-import { useListLessonsQuery } from "@/services/rtk-api/lesson.api";
-import { useListTopicsQuery } from "@/services/rtk-api/topic.api";
+import {
+  type ChapterMeta,
+  useGetChapterNodesQuery,
+  useGetChaptersQuery,
+} from "@/services/rtk-api/chapter.api";
 import { Pressable, ScrollView, TextInput, View } from "@/tw";
-import { Image } from "@/tw/image";
 
-type TFunction = (key: string, options?: { count?: number; [key: string]: unknown }) => string;
+const CHAPTER_ID = "1";
+const MIN_FEATURED_COUNT = 3;
 
 const Colors = {
-  background: "#0C0C0E",
-  surface: "#161618",
-  surfaceSoft: "#18181B",
-  input: "#1E1E22",
-  chip: "#27272A",
-  border: "#353437",
-  text: "#E5E1E4",
-  muted: "#A1A1AA",
   locked: "#52525B",
-  primary: "#D97706",
   primaryLight: "#FFB77D",
   primaryText: "#0C0C0E",
 };
 
-const featuredImage =
-  "https://lh3.googleusercontent.com/aida/ADBb0uhB-BsNh_Qy7s6akK1COFe_ezvtoKv-rL3DQfw0HQaL96njTcP3KNp2pMCO15nzCnD0Bdkq3XO8B7uxVMIsK4jyNnJTRUnEeiN0BDMnsilmtR5ITDbnHNNgY1VmcZNNeMfHCWnKO10H-r0_bPpCvxFutPxvx7zn_Pxyr6bkr22qEzKFJ52m0XOKIlQqVl2kXiUzOxTREEGwi-z5HVNoGTTJIoNRL0pdLhSQ8tp_Y2rylPldVEoeheiiMfzw";
-
-const filterItems = [
-  { key: "all", dbValue: "Tất cả", labelKey: "explore.filter_all" },
-  { key: "ethics", dbValue: "Đạo đức", labelKey: "explore.filter_ethics" },
-  { key: "history", dbValue: "Lịch sử", labelKey: "explore.filter_history" },
-  { key: "politics", dbValue: "Chính trị", labelKey: "explore.filter_politics" },
-  { key: "society", dbValue: "Xã hội", labelKey: "explore.filter_society" },
-];
-
-const getFeaturedLessons = (t: TFunction) => [
-  {
-    title: t("home.learning_socrates_title"),
-    category: t("explore.filter_ethics"),
-    duration: t("explore.lessons_suffix", { count: 8 }),
-    description: t("explore.fallback_socrates_desc"),
-    image: featuredImage,
-    fullRoute: "/full-lesson",
-    scenarioRoute: "/trial-of-socrates",
-    shortRoute: "/short-lesson",
-  },
-  {
-    title: t("explore.fallback_sartre_title"),
-    category: t("explore.fallback_sartre_category"),
-    duration: t("explore.lessons_suffix", { count: 5 }),
-    description: t("explore.fallback_sartre_desc"),
-    image: featuredImage,
-    fullRoute: "/full-lesson",
-    scenarioRoute: "/trial-of-socrates",
-    shortRoute: "/short-lesson",
-  },
-  {
-    title: t("explore.fallback_social_contract_title"),
-    category: t("explore.fallback_social_contract_category"),
-    duration: t("explore.lessons_suffix", { count: 8 }),
-    description: t("explore.fallback_social_contract_desc"),
-    image: null,
-    fullRoute: "/full-lesson",
-    scenarioRoute: "/trial-of-socrates",
-    shortRoute: "/short-lesson",
-  },
-];
-
-const getTopicsFallback = (t: TFunction) => [
-  {
-    title: t("explore.filter_ethics"),
-    lessons: t("explore.lessons_suffix", { count: 12 }),
-    progress: 34,
-    category: "Đạo đức",
-  },
-  {
-    title: t("home.learning_socrates_subtitle"),
-    lessons: t("explore.lessons_suffix", { count: 8 }),
-    progress: 66,
-    category: "Đạo đức",
-  },
-  {
-    title: t("explore.filter_politics"),
-    lessons: t("explore.lessons_suffix", { count: 15 }),
-    progress: 25,
-    category: "Chính trị",
-  },
-  {
-    title: t("explore.fallback_sartre_category"),
-    lessons: t("explore.lessons_suffix", { count: 20 }),
-    progress: 100,
-    category: "Đạo đức",
-  },
-  {
-    title: "Logic",
-    lessons: t("explore.lessons_suffix", { count: 10 }),
-    progress: 50,
-    category: "Đạo đức",
-  },
-  {
-    title: "AI Ethics",
-    lessons: t("explore.lessons_suffix", { count: 6 }),
-    progress: 12,
-    category: "Xã hội",
-  },
-];
-
-const getCategoryTranslation = (cat: string, t: TFunction) => {
-  const normalized = cat.toLowerCase();
-  switch (normalized) {
-    case "đạo đức":
-    case "ethics":
-      return t("explore.filter_ethics");
-    case "lịch sử":
-    case "history":
-      return t("explore.filter_history");
-    case "chính trị":
-    case "politics":
-      return t("explore.filter_politics");
-    case "xã hội":
-    case "society":
-      return t("explore.filter_society");
-    case "tất cả":
-    case "all":
-      return t("explore.filter_all");
-    default:
-      return cat;
-  }
+type ChapterTheoryCard = {
+  id: string;
+  icon?: string;
+  body: string;
 };
 
+type ChapterNodeForExplore = {
+  chuong?: number;
+  muc: string;
+  title: string;
+  order: number;
+  hookType?: "choice" | "drag";
+  theoryCards?: ChapterTheoryCard[];
+  completedCount?: number;
+};
+
+type ExploreTheoryLesson = {
+  chapter: string;
+  muc: string;
+  title: string;
+  order: number;
+  completedCount: number;
+  theoryCards: ChapterTheoryCard[];
+};
+
+function cn(...classes: (string | false | null | undefined)[]) {
+  return classes.filter(Boolean).join(" ");
+}
+
+function toSearchText(lesson: ExploreTheoryLesson) {
+  return [
+    lesson.muc,
+    lesson.title,
+    ...lesson.theoryCards.map((card) => `${card.icon ?? ""} ${card.body}`),
+  ]
+    .join(" ")
+    .toLowerCase();
+}
+
+function truncateText(text: string, limit = 120) {
+  if (text.length <= limit) return text;
+  return `${text.slice(0, limit).trim()}...`;
+}
+
+function getLessonKey(lesson: ExploreTheoryLesson) {
+  return `${lesson.chapter}-${lesson.muc}`;
+}
+
+function getProgressWidthClass(progress: number) {
+  const progressMap: Record<number, string> = {
+    32: "w-[32%]",
+    48: "w-[48%]",
+    64: "w-[64%]",
+    82: "w-[82%]",
+  };
+
+  return progressMap[progress] ?? "w-0";
+}
+
 export default function ExploreScreen() {
-  const { t } = useTranslation();
   const router = useRouter();
+
   const [activeTab, setActiveTab] = useState<"discovery" | "chapters">("discovery");
-  const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({});
-  const { data: dbLessons = [] } = useListLessonsQuery({ limit: 100 });
-
-  const lessonsByTopic = useMemo(() => {
-    const map: Record<string, typeof dbLessons> = {};
-
-    for (const lesson of dbLessons) {
-      if (!lesson.topicId) continue;
-      if (!map[lesson.topicId]) {
-        map[lesson.topicId] = [];
-      }
-      map[lesson.topicId].push(lesson);
-    }
-
-    return map;
-  }, [dbLessons]);
-
-  // Set up visible filters dynamically
-  const { data: allTopics = [] } = useListTopicsQuery({ limit: 100 });
-  const visibleFilters = useMemo(() => {
-    const categories = Array.from(
-      new Set(allTopics.map((topic) => topic.category).filter(Boolean) as string[]),
-    );
-
-    // Ensure default dbValues are mapped or added if they aren't in database
-    const baseItems = filterItems.map((item) => ({
-      key: item.key,
-      dbValue: item.dbValue,
-      label: t(item.labelKey),
-    }));
-
-    // Add any categories from db not in the default items
-    categories.forEach((cat) => {
-      if (!baseItems.some((item) => item.dbValue === cat)) {
-        baseItems.push({
-          key: cat,
-          dbValue: cat,
-          label: getCategoryTranslation(cat, t),
-        });
-      }
-    });
-
-    return baseItems;
-  }, [allTopics, t]);
-
-  const [activeFilterKey, setActiveFilterKey] = useState("all");
   const [query, setQuery] = useState("");
-  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [selectedLessonKey, setSelectedLessonKey] = useState<string | null>(null);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setDebouncedQuery(query.trim()), 300);
-    return () => clearTimeout(timeout);
-  }, [query]);
+  const {
+    data: chapterData,
+    isLoading: isLoadingChapterNodes,
+    isError: isChapterNodesError,
+    refetch: refetchChapterNodes,
+  } = useGetChapterNodesQuery(CHAPTER_ID);
 
-  const activeFilterItem = useMemo(() => {
-    return (
-      visibleFilters.find((f) => f.key === activeFilterKey) ||
-      visibleFilters[0] || { key: "all", dbValue: "Tất cả", label: t("explore.filter_all") }
-    );
-  }, [activeFilterKey, visibleFilters, t]);
+  const {
+    data: chapters = [],
+    isLoading: isLoadingChapters,
+    isError: isChaptersError,
+    refetch: refetchChapters,
+  } = useGetChaptersQuery();
 
-  const topicCategory = activeFilterItem.key === "all" ? undefined : activeFilterItem.dbValue;
-  const { data: dbTopics = [] } = useListTopicsQuery({
-    search: debouncedQuery || undefined,
-    category: topicCategory,
-    limit: 30,
-  });
+  const theoryLessons = useMemo<ExploreTheoryLesson[]>(() => {
+    const nodes = ((chapterData?.nodes ?? []) as ChapterNodeForExplore[])
+      .filter((node) => node.muc && node.title)
+      .sort((a, b) => a.order - b.order);
+
+    return nodes
+      .map((node) => ({
+        chapter: CHAPTER_ID,
+        muc: node.muc,
+        title: node.title,
+        order: node.order,
+        completedCount: node.completedCount ?? 0,
+        theoryCards: node.theoryCards ?? [],
+      }))
+      .filter((lesson) => lesson.theoryCards.length > 0);
+  }, [chapterData?.nodes]);
 
   const normalizedQuery = query.trim().toLowerCase();
 
-  const featuredLessonsToUse = useMemo(() => {
-    if (dbTopics.length === 0) {
-      return getFeaturedLessons(t);
-    }
+  const filteredTheoryLessons = useMemo(() => {
+    if (!normalizedQuery) return theoryLessons;
 
-    return dbTopics.slice(0, 6).map((topic) => ({
-      topicId: topic.id,
-      title: topic.title,
-      category: getCategoryTranslation(topic.category ?? "Triết học", t),
-      duration: t("explore.lessons_suffix", { count: topic._count?.lessons ?? 0 }),
-      description: topic.description ?? t("explore.empty_text"),
-      image: featuredImage,
-      fullRoute: "/full-lesson",
-      scenarioRoute: "/trial-of-socrates",
-      shortRoute: "/short-lesson",
-    }));
-  }, [dbTopics, t]);
+    return theoryLessons.filter((lesson) => toSearchText(lesson).includes(normalizedQuery));
+  }, [normalizedQuery, theoryLessons]);
 
-  const filteredLessons = useMemo(
-    () =>
-      featuredLessonsToUse.filter((lesson) => {
-        const matchesFilter =
-          activeFilterItem.key === "all" ||
-          lesson.category === activeFilterItem.label ||
-          lesson.category === activeFilterItem.dbValue;
-        const matchesQuery =
-          !normalizedQuery ||
-          `${lesson.title} ${lesson.category} ${lesson.description}`
-            .toLowerCase()
-            .includes(normalizedQuery);
+  const featuredLessons = useMemo(() => {
+    return theoryLessons
+      .filter((lesson) => lesson.completedCount > 0)
+      .sort((a, b) => b.completedCount - a.completedCount)
+      .slice(0, 3);
+  }, [theoryLessons]);
 
-        return matchesFilter && matchesQuery;
-      }),
-    [activeFilterItem, featuredLessonsToUse, normalizedQuery],
-  );
+  const shouldShowFeatured = featuredLessons.length >= MIN_FEATURED_COUNT;
 
-  const topicsToUse = useMemo(() => {
-    if (dbTopics && dbTopics.length > 0) {
-      return dbTopics.map((tItem, index) => ({
-        id: tItem.id,
-        title: tItem.title,
-        lessons: t("explore.lessons_suffix", { count: tItem._count?.lessons ?? 0 }),
-        progress: Math.min(100, index === 0 ? 34 : 18 + index * 12),
-        category: tItem.category ?? "Đạo đức",
-      }));
-    }
-    return getTopicsFallback(t).map((tItem) => ({ ...tItem, id: undefined as string | undefined }));
-  }, [dbTopics, t]);
+  const selectedLesson = useMemo(() => {
+    if (!selectedLessonKey) return null;
 
-  const filteredTopics = useMemo(
-    () =>
-      topicsToUse.filter((topic) => {
-        const matchesFilter =
-          activeFilterItem.key === "all" ||
-          topic.category === activeFilterItem.dbValue ||
-          getCategoryTranslation(topic.category, t) === activeFilterItem.label;
-        const matchesQuery =
-          !normalizedQuery ||
-          `${topic.title} ${topic.lessons} ${topic.category}`
-            .toLowerCase()
-            .includes(normalizedQuery);
+    return theoryLessons.find((lesson) => getLessonKey(lesson) === selectedLessonKey) ?? null;
+  }, [selectedLessonKey, theoryLessons]);
 
-        return matchesFilter && matchesQuery;
-      }),
-    [activeFilterItem, normalizedQuery, topicsToUse, t],
-  );
+  function openLessonDetail(lesson: ExploreTheoryLesson) {
+    setSelectedLessonKey(getLessonKey(lesson));
+  }
 
-  function startLesson(route: string) {
-    router.push(route as never);
+  function openLearnLesson(lesson: ExploreTheoryLesson) {
+    router.push({
+      pathname: "/chapter/[chapter]/[muc]" as never,
+      params: {
+        chapter: lesson.chapter,
+        muc: lesson.muc,
+      },
+    });
+  }
+
+  function openChapter(chapter: ChapterMeta) {
+    router.push({
+      pathname: "/(tabs)/learn" as never,
+      params: {
+        chapter: chapter.id,
+      },
+    });
+  }
+
+  if (selectedLesson) {
+    return (
+      <TheoryDetailScreen
+        lesson={selectedLesson}
+        onBack={() => setSelectedLessonKey(null)}
+        onOpenLesson={() => openLearnLesson(selectedLesson)}
+      />
+    );
   }
 
   return (
-    <View className={styles.screen}>
-      <SafeAreaView edges={["top"]} className={styles.safeArea}>
+    <View className="flex-1 bg-[#0C0C0E]">
+      <SafeAreaView edges={["top"]} className="flex-1">
         <AppHeader />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={styles.content}>
-          <View className={styles.titleBlock}>
-            <ThemedText className={styles.title}>{t("explore.title")}</ThemedText>
-            <ThemedText className={styles.subtitle}>{t("explore.subtitle")}</ThemedText>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]"
+        >
+          <View className="gap-1">
+            <ThemedText className="font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]">
+              Khám phá
+            </ThemedText>
+
+            <ThemedText className="text-[13px] font-semibold leading-[19px] text-[#A1A1AA]">
+              Tóm tắt nhanh phần lý thuyết trong từng bài học.
+            </ThemedText>
           </View>
 
-          <View className={cn(styles.searchBox, query.length > 0 && styles.searchBoxActive)}>
+          <View
+            className={cn(
+              "min-h-[46px] flex-row items-center gap-2 rounded-md border border-transparent bg-[#1E1E22] px-3",
+              query.length > 0 && "border-[#D97706]",
+            )}
+          >
             <Search color={query.length > 0 ? Colors.primaryLight : Colors.locked} size={18} />
+
             <TextInput
               value={query}
               onChangeText={setQuery}
-              placeholder={t("explore.search_placeholder")}
+              placeholder="Tìm bài học hoặc nội dung lý thuyết..."
               placeholderTextColor={Colors.locked}
               selectionColor={Colors.primaryLight}
-              className={styles.searchInput}
+              className="min-h-[44px] flex-1 p-0 text-[14px] font-semibold text-[#E5E1E4]"
             />
           </View>
 
-          <View className={styles.tabsContainer}>
+          <View className="my-1 flex-row rounded-md bg-[#1E1E22] p-1">
             <Pressable
               accessibilityRole="button"
               onPress={() => setActiveTab("discovery")}
-              className={cn(styles.tabButton, activeTab === "discovery" && styles.tabButtonActive)}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+              className={cn(
+                "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
+                activeTab === "discovery" && "bg-[#161618]",
+              )}
             >
               <ThemedText
                 className={cn(
-                  styles.tabButtonText,
-                  activeTab === "discovery" && styles.tabButtonTextActive,
+                  "text-[14px] font-bold text-[#A1A1AA]",
+                  activeTab === "discovery" && "text-[#FFB77D]",
                 )}
               >
-                {t("explore.tab_discovery")}
+                Khám phá
               </ThemedText>
             </Pressable>
+
             <Pressable
               accessibilityRole="button"
               onPress={() => setActiveTab("chapters")}
-              className={cn(styles.tabButton, activeTab === "chapters" && styles.tabButtonActive)}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
+              className={cn(
+                "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
+                activeTab === "chapters" && "bg-[#161618]",
+              )}
             >
               <ThemedText
                 className={cn(
-                  styles.tabButtonText,
-                  activeTab === "chapters" && styles.tabButtonTextActive,
+                  "text-[14px] font-bold text-[#A1A1AA]",
+                  activeTab === "chapters" && "text-[#FFB77D]",
                 )}
               >
-                {t("explore.tab_chapters")}
+                Chương
               </ThemedText>
             </Pressable>
           </View>
 
           {activeTab === "discovery" ? (
             <>
-              <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerClassName={styles.filterList}
-              >
-                {visibleFilters.map((filter) => {
-                  const active = filter.key === activeFilterKey;
+              {isLoadingChapterNodes ? (
+                <LoadingState text="Đang tải nội dung lý thuyết..." />
+              ) : null}
 
-                  return (
-                    <Pressable
-                      key={filter.key}
-                      accessibilityRole="button"
-                      onPress={() => setActiveFilterKey(filter.key)}
-                      className={cn(styles.filterChip, active && styles.filterActive)}
-                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                    >
-                      <ThemedText
-                        className={cn(styles.filterText, active && styles.filterTextActive)}
-                      >
-                        {filter.label}
-                      </ThemedText>
-                    </Pressable>
-                  );
-                })}
-              </ScrollView>
+              {isChapterNodesError ? (
+                <ErrorState
+                  title="Không tải được nội dung"
+                  text="Chạm để thử lại."
+                  onPress={() => refetchChapterNodes()}
+                />
+              ) : null}
 
-              <View className={styles.section}>
-                <View className={styles.sectionHeader}>
-                  <ThemedText className={styles.sectionTitle}>{t("explore.featured")}</ThemedText>
-                  <ThemedText className={styles.resultCount}>
-                    {t("explore.lessons_count", { count: filteredLessons.length })}
-                  </ThemedText>
-                </View>
-
-                {filteredLessons.length === 0 ? (
-                  <EmptyState />
-                ) : (
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerClassName={styles.featuredList}
-                  >
-                    {filteredLessons.map((lesson, index) => {
-                      const lessonKey =
-                        "topicId" in lesson && typeof lesson.topicId === "string"
-                          ? lesson.topicId
-                          : `${lesson.title}-${index}`;
-
-                      return (
-                        <View key={lessonKey} className={styles.featuredCard}>
-                          {lesson.image ? (
-                            <Image
-                              source={lesson.image}
-                              contentFit="cover"
-                              className={styles.featuredImage}
-                            />
-                          ) : (
-                            <View className={styles.featuredFallback}>
-                              <BookOpen color={Colors.locked} size={40} />
-                            </View>
-                          )}
-
-                          <View className={styles.featuredBody}>
-                            <View className={styles.featuredMeta}>
-                              <ThemedText className={styles.featuredCategory}>
-                                {lesson.category}
-                              </ThemedText>
-                              <View className={styles.metaDot} />
-                              <ThemedText className={styles.featuredDuration}>
-                                {lesson.duration}
-                              </ThemedText>
-                            </View>
-
-                            <ThemedText className={styles.featuredTitle}>{lesson.title}</ThemedText>
-                            <ThemedText numberOfLines={2} className={styles.featuredDescription}>
-                              {lesson.description}
-                            </ThemedText>
-
-                            <Pressable
-                              accessibilityRole="button"
-                              onPress={() => {
-                                const topicId =
-                                  "topicId" in lesson && typeof lesson.topicId === "string"
-                                    ? lesson.topicId
-                                    : null;
-
-                                if (topicId) {
-                                  router.push({
-                                    pathname: "/short-lesson" as never,
-                                    params: { topicId },
-                                  });
-                                } else {
-                                  startLesson(lesson.shortRoute);
-                                }
-                              }}
-                              className={styles.startButton}
-                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                            >
-                              <ThemedText className={styles.startButtonText}>
-                                {t("explore.button_short")}
-                              </ThemedText>
-                              <ArrowRight color={Colors.primaryText} size={16} />
-                            </Pressable>
-                            <Pressable
-                              accessibilityRole="button"
-                              onPress={() => {
-                                const topicId =
-                                  "topicId" in lesson && typeof lesson.topicId === "string"
-                                    ? lesson.topicId
-                                    : null;
-
-                                if (topicId) {
-                                  router.push({
-                                    pathname: "/topic-lessons" as never,
-                                    params: { topicId, topicTitle: lesson.title },
-                                  });
-                                } else {
-                                  startLesson(lesson.fullRoute);
-                                }
-                              }}
-                              className={styles.fullLessonButton}
-                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                            >
-                              <BookOpen color={Colors.primaryLight} size={16} />
-                              <ThemedText className={styles.fullLessonButtonText}>
-                                {t("explore.button_full")}
-                              </ThemedText>
-                            </Pressable>
-                            <Pressable
-                              accessibilityRole="button"
-                              onPress={() => startLesson(lesson.scenarioRoute)}
-                              className={styles.scenarioButton}
-                              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                            >
-                              <Sparkles color={Colors.primaryLight} size={16} />
-                              <ThemedText className={styles.scenarioButtonText}>
-                                {t("explore.button_scenario")}
-                              </ThemedText>
-                            </Pressable>
-                          </View>
+              {!isLoadingChapterNodes && !isChapterNodesError ? (
+                <>
+                  {shouldShowFeatured ? (
+                    <View className="gap-2">
+                      <View className="flex-row items-center justify-between">
+                        <View className="flex-row items-center gap-2">
+                          <Sparkles color={Colors.primaryLight} size={16} />
+                          <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                            Nổi bật
+                          </ThemedText>
                         </View>
-                      );
-                    })}
-                  </ScrollView>
-                )}
-              </View>
 
-              <View className={styles.section}>
-                <View className={styles.sectionHeader}>
-                  <ThemedText className={styles.sectionTitle}>
-                    {t("explore.topics_title")}
-                  </ThemedText>
-                  <ThemedText className={styles.resultCount}>
-                    {t("explore.topics_count", { count: filteredTopics.length })}
-                  </ThemedText>
-                </View>
-
-                <View className={styles.topicGrid}>
-                  {filteredTopics.map((topic) => (
-                    <Pressable
-                      key={topic.id ?? topic.title}
-                      accessibilityRole="button"
-                      onPress={() => {
-                        if (topic.id) {
-                          router.push({
-                            pathname: "/topic-lessons" as never,
-                            params: { topicId: topic.id, topicTitle: topic.title },
-                          });
-                        } else {
-                          setQuery(topic.title);
-                        }
-                      }}
-                      className={styles.topicCard}
-                      style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                    >
-                      <View className={styles.topicCopy}>
-                        <ThemedText className={styles.topicTitle}>{topic.title}</ThemedText>
-                        <ThemedText className={styles.topicLessons}>{topic.lessons}</ThemedText>
+                        <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                          Top 3 bài học
+                        </ThemedText>
                       </View>
 
-                      <View className={styles.progressTrack}>
-                        <View
-                          className={styles.progressFill}
-                          style={{ width: `${topic.progress}%` }}
-                        />
-                      </View>
-                    </Pressable>
-                  ))}
-                </View>
-              </View>
-            </>
-          ) : (
-            <View className={styles.section}>
-              <View className={styles.sectionHeader}>
-                <ThemedText className={styles.sectionTitle}>{t("explore.tab_chapters")}</ThemedText>
-                <ThemedText className={styles.resultCount}>
-                  {t("explore.topics_count", { count: filteredTopics.length })}
-                </ThemedText>
-              </View>
-
-              {filteredTopics.length === 0 ? (
-                <EmptyState />
-              ) : (
-                <View className={styles.accordionContainer}>
-                  {filteredTopics.map((topic) => {
-                    const topicKey = topic.id ?? topic.title;
-                    const isExpanded = !!expandedTopics[topicKey];
-                    const topicLessons = topic.id ? lessonsByTopic[topic.id] || [] : [];
-
-                    return (
-                      <View
-                        key={topicKey}
-                        className={cn(
-                          styles.accordionItem,
-                          isExpanded && styles.accordionItemExpanded,
-                        )}
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerClassName="gap-3 pr-3"
                       >
-                        <Pressable
-                          accessibilityRole="button"
-                          onPress={() =>
-                            setExpandedTopics((prev) => ({
-                              ...prev,
-                              [topicKey]: !prev[topicKey],
-                            }))
-                          }
-                          className={styles.accordionHeader}
-                          style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                        >
-                          <View className={styles.accordionHeaderMain}>
-                            <View className={styles.accordionTitleRow}>
-                              <ThemedText className={styles.accordionTitle}>
-                                {topic.title}
-                              </ThemedText>
-                              {topic.category ? (
-                                <View className={styles.categoryBadge}>
-                                  <ThemedText className={styles.categoryBadgeText}>
-                                    {getCategoryTranslation(topic.category, t)}
-                                  </ThemedText>
-                                </View>
-                              ) : null}
-                            </View>
-                            <ThemedText className={styles.accordionSubtitle}>
-                              {topic.lessons}
-                            </ThemedText>
-                          </View>
-                          {isExpanded ? (
-                            <ChevronUp color={Colors.primaryLight} size={20} />
-                          ) : (
-                            <ChevronDown color={Colors.muted} size={20} />
-                          )}
-                        </Pressable>
+                        {featuredLessons.map((lesson) => (
+                          <LessonSummaryCard
+                            key={`featured-${getLessonKey(lesson)}`}
+                            lesson={lesson}
+                            onPress={() => openLessonDetail(lesson)}
+                            onOpenLesson={() => openLearnLesson(lesson)}
+                          />
+                        ))}
+                      </ScrollView>
+                    </View>
+                  ) : null}
 
-                        {isExpanded ? (
-                          <View className={styles.accordionContent}>
-                            <View className={styles.accordionProgressTrack}>
-                              <View
-                                className={styles.accordionProgressFill}
-                                style={{ width: `${topic.progress}%` }}
-                              />
-                            </View>
+                  <View className="gap-2">
+                    <View className="flex-row items-center justify-between">
+                      <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                        Lý thuyết
+                      </ThemedText>
 
-                            {topicLessons.length === 0 ? (
-                              <View className={styles.accordionEmpty}>
-                                <ThemedText className={styles.accordionEmptyText}>
-                                  {t("explore.no_lessons_in_topic")}
-                                </ThemedText>
-                              </View>
-                            ) : (
-                              <View className={styles.accordionLessonsList}>
-                                {topicLessons.map((lesson) => (
-                                  <View key={lesson.id} className={styles.accordionLessonCard}>
-                                    <View className={styles.accordionLessonHeader}>
-                                      <BookOpen color={Colors.primaryLight} size={16} />
-                                      <ThemedText className={styles.accordionLessonTitle}>
-                                        {lesson.title}
-                                      </ThemedText>
-                                    </View>
+                      <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                        {filteredTheoryLessons.length} bài
+                      </ThemedText>
+                    </View>
 
-                                    {lesson.conflict ? (
-                                      <ThemedText
-                                        numberOfLines={2}
-                                        className={styles.accordionLessonDesc}
-                                      >
-                                        {lesson.conflict}
-                                      </ThemedText>
-                                    ) : null}
+                    {filteredTheoryLessons.length === 0 ? (
+                      <EmptyState />
+                    ) : (
+                      <ScrollView
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerClassName="gap-3 pr-3"
+                      >
+                        {filteredTheoryLessons.map((lesson) => (
+                          <LessonSummaryCard
+                            key={getLessonKey(lesson)}
+                            lesson={lesson}
+                            onPress={() => openLessonDetail(lesson)}
+                            onOpenLesson={() => openLearnLesson(lesson)}
+                          />
+                        ))}
+                      </ScrollView>
+                    )}
+                  </View>
+                  {/* 
+                  <View className="gap-2">
+                    <View className="flex-row items-center justify-between">
+                      <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                        Chủ đề
+                      </ThemedText>
 
-                                    <View className={styles.accordionLessonActions}>
-                                      <Pressable
-                                        accessibilityRole="button"
-                                        onPress={() => {
-                                          if (topic.id) {
-                                            router.push({
-                                              pathname: "/short-lesson" as never,
-                                              params: { topicId: topic.id },
-                                            });
-                                          }
-                                        }}
-                                        className={cn(
-                                          styles.accordionActionBtn,
-                                          styles.accordionActionShort,
-                                        )}
-                                        style={({ pressed }) =>
-                                          pressed ? pressedStyle : undefined
-                                        }
-                                      >
-                                        <ArrowRight color={Colors.primaryText} size={12} />
-                                        <ThemedText className={styles.accordionActionShortText}>
-                                          {t("explore.button_short")}
-                                        </ThemedText>
-                                      </Pressable>
+                      <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                        4 mục
+                      </ThemedText>
+                    </View>
 
-                                      <Pressable
-                                        accessibilityRole="button"
-                                        onPress={() =>
-                                          router.push({
-                                            pathname: "/full-lesson" as never,
-                                            params: { lessonId: lesson.id },
-                                          })
-                                        }
-                                        className={cn(
-                                          styles.accordionActionBtn,
-                                          styles.accordionActionFull,
-                                        )}
-                                        style={({ pressed }) =>
-                                          pressed ? pressedStyle : undefined
-                                        }
-                                      >
-                                        <BookOpen color={Colors.primaryLight} size={12} />
-                                        <ThemedText className={styles.accordionActionFullText}>
-                                          {t("explore.button_full")}
-                                        </ThemedText>
-                                      </Pressable>
+                    <View className="flex-row flex-wrap gap-2">
+                      <TopicCard title="Khái niệm" subtitle="Thẻ 2" progress={32} />
+                      <TopicCard title="Phân tích" subtitle="Thẻ 3" progress={48} />
+                      <TopicCard title="Ví dụ" subtitle="Thẻ 4" progress={64} />
+                      <TopicCard title="Tóm tắt" subtitle="Thẻ 6" progress={82} />
+                    </View>
+                  </View> */}
+                </>
+              ) : null}
+            </>
+          ) : null}
 
-                                      <Pressable
-                                        accessibilityRole="button"
-                                        onPress={() => router.push("/trial-of-socrates" as never)}
-                                        className={cn(
-                                          styles.accordionActionBtn,
-                                          styles.accordionActionScenario,
-                                        )}
-                                        style={({ pressed }) =>
-                                          pressed ? pressedStyle : undefined
-                                        }
-                                      >
-                                        <Sparkles color={Colors.primaryLight} size={12} />
-                                        <ThemedText className={styles.accordionActionScenarioText}>
-                                          {t("explore.button_scenario")}
-                                        </ThemedText>
-                                      </Pressable>
-                                    </View>
-                                  </View>
-                                ))}
-                              </View>
-                            )}
-                          </View>
-                        ) : null}
-                      </View>
-                    );
-                  })}
+          {activeTab === "chapters" ? (
+            <>
+              {isLoadingChapters ? <LoadingState text="Đang tải danh sách chương..." /> : null}
+
+              {isChaptersError ? (
+                <ErrorState
+                  title="Không tải được danh sách chương"
+                  text="Chạm để thử lại."
+                  onPress={() => refetchChapters()}
+                />
+              ) : null}
+
+              {!isLoadingChapters && !isChaptersError ? (
+                <View className="gap-2">
+                  <View className="flex-row items-center justify-between">
+                    <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                      Chương
+                    </ThemedText>
+
+                    <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                      {chapters.length} chương
+                    </ThemedText>
+                  </View>
+
+                  {chapters.length === 0 ? (
+                    <EmptyState />
+                  ) : (
+                    <View className="flex-row flex-wrap gap-2">
+                      {chapters.map((chapter) => (
+                        <ChapterCard
+                          key={chapter.id}
+                          chapter={chapter}
+                          onPress={() => openChapter(chapter)}
+                        />
+                      ))}
+                    </View>
+                  )}
                 </View>
-              )}
-            </View>
-          )}
-
-          <View className={styles.quoteCard}>
-            <Sparkles color={Colors.primaryLight} size={16} />
-            <View className={styles.quoteCopy}>
-              <ThemedText className={styles.quoteText}>{t("explore.quote_text")}</ThemedText>
-              <ThemedText className={styles.quoteAuthor}>{t("explore.quote_author")}</ThemedText>
-            </View>
-          </View>
+              ) : null}
+            </>
+          ) : null}
         </ScrollView>
       </SafeAreaView>
     </View>
   );
 }
 
-function EmptyState() {
-  const { t } = useTranslation();
+function LessonSummaryCard({
+  lesson,
+  onPress,
+  onOpenLesson,
+}: {
+  lesson: ExploreTheoryLesson;
+  onPress: () => void;
+  onOpenLesson: () => void;
+}) {
+  const pinnedCard = lesson.theoryCards[0];
+  const totalCards = lesson.theoryCards.length;
+
   return (
-    <View className={styles.emptyState}>
-      <BookOpen color={Colors.locked} size={28} />
-      <ThemedText className={styles.emptyTitle}>{t("explore.empty_title")}</ThemedText>
-      <ThemedText className={styles.emptyText}>{t("explore.empty_text")}</ThemedText>
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      className="w-[292px] overflow-hidden rounded-md border border-[#27272A] bg-[#161618] active:scale-[0.98] active:opacity-80"
+    >
+      <View className="h-[170px] w-full items-center justify-center bg-[#18181B]">
+        <BookOpen color={Colors.locked} size={44} />
+      </View>
+
+      <View className="gap-2 p-3">
+        <View className="flex-row items-center gap-2">
+          <ThemedText className="text-[10px] font-black uppercase leading-[14px] text-[#FFB77D]">
+            Bài {lesson.muc}
+          </ThemedText>
+        </View>
+
+        <ThemedText
+          numberOfLines={2}
+          className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]"
+        >
+          {lesson.title}
+        </ThemedText>
+
+        <ThemedText
+          numberOfLines={3}
+          className="min-h-[54px] text-[13px] font-semibold leading-[18px] text-[#A1A1AA]"
+        >
+          {truncateText(pinnedCard?.body ?? "Chưa có nội dung tóm tắt.", 130)}
+        </ThemedText>
+
+        <Pressable
+          accessibilityRole="button"
+          className="min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm bg-[#D97706] active:scale-[0.98] active:opacity-80"
+          onPress={onPress}
+        >
+          <ThemedText className="text-[14px] font-black leading-[18px] text-[#0C0C0E]">
+            Tóm tắt
+          </ThemedText>
+
+          <ArrowRight color={Colors.primaryText} size={16} />
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          className="min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#D97706] active:scale-[0.98] active:opacity-80"
+          onPress={onOpenLesson}
+        >
+          <BookOpen color={Colors.primaryLight} size={16} />
+
+          <ThemedText className="text-[14px] font-black leading-[18px] text-[#FFB77D]">
+            Chi tiết bài học
+          </ThemedText>
+        </Pressable>
+      </View>
+    </Pressable>
+  );
+}
+
+function TheoryDetailScreen({
+  lesson,
+  onBack,
+  onOpenLesson,
+}: {
+  lesson: ExploreTheoryLesson;
+  onBack: () => void;
+  onOpenLesson: () => void;
+}) {
+  const pinnedCard = lesson.theoryCards[0];
+  const switchCards = lesson.theoryCards.slice(1, 6);
+  const [index, setIndex] = useState(0);
+
+  const safeIndex = Math.min(Math.max(index, 0), Math.max(switchCards.length - 1, 0));
+  const activeCard = switchCards[safeIndex];
+
+  function previousCard() {
+    setIndex((current) => Math.max(current - 1, 0));
+  }
+
+  function nextCard() {
+    setIndex((current) => Math.min(current + 1, Math.max(switchCards.length - 1, 0)));
+  }
+
+  return (
+    <View className="flex-1 bg-[#0C0C0E]">
+      <SafeAreaView edges={["top"]} className="flex-1">
+        <View className="min-h-[64px] flex-row items-center gap-2 border-b border-[#18181B] bg-[#0C0C0E] px-3">
+          <Pressable
+            accessibilityRole="button"
+            className="h-10 w-10 items-center justify-center active:scale-[0.98] active:opacity-80"
+            onPress={onBack}
+          >
+            <ArrowLeft color={Colors.primaryLight} size={22} />
+          </Pressable>
+
+          <View className="min-w-0 flex-1">
+            <ThemedText className="text-[11px] font-black uppercase leading-[15px] text-[#FFB77D]">
+              Tóm tắt lý thuyết
+            </ThemedText>
+
+            <ThemedText
+              numberOfLines={1}
+              className="font-sans text-[17px] font-extrabold leading-[23px] text-[#E5E1E4]"
+            >
+              {lesson.title}
+            </ThemedText>
+          </View>
+        </View>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerClassName="w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]"
+        >
+          <View className="gap-1">
+            <ThemedText className="text-[11px] font-black uppercase leading-[15px] text-[#FFB77D]">
+              Bài {lesson.muc}
+            </ThemedText>
+
+            <ThemedText className="font-sans text-[22px] font-extrabold leading-[29px] text-[#E5E1E4]">
+              {lesson.title}
+            </ThemedText>
+          </View>
+
+          {pinnedCard ? (
+            <View className="gap-2 rounded-md border border-[#D97706] bg-[#24160C] p-3">
+              <View className="flex-row gap-2">
+                <ThemedText className="text-[20px] leading-[26px]">{pinnedCard.icon}</ThemedText>
+
+                <ThemedText className="flex-1 text-[14px] font-bold leading-[20px] text-[#E5E1E4]">
+                  {pinnedCard.body}
+                </ThemedText>
+              </View>
+            </View>
+          ) : null}
+
+          {activeCard ? (
+            <View className="gap-3 rounded-md border border-[#27272A] bg-[#161618] p-4">
+              <View className="flex-row items-center justify-between">
+                <ThemedText className="text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
+                  {safeIndex + 1}/{switchCards.length}
+                </ThemedText>
+              </View>
+
+              <View className="items-center justify-center py-6">
+                <View className="mb-5 h-14 w-14 items-center justify-center rounded-full bg-[#24160C]">
+                  <ThemedText className="text-[24px]">{activeCard.icon || "•"}</ThemedText>
+                </View>
+
+                <ThemedText className="text-center text-[17px] font-extrabold leading-7 text-[#E5E1E4]">
+                  {activeCard.body}
+                </ThemedText>
+              </View>
+
+              <View className="flex-row justify-center gap-2">
+                {switchCards.map((card, dotIndex) => (
+                  <Pressable
+                    key={card.id ?? `${lesson.muc}-${dotIndex}`}
+                    accessibilityRole="button"
+                    className={cn(
+                      "h-2 w-2 rounded-full active:scale-[0.98] active:opacity-80",
+                      dotIndex === safeIndex ? "bg-[#D97706]" : "bg-[#41414D]",
+                    )}
+                    onPress={() => setIndex(dotIndex)}
+                  />
+                ))}
+              </View>
+
+              <View className="mt-4 flex-row items-center justify-between">
+                <View className="flex-1 items-start">
+                  {safeIndex > 0 ? (
+                    <Pressable
+                      accessibilityRole="button"
+                      className="min-h-11 justify-center active:scale-[0.98] active:opacity-80"
+                      onPress={previousCard}
+                    >
+                      <ThemedText className="text-[15px] font-semibold text-[#A1A1AA]">
+                        ←
+                      </ThemedText>
+                    </Pressable>
+                  ) : null}
+                </View>
+
+                <View className="flex-1 items-end">
+                  {safeIndex < switchCards.length - 1 ? (
+                    <Pressable
+                      accessibilityRole="button"
+                      className="min-h-11 justify-center active:scale-[0.98] active:opacity-80"
+                      onPress={nextCard}
+                    >
+                      <ThemedText className="text-[15px] font-extrabold text-[#FFB77D]">
+                        →
+                      </ThemedText>
+                    </Pressable>
+                  ) : null}
+                </View>
+              </View>
+            </View>
+          ) : null}
+
+          <Pressable
+            accessibilityRole="button"
+            className="min-h-[52px] flex-row items-center justify-center gap-2 rounded-md bg-[#D97706] active:scale-[0.98] active:opacity-80"
+            onPress={onOpenLesson}
+          >
+            <ThemedText className="text-[15px] font-black text-[#0C0C0E]">
+              Vào bài học đầy đủ
+            </ThemedText>
+
+            <ArrowRight color={Colors.primaryText} size={16} />
+          </Pressable>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
 
-const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
+function ChapterCard({ chapter, onPress }: { chapter: ChapterMeta; onPress: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      className="min-h-[128px] w-[48%] justify-between rounded-md border border-[#27272A] bg-[#161618] p-3 active:scale-[0.98] active:opacity-80"
+      onPress={onPress}
+    >
+      <View className="gap-1">
+        <ThemedText className="text-[11px] font-black uppercase leading-[15px] text-[#FFB77D]">
+          Chương {chapter.id}
+        </ThemedText>
 
-const styles = {
-  screen: "flex-1 bg-[#0C0C0E]",
-  safeArea: "flex-1",
-  content: "w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]",
-  titleBlock: "gap-1",
-  title: "font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]",
-  subtitle: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
-  searchBox:
-    "min-h-[46px] flex-row items-center gap-2 rounded-md border border-transparent bg-[#1E1E22] px-3",
-  searchBoxActive: "border-[#D97706]",
-  searchInput: "min-h-[44px] flex-1 p-0 text-[14px] font-semibold text-[#E5E1E4]",
-  filterList: "gap-2 pr-3",
-  filterChip:
-    "min-h-[36px] items-center justify-center rounded-full border border-transparent bg-[#1E1E22] px-3",
-  filterActive: "border-[#D97706]",
-  filterText: "text-[12px] font-extrabold leading-[16px] text-[#A1A1AA]",
-  filterTextActive: "text-[#FFB77D]",
-  tabsContainer: "my-1 flex-row rounded-md bg-[#1E1E22] p-1",
-  tabButton: "flex-1 items-center justify-center rounded-sm py-2",
-  tabButtonActive: "bg-[#161618]",
-  tabButtonText: "text-[14px] font-bold text-[#A1A1AA]",
-  tabButtonTextActive: "text-[#FFB77D]",
-  section: "gap-2",
-  sectionHeader: "flex-row items-center justify-between",
-  sectionTitle: "font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]",
-  resultCount: "text-[12px] font-extrabold leading-[16px] text-[#FFB77D]",
-  featuredList: "gap-3 pr-3",
-  featuredCard: "w-[300px] overflow-hidden rounded-md border border-[#27272A] bg-[#18181B]",
-  featuredImage: "h-[190px] w-full",
-  featuredFallback: "h-[190px] w-full items-center justify-center bg-[#1E1E22]",
-  featuredBody: "gap-2 p-3",
-  featuredMeta: "flex-row items-center gap-2",
-  featuredCategory: "text-[10px] font-black uppercase leading-[14px] text-[#FFB77D]",
-  metaDot: "h-1 w-1 rounded-full bg-[#52525B]",
-  featuredDuration: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
-  featuredTitle: "font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]",
-  featuredDescription: "text-[13px] font-semibold leading-[19px] text-[#A1A1AA]",
-  startButton: "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm bg-[#D97706]",
-  startButtonText: "text-[14px] font-black leading-[18px] text-[#0C0C0E]",
-  fullLessonButton:
-    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#D97706]",
-  fullLessonButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
-  scenarioButton:
-    "min-h-[42px] flex-row items-center justify-center gap-2 rounded-sm border border-[#27272A] bg-[#1E1E22]",
-  scenarioButtonText: "text-[14px] font-black leading-[18px] text-[#FFB77D]",
-  topicGrid: "flex-row flex-wrap gap-2",
-  topicCard:
-    "min-h-[128px] w-[48%] justify-between rounded-md border border-[#27272A] bg-[#161618] p-3",
-  topicCopy: "gap-0.5",
-  topicTitle: "font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
-  topicLessons: "text-[12px] font-bold leading-[16px] text-[#A1A1AA]",
-  progressTrack: "h-1 overflow-hidden rounded-full bg-[#1E1E22]",
-  progressFill: "h-full rounded-full bg-[#D97706]",
-  accordionContainer: "gap-2",
-  accordionItem: "overflow-hidden rounded-md border border-[#27272A] bg-[#161618]",
-  accordionItemExpanded: "border-[#353437]",
-  accordionHeader: "flex-row items-center justify-between bg-[#161618] p-3",
-  accordionHeaderMain: "flex-1 gap-1 pr-2",
-  accordionTitleRow: "flex-row flex-wrap items-center gap-2",
-  accordionTitle: "flex-1 font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
-  categoryBadge: "rounded-full bg-[#27272A] px-2 py-0.5",
-  categoryBadgeText: "text-[10px] font-extrabold uppercase text-[#FFB77D]",
-  accordionSubtitle: "text-[12px] font-semibold leading-[16px] text-[#A1A1AA]",
-  accordionContent: "gap-3 border-t border-[#353437] bg-[#18181B] px-3 pb-3",
-  accordionProgressTrack: "mt-2 h-[3px] overflow-hidden rounded-full bg-[#1E1E22]",
-  accordionProgressFill: "h-full rounded-full bg-[#D97706]",
-  accordionEmpty: "items-center justify-center py-4",
-  accordionEmptyText: "text-[13px] font-semibold text-[#A1A1AA]",
-  accordionLessonsList: "gap-3",
-  accordionLessonCard: "gap-2 rounded-md border border-[#27272A] bg-[#161618] p-3",
-  accordionLessonHeader: "flex-row items-center gap-2",
-  accordionLessonTitle: "flex-1 font-sans text-[14px] font-bold leading-[18px] text-[#E5E1E4]",
-  accordionLessonDesc: "text-[12px] font-semibold leading-[17px] text-[#A1A1AA]",
-  accordionLessonActions: "mt-1 flex-row flex-wrap gap-2",
-  accordionActionBtn:
-    "min-h-[32px] min-w-[90px] flex-1 flex-row items-center justify-center gap-1 rounded-sm px-2",
-  accordionActionShort: "bg-[#D97706]",
-  accordionActionShortText: "text-[11px] font-extrabold text-[#0C0C0E]",
-  accordionActionFull: "border border-[#D97706]",
-  accordionActionFullText: "text-[11px] font-extrabold text-[#FFB77D]",
-  accordionActionScenario: "border border-[#27272A] bg-[#1E1E22]",
-  accordionActionScenarioText: "text-[11px] font-extrabold text-[#FFB77D]",
-  emptyState:
-    "min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618]",
-  emptyTitle: "text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]",
-  emptyText: "text-[13px] font-semibold leading-[18px] text-[#A1A1AA]",
-  quoteCard: "flex-row gap-2 border-t border-[#27272A] pt-3",
-  quoteCopy: "flex-1 gap-1 border-l-2 border-[#D97706] pl-2",
-  quoteText: "text-[14px] font-semibold italic leading-[21px] text-[#A1A1AA]",
-  quoteAuthor: "text-[12px] font-extrabold uppercase leading-[16px] text-[#FFB77D]",
-};
+        <ThemedText
+          numberOfLines={2}
+          className="font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]"
+        >
+          {chapter.title}
+        </ThemedText>
+      </View>
+
+      <ThemedText className="text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
+        {chapter.nodeCount} bài học
+      </ThemedText>
+
+      <View className="h-1 overflow-hidden rounded-full bg-[#1E1E22]">
+        <View className="h-full w-1/3 rounded-full bg-[#D97706]" />
+      </View>
+    </Pressable>
+  );
+}
+
+function TopicCard({
+  title,
+  subtitle,
+  progress,
+}: {
+  title: string;
+  subtitle: string;
+  progress: number;
+}) {
+  return (
+    <View className="min-h-[118px] w-[48%] justify-between rounded-md border border-[#27272A] bg-[#161618] p-3">
+      <View>
+        <ThemedText className="font-sans text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]">
+          {title}
+        </ThemedText>
+
+        <ThemedText className="text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
+          {subtitle}
+        </ThemedText>
+      </View>
+
+      <View className="h-1 overflow-hidden rounded-full bg-[#1E1E22]">
+        <View className={cn("h-full rounded-full bg-[#D97706]", getProgressWidthClass(progress))} />
+      </View>
+    </View>
+  );
+}
+
+function LoadingState({ text }: { text: string }) {
+  return (
+    <View className="min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618] p-4">
+      <ActivityIndicator color={Colors.primaryLight} />
+
+      <ThemedText className="text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]">
+        {text}
+      </ThemedText>
+    </View>
+  );
+}
+
+function ErrorState({
+  title,
+  text,
+  onPress,
+}: {
+  title: string;
+  text: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      className="min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618] p-4 active:scale-[0.98] active:opacity-80"
+      onPress={onPress}
+    >
+      <BookOpen color={Colors.locked} size={28} />
+
+      <ThemedText className="text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]">
+        {title}
+      </ThemedText>
+
+      <ThemedText className="text-center text-[13px] font-semibold leading-[18px] text-[#A1A1AA]">
+        {text}
+      </ThemedText>
+    </Pressable>
+  );
+}
+
+function EmptyState() {
+  return (
+    <View className="min-h-[180px] items-center justify-center gap-1 rounded-md border border-[#27272A] bg-[#161618] p-4">
+      <BookOpen color={Colors.locked} size={28} />
+
+      <ThemedText className="text-[15px] font-extrabold leading-[20px] text-[#E5E1E4]">
+        Chưa có nội dung
+      </ThemedText>
+    </View>
+  );
+}

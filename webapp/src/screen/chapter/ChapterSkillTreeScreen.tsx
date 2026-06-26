@@ -74,6 +74,12 @@ export default function ChapterSkillTreeScreen() {
   const [isLoadingProgress, setIsLoadingProgress] = useState(true);
 
   useEffect(() => {
+    if (routeChapter) {
+      setSelectedChapter(routeChapter);
+    }
+  }, [routeChapter]);
+
+  useEffect(() => {
     let cancelled = false;
 
     async function loadChapterProgress() {
@@ -137,7 +143,11 @@ export default function ChapterSkillTreeScreen() {
   const selectedOverview = storedChapterOverview.find(
     (chapter) => chapter.id === selectedChapterState,
   );
-  const selectedChapter = selectedOverview?.locked ? null : selectedChapterState;
+
+  const selectedChapter =
+    selectedChapterState && selectedOverview && !selectedOverview.locked
+      ? selectedChapterState
+      : null;
 
   const { data, isLoading, isError, refetch } = useGetChapterNodesQuery(selectedChapter ?? "", {
     skip: !selectedChapter,
@@ -145,9 +155,11 @@ export default function ChapterSkillTreeScreen() {
 
   const order = data?.order ?? [];
   const { progress, completedCount } = useChapterProgress(selectedChapter ?? undefined, order);
+
   const currentChapter = chapters?.find((item) => item.id === selectedChapter);
   const progressPercent = order.length ? Math.round((completedCount / order.length) * 100) : 0;
   const progressClass = progressWidthClass(completedCount, order.length);
+
   const visibleChapterProgress = useMemo(
     () =>
       selectedChapter
@@ -158,6 +170,7 @@ export default function ChapterSkillTreeScreen() {
         : chapterProgress,
     [chapterProgress, progress, selectedChapter],
   );
+
   const chapterOverview = useMemo<ChapterOverviewItem[]>(
     () =>
       (chapters ?? []).reduce<{ items: ChapterOverviewItem[]; previousComplete: boolean }>(
@@ -196,7 +209,7 @@ export default function ChapterSkillTreeScreen() {
       }
     }
 
-    return [] as { label: string; nodes: ChapterNodeSummary[] }[];
+    return grouped;
   }, [data?.nodes]);
 
   if (isLoadingChapters || isLoadingProgress) {
@@ -242,12 +255,6 @@ export default function ChapterSkillTreeScreen() {
           >
             Chưa có chương học
           </ThemedText>
-          <ThemedText
-            className="text-center text-[13px] leading-[18px]"
-            style={{ color: TreeColors.muted }}
-          >
-            Kiểm tra backend và file CSV trong thư mục data.
-          </ThemedText>
         </View>
       </SafeAreaView>
     );
@@ -291,7 +298,7 @@ export default function ChapterSkillTreeScreen() {
                 className="font-sans text-[22px] font-extrabold leading-[28px]"
                 style={{ color: TreeColors.text }}
               >
-                {currentChapter?.title ?? "Chương 1"}
+                {currentChapter?.title ?? "Chương học"}
               </ThemedText>
 
               <View className="mt-1 flex-row items-center justify-between">
@@ -358,135 +365,143 @@ export default function ChapterSkillTreeScreen() {
           </Pressable>
         ) : null}
 
-        <ChapterNodeMap
-          nodes={data?.nodes ?? []}
-          order={order}
-          progress={progress}
-          onOpenNode={(node, done) =>
-            router.push({
-              pathname: "/chapter/[chapter]/[muc]" as never,
-              params: {
-                chapter: selectedChapter,
-                muc: node.muc,
-                replay: done ? "1" : "0",
-              },
-            })
-          }
-        />
+        {!isLoading && !isError ? (
+          <ChapterNodeMap
+            nodes={data?.nodes ?? []}
+            order={order}
+            progress={progress}
+            onOpenNode={(node, done) =>
+              router.push({
+                pathname: "/chapter/[chapter]/[muc]" as never,
+                params: {
+                  chapter: selectedChapter,
+                  muc: node.muc,
+                  replay: done ? "1" : "0",
+                },
+              })
+            }
+          />
+        ) : null}
 
-        <View className="gap-6">
-          {sections.map((section) => (
-            <View key={section.label} className="gap-2">
-              <ThemedText
-                className="text-[12px] font-extrabold uppercase leading-4 tracking-[1px]"
-                style={{ color: TreeColors.muted }}
-              >
-                {section.label}
-              </ThemedText>
+        {!isLoading && !isError ? (
+          <View className="gap-6">
+            {sections.map((section) => (
+              <View key={section.label} className="gap-2">
+                <ThemedText
+                  className="text-[12px] font-extrabold uppercase leading-4 tracking-[1px]"
+                  style={{ color: TreeColors.muted }}
+                >
+                  {section.label}
+                </ThemedText>
 
-              <View className="gap-2">
-                {section.nodes.map((node) => {
-                  const absoluteIndex = order.indexOf(node.muc);
-                  const fallbackItem: ChapterProgressItem = {
-                    status: absoluteIndex === 0 ? "available" : "locked",
-                    score: null,
-                  };
-                  const item = progress[node.muc] ?? fallbackItem;
-                  const done = item.status === "done";
-                  const available = item.status === "available";
-                  const locked = item.status === "locked";
-                  const draftStep = item.draft?.step ?? 0;
-                  const hasDraft = Boolean(item.draft);
+                <View className="gap-2">
+                  {section.nodes.map((node) => {
+                    const absoluteIndex = order.indexOf(node.muc);
+                    const fallbackItem: ChapterProgressItem = {
+                      status: absoluteIndex === 0 ? "available" : "locked",
+                      score: null,
+                    };
+                    const item = progress[node.muc] ?? fallbackItem;
+                    const done = item.status === "done";
+                    const available = item.status === "available";
+                    const locked = item.status === "locked";
+                    const draftStep = item.draft?.step ?? 0;
+                    const hasDraft = Boolean(item.draft);
 
-                  return (
-                    <Pressable
-                      key={node.muc}
-                      disabled={locked}
-                      className={cn("min-h-[124px] rounded-md border p-3", locked && "opacity-65")}
-                      style={{
-                        backgroundColor: available ? TreeColors.surfaceActive : TreeColors.surface,
-                        borderColor: available ? TreeColors.primary : TreeColors.border,
-                      }}
-                      onPress={() =>
-                        router.push({
-                          pathname: "/chapter/[chapter]/[muc]" as never,
-                          params: {
-                            chapter: selectedChapter,
-                            muc: node.muc,
-                            replay: done ? "1" : "0",
-                          },
-                        })
-                      }
-                    >
-                      <View className="flex-row items-start justify-between gap-2">
-                        <View className="min-w-0 flex-1 flex-row gap-3">
-                          <ThemedText
-                            className="pt-0.5 text-[14px] font-bold leading-[19px]"
+                    return (
+                      <Pressable
+                        key={node.muc}
+                        disabled={locked}
+                        className={cn(
+                          "min-h-[124px] rounded-md border p-3",
+                          locked && "opacity-65",
+                        )}
+                        style={{
+                          backgroundColor: available
+                            ? TreeColors.surfaceActive
+                            : TreeColors.surface,
+                          borderColor: available ? TreeColors.primary : TreeColors.border,
+                        }}
+                        onPress={() =>
+                          router.push({
+                            pathname: "/chapter/[chapter]/[muc]" as never,
+                            params: {
+                              chapter: selectedChapter,
+                              muc: node.muc,
+                              replay: done ? "1" : "0",
+                            },
+                          })
+                        }
+                      >
+                        <View className="flex-row items-start justify-between gap-2">
+                          <View className="min-w-0 flex-1 flex-row gap-3">
+                            <ThemedText
+                              className="pt-0.5 text-[14px] font-bold leading-[19px]"
+                              style={{
+                                color: available
+                                  ? TreeColors.primary
+                                  : done
+                                    ? TreeColors.text
+                                    : TreeColors.muted,
+                              }}
+                            >
+                              {node.muc}
+                            </ThemedText>
+
+                            <ThemedText
+                              className="min-w-0 flex-1 text-[17px] font-extrabold leading-[22px]"
+                              style={{
+                                color: available || done ? TreeColors.text : TreeColors.muted,
+                              }}
+                            >
+                              {node.title}
+                            </ThemedText>
+                          </View>
+
+                          <View
+                            className="mt-1 h-[14px] w-[14px] items-center justify-center border"
                             style={{
-                              color: available
-                                ? TreeColors.primary
-                                : done
-                                  ? TreeColors.text
-                                  : TreeColors.muted,
+                              backgroundColor: done ? TreeColors.text : "transparent",
+                              borderColor: done
+                                ? TreeColors.text
+                                : available
+                                  ? TreeColors.primary
+                                  : TreeColors.locked,
                             }}
                           >
-                            {node.muc}
-                          </ThemedText>
-
-                          <ThemedText
-                            className="min-w-0 flex-1 text-[17px] font-extrabold leading-[22px]"
-                            style={{
-                              color: available || done ? TreeColors.text : TreeColors.muted,
-                            }}
-                          >
-                            {node.title}
-                          </ThemedText>
+                            {done ? <Check color={TreeColors.background} size={10} /> : null}
+                            {locked ? <Lock color={TreeColors.locked} size={9} /> : null}
+                          </View>
                         </View>
 
-                        <View
-                          className="mt-1 h-[14px] w-[14px] items-center justify-center border"
-                          style={{
-                            backgroundColor: done ? TreeColors.text : "transparent",
-                            borderColor: done
-                              ? TreeColors.text
-                              : available
-                                ? TreeColors.primary
-                                : TreeColors.locked,
-                          }}
-                        >
-                          {done ? <Check color={TreeColors.background} size={10} /> : null}
-                          {locked ? <Lock color={TreeColors.locked} size={9} /> : null}
+                        <View className="mt-4 flex-row flex-wrap gap-2">
+                          <StepPill
+                            active={available && draftStep === 0}
+                            label={hookLabel(node.hookType)}
+                          />
+                          <StepPill active={available && draftStep === 1} label="Lý thuyết" />
+                          <StepPill active={available && draftStep === 2} label="Luyện tập" />
                         </View>
-                      </View>
 
-                      <View className="mt-4 flex-row flex-wrap gap-2">
-                        <StepPill
-                          active={available && draftStep === 0}
-                          label={hookLabel(node.hookType)}
-                        />
-                        <StepPill active={available && draftStep === 1} label="Lý Thuyết" />
-                        <StepPill active={available && draftStep === 2} label="Luyện Tập" />
-                        <StepPill active={available && draftStep === 3} label="Tranh luận" />
-                      </View>
-
-                      {!locked ? (
-                        <View className="mt-3 flex-row items-center gap-1 self-end">
-                          <ThemedText
-                            className="text-[12px] font-extrabold leading-4"
-                            style={{ color: TreeColors.primaryLight }}
-                          >
-                            {actionLabel(done, hasDraft, absoluteIndex)}
-                          </ThemedText>
-                          <ChevronRight color={TreeColors.primaryLight} size={16} />
-                        </View>
-                      ) : null}
-                    </Pressable>
-                  );
-                })}
+                        {!locked ? (
+                          <View className="mt-3 flex-row items-center gap-1 self-end">
+                            <ThemedText
+                              className="text-[12px] font-extrabold leading-4"
+                              style={{ color: TreeColors.primaryLight }}
+                            >
+                              {actionLabel(done, hasDraft, absoluteIndex)}
+                            </ThemedText>
+                            <ChevronRight color={TreeColors.primaryLight} size={16} />
+                          </View>
+                        ) : null}
+                      </Pressable>
+                    );
+                  })}
+                </View>
               </View>
-            </View>
-          ))}
-        </View>
+            ))}
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
@@ -645,20 +660,20 @@ function ChapterOverview({
             className="font-sans text-[22px] font-extrabold leading-[28px]"
             style={{ color: TreeColors.text }}
           >
-            TRIẾT HỌC MÁC - LÊNIN
+            KINH TẾ CHÍNH TRỊ
           </ThemedText>
           <ThemedText
             className="mt-1 text-[13px] font-semibold leading-[18px]"
             style={{ color: TreeColors.muted }}
           >
-            Tiếp tục hành trình để khám phá nguồn tri thức đang lớn lên bên trong bạn.
+            Chọn một chương để bắt đầu hành trình học.
           </ThemedText>
         </View>
 
         <ChapterOverviewMap chapters={chapters} onSelectChapter={onSelectChapter} />
 
         <View className="gap-2">
-          {chapters.slice(0, 0).map((chapter) => {
+          {chapters.map((chapter) => {
             const progressPercent = chapter.nodeCount
               ? Math.round((chapter.completedCount / chapter.nodeCount) * 100)
               : 0;
@@ -686,6 +701,7 @@ function ChapterOverview({
                     >
                       Chương {chapter.id}
                     </ThemedText>
+
                     <ThemedText
                       className="mt-1 text-[18px] font-extrabold leading-[24px]"
                       style={{ color: chapter.locked ? TreeColors.muted : TreeColors.text }}
@@ -713,7 +729,7 @@ function ChapterOverview({
                     className="text-[13px] font-bold leading-[18px]"
                     style={{ color: TreeColors.muted }}
                   >
-                    {chapter.completedCount}/{chapter.nodeCount} complete
+                    {chapter.completedCount}/{chapter.nodeCount} hoàn thành
                   </ThemedText>
                   <ThemedText
                     className="text-[13px] font-bold leading-[18px]"
@@ -742,7 +758,7 @@ function ChapterOverview({
                       className="text-[12px] font-extrabold leading-4"
                       style={{ color: TreeColors.primaryLight }}
                     >
-                      Open chapter
+                      Mở chương
                     </ThemedText>
                     <ChevronRight color={TreeColors.primaryLight} size={16} />
                   </View>
