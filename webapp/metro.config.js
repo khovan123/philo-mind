@@ -7,15 +7,27 @@ const monorepoRoot = path.resolve(__dirname, "..");
 
 /** @type {import('expo/metro-config').MetroConfig} */
 const config = getDefaultConfig(__dirname);
+const appNodeModules = path.resolve(__dirname, "node_modules");
 
 // Watch the monorepo root for shared packages
 config.watchFolders = [monorepoRoot];
 
 // Resolve node_modules from both the app and the monorepo root
-config.resolver.nodeModulesPaths = [
-  path.resolve(__dirname, "node_modules"),
-  path.resolve(monorepoRoot, "node_modules"),
-];
+config.resolver.disableHierarchicalLookup = true;
+config.resolver.nodeModulesPaths = [appNodeModules, path.resolve(monorepoRoot, "node_modules")];
+config.resolver.extraNodeModules = {
+  ...config.resolver.extraNodeModules,
+  react: path.join(appNodeModules, "react"),
+  "react-dom": path.join(appNodeModules, "react-dom"),
+  "react-native": path.join(appNodeModules, "react-native"),
+  "react-native-gesture-handler": path.join(appNodeModules, "react-native-gesture-handler"),
+  "react-native-reanimated": path.join(appNodeModules, "react-native-reanimated"),
+  "react-native-safe-area-context": path.join(appNodeModules, "react-native-safe-area-context"),
+  "react-native-screens": path.join(appNodeModules, "react-native-screens"),
+  "react-native-svg": path.join(appNodeModules, "react-native-svg"),
+  "react-native-worklets": path.join(appNodeModules, "react-native-worklets"),
+  "expo-modules-core": path.join(monorepoRoot, "node_modules", "expo-modules-core"),
+};
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (moduleName === "react-i18next") {

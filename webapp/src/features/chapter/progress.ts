@@ -214,7 +214,7 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
         const finalReview = review ?? mergeReview(currentItem?.review, currentItem?.draft?.review);
         const finalDraft: ChapterDraftState = {
           ...(currentItem?.draft ?? {}),
-          step: 3,
+          step: 2,
           review: finalReview,
           quizScore: score,
         };

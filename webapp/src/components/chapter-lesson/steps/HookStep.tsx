@@ -83,24 +83,19 @@ function HookChoice({
 
       <ChoiceCard
         letter="A"
-        text="Có, câu hỏi này đáng đặt ra"
+        text={node.hook.feedbackA || "Lựa chọn A"}
         selected={selected === "A"}
         onPress={() => selectOption("A")}
       />
 
       <ChoiceCard
         letter="B"
-        text="Không chắc, có vẻ hơi xa thực tế"
+        text={node.hook.feedbackB || "Lựa chọn B"}
         selected={selected === "B"}
         onPress={() => selectOption("B")}
       />
 
-      {selected ? (
-        <>
-          <Callout text={feedback} />
-          <FloatingNextButton onPress={() => onDone(selected)} />
-        </>
-      ) : null}
+      {selected ? <FloatingNextButton onPress={() => onDone(selected)} /> : null}
     </View>
   );
 }

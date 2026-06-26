@@ -1,11 +1,6 @@
 import { Colors as ThemeColors } from "@/constants/theme";
 
-export const CHAPTER_LESSON_STEP_NAMES = [
-  "Hook",
-  "Thẻ lí thuyết",
-  "Luyện tập",
-  "Tranh luận",
-] as const;
+export const CHAPTER_LESSON_STEP_NAMES = ["Hook", "Thẻ lí thuyết", "Luyện tập"] as const;
 
 export const LessonColors = {
   outerBackground: ThemeColors.dark.backgroundElement,

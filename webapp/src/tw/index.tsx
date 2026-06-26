@@ -35,8 +35,38 @@ View.displayName = "CSS(View)";
 
 // ── Text ───────────────────────────────────────────────────
 
+function normalizeTextChild(child: React.ReactNode): React.ReactNode {
+  if (child === null || child === undefined || typeof child === "boolean") {
+    return null;
+  }
+
+  if (typeof child === "string" || typeof child === "number") {
+    return child;
+  }
+
+  if (Array.isArray(child)) {
+    return child
+      .map((item) => normalizeTextChild(item))
+      .filter(Boolean)
+      .join("");
+  }
+
+  if (React.isValidElement(child)) {
+    return child;
+  }
+
+  return String(child);
+}
+
 export const Text = (props: React.ComponentProps<typeof RNText> & { className?: string }) => {
-  return useCssElement(RNText, props, { className: "style" });
+  return useCssElement(
+    RNText,
+    {
+      ...props,
+      children: normalizeTextChild(props.children),
+    },
+    { className: "style" },
+  );
 };
 Text.displayName = "CSS(Text)";
 

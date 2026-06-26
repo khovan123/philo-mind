@@ -16,9 +16,11 @@ export class ChapterController {
     try {
       const chapter = String(req.params.chapter);
 
+      const nodes = ChapterContentService.listNodes(chapter);
+
       return sendSuccess(res, {
-        order: ChapterContentService.getOrder(chapter),
-        nodes: ChapterContentService.listSummaries(chapter),
+        order: nodes.map((node) => node.muc),
+        nodes,
       });
     } catch (err) {
       const error = err as Error;

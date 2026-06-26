@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { ChevronLeft } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
 
 import { ThemedText } from "@/components/themed-text";
 import { StepBar } from "@/components/chapter-lesson/ChapterLessonUI";
-import { DebateStep } from "@/components/chapter-lesson/steps/DebateStep";
 import { HookStep } from "@/components/chapter-lesson/steps/HookStep";
 import { QuizStep } from "@/components/chapter-lesson/steps/QuizStep";
 import { TheoryStep } from "@/components/chapter-lesson/steps/TheoryStep";
@@ -23,6 +22,7 @@ import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
 const ACCENT = LessonColors.accent;
 
 type FlowStep = ChapterLessonStep;
+
 type FlowState = {
   lessonKey: string;
   hydrated: boolean;
@@ -32,11 +32,11 @@ type FlowState = {
 };
 
 function toFlowStep(value: unknown): FlowStep {
-  return value === 1 || value === 2 || value === 3 ? value : 0;
+  return value === 1 || value === 2 ? value : 0;
 }
 
 function stepName(step: FlowStep) {
-  return CHAPTER_LESSON_STEP_NAMES[step];
+  return CHAPTER_LESSON_STEP_NAMES[step] ?? "Bài học";
 }
 
 function createDefaultFlowState(lessonKey: string): FlowState {
@@ -74,12 +74,16 @@ function createHydratedFlowState({
 export default function ChapterLessonFlowScreen() {
   const router = useRouter();
   const params = useLocalSearchParams<{ chapter?: string; muc?: string; replay?: string }>();
+
   const chapter = Array.isArray(params.chapter) ? params.chapter[0] : params.chapter;
   const muc = Array.isArray(params.muc) ? params.muc[0] : params.muc;
   const replay = Array.isArray(params.replay) ? params.replay[0] : params.replay;
   const isReplay = replay === "1";
 
-  const { data: nodesData } = useGetChapterNodesQuery(chapter ?? "", { skip: !chapter });
+  const { data: nodesData } = useGetChapterNodesQuery(chapter ?? "", {
+    skip: !chapter,
+  });
+
   const order = nodesData?.order ?? [];
 
   const {
@@ -88,34 +92,56 @@ export default function ChapterLessonFlowScreen() {
     isError,
     refetch,
   } = useGetChapterNodeQuery(
-    { chapter: chapter ?? "", muc: muc ?? "" },
-    { skip: !chapter || !muc },
+    {
+      chapter: chapter ?? "",
+      muc: muc ?? "",
+    },
+    {
+      skip: !chapter || !muc,
+    },
   );
 
   const { completeNode, saveNodeDraft, progress, ready } = useChapterProgress(chapter, order);
+
   const currentProgress = muc ? progress[muc] : undefined;
   const currentDraft = currentProgress?.draft;
   const lessonKey = `${chapter ?? ""}:${muc ?? ""}:${isReplay ? "replay" : "learn"}`;
-  const [flowState, setFlowState] = useState<FlowState>(() => createDefaultFlowState(lessonKey));
 
-  if (flowState.lessonKey !== lessonKey) {
+  const [flowState, setFlowState] = useState<FlowState>(() => createDefaultFlowState(lessonKey));
+  const [isRelearning, setIsRelearning] = useState(false);
+  const [attemptKey, setAttemptKey] = useState(0);
+
+  const isCompletedReview = currentProgress?.status === "done" && isReplay && !isRelearning;
+
+  useEffect(() => {
     setFlowState(createDefaultFlowState(lessonKey));
-  } else if (ready && muc && !flowState.hydrated) {
-    setFlowState(
-      createHydratedFlowState({
+    setIsRelearning(false);
+    setAttemptKey(0);
+  }, [lessonKey]);
+
+  useEffect(() => {
+    if (!ready || !muc) return;
+
+    setFlowState((current) => {
+      if (current.lessonKey !== lessonKey || current.hydrated) {
+        return current;
+      }
+
+      return createHydratedFlowState({
         currentProgress,
         isReplay,
         lessonKey,
-      }),
-    );
-  }
+      });
+    });
+  }, [currentProgress, isReplay, lessonKey, muc, ready]);
 
   const activeFlowState =
     flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey);
+
   const { step, quizScore, reviewState } = activeFlowState;
 
   function persistDraft(next: Partial<ChapterDraftState>) {
-    if (!muc) return;
+    if (!muc || isCompletedReview) return;
 
     saveNodeDraft(muc, {
       step,
@@ -131,7 +157,11 @@ export default function ChapterLessonFlowScreen() {
       ...nextReview,
     };
 
-    setFlowState((current) => ({ ...current, reviewState: mergedReview }));
+    setFlowState((current) => ({
+      ...current,
+      reviewState: mergedReview,
+    }));
+
     persistDraft({
       review: mergedReview,
       ...nextDraft,
@@ -141,11 +171,52 @@ export default function ChapterLessonFlowScreen() {
   }
 
   function moveToStep(nextStep: FlowStep, nextDraft?: Partial<ChapterDraftState>) {
-    setFlowState((current) => ({ ...current, step: nextStep }));
+    setFlowState((current) => ({
+      ...current,
+      step: nextStep,
+    }));
+
     persistDraft({
       step: nextStep,
       ...nextDraft,
     });
+  }
+
+  function goToStepFromBar(targetStep: FlowStep) {
+    if (!isCompletedReview && targetStep > step) return;
+
+    setFlowState((current) => ({
+      ...current,
+      step: targetStep,
+    }));
+
+    persistDraft({
+      step: targetStep,
+    });
+  }
+
+  function startLearningAgain() {
+    setIsRelearning(true);
+    setAttemptKey((current) => current + 1);
+
+    setFlowState({
+      lessonKey,
+      hydrated: true,
+      step: 0,
+      quizScore: 0,
+      reviewState: {},
+    });
+
+    if (muc) {
+      saveNodeDraft(muc, {
+        step: 0,
+        review: {},
+        quizScore: 0,
+        theoryIndex: 0,
+        quizIndex: 0,
+        quizShowResult: false,
+      });
+    }
   }
 
   async function complete(score: number, nextReview?: ChapterReviewState) {
@@ -157,7 +228,11 @@ export default function ChapterLessonFlowScreen() {
     };
 
     await completeNode(muc, score, finalReview);
-    router.replace({ pathname: "/(tabs)/learn" as never, params: { chapter } });
+
+    router.replace({
+      pathname: "/(tabs)/learn" as never,
+      params: { chapter },
+    });
   }
 
   return (
@@ -176,13 +251,26 @@ export default function ChapterLessonFlowScreen() {
               <ThemedText className="min-w-0 flex-1 text-[17px] font-extrabold leading-6 text-white">
                 {node?.title ?? "Bài học"}
               </ThemedText>
+
+              {isCompletedReview ? (
+                <Pressable
+                  className="min-h-9 items-center justify-center rounded-full border border-[#FF8517] px-3"
+                  onPress={startLearningAgain}
+                >
+                  <ThemedText className="text-xs font-extrabold text-[#FF8517]">Học lại</ThemedText>
+                </Pressable>
+              ) : null}
             </View>
 
             <ThemedText className="mt-2 text-[13px] font-medium leading-5 text-[#A3A3AF]">
-              {stepName(step)}
+              {isCompletedReview ? `Xem lại · ${stepName(step)}` : stepName(step)}
             </ThemedText>
 
-            <StepBar step={step} />
+            <StepBar
+              step={step}
+              maxPressableStep={isCompletedReview ? 2 : step}
+              onStepPress={goToStepFromBar}
+            />
           </View>
 
           {isLoading ? (
@@ -213,7 +301,7 @@ export default function ChapterLessonFlowScreen() {
               <View className="px-5 pb-12 pt-1">
                 {step === 0 ? (
                   <HookStep
-                    key={`hook-${chapter}-${muc}`}
+                    key={`hook-${chapter}-${muc}-${attemptKey}`}
                     node={node}
                     review={reviewState}
                     onChange={(nextReview) => mergeReview(nextReview, { step: 0 })}
@@ -226,52 +314,44 @@ export default function ChapterLessonFlowScreen() {
 
                 {step === 1 ? (
                   <TheoryStep
-                    key={`theory-${chapter}-${muc}`}
+                    key={`theory-${chapter}-${muc}-${attemptKey}`}
                     node={node}
-                    initialIndex={isReplay ? 0 : (currentDraft?.theoryIndex ?? 0)}
-                    onIndexChange={(theoryIndex) => persistDraft({ step: 1, theoryIndex })}
-                    onDone={(theoryIndex) =>
+                    initialIndex={isCompletedReview ? 0 : (currentDraft?.theoryIndex ?? 0)}
+                    onIndexChange={(theoryIndex) => {
+                      persistDraft({
+                        step: 1,
+                        theoryIndex,
+                      });
+                    }}
+                    onDone={(theoryIndex) => {
                       moveToStep(2, {
                         theoryIndex,
-                        quizIndex: isReplay ? 0 : (currentDraft?.quizIndex ?? 0),
-                        quizShowResult: isReplay ? false : (currentDraft?.quizShowResult ?? false),
-                      })
-                    }
-                  />
-                ) : null}
-
-                {step === 2 ? (
-                  <QuizStep
-                    key={`quiz-${chapter}-${muc}`}
-                    node={node}
-                    initialAnswers={reviewState.quizAnswers}
-                    initialIndex={isReplay ? 0 : (currentDraft?.quizIndex ?? 0)}
-                    initialShowResult={isReplay ? false : (currentDraft?.quizShowResult ?? false)}
-                    onProgress={(draft) => persistDraft({ step: 2, ...draft })}
-                    onDone={(score, quizAnswers) => {
-                      const mergedReview = mergeReview(
-                        { quizAnswers },
-                        { step: 3, quizScore: score, quizIndex: node.quiz.length - 1 },
-                      );
-
-                      setFlowState((current) => ({ ...current, quizScore: score }));
-                      moveToStep(3, {
-                        review: mergedReview,
-                        quizScore: score,
-                        quizIndex: node.quiz.length - 1,
+                        quizIndex: 0,
+                        quizShowResult: false,
                       });
                     }}
                   />
                 ) : null}
 
-                {step === 3 ? (
-                  <DebateStep
-                    key={`debate-${chapter}-${muc}`}
+                {step === 2 ? (
+                  <QuizStep
+                    key={`quiz-${chapter}-${muc}-${attemptKey}`}
                     node={node}
-                    score={quizScore}
-                    initialChoice={reviewState.debateChoice}
-                    onChange={(debateChoice) => mergeReview({ debateChoice }, { step: 3 })}
-                    onDone={(score, debateChoice) => complete(score, { debateChoice })}
+                    initialAnswers={reviewState.quizAnswers}
+                    initialIndex={isCompletedReview ? 0 : (currentDraft?.quizIndex ?? 0)}
+                    initialShowResult={
+                      isCompletedReview ? false : (currentDraft?.quizShowResult ?? false)
+                    }
+                    readOnly={isCompletedReview}
+                    onProgress={(draft) => {
+                      persistDraft({
+                        step: 2,
+                        ...draft,
+                      });
+                    }}
+                    onDone={(score, quizAnswers) => {
+                      void complete(score, { quizAnswers });
+                    }}
                   />
                 ) : null}
               </View>

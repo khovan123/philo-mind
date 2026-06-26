@@ -151,7 +151,7 @@ export type ChapterNodeSummary = Pick<
   ChapterNode,
   "chuong" | "muc" | "title" | "order" | "hookType"
 > & {
-  steps: ["hook", "theory", "quiz", "debate"];
+  steps: ["hook", "theory", "quiz"];
 };
 
 function splitList(value: string | undefined): string[] {
@@ -194,11 +194,23 @@ function getTheoryCards(row: ChapterCsvRow): ChapterTheoryCard[] {
 }
 
 function parseAnswerIndex(value: string | undefined): number {
-  const parsed = Number.parseInt(String(value ?? "0"), 10);
-  return Number.isFinite(parsed) ? parsed : 0;
+  const answer = String(value ?? "")
+    .trim()
+    .toUpperCase();
+
+  if (/^[A-D]$/.test(answer)) {
+    return answer.charCodeAt(0) - "A".charCodeAt(0);
+  }
+
+  const parsed = Number.parseInt(answer, 10);
+  if (!Number.isFinite(parsed)) {
+    return 0;
+  }
+
+  return parsed > 0 ? parsed - 1 : parsed;
 }
 
-function parseDragAnswers(value: string | undefined) {
+function parseLegacyDragAnswers(value: string | undefined) {
   return splitList(value).map((pair) => {
     const [cardPart, groupPart] = pair.split(":");
 
@@ -209,13 +221,57 @@ function parseDragAnswers(value: string | undefined) {
   });
 }
 
+function parseDragAnswers(row: ChapterCsvRow) {
+  const value = row.drag_answers ?? "";
+
+  if (/\bc\d+\s*:\s*g\d+\b/i.test(value)) {
+    return parseLegacyDragAnswers(value).filter(
+      (answer) => Number.isFinite(answer.cardIndex) && Number.isFinite(answer.groupIndex),
+    );
+  }
+
+  const items = splitList(row.drag_items);
+  const groups = splitList(row.drag_groups);
+  const normalizedAnswers = value.toLocaleLowerCase("vi");
+
+  return items
+    .map((item, cardIndex) => {
+      const normalizedItem = item.toLocaleLowerCase("vi");
+      const itemPosition = normalizedAnswers.indexOf(normalizedItem);
+
+      if (itemPosition < 0) {
+        return null;
+      }
+
+      const groupIndex = groups.reduce(
+        (best, group, index) => {
+          const groupPosition = normalizedAnswers.indexOf(group.toLocaleLowerCase("vi"));
+
+          if (
+            groupPosition >= 0 &&
+            groupPosition <= itemPosition &&
+            groupPosition > best.position
+          ) {
+            return { index, position: groupPosition };
+          }
+
+          return best;
+        },
+        { index: -1, position: -1 },
+      ).index;
+
+      return groupIndex >= 0 ? { cardIndex, groupIndex } : null;
+    })
+    .filter((answer): answer is { cardIndex: number; groupIndex: number } => answer !== null);
+}
+
 function buildHook(row: ChapterCsvRow, hookType: HookType): ChapterHook {
   if (hookType === "drag") {
     return {
       type: "drag",
       items: splitList(row.drag_items),
       groups: splitList(row.drag_groups),
-      answers: parseDragAnswers(row.drag_answers),
+      answers: parseDragAnswers(row),
       bridge: row.drag_bridge ?? "",
     };
   }
@@ -288,11 +344,11 @@ function mapChapterRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: numb
     theoryCards: getTheoryCards(row),
     quiz: [buildQuizQuestion(row, 1), buildQuizQuestion(row, 2), buildQuizQuestion(row, 3)],
     debate: {
-      perspectiveA: firstText(row.phan4_quan_diem_A, row.debate_A),
-      perspectiveB: firstText(row.phan4_quan_diem_B, row.debate_B),
-      explanationA: firstText(row.phan4_giai_thich_A, row.debate_A_explanation),
-      explanationB: firstText(row.phan4_giai_thich_B, row.debate_B_explanation),
-      openQuestion: firstText(row.phan4_cau_hoi_mo, row.open_q),
+      perspectiveA: firstText(row.phan4_quan_diem_A, row.debate_A, row.phan_hoi_A, row.cau1_A),
+      perspectiveB: firstText(row.phan4_quan_diem_B, row.debate_B, row.phan_hoi_B, row.cau1_B),
+      explanationA: firstText(row.phan4_giai_thich_A, row.debate_A_explanation, row.phan_hoi_A),
+      explanationB: firstText(row.phan4_giai_thich_B, row.debate_B_explanation, row.phan_hoi_B),
+      openQuestion: firstText(row.phan4_cau_hoi_mo, row.open_q, row.cau_hoi_chon, row.cau3_hoi),
     },
   };
 }
@@ -366,7 +422,7 @@ export class ChapterContentService {
       title,
       order,
       hookType,
-      steps: ["hook", "theory", "quiz", "debate"],
+      steps: ["hook", "theory", "quiz"],
     }));
   }
 

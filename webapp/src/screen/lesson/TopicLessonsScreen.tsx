@@ -29,6 +29,17 @@ const Colors = {
   buttonText: "#0C0C0E",
 };
 
+function toDisplayText(value: unknown, fallback = ""): string {
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  if (Array.isArray(value))
+    return value
+      .map((item) => toDisplayText(item))
+      .filter(Boolean)
+      .join(", ");
+  return fallback;
+}
+
 export default function TopicLessonsScreen() {
   const router = useRouter();
   const { topicId, topicTitle } = useLocalSearchParams<{
@@ -47,6 +58,7 @@ export default function TopicLessonsScreen() {
   const scenarioId = scenarios[0]?.id;
   const debateId = debates[0]?.id;
   const storyId = storyData?.stories?.[0]?.id;
+  const title = toDisplayText(topicTitle, "Bài học");
 
   return (
     <SafeAreaView edges={["top"]} style={{ flex: 1, backgroundColor: "#0C0C0E" }}>
@@ -64,9 +76,9 @@ export default function TopicLessonsScreen() {
             </Text>
             <Text
               numberOfLines={2}
-              className="font-sans text-[22px] font-black leading-[29px] text-[#E4E4E7]"
+              className="text-[22px] font-black leading-[29px] text-[#E4E4E7]"
             >
-              {topicTitle ?? "Bài học"}
+              {title}
             </Text>
           </View>
         </View>
