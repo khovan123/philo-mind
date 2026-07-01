@@ -65,6 +65,19 @@ export type ChapterNodesResponse = {
   nodes: ChapterNodeSummary[];
 };
 
+export type MovieResponse = {
+  id: string;
+  muc: string;
+  title: string;
+  script: any[]; // VNScriptNode[]
+};
+
+export type MovieSessionPayload = {
+  thienCam: number;
+  uyTin: number;
+  correctN: number;
+};
+
 export const chapterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getChapters: builder.query<ChapterMeta[], void>({
@@ -92,8 +105,30 @@ export const chapterApi = baseApi.injectEndpoints({
         { type: "Chapter", id: `${arg.chapter}-${arg.muc}` },
       ],
     }),
+
+    getMovie: builder.query<MovieResponse, string>({
+      query: (muc) => ({
+        url: `/movies/${encodeURIComponent(muc)}`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, muc) => [{ type: "Chapter", id: `MOVIE-${muc}` }],
+    }),
+
+    submitMovieSession: builder.mutation<any, { muc: string; session: MovieSessionPayload }>({
+      query: ({ muc, session }) => ({
+        url: `/movies/${encodeURIComponent(muc)}/sessions`,
+        method: "POST",
+        body: session,
+      }),
+    }),
   }),
   overrideExisting: true,
 });
 
-export const { useGetChaptersQuery, useGetChapterNodesQuery, useGetChapterNodeQuery } = chapterApi;
+export const {
+  useGetChaptersQuery,
+  useGetChapterNodesQuery,
+  useGetChapterNodeQuery,
+  useGetMovieQuery,
+  useSubmitMovieSessionMutation,
+} = chapterApi;

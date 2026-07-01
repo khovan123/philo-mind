@@ -475,6 +475,12 @@ export default function ChapterSkillTreeScreen() {
                         </View>
 
                         <View className="mt-4 flex-row flex-wrap gap-2">
+                          {node.muc === "1.1" && (
+                            <StepPill
+                              active={available && draftStep === -1}
+                              label="Phim tương tác"
+                            />
+                          )}
                           <StepPill
                             active={available && draftStep === 0}
                             label={hookLabel(node.hookType)}

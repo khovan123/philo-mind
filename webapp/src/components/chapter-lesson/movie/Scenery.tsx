@@ -31,7 +31,11 @@ export function Scenery({ sceneId, width = "100%", height = "100%" }: SceneryPro
         <Rect x="20" y="20" width="60" height="160" fill="#2a2520" />
         <Path d="M20 60 L80 60 M20 100 L80 100 M20 140 L80 140" stroke="#100e0c" strokeWidth="4" />
         <Rect x="240" y="20" width="60" height="160" fill="#2a2520" />
-        <Path d="M240 60 L300 60 M240 100 L300 100 M240 140 L300 140" stroke="#100e0c" strokeWidth="4" />
+        <Path
+          d="M240 60 L300 60 M240 100 L300 100 M240 140 L300 140"
+          stroke="#100e0c"
+          strokeWidth="4"
+        />
         <Rect x="120" y="80" width="80" height="40" fill="#c7c2b6" />
         <Path d="M120 120 L160 180 L200 120" fill="#3a342b" />
       </Svg>

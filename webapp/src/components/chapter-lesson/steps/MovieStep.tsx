@@ -1,32 +1,59 @@
 import React from "react";
-import { View } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { MovieEngine } from "../movie/MovieEngine";
-import { chapter1IntroScript } from "../movie/MovieIntroData";
+import { useGetMovieQuery, useSubmitMovieSessionMutation } from "@/services/rtk-api/chapter.api";
 
 type MovieStepProps = {
-  chapterId?: string;
+  muc?: string;
   onDone: () => void;
 };
 
-export function MovieStep({ chapterId, onDone }: MovieStepProps) {
-  // Currently we only have intro for chapter 1.
-  // If the chapter is not 1, we immediately trigger onDone so it skips this step.
-  // If chapterId is undefined, we assume it's for testing and just play the script.
-  const shouldSkip = chapterId && chapterId !== "1" && chapterId !== "chuong-1";
-  
+export function MovieStep({ muc, onDone }: MovieStepProps) {
+  const {
+    data: movie,
+    isLoading,
+    isError,
+  } = useGetMovieQuery(muc || "", {
+    skip: !muc,
+  });
+
+  const [submitSession] = useSubmitMovieSessionMutation();
+
+  const handleEnd = async (stats: { thienCam: number; uyTin: number; correctN: number }) => {
+    if (movie) {
+      try {
+        await submitSession({
+          muc: movie.muc,
+          session: stats,
+        }).unwrap();
+      } catch (err) {
+        console.error("Failed to save movie session", err);
+      }
+    }
+    onDone();
+  };
+
   React.useEffect(() => {
-    if (shouldSkip) {
+    if (!isLoading && isError) {
       onDone();
     }
-  }, [shouldSkip, onDone]);
+  }, [isLoading, isError, onDone]);
 
-  if (shouldSkip) {
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#FF8517" />
+      </View>
+    );
+  }
+
+  if (!movie || isError) {
     return null;
   }
 
   return (
-    <View style={{ flex: 1, width: '100%' }}>
-      <MovieEngine script={chapter1IntroScript} onEnd={onDone} />
+    <View style={{ flex: 1, width: "100%" }}>
+      <MovieEngine script={movie.script} onEnd={handleEnd} />
     </View>
   );
 }

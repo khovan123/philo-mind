@@ -8,7 +8,7 @@ import { MovieHUD } from "./MovieHUD";
 
 interface MovieEngineProps {
   script: VNScriptNode[];
-  onEnd: () => void;
+  onEnd: (stats: { thienCam: number; uyTin: number; correctN: number }) => void;
   onChoiceSelected?: (optionIndex: number) => void;
 }
 
@@ -16,7 +16,7 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
   const dialogueRef = useRef<MovieDialogueRef>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [injectedReply, setInjectedReply] = useState<VNSayNode | null>(null);
-  
+
   // State for HUD
   const [thienCam, setThienCam] = useState(50);
   const [uyTin, setUyTin] = useState(50);
@@ -26,8 +26,8 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
 
   const totalQ = React.useMemo(() => {
     let count = 0;
-    script.forEach(node => {
-      if (node.t === 'choice' && node.opts.some(o => o.correct)) {
+    script.forEach((node) => {
+      if (node.t === "choice" && node.opts.some((o) => o.correct)) {
         count++;
       }
     });
@@ -35,7 +35,7 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
   }, [script]);
 
   const currentNode = script[currentIndex];
-  
+
   // If we have an injected reply, we show it instead of the current node
   const activeNode = injectedReply || currentNode;
 
@@ -45,7 +45,7 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
       advanceScript();
       return;
     }
-    
+
     // For 'end' node, we do nothing on tap, wait for the user to press continue or replay
     if (activeNode.t === "end") {
       return;
@@ -60,17 +60,16 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
         setCurrentBg(activeNode.bg);
         setCurrentActName(activeNode.name);
       }
-      
+
       const timeout = setTimeout(() => {
         const nextIdx = currentIndex + 1;
         if (nextIdx >= script.length) {
-          // If script ends unexpectedly without an 'end' node
-          onEnd();
+          onEnd({ thienCam, uyTin, correctN });
         } else {
           setCurrentIndex(nextIdx);
         }
       }, 0);
-      
+
       return () => clearTimeout(timeout);
     }
   }, [activeNode, currentIndex, injectedReply, onEnd, script]);
@@ -78,7 +77,7 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
   const advanceScript = () => {
     const nextIdx = currentIndex + 1;
     if (nextIdx >= script.length) {
-      onEnd();
+      onEnd({ thienCam, uyTin, correctN });
     } else {
       setCurrentIndex(nextIdx);
     }
@@ -86,25 +85,25 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
 
   const handleChoice = (optIndex: number) => {
     if (activeNode.t !== "choice") return;
-    
+
     const choiceNode = activeNode as VNChoiceNode;
     const opt = choiceNode.opts[optIndex];
-    
-    const isQ = choiceNode.opts.some(x => x.correct);
+
+    const isQ = choiceNode.opts.some((x) => x.correct);
     if (isQ) {
       if (opt.correct) {
-        setUyTin(prev => Math.min(100, Math.max(0, prev + 10)));
-        setThienCam(prev => Math.min(100, Math.max(0, prev + 4)));
-        setCorrectN(prev => prev + 1);
+        setUyTin((prev) => Math.min(100, Math.max(0, prev + 10)));
+        setThienCam((prev) => Math.min(100, Math.max(0, prev + 4)));
+        setCorrectN((prev) => prev + 1);
       } else {
-        setUyTin(prev => Math.min(100, Math.max(0, prev - 5)));
+        setUyTin((prev) => Math.min(100, Math.max(0, prev - 5)));
       }
     }
 
     if (opt.dc) {
-      setThienCam(prev => Math.min(100, Math.max(0, prev + opt.dc!)));
+      setThienCam((prev) => Math.min(100, Math.max(0, prev + opt.dc!)));
     }
-    
+
     if (onChoiceSelected) {
       onChoiceSelected(optIndex);
     }
@@ -124,10 +123,8 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
     setCorrectN(0);
   };
 
-  // Safe checks
   if (!activeNode) return null;
 
-  // Determine stage character
   let stageChar = null;
   let stageMood = undefined;
   if (activeNode.t === "say" || activeNode.t === "choice") {
@@ -140,32 +137,37 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
   let endNote = "";
   if (activeNode.t === "end") {
     if (uyTin >= 85) {
-      endTitle = 'Báo cáo viên chính';
-      endRes = 'Bạn được mời đứng tên báo cáo tại hội thảo';
-      endNote = 'Giáo sư Lâm gật đầu hài lòng: cậu không chỉ thuộc bài, cậu hiểu mạch tư duy của cả chương.';
+      endTitle = "Báo cáo viên chính";
+      endRes = "Bạn được mời đứng tên báo cáo tại hội thảo";
+      endNote =
+        "Giáo sư Lâm gật đầu hài lòng: cậu không chỉ thuộc bài, cậu hiểu mạch tư duy của cả chương.";
     } else if (uyTin >= 60) {
-      endTitle = 'Đồng tác giả';
-      endRes = 'Bạn được ghi tên đồng tác giả';
-      endNote = 'Một kết quả vững vàng. Vài chỗ còn lăn tăn, nhưng nền tảng Chương 1 đã chắc.';
+      endTitle = "Đồng tác giả";
+      endRes = "Bạn được ghi tên đồng tác giả";
+      endNote = "Một kết quả vững vàng. Vài chỗ còn lăn tăn, nhưng nền tảng Chương 1 đã chắc.";
     } else {
-      endTitle = 'Trợ lý tập sự';
-      endRes = 'Bạn cần ôn lại trước khi đứng tên';
-      endNote = 'Giáo sư vỗ vai: “Cứ chơi lại, lần sau sẽ khác.” Khung chương đã có, chỉ cần nắm kỹ hơn.';
+      endTitle = "Trợ lý tập sự";
+      endRes = "Bạn cần ôn lại trước khi đứng tên";
+      endNote =
+        "Giáo sư vỗ vai: “Cứ chơi lại, lần sau sẽ khác.” Khung chương đã có, chỉ cần nắm kỹ hơn.";
     }
   }
 
   return (
-    <View style={{ flex: 1, width: '100%', backgroundColor: '#101018', overflow: 'hidden' }}>
-      {/* Invisible Pressable Layer for progressing dialogue */ }
-      <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} pointerEvents="none">
+    <View style={{ flex: 1, width: "100%", backgroundColor: "#101018", overflow: "hidden" }}>
+      {/* Invisible Pressable Layer for progressing dialogue */}
+      <View
+        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+        pointerEvents="none"
+      >
         <MovieStage sceneBg={currentBg} characterId={stageChar} mood={stageMood} />
       </View>
-      
+
       {/* Invisible layer to capture taps on the stage (above stage, below HUD/Dialogue) */}
       {activeNode.t === "say" && (
-        <Pressable 
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 140 }} 
-          onPress={() => dialogueRef.current?.advanceOrSkip()} 
+        <Pressable
+          style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 140 }}
+          onPress={() => dialogueRef.current?.advanceOrSkip()}
         />
       )}
 
@@ -173,15 +175,25 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
       {activeNode.t === "scene" || activeNode.t === "act" || activeNode.t === "end" ? null : (
         <MovieHUD actName={currentActName} thienCam={thienCam} uyTin={uyTin} />
       )}
-      
+
       {/* Dialogue Overlay */}
       {(activeNode.t === "say" || activeNode.t === "choice") && (
-        <View style={{ position: 'absolute', bottom: 0, left: 0, right: 0, minHeight: 140, paddingTop: 32, backgroundColor: 'rgba(10,12,9,0.85)' }}>
-          <MovieDialogue 
+        <View
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+            minHeight: 140,
+            paddingTop: 32,
+            backgroundColor: "rgba(10,12,9,0.85)",
+          }}
+        >
+          <MovieDialogue
             ref={dialogueRef}
-            who={activeNode.who} 
-            text={activeNode.t === "choice" ? activeNode.q : activeNode.text} 
-            onNext={activeNode.t === "choice" ? () => {} : handleNext} 
+            who={activeNode.who}
+            text={activeNode.t === "choice" ? activeNode.q : activeNode.text}
+            onNext={activeNode.t === "choice" ? () => {} : handleNext}
           />
         </View>
       )}
@@ -193,48 +205,96 @@ export function MovieEngine({ script, onEnd, onChoiceSelected }: MovieEngineProp
 
       {/* End Screen */}
       {activeNode.t === "end" && (
-        <View style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: '#fbbf24', textAlign: 'center', marginBottom: 10 }}>Kết thúc chương</Text>
-          <Text style={{ fontSize: 20, color: 'white', textAlign: 'center', marginBottom: 5 }}>{endTitle}</Text>
-          <Text style={{ fontSize: 16, color: '#aaa', textAlign: 'center', marginBottom: 20 }}>{endRes}</Text>
-          
-          <View style={{ backgroundColor: 'rgba(255,255,255,0.1)', padding: 15, borderRadius: 10, width: '100%', marginBottom: 20 }}>
-            <Text style={{ color: 'white', fontSize: 16, marginBottom: 5 }}>Câu đúng: {correctN}/{totalQ}</Text>
-            <Text style={{ color: 'white', fontSize: 16, marginBottom: 5 }}>Uy tín: <Text style={{ color: '#fbbf24' }}>{uyTin}</Text></Text>
-            <Text style={{ color: 'white', fontSize: 16, marginBottom: 10 }}>Thiện cảm: <Text style={{ color: '#fbbf24' }}>{thienCam}</Text></Text>
-            
-            <Text style={{ color: '#e5e7eb', fontSize: 14, fontStyle: 'italic', lineHeight: 20 }}>{endNote}</Text>
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            backgroundColor: "rgba(0,0,0,0.9)",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: 20,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: "bold",
+              color: "#fbbf24",
+              textAlign: "center",
+              marginBottom: 10,
+            }}
+          >
+            Kết thúc chương
+          </Text>
+          <Text style={{ fontSize: 20, color: "white", textAlign: "center", marginBottom: 5 }}>
+            {endTitle}
+          </Text>
+          <Text style={{ fontSize: 16, color: "#aaa", textAlign: "center", marginBottom: 20 }}>
+            {endRes}
+          </Text>
+
+          <View
+            style={{
+              backgroundColor: "rgba(255,255,255,0.1)",
+              padding: 15,
+              borderRadius: 10,
+              width: "100%",
+              marginBottom: 20,
+            }}
+          >
+            <Text style={{ color: "white", fontSize: 16, marginBottom: 5 }}>
+              Câu đúng: {correctN}/{totalQ}
+            </Text>
+            <Text style={{ color: "white", fontSize: 16, marginBottom: 5 }}>
+              Uy tín: <Text style={{ color: "#fbbf24" }}>{uyTin}</Text>
+            </Text>
+            <Text style={{ color: "white", fontSize: 16, marginBottom: 10 }}>
+              Thiện cảm: <Text style={{ color: "#fbbf24" }}>{thienCam}</Text>
+            </Text>
+
+            <Text style={{ color: "#e5e7eb", fontSize: 14, fontStyle: "italic", lineHeight: 20 }}>
+              {endNote}
+            </Text>
           </View>
-          
-          <Pressable 
-            onPress={onEnd}
+
+          <Pressable
+            onPress={() => onEnd({ thienCam, uyTin, correctN })}
             style={({ pressed }) => ({
-              backgroundColor: '#3b82f6',
+              backgroundColor: "#3b82f6",
               paddingVertical: 12,
               paddingHorizontal: 30,
               borderRadius: 20,
               opacity: pressed ? 0.8 : 1,
               marginBottom: 15,
-              width: '100%'
+              width: "100%",
             })}
           >
-            <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Tiếp tục</Text>
+            <Text style={{ color: "white", fontSize: 16, fontWeight: "bold", textAlign: "center" }}>
+              Tiếp tục
+            </Text>
           </Pressable>
 
-          <Pressable 
+          <Pressable
             onPress={handleReplay}
             style={({ pressed }) => ({
-              backgroundColor: 'transparent',
+              backgroundColor: "transparent",
               borderWidth: 1,
-              borderColor: '#6b7280',
+              borderColor: "#6b7280",
               paddingVertical: 12,
               paddingHorizontal: 30,
               borderRadius: 20,
               opacity: pressed ? 0.8 : 1,
-              width: '100%'
+              width: "100%",
             })}
           >
-            <Text style={{ color: '#9ca3af', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Chơi lại</Text>
+            <Text
+              style={{ color: "#9ca3af", fontSize: 16, fontWeight: "bold", textAlign: "center" }}
+            >
+              Chơi lại
+            </Text>
           </Pressable>
         </View>
       )}

@@ -156,6 +156,7 @@ model User {
   reports              Report[]              @relation("ReporterReports")
   moderationActions    ModerationAction[]    @relation("ModeratorActions")
   passwordResets       PasswordReset[]
+  movieSessions        MovieSession[]
 
   @@map("users")
 }
@@ -468,19 +469,19 @@ model RealLifeScenario {
 }
 
 model ScenarioResponse {
-  id               String   @id @default(uuid()) @db.Uuid
-  scenarioId       String   @map("scenario_id") @db.Uuid
-  userId           String   @map("user_id") @db.Uuid
-  selectedDecision String?  @map("selected_decision")
-  reason           String?  @map("reason")
-  
-  initialPosition  String   @map("initial_position")
-  reasoning        String?  @map("reasoning")
-  revisedPosition  String?  @map("revised_position")
-  reflection       String?  @map("reflection")
-  
-  createdAt        DateTime @default(now()) @map("created_at")
-  updatedAt        DateTime @updatedAt @map("updated_at")
+  id               String  @id @default(uuid()) @db.Uuid
+  scenarioId       String  @map("scenario_id") @db.Uuid
+  userId           String  @map("user_id") @db.Uuid
+  selectedDecision String? @map("selected_decision")
+  reason           String? @map("reason")
+
+  initialPosition String  @map("initial_position")
+  reasoning       String? @map("reasoning")
+  revisedPosition String? @map("revised_position")
+  reflection      String? @map("reflection")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
   user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -978,4 +979,72 @@ model TopicPerspective {
   @@unique([topicId, perspectiveType])
   @@index([topicId])
   @@map("topic_perspectives")
+}
+
+// ── Chapter and Movie Engine models ─────────────────────────────
+
+model Chapter {
+  id          String   @id @default(uuid()) @db.Uuid
+  code        String   @unique @db.VarChar(100) // "chuong1"
+  title       String   @db.VarChar(200)
+  description String?
+  order       String[]
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  nodes  ChapterNode[]
+  movies Movie[]
+
+  @@index([code])
+  @@map("chapters")
+}
+
+model ChapterNode {
+  id        String   @id @default(uuid()) @db.Uuid
+  chapterId String   @map("chapter_id") @db.Uuid
+  muc       String   @db.VarChar(100)
+  title     String   @map("tieu_de_muc") @db.VarChar(200)
+  data      Json // parsed CSV row data
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  @@unique([chapterId, muc])
+  @@map("chapter_nodes")
+}
+
+model Movie {
+  id          String   @id @default(uuid()) @db.Uuid
+  chapterId   String?  @map("chapter_id") @db.Uuid
+  muc         String   @db.VarChar(100) // e.g. "1.1"
+  title       String   @db.VarChar(200)
+  script      Json // Array of VNScriptNode
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  chapter  Chapter?       @relation(fields: [chapterId], references: [id], onDelete: SetNull)
+  sessions MovieSession[]
+
+  @@index([muc])
+  @@map("movies")
+}
+
+model MovieSession {
+  id        String   @id @default(uuid()) @db.Uuid
+  movieId   String   @map("movie_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  thienCam  Int      @default(50) @map("thien_cam")
+  uyTin     Int      @default(50) @map("uy_tin")
+  correctN  Int      @default(0) @map("correct_n")
+  isPassed  Boolean  @default(false) @map("is_passed")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([movieId, userId])
+  @@index([userId])
+  @@map("movie_sessions")
 }

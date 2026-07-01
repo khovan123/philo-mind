@@ -40,11 +40,12 @@ function stepName(step: FlowStep) {
   return CHAPTER_LESSON_STEP_NAMES[step] ?? "Bài học";
 }
 
-function createDefaultFlowState(lessonKey: string): FlowState {
+function createDefaultFlowState(lessonKey: string, muc?: string): FlowState {
+  const hasMovie = muc === "1.1";
   return {
     lessonKey,
     hydrated: false,
-    step: -1,
+    step: hasMovie ? -1 : 0,
     quizScore: 0,
     reviewState: {},
   };
@@ -54,18 +55,28 @@ function createHydratedFlowState({
   currentProgress,
   isReplay,
   lessonKey,
+  muc,
 }: {
   currentProgress?: ChapterProgressItem;
   isReplay: boolean;
   lessonKey: string;
+  muc?: string;
 }): FlowState {
   const draft = currentProgress?.draft;
   const reviewState = currentProgress?.review ?? draft?.review ?? {};
+  const hasMovie = muc === "1.1";
+
+  let initialStep: FlowStep = hasMovie ? -1 : 0;
+  if (currentProgress?.status === "done" && isReplay) {
+    initialStep = 0;
+  } else if (draft?.step !== undefined) {
+    initialStep = toFlowStep(draft.step);
+  }
 
   return {
     lessonKey,
     hydrated: true,
-    step: currentProgress?.status === "done" && isReplay ? 0 : toFlowStep(draft?.step),
+    step: initialStep,
     quizScore:
       currentProgress?.status === "done" ? (currentProgress.score ?? 0) : (draft?.quizScore ?? 0),
     reviewState,
@@ -108,17 +119,19 @@ export default function ChapterLessonFlowScreen() {
   const currentDraft = currentProgress?.draft;
   const lessonKey = `${chapter ?? ""}:${muc ?? ""}:${isReplay ? "replay" : "learn"}`;
 
-  const [flowState, setFlowState] = useState<FlowState>(() => createDefaultFlowState(lessonKey));
+  const [flowState, setFlowState] = useState<FlowState>(() =>
+    createDefaultFlowState(lessonKey, muc),
+  );
   const [isRelearning, setIsRelearning] = useState(false);
   const [attemptKey, setAttemptKey] = useState(0);
 
   const isCompletedReview = currentProgress?.status === "done" && isReplay && !isRelearning;
 
   useEffect(() => {
-    setFlowState(createDefaultFlowState(lessonKey));
+    setFlowState(createDefaultFlowState(lessonKey, muc));
     setIsRelearning(false);
     setAttemptKey(0);
-  }, [lessonKey]);
+  }, [lessonKey, muc]);
 
   useEffect(() => {
     if (!ready || !muc) return;
@@ -132,12 +145,13 @@ export default function ChapterLessonFlowScreen() {
         currentProgress,
         isReplay,
         lessonKey,
+        muc,
       });
     });
   }, [currentProgress, isReplay, lessonKey, muc, ready]);
 
   const activeFlowState =
-    flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey);
+    flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey, muc);
 
   const { step, quizScore, reviewState } = activeFlowState;
 
@@ -200,17 +214,19 @@ export default function ChapterLessonFlowScreen() {
     setIsRelearning(true);
     setAttemptKey((current) => current + 1);
 
+    const hasMovie = muc === "1.1";
+
     setFlowState({
       lessonKey,
       hydrated: true,
-      step: -1,
+      step: hasMovie ? -1 : 0,
       quizScore: 0,
       reviewState: {},
     });
 
     if (muc) {
       saveNodeDraft(muc, {
-        step: -1,
+        step: hasMovie ? -1 : 0,
         review: {},
         quizScore: 0,
         theoryIndex: 0,
@@ -300,10 +316,10 @@ export default function ChapterLessonFlowScreen() {
 
           {node && ready ? (
             step === -1 ? (
-              <View style={{ flex: 1, width: '100%' }}>
+              <View style={{ flex: 1, width: "100%" }}>
                 <MovieStep
                   key={`intro-${chapter}-${muc}-${attemptKey}`}
-                  chapterId={chapter}
+                  muc={muc}
                   onDone={() => moveToStep(0)}
                 />
               </View>
@@ -323,50 +339,50 @@ export default function ChapterLessonFlowScreen() {
                     />
                   ) : null}
 
-                {step === 1 ? (
-                  <TheoryStep
-                    key={`theory-${chapter}-${muc}-${attemptKey}`}
-                    node={node}
-                    initialIndex={isCompletedReview ? 0 : (currentDraft?.theoryIndex ?? 0)}
-                    onIndexChange={(theoryIndex) => {
-                      persistDraft({
-                        step: 1,
-                        theoryIndex,
-                      });
-                    }}
-                    onDone={(theoryIndex) => {
-                      moveToStep(2, {
-                        theoryIndex,
-                        quizIndex: 0,
-                        quizShowResult: false,
-                      });
-                    }}
-                  />
-                ) : null}
+                  {step === 1 ? (
+                    <TheoryStep
+                      key={`theory-${chapter}-${muc}-${attemptKey}`}
+                      node={node}
+                      initialIndex={isCompletedReview ? 0 : (currentDraft?.theoryIndex ?? 0)}
+                      onIndexChange={(theoryIndex) => {
+                        persistDraft({
+                          step: 1,
+                          theoryIndex,
+                        });
+                      }}
+                      onDone={(theoryIndex) => {
+                        moveToStep(2, {
+                          theoryIndex,
+                          quizIndex: 0,
+                          quizShowResult: false,
+                        });
+                      }}
+                    />
+                  ) : null}
 
-                {step === 2 ? (
-                  <QuizStep
-                    key={`quiz-${chapter}-${muc}-${attemptKey}`}
-                    node={node}
-                    initialAnswers={reviewState.quizAnswers}
-                    initialIndex={isCompletedReview ? 0 : (currentDraft?.quizIndex ?? 0)}
-                    initialShowResult={
-                      isCompletedReview ? false : (currentDraft?.quizShowResult ?? false)
-                    }
-                    readOnly={isCompletedReview}
-                    onProgress={(draft) => {
-                      persistDraft({
-                        step: 2,
-                        ...draft,
-                      });
-                    }}
-                    onDone={(score, quizAnswers) => {
-                      void complete(score, { quizAnswers });
-                    }}
-                  />
-                ) : null}
-              </View>
-            </ScrollView>
+                  {step === 2 ? (
+                    <QuizStep
+                      key={`quiz-${chapter}-${muc}-${attemptKey}`}
+                      node={node}
+                      initialAnswers={reviewState.quizAnswers}
+                      initialIndex={isCompletedReview ? 0 : (currentDraft?.quizIndex ?? 0)}
+                      initialShowResult={
+                        isCompletedReview ? false : (currentDraft?.quizShowResult ?? false)
+                      }
+                      readOnly={isCompletedReview}
+                      onProgress={(draft) => {
+                        persistDraft({
+                          step: 2,
+                          ...draft,
+                        });
+                      }}
+                      onDone={(score, quizAnswers) => {
+                        void complete(score, { quizAnswers });
+                      }}
+                    />
+                  ) : null}
+                </View>
+              </ScrollView>
             )
           ) : null}
         </View>

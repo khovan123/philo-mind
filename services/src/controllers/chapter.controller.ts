@@ -1,51 +1,50 @@
 import type { Request, Response } from "express";
-import { ChapterContentService } from "../services/chapter-content.service.js";
 import { sendError, sendSuccess } from "../utils/response.js";
+import { ChapterContentService } from "../services/chapter-content.service.js";
 
 export class ChapterController {
-  getChapters(_req: Request, res: Response) {
+  async getChapters(_req: Request, res: Response) {
     try {
-      return sendSuccess(res, ChapterContentService.listChapters());
+      const chapters = await ChapterContentService.getChaptersFromDb();
+      return sendSuccess(res, chapters);
     } catch (err) {
       const error = err as Error;
       return sendError(res, "CHAPTER_LIST_ERROR", error.message, 500);
     }
   }
 
-  getNodes(req: Request, res: Response) {
+  async getNodes(req: Request, res: Response) {
     try {
-      const chapter = String(req.params.chapter);
+      const chapterCode = String(req.params.chapter);
+      const data = await ChapterContentService.getNodesFromDb(chapterCode);
 
-      const nodes = ChapterContentService.listNodes(chapter);
-
-      return sendSuccess(res, {
-        order: nodes.map((node) => node.muc),
-        nodes,
-      });
+      return sendSuccess(res, data);
     } catch (err) {
       const error = err as Error;
-      const status = error.message.includes("không hợp lệ") ? 400 : 500;
-
-      return sendError(res, "CHAPTER_CSV_READ_ERROR", error.message, status);
+      if (error.message === "Không tìm thấy chương") {
+        return sendError(res, "CHAPTER_NOT_FOUND", error.message, 404);
+      }
+      return sendError(res, "CHAPTER_DB_READ_ERROR", error.message, 500);
     }
   }
 
-  getNodeByMuc(req: Request, res: Response) {
+  async getNodeByMuc(req: Request, res: Response) {
     try {
-      const chapter = String(req.params.chapter);
+      const chapterCode = String(req.params.chapter);
       const muc = String(req.params.muc);
-      const node = ChapterContentService.getNode(chapter, muc);
 
-      if (!node) {
-        return sendError(res, "CHAPTER_NODE_NOT_FOUND", "Không tìm thấy node bài học", 404);
-      }
+      const nodeData = await ChapterContentService.getNodeByMucFromDb(chapterCode, muc);
 
-      return sendSuccess(res, node);
+      return sendSuccess(res, nodeData);
     } catch (err) {
       const error = err as Error;
-      const status = error.message.includes("không hợp lệ") ? 400 : 500;
-
-      return sendError(res, "CHAPTER_CSV_READ_ERROR", error.message, status);
+      if (error.message === "Không tìm thấy chương") {
+        return sendError(res, "CHAPTER_NOT_FOUND", error.message, 404);
+      }
+      if (error.message === "Không tìm thấy node bài học") {
+        return sendError(res, "CHAPTER_NODE_NOT_FOUND", error.message, 404);
+      }
+      return sendError(res, "CHAPTER_DB_READ_ERROR", error.message, 500);
     }
   }
 }

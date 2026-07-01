@@ -15,9 +15,9 @@ export function MovieStage({ sceneBg, characterId, mood }: MovieStageProps) {
   return (
     <View style={StyleSheet.absoluteFillObject} className="bg-black overflow-hidden">
       {/* Background Scenery */}
-      <Animated.View 
+      <Animated.View
         key={sceneBg}
-        entering={FadeIn.duration(500)} 
+        entering={FadeIn.duration(500)}
         exiting={FadeOut.duration(500)}
         style={StyleSheet.absoluteFillObject}
       >
@@ -26,8 +26,10 @@ export function MovieStage({ sceneBg, characterId, mood }: MovieStageProps) {
 
       {/* Character Overlay */}
       {characterId && characterId !== "narr" && characterId !== "you" && (
-        <View style={{ position: 'absolute', bottom: 100, left: 0, right: 0, alignItems: 'center' }}>
-          <Animated.View 
+        <View
+          style={{ position: "absolute", bottom: 100, left: 0, right: 0, alignItems: "center" }}
+        >
+          <Animated.View
             key={characterId + (mood || "neutral")}
             entering={SlideInDown.duration(400).springify()}
             style={{ width: 288, height: 320, opacity: 0.95 }}
@@ -36,7 +38,7 @@ export function MovieStage({ sceneBg, characterId, mood }: MovieStageProps) {
           </Animated.View>
         </View>
       )}
-      
+
       {/* Gradient Overlay to blend with the dialogue section below */}
       <View className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#171720] to-transparent pointer-events-none" />
     </View>

@@ -2,6 +2,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CsvContentReaderService } from "./csv-content-reader.service.js";
 import { existsSync, readdirSync } from "node:fs";
+import { prisma } from "../config/prisma.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -428,5 +429,70 @@ export class ChapterContentService {
 
   static getNode(chapter: string | number, muc: string): ChapterNode | null {
     return this.listNodes(chapter).find((node) => node.muc === muc) ?? null;
+  }
+
+  // thấy mấy function trên nớ k đọc từ db mà đọc từ cvs nên viết mấy function khác đọc từ db,
+  // ai đọc được mấy dòng ni thì xem nên sửa luôn đưa hết data vô db luôn chưa chớ thấy nửa đọc từ cvs nửa đọc từ db sao sao á
+
+  static async getChaptersFromDb() {
+    const chapters = await prisma.chapter.findMany({
+      orderBy: { code: "asc" },
+    });
+    return chapters.map((ch) => ({
+      id: ch.code,
+      title: ch.title,
+      order: ch.order,
+    }));
+  }
+
+  static async getNodesFromDb(chapterCode: string) {
+    const chapter = await prisma.chapter.findUnique({
+      where: { code: chapterCode },
+      include: { nodes: { orderBy: { muc: "asc" } } },
+    });
+
+    if (!chapter) {
+      throw new Error("Không tìm thấy chương");
+    }
+
+    return {
+      order: chapter.order,
+      nodes: chapter.nodes.map((n) => {
+        const data = n.data as any;
+        return {
+          chuong: data.chuong,
+          muc: data.muc,
+          title: data.title,
+          order: data.order,
+          hookType: data.hookType,
+          steps: ["hook", "theory", "quiz"],
+        };
+      }),
+    };
+  }
+
+  static async getNodeByMucFromDb(chapterCode: string, muc: string) {
+    const chapter = await prisma.chapter.findUnique({
+      where: { code: chapterCode },
+    });
+
+    if (!chapter) {
+      throw new Error("Không tìm thấy chương");
+    }
+
+    const node = await prisma.chapterNode.findUnique({
+      where: {
+        chapterId_muc: {
+          chapterId: chapter.id,
+          muc: muc,
+        },
+      },
+    });
+
+    if (!node) {
+      throw new Error("Không tìm thấy node bài học");
+    }
+
+    return node.data;
   }
 }
