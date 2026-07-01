@@ -8,6 +8,7 @@ import { StepBar } from "@/components/chapter-lesson/ChapterLessonUI";
 import { HookStep } from "@/components/chapter-lesson/steps/HookStep";
 import { QuizStep } from "@/components/chapter-lesson/steps/QuizStep";
 import { TheoryStep } from "@/components/chapter-lesson/steps/TheoryStep";
+import { MovieStep } from "@/components/chapter-lesson/steps/MovieStep";
 import { CHAPTER_LESSON_STEP_NAMES, LessonColors } from "@/constants/chapterLesson";
 import { useChapterProgress } from "@/features/chapter/progress";
 import { useGetChapterNodeQuery, useGetChapterNodesQuery } from "@/services/rtk-api/chapter.api";
@@ -32,7 +33,7 @@ type FlowState = {
 };
 
 function toFlowStep(value: unknown): FlowStep {
-  return value === 1 || value === 2 ? value : 0;
+  return value === -1 || value === 0 || value === 1 || value === 2 ? (value as FlowStep) : -1;
 }
 
 function stepName(step: FlowStep) {
@@ -43,7 +44,7 @@ function createDefaultFlowState(lessonKey: string): FlowState {
   return {
     lessonKey,
     hydrated: false,
-    step: 0,
+    step: -1,
     quizScore: 0,
     reviewState: {},
   };
@@ -202,14 +203,14 @@ export default function ChapterLessonFlowScreen() {
     setFlowState({
       lessonKey,
       hydrated: true,
-      step: 0,
+      step: -1,
       quizScore: 0,
       reviewState: {},
     });
 
     if (muc) {
       saveNodeDraft(muc, {
-        step: 0,
+        step: -1,
         review: {},
         quizScore: 0,
         theoryIndex: 0,
@@ -269,6 +270,7 @@ export default function ChapterLessonFlowScreen() {
             <StepBar
               step={step}
               maxPressableStep={isCompletedReview ? 2 : step}
+              steps={chapter === "1" || chapter === "chuong-1" ? [-1, 0, 1, 2] : [0, 1, 2]}
               onStepPress={goToStepFromBar}
             />
           </View>
@@ -297,20 +299,29 @@ export default function ChapterLessonFlowScreen() {
           ) : null}
 
           {node && ready ? (
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View className="px-5 pb-12 pt-1">
-                {step === 0 ? (
-                  <HookStep
-                    key={`hook-${chapter}-${muc}-${attemptKey}`}
-                    node={node}
-                    review={reviewState}
-                    onChange={(nextReview) => mergeReview(nextReview, { step: 0 })}
-                    onDone={(nextReview) => {
-                      const mergedReview = mergeReview(nextReview, { step: 1 });
-                      moveToStep(1, { review: mergedReview });
-                    }}
-                  />
-                ) : null}
+            step === -1 ? (
+              <View style={{ flex: 1, width: '100%' }}>
+                <MovieStep
+                  key={`intro-${chapter}-${muc}-${attemptKey}`}
+                  chapterId={chapter}
+                  onDone={() => moveToStep(0)}
+                />
+              </View>
+            ) : (
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View className="px-5 pb-12 pt-1">
+                  {step === 0 ? (
+                    <HookStep
+                      key={`hook-${chapter}-${muc}-${attemptKey}`}
+                      node={node}
+                      review={reviewState}
+                      onChange={(nextReview) => mergeReview(nextReview, { step: 0 })}
+                      onDone={(nextReview) => {
+                        const mergedReview = mergeReview(nextReview, { step: 1 });
+                        moveToStep(1, { review: mergedReview });
+                      }}
+                    />
+                  ) : null}
 
                 {step === 1 ? (
                   <TheoryStep
@@ -356,6 +367,7 @@ export default function ChapterLessonFlowScreen() {
                 ) : null}
               </View>
             </ScrollView>
+            )
           ) : null}
         </View>
       </View>

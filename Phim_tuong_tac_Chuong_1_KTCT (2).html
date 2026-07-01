@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phim tương tác — Chương 1 KTCT Mác - Lênin</title>
+<style>
+  :root{
+    --teal:#13715a; --purp:#5a51c0; --coral:#a8421f; --gold:#d8a13a;
+    --accent:var(--teal);
+    --bg0:#10130f; --panel:#161a16; --panelhi:#1d231d; --line:#33402f;
+    --txt:#f3efe2; --txt-soft:#aeb6a4;
+    --font-d:Georgia,"Times New Roman",serif;
+    --font-b:system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{font-family:var(--font-b); color:var(--txt); background:#0a0c09;
+    display:flex; align-items:center; justify-content:center; min-height:100%; padding:14px}
+  .game{width:100%; max-width:430px; background:var(--bg0);
+    border:1px solid var(--line); box-shadow:0 30px 70px -30px #000; overflow:hidden;
+    display:flex; flex-direction:column}
+
+  /* HUD */
+  .hud{display:flex; align-items:center; gap:14px; padding:10px 14px;
+    background:#0d100c; border-bottom:1px solid var(--line)}
+  .act-chip{font-family:var(--font-d); font-weight:700; font-size:12px; letter-spacing:.18em;
+    color:var(--accent); text-transform:uppercase; white-space:nowrap}
+  .meters{display:flex; gap:14px; margin-left:auto; flex-wrap:wrap}
+  .meter{display:flex; align-items:center; gap:7px}
+  .meter span{font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--txt-soft)}
+  .bar{width:74px; height:7px; background:#222a21; border:1px solid var(--line); position:relative}
+  .bar > i{position:absolute; inset:0; width:50%; transition:width .5s ease}
+  .bar.uy > i{background:var(--gold)}
+  .bar.tc > i{background:#5aa6c0}
+
+  /* stage */
+  .stage{position:relative; aspect-ratio:9/16; background:#0e120d; overflow:hidden;
+    border-bottom:1px solid var(--line)}
+  .scenery{position:absolute; inset:0; transition:opacity .6s}
+  .vignette{position:absolute; inset:0; pointer-events:none;
+    background:radial-gradient(120% 90% at 50% 30%, transparent 55%, rgba(0,0,0,.55))}
+  .actor{position:absolute; left:50%; bottom:0; transform:translateX(-50%);
+    width:min(58%,300px); filter:drop-shadow(0 12px 22px rgba(0,0,0,.5));
+    transition:opacity .35s, transform .35s}
+  .actor.in{animation:rise .4s ease}
+  @keyframes rise{from{opacity:0; transform:translateX(-50%) translateY(10px)}}
+
+  /* dialogue */
+  .dialogue{position:absolute; left:0; right:0; bottom:0; padding:14px 16px 16px;
+    background:linear-gradient(180deg, rgba(10,12,9,0) 0%, rgba(10,12,9,.82) 26%, rgba(10,12,9,.96) 100%);
+    cursor:pointer; min-height:122px}
+  .nameplate{display:inline-flex; align-items:center; gap:8px; margin-bottom:7px}
+  .nameplate b{font-family:var(--font-d); font-size:15px; color:var(--accent)}
+  .nameplate .role{font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--txt-soft)}
+  .dlg-text{font-size:15.5px; line-height:1.6; min-height:3em; max-width:62ch}
+  .dlg-text.narr{font-style:italic; color:var(--txt-soft)}
+  .cursor{display:inline-block; width:8px; color:var(--accent); animation:blink 1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .next-hint{position:absolute; right:16px; bottom:12px; color:var(--accent); font-size:18px;
+    animation:bob 1.1s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateX(4px)}}
+
+  /* choices */
+  .choices{position:absolute; inset:0; display:flex; flex-direction:column; gap:9px;
+    align-items:center; justify-content:center; padding:22px;
+    background:rgba(8,10,7,.74); backdrop-filter:blur(2px)}
+  .q{font-family:var(--font-d); font-size:15px; text-align:center; color:var(--txt);
+    margin-bottom:6px; max-width:54ch}
+  .choice{font:inherit; cursor:pointer; width:min(560px,100%); text-align:left;
+    padding:12px 15px; background:#171c16; color:var(--txt); border:1px solid var(--line);
+    display:flex; gap:11px; line-height:1.45; transition:border-color .15s, background .15s, transform .05s}
+  .choice:hover{border-color:var(--accent); background:#1e251d}
+  .choice:active{transform:translateY(1px)}
+  .choice:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+  .choice .k{font-family:var(--font-d); font-weight:700; color:var(--accent)}
+
+  /* act stamp */
+  .stamp{position:absolute; inset:0; display:grid; place-items:center;
+    background:rgba(8,10,7,.9); z-index:5}
+  .stamp .seal{width:120px; height:120px; border-radius:50%; border:3px solid var(--accent);
+    color:var(--accent); display:grid; place-items:center; font-family:var(--font-d);
+    font-weight:700; font-size:40px; transform:rotate(-10deg) scale(.4); opacity:0;
+    animation:slam .5s cubic-bezier(.2,1.5,.4,1) forwards; position:relative}
+  .stamp .seal small{position:absolute; bottom:16px; font-size:9px; letter-spacing:.16em;
+    text-transform:uppercase; font-family:var(--font-b)}
+  @keyframes slam{to{transform:rotate(-10deg) scale(1); opacity:.95}}
+  .stamp .cap{position:absolute; bottom:18%; width:100%; text-align:center; color:var(--txt);
+    font-family:var(--font-d); font-size:15px; opacity:0; animation:fadein .5s .35s forwards}
+  @keyframes fadein{to{opacity:1}}
+
+  /* ending */
+  .ending{padding:26px 24px 30px}
+  .ending .eb{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent)}
+  .ending h2{font-family:var(--font-d); font-size:24px; margin:6px 0 4px}
+  .ending .res{font-family:var(--font-d); color:var(--gold); font-size:17px; margin-bottom:12px}
+  .ending p{color:var(--txt-soft); line-height:1.6; font-size:14.5px}
+  .ending .stats{display:flex; gap:18px; margin:14px 0 18px; flex-wrap:wrap; font-size:13px}
+  .ending .stats b{color:var(--gold)}
+  .btn{font:inherit; font-weight:600; cursor:pointer; padding:11px 22px; border:1px solid var(--line);
+    background:var(--accent); color:#0a0c09}
+  .btn.ghost{background:none; color:var(--txt)}
+  .btn:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  .skip{position:absolute; top:8px; right:10px; z-index:6; font:inherit; font-size:11px;
+    letter-spacing:.1em; color:var(--txt-soft); background:none; border:none; cursor:pointer; opacity:.7}
+  .skip:hover{opacity:1; color:var(--txt)}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+<div class="game">
+  <div class="hud">
+    <span class="act-chip" id="actchip">Màn mở đầu</span>
+    <div class="meters">
+      <div class="meter"><span>Uy tín</span><div class="bar uy"><i id="uy"></i></div></div>
+      <div class="meter"><span>Thiện cảm</span><div class="bar tc"><i id="tc"></i></div></div>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="scenery" id="scenery"></div>
+    <div class="vignette"></div>
+    <div id="actorwrap"></div>
+    <button class="skip" id="skipbtn" type="button">Bỏ qua hiệu ứng chữ ▸</button>
+    <div class="dialogue" id="dialogue">
+      <div class="nameplate" id="nameplate"></div>
+      <div class="dlg-text" id="dlgtext"></div>
+      <div class="next-hint" id="nexthint">▸</div>
+    </div>
+    <div id="choicewrap"></div>
+    <div id="stampwrap"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- characters & avatars ---------- */
+const CH = {
+  narr:{name:'',role:''},
+  you :{name:'Bạn', role:'Trợ lý nghiên cứu', skin:'#eebf95', hair:'#241f1c', hairS:'short', coat:'#2f4a40', glasses:false},
+  lam :{name:'GS. Lâm', role:'Người hướng dẫn', skin:'#e7b78c', hair:'#c7c2b6', hairS:'swept', coat:'#34503f', glasses:true},
+  an  :{name:'Thủ thư An', role:'Thủ thư lưu trữ', skin:'#f0c6a2', hair:'#2c2723', hairS:'bun', coat:'#5a51c0', glasses:false},
+  khoa:{name:'TS. Khoa', role:'Phản biện viên', skin:'#d7a079', hair:'#1d1b19', hairS:'short', coat:'#46382f', glasses:true},
+  minh:{name:'SV. Minh', role:'Sinh viên', skin:'#f1c59f', hair:'#27221e', hairS:'short', coat:'#a8421f', glasses:false},
+};
+function face(key,mood){
+  const c=CH[key]; if(!c||!c.skin) return '';
+  // eyebrows + mouth by mood
+  let browL='M62 96 q14 -6 28 0', browR='M130 96 q14 -6 28 0', mouth='M92 150 q28 14 56 0';
+  if(mood==='happy'){ mouth='M88 146 q32 24 64 0'; }
+  if(mood==='concern'){ browL='M62 92 q14 8 28 2'; browR='M130 94 q14 -8 28 -2'; mouth='M96 154 q24 -8 48 0'; }
+  if(mood==='stern'){ browL='M62 98 q14 -2 28 4'; browR='M130 102 q14 -6 28 -4'; mouth='M96 152 h48'; }
+  const glasses=c.glasses?`<g fill="none" stroke="#2a2a2a" stroke-width="3">
+     <circle cx="83" cy="118" r="18"/><circle cx="157" cy="118" r="18"/>
+     <path d="M101 116 h38"/><path d="M65 116 l-12 4"/><path d="M175 116 l12 4"/></g>`:'';
+  let hair='';
+  if(c.hairS==='swept') hair=`<path d="M44 96 q4 -64 76 -64 q72 0 76 64 q-20 -34 -76 -34 q-50 0 -76 34Z" fill="${c.hair}"/>`;
+  if(c.hairS==='short') hair=`<path d="M48 100 q2 -66 72 -66 q70 0 72 66 q-18 -40 -72 -40 q-54 0 -72 40Z" fill="${c.hair}"/>`;
+  if(c.hairS==='bun')   hair=`<circle cx="120" cy="30" r="16" fill="${c.hair}"/><path d="M50 102 q0 -64 70 -64 q70 0 70 64 q-16 -42 -70 -42 q-54 0 -70 42Z" fill="${c.hair}"/>`;
+  return `<svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M30 240 q0 -64 90 -64 q90 0 90 64Z" fill="${c.coat}"/>
+    <path d="M96 168 h48 v24 q-24 14 -48 0Z" fill="${c.skin}"/>
+    <ellipse cx="120" cy="118" rx="62" ry="68" fill="${c.skin}"/>
+    ${hair}
+    <g fill="#2a211c"><circle cx="83" cy="120" r="6"/><circle cx="157" cy="120" r="6"/></g>
+    <g fill="none" stroke="#3a2f28" stroke-width="5" stroke-linecap="round">
+      <path d="${browL}"/><path d="${browR}"/></g>
+    ${glasses}
+    <path d="${mouth}" fill="none" stroke="#9a4b3c" stroke-width="4" stroke-linecap="round"/>
+  </svg>`;
+}
+
+/* ---------- scenery ---------- */
+function scenery(bg){
+  if(bg==='thukho') return `<svg viewBox="0 0 450 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="450" height="800" fill="#171b14"/>
+    <g fill="#20271d">${[20,160,300].map(x=>`<rect x="${x}" y="40" width="110" height="530"/>`).join('')}</g>
+    <g fill="#39301f" opacity=".8">${[0,1,2,3,4,5,6].map(r=>[20,160,300].map(x=>`<rect x="${x+8}" y="${58+r*72}" width="94" height="54"/>`).join('')).join('')}</g>
+    <rect x="0" y="560" width="450" height="240" fill="#11140f"/>
+    <rect x="0" y="556" width="450" height="10" fill="#000" opacity=".35"/>
+    <ellipse cx="225" cy="650" rx="230" ry="150" fill="#2a3322" opacity=".45"/></svg>`;
+  if(bg==='hoithao') return `<svg viewBox="0 0 450 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="450" height="800" fill="#16141f"/>
+    <rect x="40" y="40" width="370" height="230" fill="#1f1b2e"/>
+    <rect x="60" y="60" width="330" height="190" fill="#2a2442"/>
+    <g fill="#3a3257">${[0,1,2].map(r=>[0,1,2,3].map(co=>`<rect x="${80+co*76}" y="${80+r*54}" width="56" height="36"/>`).join('')).join('')}</g>
+    <rect x="0" y="560" width="450" height="240" fill="#141225"/>
+    <rect x="0" y="556" width="450" height="10" fill="#000" opacity=".35"/>
+    <ellipse cx="225" cy="650" rx="230" ry="150" fill="#3b3460" opacity=".4"/></svg>`;
+  return `<svg viewBox="0 0 450 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <rect width="450" height="800" fill="#1c130f"/>
+    <rect x="0" y="560" width="450" height="240" fill="#241712"/>
+    <rect x="0" y="556" width="450" height="10" fill="#000" opacity=".35"/>
+    <g fill="#3a241a">${[30,170,300].map(x=>`<rect x="${x}" y="580" width="100" height="72" rx="6"/>`).join('')}</g>
+    <ellipse cx="225" cy="240" rx="210" ry="170" fill="#48291c" opacity=".5"/></svg>`;
+}
+
+/* ---------- flow ---------- */
+const A={1:'var(--teal)',2:'var(--purp)',3:'var(--coral)'};
+function say(who,mood,text){return {t:'say',who,mood,text}}
+function choice(who,mood,q,opts){return {t:'choice',who,mood,q,opts}}
+
+const flow=[
+ {t:'scene',bg:'thukho',act:1,name:'Màn I · Nguồn gốc'},
+ say('narr','', 'Tầng hầm lưu trữ của viện. Mùi giấy cũ phảng phất. GS. Lâm đặt lên bàn một cuốn sách bìa da đã sờn.'),
+ say('lam','neutral','Chào trợ lý mới. Muốn được đứng tên trong hội thảo “Nhập môn Kinh tế chính trị Mác - Lênin”, cậu phải qua ba cửa. Cửa đầu tiên ở ngay đây.'),
+ choice('lam','neutral','Cậu thấy sẵn sàng chứ?',[
+   {text:'Em sẵn sàng ạ. Bắt đầu thôi.',dc:8,reply:say('lam','happy','Tinh thần tốt. Tôi thích thế.')},
+   {text:'Em hơi lo, nhưng em sẽ cố.',dc:2,reply:say('lam','neutral','Lo một chút cũng được — miễn là chắc kiến thức.')},
+ ]),
+ say('an','neutral','Cuốn này in năm 1615. Theo cậu, ai là người đầu tiên dùng thuật ngữ “kinh tế chính trị”?'),
+ choice('an','neutral','Chọn câu trả lời:',[
+   {text:'Antoine de Montchrétien (A. Môngcrêtiên)',correct:true,
+     reply:say('an','happy','Chuẩn xác. Năm 1615 ông nêu thuật ngữ ấy; từ đó kinh tế chính trị dần thành một khoa học độc lập.')},
+   {text:'Adam Smith',
+     reply:say('lam','concern','Chưa phải. Smith đến sau đó hơn một thế kỷ. Người nêu thuật ngữ năm 1615 là A. Montchrétien.')},
+   {text:'C. Mác',
+     reply:say('lam','concern','Chưa đúng. Mác ở thế kỷ XIX. Thuật ngữ “kinh tế chính trị” có từ 1615, do A. Montchrétien.')},
+ ]),
+ say('an','neutral','Tốt. Giờ đi nhanh dòng phát triển: trọng thương → trọng nông Pháp → kinh tế chính trị tư sản cổ điển Anh.'),
+ choice('an','neutral','C. Mác kế thừa trực tiếp ai để xây dựng lý luận của mình?',[
+   {text:'D. Ricardo — kinh tế chính trị tư sản cổ điển Anh',correct:true,
+     reply:say('an','happy','Đúng. Mác kế thừa có phê phán Smith và Ricardo, trực tiếp là Ricardo; cùng Ph. Ăngghen công bố trong bộ “Tư bản”.')},
+   {text:'Chủ nghĩa trọng thương',
+     reply:say('lam','concern','Trọng thương là giai đoạn sớm hơn. Mác kế thừa trực tiếp cổ điển Anh — đặc biệt D. Ricardo.')},
+   {text:'Trường phái cận biên hiện đại',
+     reply:say('lam','concern','Cận biên ra đời độc lập, sau Mác. Nguồn kế thừa trực tiếp là D. Ricardo.')},
+ ]),
+ choice('lam','neutral','Câu chốt: ai kế thừa, bổ sung và phát triển trong điều kiện mới, gắn tên vào môn học?',[
+   {text:'V.I. Lênin',correct:true,
+     reply:say('lam','happy','Chính xác. Vì thế môn học mang tên Kinh tế chính trị Mác - Lênin.')},
+   {text:'Ph. Ăngghen',
+     reply:say('lam','concern','Ăngghen là người cùng thời, đồng hành với Mác. Người phát triển trong điều kiện mới là V.I. Lênin.')},
+   {text:'A. Smith',
+     reply:say('lam','concern','Smith thuộc cổ điển Anh, trước Mác. Người phát triển sau là V.I. Lênin.')},
+ ]),
+ {t:'act',n:'I'},
+
+ {t:'scene',bg:'hoithao',act:2,name:'Màn II · Đối tượng – Mục đích – Phương pháp'},
+ say('narr','','Hội trường sáng đèn. TS. Khoa — phản biện nổi tiếng khó tính — chậm rãi đứng dậy.'),
+ say('khoa','stern','Trợ lý trẻ. Nói tôi nghe, ngắn gọn: Kinh tế chính trị Mác - Lênin nghiên cứu CÁI GÌ?'),
+ choice('khoa','stern','Đối tượng nghiên cứu là:',[
+   {text:'Các quan hệ xã hội của sản xuất và trao đổi, gắn với lực lượng sản xuất và kiến trúc thượng tầng',correct:true,
+     reply:say('khoa','neutral','…Được. Trả lời đúng trọng tâm. Quan hệ sản xuất và trao đổi, trong mối liên hệ biện chứng đó.')},
+   {text:'Của cải vật chất của một quốc gia',
+     reply:say('khoa','stern','Sai trọng tâm. Đó là cách hiểu cũ. Đối tượng là các quan hệ xã hội của sản xuất và trao đổi.')},
+   {text:'Hành vi mua sắm của người tiêu dùng',
+     reply:say('khoa','stern','Đó là kinh tế học vi mô hiện đại. Ở đây, đối tượng là quan hệ sản xuất và trao đổi.')},
+ ]),
+ choice('khoa','stern','Vậy nghiên cứu ĐỂ LÀM GÌ?',[
+   {text:'Tìm ra các quy luật kinh tế chi phối sự vận động, phát triển của phương thức sản xuất',correct:true,
+     reply:say('khoa','neutral','Đúng. Phát hiện quy luật, rồi vận dụng vì lợi ích con người và xã hội.')},
+   {text:'Tối đa hóa lợi nhuận cho một doanh nghiệp',
+     reply:say('khoa','stern','Hẹp quá. Mục đích là tìm ra quy luật kinh tế, không phải lợi nhuận của một hãng.')},
+   {text:'Dự báo tỷ giá hối đoái ngắn hạn',
+     reply:say('khoa','stern','Đó là kỹ thuật tài chính. Mục đích của môn này là tìm ra quy luật kinh tế.')},
+ ]),
+ say('khoa','stern','Câu cuối của tôi. Cậu định mang quan hệ sản xuất vào phòng thí nghiệm chắc?'),
+ choice('khoa','stern','Phương pháp nghiên cứu chủ yếu, đặc thù là:',[
+   {text:'Trừu tượng hóa khoa học',correct:true,
+     reply:say('khoa','neutral','Khá lắm. Gạt cái ngẫu nhiên để nắm bản chất — kết hợp logic với lịch sử, phân tích với tổng hợp. Tôi không hỏi nữa.')},
+   {text:'Thí nghiệm trong phòng lab',
+     reply:say('khoa','stern','Không thể. Phương pháp đặc thù ở đây là trừu tượng hóa khoa học.')},
+   {text:'Phỏng vấn ngẫu nhiên ngoài phố',
+     reply:say('khoa','stern','Đó là khảo sát xã hội học. Đặc thù của môn này là trừu tượng hóa khoa học.')},
+ ]),
+ say('lam','happy','Cậu trụ được trước Khoa. Hiếm đấy. Còn một cửa cuối.'),
+ {t:'act',n:'II'},
+
+ {t:'scene',bg:'buctham',act:3,name:'Màn III · Chức năng'},
+ say('narr','','Phần hỏi đáp với khán giả. Một sinh viên tên Minh hào hứng giơ tay.'),
+ say('minh','neutral','Anh/chị ơi, em đọc thấy môn này có nhiều “chức năng”. Khi lý luận giúp ta HIỂU bản chất và quy luật của hiện tượng kinh tế — đó là chức năng nào ạ?'),
+ choice('minh','neutral','Đó là chức năng:',[
+   {text:'Chức năng nhận thức',correct:true,
+     reply:say('minh','happy','Dạ em hiểu rồi — giúp nhận thức bản chất, quy luật!')},
+   {text:'Chức năng thực tiễn',
+     reply:say('lam','concern','Gần đúng nhưng lệch. “Hiểu bản chất, quy luật” là chức năng nhận thức.')},
+   {text:'Chức năng tư tưởng',
+     reply:say('lam','concern','Chưa phải. Việc giúp hiểu bản chất, quy luật là chức năng nhận thức.')},
+ ]),
+ say('minh','neutral','Thế còn khi ta VẬN DỤNG tri thức để tham gia và cải tạo hoạt động kinh tế - xã hội thì sao ạ?'),
+ choice('minh','neutral','Đó là chức năng:',[
+   {text:'Chức năng thực tiễn',correct:true,
+     reply:say('minh','happy','Rõ rồi ạ! Nhận thức để rồi thực tiễn.')},
+   {text:'Chức năng nhận thức',
+     reply:say('lam','concern','Nhận thức là hiểu. Còn vận dụng, cải tạo thực tiễn là chức năng thực tiễn.')},
+   {text:'Chức năng phương pháp luận',
+     reply:say('lam','concern','Chưa đúng. Vận dụng để cải tạo thực tiễn là chức năng thực tiễn.')},
+ ]),
+ choice('lam','neutral','Để Minh nắm trọn: hai chức năng còn lại của môn học là gì?',[
+   {text:'Chức năng tư tưởng và chức năng phương pháp luận',correct:true,
+     reply:say('lam','happy','Chuẩn. Bốn chức năng: nhận thức, thực tiễn, tư tưởng, phương pháp luận. Cậu khép lại Chương 1 trọn vẹn.')},
+   {text:'Chức năng phân phối và chức năng điều tiết',
+     reply:say('lam','concern','Đó là chức năng của một số phạm trù khác. Hai chức năng còn lại là tư tưởng và phương pháp luận.')},
+   {text:'Chức năng lưu thông và chức năng thanh toán',
+     reply:say('lam','concern','Đó là chức năng của tiền tệ (Chương 2). Ở đây là tư tưởng và phương pháp luận.')},
+ ]),
+ {t:'act',n:'III'},
+ {t:'end'}
+];
+
+/* ---------- engine ---------- */
+let idx=0, uy=50, tc=50, correctN=0, totalQ=0, buffer=[], typing=false, typeTimer=null, mode='idle';
+flow.forEach(f=>{ if(f.t==='choice' && f.opts.some(o=>o.correct)) totalQ++; });
+
+const stage=document.getElementById('stage');
+const sceneryEl=document.getElementById('scenery');
+const actorwrap=document.getElementById('actorwrap');
+const nameplate=document.getElementById('nameplate');
+const dlgtext=document.getElementById('dlgtext');
+const dialogue=document.getElementById('dialogue');
+const choicewrap=document.getElementById('choicewrap');
+const stampwrap=document.getElementById('stampwrap');
+const nexthint=document.getElementById('nexthint');
+const actchip=document.getElementById('actchip');
+
+function setMeters(){ document.getElementById('uy').style.width=Math.max(0,Math.min(100,uy))+'%';
+  document.getElementById('tc').style.width=Math.max(0,Math.min(100,tc))+'%'; }
+function setAccent(act){ document.documentElement.style.setProperty('--accent', A[act]||'var(--teal)'); }
+
+function applyScene(node){
+  setAccent(node.act); actchip.textContent=node.name;
+  sceneryEl.style.opacity=0;
+  setTimeout(()=>{ sceneryEl.innerHTML=scenery(node.bg); sceneryEl.style.opacity=1; },180);
+}
+
+let curActor=null;
+function showActor(who){
+  if(who==='narr'){ actorwrap.innerHTML=''; curActor=null; return; }
+  if(curActor===who) return;
+  curActor=who;
+  actorwrap.innerHTML=`<div class="actor in">${face(who)}</div>`;
+}
+function setActorMood(who,mood){
+  if(who==='narr') return;
+  actorwrap.innerHTML=`<div class="actor">${face(who,mood)}</div>`;
+  curActor=who;
+}
+
+function showSay(node){
+  mode='say';
+  choicewrap.innerHTML='';
+  const c=CH[node.who]||{};
+  showActor(node.who);
+  if(node.who!=='narr') setActorMood(node.who,node.mood||'neutral');
+  nameplate.innerHTML = node.who==='narr' ? '' :
+    `<b>${c.name}</b><span class="role">${c.role||''}</span>`;
+  dlgtext.className='dlg-text'+(node.who==='narr'?' narr':'');
+  typeText(node.text);
+}
+
+function typeText(text){
+  clearInterval(typeTimer); typing=true; nexthint.style.display='none';
+  const chars=Array.from(text); let k=0; dlgtext.innerHTML='';
+  const span=document.createElement('span'); dlgtext.appendChild(span);
+  const cur=document.createElement('span'); cur.className='cursor'; cur.textContent='▍';
+  dlgtext.appendChild(cur);
+  typeTimer=setInterval(()=>{
+    span.textContent+=chars[k++];
+    if(k>=chars.length){ clearInterval(typeTimer); typing=false; cur.remove(); nexthint.style.display='block'; }
+  },18);
+}
+function finishTyping(){ if(!typing) return; clearInterval(typeTimer); typing=false;
+  const node=current; if(node&&node.text){ dlgtext.innerHTML=''; const s=document.createElement('span');
+    s.textContent=node.text; dlgtext.appendChild(s);} nexthint.style.display='block'; }
+
+let current=null;
+function step(){
+  if(buffer.length){ current=buffer.shift(); showSay(current); return; }
+  const node=flow[idx];
+  if(!node){ return; }
+  if(node.t==='scene'){ applyScene(node); idx++; return step(); }
+  if(node.t==='act'){ idx++; showStamp(node.n); return; }
+  if(node.t==='say'){ current=node; idx++; showSay(node); return; }
+  if(node.t==='choice'){ current=node; showChoice(node); return; }
+  if(node.t==='end'){ showEnd(); return; }
+}
+
+function showChoice(node){
+  mode='choice'; nexthint.style.display='none';
+  const c=CH[node.who]||{};
+  showActor(node.who); if(node.who!=='narr') setActorMood(node.who,node.mood||'neutral');
+  let html=`<div class="choices"><div class="q">${node.q}</div>`;
+  node.opts.forEach((o,i)=>{ html+=`<button class="choice" data-i="${i}"><span class="k">${String.fromCharCode(65+i)}</span><span>${o.text}</span></button>`; });
+  html+='</div>';
+  choicewrap.innerHTML=html;
+  [...choicewrap.querySelectorAll('.choice')].forEach(b=>{
+    b.addEventListener('click',()=>pick(node,+b.dataset.i));
+  });
+  choicewrap.querySelector('.choice').focus();
+}
+function pick(node,i){
+  const o=node.opts[i];
+  const isQ=node.opts.some(x=>x.correct);
+  if(isQ){ if(o.correct){ uy+=10; tc+=4; correctN++; } else { uy-=5; } }
+  if(o.dc) tc+=o.dc;
+  setMeters();
+  choicewrap.innerHTML='';
+  if(o.reply) buffer.push(o.reply);
+  idx++;
+  step();
+}
+
+function showStamp(n){
+  mode='stamp';
+  stampwrap.innerHTML=`<div class="stamp"><div class="seal">${n}<small>Hoàn thành</small></div>
+    <div class="cap">Hoàn thành Màn ${n}</div></div>`;
+  setTimeout(()=>{ stampwrap.innerHTML=''; step(); },1500);
+}
+
+function advance(){
+  if(mode==='choice'||mode==='stamp'||mode==='end') return;
+  if(typing){ finishTyping(); return; }
+  step();
+}
+dialogue.addEventListener('click',advance);
+document.getElementById('skipbtn').addEventListener('click',(e)=>{e.stopPropagation(); if(typing) finishTyping();});
+document.addEventListener('keydown',e=>{ if(e.code==='Space'||e.code==='Enter'){ e.preventDefault(); advance(); }});
+
+function showEnd(){
+  mode='end';
+  let title,res,note;
+  if(uy>=85){ title='Báo cáo viên chính'; res='Bạn được mời đứng tên báo cáo tại hội thảo';
+    note='Giáo sư Lâm gật đầu hài lòng: cậu không chỉ thuộc bài, cậu hiểu mạch tư duy của cả chương.'; }
+  else if(uy>=60){ title='Đồng tác giả'; res='Bạn được ghi tên đồng tác giả';
+    note='Một kết quả vững vàng. Vài chỗ còn lăn tăn, nhưng nền tảng Chương 1 đã chắc.'; }
+  else { title='Trợ lý tập sự'; res='Bạn cần ôn lại trước khi đứng tên';
+    note='Giáo sư vỗ vai: “Cứ chơi lại, lần sau sẽ khác.” Khung chương đã có, chỉ cần nắm kỹ hơn.'; }
+  setAccent(1);
+  stage.querySelector('.dialogue').style.display='none';
+  nexthint.style.display='none';
+  actorwrap.innerHTML=`<div class="actor">${face('lam', uy>=60?'happy':'concern')}</div>`;
+  choicewrap.innerHTML=`<div class="choices" style="justify-content:flex-end">
+    <div class="ending">
+      <div class="eb">Kết thúc · Chương 1</div>
+      <h2>${title}</h2>
+      <div class="res">${res}</div>
+      <p>${note}</p>
+      <div class="stats">
+        <div>Câu đúng: <b>${correctN}/${totalQ}</b></div>
+        <div>Uy tín: <b>${Math.max(0,Math.min(100,Math.round(uy)))}</b></div>
+        <div>Thiện cảm: <b>${Math.max(0,Math.min(100,Math.round(tc)))}</b></div>
+      </div>
+      <button class="btn" id="replay" type="button">Chơi lại</button>
+    </div></div>`;
+  document.getElementById('replay').addEventListener('click',()=>{
+    idx=0; uy=50; tc=50; correctN=0; buffer=[]; current=null; curActor=null;
+    stage.querySelector('.dialogue').style.display='';
+    choicewrap.innerHTML=''; setMeters(); step();
+  });
+}
+
+setMeters();
+step();
+</script>
+</body>
+</html>
