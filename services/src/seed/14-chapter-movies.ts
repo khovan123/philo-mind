@@ -2,6 +2,7 @@ import { PrismaClient } from "../prisma/generated/client.js";
 import { ChapterContentService } from "../services/chapter-content.service.js";
 import { seedLog } from "./utils/index.js";
 
+//tạm đã, sau đưa cấu trúc file cvs cho phần ni sau
 const chapter1IntroScript = [
   { t: "scene", bg: "thukho", act: 1, name: "Màn I · Nguồn gốc" },
   {

@@ -304,34 +304,6 @@ function buildQuizQuestion(row: ChapterCsvRow, index: 1 | 2 | 3): ChapterQuizQue
   };
 }
 
-function _mapRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
-  const hookType = row.hook_type === "drag" ? "drag" : "choice";
-  const cards = splitTheoryCards(row.phan1_bai_doc);
-  const icons = splitList(row.card_icons);
-
-  return {
-    chuong: Number.parseInt(row.chuong, 10) || chapterNumber,
-    muc: row.muc,
-    title: row.tieu_de_muc,
-    order: rowIndex,
-    hookType,
-    hook: buildHook(row, hookType),
-    theoryCards: cards.map((body, index) => ({
-      id: `card${index + 1}`,
-      icon: icons[index] ?? (index === 0 ? "📖" : index === cards.length - 1 ? "✅" : "•"),
-      body,
-    })),
-    quiz: [buildQuizQuestion(row, 1), buildQuizQuestion(row, 2), buildQuizQuestion(row, 3)],
-    debate: {
-      perspectiveA: row.phan4_quan_diem_A ?? "",
-      perspectiveB: row.phan4_quan_diem_B ?? "",
-      explanationA: row.phan4_giai_thich_A ?? "",
-      explanationB: row.phan4_giai_thich_B ?? "",
-      openQuestion: row.phan4_cau_hoi_mo ?? "",
-    },
-  };
-}
-
 function mapChapterRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
   const hookType = row.hook_type === "drag" ? "drag" : "choice";
 
@@ -385,10 +357,6 @@ export class ChapterContentService {
     });
   }
 
-  static getOrder(chapter: string | number): string[] {
-    return this.listNodes(chapter).map((node) => node.muc);
-  }
-
   static listChapters(): ChapterMeta[] {
     if (!existsSync(DEFAULT_DATA_DIR)) {
       return [];
@@ -414,21 +382,6 @@ export class ChapterContentService {
       })
       .filter((chapter): chapter is ChapterMeta => chapter !== null)
       .sort((a, b) => Number(a.id) - Number(b.id));
-  }
-
-  static listSummaries(chapter: string | number): ChapterNodeSummary[] {
-    return this.listNodes(chapter).map(({ chuong, muc, title, order, hookType }) => ({
-      chuong,
-      muc,
-      title,
-      order,
-      hookType,
-      steps: ["hook", "theory", "quiz"],
-    }));
-  }
-
-  static getNode(chapter: string | number, muc: string): ChapterNode | null {
-    return this.listNodes(chapter).find((node) => node.muc === muc) ?? null;
   }
 
   // thấy mấy function trên nớ k đọc từ db mà đọc từ cvs nên viết mấy function khác đọc từ db,
