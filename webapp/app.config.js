@@ -6,7 +6,7 @@ if (!easProjectId) {
   throw new Error("EAS_PROJECT_ID is required for EAS Build and EAS Update");
 }
 
-const plugins = [...(app.expo.plugins ?? []), "expo-font", "expo-web-browser"];
+const plugins = [...(app.expo.plugins ?? []), "expo-font", "expo-web-browser", "expo-asset"];
 
 module.exports = {
   ...app.expo,
@@ -18,7 +18,7 @@ module.exports = {
         url: `https://u.expo.dev/${easProjectId}`,
       }
     : undefined,
-  plugins: [...(app.expo.plugins ?? []), "expo-font", "expo-web-browser"],
+  plugins: [...(app.expo.plugins ?? []), "expo-font", "expo-web-browser", "expo-asset"],
   extra: {
     ...app.expo.extra,
     eas: {

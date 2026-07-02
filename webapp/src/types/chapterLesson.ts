@@ -1,6 +1,6 @@
 export type ChapterProgressStatus = "locked" | "available" | "done";
 
-export type ChapterLessonStep = 0 | 1 | 2;
+export type ChapterLessonStep = -1 | 0 | 1 | 2;
 
 export type ChapterReviewState = {
   hookChoice?: "A" | "B" | null;

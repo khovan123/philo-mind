@@ -12,14 +12,14 @@ export function cn(...classes: (string | false | null | undefined)[]) {
 export function StepBar({
   step,
   maxPressableStep = step,
+  steps = [0, 1, 2],
   onStepPress,
 }: {
   step: ChapterLessonStep;
   maxPressableStep?: ChapterLessonStep;
+  steps?: ChapterLessonStep[];
   onStepPress?: (step: ChapterLessonStep) => void;
 }) {
-  const steps: ChapterLessonStep[] = [0, 1, 2];
-
   return (
     <View className="mt-3 flex-row gap-1.5">
       {steps.map((item) => {

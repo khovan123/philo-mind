@@ -2,6 +2,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CsvContentReaderService } from "./csv-content-reader.service.js";
 import { existsSync, readdirSync } from "node:fs";
+import { prisma } from "../config/prisma.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -303,34 +304,6 @@ function buildQuizQuestion(row: ChapterCsvRow, index: 1 | 2 | 3): ChapterQuizQue
   };
 }
 
-function _mapRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
-  const hookType = row.hook_type === "drag" ? "drag" : "choice";
-  const cards = splitTheoryCards(row.phan1_bai_doc);
-  const icons = splitList(row.card_icons);
-
-  return {
-    chuong: Number.parseInt(row.chuong, 10) || chapterNumber,
-    muc: row.muc,
-    title: row.tieu_de_muc,
-    order: rowIndex,
-    hookType,
-    hook: buildHook(row, hookType),
-    theoryCards: cards.map((body, index) => ({
-      id: `card${index + 1}`,
-      icon: icons[index] ?? (index === 0 ? "📖" : index === cards.length - 1 ? "✅" : "•"),
-      body,
-    })),
-    quiz: [buildQuizQuestion(row, 1), buildQuizQuestion(row, 2), buildQuizQuestion(row, 3)],
-    debate: {
-      perspectiveA: row.phan4_quan_diem_A ?? "",
-      perspectiveB: row.phan4_quan_diem_B ?? "",
-      explanationA: row.phan4_giai_thich_A ?? "",
-      explanationB: row.phan4_giai_thich_B ?? "",
-      openQuestion: row.phan4_cau_hoi_mo ?? "",
-    },
-  };
-}
-
 function mapChapterRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: number): ChapterNode {
   const hookType = row.hook_type === "drag" ? "drag" : "choice";
 
@@ -384,10 +357,6 @@ export class ChapterContentService {
     });
   }
 
-  static getOrder(chapter: string | number): string[] {
-    return this.listNodes(chapter).map((node) => node.muc);
-  }
-
   static listChapters(): ChapterMeta[] {
     if (!existsSync(DEFAULT_DATA_DIR)) {
       return [];
@@ -415,18 +384,68 @@ export class ChapterContentService {
       .sort((a, b) => Number(a.id) - Number(b.id));
   }
 
-  static listSummaries(chapter: string | number): ChapterNodeSummary[] {
-    return this.listNodes(chapter).map(({ chuong, muc, title, order, hookType }) => ({
-      chuong,
-      muc,
-      title,
-      order,
-      hookType,
-      steps: ["hook", "theory", "quiz"],
+  // thấy mấy function trên nớ k đọc từ db mà đọc từ cvs nên viết mấy function khác đọc từ db,
+  // ai đọc được mấy dòng ni thì xem nên sửa luôn đưa hết data vô db luôn chưa chớ thấy nửa đọc từ cvs nửa đọc từ db sao sao á
+
+  static async getChaptersFromDb() {
+    const chapters = await prisma.chapter.findMany({
+      orderBy: { code: "asc" },
+    });
+    return chapters.map((ch) => ({
+      id: ch.code,
+      title: ch.title,
+      order: ch.order,
     }));
   }
 
-  static getNode(chapter: string | number, muc: string): ChapterNode | null {
-    return this.listNodes(chapter).find((node) => node.muc === muc) ?? null;
+  static async getNodesFromDb(chapterCode: string) {
+    const chapter = await prisma.chapter.findUnique({
+      where: { code: chapterCode },
+      include: { nodes: { orderBy: { muc: "asc" } } },
+    });
+
+    if (!chapter) {
+      throw new Error("Không tìm thấy chương");
+    }
+
+    return {
+      order: chapter.order,
+      nodes: chapter.nodes.map((n) => {
+        const data = n.data as any;
+        return {
+          chuong: data.chuong,
+          muc: data.muc,
+          title: data.title,
+          order: data.order,
+          hookType: data.hookType,
+          steps: ["hook", "theory", "quiz"],
+        };
+      }),
+    };
+  }
+
+  static async getNodeByMucFromDb(chapterCode: string, muc: string) {
+    const chapter = await prisma.chapter.findUnique({
+      where: { code: chapterCode },
+    });
+
+    if (!chapter) {
+      throw new Error("Không tìm thấy chương");
+    }
+
+    const node = await prisma.chapterNode.findUnique({
+      where: {
+        chapterId_muc: {
+          chapterId: chapter.id,
+          muc: muc,
+        },
+      },
+    });
+
+    if (!node) {
+      throw new Error("Không tìm thấy node bài học");
+    }
+
+    return node.data;
   }
 }
