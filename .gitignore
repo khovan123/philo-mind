@@ -68,6 +68,7 @@ docs/*
 !docs/fly-deployment.md
 !docs/prisma-production-database.md
 !docs/eas-build.md
+!docs/search_system_v1.md
 .contextos/
 .ruler/
 .codex/
