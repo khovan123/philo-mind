@@ -7,6 +7,7 @@ import compression from "compression";
 import { healthRouter } from "./routes/health.js";
 import { apiRouter } from "./routes/api.js";
 import { notFoundHandler, errorHandler } from "./middleware/error.middleware.js";
+import { searchService } from "./services/search.service.js";
 
 const app = express();
 const PORT = env.PORT;
@@ -68,8 +69,12 @@ let server: ReturnType<typeof app.listen> | undefined;
 let keepAlive: ReturnType<typeof setInterval> | undefined;
 
 if (process.env.NODE_ENV !== "test") {
-  app.listen(PORT, () => {
+  server = app.listen(PORT, () => {
     console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
+    // Initialize search vector cache in the background
+    searchService.initializeVectorCache().catch((err) => {
+      console.error("Failed to initialize search vector cache:", err);
+    });
   });
 }
 

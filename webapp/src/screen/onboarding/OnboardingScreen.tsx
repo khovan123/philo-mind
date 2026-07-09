@@ -34,11 +34,11 @@ const steps = [
 export default function OnboardingScreen() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
-  const step = steps[stepIndex];
+  const step = steps[stepIndex] || steps[steps.length - 1];
 
   function handleNext() {
     if (stepIndex < steps.length - 1) {
-      setStepIndex((current) => current + 1);
+      setStepIndex(stepIndex + 1);
       return;
     }
 

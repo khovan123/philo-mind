@@ -419,6 +419,7 @@ export class ChapterContentService {
           order: data.order,
           hookType: data.hookType,
           steps: ["hook", "theory", "quiz"],
+          theoryCards: data.theoryCards,
         };
       }),
     };

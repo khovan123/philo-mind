@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "expo-router";
-import { ArrowLeft, ArrowRight, BookOpen, Search, Sparkles } from "lucide-react-native";
+import { ArrowLeft, ArrowRight, BookOpen, Search, Sparkles, Play, HelpCircle } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,6 +11,7 @@ import {
   useGetChapterNodesQuery,
   useGetChaptersQuery,
 } from "@/services/rtk-api/chapter.api";
+import { useSemanticSearchQuery, type SearchResultItem } from "@/services/rtk-api/search.api";
 import { Pressable, ScrollView, TextInput, View } from "@/tw";
 
 const CHAPTER_ID = "1";
@@ -86,7 +87,27 @@ export default function ExploreScreen() {
 
   const [activeTab, setActiveTab] = useState<"discovery" | "chapters">("discovery");
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [searchFilter, setSearchFilter] = useState<"all" | "lesson" | "video" | "quiz">("all");
   const [selectedLessonKey, setSelectedLessonKey] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query.trim());
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [query]);
+
+  const isSearching = debouncedQuery.length > 0;
+
+  const {
+    data: searchResults = [],
+    isFetching: isSearchingApi,
+    isError: isSearchError,
+  } = useSemanticSearchQuery(
+    { q: debouncedQuery, type: searchFilter },
+    { skip: !isSearching },
+  );
 
   const {
     data: chapterData,
@@ -165,6 +186,28 @@ export default function ExploreScreen() {
     });
   }
 
+  function openSearchResult(item: SearchResultItem) {
+    if (item.type === "lesson") {
+      router.push({
+        pathname: "/chapter/[chapter]/[muc]" as never,
+        params: {
+          chapter: item.routeParams.chapter,
+          muc: item.routeParams.muc,
+        },
+      });
+    } else if (item.type === "video") {
+      router.push({
+        pathname: "/chapter/[chapter]/[muc]" as never,
+        params: {
+          chapter: "1",
+          muc: item.routeParams.muc,
+        },
+      });
+    } else if (item.type === "quiz") {
+      router.push(`/quiz/${item.routeParams.lessonId}` as never);
+    }
+  }
+
   if (selectedLesson) {
     return (
       <TheoryDetailScreen
@@ -212,45 +255,127 @@ export default function ExploreScreen() {
             />
           </View>
 
-          <View className="my-1 flex-row rounded-md bg-[#1E1E22] p-1">
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setActiveTab("discovery")}
-              className={cn(
-                "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
-                activeTab === "discovery" && "bg-[#161618]",
-              )}
-            >
-              <ThemedText
-                className={cn(
-                  "text-[14px] font-bold text-[#A1A1AA]",
-                  activeTab === "discovery" && "text-[#FFB77D]",
-                )}
-              >
-                Khám phá
-              </ThemedText>
-            </Pressable>
+          {isSearching ? (
+            <>
+              {/* Filter Tabs for Search Results */}
+              <View className="flex-row gap-2 my-1">
+                {[
+                  { label: "Tất cả", value: "all" },
+                  { label: "Bài học", value: "lesson" },
+                  { label: "Video", value: "video" },
+                  { label: "Quiz", value: "quiz" },
+                ].map((filter) => (
+                  <Pressable
+                    key={filter.value}
+                    onPress={() => setSearchFilter(filter.value as any)}
+                    className={cn(
+                      "px-3 py-1.5 rounded-full border bg-[#1E1E22] border-transparent active:scale-[0.98]",
+                      searchFilter === filter.value && "bg-[#D97706]/20 border-[#D97706]",
+                    )}
+                  >
+                    <ThemedText
+                      className={cn(
+                        "text-[12px] font-bold text-[#A1A1AA]",
+                        searchFilter === filter.value && "text-[#FFB77D]",
+                      )}
+                    >
+                      {filter.label}
+                    </ThemedText>
+                  </Pressable>
+                ))}
+              </View>
 
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setActiveTab("chapters")}
-              className={cn(
-                "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
-                activeTab === "chapters" && "bg-[#161618]",
-              )}
-            >
-              <ThemedText
-                className={cn(
-                  "text-[14px] font-bold text-[#A1A1AA]",
-                  activeTab === "chapters" && "text-[#FFB77D]",
+              <View className="gap-2 mt-2">
+                <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
+                  Kết quả tìm kiếm ngữ nghĩa
+                </ThemedText>
+                {isSearchingApi ? (
+                  <ActivityIndicator color={Colors.primaryLight} className="py-8" />
+                ) : isSearchError ? (
+                  <View className="items-center justify-center py-12 bg-[#1E1E22] rounded-md">
+                    <ThemedText className="text-[14px] font-bold text-[#EF4444]">
+                      Đã xảy ra lỗi khi tìm kiếm ngữ nghĩa.
+                    </ThemedText>
+                  </View>
+                ) : searchResults.length === 0 ? (
+                  <View className="items-center justify-center py-12 bg-[#1E1E22] rounded-md">
+                    <ThemedText className="text-[14px] font-bold text-[#A1A1AA]">
+                      Không tìm thấy kết quả phù hợp
+                    </ThemedText>
+                  </View>
+                ) : (
+                  <View className="gap-3">
+                    {searchResults.map((item) => (
+                      <Pressable
+                        key={`${item.type}-${item.id}`}
+                        onPress={() => openSearchResult(item)}
+                        className="flex-row items-center gap-3 bg-[#1E1E22] p-3 rounded-lg border border-transparent active:border-[#D97706]/40"
+                      >
+                        <View className="h-10 w-10 items-center justify-center rounded-md bg-[#161618]">
+                          {item.type === "lesson" && <BookOpen color={Colors.primaryLight} size={20} />}
+                          {item.type === "video" && <Play color="#60A5FA" size={20} />}
+                          {item.type === "quiz" && <HelpCircle color="#34D399" size={20} />}
+                        </View>
+                        <View className="flex-1 gap-0.5">
+                          <View className="flex-row items-center justify-between">
+                            <ThemedText className="text-[14px] font-extrabold text-[#E5E1E4] max-w-[80%]" numberOfLines={1}>
+                              {item.title}
+                            </ThemedText>
+                            <ThemedText className="text-[10px] font-extrabold text-[#FFB77D] bg-[#D97706]/10 px-1.5 py-0.5 rounded">
+                              {item.type === "lesson" ? "Bài học" : item.type === "video" ? "Video" : "Trắc nghiệm"}
+                            </ThemedText>
+                          </View>
+                          <ThemedText className="text-[12px] font-bold text-[#A1A1AA]">
+                            {item.subtitle}
+                          </ThemedText>
+                        </View>
+                      </Pressable>
+                    ))}
+                  </View>
                 )}
-              >
-                Chương
-              </ThemedText>
-            </Pressable>
-          </View>
+              </View>
+            </>
+          ) : (
+            <>
+              <View className="my-1 flex-row rounded-md bg-[#1E1E22] p-1">
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setActiveTab("discovery")}
+                  className={cn(
+                    "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
+                    activeTab === "discovery" && "bg-[#161618]",
+                  )}
+                >
+                  <ThemedText
+                    className={cn(
+                      "text-[14px] font-bold text-[#A1A1AA]",
+                      activeTab === "discovery" && "text-[#FFB77D]",
+                    )}
+                  >
+                    Khám phá
+                  </ThemedText>
+                </Pressable>
 
-          {activeTab === "discovery" ? (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setActiveTab("chapters")}
+                  className={cn(
+                    "flex-1 items-center justify-center rounded-sm py-2 active:scale-[0.98] active:opacity-80",
+                    activeTab === "chapters" && "bg-[#161618]",
+                  )}
+                >
+                  <ThemedText
+                    className={cn(
+                      "text-[14px] font-bold text-[#A1A1AA]",
+                      activeTab === "chapters" && "text-[#FFB77D]",
+                    )}
+                  >
+                    Chương
+                  </ThemedText>
+                </Pressable>
+              </View>
+
+              {activeTab === "discovery" ? (
             <>
               {isLoadingChapterNodes ? (
                 <LoadingState text="Đang tải nội dung lý thuyết..." />
@@ -393,6 +518,8 @@ export default function ExploreScreen() {
               ) : null}
             </>
           ) : null}
+            </>
+          )}
         </ScrollView>
       </SafeAreaView>
     </View>
