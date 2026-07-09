@@ -1,15 +1,35 @@
 {
-  "extends": ["../tsconfig.base.json", "../node_modules/expo/tsconfig.base.json"],
+  "extends": [
+    "../tsconfig.base.json",
+    "expo/tsconfig.base.json"
+  ],
   "compilerOptions": {
+    "jsx": "react-jsx",
     "strict": true,
-    "types": ["jest"],
+    "types": [
+      "jest"
+    ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/assets/*": ["./assets/*"],
-      "@philo-mind/shared": ["../libs/shared/src/index.ts"],
-      "@philo-mind/shared/*": ["../libs/shared/src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@/assets/*": [
+        "./assets/*"
+      ],
+      "@philo-mind/shared": [
+        "../libs/shared/src/index.ts"
+      ],
+      "@philo-mind/shared/*": [
+        "../libs/shared/src/*"
+      ]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "nativewind-env.d.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts",
+    "nativewind-env.d.ts"
+  ],
   "exclude": []
 }

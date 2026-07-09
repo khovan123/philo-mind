@@ -32,6 +32,7 @@ import { profileRouter } from "./profile.routes.js";
 import { debateRouter, debateArgumentRouter } from "./debate.routes.js";
 import { chapterRouter } from "./chapter.routes.js";
 import { movieRouter } from "./movie.routes.js";
+import { searchRouter } from "./search.routes.js";
 
 // ── API v1 Router ──────────────────────────────────────────
 
@@ -100,3 +101,4 @@ apiRouter.use("/debates", debateRouter);
 apiRouter.use("/debate-arguments", debateArgumentRouter);
 apiRouter.use("/chapters", chapterRouter);
 apiRouter.use("/movies", movieRouter);
+apiRouter.use("/search", searchRouter);

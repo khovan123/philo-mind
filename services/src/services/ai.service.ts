@@ -103,6 +103,31 @@ export class AiService {
       }
     }
   }
+
+  async getEmbedding(text: string): Promise<number[]> {
+    if (!text?.trim()) {
+      throw new AiError("EMPTY_TEXT", "Text is required", 400);
+    }
+
+    try {
+      const model = this.client.getGenerativeModel({ model: "gemini-embedding-001" });
+      const result = await this.withTimeout(model.embedContent(text));
+      const embedding = result.embedding?.values;
+
+      if (!embedding) {
+        throw new AiError("EMPTY_EMBEDDING", "Gemini returned empty embedding", 502);
+      }
+
+      return embedding;
+    } catch (error: unknown) {
+      if (error instanceof AiError) {
+        throw error;
+      }
+
+      const message = error instanceof Error ? error.message : "Gemini embedding request failed";
+      throw new AiError("EMBEDDING_ERROR", message, 502);
+    }
+  }
 }
 
 export const aiService = new AiService();

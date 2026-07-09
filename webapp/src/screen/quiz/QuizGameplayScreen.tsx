@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { BookOpen } from "lucide-react-native";
 import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 
 import { ThemedText } from "@/components/themed-text";
 import { AnswerOption } from "@/features/quiz/AnswerOption";
@@ -24,7 +24,7 @@ import {
   useStartQuizAttemptMutation,
   useSubmitQuizAnswerMutation,
 } from "@/services/rtk-api/quiz.api";
-import { Pressable, ScrollView, View } from "@/tw";
+import { Pressable, ScrollView, View, SafeAreaView } from "@/tw";
 
 export default function QuizGameplayScreen() {
   const router = useRouter();
@@ -160,6 +160,17 @@ export default function QuizGameplayScreen() {
     setAttemptId(null);
   }
 
+  console.log("DEBUG QUIZ GAMEPLAY:", {
+    lessonId,
+    loadState,
+    hasApiQuiz: !!apiQuiz,
+    apiQuizQuestionsCount: apiQuiz?.questions?.length,
+    quizError: quizError ? (quizError as any).message || quizError : null,
+    hasQuiz: !!quiz,
+    hasQuestion: !!question,
+  });
+  console.log("DEBUG QUIZ QUESTION DETAILS:", JSON.stringify(question, null, 2));
+
   if (loadState === "loading") {
     return (
       <QuizState title="PhiloMind">
@@ -213,7 +224,7 @@ export default function QuizGameplayScreen() {
       <View className={tw.screen}>
         <QuizHeader title={quiz.title} timer={formatTime(remainingSeconds)} />
 
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName={tw.content}>
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false} contentContainerClassName={tw.content}>
           <QuestionProgress
             current={questionIndex + 1}
             progress={progress}
