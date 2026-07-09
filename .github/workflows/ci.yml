@@ -184,7 +184,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           AI_RATE_LIMIT_PER_MIN: ${{ secrets.AI_RATE_LIMIT_PER_MIN || '10' }}
         run: |
-          docker run --rm \
+          docker run --rm -u root \
             -e KOYEB_TOKEN \
             -v "$PWD:/workspace" \
             -w /workspace \
