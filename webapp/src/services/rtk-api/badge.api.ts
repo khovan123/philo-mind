@@ -10,7 +10,7 @@ export interface BadgeDefinitionDTO {
   description: string;
   icon: string;
   condition: string;
-  category: "streak" | "quiz" | "story" | "debate" | "reflection" | "general";
+  category: "streak" | "quiz" | "story" | "reflection" | "general";
   threshold: number;
   createdAt: string;
 }
@@ -53,8 +53,6 @@ export const badgeApi = baseApi.injectEndpoints({
               return "book_open";
             case "quiz_count_3":
               return "trophy";
-            case "debate_count_5":
-              return "message_circle";
             case "story_count_3":
               return "scroll_text";
             case "streak_count_3":

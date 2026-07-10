@@ -283,7 +283,6 @@ export class BadgeService {
       reflectionCount,
       completedLessonsCount,
       quizCount,
-      debateArgumentCount,
       storyCount,
       shortLessonCount,
       streakResult,
@@ -294,7 +293,6 @@ export class BadgeService {
         where: { userId, status: ProgressStatus.COMPLETED },
       }),
       prisma.quizAttempt.count({ where: { userId } }),
-      prisma.debateArgument.count({ where: { userId } }),
       prisma.storySession.count({ where: { userId } }),
       prisma.shortLessonResponse.count({ where: { userId } }),
       prisma.activityLog.findMany({
@@ -304,11 +302,15 @@ export class BadgeService {
       }),
     ]);
 
+    const debateArgumentCount = 0;
+
     let currentStreak = 0;
     if (streakResult.length > 0) {
       const uniqueDates = Array.from(
-        new Set(streakResult.map((log) => log.createdAt.toISOString().split("T")[0])),
-      ).sort((a, b) => b.localeCompare(a));
+        new Set(
+          streakResult.map((log: { createdAt: Date }) => log.createdAt.toISOString().split("T")[0]),
+        ),
+      ).sort((a: string, b: string) => b.localeCompare(a));
 
       const todayStr = new Date().toISOString().split("T")[0];
       const yesterdayStr = new Date(Date.now() - 86400000).toISOString().split("T")[0];

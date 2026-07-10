@@ -81,7 +81,6 @@ export class TopicController {
               shortLessons: true,
               storyScenarios: true,
               realLifeScenarios: true,
-              debates: true,
               criticalQuestions: true,
               mindmapNodes: true,
               miniGames: true,

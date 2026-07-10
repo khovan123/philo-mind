@@ -23,7 +23,6 @@ const mockBookmarkDeleteMany = jest.fn() as any;
 const mockLessonFindUnique = jest.fn() as any;
 const mockShortLessonFindUnique = jest.fn() as any;
 const mockStoryScenarioFindUnique = jest.fn() as any;
-const mockDebateFindUnique = jest.fn() as any;
 const mockTopicFindUnique = jest.fn() as any;
 
 jest.unstable_mockModule("../config/prisma.js", () => ({
@@ -38,7 +37,6 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     lesson: { findUnique: mockLessonFindUnique },
     shortLesson: { findUnique: mockShortLessonFindUnique },
     storyScenario: { findUnique: mockStoryScenarioFindUnique },
-    debate: { findUnique: mockDebateFindUnique },
     topic: { findUnique: mockTopicFindUnique },
   },
 }));
@@ -74,8 +72,8 @@ describe("T-A14: Bookmark Validators", () => {
       expect(result.success).toBe(false);
     });
 
-    it("accepts all 5 target types", () => {
-      const types = ["LESSON", "SHORT_LESSON", "STORY", "DEBATE", "TOPIC"];
+    it("accepts all 4 target types", () => {
+      const types = ["LESSON", "SHORT_LESSON", "STORY", "TOPIC"];
       for (const t of types) {
         expect(listBookmarksSchema.safeParse({ query: { targetType: t } }).success).toBe(true);
       }
@@ -101,7 +99,7 @@ describe("T-A14: Bookmark Validators", () => {
   describe("toggleBookmarkSchema", () => {
     it("accepts valid toggle input", () => {
       const result = toggleBookmarkSchema.safeParse({
-        body: { targetType: "DEBATE", targetId: VALID_UUID },
+        body: { targetType: "STORY", targetId: VALID_UUID },
       });
       expect(result.success).toBe(true);
     });
@@ -157,10 +155,10 @@ describe("T-A14: BookmarkService", () => {
       mockBookmarkFindMany.mockResolvedValue([]);
       mockBookmarkCount.mockResolvedValue(0);
 
-      await service.listForUser(USER_ID, { targetType: "DEBATE" });
+      await service.listForUser(USER_ID, { targetType: "STORY" });
       expect(mockBookmarkFindMany).toHaveBeenCalledWith(
         expect.objectContaining({
-          where: expect.objectContaining({ targetType: "DEBATE" }),
+          where: expect.objectContaining({ targetType: "STORY" }),
         }),
       );
     });
@@ -238,14 +236,6 @@ describe("T-A14: BookmarkService", () => {
 
       await service.toggle(USER_ID, { targetType: "STORY", targetId: TARGET_ID });
       expect(mockStoryScenarioFindUnique).toHaveBeenCalled();
-
-      // Test DEBATE target type
-      jest.clearAllMocks();
-      mockDebateFindUnique.mockResolvedValue({ id: TARGET_ID });
-      mockBookmarkCreate.mockResolvedValue({ id: "b3" });
-
-      await service.toggle(USER_ID, { targetType: "DEBATE", targetId: TARGET_ID });
-      expect(mockDebateFindUnique).toHaveBeenCalled();
     });
   });
 

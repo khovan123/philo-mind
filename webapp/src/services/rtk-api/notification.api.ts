@@ -7,7 +7,6 @@ import { baseApi } from "./baseApi";
 export type NotificationType =
   | "badge_earned"
   | "streak_milestone"
-  | "debate_reply"
   | "quiz_result"
   | "story_complete"
   | "system";

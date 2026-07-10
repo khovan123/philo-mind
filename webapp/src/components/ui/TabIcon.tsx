@@ -13,7 +13,6 @@ const Icons = {
   home: Home,
   explore: Compass,
   learn: GraduationCap,
-  debate: Bookmark,
   profile: UserRound,
   story: BookOpen,
   chat: MessageCircle,

@@ -28,7 +28,6 @@ const targetCopy: Record<BookmarkTargetType, { label: string; routeLabel: string
     LESSON: { label: "Bài học", routeLabel: "Mở bài học", color: "#38BDF8" },
     SHORT_LESSON: { label: "Bài ngắn", routeLabel: "Mở bài ngắn", color: "#34D399" },
     STORY: { label: "Câu chuyện", routeLabel: "Mở suy ngẫm", color: "#A78BFA" },
-    DEBATE: { label: "Tranh luận", routeLabel: "Mở tranh luận", color: "#FB7185" },
     TOPIC: { label: "Chủ đề", routeLabel: "Mở bản đồ tư duy", color: "#F59E0B" },
   };
 
@@ -103,9 +102,6 @@ export default function BookmarksScreen() {
       case "STORY":
         router.push(`/story/${bookmark.targetId}/reflect` as never);
         return;
-      case "DEBATE":
-        router.push("/(tabs)/debate" as never);
-        return;
       case "TOPIC":
         router.push("/mindmap" as never);
         return;
@@ -142,7 +138,7 @@ export default function BookmarksScreen() {
             <View style={styles.heroCopy}>
               <ThemedText style={styles.title}>Danh sách bookmark</ThemedText>
               <ThemedText style={styles.subtitle}>
-                Lưu lại bài học, topic, story hoặc debate và mở tiếp đúng flow khi cần.
+                Lưu lại bài học, chủ đề, câu chuyện hoặc bài ngắn và mở tiếp đúng flow khi cần.
               </ThemedText>
             </View>
           </View>
@@ -334,8 +330,6 @@ function TargetIcon({ targetType }: { targetType: BookmarkTargetType }) {
       return <BookText color={color} size={18} />;
     case "STORY":
       return <Compass color={color} size={18} />;
-    case "DEBATE":
-      return <MessageSquare color={color} size={18} />;
     case "TOPIC":
       return <Brain color={color} size={18} />;
   }

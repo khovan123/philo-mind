@@ -5,25 +5,6 @@ export enum SenderType {
   AI = "AI",
   SYSTEM = "SYSTEM",
 }
-
-export enum DebateStatus {
-  OPEN = "OPEN",
-  CLOSED = "CLOSED",
-  ARCHIVED = "ARCHIVED",
-}
-
-export enum DebateStance {
-  AGREE = "AGREE",
-  DISAGREE = "DISAGREE",
-  NEUTRAL = "NEUTRAL",
-  ALTERNATIVE = "ALTERNATIVE",
-}
-
-export enum VoteValue {
-  UP = "UP",
-  DOWN = "DOWN",
-}
-
 // ── AI Chat DTOs ─────────────────────────────────────────────
 
 export interface AiCharacterDTO {
@@ -95,41 +76,4 @@ export interface ScenarioFrameworkDTO {
   content: string;
   createdAt: string;
   updatedAt: string;
-}
-
-// ── Debate DTOs ─────────────────────────────────────────────
-
-export interface DebateDTO {
-  id: string;
-  topicId: string;
-  title: string;
-  description: string | null;
-  status: DebateStatus;
-  createdAt: string;
-}
-
-export interface DebateArgumentDTO {
-  id: string;
-  debateId: string;
-  userId: string;
-  stance: DebateStance;
-  argumentText: string;
-  voteCount: number;
-  createdAt: string;
-}
-
-export interface DebateCommentDTO {
-  id: string;
-  argumentId: string;
-  userId: string;
-  commentText: string;
-  createdAt: string;
-}
-
-export interface DebateVoteDTO {
-  id: string;
-  argumentId: string;
-  userId: string;
-  value: VoteValue;
-  createdAt: string;
 }

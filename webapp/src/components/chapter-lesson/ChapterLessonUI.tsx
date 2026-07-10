@@ -77,31 +77,6 @@ export function ChoiceCard({
   );
 }
 
-export function DebateChoice({
-  title,
-  text,
-  selected,
-  onPress,
-}: {
-  title: string;
-  text: string;
-  selected: boolean;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      className={cn(
-        "gap-2 rounded-2xl border border-[#2D2D39] bg-[#171720] p-4",
-        selected && "border-[#FF8517] bg-[#211913]",
-      )}
-      onPress={onPress}
-    >
-      <ThemedText className="text-sm font-extrabold text-[#FF8517]">{title}</ThemedText>
-      <ThemedText className="text-[15px] font-semibold leading-6 text-white">{text}</ThemedText>
-    </Pressable>
-  );
-}
-
 export function Callout({ text }: { text: string }) {
   return (
     <View className="rounded-2xl border border-[#2D2D39] bg-[#171720] p-4">

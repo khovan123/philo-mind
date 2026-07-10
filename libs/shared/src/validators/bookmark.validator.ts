@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // ── T-A14: Bookmark Validation Schemas ───────────────────────
 
-export const bookmarkTargetTypes = ["LESSON", "SHORT_LESSON", "STORY", "DEBATE", "TOPIC"] as const;
+export const bookmarkTargetTypes = ["LESSON", "SHORT_LESSON", "STORY", "TOPIC"] as const;
 
 const positiveIntegerString = z.string().regex(/^\d+$/, "Phải là số nguyên dương");
 const bookmarkTargetSchema = z.object({

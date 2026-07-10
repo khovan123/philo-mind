@@ -24,7 +24,6 @@ import { seedQuizzes } from "./04-quizzes.js";
 import { seedStories } from "./05-stories.js";
 import { seedAiCharacters } from "./06-ai-characters.js";
 import { seedScenarios } from "./07-scenarios.js";
-import { seedDebates } from "./08-debates.js";
 import { seedCriticalQuestions } from "./09-critical-questions.js";
 import { seedBadges } from "./10-badges.js";
 import { seedTopicPerspectives } from "./11-topic-perspectives.js";
@@ -51,7 +50,6 @@ async function main() {
   await seedShortLessons(prisma);
   await seedLessons(prisma);
   await seedScenarios(prisma);
-  await seedDebates(prisma);
   await seedCriticalQuestions(prisma);
   await seedTopicPerspectives(prisma);
   await seedStories(prisma);
