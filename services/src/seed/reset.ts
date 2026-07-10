@@ -48,10 +48,6 @@ const TABLES_TO_TRUNCATE = [
   "short_lesson_comments",
   "short_lesson_responses",
   "short_lessons",
-  "debate_votes",
-  "debate_comments",
-  "debate_arguments",
-  "debates",
   "reflection_entries",
   "critical_questions",
   // Phase 1 (root)

@@ -129,16 +129,6 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
-        name="debate"
-        options={{
-          title: t("navigation.archive"),
-          tabBarLabel: t("navigation.archive"),
-          tabBarIcon: renderTabIcon("debate"),
-          href: null,
-        }}
-      />
-
-      <Tabs.Screen
         name="profile"
         options={{
           title: t("navigation.profile"),

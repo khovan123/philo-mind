@@ -71,16 +71,12 @@ export type {
   StorySessionDTO,
 } from "./types/story.js";
 
-// Interactive (AI Chat, Scenario, Debate)
-export { DebateStance, DebateStatus, SenderType, VoteValue } from "./types/interactive.js";
+// Interactive (AI Chat, Scenario)
+export { SenderType } from "./types/interactive.js";
 export type {
   AiCharacterDTO,
   AiChatMessageDTO,
   AiChatSessionDTO,
-  DebateArgumentDTO,
-  DebateCommentDTO,
-  DebateDTO,
-  DebateVoteDTO,
   ScenarioDTO,
   ScenarioFrameworkDTO,
   ScenarioPerspectiveDTO,
@@ -101,7 +97,6 @@ export * from "./validators/auth.validator.js";
 export * from "./validators/bookmark.validator.js";
 export * from "./validators/choice.validator.js";
 export * from "./validators/critical-question.validator.js";
-export * from "./validators/debate.validator.js";
 export * from "./validators/lesson.validator.js";
 export * from "./validators/mindmap.validator.js";
 export * from "./validators/minigame.validator.js";

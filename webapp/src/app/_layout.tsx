@@ -40,7 +40,6 @@ function AppLayout() {
         <Stack.Screen name="study-plan" />
         <Stack.Screen name="concept-comparison" />
         <Stack.Screen name="chapter/[chapter]/[muc]" />
-        <Stack.Screen name="debates" />
         <Stack.Screen name="(tabs)" />
       </Stack>
     </ThemeProvider>

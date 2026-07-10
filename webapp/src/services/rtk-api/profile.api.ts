@@ -18,6 +18,8 @@ export type ProfileSummary = {
     isEarned: boolean;
     progress: number;
     target: number;
+    conditionType: string;
+    earnedAt: string | null;
   }[];
   earnedBadges: unknown[];
   activity: {

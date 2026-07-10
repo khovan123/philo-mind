@@ -119,10 +119,6 @@ export class BookmarkService {
             select: { id: true },
           }),
         );
-      case "DEBATE":
-        return Boolean(
-          await prisma.debate.findUnique({ where: { id: input.targetId }, select: { id: true } }),
-        );
       case "TOPIC":
         return Boolean(
           await prisma.topic.findUnique({ where: { id: input.targetId }, select: { id: true } }),

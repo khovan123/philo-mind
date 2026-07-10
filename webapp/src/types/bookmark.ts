@@ -1,4 +1,4 @@
-export const bookmarkTargetTypes = ["LESSON", "SHORT_LESSON", "STORY", "DEBATE", "TOPIC"] as const;
+export const bookmarkTargetTypes = ["LESSON", "SHORT_LESSON", "STORY", "TOPIC"] as const;
 
 export type BookmarkTargetType = (typeof bookmarkTargetTypes)[number];
 

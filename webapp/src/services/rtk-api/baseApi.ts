@@ -21,7 +21,6 @@ export const baseApi = createApi({
     "Profile",
     "Chat",
     "Scenario",
-    "Debate",
     "Badge",
     "Notification",
     "Chapter",

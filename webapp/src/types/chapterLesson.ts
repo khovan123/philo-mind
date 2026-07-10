@@ -6,7 +6,6 @@ export type ChapterReviewState = {
   hookChoice?: "A" | "B" | null;
   hookDragPlacements?: Record<number, number>;
   quizAnswers?: Record<number, number>;
-  debateChoice?: "A" | "B" | null;
 };
 
 export type ChapterDraftState = {

@@ -186,7 +186,6 @@ export default function SettingsScreen() {
 
   const [notifLearning, setNotifLearning] = useState(true);
   const [notifStreak, setNotifStreak] = useState(true);
-  const [notifDebate, setNotifDebate] = useState(false);
 
   // ── Handlers ─────────────────────────────────────────────
 
@@ -559,12 +558,7 @@ export default function SettingsScreen() {
               onToggle={() => setNotifStreak((prev) => !prev)}
             />
 
-            <NotifRow
-              label={t("settings.new_debates")}
-              description={t("settings.new_debates_desc")}
-              value={notifDebate}
-              onToggle={() => setNotifDebate((prev) => !prev)}
-            />
+
 
             <Button
               title={t("settings.save_notif_settings")}

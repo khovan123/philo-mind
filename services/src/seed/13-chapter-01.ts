@@ -22,8 +22,8 @@ import { readdirSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { Prisma, PrismaClient, QuestionType } from "../prisma/generated/client.js";
-import { ContentStatus, DebateStance } from "../prisma/generated/client.js";
-import { readJson, seedLog, seedSkip } from "./utils/index.js";
+import { ContentStatus } from "../prisma/generated/client.js";
+import { readJson, seedLog } from "./utils/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -98,7 +98,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   let quizzes = 0;
   let scenarios = 0;
   let perspectives = 0;
-  let debates = 0;
   let critical = 0;
 
   for (const section of sections) {
@@ -222,64 +221,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
     }
     scenarios++;
 
-    // ── Debate (upsert by title) + 2 arguments (authored by admin) ──
-    const debateTitle = `Tranh luận: ${section.topic.title}`;
-    const existingDebate = await prisma.debate.findFirst({ where: { title: debateTitle } });
-    const debate = existingDebate
-      ? await prisma.debate.update({
-          where: { id: existingDebate.id },
-          data: { topicId: topic.id, description: section.topic.description },
-        })
-      : await prisma.debate.create({
-          data: {
-            topicId: topic.id,
-            title: debateTitle,
-            description: section.topic.description,
-          },
-        });
-    if (admin) {
-      const argumentData: {
-        debateId: string;
-        userId: string;
-        stance: DebateStance;
-        argumentText: string;
-      }[] = [
-        {
-          debateId: debate.id,
-          userId: admin.id,
-          stance: DebateStance.AGREE,
-          argumentText: section.debate.positionA,
-        },
-        {
-          debateId: debate.id,
-          userId: admin.id,
-          stance: DebateStance.DISAGREE,
-          argumentText: section.debate.positionB,
-        },
-      ];
-      if ((section.debate as any).positionC) {
-        argumentData.push({
-          debateId: debate.id,
-          userId: admin.id,
-          stance: DebateStance.NEUTRAL,
-          argumentText: (section.debate as any).positionC,
-        });
-      }
-      if ((section.debate as any).positionD) {
-        argumentData.push({
-          debateId: debate.id,
-          userId: admin.id,
-          stance: DebateStance.ALTERNATIVE,
-          argumentText: (section.debate as any).positionD,
-        });
-      }
-      await prisma.debateArgument.deleteMany({ where: { debateId: debate.id } });
-      await prisma.debateArgument.createMany({
-        data: argumentData,
-      });
-    }
-    debates++;
-
     // ── CriticalQuestion from openQuestions (upsert by question text) ──
     for (const question of section.debate.openQuestions) {
       const existingCq = await prisma.criticalQuestion.findFirst({ where: { question } });
@@ -330,10 +271,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   seedLog("Chapter1 Quiz", quizzes);
   seedLog("Chapter1 RealLifeScenario", scenarios);
   seedLog("Chapter1 ScenarioPerspective", perspectives);
-  seedLog("Chapter1 Debate", debates);
   seedLog("Chapter1 CriticalQuestion", critical);
   seedLog("Chapter1 MiniGame (flashcard)", miniGames);
-  if (!admin) {
-    seedSkip("Chapter1 DebateArgument", "admin user missing");
-  }
 }

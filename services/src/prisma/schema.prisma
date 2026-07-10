@@ -45,24 +45,6 @@ enum SenderType {
   SYSTEM
 }
 
-enum DebateStatus {
-  OPEN
-  CLOSED
-  ARCHIVED
-}
-
-enum DebateStance {
-  AGREE
-  DISAGREE
-  NEUTRAL
-  ALTERNATIVE
-}
-
-enum VoteValue {
-  UP
-  DOWN
-}
-
 enum QuestionType {
   OPEN_TEXT
   SINGLE_CHOICE
@@ -81,8 +63,6 @@ enum TargetType {
   LESSON
   SHORT_LESSON
   STORY
-  DEBATE
-  ARGUMENT
   TOPIC
   MINDMAP_NODE
   REFLECTION
@@ -147,9 +127,6 @@ model User {
   shortLessonComments  ShortLessonComment[]
   aiChatSessions       AiChatSession[]
   scenarioResponses    ScenarioResponse[]
-  debateArguments      DebateArgument[]
-  debateComments       DebateComment[]
-  debateVotes          DebateVote[]
   reflectionEntries    ReflectionEntry[]
   quizAttempts         QuizAttempt[]
   miniGameAttempts     MiniGameAttempt[]
@@ -210,7 +187,6 @@ model Topic {
   shortLessons      ShortLesson[]
   storyScenarios    StoryScenario[]
   realLifeScenarios RealLifeScenario[]
-  debates           Debate[]
   criticalQuestions CriticalQuestion[]
   mindmapNodes      MindmapNode[]
   miniGames         MiniGame[]
@@ -520,71 +496,6 @@ model ScenarioFramework {
   @@index([scenarioId])
   @@map("scenario_frameworks")
 }
-
-model Debate {
-  id          String       @id @default(uuid()) @db.Uuid
-  topicId     String       @map("topic_id") @db.Uuid
-  title       String       @db.VarChar(200)
-  description String?
-  status      DebateStatus @default(OPEN)
-  createdAt   DateTime     @default(now()) @map("created_at")
-
-  topic     Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  arguments DebateArgument[]
-
-  @@index([topicId, status])
-  @@map("debates")
-}
-
-model DebateArgument {
-  id           String       @id @default(uuid()) @db.Uuid
-  debateId     String       @map("debate_id") @db.Uuid
-  userId       String       @map("user_id") @db.Uuid
-  stance       DebateStance
-  argumentText String       @map("argument_text")
-  voteCount    Int          @default(0) @map("vote_count")
-  createdAt    DateTime     @default(now()) @map("created_at")
-
-  debate   Debate          @relation(fields: [debateId], references: [id], onDelete: Cascade)
-  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  comments DebateComment[]
-  votes    DebateVote[]
-
-  @@index([debateId, voteCount])
-  @@index([userId])
-  @@map("debate_arguments")
-}
-
-model DebateComment {
-  id          String   @id @default(uuid()) @db.Uuid
-  argumentId  String   @map("argument_id") @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  commentText String   @map("comment_text")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  argument DebateArgument @relation(fields: [argumentId], references: [id], onDelete: Cascade)
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([argumentId, createdAt])
-  @@index([userId])
-  @@map("debate_comments")
-}
-
-model DebateVote {
-  id         String    @id @default(uuid()) @db.Uuid
-  argumentId String    @map("argument_id") @db.Uuid
-  userId     String    @map("user_id") @db.Uuid
-  value      VoteValue
-  createdAt  DateTime  @default(now()) @map("created_at")
-
-  argument DebateArgument @relation(fields: [argumentId], references: [id], onDelete: Cascade)
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([argumentId, userId])
-  @@index([userId])
-  @@map("debate_votes")
-}
-
 model CriticalQuestion {
   id           String       @id @default(uuid()) @db.Uuid
   topicId      String       @map("topic_id") @db.Uuid
