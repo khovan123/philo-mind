@@ -307,7 +307,9 @@ export class BadgeService {
     let currentStreak = 0;
     if (streakResult.length > 0) {
       const uniqueDates = Array.from(
-        new Set(streakResult.map((log: { createdAt: Date }) => log.createdAt.toISOString().split("T")[0])),
+        new Set(
+          streakResult.map((log: { createdAt: Date }) => log.createdAt.toISOString().split("T")[0]),
+        ),
       ).sort((a: string, b: string) => b.localeCompare(a));
 
       const todayStr = new Date().toISOString().split("T")[0];
