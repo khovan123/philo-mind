@@ -40,3 +40,8 @@ substitutions:
   _SERVICE_NAME: philo-mind-git
   _REGION: asia-southeast1
   _AR_IMAGE_PATH: asia-southeast1-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/khovan123-philo-mind/philo-mind-git
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  substitutionOption: ALLOW_LOOSE
+
