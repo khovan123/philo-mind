@@ -69,11 +69,12 @@ const envSchema = z
       });
     }
 
-    if (databaseUrl.searchParams.get("sslmode") !== "verify-full") {
+    const sslmode = databaseUrl.searchParams.get("sslmode");
+    if (sslmode !== "verify-full" && sslmode !== "require") {
       ctx.addIssue({
         code: "custom",
         path: ["DATABASE_URL"],
-        message: "Production DATABASE_URL must set sslmode=verify-full",
+        message: "Production DATABASE_URL must set sslmode to verify-full or require",
       });
     }
   });
