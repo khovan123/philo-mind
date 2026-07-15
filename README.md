@@ -2,8 +2,6 @@
 
 Monorepo project powered by **Express.js** (backend) and **React Native / Expo** (frontend).
 
-#trigger
-
 ## Tech Stack
 
 | Layer    | Technology                                        |
