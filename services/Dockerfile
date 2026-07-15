@@ -8,6 +8,9 @@
 # ─── Stage 1: Build ───────────────────────────────────────────
 FROM node:22-alpine AS builder
 
+ENV DATABASE_URL="postgresql://build:build@localhost:5432/build?schema=public"
+ENV DIRECT_DATABASE_URL="postgresql://build:build@localhost:5432/build?schema=public"
+
 WORKDIR /app
 
 # Copy root configurations and workspace lockfile
