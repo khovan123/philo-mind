@@ -1,46 +1,61 @@
 # syntax=docker/dockerfile:1
+# ─── PhiloMind API · Production Dockerfile ───────────────────
+# Optimized for monorepo — deploys ONLY the backend service.
+# Built from the monorepo root context (default for Cloud Run / Fly.io).
+# ──────────────────────────────────────────────────────────────
 
-FROM node:22-alpine AS dependencies
+# ─── Stage 1: Build ───────────────────────────────────────────
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
+# Copy root configurations and workspace lockfile
 COPY package.json package-lock.json ./
+COPY tsconfig.base.json tsconfig.json ./
+
+# Copy packages' package.json files
 COPY libs/shared/package.json ./libs/shared/package.json
 COPY services/package.json ./services/package.json
 COPY webapp/package.json ./webapp/package.json
 
-RUN npm ci --legacy-peer-deps --ignore-scripts
+# Install dependencies only for the backend and shared library workspaces
+RUN npm ci --workspace=services --workspace=libs/shared --include-workspace-root --legacy-peer-deps --ignore-scripts
 
-FROM dependencies AS build
-
-ENV DATABASE_URL="postgresql://build:build@localhost:5432/build?schema=public"
-ENV DIRECT_DATABASE_URL="postgresql://build:build@localhost:5432/build?schema=public"
-
-COPY tsconfig.base.json tsconfig.json ./
-COPY libs ./libs
+# Copy source files for backend and shared library
+COPY libs/shared ./libs/shared
 COPY services ./services
 
+# Build the shared library (required by backend)
 RUN npm run build --workspace=libs/shared
+
+# Generate Prisma Client with schema path
 RUN npm run prisma:generate --workspace=services
+
+# Build the backend service
 RUN npm run build --workspace=services
 
-FROM node:22-alpine AS runtime
+# ─── Stage 2: Runtime ─────────────────────────────────────────
+FROM node:22-alpine AS runner
 
 ENV NODE_ENV=production
 ENV PORT=8080
 
 WORKDIR /app
 
+# Copy package.json, package-lock.json, and minimal workspaces files
 COPY package.json package-lock.json ./
 COPY libs/shared/package.json ./libs/shared/package.json
 COPY services/package.json ./services/package.json
 COPY webapp/package.json ./webapp/package.json
 
-RUN npm ci --omit=dev --legacy-peer-deps --ignore-scripts \
-  && npm cache clean --force
+# Install ONLY production dependencies for the backend and shared workspaces
+RUN npm ci --omit=dev --workspace=services --workspace=libs/shared --include-workspace-root --legacy-peer-deps --ignore-scripts \
+    && npm cache clean --force
 
-COPY --from=build /app/libs/shared/dist ./libs/shared/dist
-COPY --from=build /app/services/dist ./services/dist
+# Copy compiled files and required assets from builder stage
+COPY --from=builder /app/libs/shared/dist ./libs/shared/dist
+COPY --from=builder /app/services/dist ./services/dist
+COPY --from=builder /app/services/src/prisma ./services/src/prisma
 
 EXPOSE 8080
 

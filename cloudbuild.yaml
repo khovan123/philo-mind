@@ -1,0 +1,42 @@
+steps:
+  # 1. Build the container image using the root context and Dockerfile
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - '${_AR_IMAGE_PATH}:${COMMIT_SHA}'
+      - '-t'
+      - '${_AR_IMAGE_PATH}:latest'
+      - '-f'
+      - 'Dockerfile'
+      - '.'
+
+  # 2. Push the container image (all tags) to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - '--all-tags'
+      - '${_AR_IMAGE_PATH}'
+
+  # 3. Deploy the container image to Cloud Run (preserves environment config)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - '${_SERVICE_NAME}'
+      - '--image'
+      - '${_AR_IMAGE_PATH}:${COMMIT_SHA}'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+
+images:
+  - '${_AR_IMAGE_PATH}:${COMMIT_SHA}'
+  - '${_AR_IMAGE_PATH}:latest'
+
+substitutions:
+  _SERVICE_NAME: philo-mind-git
+  _REGION: asia-southeast1
+  _AR_IMAGE_PATH: asia-southeast1-docker.pkg.dev/${PROJECT_ID}/cloud-run-source-deploy/khovan123-philo-mind/philo-mind-git
