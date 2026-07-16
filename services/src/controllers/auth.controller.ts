@@ -6,6 +6,12 @@ import { env } from "../config/env.js";
 // ── T-001: Auth Controller ─────────────────────────────────
 
 export class AuthController {
+  private getGoogleCallbackUri(req: Request) {
+    return (
+      env.GOOGLE_CALLBACK_URL || `${req.protocol}://${req.get("host")}/api/v1/auth/callback/google`
+    );
+  }
+
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const result = await authService.register(req.body);
@@ -161,14 +167,10 @@ export class AuthController {
         });
       }
 
-      const callbackUri =
-        env.GOOGLE_CALLBACK_URL ||
-        `${req.protocol}://${req.get("host")}/api/v1/auth/google/callback`;
+      const callbackUri = this.getGoogleCallbackUri(req);
 
       console.warn("[Google OAuth] callbackUri =", callbackUri);
       console.warn("[Google OAuth] clientId =", env.GOOGLE_CLIENT_ID);
-      console.warn("[Google OAuth] secret prefix =", env.GOOGLE_CLIENT_SECRET?.slice(0, 8));
-      console.warn("[Google OAuth] secret length =", env.GOOGLE_CLIENT_SECRET?.length);
 
       const authorizeUrl =
         `https://accounts.google.com/o/oauth2/v2/auth` +
@@ -192,7 +194,7 @@ export class AuthController {
         return res.status(400).send("Missing code or redirect_uri");
       }
 
-      const callbackUri = `${req.protocol}://${req.get("host")}/api/v1/auth/google/callback`;
+      const callbackUri = this.getGoogleCallbackUri(req);
 
       const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",

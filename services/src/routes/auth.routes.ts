@@ -27,7 +27,7 @@ authRouter.post("/login", validate(loginSchema), (req, res, next) =>
 
 authRouter.get("/google", (req, res, next) => authController.initiateGoogleAuth(req, res, next));
 
-authRouter.get("/google/callback", (req, res, next) =>
+authRouter.get("/callback/google", (req, res, next) =>
   authController.googleCallback(req, res, next),
 );
 
