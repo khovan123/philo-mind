@@ -19,6 +19,7 @@ export type ChapterHook =
 export type ChapterTheoryCard = {
   id: string;
   icon: string;
+  title?: string;
   body: string;
 };
 

@@ -222,7 +222,7 @@ function HookDrag({
             }
           />
           {allCorrect ? (
-            <PrimaryButton label="Thẻ lí thuyết" onPress={() => onDone(placements)} />
+            <PrimaryButton label="Lý thuyết" onPress={() => onDone(placements)} />
           ) : (
             <SecondaryButton label="Làm lại" onPress={reset} />
           )}

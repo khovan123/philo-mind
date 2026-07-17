@@ -425,6 +425,87 @@ const chapter1IntroScript = [
   { t: "end" },
 ];
 
+const THEORY_CARD_TITLES_BY_MUC: Record<string, string[]> = {
+  "1.1": [
+    "Dòng chảy tư tưởng kinh tế",
+    "Thuật ngữ kinh tế chính trị",
+    "Các trường phái trước Mác",
+    "Mác - Ăngghen phát triển lý luận",
+    "Lênin bổ sung trong điều kiện mới",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.2.1": [
+    "Câu hỏi về đối tượng nghiên cứu",
+    "Các cách tiếp cận trước Mác",
+    "Đối tượng nghiên cứu cốt lõi",
+    "Hai nghĩa của kinh tế chính trị",
+    "Lưu ý: không nghiên cứu kỹ thuật",
+    "Các quan hệ xã hội cần phân tích",
+  ],
+  "1.2.2": [
+    "Học để hiểu quy luật",
+    "Mục đích nghiên cứu cao nhất",
+    "Quy luật kinh tế là gì",
+    "Phân biệt quy luật và chính sách",
+    "Ý nghĩa phát triển xã hội",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.2.3": [
+    "Vì sao cần phương pháp",
+    "Phương pháp biện chứng duy vật",
+    "Trừu tượng hóa khoa học",
+    "Logic và lịch sử",
+    "Gắn lý luận với thực tiễn",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.3.1": [
+    "Nhận thức để thấy bản chất",
+    "Cung cấp tri thức khoa học",
+    "Phát hiện quy luật kinh tế",
+    "Hiểu lợi ích và quan hệ xã hội",
+    "Tránh nhìn hiện tượng bề ngoài",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.3.2": [
+    "Biến hiểu biết thành hành động",
+    "Vận dụng quy luật vào đời sống",
+    "Cải tạo thực tiễn xã hội",
+    "Giải quyết hài hòa lợi ích",
+    "Vai trò với sinh viên",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.3.3": [
+    "Từ tri thức đến niềm tin",
+    "Xây dựng thế giới quan khoa học",
+    "Bồi dưỡng lý tưởng tiến bộ",
+    "Định hướng thái độ xã hội",
+    "Lưu ý tránh học thuộc máy móc",
+    "Tóm tắt cần nhớ",
+  ],
+  "1.3.4": [
+    "Cần nền tảng lý luận chung",
+    "Hiểu bản chất sau hiện tượng",
+    "Cơ sở cho khoa học chuyên ngành",
+    "Nhìn kinh tế trong quan hệ xã hội",
+    "Định hướng cách phân tích",
+    "Tóm tắt cần nhớ",
+  ],
+};
+
+function withTheoryCardTitles<
+  T extends { muc: string; theoryCards: Array<Record<string, unknown>> },
+>(node: T): T {
+  const titles = THEORY_CARD_TITLES_BY_MUC[node.muc] ?? [];
+
+  return {
+    ...node,
+    theoryCards: node.theoryCards.map((card, index) => ({
+      ...card,
+      title: titles[index] ?? card.title ?? `Ý chính ${index + 1}`,
+    })),
+  };
+}
+
 export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
   const chapters = ChapterContentService.listChapters();
   let chaptersSeeded = 0;
@@ -459,6 +540,7 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
     try {
       const nodes = ChapterContentService.listNodes(ch.id);
       for (const node of nodes) {
+        const nodeData = withTheoryCardTitles(node);
         const existingNode = await prisma.chapterNode.findUnique({
           where: {
             chapterId_muc: {
@@ -472,17 +554,17 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
           await prisma.chapterNode.update({
             where: { id: existingNode.id },
             data: {
-              title: node.title,
-              data: node as any,
+              title: nodeData.title,
+              data: nodeData as any,
             },
           });
         } else {
           await prisma.chapterNode.create({
             data: {
               chapterId: chapter.id,
-              muc: node.muc,
-              title: node.title,
-              data: node as any,
+              muc: nodeData.muc,
+              title: nodeData.title,
+              data: nodeData as any,
             },
           });
         }

@@ -3,7 +3,7 @@ import { Colors as ThemeColors } from "@/constants/theme";
 export const CHAPTER_LESSON_STEP_NAMES: Record<number, string> = {
   [-1]: "Phim giới thiệu",
   0: "Tình huống",
-  1: "Thẻ lí thuyết",
+  1: "Lý thuyết",
   2: "Luyện tập",
 } as const;
 
