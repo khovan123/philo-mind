@@ -492,9 +492,9 @@ const THEORY_CARD_TITLES_BY_MUC: Record<string, string[]> = {
   ],
 };
 
-function withTheoryCardTitles<T extends { muc: string; theoryCards: Array<Record<string, unknown>> }>(
-  node: T,
-): T {
+function withTheoryCardTitles<
+  T extends { muc: string; theoryCards: Array<Record<string, unknown>> },
+>(node: T): T {
   const titles = THEORY_CARD_TITLES_BY_MUC[node.muc] ?? [];
 
   return {
