@@ -1,6 +1,4 @@
 import {
-  Bookmark,
-  BookOpen,
   Compass,
   GraduationCap,
   Home,
@@ -14,7 +12,6 @@ const Icons = {
   explore: Compass,
   learn: GraduationCap,
   profile: UserRound,
-  story: BookOpen,
   chat: MessageCircle,
 } as const;
 
