@@ -5,6 +5,7 @@ const mockCreate = jest.fn() as any;
 const mockFindFirst = jest.fn() as any;
 const mockUpdate = jest.fn() as any;
 const mockUserFindUnique = jest.fn() as any;
+const mockUserFindFirst = jest.fn() as any;
 const mockUserUpdate = jest.fn() as any;
 const mockSessionUpdateMany = jest.fn() as any;
 const mockTokenUpdateMany = jest.fn() as any;
@@ -19,6 +20,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     },
     user: {
       findUnique: mockUserFindUnique,
+      findFirst: mockUserFindFirst,
       update: mockUserUpdate,
     },
     userSession: { updateMany: mockSessionUpdateMany },
@@ -45,10 +47,11 @@ describe("AuthService.sendPasswordReset", () => {
   beforeEach(() => {
     mockCreate.mockReset();
     mockUserFindUnique.mockReset();
+    mockUserFindFirst.mockReset();
   });
 
   it("creates a PasswordReset record when email exists", async () => {
-    mockUserFindUnique.mockResolvedValue({ id: "user-1" } as any);
+    mockUserFindFirst.mockResolvedValue({ id: "user-1" } as any);
     mockCreate.mockResolvedValue({} as any);
 
     const svc = new AuthService();
@@ -64,7 +67,7 @@ describe("AuthService.sendPasswordReset", () => {
   });
 
   it("creates a PasswordReset record even when email does not exist (anti-enumeration)", async () => {
-    mockUserFindUnique.mockResolvedValue(null as any);
+    mockUserFindFirst.mockResolvedValue(null as any);
     mockCreate.mockResolvedValue({} as any);
 
     const svc = new AuthService();
@@ -76,7 +79,7 @@ describe("AuthService.sendPasswordReset", () => {
   });
 
   it("does NOT include the resetToken in the email (security)", async () => {
-    mockUserFindUnique.mockResolvedValue(null as any);
+    mockUserFindFirst.mockResolvedValue(null as any);
     mockCreate.mockResolvedValue({} as any);
 
     const { sendResetEmail } = await import("../utils/email.js");
