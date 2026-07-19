@@ -13,6 +13,8 @@ import {
   useGetChapterNodesQuery,
   useGetChaptersQuery,
 } from "@/services/rtk-api/chapter.api";
+import { selectAuthUser } from "@/stores/auth.helpers";
+import { useAppSelector } from "@/stores/hooks";
 import { securePersistStorage } from "@/stores/persistStorage";
 import type { ChapterProgress, ChapterProgressItem } from "@/types/chapterLesson";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
@@ -60,6 +62,7 @@ function countCompleted(progress: ChapterProgress | undefined, order: string[]) 
 
 export default function ChapterSkillTreeScreen() {
   const router = useRouter();
+  const userId = useAppSelector((state) => selectAuthUser(state)?.id ?? null);
   const params = useLocalSearchParams<{ chapter?: string }>();
   const routeChapter = Array.isArray(params.chapter) ? params.chapter[0] : params.chapter;
 
@@ -93,10 +96,20 @@ export default function ChapterSkillTreeScreen() {
 
       const entries = await Promise.all(
         chapters.map(async (chapter) => {
-          const raw = await securePersistStorage.getItem(getChapterProgressStorageKey(chapter.id));
+          const storageKey = getChapterProgressStorageKey(chapter.id, userId);
+          const raw = await securePersistStorage.getItem(storageKey);
+          const legacyRaw =
+            !raw && userId
+              ? await securePersistStorage.getItem(getChapterProgressStorageKey(chapter.id))
+              : null;
 
           try {
-            return [chapter.id, raw ? (JSON.parse(raw) as ChapterProgress) : {}] as const;
+            const parsed =
+              raw || legacyRaw ? (JSON.parse(raw ?? legacyRaw ?? "{}") as ChapterProgress) : {};
+            if (!raw && legacyRaw) {
+              await securePersistStorage.setItem(storageKey, JSON.stringify(parsed));
+            }
+            return [chapter.id, parsed] as const;
           } catch {
             return [chapter.id, {}] as const;
           }
@@ -114,7 +127,7 @@ export default function ChapterSkillTreeScreen() {
     return () => {
       cancelled = true;
     };
-  }, [chapters]);
+  }, [chapters, userId]);
 
   const storedChapterOverview = useMemo<ChapterOverviewItem[]>(
     () =>

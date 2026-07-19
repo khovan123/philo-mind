@@ -17,6 +17,7 @@ jest.unstable_mockModule("../config/env.js", () => ({
 // Declare mocks for Prisma
 const mockTransaction = jest.fn() as any;
 const mockUserFindUnique = jest.fn() as any;
+const mockUserFindFirst = jest.fn() as any;
 const mockUserCreate = jest.fn() as any;
 const mockUserUpdate = jest.fn() as any;
 const mockSessionCreate = jest.fn() as any;
@@ -35,6 +36,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     $transaction: mockTransaction,
     user: {
       findUnique: mockUserFindUnique,
+      findFirst: mockUserFindFirst,
       create: mockUserCreate,
       update: mockUserUpdate,
     },
@@ -92,7 +94,7 @@ describe("AuthService", () => {
 
   describe("register", () => {
     it("registers a user successfully and returns user and tokens", async () => {
-      mockUserFindUnique.mockResolvedValue(null);
+      mockUserFindFirst.mockResolvedValue(null);
       mockHash.mockResolvedValue("hashed-password" as any);
 
       const mockUser = {
@@ -114,12 +116,14 @@ describe("AuthService", () => {
 
       const service = new AuthService();
       const result = await service.register({
-        email: "test@example.com",
+        email: "  Test@Example.COM ",
         password: "password123",
         fullName: "Test User",
       });
 
-      expect(mockUserFindUnique).toHaveBeenCalledWith({ where: { email: "test@example.com" } });
+      expect(mockUserFindFirst).toHaveBeenCalledWith({
+        where: { email: { equals: "test@example.com", mode: "insensitive" } },
+      });
       expect(mockHash).toHaveBeenCalledWith("password123", 12);
       expect(mockUserCreate).toHaveBeenCalledWith({
         data: {
@@ -142,7 +146,7 @@ describe("AuthService", () => {
     });
 
     it("throws AuthError (409) if email already exists", async () => {
-      mockUserFindUnique.mockResolvedValue({ id: "existing-id" } as any);
+      mockUserFindFirst.mockResolvedValue({ id: "existing-id" } as any);
 
       const service = new AuthService();
       await expect(
@@ -172,7 +176,7 @@ describe("AuthService", () => {
         isActive: true,
         createdAt: new Date(),
       };
-      mockUserFindUnique.mockResolvedValue(mockUser);
+      mockUserFindFirst.mockResolvedValue(mockUser);
       mockCompare.mockResolvedValue(true as any);
       mockSessionCreate.mockResolvedValue({ id: "session-123" } as any);
       mockTokenCreate.mockResolvedValue({ id: "token-123" } as any);
@@ -183,12 +187,12 @@ describe("AuthService", () => {
 
       const service = new AuthService();
       const result = await service.login({
-        email: "test@example.com",
+        email: "  Test@Example.COM ",
         password: "password123",
       });
 
-      expect(mockUserFindUnique).toHaveBeenCalledWith({
-        where: { email: "test@example.com" },
+      expect(mockUserFindFirst).toHaveBeenCalledWith({
+        where: { email: { equals: "test@example.com", mode: "insensitive" } },
         select: expect.any(Object),
       });
       expect(mockCompare).toHaveBeenCalledWith("password123", "hashed-password");
@@ -198,7 +202,7 @@ describe("AuthService", () => {
     });
 
     it("throws AuthError (401) if user not found", async () => {
-      mockUserFindUnique.mockResolvedValue(null);
+      mockUserFindFirst.mockResolvedValue(null);
 
       const service = new AuthService();
       await expect(
@@ -212,7 +216,7 @@ describe("AuthService", () => {
     });
 
     it("throws AuthError (403) if account is inactive", async () => {
-      mockUserFindUnique.mockResolvedValue({
+      mockUserFindFirst.mockResolvedValue({
         email: "test@example.com",
         isActive: false,
       } as any);
@@ -229,7 +233,7 @@ describe("AuthService", () => {
     });
 
     it("throws AuthError (401) if password check fails", async () => {
-      mockUserFindUnique.mockResolvedValue({
+      mockUserFindFirst.mockResolvedValue({
         email: "test@example.com",
         isActive: true,
         passwordHash: "hashed-password",
@@ -405,14 +409,16 @@ describe("AuthService", () => {
 
   describe("sendPasswordReset", () => {
     it("creates a password reset record and sends email (user exists)", async () => {
-      mockUserFindUnique.mockResolvedValue({ id: "user-123" } as any);
+      mockUserFindFirst.mockResolvedValue({ id: "user-123" } as any);
       mockResetCreate.mockResolvedValue({} as any);
       mockSendResetEmail.mockResolvedValue({} as any);
 
       const service = new AuthService();
-      await service.sendPasswordReset("user@example.com");
+      await service.sendPasswordReset("  User@Example.COM ");
 
-      expect(mockUserFindUnique).toHaveBeenCalledWith({ where: { email: "user@example.com" } });
+      expect(mockUserFindFirst).toHaveBeenCalledWith({
+        where: { email: { equals: "user@example.com", mode: "insensitive" } },
+      });
       expect(mockResetCreate).toHaveBeenCalledWith({
         data: expect.objectContaining({
           userId: "user-123",
@@ -425,7 +431,7 @@ describe("AuthService", () => {
     });
 
     it("creates a password reset record even if user does not exist (mitigate email enumeration)", async () => {
-      mockUserFindUnique.mockResolvedValue(null);
+      mockUserFindFirst.mockResolvedValue(null);
       mockResetCreate.mockResolvedValue({} as any);
 
       const service = new AuthService();
@@ -541,6 +547,55 @@ describe("AuthService", () => {
           statusCode: 400,
         }),
       );
+    });
+  });
+
+  describe("googleLogin", () => {
+    it("reuses an existing email/password account with matching email regardless of casing", async () => {
+      const existingUser = {
+        id: "user-123",
+        email: "User@Example.com",
+        fullName: "Password User",
+        role: "USER",
+        avatarUrl: null,
+        isActive: true,
+        createdAt: new Date(),
+      };
+      mockUserFindFirst.mockResolvedValue(existingUser);
+      mockUserUpdate.mockResolvedValue({
+        ...existingUser,
+        avatarUrl: "https://example.com/avatar.png",
+      });
+      mockSessionCreate.mockResolvedValue({ id: "session-123" } as any);
+      mockTokenCreate.mockResolvedValue({ id: "token-123" } as any);
+      mockGenerateTokenPair.mockReturnValue({
+        accessToken: "mock-access-token",
+        refreshToken: "mock-refresh-token",
+      });
+
+      const service = new AuthService();
+      const result = await service.googleLogin(
+        " user@example.COM ",
+        "Google Name",
+        "https://example.com/avatar.png",
+      );
+
+      expect(mockUserFindFirst).toHaveBeenCalledWith({
+        where: { email: { equals: "user@example.com", mode: "insensitive" } },
+        orderBy: { createdAt: "asc" },
+        select: expect.any(Object),
+      });
+      expect(mockUserCreate).not.toHaveBeenCalled();
+      expect(mockUserUpdate).toHaveBeenCalledWith({
+        where: { id: "user-123" },
+        data: { avatarUrl: "https://example.com/avatar.png" },
+        select: expect.any(Object),
+      });
+      expect(mockSessionCreate).toHaveBeenCalledWith({
+        data: expect.objectContaining({ userId: "user-123", status: "ACTIVE" }),
+      });
+      expect(result.user.id).toBe("user-123");
+      expect(result.user).not.toHaveProperty("isActive");
     });
   });
 
