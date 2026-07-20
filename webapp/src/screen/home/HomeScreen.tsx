@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
-import { shouldShowOnboarding } from "@/lib/onboarding-state";
+import { useShouldShowOnboarding } from "@/lib/onboarding-state";
 import { useGetLearningDashboardQuery } from "@/services/rtk-api/learning.api";
 import { Pressable, ScrollView, View } from "@/tw";
 import { Image } from "@/tw/image";
@@ -33,8 +33,13 @@ export default function HomeScreen() {
   const router = useRouter();
   const { t } = useTranslation();
   const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
+  const shouldShowOnboarding = useShouldShowOnboarding();
 
-  if (shouldShowOnboarding()) {
+  if (shouldShowOnboarding === null) {
+    return null;
+  }
+
+  if (shouldShowOnboarding) {
     return <Redirect href="../onboarding" />;
   }
 

@@ -36,13 +36,13 @@ export default function OnboardingScreen() {
   const [stepIndex, setStepIndex] = useState(0);
   const step = steps[stepIndex] || steps[steps.length - 1];
 
-  function handleNext() {
+  async function handleNext() {
     if (stepIndex < steps.length - 1) {
       setStepIndex(stepIndex + 1);
       return;
     }
 
-    markOnboardingComplete();
+    await markOnboardingComplete();
     router.replace("/");
   }
 
