@@ -22,8 +22,6 @@ import { seedShortLessons } from "./02-short-lessons.js";
 import { seedLessons } from "./03-lessons.js";
 import { seedQuizzes } from "./04-quizzes.js";
 import { seedStories } from "./05-stories.js";
-import { seedAiCharacters } from "./06-ai-characters.js";
-import { seedScenarios } from "./07-scenarios.js";
 import { seedCriticalQuestions } from "./09-critical-questions.js";
 import { seedBadges } from "./10-badges.js";
 import { seedTopicPerspectives } from "./11-topic-perspectives.js";
@@ -42,14 +40,12 @@ async function main() {
   seedHeader("Phase 1 — Root Entities");
   await seedUsers(prisma);
   await seedTopics(prisma);
-  await seedAiCharacters(prisma);
   await seedBadges(prisma);
 
   // ── Phase 2: Topic-dependent entities ────────────────────
   seedHeader("Phase 2 — Topic-Dependent");
   await seedShortLessons(prisma);
   await seedLessons(prisma);
-  await seedScenarios(prisma);
   await seedCriticalQuestions(prisma);
   await seedTopicPerspectives(prisma);
   await seedStories(prisma);

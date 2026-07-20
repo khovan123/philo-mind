@@ -35,12 +35,6 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
     conditionType: "quiz_count_3",
   },
   {
-    name: "Nhà lập thuyết",
-    description: "Đóng góp 5 lập luận sắc bén trong các cuộc tranh luận",
-    iconUrl: "🗣️",
-    conditionType: "debate_count_5",
-  },
-  {
     name: "Người kể chuyện triết học",
     description: "Tham gia quyết định kết cục cho 3 tình huống câu chuyện",
     iconUrl: "🎭",
@@ -128,10 +122,6 @@ export class BadgeService {
         case "quiz_count_3":
           progress = metrics.quizCount;
           target = 3;
-          break;
-        case "debate_count_5":
-          progress = metrics.debateArgumentCount;
-          target = 5;
           break;
         case "story_count_3":
           progress = metrics.storyCount;
@@ -221,9 +211,6 @@ export class BadgeService {
         case "quiz_count_3":
           isEligible = metrics.quizCount >= 3;
           break;
-        case "debate_count_5":
-          isEligible = metrics.debateArgumentCount >= 5;
-          break;
         case "story_count_3":
           isEligible = metrics.storyCount >= 3;
           break;
@@ -302,8 +289,6 @@ export class BadgeService {
       }),
     ]);
 
-    const debateArgumentCount = 0;
-
     let currentStreak = 0;
     if (streakResult.length > 0) {
       const uniqueDates = Array.from(
@@ -335,7 +320,6 @@ export class BadgeService {
       reflectionCount,
       completedLessonsCount,
       quizCount,
-      debateArgumentCount,
       storyCount,
       shortLessonCount,
       currentStreak,
