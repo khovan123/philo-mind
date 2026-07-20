@@ -22,7 +22,6 @@ const mockActivityLogCount = jest.fn() as any;
 const mockReflectionEntryCount = jest.fn() as any;
 const mockUserProgressCount = jest.fn() as any;
 const mockQuizAttemptCount = jest.fn() as any;
-const mockDebateArgumentCount = jest.fn() as any;
 const mockStorySessionCount = jest.fn() as any;
 const mockShortLessonResponseCount = jest.fn() as any;
 const mockActivityLogFindMany = jest.fn() as any;
@@ -53,9 +52,6 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     quizAttempt: {
       count: mockQuizAttemptCount,
     },
-    debateArgument: {
-      count: mockDebateArgumentCount,
-    },
     storySession: {
       count: mockStorySessionCount,
     },
@@ -76,7 +72,7 @@ describe("BadgeService", () => {
 
   describe("ensureBadgesSeeded", () => {
     it("should call prisma.badge.createMany with BADGE_DEFINITIONS", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
       await BadgeService.ensureBadgesSeeded();
       expect(mockBadgeCreateMany).toHaveBeenCalledWith({
         data: BADGE_DEFINITIONS,
@@ -87,7 +83,7 @@ describe("BadgeService", () => {
 
   describe("getAllBadgesForUser", () => {
     it("should return all badges with correct progress and earned status", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
       mockBadgeFindMany.mockResolvedValue(
         BADGE_DEFINITIONS.map((def, idx) => ({
           id: `badge-${idx}`,
@@ -96,12 +92,11 @@ describe("BadgeService", () => {
         })),
       );
 
-      // Mock user metrics: 1 activity, 5 reflections, 5 lessons, 3 quizzes, 5 debates, 3 stories, 3 streak, 10 short lessons
+      // Mock user metrics: 1 activity, 5 reflections, 5 lessons, 3 quizzes, 3 stories, 3 streak, 10 short lessons
       mockActivityLogCount.mockResolvedValue(1);
       mockReflectionEntryCount.mockResolvedValue(5);
       mockUserProgressCount.mockResolvedValue(5);
       mockQuizAttemptCount.mockResolvedValue(3);
-      mockDebateArgumentCount.mockResolvedValue(5);
       mockStorySessionCount.mockResolvedValue(3);
       mockShortLessonResponseCount.mockResolvedValue(10);
 
@@ -117,7 +112,7 @@ describe("BadgeService", () => {
 
       const result = await BadgeService.getAllBadgesForUser(userId);
 
-      expect(result).toHaveLength(10);
+      expect(result).toHaveLength(9);
 
       // First badge: activity_count_1 (Earned)
       expect(result[0].isEarned).toBe(true);
@@ -138,7 +133,7 @@ describe("BadgeService", () => {
 
   describe("evaluateUserBadges", () => {
     it("should award eligible badges and send notifications", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
 
       // Mock all badges as unearned initially
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
@@ -153,7 +148,6 @@ describe("BadgeService", () => {
       mockReflectionEntryCount.mockResolvedValue(0);
       mockUserProgressCount.mockResolvedValue(0);
       mockQuizAttemptCount.mockResolvedValue(0);
-      mockDebateArgumentCount.mockResolvedValue(0);
       mockStorySessionCount.mockResolvedValue(0);
       mockShortLessonResponseCount.mockResolvedValue(0);
       mockActivityLogFindMany.mockResolvedValue([{ createdAt: new Date() }]);
@@ -191,7 +185,7 @@ describe("BadgeService", () => {
     });
 
     it("should not award badges that are already earned", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
 
       // Mock all badges as already earned
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
@@ -206,7 +200,6 @@ describe("BadgeService", () => {
       mockReflectionEntryCount.mockResolvedValue(100);
       mockUserProgressCount.mockResolvedValue(100);
       mockQuizAttemptCount.mockResolvedValue(100);
-      mockDebateArgumentCount.mockResolvedValue(100);
       mockStorySessionCount.mockResolvedValue(100);
       mockShortLessonResponseCount.mockResolvedValue(100);
       mockActivityLogFindMany.mockResolvedValue([{ createdAt: new Date() }]);

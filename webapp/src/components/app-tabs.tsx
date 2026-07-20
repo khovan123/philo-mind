@@ -93,12 +93,11 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
-        name="chat"
+        name="story"
         options={{
-          title: t("navigation.chat"),
-          tabBarLabel: t("navigation.chat"),
-          tabBarIcon: renderTabIcon("chat"),
-          href: null,
+          title: t("navigation.story"),
+          tabBarLabel: t("navigation.story"),
+          tabBarIcon: renderTabIcon("story"),
         }}
       />
 

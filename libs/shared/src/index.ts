@@ -71,27 +71,12 @@ export type {
   StorySessionDTO,
 } from "./types/story.js";
 
-// Interactive (AI Chat, Scenario)
-export { SenderType } from "./types/interactive.js";
-export type {
-  AiCharacterDTO,
-  AiChatMessageDTO,
-  AiChatSessionDTO,
-  ScenarioDTO,
-  ScenarioFrameworkDTO,
-  ScenarioPerspectiveDTO,
-  ScenarioResponseDTO,
-} from "./types/interactive.js";
-
 // Activity
 export { ActivityType, TargetType } from "./types/activity.js";
 
 // ── Shared Validators ─────────────────────────────────────
 
 export * from "./validators/activity.validator.js";
-export * from "./validators/ai-character.validator.js";
-export * from "./validators/ai-chat.validator.js";
-export * from "./validators/ai.validator.js";
 export * from "./validators/analysis-tab.validator.js";
 export * from "./validators/auth.validator.js";
 export * from "./validators/bookmark.validator.js";
@@ -105,7 +90,6 @@ export * from "./validators/philosophy-tag.validator.js";
 export * from "./validators/progress.validator.js";
 export * from "./validators/quiz.validator.js";
 export * from "./validators/reflection.validator.js";
-export * from "./validators/scenario.validator.js";
 export * from "./validators/short-lesson.validator.js";
 export * from "./validators/story-learn-card.validator.js";
 export * from "./validators/story-session.validator.js";

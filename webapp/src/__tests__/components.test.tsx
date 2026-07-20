@@ -2,7 +2,6 @@ import { fireEvent, render } from "@testing-library/react-native";
 import { Text } from "react-native";
 import type { ReactTestInstance } from "react-test-renderer";
 
-import ChatConversationScreen from "@/app/chat/[id]";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { AnswerOption } from "@/features/quiz/AnswerOption";
@@ -140,14 +139,6 @@ jest.mock("react-i18next", () => ({
   }),
 }));
 
-const mockSendMessage = jest.fn();
-const mockGetChatSessionQuery = jest.fn();
-
-jest.mock("@/services/rtk-api/chatApi", () => ({
-  useGetChatSessionQuery: (id: string, options?: Record<string, unknown>) =>
-    mockGetChatSessionQuery(id, options),
-  useSendMessageMutation: () => [mockSendMessage, { isLoading: false }],
-}));
 
 const mockDispatch = jest.fn();
 const mockSelector = jest.fn();
@@ -355,51 +346,6 @@ describe("Frontend UI & Feature Component Tests", () => {
         />,
       );
       expect(getByTextContent(renderResult, "quiz.submitting")).toBeDefined();
-    });
-  });
-
-  describe("ChatConversationScreen Component", () => {
-    it("renders loading state when session is loading", () => {
-      mockGetChatSessionQuery.mockReturnValue({
-        data: undefined,
-        isLoading: true,
-        refetch: jest.fn(),
-      });
-      mockSelector.mockImplementation((_selectorFn: (state: unknown) => unknown) => {
-        return "";
-      });
-
-      const renderResult = render(<ChatConversationScreen />);
-      expect(getByTextContent(renderResult, "Đang tải cuộc trò chuyện...")).toBeDefined();
-    });
-
-    it("renders chat session details and message bubble when loaded", () => {
-      mockGetChatSessionQuery.mockReturnValue({
-        data: {
-          id: "session-123",
-          title: "Socrates Chat",
-          character: { name: "Socrates" },
-          messages: [
-            {
-              id: "msg-1",
-              senderType: "AI",
-              message: "Hello user, what is justice?",
-              createdAt: new Date().toISOString(),
-            },
-          ],
-        },
-        isLoading: false,
-        refetch: jest.fn(),
-      });
-
-      mockSelector.mockImplementation((_selectorFn: (state: unknown) => unknown) => {
-        return false;
-      });
-
-      const renderResult = render(<ChatConversationScreen />);
-      expect(getByTextContent(renderResult, "Socrates")).toBeDefined();
-      expect(getByTextContent(renderResult, "Socrates Chat")).toBeDefined();
-      expect(getByTextContent(renderResult, "Hello user, what is justice?")).toBeDefined();
     });
   });
 });

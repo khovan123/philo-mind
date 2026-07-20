@@ -13,12 +13,11 @@ import {
 import { securePersistStorage } from "./persistStorage";
 import { authReducer } from "./slices/auth.slice";
 import { bookmarkReducer } from "./slices/bookmark.slice";
-import { chatReducer } from "./slices/chat.slice";
+
 import { mindmapReducer } from "./slices/mindmap.slice";
 import { minigameReducer } from "./slices/minigame.slice";
 import { reflectionReducer } from "./slices/reflection.slice";
 import { storyReducer } from "./slices/story.slice";
-import { scenarioReducer } from "./slices/scenario.slice";
 import { badgeReducer } from "./slices/badge.slice";
 import { notificationReducer } from "./slices/notification.slice";
 import { settingsReducer } from "./slices/settings.slice";
@@ -47,8 +46,6 @@ export const store = configureStore({
     minigame: minigameReducer,
     reflection: reflectionReducer,
     story: storyReducer,
-    chat: chatReducer,
-    scenario: scenarioReducer,
     badge: badgeReducer,
     notification: notificationReducer,
     [baseApi.reducerPath]: baseApi.reducer,

@@ -5,7 +5,7 @@
  * Stable key: topicId + perspectiveType (upserted in 11-topic-perspectives.ts)
  * Types: TECH | ETHICAL | ECONOMIC | SOCIAL | PHILOSOPHICAL
  */
-import type { PerspectiveType } from "../../prisma/generated/client.js";
+export type PerspectiveType = "TECH" | "ETHICAL" | "ECONOMIC" | "SOCIAL" | "PHILOSOPHICAL";
 
 export const PERSPECTIVE_TYPES: PerspectiveType[] = [
   "TECH",

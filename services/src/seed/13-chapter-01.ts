@@ -96,10 +96,7 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   let topics = 0;
   let lessons = 0;
   let quizzes = 0;
-  let scenarios = 0;
-  let perspectives = 0;
   let critical = 0;
-
   for (const section of sections) {
     // ── Topic (upsert by title; force category="Chương 1") ──
     const existingTopic = await prisma.topic.findFirst({ where: { title: section.topic.title } });
@@ -182,44 +179,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
     }
     quizzes++;
 
-    // ── RealLifeScenario (upsert by title; delete+recreate perspectives) ──
-    const scenarioTitle = `Tình huống: ${section.topic.title}`;
-    const existingScenario = await prisma.realLifeScenario.findFirst({
-      where: { title: scenarioTitle },
-    });
-    const scenarioId = existingScenario
-      ? (
-          await prisma.realLifeScenario.update({
-            where: { id: existingScenario.id },
-            data: {
-              topicId: topic.id,
-              situation: section.scenario.situation,
-              context: section.scenario.discussionQuestion ?? null,
-            },
-          })
-        ).id
-      : (
-          await prisma.realLifeScenario.create({
-            data: {
-              topicId: topic.id,
-              title: scenarioTitle,
-              situation: section.scenario.situation,
-              context: section.scenario.discussionQuestion ?? null,
-            },
-          })
-        ).id;
-    await prisma.scenarioPerspective.deleteMany({ where: { scenarioId } });
-    if (section.scenario.perspectives.length > 0) {
-      await prisma.scenarioPerspective.createMany({
-        data: section.scenario.perspectives.map((p) => ({
-          scenarioId,
-          perspectiveType: p.type,
-          content: p.content,
-        })),
-      });
-      perspectives += section.scenario.perspectives.length;
-    }
-    scenarios++;
 
     // ── CriticalQuestion from openQuestions (upsert by question text) ──
     for (const question of section.debate.openQuestions) {
@@ -269,8 +228,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   seedLog("Chapter1 Topic", topics);
   seedLog("Chapter1 Lesson", lessons);
   seedLog("Chapter1 Quiz", quizzes);
-  seedLog("Chapter1 RealLifeScenario", scenarios);
-  seedLog("Chapter1 ScenarioPerspective", perspectives);
   seedLog("Chapter1 CriticalQuestion", critical);
   seedLog("Chapter1 MiniGame (flashcard)", miniGames);
 }
