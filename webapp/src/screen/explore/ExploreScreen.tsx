@@ -26,6 +26,7 @@ const Colors = {
 type ChapterTheoryCard = {
   id: string;
   icon?: string;
+  title?: string;
   body: string;
 };
 
@@ -56,7 +57,7 @@ function toSearchText(lesson: ExploreTheoryLesson) {
   return [
     lesson.muc,
     lesson.title,
-    ...lesson.theoryCards.map((card) => `${card.icon ?? ""} ${card.body}`),
+    ...lesson.theoryCards.map((card) => `${card.icon ?? ""} ${card.title ?? ""} ${card.body}`),
   ]
     .join(" ")
     .toLowerCase();

@@ -9,14 +9,29 @@ import type { RegisterInput, LoginInput } from "../validators/auth.validator.js"
 
 const BCRYPT_ROUNDS = 12;
 
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
+function emailMatches(email: string) {
+  return {
+    email: {
+      equals: normalizeEmail(email),
+      mode: "insensitive" as const,
+    },
+  };
+}
+
 export class AuthService {
   /**
    * Register a new user.
    */
   async register(input: RegisterInput) {
+    const normalizedEmail = normalizeEmail(input.email);
+
     // Check duplicate email
-    const existing = await prisma.user.findUnique({
-      where: { email: input.email },
+    const existing = await prisma.user.findFirst({
+      where: emailMatches(normalizedEmail),
     });
 
     if (existing) {
@@ -29,7 +44,7 @@ export class AuthService {
     // Create user
     const user = await prisma.user.create({
       data: {
-        email: input.email,
+        email: normalizedEmail,
         passwordHash,
         fullName: input.fullName,
       },
@@ -53,8 +68,10 @@ export class AuthService {
    * Login with email + password.
    */
   async login(input: LoginInput) {
-    const user = await prisma.user.findUnique({
-      where: { email: input.email },
+    const normalizedEmail = normalizeEmail(input.email);
+
+    const user = await prisma.user.findFirst({
+      where: emailMatches(normalizedEmail),
       select: {
         id: true,
         email: true,
@@ -193,7 +210,8 @@ export class AuthService {
    * Start password reset: create OTP + reset token store (no enumeration)
    */
   async sendPasswordReset(email: string) {
-    const user = await prisma.user.findUnique({ where: { email } });
+    const normalizedEmail = normalizeEmail(email);
+    const user = await prisma.user.findFirst({ where: emailMatches(normalizedEmail) });
 
     // Always create a reset record (even if user not found) to avoid email enumeration
     const code = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit
@@ -206,22 +224,23 @@ export class AuthService {
     await prisma.passwordReset.create({
       data: {
         userId: user?.id || null,
-        email,
+        email: normalizedEmail,
         codeHash,
         tokenHash,
         expiresAt,
       },
     });
     // send email in background (or console fallback) to avoid blocking the HTTP request due to SMTP latency
-    sendResetEmail(email, code).catch((err) => {
+    sendResetEmail(normalizedEmail, code).catch((err) => {
       console.error("[Email] Background send failed:", err);
     });
   }
 
   async verifyPasswordReset(email: string, otp: string) {
     const now = new Date();
+    const normalizedEmail = normalizeEmail(email);
     const reset = await prisma.passwordReset.findFirst({
-      where: { email, usedAt: null, expiresAt: { gt: now } },
+      where: { email: normalizedEmail, usedAt: null, expiresAt: { gt: now } },
       orderBy: { createdAt: "desc" },
     });
 
@@ -261,10 +280,11 @@ export class AuthService {
 
   async resetPassword(email: string, resetToken: string, newPassword: string) {
     const now = new Date();
+    const normalizedEmail = normalizeEmail(email);
     const tokenHash = this.hashToken(resetToken);
 
     const reset = await prisma.passwordReset.findFirst({
-      where: { email, tokenHash, usedAt: null, expiresAt: { gt: now } },
+      where: { email: normalizedEmail, tokenHash, usedAt: null, expiresAt: { gt: now } },
       orderBy: { createdAt: "desc" },
     });
 
@@ -334,9 +354,10 @@ export class AuthService {
   }
 
   async googleLogin(email: string, fullName: string, avatarUrl: string | null) {
-    const normalizedEmail = email.trim().toLowerCase();
-    let user = await prisma.user.findUnique({
-      where: { email: normalizedEmail },
+    const normalizedEmail = normalizeEmail(email);
+    let user = await prisma.user.findFirst({
+      where: emailMatches(normalizedEmail),
+      orderBy: { createdAt: "asc" },
       select: {
         id: true,
         email: true,

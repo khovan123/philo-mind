@@ -240,6 +240,31 @@ const mockPrisma = {
     return arg;
   },
   user: {
+    findFirst: jest.fn(async (args: any) => {
+      const where = args?.where ?? {};
+      const emailFilter = where.email;
+      const email =
+        typeof emailFilter === "string"
+          ? emailFilter
+          : typeof emailFilter?.equals === "string"
+            ? emailFilter.equals
+            : undefined;
+      const emailInsensitive =
+        typeof emailFilter === "object" && emailFilter?.mode === "insensitive";
+      const id = where.id;
+
+      return (
+        db.users.find((u) => {
+          if (id && u.id !== id) return false;
+          if (email) {
+            return emailInsensitive
+              ? String(u.email).toLowerCase() === email.toLowerCase()
+              : u.email === email;
+          }
+          return true;
+        }) || null
+      );
+    }),
     findUnique: jest.fn(async (args: any) => {
       const email = args?.where?.email;
       const id = args?.where?.id;

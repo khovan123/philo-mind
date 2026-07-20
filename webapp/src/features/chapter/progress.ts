@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { selectAuthUser } from "@/stores/auth.helpers";
+import { useAppSelector } from "@/stores/hooks";
 import { securePersistStorage } from "@/stores/persistStorage";
 import type {
   ChapterDraftState,
@@ -19,8 +21,8 @@ export type {
 
 const STORAGE_PREFIX = "triet_hoc_chapter_progress";
 
-export function getChapterProgressStorageKey(chapter: string) {
-  return `${STORAGE_PREFIX}_${chapter}`;
+export function getChapterProgressStorageKey(chapter: string, userId?: string | null) {
+  return userId ? `${STORAGE_PREFIX}_${userId}_${chapter}` : `${STORAGE_PREFIX}_${chapter}`;
 }
 
 function createInitialProgress(order: string[]) {
@@ -88,9 +90,11 @@ function normalizeProgress(progress: ChapterProgress, order: string[]) {
 }
 
 export function useChapterProgress(chapter: string | undefined, order: string[]) {
+  const userId = useAppSelector((state) => selectAuthUser(state)?.id ?? null);
   const orderKey = order.join("|");
   const stableOrder = useMemo(() => (orderKey ? orderKey.split("|") : []), [orderKey]);
-  const progressKey = `${chapter ?? ""}:${orderKey}`;
+  const storageKey = chapter ? getChapterProgressStorageKey(chapter, userId) : null;
+  const progressKey = `${userId ?? "guest"}:${chapter ?? ""}:${orderKey}`;
   const [state, setState] = useState(() => ({
     key: progressKey,
     progress: createInitialProgress(stableOrder),
@@ -126,16 +130,22 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
         return;
       }
 
-      const raw = await securePersistStorage.getItem(getChapterProgressStorageKey(chapter));
+      const raw = storageKey ? await securePersistStorage.getItem(storageKey) : null;
+      const legacyKey = getChapterProgressStorageKey(chapter);
+      const legacyRaw = !raw && userId ? await securePersistStorage.getItem(legacyKey) : null;
       if (cancelled) return;
 
       try {
-        const parsed = raw ? (JSON.parse(raw) as ChapterProgress) : {};
+        const parsed =
+          raw || legacyRaw ? (JSON.parse(raw ?? legacyRaw ?? "{}") as ChapterProgress) : {};
         const next = normalizeProgress(parsed, stableOrder);
         progressRef.current = next;
         setState((current) =>
           current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
         );
+        if (!raw && legacyRaw && storageKey) {
+          await securePersistStorage.setItem(storageKey, JSON.stringify(next));
+        }
       } catch {
         const next = createInitialProgress(stableOrder);
         progressRef.current = next;
@@ -150,7 +160,7 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
     return () => {
       cancelled = true;
     };
-  }, [chapter, progressKey, stableOrder]);
+  }, [chapter, progressKey, stableOrder, storageKey, userId]);
 
   const persist = useCallback(
     async (updater: (current: ChapterProgress) => ChapterProgress) => {
@@ -162,11 +172,11 @@ export function useChapterProgress(chapter: string | undefined, order: string[])
         current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
       );
       await securePersistStorage.setItem(
-        getChapterProgressStorageKey(chapter),
+        getChapterProgressStorageKey(chapter, userId),
         JSON.stringify(next),
       );
     },
-    [chapter, progressKey, stableOrder],
+    [chapter, progressKey, stableOrder, userId],
   );
 
   const saveNodeDraft = useCallback(

@@ -118,6 +118,7 @@ export type ChapterHook =
 export type ChapterTheoryCard = {
   id: string;
   icon: string;
+  title?: string;
   body: string;
 };
 
@@ -185,13 +186,14 @@ function getTheoryCards(row: ChapterCsvRow): ChapterTheoryCard[] {
     }));
   }
 
-  return [1, 2, 3, 4, 5, 6]
+  const legacyCards = [1, 2, 3, 4, 5, 6]
     .map((index) => ({
       id: `card${index}`,
       icon: firstText(row[`card_${index}_icon` as keyof ChapterCsvRow]),
       body: firstText(row[`card_${index}` as keyof ChapterCsvRow]),
     }))
     .filter((card) => card.body);
+  return legacyCards;
 }
 
 function parseAnswerIndex(value: string | undefined): number {
@@ -419,7 +421,7 @@ export class ChapterContentService {
           order: data.order,
           hookType: data.hookType,
           steps: ["hook", "theory", "quiz"],
-          theoryCards: data.theoryCards,
+          theoryCards: data.theoryCards ?? [],
         };
       }),
     };
