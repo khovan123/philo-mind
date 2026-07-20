@@ -1,9 +1,15 @@
 import { Redirect } from "expo-router";
 
-import { shouldShowOnboarding } from "@/lib/onboarding-state";
+import { useShouldShowOnboarding } from "@/lib/onboarding-state";
 
 export default function IndexRoute() {
-  if (shouldShowOnboarding()) {
+  const shouldShowOnboarding = useShouldShowOnboarding();
+
+  if (shouldShowOnboarding === null) {
+    return null;
+  }
+
+  if (shouldShowOnboarding) {
     return <Redirect href="/onboarding" />;
   }
 

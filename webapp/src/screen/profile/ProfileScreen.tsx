@@ -116,10 +116,7 @@ const formatLastActive = (dateStr?: string | null): string => {
 
 const settingsItems = [
   { label: "Cài đặt", icon: Settings, path: "/settings" },
-  { label: "Ngôn ngữ", icon: Globe2 },
-  { label: "Thông báo", icon: Bell, path: "/settings" },
   { label: "Về ứng dụng", icon: Info },
-  { label: "Màn hình Đăng ký (Test)", icon: ShieldCheck, path: "/(auth)/register" },
 ];
 
 const ROADMAP_LAYOUT = [
@@ -687,7 +684,7 @@ export default function ProfileScreen() {
                             className={cn(
                               "h-[26px] w-[26px] rounded-[4px] items-center justify-center",
                               bgColor,
-                              isSelected && "border border-[#FFB77D] scale-105",
+                              isSelected && { transform: [{ scale: 1.05 }] },
                             )}
                           />
                         );
