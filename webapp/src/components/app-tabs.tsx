@@ -93,16 +93,6 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
-        name="chat"
-        options={{
-          title: t("navigation.chat"),
-          tabBarLabel: t("navigation.chat"),
-          tabBarIcon: renderTabIcon("chat"),
-          href: null,
-        }}
-      />
-
-      <Tabs.Screen
         name="learn"
         options={{
           title: t("navigation.learn"),

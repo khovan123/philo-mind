@@ -39,11 +39,6 @@ enum StorySessionStatus {
   ABANDONED
 }
 
-enum SenderType {
-  USER
-  AI
-  SYSTEM
-}
 
 enum QuestionType {
   OPEN_TEXT
@@ -66,8 +61,6 @@ enum TargetType {
   TOPIC
   MINDMAP_NODE
   REFLECTION
-  AI_CHAT
-  SCENARIO
   QUIZ
   MINI_GAME
 }
@@ -125,8 +118,6 @@ model User {
   lessonAnswers        LessonAnswer[]
   shortLessonResponses ShortLessonResponse[]
   shortLessonComments  ShortLessonComment[]
-  aiChatSessions       AiChatSession[]
-  scenarioResponses    ScenarioResponse[]
   reflectionEntries    ReflectionEntry[]
   quizAttempts         QuizAttempt[]
   miniGameAttempts     MiniGameAttempt[]
@@ -186,7 +177,6 @@ model Topic {
   lessons           Lesson[]
   shortLessons      ShortLesson[]
   storyScenarios    StoryScenario[]
-  realLifeScenarios RealLifeScenario[]
   criticalQuestions CriticalQuestion[]
   mindmapNodes      MindmapNode[]
   miniGames         MiniGame[]
@@ -383,119 +373,6 @@ model StoryDecision {
   @@map("story_decisions")
 }
 
-model AiCharacter {
-  id                String   @id @default(uuid()) @db.Uuid
-  name              String   @db.VarChar(150)
-  type              String   @db.VarChar(100)
-  bio               String?
-  worldview         String?
-  promptInstruction String   @map("prompt_instruction")
-  createdAt         DateTime @default(now()) @map("created_at")
-
-  chatSessions AiChatSession[]
-
-  @@map("ai_characters")
-}
-
-model AiChatSession {
-  id          String   @id @default(uuid()) @db.Uuid
-  userId      String   @map("user_id") @db.Uuid
-  characterId String   @map("character_id") @db.Uuid
-  title       String?  @db.VarChar(200)
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  character AiCharacter     @relation(fields: [characterId], references: [id], onDelete: Cascade)
-  messages  AiChatMessage[]
-
-  @@index([userId, createdAt])
-  @@index([characterId])
-  @@map("ai_chat_sessions")
-}
-
-model AiChatMessage {
-  id         String     @id @default(uuid()) @db.Uuid
-  sessionId  String     @map("session_id") @db.Uuid
-  senderType SenderType @map("sender_type")
-  message    String
-  metadata   Json?
-  createdAt  DateTime   @default(now()) @map("created_at")
-
-  session AiChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
-  @@index([sessionId, createdAt])
-  @@map("ai_chat_messages")
-}
-
-model RealLifeScenario {
-  id        String   @id @default(uuid()) @db.Uuid
-  topicId   String   @map("topic_id") @db.Uuid
-  title     String   @db.VarChar(200)
-  situation String
-  context   String?
-  createdAt DateTime @default(now()) @map("created_at")
-
-  topic        Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  responses    ScenarioResponse[]
-  perspectives ScenarioPerspective[]
-  frameworks   ScenarioFramework[]
-
-  @@index([topicId])
-  @@map("real_life_scenarios")
-}
-
-model ScenarioResponse {
-  id               String  @id @default(uuid()) @db.Uuid
-  scenarioId       String  @map("scenario_id") @db.Uuid
-  userId           String  @map("user_id") @db.Uuid
-  selectedDecision String? @map("selected_decision")
-  reason           String? @map("reason")
-
-  initialPosition String  @map("initial_position")
-  reasoning       String? @map("reasoning")
-  revisedPosition String? @map("revised_position")
-  reflection      String? @map("reflection")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, scenarioId])
-  @@index([scenarioId])
-  @@index([userId])
-  @@map("scenario_responses")
-}
-
-model ScenarioPerspective {
-  id              String   @id @default(uuid()) @db.Uuid
-  scenarioId      String   @map("scenario_id") @db.Uuid
-  perspectiveType String   @map("perspective_type") @db.VarChar(100)
-  content         String   @map("content")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
-
-  @@index([scenarioId])
-  @@map("scenario_perspectives")
-}
-
-model ScenarioFramework {
-  id          String   @id @default(uuid()) @db.Uuid
-  scenarioId  String   @map("scenario_id") @db.Uuid
-  name        String   @db.VarChar(200)
-  description String?
-  content     String   @map("content")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  scenario RealLifeScenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
-
-  @@index([scenarioId])
-  @@map("scenario_frameworks")
-}
 model CriticalQuestion {
   id           String       @id @default(uuid()) @db.Uuid
   topicId      String       @map("topic_id") @db.Uuid
@@ -870,21 +747,13 @@ model AnalysisTab {
   @@map("analysis_tabs")
 }
 
-enum PerspectiveType {
-  TECH
-  ETHICAL
-  ECONOMIC
-  SOCIAL
-  PHILOSOPHICAL
-}
-
 model TopicPerspective {
-  id              String          @id @default(uuid()) @db.Uuid
-  topicId         String          @map("topic_id") @db.Uuid
-  perspectiveType PerspectiveType @map("perspective_type")
+  id              String   @id @default(uuid()) @db.Uuid
+  topicId         String   @map("topic_id") @db.Uuid
+  perspectiveType String   @map("perspective_type")
   content         String
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
 
   topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
 
