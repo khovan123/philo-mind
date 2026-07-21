@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "expo-router";
-import { ArrowLeft, ArrowRight, BookOpen, Search, Sparkles, Play, HelpCircle } from "lucide-react-native";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Search,
+  Sparkles,
+  Play,
+  HelpCircle,
+} from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
-
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -105,10 +112,7 @@ export default function ExploreScreen() {
     data: searchResults = [],
     isFetching: isSearchingApi,
     isError: isSearchError,
-  } = useSemanticSearchQuery(
-    { q: debouncedQuery, type: searchFilter },
-    { skip: !isSearching },
-  );
+  } = useSemanticSearchQuery({ q: debouncedQuery, type: searchFilter }, { skip: !isSearching });
 
   const {
     data: chapterData,
@@ -313,17 +317,26 @@ export default function ExploreScreen() {
                         className="flex-row items-center gap-3 bg-[#1E1E22] p-3 rounded-lg border border-transparent active:border-[#D97706]/40"
                       >
                         <View className="h-10 w-10 items-center justify-center rounded-md bg-[#161618]">
-                          {item.type === "lesson" && <BookOpen color={Colors.primaryLight} size={20} />}
+                          {item.type === "lesson" && (
+                            <BookOpen color={Colors.primaryLight} size={20} />
+                          )}
                           {item.type === "video" && <Play color="#60A5FA" size={20} />}
                           {item.type === "quiz" && <HelpCircle color="#34D399" size={20} />}
                         </View>
                         <View className="flex-1 gap-0.5">
                           <View className="flex-row items-center justify-between">
-                            <ThemedText className="text-[14px] font-extrabold text-[#E5E1E4] max-w-[80%]" numberOfLines={1}>
+                            <ThemedText
+                              className="text-[14px] font-extrabold text-[#E5E1E4] max-w-[80%]"
+                              numberOfLines={1}
+                            >
                               {item.title}
                             </ThemedText>
                             <ThemedText className="text-[10px] font-extrabold text-[#FFB77D] bg-[#D97706]/10 px-1.5 py-0.5 rounded">
-                              {item.type === "lesson" ? "Bài học" : item.type === "video" ? "Video" : "Trắc nghiệm"}
+                              {item.type === "lesson"
+                                ? "Bài học"
+                                : item.type === "video"
+                                  ? "Video"
+                                  : "Trắc nghiệm"}
                             </ThemedText>
                           </View>
                           <ThemedText className="text-[12px] font-bold text-[#A1A1AA]">
@@ -377,84 +390,84 @@ export default function ExploreScreen() {
               </View>
 
               {activeTab === "discovery" ? (
-            <>
-              {isLoadingChapterNodes ? (
-                <LoadingState text="Đang tải nội dung lý thuyết..." />
-              ) : null}
-
-              {isChapterNodesError ? (
-                <ErrorState
-                  title="Không tải được nội dung"
-                  text="Chạm để thử lại."
-                  onPress={() => refetchChapterNodes()}
-                />
-              ) : null}
-
-              {!isLoadingChapterNodes && !isChapterNodesError ? (
                 <>
-                  {shouldShowFeatured ? (
-                    <View className="gap-2">
-                      <View className="flex-row items-center justify-between">
-                        <View className="flex-row items-center gap-2">
-                          <Sparkles color={Colors.primaryLight} size={16} />
+                  {isLoadingChapterNodes ? (
+                    <LoadingState text="Đang tải nội dung lý thuyết..." />
+                  ) : null}
+
+                  {isChapterNodesError ? (
+                    <ErrorState
+                      title="Không tải được nội dung"
+                      text="Chạm để thử lại."
+                      onPress={() => refetchChapterNodes()}
+                    />
+                  ) : null}
+
+                  {!isLoadingChapterNodes && !isChapterNodesError ? (
+                    <>
+                      {shouldShowFeatured ? (
+                        <View className="gap-2">
+                          <View className="flex-row items-center justify-between">
+                            <View className="flex-row items-center gap-2">
+                              <Sparkles color={Colors.primaryLight} size={16} />
+                              <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                                Nổi bật
+                              </ThemedText>
+                            </View>
+
+                            <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                              Top 3 bài học
+                            </ThemedText>
+                          </View>
+
+                          <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerClassName="gap-3 pr-3"
+                          >
+                            {featuredLessons.map((lesson) => (
+                              <LessonSummaryCard
+                                key={`featured-${getLessonKey(lesson)}`}
+                                lesson={lesson}
+                                onPress={() => openLessonDetail(lesson)}
+                                onOpenLesson={() => openLearnLesson(lesson)}
+                              />
+                            ))}
+                          </ScrollView>
+                        </View>
+                      ) : null}
+
+                      <View className="gap-2">
+                        <View className="flex-row items-center justify-between">
                           <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
-                            Nổi bật
+                            Lý thuyết
+                          </ThemedText>
+
+                          <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                            {filteredTheoryLessons.length} bài
                           </ThemedText>
                         </View>
 
-                        <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
-                          Top 3 bài học
-                        </ThemedText>
+                        {filteredTheoryLessons.length === 0 ? (
+                          <EmptyState />
+                        ) : (
+                          <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerClassName="gap-3 pr-3"
+                          >
+                            {filteredTheoryLessons.map((lesson) => (
+                              <LessonSummaryCard
+                                key={getLessonKey(lesson)}
+                                lesson={lesson}
+                                onPress={() => openLessonDetail(lesson)}
+                                onOpenLesson={() => openLearnLesson(lesson)}
+                              />
+                            ))}
+                          </ScrollView>
+                        )}
                       </View>
-
-                      <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerClassName="gap-3 pr-3"
-                      >
-                        {featuredLessons.map((lesson) => (
-                          <LessonSummaryCard
-                            key={`featured-${getLessonKey(lesson)}`}
-                            lesson={lesson}
-                            onPress={() => openLessonDetail(lesson)}
-                            onOpenLesson={() => openLearnLesson(lesson)}
-                          />
-                        ))}
-                      </ScrollView>
-                    </View>
-                  ) : null}
-
-                  <View className="gap-2">
-                    <View className="flex-row items-center justify-between">
-                      <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
-                        Lý thuyết
-                      </ThemedText>
-
-                      <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
-                        {filteredTheoryLessons.length} bài
-                      </ThemedText>
-                    </View>
-
-                    {filteredTheoryLessons.length === 0 ? (
-                      <EmptyState />
-                    ) : (
-                      <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerClassName="gap-3 pr-3"
-                      >
-                        {filteredTheoryLessons.map((lesson) => (
-                          <LessonSummaryCard
-                            key={getLessonKey(lesson)}
-                            lesson={lesson}
-                            onPress={() => openLessonDetail(lesson)}
-                            onOpenLesson={() => openLearnLesson(lesson)}
-                          />
-                        ))}
-                      </ScrollView>
-                    )}
-                  </View>
-                  {/* 
+                      {/* 
                   <View className="gap-2">
                     <View className="flex-row items-center justify-between">
                       <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
@@ -473,52 +486,52 @@ export default function ExploreScreen() {
                       <TopicCard title="Tóm tắt" subtitle="Thẻ 6" progress={82} />
                     </View>
                   </View> */}
+                    </>
+                  ) : null}
                 </>
               ) : null}
-            </>
-          ) : null}
 
-          {activeTab === "chapters" ? (
-            <>
-              {isLoadingChapters ? <LoadingState text="Đang tải danh sách chương..." /> : null}
+              {activeTab === "chapters" ? (
+                <>
+                  {isLoadingChapters ? <LoadingState text="Đang tải danh sách chương..." /> : null}
 
-              {isChaptersError ? (
-                <ErrorState
-                  title="Không tải được danh sách chương"
-                  text="Chạm để thử lại."
-                  onPress={() => refetchChapters()}
-                />
-              ) : null}
+                  {isChaptersError ? (
+                    <ErrorState
+                      title="Không tải được danh sách chương"
+                      text="Chạm để thử lại."
+                      onPress={() => refetchChapters()}
+                    />
+                  ) : null}
 
-              {!isLoadingChapters && !isChaptersError ? (
-                <View className="gap-2">
-                  <View className="flex-row items-center justify-between">
-                    <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
-                      Chương
-                    </ThemedText>
+                  {!isLoadingChapters && !isChaptersError ? (
+                    <View className="gap-2">
+                      <View className="flex-row items-center justify-between">
+                        <ThemedText className="font-sans text-[20px] font-extrabold leading-[26px] text-[#E5E1E4]">
+                          Chương
+                        </ThemedText>
 
-                    <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
-                      {chapters.length} chương
-                    </ThemedText>
-                  </View>
+                        <ThemedText className="text-[12px] font-extrabold leading-[16px] text-[#FFB77D]">
+                          {chapters.length} chương
+                        </ThemedText>
+                      </View>
 
-                  {chapters.length === 0 ? (
-                    <EmptyState />
-                  ) : (
-                    <View className="flex-row flex-wrap gap-2">
-                      {chapters.map((chapter) => (
-                        <ChapterCard
-                          key={chapter.id}
-                          chapter={chapter}
-                          onPress={() => openChapter(chapter)}
-                        />
-                      ))}
+                      {chapters.length === 0 ? (
+                        <EmptyState />
+                      ) : (
+                        <View className="flex-row flex-wrap gap-2">
+                          {chapters.map((chapter) => (
+                            <ChapterCard
+                              key={chapter.id}
+                              chapter={chapter}
+                              onPress={() => openChapter(chapter)}
+                            />
+                          ))}
+                        </View>
+                      )}
                     </View>
-                  )}
-                </View>
+                  ) : null}
+                </>
               ) : null}
-            </>
-          ) : null}
             </>
           )}
         </ScrollView>
