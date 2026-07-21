@@ -4,6 +4,7 @@ export enum ActivityType {
   DECIDE_STORY = "DECIDE_STORY",
   DO_SHORT_LESSON = "DO_SHORT_LESSON",
   PLAY_MINI_GAME = "PLAY_MINI_GAME",
+  WRITE_REFLECTION = "WRITE_REFLECTION",
 }
 
 export enum TargetType {
@@ -14,4 +15,5 @@ export enum TargetType {
   MINDMAP_NODE = "MINDMAP_NODE",
   QUIZ = "QUIZ",
   MINI_GAME = "MINI_GAME",
+  REFLECTION = "REFLECTION",
 }
