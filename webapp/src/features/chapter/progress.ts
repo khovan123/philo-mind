@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { useGetChapterProgressQuery, useUpsertChapterProgressMutation } from "@/services/rtk-api/chapter.api";
+import type { ChapterProgressPayload } from "@/services/rtk-api/chapter.api";
 import type {
   ChapterDraftState,
   ChapterProgress,
@@ -46,7 +47,7 @@ function mergeReview(
   };
 }
 
-function normalizeProgress(progress: Record<string, Partial<ChapterProgressItem>>, order: string[]) {
+function normalizeProgress(progress: Record<string, ChapterProgressPayload | Partial<ChapterProgressItem>>, order: string[]) {
   const next = createInitialProgress(order);
   let foundAvailable = false;
 

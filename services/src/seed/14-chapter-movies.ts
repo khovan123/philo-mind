@@ -255,6 +255,10 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
         if (!existingChapter) continue; // skip if chapter doesn't exist
 
         let finalMuc = muc;
+        // Hardcode specific mappings for Chapter 2 where filenames don't align with exact Node muc
+        if (finalMuc === "2.2") finalMuc = "2.2.1.1";
+        if (finalMuc === "2.3") finalMuc = "2.2.3";
+
         const existingNode = await prisma.chapterNode.findUnique({
           where: { chapterId_muc: { chapterId: existingChapter.id, muc: finalMuc } },
         });
