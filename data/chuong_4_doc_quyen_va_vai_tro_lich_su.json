@@ -1,0 +1,427 @@
+[
+  {
+    "muc": "4.2.2",
+    "hook": {
+      "type": "choice",
+      "question": "Nếu là thành viên nhóm, bạn sẽ nghiêng về ý kiến nào?",
+      "feedbackA": "Cách nhìn này giải thích được một phần hiện tượng. Tuy nhiên cần xem xét sâu hơn vai trò của nhà nước và các tổ chức độc quyền trong nền kinh tế tư bản hiện đại.",
+      "feedbackB": "Quan điểm này gợi mở đến đặc điểm của chủ nghĩa tư bản độc quyền nhà nước. Bài học sẽ giúp giải thích vì sao sự kết hợp này ngày càng chặt chẽ.",
+      "situation": "Một nhóm sinh viên nghiên cứu thị trường xăng dầu nhận thấy nhiều doanh nghiệp lớn liên kết với cơ quan quản lý để thực hiện các dự án lớn của nhà nước. Một số bạn cho rằng đây chỉ là sự hợp tác bình thường giữa doanh nghiệp và chính phủ. Một số khác nhận định đây là biểu hiện của sự gắn kết giữa tư bản độc quyền và nhà nước trong nền kinh tế tư bản hiện đại."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Nhà nước không can thiệp vào kinh tế.",
+          "Nhà nước và các tổ chức độc quyền hoàn toàn tách biệt.",
+          "Sự kết hợp giữa tổ chức độc quyền và nhà nước tư sản.",
+          "Xóa bỏ sở hữu tư nhân."
+        ],
+        "question": "Đặc điểm nào sau đây thể hiện rõ nhất chủ nghĩa tư bản độc quyền nhà nước?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Theo V.I. Lênin, bản chất của chủ nghĩa tư bản độc quyền nhà nước là sự kết hợp sức mạnh của các tổ chức độc quyền với sức mạnh của nhà nước tư sản nhằm phục vụ lợi ích của tư bản độc quyền."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Xóa bỏ quan hệ thị trường.",
+          "Phát triển sở hữu nhà nước trong chủ nghĩa tư bản.",
+          "Thủ tiêu cạnh tranh.",
+          "Xây dựng kinh tế xã hội chủ nghĩa."
+        ],
+        "question": "Một quốc gia tư bản thành lập doanh nghiệp nhà nước trong ngành năng lượng và sử dụng ngân sách để hỗ trợ các tập đoàn lớn. Tình huống này phản ánh đặc điểm nào?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Trong chủ nghĩa tư bản độc quyền nhà nước, nhà nước trực tiếp sở hữu hoặc tham gia vào một số doanh nghiệp, ngành kinh tế để phục vụ lợi ích của tư bản độc quyền và điều tiết nền kinh tế."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nhà nước hoàn toàn độc lập với tư bản độc quyền.",
+          "Kinh tế thị trường đã bị xóa bỏ.",
+          "Nhà nước trở thành công cụ điều tiết phục vụ chủ nghĩa tư bản độc quyền.",
+          "Sở hữu tư nhân không còn tồn tại."
+        ],
+        "question": "Nếu:\n\nNhà nước sử dụng thuế, ngân sách và chính sách tiền tệ để điều tiết nền kinh tế.\nCác tổ chức độc quyền có ảnh hưởng lớn đến chính sách của nhà nước.\n\nKết luận nào hợp lý nhất?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Khi các tổ chức độc quyền gắn chặt với nhà nước và nhà nước sử dụng các công cụ kinh tế để điều tiết nền kinh tế thì đó là biểu hiện của chủ nghĩa tư bản độc quyền nhà nước theo lý luận của V.I. Lênin."
+      }
+    ],
+    "order": 1,
+    "title": "Lý luận của V.I. Lênin về đặc điểm kinh tế của độc quyền nhà nước trong chủ nghĩa tư bản",
+    "chuong": 4,
+    "debate": {
+      "explanationA": "Cách nhìn này giải thích được một phần hiện tượng. Tuy nhiên cần xem xét sâu hơn vai trò của nhà nước và các tổ chức độc quyền trong nền kinh tế tư bản hiện đại.",
+      "explanationB": "Quan điểm này gợi mở đến đặc điểm của chủ nghĩa tư bản độc quyền nhà nước. Bài học sẽ giúp giải thích vì sao sự kết hợp này ngày càng chặt chẽ.",
+      "openQuestion": "Nếu là thành viên nhóm, bạn sẽ nghiêng về ý kiến nào?",
+      "perspectiveA": "Đây chỉ là sự hợp tác bình thường giữa doanh nghiệp và chính phủ.",
+      "perspectiveB": "Đây là biểu hiện của sự gắn kết giữa tư bản độc quyền và nhà nước trong nền kinh tế tư bản hiện đại."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Chủ nghĩa tư bản độc quyền nhà nước xuất hiện khi sức mạnh của các tổ chức độc quyền kết hợp với nhà nước tư sản nhằm phục vụ lợi ích của giai cấp tư sản độc quyền.",
+        "icon": "❓",
+        "title": "Bản chất của độc quyền nhà nước"
+      },
+      {
+        "id": "card2",
+        "body": "Đặc điểm đầu tiên là sự kết hợp về nhân sự giữa các tổ chức độc quyền và nhà nước. Nhiều đại diện của các tập đoàn lớn tham gia bộ máy nhà nước và ngược lại.",
+        "icon": "🤝",
+        "title": "Sự kết hợp về nhân sự"
+      },
+      {
+        "id": "card3",
+        "body": "Đặc điểm thứ hai là sự hình thành và phát triển sở hữu nhà nước. Nhà nước tư sản trực tiếp sở hữu một số doanh nghiệp, ngành kinh tế hoặc tham gia góp vốn vào các công ty lớn.",
+        "icon": "🏭",
+        "title": "Phát triển sở hữu nhà nước"
+      },
+      {
+        "id": "card4",
+        "body": "Sở hữu nhà nước giúp mở rộng tái sản xuất tư bản chủ nghĩa, hỗ trợ các ngành kém hiệu quả và tạo điều kiện điều tiết nền kinh tế theo mục tiêu của tư bản độc quyền.",
+        "icon": "📈",
+        "title": "Vai trò của sở hữu nhà nước"
+      },
+      {
+        "id": "card5",
+        "body": "Đặc điểm thứ ba là việc sử dụng nhà nước như công cụ điều tiết nền kinh tế. Nhà nước áp dụng chính sách tài chính, tiền tệ, thuế, kế hoạch và pháp luật để tác động đến nền kinh tế.",
+        "icon": "⚙️",
+        "title": "Nhà nước điều tiết kinh tế"
+      },
+      {
+        "id": "card6",
+        "body": "Ba đặc điểm cơ bản của chủ nghĩa tư bản độc quyền nhà nước gồm: kết hợp nhân sự giữa độc quyền và nhà nước, phát triển sở hữu nhà nước và sử dụng nhà nước để điều tiết kinh tế.",
+        "icon": "📝",
+        "title": "Ba đặc điểm cơ bản"
+      }
+    ]
+  },
+  {
+    "muc": "4.3.1",
+    "hook": {
+      "type": "choice",
+      "question": "Nếu là thành viên nhóm, bạn sẽ đồng ý với ý kiến nào?",
+      "feedbackA": "Quan điểm này phản ánh hình thức cạnh tranh truyền thống. Tuy nhiên, sự phát triển của các tập đoàn hiện đại cho thấy nhiều xu hướng mới cần được phân tích sâu hơn.",
+      "feedbackB": "Cách nhìn này giúp tiếp cận những biến đổi mới của chủ nghĩa tư bản hiện đại. Bài học sẽ giải thích các biểu hiện đó.",
+      "situation": "Nhóm sinh viên kinh tế đang tìm hiểu về các tập đoàn công nghệ lớn trên thế giới. Một bạn cho rằng các công ty hiện nay chỉ cạnh tranh độc lập với nhau. Một bạn khác nhận thấy nhiều tập đoàn liên kết, đầu tư chéo, mở rộng sang nhiều lĩnh vực và ảnh hưởng đến nhiều quốc gia. Cả nhóm tranh luận liệu đây có phải là những biểu hiện mới của độc quyền trong chủ nghĩa tư bản hiện đại hay không."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Xóa bỏ hoàn toàn doanh nghiệp nhỏ.",
+          "Hình thành các Concern và Conglomerate.",
+          "Nhà nước nắm toàn bộ nền kinh tế.",
+          "Chấm dứt cạnh tranh trên thị trường."
+        ],
+        "question": "Biểu hiện mới của quá trình tích tụ và tập trung tư bản là gì?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Giáo trình cho rằng quá trình tích tụ và tập trung tư bản hiện nay biểu hiện qua sự xuất hiện của các Concern và Conglomerate, thể hiện sự liên kết đa ngành và quy mô lớn của tư bản."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Xóa bỏ sở hữu tư nhân.",
+          "Vai trò của kinh tế kế hoạch hóa.",
+          "Sự phát triển của tư bản tài chính và tập đoàn đa ngành.",
+          "Sự suy giảm của độc quyền."
+        ],
+        "question": "Một tập đoàn đầu tư vào ngân hàng, công nghệ, bảo hiểm và năng lượng tại nhiều quốc gia khác nhau. Tình huống này phản ánh biểu hiện nào của độc quyền hiện đại?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Các tập đoàn hiện đại thường hoạt động đa ngành, xuyên quốc gia và có sự chi phối của tư bản tài chính. Đây là một biểu hiện mới của độc quyền trong chủ nghĩa tư bản hiện đại."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Chủ nghĩa tư bản đang thu hẹp phạm vi hoạt động.",
+          "Các quốc gia đã xóa bỏ cạnh tranh kinh tế.",
+          "Độc quyền hiện đại mang tính quốc tế và toàn cầu hóa ngày càng mạnh.",
+          "Vai trò của các tập đoàn độc quyền đã giảm."
+        ],
+        "question": "Nếu:\n\nTư bản được xuất khẩu ngày càng nhiều thông qua đầu tư nước ngoài.\nCác liên minh kinh tế quốc tế ngày càng mở rộng.\nCác tập đoàn xuyên quốc gia có ảnh hưởng lớn đến nhiều nước.\n\nKết luận nào phù hợp nhất?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Sự phát triển của đầu tư quốc tế, liên minh kinh tế và các tập đoàn xuyên quốc gia cho thấy độc quyền ngày nay không chỉ hoạt động trong phạm vi quốc gia mà đã mang tính toàn cầu."
+      }
+    ],
+    "order": 2,
+    "title": "Biểu hiện mới của độc quyền",
+    "chuong": 4,
+    "debate": {
+      "explanationA": "Quan điểm này phản ánh hình thức cạnh tranh truyền thống. Tuy nhiên, sự phát triển của các tập đoàn hiện đại cho thấy nhiều xu hướng mới cần được phân tích sâu hơn.",
+      "explanationB": "Cách nhìn này giúp tiếp cận những biến đổi mới của chủ nghĩa tư bản hiện đại. Bài học sẽ giải thích các biểu hiện đó.",
+      "openQuestion": "Nếu là thành viên nhóm, bạn sẽ đồng ý với ý kiến nào?",
+      "perspectiveA": "Các công ty hiện nay chỉ cạnh tranh độc lập với nhau.",
+      "perspectiveB": "Các tập đoàn liên kết, đầu tư chéo, mở rộng sang nhiều lĩnh vực và ảnh hưởng đến nhiều quốc gia."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Sự phát triển của lực lượng sản xuất và toàn cầu hóa làm xuất hiện nhiều hình thức độc quyền mới. Các tổ chức độc quyền ngày càng mở rộng phạm vi hoạt động và ảnh hưởng trên thế giới.",
+        "icon": "🌍",
+        "title": "Các hình thức độc quyền mới"
+      },
+      {
+        "id": "card2",
+        "body": "Tích tụ và tập trung tư bản tiếp tục diễn ra nhưng dưới hình thức mới như Concern, Conglomerate và các tập đoàn đa ngành, đa quốc gia.",
+        "icon": "🏢",
+        "title": "Concern và Conglomerate"
+      },
+      {
+        "id": "card3",
+        "body": "Tư bản tài chính ngày càng giữ vai trò chi phối. Các ngân hàng, quỹ đầu tư và tập đoàn tài chính tham gia vào nhiều lĩnh vực của nền kinh tế toàn cầu.",
+        "icon": "💰",
+        "title": "Vai trò của tư bản tài chính"
+      },
+      {
+        "id": "card4",
+        "body": "Xuất khẩu tư bản phát triển mạnh thông qua đầu tư trực tiếp nước ngoài, mua bán doanh nghiệp, sáp nhập và các hình thức hợp tác quốc tế.",
+        "icon": "✈️",
+        "title": "Xuất khẩu tư bản hiện đại"
+      },
+      {
+        "id": "card5",
+        "body": "Các liên minh kinh tế quốc tế và khu vực như EU, NAFTA hay các tổ chức kinh tế khác phản ánh xu hướng phân chia thị trường và ảnh hưởng kinh tế.",
+        "icon": "🤝",
+        "title": "Liên minh kinh tế quốc tế"
+      },
+      {
+        "id": "card6",
+        "body": "Sự phân chia phạm vi ảnh hưởng giữa các cường quốc hiện nay chủ yếu diễn ra thông qua cạnh tranh kinh tế, công nghệ, đầu tư và thương mại thay vì chiến tranh trực tiếp. nước và sử dụng nhà nước để điều tiết kinh tế.",
+        "icon": "⚔️",
+        "title": "Cạnh tranh phạm vi ảnh hưởng"
+      }
+    ]
+  },
+  {
+    "muc": "4.3.2",
+    "hook": {
+      "type": "choice",
+      "question": "Nếu là thành viên nhóm, bạn sẽ nghiêng về ý kiến nào?",
+      "feedbackA": "Nhà nước thực sự có vai trò ổn định kinh tế và giải quyết nhiều vấn đề xã hội. Tuy nhiên, cần xem xét mối quan hệ giữa nhà nước và các tổ chức độc quyền trong nền kinh tế hiện đại.",
+      "feedbackB": "Góc nhìn này liên hệ đến những biểu hiện mới của chủ nghĩa tư bản độc quyền nhà nước. Bài học sẽ giúp giải thích rõ hơn.",
+      "situation": "Một nhóm sinh viên theo dõi tin tức kinh tế và thấy chính phủ nhiều nước hỗ trợ các ngân hàng lớn, cứu trợ doanh nghiệp trong khủng hoảng và tăng chi ngân sách để ổn định nền kinh tế. Có bạn cho rằng nhà nước đang phục vụ lợi ích chung của toàn xã hội. Một số bạn khác nhận định các chính sách này còn gắn với lợi ích của các tập đoàn lớn và các tổ chức độc quyền."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Nhà nước hoàn toàn rút khỏi nền kinh tế.",
+          "Nhà nước và doanh nghiệp không còn liên hệ.",
+          "Vai trò điều tiết và can thiệp của nhà nước ngày càng tăng.",
+          "Xóa bỏ ngân sách nhà nước."
+        ],
+        "question": "Biểu hiện mới của độc quyền nhà nước trong chủ nghĩa tư bản là gì?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Trong chủ nghĩa tư bản hiện đại, nhà nước ngày càng tham gia sâu vào nền kinh tế thông qua các công cụ tài chính, tiền tệ, ngân sách và đầu tư công."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Nhà nước từ bỏ chức năng kinh tế.",
+          "Vai trò điều tiết kinh tế của nhà nước tăng lên.",
+          "Xóa bỏ cạnh tranh thị trường.",
+          "Thủ tiêu sở hữu tư nhân."
+        ],
+        "question": "Trong một cuộc khủng hoảng kinh tế, chính phủ quyết định dùng ngân sách để cứu trợ các ngân hàng lớn và hỗ trợ doanh nghiệp nhằm ổn định nền kinh tế. Tình huống này phản ánh điều gì?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Nhà nước sử dụng ngân sách và các chính sách kinh tế để ổn định thị trường, khắc phục khủng hoảng và hỗ trợ các doanh nghiệp lớn, thể hiện vai trò điều tiết ngày càng tăng."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nhà nước đang rút khỏi nền kinh tế.",
+          "Chủ nghĩa tư bản đã xóa bỏ sở hữu tư nhân.",
+          "Vai trò kinh tế của nhà nước trong chủ nghĩa tư bản ngày càng được tăng cường.",
+          "Cạnh tranh thị trường đã chấm dứt."
+        ],
+        "question": "Nếu:\n\nChi tiêu ngân sách nhà nước ngày càng lớn.\nNhà nước tăng cường đầu tư công và cứu trợ doanh nghiệp.\nCác chính sách kinh tế được sử dụng để điều tiết thị trường.\n\nKết luận nào phù hợp nhất?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Lý luận kinh tế chính trị Mác – Lênin đánh giá chủ nghĩa tư bản một cách biện chứng: ghi nhận những đóng góp đối với sự phát triển lực lượng sản xuất nhưng đồng thời chỉ ra những mâu thuẫn và giới hạn lịch sử của nó."
+      }
+    ],
+    "order": 3,
+    "title": "Biểu hiện mới của độc quyền nhà nước",
+    "chuong": 4,
+    "debate": {
+      "explanationA": "Nhà nước thực sự có vai trò ổn định kinh tế và giải quyết nhiều vấn đề xã hội. Tuy nhiên, cần xem xét mối quan hệ giữa nhà nước và các tổ chức độc quyền trong nền kinh tế hiện đại.",
+      "explanationB": "Góc nhìn này liên hệ đến những biểu hiện mới của chủ nghĩa tư bản độc quyền nhà nước. Bài học sẽ giúp giải thích rõ hơn.",
+      "openQuestion": "Nếu là thành viên nhóm, bạn sẽ nghiêng về ý kiến nào?",
+      "perspectiveA": "Nhà nước đang phục vụ lợi ích chung của toàn xã hội.",
+      "perspectiveB": "Các chính sách của nhà nước còn gắn với lợi ích của các tập đoàn lớn và các tổ chức độc quyền."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Độc quyền nhà nước trong chủ nghĩa tư bản hiện đại tiếp tục phát triển cùng với quá trình toàn cầu hóa và sự can thiệp ngày càng mạnh của nhà nước vào nền kinh tế.",
+        "icon": "🏛️",
+        "title": "Sự phát triển của độc quyền nhà nước"
+      },
+      {
+        "id": "card2",
+        "body": "Những biểu hiện mới cho thấy quan hệ giữa nhà nước và các tổ chức độc quyền không chỉ là sự phụ thuộc một chiều mà còn là sự điều chỉnh lợi ích giữa các nhóm tư bản.",
+        "icon": "🤝",
+        "title": "Điều chỉnh lợi ích"
+      },
+      {
+        "id": "card3",
+        "body": "Chi tiêu ngân sách nhà nước ngày càng mở rộng. Nhà nước sử dụng ngân sách để đầu tư cơ sở hạ tầng, nghiên cứu khoa học, trợ cấp và giải quyết các vấn đề kinh tế – xã hội.",
+        "icon": "💵",
+        "title": "Mở rộng chi tiêu ngân sách"
+      },
+      {
+        "id": "card4",
+        "body": "Trong các cuộc khủng hoảng kinh tế, nhà nước có thể sử dụng ngân sách để cứu trợ doanh nghiệp lớn, hỗ trợ ngân hàng và ổn định thị trường tài chính.",
+        "icon": "📦",
+        "title": "Cứu trợ trong khủng hoảng"
+      },
+      {
+        "id": "card5",
+        "body": "Vai trò điều tiết kinh tế của nhà nước ngày càng tăng thông qua chính sách tài khóa, tiền tệ, đầu tư công và các chương trình phát triển kinh tế.",
+        "icon": "⚙️",
+        "title": "Tăng cường điều tiết kinh tế"
+      },
+      {
+        "id": "card6",
+        "body": "Những biểu hiện mới của độc quyền nhà nước cho thấy sự kết hợp ngày càng chặt chẽ giữa nhà nước và tư bản độc quyền nhằm duy trì sự ổn định và phát triển của chủ nghĩa tư bản.",
+        "icon": "🌐",
+        "title": "Sự kết hợp ngày càng chặt chẽ"
+      }
+    ]
+  },
+  {
+    "muc": "4.3.3",
+    "hook": {
+      "type": "drag",
+      "items": [
+        "Cách mạng 4.0",
+        "Kinh tế tri thức",
+        "Phân hóa giàu nghèo",
+        "Chiến tranh giành thị trường"
+      ],
+      "bridge": "Chủ nghĩa tư bản vừa thúc đẩy lực lượng sản xuất phát triển mạnh mẽ, vừa bộc lộ nhiều mâu thuẫn và giới hạn lịch sử. Hai mặt này cùng tồn tại trong quá trình phát triển của nó.",
+      "groups": [
+        "Vai trò lịch sử",
+        "Giới hạn lịch sử"
+      ],
+      "answers": [
+        {
+          "cardIndex": 0,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 1,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 2,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 3,
+          "groupIndex": 1
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Xóa bỏ cạnh tranh trên thị trường.",
+          "Thúc đẩy lực lượng sản xuất phát triển.",
+          "Xóa bỏ hoàn toàn bất bình đẳng xã hội.",
+          "Loại bỏ khủng hoảng kinh tế."
+        ],
+        "question": "Vai trò lịch sử quan trọng nhất của chủ nghĩa tư bản là gì?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Theo giáo trình, chủ nghĩa tư bản đã thúc đẩy lực lượng sản xuất phát triển mạnh mẽ thông qua khoa học, công nghệ và tổ chức sản xuất hiện đại."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Chủ nghĩa tư bản chỉ có mặt tích cực.",
+          "Chủ nghĩa tư bản chỉ có mặt tiêu cực.",
+          "Chủ nghĩa tư bản vừa thúc đẩy phát triển vừa tồn tại những giới hạn lịch sử.",
+          "Chủ nghĩa tư bản đã chấm dứt mâu thuẫn xã hội."
+        ],
+        "question": "Một quốc gia đạt năng suất lao động cao nhờ tự động hóa, trí tuệ nhân tạo và công nghệ số nhưng đồng thời khoảng cách giàu nghèo ngày càng lớn. Tình huống này thể hiện điều gì?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Giáo trình khẳng định chủ nghĩa tư bản vừa có vai trò thúc đẩy lực lượng sản xuất, vừa tồn tại những mâu thuẫn như bất bình đẳng và phân hóa xã hội."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Chủ nghĩa tư bản chỉ có mặt tích cực.",
+          "Chủ nghĩa tư bản không còn tồn tại mâu thuẫn.",
+          "Chủ nghĩa tư bản vừa có vai trò lịch sử vừa có giới hạn lịch sử.",
+          "Chủ nghĩa tư bản đã hoàn thiện hoàn toàn."
+        ],
+        "question": "Nếu:\n\nChủ nghĩa tư bản thúc đẩy khoa học và công nghệ phát triển.\nChủ nghĩa tư bản vẫn tồn tại bất bình đẳng và mâu thuẫn xã hội.\n\nKết luận nào phù hợp nhất?",
+        "answerIndex": 2,
+        "explanation": "Đáp án đúng là C. Lý luận kinh tế chính trị Mác – Lênin đánh giá chủ nghĩa tư bản một cách biện chứng: ghi nhận những đóng góp đối với sự phát triển lực lượng sản xuất nhưng đồng thời chỉ ra những mâu thuẫn và giới hạn lịch sử của nó."
+      }
+    ],
+    "order": 4,
+    "title": "Vai trò lịch sử của chủ nghĩa tư bản",
+    "chuong": 4,
+    "debate": {
+      "explanationA": "",
+      "explanationB": "",
+      "openQuestion": "Nếu:\n\nChủ nghĩa tư bản thúc đẩy khoa học và công nghệ phát triển.\nChủ nghĩa tư bản vẫn tồn tại bất bình đẳng và mâu thuẫn xã hội.\n\nKết luận nào phù hợp nhất?",
+      "perspectiveA": "Chủ nghĩa tư bản chỉ có mặt tích cực.",
+      "perspectiveB": "Chủ nghĩa tư bản vừa có vai trò lịch sử vừa có giới hạn lịch sử."
+    },
+    "hookType": "drag",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Chủ nghĩa tư bản có vai trò lớn trong việc thúc đẩy lực lượng sản xuất phát triển. Sự tiến bộ của khoa học và công nghệ làm tăng năng suất lao động và tạo ra nhiều thành tựu kinh tế.",
+        "icon": "🚀",
+        "title": "Thúc đẩy lực lượng sản xuất"
+      },
+      {
+        "id": "card2",
+        "body": "Chủ nghĩa tư bản chuyển nền sản xuất nhỏ sang nền sản xuất lớn hiện đại. Quá trình xã hội hóa sản xuất ngày càng cao, tạo ra sự liên kết rộng lớn giữa các ngành và các doanh nghiệp.",
+        "icon": "🏭",
+        "title": "Chuyển sang sản xuất lớn"
+      },
+      {
+        "id": "card3",
+        "body": "Những cuộc cách mạng khoa học – công nghệ, đặc biệt là Cách mạng công nghiệp 4.0, đã đưa nền kinh tế bước sang thời đại kinh tế tri thức.",
+        "icon": "💻",
+        "title": "Cách mạng công nghiệp 4.0"
+      },
+      {
+        "id": "card4",
+        "body": "Mục tiêu tối đa hóa lợi nhuận khiến chủ nghĩa tư bản nảy sinh những mâu thuẫn giữa tính chất xã hội của sản xuất và chế độ chiếm hữu tư nhân tư bản chủ nghĩa.",
+        "icon": "⚠️",
+        "title": "Mâu thuẫn nội tại"
+      },
+      {
+        "id": "card5",
+        "body": "Cạnh tranh giữa các cường quốc tư bản, sự phân chia thị trường và phạm vi ảnh hưởng có thể dẫn tới xung đột kinh tế, chính trị và quân sự.",
+        "icon": "🌍",
+        "title": "Cạnh tranh và xung đột"
+      },
+      {
+        "id": "card6",
+        "body": "Chủ nghĩa tư bản có vai trò lịch sử to lớn trong phát triển lực lượng sản xuất nhưng cũng chứa đựng những giới hạn và mâu thuẫn nội tại không thể khắc phục hoàn toàn.",
+        "icon": "📌",
+        "title": "Đánh giá khái quát"
+      }
+    ]
+  }
+]

@@ -47,4 +47,62 @@ export class ChapterController {
       return sendError(res, "CHAPTER_DB_READ_ERROR", error.message, 500);
     }
   }
+
+  async getChapterProgress(req: Request, res: Response) {
+    try {
+      const chapterCode = String(req.params.chapter);
+      // @ts-ignore - Assuming req.user is set by authGuard
+      const userId = req.user?.id;
+      if (!userId) {
+        return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
+      }
+
+      const progress = await ChapterContentService.getChapterProgress(userId, chapterCode);
+      return sendSuccess(res, progress);
+    } catch (err) {
+      const error = err as Error;
+      if (error.message === "Không tìm thấy chương") {
+        return sendError(res, "CHAPTER_NOT_FOUND", error.message, 404);
+      }
+      return sendError(res, "PROGRESS_FETCH_ERROR", error.message, 500);
+    }
+  }
+
+  async getAllChapterProgress(req: Request, res: Response) {
+    try {
+      // @ts-ignore
+      const userId = req.user?.id;
+      if (!userId) {
+        return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
+      }
+
+      const progress = await ChapterContentService.getAllChapterProgress(userId);
+      return sendSuccess(res, progress);
+    } catch (err) {
+      const error = err as Error;
+      return sendError(res, "ALL_PROGRESS_FETCH_ERROR", error.message, 500);
+    }
+  }
+
+  async upsertChapterProgress(req: Request, res: Response) {
+    try {
+      const chapterCode = String(req.params.chapter);
+      const muc = String(req.params.muc);
+      // @ts-ignore - Assuming req.user is set by authGuard
+      const userId = req.user?.id;
+      if (!userId) {
+        return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
+      }
+
+      const payload = req.body;
+      const progress = await ChapterContentService.upsertChapterProgress(userId, chapterCode, muc, payload);
+      return sendSuccess(res, progress);
+    } catch (err) {
+      const error = err as Error;
+      if (error.message === "Không tìm thấy chương" || error.message === "Không tìm thấy node") {
+        return sendError(res, "CHAPTER_OR_NODE_NOT_FOUND", error.message, 404);
+      }
+      return sendError(res, "PROGRESS_UPDATE_ERROR", error.message, 500);
+    }
+  }
 }

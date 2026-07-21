@@ -12,9 +12,8 @@ import {
   type ChapterNodeSummary,
   useGetChapterNodesQuery,
   useGetChaptersQuery,
+  useGetAllChapterProgressQuery,
 } from "@/services/rtk-api/chapter.api";
-import { selectAuthUser } from "@/stores/auth.helpers";
-import { useAppSelector } from "@/stores/hooks";
 import { securePersistStorage } from "@/stores/persistStorage";
 import type { ChapterProgress, ChapterProgressItem } from "@/types/chapterLesson";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
@@ -56,13 +55,12 @@ type ChapterOverviewItem = ChapterMeta & {
   locked: boolean;
 };
 
-function countCompleted(progress: ChapterProgress | undefined, order: string[]) {
+function countCompleted(progress: Record<string, { status?: string }> | undefined, order: string[]) {
   return order.filter((muc) => progress?.[muc]?.status === "done").length;
 }
 
 export default function ChapterSkillTreeScreen() {
   const router = useRouter();
-  const userId = useAppSelector((state) => selectAuthUser(state)?.id ?? null);
   const params = useLocalSearchParams<{ chapter?: string }>();
   const routeChapter = Array.isArray(params.chapter) ? params.chapter[0] : params.chapter;
 
@@ -73,61 +71,8 @@ export default function ChapterSkillTreeScreen() {
   } = useGetChaptersQuery();
 
   const [selectedChapterState, setSelectedChapter] = useState<string | null>(routeChapter ?? null);
-  const [chapterProgress, setChapterProgress] = useState<Record<string, ChapterProgress>>({});
-  const [isLoadingProgress, setIsLoadingProgress] = useState(true);
-
-  useEffect(() => {
-    if (routeChapter) {
-      setSelectedChapter(routeChapter);
-    }
-  }, [routeChapter]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadChapterProgress() {
-      if (!chapters?.length) {
-        setChapterProgress({});
-        setIsLoadingProgress(false);
-        return;
-      }
-
-      setIsLoadingProgress(true);
-
-      const entries = await Promise.all(
-        chapters.map(async (chapter) => {
-          const storageKey = getChapterProgressStorageKey(chapter.id, userId);
-          const raw = await securePersistStorage.getItem(storageKey);
-          const legacyRaw =
-            !raw && userId
-              ? await securePersistStorage.getItem(getChapterProgressStorageKey(chapter.id))
-              : null;
-
-          try {
-            const parsed =
-              raw || legacyRaw ? (JSON.parse(raw ?? legacyRaw ?? "{}") as ChapterProgress) : {};
-            if (!raw && legacyRaw) {
-              await securePersistStorage.setItem(storageKey, JSON.stringify(parsed));
-            }
-            return [chapter.id, parsed] as const;
-          } catch {
-            return [chapter.id, {}] as const;
-          }
-        }),
-      );
-
-      if (!cancelled) {
-        setChapterProgress(Object.fromEntries(entries));
-        setIsLoadingProgress(false);
-      }
-    }
-
-    void loadChapterProgress();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [chapters, userId]);
+  const { data: chapterProgressData, isLoading: isLoadingProgress } = useGetAllChapterProgressQuery();
+  const chapterProgress = useMemo(() => chapterProgressData ?? {}, [chapterProgressData]);
 
   const storedChapterOverview = useMemo<ChapterOverviewItem[]>(
     () =>
@@ -488,7 +433,7 @@ export default function ChapterSkillTreeScreen() {
                         </View>
 
                         <View className="mt-4 flex-row flex-wrap gap-2">
-                          {node.muc === "1.1" && (
+                          {node.hasMovie && (
                             <StepPill
                               active={available && draftStep === -1}
                               label="Phim tương tác"

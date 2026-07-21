@@ -39,6 +39,7 @@ export type ChapterNodeSummary = {
   order: number;
   hookType: "choice" | "drag";
   steps: ["hook", "theory", "quiz"];
+  hasMovie?: boolean;
 };
 
 export type ChapterNode = Omit<ChapterNodeSummary, "steps"> & {
@@ -79,6 +80,13 @@ export type MovieSessionPayload = {
   correctN: number;
 };
 
+export type ChapterProgressPayload = {
+  status: "locked" | "available" | "done";
+  score?: number | null;
+  review?: any;
+  draft?: any;
+};
+
 export const chapterApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getChapters: builder.query<ChapterMeta[], void>({
@@ -107,6 +115,31 @@ export const chapterApi = baseApi.injectEndpoints({
       ],
     }),
 
+    getChapterProgress: builder.query<Record<string, ChapterProgressPayload>, string>({
+      query: (chapter) => ({
+        url: `/chapters/${encodeURIComponent(chapter)}/progress`,
+        method: "GET",
+      }),
+      providesTags: (_result, _error, chapter) => [{ type: "ChapterProgress", id: chapter }],
+    }),
+
+    getAllChapterProgress: builder.query<Record<string, Record<string, ChapterProgressPayload>>, void>({
+      query: () => ({
+        url: `/chapters/progress/all`,
+        method: "GET",
+      }),
+      providesTags: [{ type: "ChapterProgress", id: "ALL" }],
+    }),
+
+    upsertChapterProgress: builder.mutation<any, { chapter: string; muc: string; payload: ChapterProgressPayload }>({
+      query: ({ chapter, muc, payload }) => ({
+        url: `/chapters/${encodeURIComponent(chapter)}/nodes/${encodeURIComponent(muc)}/progress`,
+        method: "PUT",
+        body: payload,
+      }),
+      invalidatesTags: (_result, _error, arg) => [{ type: "ChapterProgress", id: arg.chapter }],
+    }),
+
     getMovie: builder.query<MovieResponse, string>({
       query: (muc) => ({
         url: `/movies/${encodeURIComponent(muc)}`,
@@ -130,6 +163,9 @@ export const {
   useGetChaptersQuery,
   useGetChapterNodesQuery,
   useGetChapterNodeQuery,
+  useGetChapterProgressQuery,
+  useGetAllChapterProgressQuery,
+  useUpsertChapterProgressMutation,
   useGetMovieQuery,
   useSubmitMovieSessionMutation,
 } = chapterApi;

@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { selectAuthUser } from "@/stores/auth.helpers";
-import { useAppSelector } from "@/stores/hooks";
-import { securePersistStorage } from "@/stores/persistStorage";
+import { useGetChapterProgressQuery, useUpsertChapterProgressMutation } from "@/services/rtk-api/chapter.api";
 import type {
   ChapterDraftState,
   ChapterProgress,
@@ -21,8 +19,8 @@ export type {
 
 const STORAGE_PREFIX = "triet_hoc_chapter_progress";
 
-export function getChapterProgressStorageKey(chapter: string, userId?: string | null) {
-  return userId ? `${STORAGE_PREFIX}_${userId}_${chapter}` : `${STORAGE_PREFIX}_${chapter}`;
+export function getChapterProgressStorageKey(chapter: string) {
+  return `${STORAGE_PREFIX}_${chapter}`;
 }
 
 function createInitialProgress(order: string[]) {
@@ -48,7 +46,7 @@ function mergeReview(
   };
 }
 
-function normalizeProgress(progress: ChapterProgress, order: string[]) {
+function normalizeProgress(progress: Record<string, Partial<ChapterProgressItem>>, order: string[]) {
   const next = createInitialProgress(order);
   let foundAvailable = false;
 
@@ -90,180 +88,95 @@ function normalizeProgress(progress: ChapterProgress, order: string[]) {
 }
 
 export function useChapterProgress(chapter: string | undefined, order: string[]) {
-  const userId = useAppSelector((state) => selectAuthUser(state)?.id ?? null);
   const orderKey = order.join("|");
   const stableOrder = useMemo(() => (orderKey ? orderKey.split("|") : []), [orderKey]);
-  const storageKey = chapter ? getChapterProgressStorageKey(chapter, userId) : null;
-  const progressKey = `${userId ?? "guest"}:${chapter ?? ""}:${orderKey}`;
-  const [state, setState] = useState(() => ({
-    key: progressKey,
-    progress: createInitialProgress(stableOrder),
-    ready: false,
-  }));
-  const visibleProgress =
-    state.key === progressKey ? state.progress : createInitialProgress(stableOrder);
-  const visibleReady = state.key === progressKey && state.ready;
-  const progressRef = useRef(visibleProgress);
 
-  if (state.key !== progressKey) {
-    setState({
-      key: progressKey,
-      progress: createInitialProgress(stableOrder),
-      ready: false,
-    });
-  }
+  const { data: serverProgress, isLoading, isSuccess } = useGetChapterProgressQuery(chapter ?? "", {
+    skip: !chapter,
+  });
 
-  useEffect(() => {
-    progressRef.current = visibleProgress;
-  }, [visibleProgress]);
+  const [upsertProgress] = useUpsertChapterProgressMutation();
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function load() {
-      if (!chapter) {
-        const next = createInitialProgress(stableOrder);
-        progressRef.current = next;
-        setState((current) =>
-          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
-        );
-        return;
-      }
-
-      const raw = storageKey ? await securePersistStorage.getItem(storageKey) : null;
-      const legacyKey = getChapterProgressStorageKey(chapter);
-      const legacyRaw = !raw && userId ? await securePersistStorage.getItem(legacyKey) : null;
-      if (cancelled) return;
-
-      try {
-        const parsed =
-          raw || legacyRaw ? (JSON.parse(raw ?? legacyRaw ?? "{}") as ChapterProgress) : {};
-        const next = normalizeProgress(parsed, stableOrder);
-        progressRef.current = next;
-        setState((current) =>
-          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
-        );
-        if (!raw && legacyRaw && storageKey) {
-          await securePersistStorage.setItem(storageKey, JSON.stringify(next));
-        }
-      } catch {
-        const next = createInitialProgress(stableOrder);
-        progressRef.current = next;
-        setState((current) =>
-          current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
-        );
-      }
-    }
-
-    void load();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [chapter, progressKey, stableOrder, storageKey, userId]);
-
-  const persist = useCallback(
-    async (updater: (current: ChapterProgress) => ChapterProgress) => {
-      if (!chapter) return;
-
-      const next = updater(normalizeProgress(progressRef.current, stableOrder));
-      progressRef.current = next;
-      setState((current) =>
-        current.key === progressKey ? { key: progressKey, progress: next, ready: true } : current,
-      );
-      await securePersistStorage.setItem(
-        getChapterProgressStorageKey(chapter, userId),
-        JSON.stringify(next),
-      );
-    },
-    [chapter, progressKey, stableOrder, userId],
-  );
+  const progress = useMemo(() => {
+    if (!chapter || !isSuccess) return createInitialProgress(stableOrder);
+    return normalizeProgress(serverProgress ?? {}, stableOrder);
+  }, [chapter, isSuccess, serverProgress, stableOrder]);
 
   const saveNodeDraft = useCallback(
-    (muc: string, draft: ChapterDraftState) => {
+    async (muc: string, draft: ChapterDraftState) => {
       if (!chapter) return;
 
-      persist((current) => {
-        const currentItem = current[muc];
+      const currentItem = progress[muc];
+      if (!currentItem || currentItem.status === "locked") return;
 
-        if (!currentItem || currentItem.status === "locked") {
-          return current;
-        }
+      const nextReview = mergeReview(
+        mergeReview(currentItem.review, currentItem.draft?.review),
+        draft.review,
+      );
 
-        const nextReview = mergeReview(
-          mergeReview(currentItem.review, currentItem.draft?.review),
-          draft.review,
-        );
-
-        const nextItem: ChapterProgressItem = {
-          ...currentItem,
+      const payload = {
+        ...currentItem,
+        review: nextReview,
+        draft: {
+          ...currentItem.draft,
+          ...draft,
           review: nextReview,
-          draft: {
-            ...currentItem.draft,
-            ...draft,
-            review: nextReview,
-          },
-        };
+        },
+      };
 
-        return {
-          ...current,
-          [muc]: nextItem,
-        };
-      });
+      await upsertProgress({ chapter, muc, payload }).unwrap();
     },
-    [chapter, persist],
+    [chapter, progress, upsertProgress],
   );
 
   const completeNode = useCallback(
     async (muc: string, score: number, review?: ChapterReviewState) => {
       if (!chapter) return;
 
-      await persist((current) => {
-        const index = stableOrder.indexOf(muc);
-        const currentItem = current[muc];
-        const finalReview = review ?? mergeReview(currentItem?.review, currentItem?.draft?.review);
-        const finalDraft: ChapterDraftState = {
-          ...(currentItem?.draft ?? {}),
-          step: 2,
-          review: finalReview,
-          quizScore: score,
+      const index = stableOrder.indexOf(muc);
+      const currentItem = progress[muc];
+      
+      const finalReview = review ?? mergeReview(currentItem?.review, currentItem?.draft?.review);
+      const finalDraft: ChapterDraftState = {
+        ...(currentItem?.draft ?? {}),
+        step: 2,
+        review: finalReview,
+        quizScore: score,
+      };
+
+      const payload = {
+        status: "done" as const,
+        score,
+        review: finalReview,
+        draft: finalDraft,
+      };
+
+      // Call API for current node
+      await upsertProgress({ chapter, muc, payload }).unwrap();
+
+      const nextMuc = stableOrder[index + 1];
+      if (nextMuc && progress[nextMuc]?.status !== "done") {
+        // Unlock next node
+        const nextPayload = {
+          status: "available" as const,
+          score: progress[nextMuc]?.score ?? null,
+          review: progress[nextMuc]?.review,
+          draft: progress[nextMuc]?.draft,
         };
-
-        const next: ChapterProgress = {
-          ...current,
-          [muc]: {
-            status: "done",
-            score,
-            review: finalReview,
-            draft: finalDraft,
-          },
-        };
-
-        const nextMuc = stableOrder[index + 1];
-
-        if (nextMuc && next[nextMuc]?.status !== "done") {
-          next[nextMuc] = {
-            status: "available",
-            score: next[nextMuc]?.score ?? null,
-            review: next[nextMuc]?.review,
-            draft: next[nextMuc]?.draft,
-          };
-        }
-
-        return next;
-      });
+        await upsertProgress({ chapter, muc: nextMuc, payload: nextPayload }).unwrap();
+      }
     },
-    [chapter, persist, stableOrder],
+    [chapter, progress, stableOrder, upsertProgress],
   );
 
   const completedCount = useMemo(
-    () => stableOrder.filter((muc) => visibleProgress[muc]?.status === "done").length,
-    [stableOrder, visibleProgress],
+    () => stableOrder.filter((muc) => progress[muc]?.status === "done").length,
+    [stableOrder, progress],
   );
 
   return {
-    ready: visibleReady,
-    progress: visibleProgress,
+    ready: isSuccess,
+    progress,
     completedCount,
     completeNode,
     saveNodeDraft,

@@ -40,8 +40,7 @@ function stepName(step: FlowStep) {
   return CHAPTER_LESSON_STEP_NAMES[step] ?? "Bài học";
 }
 
-function createDefaultFlowState(lessonKey: string, muc?: string): FlowState {
-  const hasMovie = muc === "1.1";
+function createDefaultFlowState(lessonKey: string, hasMovie: boolean): FlowState {
   return {
     lessonKey,
     hydrated: false,
@@ -55,22 +54,27 @@ function createHydratedFlowState({
   currentProgress,
   isReplay,
   lessonKey,
-  muc,
+  hasMovie,
 }: {
   currentProgress?: ChapterProgressItem;
   isReplay: boolean;
   lessonKey: string;
-  muc?: string;
+  hasMovie: boolean;
 }): FlowState {
   const draft = currentProgress?.draft;
   const reviewState = currentProgress?.review ?? draft?.review ?? {};
-  const hasMovie = muc === "1.1";
 
   let initialStep: FlowStep = hasMovie ? -1 : 0;
-  if (currentProgress?.status === "done" && isReplay) {
-    initialStep = 0;
+  if (currentProgress?.status === "done" && !isReplay) {
+    initialStep = 2; // Always default to end if done, unless replay is intended
   } else if (draft?.step !== undefined) {
-    initialStep = toFlowStep(draft.step);
+    if (isReplay && draft.step === 2) {
+      initialStep = hasMovie ? -1 : 0;
+    } else {
+      initialStep = toFlowStep(draft.step);
+    }
+  } else {
+    initialStep = hasMovie ? -1 : 0;
   }
 
   return {
@@ -118,9 +122,11 @@ export default function ChapterLessonFlowScreen() {
   const currentProgress = muc ? progress[muc] : undefined;
   const currentDraft = currentProgress?.draft;
   const lessonKey = `${chapter ?? ""}:${muc ?? ""}:${isReplay ? "replay" : "learn"}`;
+  const nodeSummary = nodesData?.nodes.find((n) => n.muc === muc);
+  const hasMovie = !!(node?.hasMovie ?? nodeSummary?.hasMovie ?? false);
 
   const [flowState, setFlowState] = useState<FlowState>(() =>
-    createDefaultFlowState(lessonKey, muc),
+    createDefaultFlowState(lessonKey, hasMovie),
   );
   const [isRelearning, setIsRelearning] = useState(false);
   const [attemptKey, setAttemptKey] = useState(0);
@@ -128,13 +134,13 @@ export default function ChapterLessonFlowScreen() {
   const isCompletedReview = currentProgress?.status === "done" && isReplay && !isRelearning;
 
   useEffect(() => {
-    setFlowState(createDefaultFlowState(lessonKey, muc));
+    setFlowState(createDefaultFlowState(lessonKey, hasMovie));
     setIsRelearning(false);
     setAttemptKey(0);
-  }, [lessonKey, muc]);
+  }, [lessonKey, hasMovie]);
 
   useEffect(() => {
-    if (!ready || !muc) return;
+    if (!ready || !muc || (!node && !nodeSummary)) return;
 
     setFlowState((current) => {
       if (current.lessonKey !== lessonKey || current.hydrated) {
@@ -145,13 +151,13 @@ export default function ChapterLessonFlowScreen() {
         currentProgress,
         isReplay,
         lessonKey,
-        muc,
+        hasMovie,
       });
     });
-  }, [currentProgress, isReplay, lessonKey, muc, ready]);
+  }, [currentProgress, isReplay, lessonKey, muc, ready, node, nodeSummary, hasMovie]);
 
   const activeFlowState =
-    flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey, muc);
+    flowState.lessonKey === lessonKey ? flowState : createDefaultFlowState(lessonKey, hasMovie);
 
   const { step, quizScore, reviewState } = activeFlowState;
 
@@ -213,8 +219,6 @@ export default function ChapterLessonFlowScreen() {
   function startLearningAgain() {
     setIsRelearning(true);
     setAttemptKey((current) => current + 1);
-
-    const hasMovie = muc === "1.1";
 
     setFlowState({
       lessonKey,
@@ -286,7 +290,7 @@ export default function ChapterLessonFlowScreen() {
             <StepBar
               step={step}
               maxPressableStep={isCompletedReview ? 2 : step}
-              steps={chapter === "1" || chapter === "chuong-1" ? [-1, 0, 1, 2] : [0, 1, 2]}
+              steps={hasMovie ? [-1, 0, 1, 2] : [0, 1, 2]}
               onStepPress={goToStepFromBar}
             />
           </View>

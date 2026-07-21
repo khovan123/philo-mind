@@ -1,0 +1,792 @@
+[
+  {
+    "muc": "5.1.1",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn đồng ý với quan điểm nào hơn?",
+      "feedbackA": "Kinh tế thị trường không phải sản phẩm riêng của chủ nghĩa tư bản mà là thành tựu phát triển chung của văn minh nhân loại. Việt Nam hoàn toàn có thể vận dụng kinh tế thị trường phù hợp với mục tiêu xã hội chủ nghĩa. Cùng tìm hiểu nhé.",
+      "feedbackB": "Đúng rồi! Kinh tế thị trường là thành tựu chung của nhân loại. Việt Nam xây dựng nền kinh tế thị trường định hướng xã hội chủ nghĩa — vừa vận hành theo quy luật thị trường, vừa đảm bảo mục tiêu xã hội chủ nghĩa. Cùng tìm hiểu sâu hơn.",
+      "situation": "Trong buổi thảo luận nhóm, Hà nói: \"Kinh tế thị trường là sản phẩm riêng của chủ nghĩa tư bản, Việt Nam theo chủ nghĩa xã hội thì không nên dùng.\" Tuấn phản bác: \"Kinh tế thị trường là thành tựu chung của văn minh nhân loại, Việt Nam hoàn toàn có thể vận dụng và gắn với định hướng xã hội chủ nghĩa.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Là nền kinh tế kế hoạch hóa tập trung do Nhà nước quản lý toàn bộ",
+          "Là nền kinh tế vận hành theo quy luật thị trường, có sự quản lý của Nhà nước pháp quyền XHCN, do Đảng lãnh đạo",
+          "Là nền kinh tế thị trường tự do hoàn toàn không có sự can thiệp của Nhà nước",
+          "Là nền kinh tế chỉ có thành phần kinh tế nhà nước"
+        ],
+        "question": "Kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là gì?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, kinh tế thị trường định hướng XHCN ở Việt Nam là nền kinh tế vận hành đầy đủ, đồng bộ theo các quy luật của kinh tế thị trường, có sự quản lý của Nhà nước pháp quyền XHCN, do Đảng Cộng sản Việt Nam lãnh đạo, nhằm mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Đúng, vì kinh tế thị trường chỉ phù hợp với chủ nghĩa tư bản",
+          "Sai, vì kinh tế thị trường là thành tựu chung của văn minh nhân loại, không phải sản phẩm riêng của CNTB",
+          "Đúng, vì kinh tế thị trường mâu thuẫn với mục tiêu XHCN",
+          "Sai, vì Việt Nam đang theo chủ nghĩa tư bản"
+        ],
+        "question": "Lan cho rằng kinh tế thị trường là sản phẩm riêng của chủ nghĩa tư bản, nên Việt Nam theo CNXH không nên phát triển kinh tế thị trường. Nhận định này đúng hay sai?",
+        "answerIndex": 1,
+        "explanation": "Kinh tế thị trường không phải sản phẩm riêng của chủ nghĩa tư bản mà là thành tựu phát triển chung của văn minh nhân loại. Nó ra đời từ sự phát triển của phân công lao động xã hội và sản xuất hàng hóa. Việt Nam vận dụng kinh tế thị trường và gắn với định hướng XHCN."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Việt Nam đang từ bỏ chủ nghĩa xã hội để đi theo tư bản chủ nghĩa",
+          "Việt Nam vận dụng kinh tế thị trường làm phương tiện để đạt mục tiêu XHCN",
+          "Kinh tế thị trường và CNXH hoàn toàn mâu thuẫn, không thể kết hợp",
+          "Chỉ cần kinh tế thị trường, không cần vai trò của Nhà nước"
+        ],
+        "question": "Biết rằng: (1) Kinh tế thị trường là thành tựu phát triển chung của nhân loại; (2) Việt Nam xây dựng nền kinh tế thị trường có sự quản lý của Nhà nước pháp quyền XHCN. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) kinh tế thị trường là thành tựu chung, không thuộc riêng CNTB; từ (2) Việt Nam quản lý bằng Nhà nước pháp quyền XHCN. Suy ra Việt Nam dùng kinh tế thị trường làm phương tiện phục vụ mục tiêu XHCN, chứ không từ bỏ CNXH (loại A), cũng không mâu thuẫn (loại C)."
+      }
+    ],
+    "order": 1,
+    "title": "Khái niệm kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) kinh tế thị trường là thành tựu chung, không thuộc riêng CNTB; từ (2) Việt Nam quản lý bằng Nhà nước pháp quyền XHCN. Suy ra Việt Nam dùng kinh tế thị trường làm phương tiện phục vụ mục tiêu XHCN, chứ không từ bỏ CNXH (loại A), cũng không mâu thuẫn (loại C).",
+      "explanationB": "Từ (1) kinh tế thị trường là thành tựu chung, không thuộc riêng CNTB; từ (2) Việt Nam quản lý bằng Nhà nước pháp quyền XHCN. Suy ra Việt Nam dùng kinh tế thị trường làm phương tiện phục vụ mục tiêu XHCN, chứ không từ bỏ CNXH (loại A), cũng không mâu thuẫn (loại C).",
+      "openQuestion": "Biết rằng: (1) Kinh tế thị trường là thành tựu phát triển chung của nhân loại; (2) Việt Nam xây dựng nền kinh tế thị trường có sự quản lý của Nhà nước pháp quyền XHCN. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Việt Nam đang từ bỏ chủ nghĩa xã hội để đi theo tư bản chủ nghĩa",
+      "perspectiveB": "Việt Nam vận dụng kinh tế thị trường làm phương tiện để đạt mục tiêu XHCN"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Kinh tế thị trường là sản phẩm của sự phát triển lực lượng sản xuất và phân công lao động xã hội, không phải sản phẩm riêng có của chủ nghĩa tư bản. Bất kỳ quốc gia nào cũng có thể vận dụng kinh tế thị trường phù hợp với đặc thù của mình.",
+        "icon": "🌐",
+        "title": "Kinh tế thị trường là thành tựu chung"
+      },
+      {
+        "id": "card2",
+        "body": "Kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là nền kinh tế vận hành đầy đủ, đồng bộ theo các quy luật của kinh tế thị trường, đồng thời bảo đảm định hướng xã hội chủ nghĩa phù hợp với từng giai đoạn phát triển của đất nước.",
+        "icon": "🏛️",
+        "title": "Khái niệm kinh tế thị trường định hướng XHCN"
+      },
+      {
+        "id": "card3",
+        "body": "Đây là nền kinh tế thị trường hiện đại, hội nhập quốc tế; có sự quản lý của Nhà nước pháp quyền xã hội chủ nghĩa, do Đảng Cộng sản Việt Nam lãnh đạo; nhằm mục tiêu \"dân giàu, nước mạnh, dân chủ, công bằng, văn minh\".",
+        "icon": "⚙️",
+        "title": "Tính hiện đại, hội nhập và mục tiêu"
+      },
+      {
+        "id": "card4",
+        "body": "Nền kinh tế này có nhiều hình thức sở hữu, nhiều thành phần kinh tế. Kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tư nhân là một động lực quan trọng. Các chủ thể kinh tế bình đẳng, hợp tác và cạnh tranh theo pháp luật.",
+        "icon": "🔑",
+        "title": "Sở hữu và các thành phần kinh tế"
+      },
+      {
+        "id": "card5",
+        "body": "Thị trường đóng vai trò chủ yếu trong huy động và phân bổ nguồn lực. Nhà nước quản lý, định hướng nền kinh tế thông qua pháp luật, chiến lược, quy hoạch, kế hoạch và chính sách; đảm bảo tiến bộ và công bằng xã hội.",
+        "icon": "📊",
+        "title": "Vai trò của thị trường và Nhà nước"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam là mô hình kinh tế tổng quát trong thời kỳ quá độ, kết hợp hài hòa giữa quy luật thị trường và mục tiêu xã hội chủ nghĩa, phát huy vai trò làm chủ của nhân dân.",
+        "icon": "🧭",
+        "title": "Mô hình kinh tế tổng quát"
+      }
+    ]
+  },
+  {
+    "muc": "5.1.2",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn nghĩ ai đúng hơn?",
+      "feedbackA": "Phát triển kinh tế thị trường không chỉ là quyết định chủ quan mà xuất phát từ yêu cầu khách quan: trình độ lực lượng sản xuất, phân công lao động xã hội và xu thế hội nhập quốc tế. Cùng tìm hiểu nhé.",
+      "feedbackB": "Đúng rồi! Phát triển kinh tế thị trường là yêu cầu khách quan từ sự phát triển của lực lượng sản xuất, phân công lao động và hội nhập quốc tế, không phải quyết định chủ quan đơn thuần.",
+      "situation": "Trong lớp học, thầy giáo hỏi: \"Tại sao Việt Nam lại chọn phát triển kinh tế thị trường trong khi theo đuổi mục tiêu xã hội chủ nghĩa?\" Nam trả lời: \"Vì đó là quyết định chủ quan của Đảng.\" Hoa phản biện: \"Không, đó là yêu cầu khách quan từ thực tiễn phát triển.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Từ quyết định chủ quan của lãnh đạo Đảng và Nhà nước",
+          "Từ sự phát triển của lực lượng sản xuất, phân công lao động xã hội và yêu cầu hội nhập quốc tế",
+          "Từ sức ép của các nước tư bản chủ nghĩa",
+          "Từ sự suy yếu của mô hình kinh tế kế hoạch hóa tại Liên Xô"
+        ],
+        "question": "Tính tất yếu khách quan của phát triển kinh tế thị trường định hướng XHCN ở Việt Nam bắt nguồn từ đâu?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, tính tất yếu khách quan bắt nguồn từ: phân công lao động xã hội còn tồn tại, lực lượng sản xuất phát triển chưa đồng đều, nhiều hình thức sở hữu cùng tồn tại — tạo điều kiện cho sản xuất hàng hóa, và xu thế hội nhập kinh tế quốc tế."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Vì lúc đó kinh tế thị trường chưa được phát minh",
+          "Vì hoàn cảnh chiến tranh và nhận thức chưa đầy đủ về quy luật kinh tế, nên chưa vận dụng kinh tế thị trường",
+          "Vì kinh tế kế hoạch hóa tập trung là mô hình tốt hơn",
+          "Vì Liên Xô bắt buộc Việt Nam phải theo"
+        ],
+        "question": "Một sinh viên hỏi: \"Nếu kinh tế thị trường là tất yếu, tại sao trước Đổi mới Việt Nam lại dùng kinh tế kế hoạch hóa tập trung?\" Câu trả lời đúng nhất là gì?",
+        "answerIndex": 1,
+        "explanation": "Trong hoàn cảnh chiến tranh và ảnh hưởng từ mô hình Liên Xô, Việt Nam áp dụng cơ chế kế hoạch hóa tập trung. Tuy nhiên, nhận thức ngày càng đầy đủ hơn về quy luật kinh tế đã dẫn đến Đổi mới 1986, chuyển sang kinh tế thị trường định hướng XHCN."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Việt Nam cần xóa bỏ kinh tế thị trường để đi lên CNXH",
+          "Việt Nam phát triển kinh tế thị trường là tất yếu khách quan",
+          "Kinh tế thị trường chỉ cần trong giai đoạn TBCN",
+          "Phân công lao động không liên quan đến kinh tế thị trường"
+        ],
+        "question": "Biết rằng: (1) Phân công lao động xã hội và nhiều hình thức sở hữu tồn tại là điều kiện cho kinh tế thị trường; (2) Việt Nam hiện tại vẫn có phân công lao động và nhiều hình thức sở hữu. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) phân công lao động và nhiều hình thức sở hữu là điều kiện cho kinh tế thị trường; từ (2) Việt Nam vẫn tồn tại các điều kiện đó. Suy ra phát triển kinh tế thị trường ở Việt Nam là tất yếu khách quan (loại A, C sai)."
+      }
+    ],
+    "order": 2,
+    "title": "Tính tất yếu khách quan của việc phát triển kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) phân công lao động và nhiều hình thức sở hữu là điều kiện cho kinh tế thị trường; từ (2) Việt Nam vẫn tồn tại các điều kiện đó. Suy ra phát triển kinh tế thị trường ở Việt Nam là tất yếu khách quan (loại A, C sai).",
+      "explanationB": "Từ (1) phân công lao động và nhiều hình thức sở hữu là điều kiện cho kinh tế thị trường; từ (2) Việt Nam vẫn tồn tại các điều kiện đó. Suy ra phát triển kinh tế thị trường ở Việt Nam là tất yếu khách quan (loại A, C sai).",
+      "openQuestion": "Biết rằng: (1) Phân công lao động xã hội và nhiều hình thức sở hữu tồn tại là điều kiện cho kinh tế thị trường; (2) Việt Nam hiện tại vẫn có phân công lao động và nhiều hình thức sở hữu. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Việt Nam cần xóa bỏ kinh tế thị trường để đi lên CNXH",
+      "perspectiveB": "Việt Nam phát triển kinh tế thị trường là tất yếu khách quan"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Phát triển kinh tế thị trường là tất yếu khách quan trong thời kỳ quá độ lên chủ nghĩa xã hội ở Việt Nam. Vì sao? Vì nó bắt nguồn từ chính quy luật phát triển của lực lượng sản xuất và quan hệ sản xuất.",
+        "icon": "🔬",
+        "title": "Tính tất yếu khách quan"
+      },
+      {
+        "id": "card2",
+        "body": "Phân công lao động xã hội còn tồn tại, lực lượng sản xuất chưa phát triển đồng đều — đây là điều kiện khách quan cho sản xuất hàng hóa và kinh tế thị trường phát triển. Chừng nào điều kiện này còn thì kinh tế thị trường vẫn cần thiết.",
+        "icon": "🏭",
+        "title": "Điều kiện của kinh tế thị trường"
+      },
+      {
+        "id": "card3",
+        "body": "Trong bối cảnh toàn cầu hóa và hội nhập kinh tế quốc tế, phát triển kinh tế thị trường là phương thức hiệu quả nhất để huy động, phân bổ nguồn lực và thúc đẩy tăng trưởng kinh tế.",
+        "icon": "🌍",
+        "title": "Yêu cầu của hội nhập quốc tế"
+      },
+      {
+        "id": "card4",
+        "body": "Kinh tế thị trường tạo động lực mạnh mẽ cho các chủ thể kinh tế nâng cao hiệu quả sản xuất kinh doanh, thúc đẩy ứng dụng khoa học - công nghệ, tăng năng suất lao động — xây dựng cơ sở vật chất kỹ thuật cho chủ nghĩa xã hội.",
+        "icon": "📈",
+        "title": "Động lực phát triển lực lượng sản xuất"
+      },
+      {
+        "id": "card5",
+        "body": "Thực tiễn Việt Nam sau hơn 35 năm Đổi mới đã chứng minh: chuyển sang kinh tế thị trường định hướng XHCN giúp giải phóng lực lượng sản xuất, nâng cao đời sống nhân dân, tạo tiền đề vật chất cho phát triển bền vững.",
+        "icon": "⚖️",
+        "title": "Thực tiễn công cuộc Đổi mới"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Phát triển kinh tế thị trường định hướng XHCN ở Việt Nam là tất yếu khách quan, xuất phát từ trình độ phát triển của lực lượng sản xuất, yêu cầu phân công lao động xã hội và xu thế hội nhập quốc tế.",
+        "icon": "🧭",
+        "title": "Cơ sở của tính tất yếu"
+      }
+    ]
+  },
+  {
+    "muc": "5.1.3",
+    "hook": {
+      "type": "drag",
+      "items": [
+        "Nhiều hình thức sở hữu và nhiều thành phần kinh tế",
+        "Kinh tế nhà nước giữ vai trò chủ đạo",
+        "Thị trường đóng vai trò chủ yếu trong phân bổ nguồn lực",
+        "Nhà nước quản lý bằng pháp luật và chính sách",
+        "Chỉ có một hình thức sở hữu nhà nước",
+        "Thị trường tự do không cần quản lý",
+        "Mục tiêu lợi nhuận tối đa cho tư bản",
+        "Kinh tế tư nhân bị loại bỏ hoàn toàn"
+      ],
+      "bridge": "Nền kinh tế thị trường định hướng XHCN ở Việt Nam có những đặc trưng riêng, vừa tuân theo quy luật thị trường vừa bảo đảm mục tiêu XHCN. Cùng tìm hiểu chi tiết các đặc trưng này.",
+      "groups": [
+        "Đặc trưng KTTT ĐHXHCN",
+        "Không phải đặc trưng"
+      ],
+      "answers": [
+        {
+          "cardIndex": 0,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 1,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 2,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 3,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 4,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 5,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 6,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 7,
+          "groupIndex": 1
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Kinh tế tư nhân",
+          "Kinh tế nhà nước",
+          "Kinh tế có vốn đầu tư nước ngoài",
+          "Kinh tế tập thể"
+        ],
+        "question": "Trong nền kinh tế thị trường định hướng XHCN ở Việt Nam, thành phần kinh tế nào giữ vai trò chủ đạo?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình xác định kinh tế nhà nước giữ vai trò chủ đạo trong nền kinh tế thị trường định hướng XHCN. Kinh tế tư nhân là động lực quan trọng, kinh tế tập thể được củng cố, kinh tế FDI được khuyến khích — nhưng vai trò chủ đạo thuộc về kinh tế nhà nước."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Phù hợp, vì kinh tế nhà nước phải được ưu tiên tuyệt đối",
+          "Không phù hợp, vì các chủ thể thuộc mọi thành phần kinh tế phải bình đẳng, hợp tác, cạnh tranh theo pháp luật",
+          "Phù hợp, vì kinh tế tư nhân không nên tồn tại trong CNXH",
+          "Không phù hợp, vì kinh tế tư nhân phải giữ vai trò chủ đạo"
+        ],
+        "question": "Một doanh nghiệp tư nhân than phiền: \"Tôi luôn bị phân biệt đối xử so với doanh nghiệp nhà nước.\" Theo đặc trưng KTTT ĐHXHCN, thực tế này có phù hợp không?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, các chủ thể thuộc mọi thành phần kinh tế đều bình đẳng, hợp tác và cạnh tranh theo quy định của pháp luật. Phân biệt đối xử là trái với đặc trưng của KTTT ĐHXHCN. Tuy nhiên, kinh tế nhà nước giữ vai trò chủ đạo chứ không phải kinh tế tư nhân."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Thị trường và Nhà nước mâu thuẫn, chỉ nên chọn một",
+          "KTTT ĐHXHCN kết hợp vai trò của thị trường với sự quản lý của Nhà nước",
+          "Nhà nước can thiệp là cản trở thị trường phát triển",
+          "Thị trường tự thân đã đảm bảo công bằng xã hội"
+        ],
+        "question": "Biết rằng: (1) Trong KTTT ĐHXHCN, thị trường đóng vai trò chủ yếu trong phân bổ nguồn lực; (2) Nhà nước quản lý bằng pháp luật và chính sách. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) thị trường phân bổ nguồn lực và (2) Nhà nước quản lý bằng pháp luật, suy ra KTTT ĐHXHCN là sự kết hợp giữa vai trò thị trường và sự quản lý nhà nước, chứ không loại trừ nhau (loại A, C sai)."
+      }
+    ],
+    "order": 3,
+    "title": "Đặc trưng của nền kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) thị trường phân bổ nguồn lực và (2) Nhà nước quản lý bằng pháp luật, suy ra KTTT ĐHXHCN là sự kết hợp giữa vai trò thị trường và sự quản lý nhà nước, chứ không loại trừ nhau (loại A, C sai).",
+      "explanationB": "Từ (1) thị trường phân bổ nguồn lực và (2) Nhà nước quản lý bằng pháp luật, suy ra KTTT ĐHXHCN là sự kết hợp giữa vai trò thị trường và sự quản lý nhà nước, chứ không loại trừ nhau (loại A, C sai).",
+      "openQuestion": "Biết rằng: (1) Trong KTTT ĐHXHCN, thị trường đóng vai trò chủ yếu trong phân bổ nguồn lực; (2) Nhà nước quản lý bằng pháp luật và chính sách. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Thị trường và Nhà nước mâu thuẫn, chỉ nên chọn một",
+      "perspectiveB": "KTTT ĐHXHCN kết hợp vai trò của thị trường với sự quản lý của Nhà nước"
+    },
+    "hookType": "drag",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Đặc trưng thứ nhất: Về quan hệ sở hữu và thành phần kinh tế — nền kinh tế tồn tại nhiều hình thức sở hữu, nhiều thành phần kinh tế. Kinh tế nhà nước giữ vai trò chủ đạo, kinh tế tập thể không ngừng được củng cố, kinh tế tư nhân là một động lực quan trọng.",
+        "icon": "🏗️",
+        "title": "Quan hệ sở hữu và thành phần kinh tế"
+      },
+      {
+        "id": "card2",
+        "body": "Đặc trưng thứ hai: Về quan hệ quản lý — Nhà nước quản lý nền kinh tế bằng pháp luật, chiến lược, quy hoạch, kế hoạch, chính sách và lực lượng vật chất. Nền kinh tế có sự quản lý của Nhà nước pháp quyền XHCN, do Đảng Cộng sản Việt Nam lãnh đạo.",
+        "icon": "📋",
+        "title": "Quan hệ quản lý"
+      },
+      {
+        "id": "card3",
+        "body": "Đặc trưng thứ ba: Về quan hệ phân phối — thực hiện phân phối theo kết quả lao động, hiệu quả kinh tế, đồng thời phân phối theo mức đóng góp vốn cùng các nguồn lực khác, và thông qua hệ thống an sinh xã hội, phúc lợi xã hội.",
+        "icon": "⚖️",
+        "title": "Quan hệ phân phối"
+      },
+      {
+        "id": "card4",
+        "body": "Đặc trưng thứ tư: Về mục tiêu — nhằm mục tiêu \"dân giàu, nước mạnh, dân chủ, công bằng, văn minh\"; thể hiện rõ tính định hướng XHCN, đảm bảo tiến bộ và công bằng xã hội trong từng bước, từng chính sách phát triển.",
+        "icon": "🎯",
+        "title": "Mục tiêu phát triển"
+      },
+      {
+        "id": "card5",
+        "body": "Đặc trưng thứ năm: Các chủ thể thuộc mọi thành phần kinh tế bình đẳng, hợp tác, cạnh tranh theo pháp luật. Thị trường đóng vai trò chủ yếu trong huy động và phân bổ nguồn lực, là động lực chủ yếu giải phóng sức sản xuất.",
+        "icon": "🤝",
+        "title": "Bình đẳng, hợp tác và cạnh tranh"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Các đặc trưng trên cho thấy nền kinh tế thị trường định hướng XHCN ở Việt Nam vừa mang tính phổ biến của kinh tế thị trường, vừa có tính đặc thù thể hiện định hướng XHCN — sự kết hợp giữa \"bàn tay vô hình\" của thị trường và \"bàn tay hữu hình\" của Nhà nước.",
+        "icon": "🧭",
+        "title": "Tính phổ biến và tính đặc thù"
+      }
+    ]
+  },
+  {
+    "muc": "5.2.1",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn nghĩ có cần hoàn thiện thể chế kinh tế không?",
+      "feedbackA": "Thể chế kinh tế luôn cần phải hoàn thiện để theo kịp sự vận động của lực lượng sản xuất và yêu cầu hội nhập quốc tế. Cùng tìm hiểu vì sao.",
+      "feedbackB": "Đúng rồi! Hoàn thiện thể chế là yêu cầu tất yếu vì thể chế hiện tại còn chưa đồng bộ, cần được cải thiện liên tục. Cùng tìm hiểu chi tiết.",
+      "situation": "Minh đọc báo thấy bài viết về \"hoàn thiện thể chế kinh tế\" và hỏi: \"Thể chế kinh tế đã có rồi mà, sao phải hoàn thiện?\" Linh giải thích: \"Vì thể chế hiện tại còn nhiều bất cập, chưa đồng bộ, cần được hoàn thiện liên tục để phù hợp với thực tiễn phát triển.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Vì thể chế hiện tại đã hoàn hảo, không cần thay đổi",
+          "Vì thể chế còn chưa đồng bộ, cần theo kịp sự phát triển của lực lượng sản xuất và yêu cầu hội nhập",
+          "Vì các nước tư bản yêu cầu Việt Nam phải thay đổi thể chế",
+          "Vì kinh tế thị trường không cần thể chế"
+        ],
+        "question": "Vì sao Việt Nam cần hoàn thiện thể chế kinh tế thị trường định hướng XHCN?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, thể chế kinh tế còn thiếu, chưa đồng bộ, cần được hoàn thiện để theo kịp sự phát triển của lực lượng sản xuất, đáp ứng yêu cầu hội nhập quốc tế và đảm bảo phát triển bền vững."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Thể chế kinh tế đã rất hoàn thiện và minh bạch",
+          "Thể chế còn chồng chéo, chưa đồng bộ, cần được hoàn thiện",
+          "Doanh nghiệp yếu kém năng lực nên không đáp ứng được",
+          "Lĩnh vực công nghệ cao không cần thể chế đặc biệt"
+        ],
+        "question": "Một doanh nghiệp muốn đầu tư vào lĩnh vực công nghệ cao nhưng phải xin nhiều loại giấy phép từ nhiều cơ quan khác nhau, thời gian kéo dài. Điều này phản ánh vấn đề gì?",
+        "answerIndex": 1,
+        "explanation": "Tình trạng phải xin nhiều loại giấy phép từ nhiều cơ quan phản ánh sự chồng chéo, thiếu đồng bộ trong thể chế kinh tế — đây chính là lý do cần hoàn thiện thể chế để tạo môi trường kinh doanh thuận lợi hơn."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Giữ nguyên thể chế hiện tại là đủ",
+          "Cần liên tục hoàn thiện thể chế để phù hợp với trình độ phát triển mới",
+          "Thể chế không ảnh hưởng gì đến kinh tế",
+          "Lực lượng sản xuất phải chờ thể chế cho phép mới phát triển"
+        ],
+        "question": "Biết rằng: (1) Thể chế kinh tế cần đi trước hoặc theo kịp lực lượng sản xuất; (2) Lực lượng sản xuất ở Việt Nam đang phát triển nhanh trong bối cảnh CMCN 4.0. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) thể chế cần theo kịp lực lượng sản xuất; từ (2) LLSX đang phát triển nhanh. Suy ra cần liên tục hoàn thiện thể chế. Giữ nguyên (A) sẽ kìm hãm phát triển."
+      }
+    ],
+    "order": 4,
+    "title": "Sự cần thiết phải hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) thể chế cần theo kịp lực lượng sản xuất; từ (2) LLSX đang phát triển nhanh. Suy ra cần liên tục hoàn thiện thể chế. Giữ nguyên (A) sẽ kìm hãm phát triển.",
+      "explanationB": "Từ (1) thể chế cần theo kịp lực lượng sản xuất; từ (2) LLSX đang phát triển nhanh. Suy ra cần liên tục hoàn thiện thể chế. Giữ nguyên (A) sẽ kìm hãm phát triển.",
+      "openQuestion": "Biết rằng: (1) Thể chế kinh tế cần đi trước hoặc theo kịp lực lượng sản xuất; (2) Lực lượng sản xuất ở Việt Nam đang phát triển nhanh trong bối cảnh CMCN 4.0. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Giữ nguyên thể chế hiện tại là đủ",
+      "perspectiveB": "Cần liên tục hoàn thiện thể chế để phù hợp với trình độ phát triển mới"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Thể chế kinh tế là hệ thống các quy tắc, luật lệ, cơ chế vận hành chi phối hoạt động kinh tế. Thể chế tốt sẽ tạo môi trường thuận lợi cho phát triển; thể chế kém sẽ cản trở sự tăng trưởng.",
+        "icon": "📜",
+        "title": "Khái niệm thể chế kinh tế"
+      },
+      {
+        "id": "card2",
+        "body": "Nền kinh tế thị trường ở Việt Nam còn non trẻ, hệ thống thể chế chưa đồng bộ, nhiều quy định còn chồng chéo, thiếu thống nhất, gây khó khăn cho doanh nghiệp và người dân. Đây là lý do cần hoàn thiện.",
+        "icon": "🔧",
+        "title": "Hạn chế của thể chế hiện tại"
+      },
+      {
+        "id": "card3",
+        "body": "Trong bối cảnh hội nhập kinh tế quốc tế sâu rộng, Việt Nam cần thể chế hiện đại, minh bạch để nâng cao năng lực cạnh tranh quốc gia, thu hút đầu tư nước ngoài và tận dụng hiệu quả nguồn lực quốc tế.",
+        "icon": "🌐",
+        "title": "Yêu cầu của hội nhập"
+      },
+      {
+        "id": "card4",
+        "body": "Thể chế kinh tế cần đi trước hoặc theo kịp sự phát triển của lực lượng sản xuất. Nếu thể chế lạc hậu sẽ kìm hãm tăng trưởng, gây lãng phí nguồn lực và cản trở đổi mới sáng tạo.",
+        "icon": "⚙️",
+        "title": "Thể chế và lực lượng sản xuất"
+      },
+      {
+        "id": "card5",
+        "body": "Để phát huy mặt tích cực và hạn chế mặt tiêu cực của cơ chế thị trường, cần hoàn thiện thể chế nhằm đảm bảo tăng trưởng kinh tế gắn liền với tiến bộ và công bằng xã hội, bảo vệ môi trường.",
+        "icon": "📊",
+        "title": "Điều tiết mặt trái của thị trường"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Hoàn thiện thể chế kinh tế thị trường định hướng XHCN là yêu cầu tất yếu, xuất phát từ tính chưa đồng bộ của thể chế hiện tại, yêu cầu phát triển bền vững và bối cảnh hội nhập quốc tế.",
+        "icon": "🧭",
+        "title": "Yêu cầu tất yếu phải hoàn thiện"
+      }
+    ]
+  },
+  {
+    "muc": "5.2.2",
+    "hook": {
+      "type": "drag",
+      "items": [
+        "Hoàn thiện thể chế về sở hữu và thành phần kinh tế",
+        "Phát triển đồng bộ các yếu tố thị trường và các loại thị trường",
+        "Gắn kết tăng trưởng kinh tế với công bằng xã hội",
+        "Thúc đẩy hội nhập kinh tế quốc tế",
+        "Xóa bỏ mọi hình thức sở hữu trừ sở hữu nhà nước",
+        "Phát triển chỉ thị trường hàng hóa và dịch vụ",
+        "Tăng trưởng kinh tế không cần quan tâm công bằng xã hội",
+        "Hạn chế tối đa hội nhập quốc tế"
+      ],
+      "bridge": "Hoàn thiện thể chế gồm nhiều nội dung toàn diện: từ sở hữu, thị trường, đến công bằng xã hội và hội nhập. Cùng khám phá từng nội dung cụ thể.",
+      "groups": [
+        "Nội dung hoàn thiện thể chế",
+        "Không phải nội dung hoàn thiện"
+      ],
+      "answers": [
+        {
+          "cardIndex": 0,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 1,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 2,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 3,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 4,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 5,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 6,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 7,
+          "groupIndex": 1
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Chỉ cần hoàn thiện thể chế về sở hữu",
+          "Hoàn thiện sở hữu, phát triển thị trường đồng bộ, gắn kinh tế với công bằng xã hội, hội nhập quốc tế",
+          "Chỉ cần xóa bỏ kinh tế tư nhân",
+          "Chỉ cần phát triển thị trường tài chính"
+        ],
+        "question": "Nội dung hoàn thiện thể chế KTTT ĐHXHCN bao gồm những mặt chủ yếu nào?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình xác định nội dung hoàn thiện thể chế bao gồm nhiều mặt: sở hữu và thành phần kinh tế, phát triển đồng bộ các loại thị trường, gắn kinh tế với công bằng xã hội, hội nhập quốc tế, và nâng cao năng lực quản trị."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Chỉ cần tập trung tăng trưởng kinh tế, không cần quan tâm xã hội",
+          "Cần gắn kết tăng trưởng kinh tế với tiến bộ, công bằng xã hội và bảo vệ môi trường",
+          "Dừng phát triển kinh tế để giải quyết vấn đề xã hội",
+          "Giao toàn bộ cho thị trường tự điều chỉnh"
+        ],
+        "question": "Một tỉnh phát triển kinh tế nhanh nhưng khoảng cách giàu nghèo ngày càng lớn, ô nhiễm môi trường tăng. Điều này cho thấy cần hoàn thiện thể chế theo hướng nào?",
+        "answerIndex": 1,
+        "explanation": "Tình trạng khoảng cách giàu nghèo lớn và ô nhiễm tăng cho thấy tăng trưởng chưa gắn với công bằng xã hội và bảo vệ môi trường — cần hoàn thiện thể chế để gắn kết hai mặt này."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Chỉ cần phát triển thị trường hàng hóa là đủ",
+          "Cần đẩy mạnh phát triển thị trường KHCN và các thị trường còn yếu kém để đạt tính đồng bộ",
+          "Thị trường KHCN không cần thiết trong nền kinh tế thị trường",
+          "Phát triển đồng bộ nghĩa là tất cả thị trường phải hoàn hảo cùng lúc"
+        ],
+        "question": "Biết rằng: (1) Hoàn thiện thể chế cần phát triển đồng bộ các loại thị trường; (2) Việt Nam hiện có thị trường hàng hóa tương đối phát triển nhưng thị trường KHCN còn sơ khai. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) cần phát triển đồng bộ; từ (2) thị trường KHCN còn sơ khai. Suy ra cần đẩy mạnh phát triển các thị trường còn yếu kém, đặc biệt là thị trường KHCN, để đạt tính đồng bộ."
+      }
+    ],
+    "order": 5,
+    "title": "Nội dung hoàn thiện thể chế kinh tế thị trường định hướng xã hội chủ nghĩa ở Việt Nam",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) cần phát triển đồng bộ; từ (2) thị trường KHCN còn sơ khai. Suy ra cần đẩy mạnh phát triển các thị trường còn yếu kém, đặc biệt là thị trường KHCN, để đạt tính đồng bộ.",
+      "explanationB": "Từ (1) cần phát triển đồng bộ; từ (2) thị trường KHCN còn sơ khai. Suy ra cần đẩy mạnh phát triển các thị trường còn yếu kém, đặc biệt là thị trường KHCN, để đạt tính đồng bộ.",
+      "openQuestion": "Biết rằng: (1) Hoàn thiện thể chế cần phát triển đồng bộ các loại thị trường; (2) Việt Nam hiện có thị trường hàng hóa tương đối phát triển nhưng thị trường KHCN còn sơ khai. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Chỉ cần phát triển thị trường hàng hóa là đủ",
+      "perspectiveB": "Cần đẩy mạnh phát triển thị trường KHCN và các thị trường còn yếu kém để đạt tính đồng bộ"
+    },
+    "hookType": "drag",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Nội dung thứ nhất: Hoàn thiện thể chế về sở hữu và phát triển các thành phần kinh tế — bảo đảm quyền tài sản, hoàn thiện pháp luật đất đai, cải cách doanh nghiệp nhà nước, tạo môi trường bình đẳng cho mọi thành phần kinh tế.",
+        "icon": "🏢",
+        "title": "Sở hữu và các thành phần kinh tế"
+      },
+      {
+        "id": "card2",
+        "body": "Nội dung thứ hai: Phát triển đồng bộ các yếu tố thị trường và các loại thị trường — xây dựng hệ thống thị trường hiện đại: thị trường hàng hóa dịch vụ, tài chính, bất động sản, lao động, khoa học công nghệ.",
+        "icon": "📈",
+        "title": "Phát triển đồng bộ các thị trường"
+      },
+      {
+        "id": "card3",
+        "body": "Nội dung thứ ba: Gắn kết tăng trưởng kinh tế với tiến bộ và công bằng xã hội — đảm bảo an sinh xã hội, bảo vệ môi trường, tạo cơ hội cho mọi người dân tham gia và thụ hưởng thành quả phát triển.",
+        "icon": "⚖️",
+        "title": "Tăng trưởng gắn với công bằng"
+      },
+      {
+        "id": "card4",
+        "body": "Nội dung thứ tư: Thúc đẩy hội nhập kinh tế quốc tế — xây dựng cơ chế chính sách phù hợp cam kết quốc tế, tạo môi trường đầu tư kinh doanh thông thoáng, minh bạch.",
+        "icon": "🌐",
+        "title": "Thúc đẩy hội nhập kinh tế quốc tế"
+      },
+      {
+        "id": "card5",
+        "body": "Nội dung thứ năm: Nâng cao năng lực hệ thống chính trị — đẩy mạnh phân cấp, phân quyền, kiểm soát quyền lực bằng pháp luật, cải cách hành chính nhằm tạo thuận lợi cho hoạt động kinh tế.",
+        "icon": "🏛️",
+        "title": "Nâng cao năng lực hệ thống chính trị"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Hoàn thiện thể chế KTTT ĐHXHCN là quá trình toàn diện, bao gồm hoàn thiện sở hữu, phát triển thị trường đồng bộ, gắn kinh tế với xã hội, hội nhập quốc tế và nâng cao năng lực quản trị — nhằm mục tiêu dân giàu, nước mạnh, dân chủ, công bằng, văn minh.",
+        "icon": "🧭",
+        "title": "Hoàn thiện thể chế toàn diện"
+      }
+    ]
+  },
+  {
+    "muc": "5.3.1",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, lợi ích của ai quan trọng hơn?",
+      "feedbackA": "Lợi ích của người lao động và doanh nghiệp có mặt thống nhất (cùng tồn tại và phát triển) nhưng cũng có mâu thuẫn. Cần nhìn nhận cả hai mặt và vai trò điều hòa của Nhà nước.",
+      "feedbackB": "Trong nền kinh tế thị trường, các quan hệ lợi ích vừa thống nhất vừa mâu thuẫn. Quan trọng là hài hòa được lợi ích giữa các chủ thể — đó là nhiệm vụ của Nhà nước. Cùng tìm hiểu.",
+      "situation": "Tại một công ty, công nhân đình công đòi tăng lương. Giám đốc cho rằng tăng lương sẽ giảm lợi nhuận doanh nghiệp. Cả hai bên đều có lý lẽ riêng. Nhà nước cần can thiệp để hòa giải."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Là lợi ích tinh thần, tình cảm giữa các chủ thể kinh tế",
+          "Là lợi ích vật chất, phản ánh mục đích và động cơ của các quan hệ giữa các chủ thể trong nền sản xuất xã hội",
+          "Là lợi ích chỉ dành riêng cho giai cấp tư sản",
+          "Là lợi ích do Nhà nước quy định cho từng cá nhân"
+        ],
+        "question": "Lợi ích kinh tế được hiểu là gì?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, lợi ích kinh tế là lợi ích vật chất, phản ánh mục đích và động cơ của các quan hệ giữa các chủ thể trong nền sản xuất xã hội. Nó là động lực trực tiếp thúc đẩy hoạt động kinh tế."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Mặt mâu thuẫn trong quan hệ lợi ích",
+          "Mặt thống nhất trong quan hệ lợi ích — cả hai bên cùng có lợi nhờ năng suất tăng",
+          "Sự áp bức của chủ doanh nghiệp đối với công nhân",
+          "Sự can thiệp của Nhà nước"
+        ],
+        "question": "Tại một nhà máy, công nhân được tăng lương 20% sau khi năng suất lao động tăng 30%. Giám đốc cũng hài lòng vì lợi nhuận tăng. Đây là biểu hiện của mặt nào trong quan hệ lợi ích kinh tế?",
+        "answerIndex": 1,
+        "explanation": "Khi năng suất tăng, cả lợi nhuận doanh nghiệp lẫn tiền lương người lao động đều tăng — đây là mặt thống nhất trong quan hệ lợi ích. Cả hai bên cùng hưởng lợi từ sự phát triển chung."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Không cần quan tâm đến mâu thuẫn lợi ích vì nó tự giải quyết",
+          "Cần có cơ chế điều hòa (thông qua Nhà nước, pháp luật) để giải quyết mâu thuẫn, tránh xung đột",
+          "Mâu thuẫn lợi ích chỉ có trong CNTB, không có trong CNXH",
+          "Xung đột lợi ích là tốt vì tạo động lực phát triển"
+        ],
+        "question": "Biết rằng: (1) Lợi ích kinh tế giữa các chủ thể vừa thống nhất vừa mâu thuẫn; (2) Mâu thuẫn nếu không giải quyết sẽ dẫn đến xung đột. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) có mâu thuẫn; từ (2) mâu thuẫn không giải quyết sẽ thành xung đột. Suy ra cần có cơ chế điều hòa để giải quyết mâu thuẫn, bảo đảm ổn định và phát triển."
+      }
+    ],
+    "order": 6,
+    "title": "Lợi ích kinh tế và quan hệ lợi ích kinh tế",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) có mâu thuẫn; từ (2) mâu thuẫn không giải quyết sẽ thành xung đột. Suy ra cần có cơ chế điều hòa để giải quyết mâu thuẫn, bảo đảm ổn định và phát triển.",
+      "explanationB": "Từ (1) có mâu thuẫn; từ (2) mâu thuẫn không giải quyết sẽ thành xung đột. Suy ra cần có cơ chế điều hòa để giải quyết mâu thuẫn, bảo đảm ổn định và phát triển.",
+      "openQuestion": "Biết rằng: (1) Lợi ích kinh tế giữa các chủ thể vừa thống nhất vừa mâu thuẫn; (2) Mâu thuẫn nếu không giải quyết sẽ dẫn đến xung đột. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Không cần quan tâm đến mâu thuẫn lợi ích vì nó tự giải quyết",
+      "perspectiveB": "Cần có cơ chế điều hòa (thông qua Nhà nước, pháp luật) để giải quyết mâu thuẫn, tránh xung đột"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Lợi ích kinh tế là lợi ích vật chất, phản ánh mục đích và động cơ của các quan hệ giữa các chủ thể trong nền sản xuất xã hội. Nó là động lực trực tiếp thúc đẩy các chủ thể kinh tế tham gia hoạt động sản xuất kinh doanh.",
+        "icon": "💰",
+        "title": "Khái niệm lợi ích kinh tế"
+      },
+      {
+        "id": "card2",
+        "body": "Quan hệ lợi ích kinh tế bao gồm: lợi ích của người lao động (tiền lương), lợi ích của người sử dụng lao động (lợi nhuận), lợi ích của Nhà nước (thuế), và lợi ích xã hội (phúc lợi). Các lợi ích này vừa thống nhất vừa mâu thuẫn.",
+        "icon": "🔗",
+        "title": "Các quan hệ lợi ích kinh tế"
+      },
+      {
+        "id": "card3",
+        "body": "Sự thống nhất: khi doanh nghiệp phát triển, người lao động có việc làm ổn định, thu nhập tăng; Nhà nước thu được nhiều thuế hơn; xã hội phát triển. Lợi ích của các bên gắn bó, tạo động lực chung.",
+        "icon": "🤝",
+        "title": "Sự thống nhất về lợi ích"
+      },
+      {
+        "id": "card4",
+        "body": "Sự mâu thuẫn: trong cùng một quỹ thu nhập, nếu lợi nhuận cho chủ doanh nghiệp tăng thì tiền lương cho người lao động có thể giảm (và ngược lại). Mâu thuẫn lợi ích nếu không được giải quyết sẽ dẫn đến xung đột.",
+        "icon": "⚡",
+        "title": "Sự mâu thuẫn về lợi ích"
+      },
+      {
+        "id": "card5",
+        "body": "Các nhân tố ảnh hưởng đến quan hệ lợi ích: trình độ phát triển lực lượng sản xuất, chế độ xã hội, chính sách phân phối thu nhập, mức độ hội nhập quốc tế, và năng lực quản trị quốc gia.",
+        "icon": "⚖️",
+        "title": "Nhân tố ảnh hưởng đến quan hệ lợi ích"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Lợi ích kinh tế là động lực thúc đẩy hoạt động kinh tế. Quan hệ lợi ích giữa các chủ thể vừa thống nhất vừa mâu thuẫn — cần có sự điều hòa của Nhà nước để bảo đảm hài hòa, tạo động lực phát triển bền vững.",
+        "icon": "🧭",
+        "title": "Điều hòa các quan hệ lợi ích"
+      }
+    ]
+  },
+  {
+    "muc": "5.3.2",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, ai cần đứng ra giải quyết mâu thuẫn này?",
+      "feedbackA": "Trong trường hợp này, thị trường tự thân không thể giải quyết. Cần vai trò của Nhà nước thông qua pháp luật, chính sách để bảo vệ lợi ích hợp pháp của người dân, đồng thời tạo môi trường cho doanh nghiệp phát triển bền vững.",
+      "feedbackB": "Đúng vậy! Nhà nước cần can thiệp thông qua pháp luật, chính sách môi trường để điều hòa lợi ích giữa doanh nghiệp và cộng đồng. Cùng tìm hiểu vai trò của Nhà nước.",
+      "situation": "Ở một khu công nghiệp, doanh nghiệp xả thải gây ô nhiễm, ảnh hưởng sức khỏe người dân xung quanh. Doanh nghiệp nói: \"Cần giảm chi phí để cạnh tranh.\" Người dân phản đối mạnh. Ai sẽ giải quyết?"
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Chỉ cần bảo vệ lợi ích của doanh nghiệp",
+          "Bảo vệ lợi ích hợp pháp, điều hòa lợi ích, kiểm soát lợi ích tiêu cực",
+          "Không cần can thiệp, để thị trường tự điều tiết",
+          "Chỉ cần thu thuế nhiều hơn"
+        ],
+        "question": "Vai trò của Nhà nước trong bảo đảm hài hòa các quan hệ lợi ích kinh tế bao gồm những mặt nào?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình xác định 3 vai trò: (1) Bảo vệ lợi ích hợp pháp và tạo môi trường thuận lợi; (2) Điều hòa lợi ích giữa cá nhân, doanh nghiệp và xã hội; (3) Kiểm soát, ngăn ngừa lợi ích tiêu cực."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Can thiệp không cần thiết vào thị trường lao động",
+          "Điều hòa lợi ích giữa người lao động và người sử dụng lao động",
+          "Bảo vệ lợi ích riêng của doanh nghiệp",
+          "Kiểm soát lợi ích tiêu cực"
+        ],
+        "question": "Nhà nước ban hành quy định mức lương tối thiểu cho người lao động. Đây là biểu hiện của vai trò nào?",
+        "answerIndex": 1,
+        "explanation": "Quy định mức lương tối thiểu là biểu hiện của vai trò điều hòa lợi ích — Nhà nước đảm bảo người lao động nhận được mức thu nhập tối thiểu, đồng thời doanh nghiệp vẫn hoạt động được."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Chỉ cần thị trường, không cần Nhà nước can thiệp",
+          "Cần Nhà nước can thiệp để bổ khuyết cho thị trường, điều hòa quan hệ lợi ích",
+          "Nhà nước can thiệp sẽ phá hỏng cơ chế thị trường",
+          "Mâu thuẫn lợi ích không bao giờ xảy ra trong nền kinh tế thị trường"
+        ],
+        "question": "Biết rằng: (1) Thị trường tự thân không thể giải quyết triệt để mâu thuẫn lợi ích; (2) Nhà nước có pháp luật, chính sách để điều hòa lợi ích. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) thị trường không tự giải quyết triệt để; từ (2) Nhà nước có công cụ điều hòa. Suy ra cần Nhà nước can thiệp để bổ khuyết thị trường, đảm bảo hài hòa lợi ích."
+      }
+    ],
+    "order": 7,
+    "title": "Vai trò của Nhà nước trong việc bảo đảm hài hòa các quan hệ lợi ích",
+    "chuong": 5,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) thị trường không tự giải quyết triệt để; từ (2) Nhà nước có công cụ điều hòa. Suy ra cần Nhà nước can thiệp để bổ khuyết thị trường, đảm bảo hài hòa lợi ích.",
+      "explanationB": "Từ (1) thị trường không tự giải quyết triệt để; từ (2) Nhà nước có công cụ điều hòa. Suy ra cần Nhà nước can thiệp để bổ khuyết thị trường, đảm bảo hài hòa lợi ích.",
+      "openQuestion": "Biết rằng: (1) Thị trường tự thân không thể giải quyết triệt để mâu thuẫn lợi ích; (2) Nhà nước có pháp luật, chính sách để điều hòa lợi ích. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Chỉ cần thị trường, không cần Nhà nước can thiệp",
+      "perspectiveB": "Cần Nhà nước can thiệp để bổ khuyết cho thị trường, điều hòa quan hệ lợi ích"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Vai trò thứ nhất: Bảo vệ lợi ích hợp pháp, tạo môi trường thuận lợi cho hoạt động tìm kiếm lợi ích của các chủ thể kinh tế — giữ vững ổn định chính trị, xây dựng hệ thống pháp luật minh bạch, đầu tư kết cấu hạ tầng.",
+        "icon": "🛡️",
+        "title": "Bảo vệ lợi ích hợp pháp"
+      },
+      {
+        "id": "card2",
+        "body": "Vai trò thứ hai: Điều hòa lợi ích giữa cá nhân, doanh nghiệp và xã hội — sử dụng chính sách phân phối thu nhập, thuế, phúc lợi xã hội để đảm bảo hài hòa; gắn tăng trưởng kinh tế với tiến bộ, công bằng xã hội.",
+        "icon": "⚖️",
+        "title": "Điều hòa lợi ích giữa các chủ thể"
+      },
+      {
+        "id": "card3",
+        "body": "Vai trò thứ ba: Kiểm soát, ngăn ngừa các quan hệ lợi ích tiêu cực đối với sự phát triển xã hội — xử lý kịp thời xung đột, chống tham nhũng, lãng phí, bảo vệ lợi ích của Nhà nước và cộng đồng.",
+        "icon": "🚫",
+        "title": "Kiểm soát lợi ích tiêu cực"
+      },
+      {
+        "id": "card4",
+        "body": "Nhà nước sử dụng các công cụ: pháp luật, chính sách kinh tế (thuế, tín dụng, giá cả), hành chính, giáo dục — để điều tiết quan hệ lợi ích. Mỗi công cụ có vai trò riêng nhưng cần phối hợp đồng bộ.",
+        "icon": "📋",
+        "title": "Công cụ điều tiết của Nhà nước"
+      },
+      {
+        "id": "card5",
+        "body": "Hài hòa lợi ích không phải là xóa bỏ sự khác biệt, mà là tạo động lực để các chủ thể phát huy tối đa khả năng, đóng góp vào phát triển chung, đồng thời giữ vững ổn định chính trị - xã hội.",
+        "icon": "🏛️",
+        "title": "Bản chất của hài hòa lợi ích"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Nhà nước đóng vai trò then chốt trong bảo đảm hài hòa lợi ích kinh tế qua ba mặt: bảo vệ lợi ích hợp pháp, điều hòa lợi ích giữa các chủ thể, kiểm soát và ngăn ngừa lợi ích tiêu cực — nhằm tạo động lực phát triển bền vững.",
+        "icon": "🧭",
+        "title": "Vai trò then chốt của Nhà nước"
+      }
+    ]
+  }
+]

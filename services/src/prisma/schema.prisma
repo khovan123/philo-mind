@@ -1,12 +1,733 @@
 generator client {
   provider            = "prisma-client"
   output              = "../prisma/generated"
-  moduleFormat        = "esm"
   importFileExtension = "js"
+  moduleFormat        = "esm"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model User {
+  id                   String                @id @default(uuid()) @db.Uuid
+  fullName             String                @map("full_name") @db.VarChar(150)
+  email                String                @unique @db.VarChar(255)
+  passwordHash         String                @map("password_hash") @db.VarChar(255)
+  avatarUrl            String?               @map("avatar_url")
+  role                 UserRole              @default(USER)
+  isActive             Boolean               @default(true) @map("is_active")
+  emailVerifiedAt      DateTime?             @map("email_verified_at")
+  createdAt            DateTime              @default(now()) @map("created_at")
+  updatedAt            DateTime              @updatedAt @map("updated_at")
+  deletedAt            DateTime?             @map("deleted_at")
+  deletionRequestedAt  DateTime?             @map("deletion_requested_at")
+  lastActiveAt         DateTime?             @map("last_active_at")
+  streakCount          Int                   @default(0) @map("streak_count")
+  activityLogs         ActivityLog[]
+  bookmarks            Bookmark[]
+  lessonAnswers        LessonAnswer[]
+  miniGameAttempts     MiniGameAttempt[]
+  moderationActions    ModerationAction[]    @relation("ModeratorActions")
+  movieSessions        MovieSession[]
+  notifications        Notification[]
+  passwordResets       PasswordReset[]
+  quizAttempts         QuizAttempt[]
+  reflectionEntries    ReflectionEntry[]
+  refreshTokens        RefreshToken[]
+  reports              Report[]              @relation("ReporterReports")
+  shortLessonComments  ShortLessonComment[]
+  shortLessonResponses ShortLessonResponse[]
+  storyDecisions       StoryDecision[]
+  storySessions        StorySession[]
+  userBadges           UserBadge[]
+  chapterProgress      UserChapterProgress[]
+  progress             UserProgress[]
+  sessions             UserSession[]
+
+  @@map("users")
+}
+
+model UserSession {
+  id            String         @id @default(uuid()) @db.Uuid
+  userId        String         @map("user_id") @db.Uuid
+  deviceName    String?        @map("device_name") @db.VarChar(150)
+  ipAddress     String?        @map("ip_address") @db.VarChar(80)
+  userAgent     String?        @map("user_agent")
+  status        SessionStatus  @default(ACTIVE)
+  lastActiveAt  DateTime?      @map("last_active_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  revokedAt     DateTime?      @map("revoked_at")
+  refreshTokens RefreshToken[]
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, status])
+  @@map("user_sessions")
+}
+
+model RefreshToken {
+  id        String      @id @default(uuid()) @db.Uuid
+  userId    String      @map("user_id") @db.Uuid
+  sessionId String      @map("session_id") @db.Uuid
+  tokenHash String      @unique @map("token_hash")
+  expiresAt DateTime    @map("expires_at")
+  revokedAt DateTime?   @map("revoked_at")
+  createdAt DateTime    @default(now()) @map("created_at")
+  session   UserSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt])
+  @@index([sessionId, revokedAt])
+  @@index([expiresAt])
+  @@map("refresh_tokens")
+}
+
+model Topic {
+  id                String             @id @default(uuid()) @db.Uuid
+  title             String             @db.VarChar(200)
+  description       String?
+  category          String?            @db.VarChar(100)
+  difficulty        Difficulty         @default(EASY)
+  createdAt         DateTime           @default(now()) @map("created_at")
+  updatedAt         DateTime           @updatedAt @map("updated_at")
+  criticalQuestions CriticalQuestion[]
+  lessons           Lesson[]
+  mindmapNodes      MindmapNode[]
+  miniGames         MiniGame[]
+  reflections       ReflectionEntry[]
+  shortLessons      ShortLesson[]
+  storyScenarios    StoryScenario[]
+  perspectives      TopicPerspective[]
+
+  @@index([category])
+  @@index([createdAt])
+  @@map("topics")
+}
+
+model Lesson {
+  id               String           @id @default(uuid()) @db.Uuid
+  topicId          String           @map("topic_id") @db.Uuid
+  title            String           @db.VarChar(200)
+  content          String
+  realLifeExample  String?          @map("real_life_example")
+  conflict         String?
+  estimatedMinutes Int?             @map("estimated_minutes")
+  status           ContentStatus    @default(DRAFT)
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  questions        LessonQuestion[]
+  topic            Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  quizzes          Quiz[]
+  progress         UserProgress[]
+
+  @@index([topicId, status])
+  @@map("lessons")
+}
+
+model LessonQuestion {
+  id           String         @id @default(uuid()) @db.Uuid
+  lessonId     String         @map("lesson_id") @db.Uuid
+  question     String
+  questionType QuestionType   @default(OPEN_TEXT) @map("question_type")
+  createdAt    DateTime       @default(now()) @map("created_at")
+  answers      LessonAnswer[]
+  lesson       Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@map("lesson_questions")
+}
+
+model LessonAnswer {
+  id         String         @id @default(uuid()) @db.Uuid
+  userId     String         @map("user_id") @db.Uuid
+  questionId String         @map("question_id") @db.Uuid
+  answerText String         @map("answer_text")
+  createdAt  DateTime       @default(now()) @map("created_at")
+  question   LessonQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([questionId])
+  @@map("lesson_answers")
+}
+
+model ShortLesson {
+  id               String                @id @default(uuid()) @db.Uuid
+  topicId          String                @map("topic_id") @db.Uuid
+  title            String                @db.VarChar(200)
+  hook             String
+  insight          String
+  conflict         String
+  stanceA          String                @map("stance_a")
+  stanceB          String                @map("stance_b")
+  estimatedSeconds Int?                  @map("estimated_seconds")
+  createdAt        DateTime              @default(now()) @map("created_at")
+  comments         ShortLessonComment[]
+  responses        ShortLessonResponse[]
+  topic            Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([topicId])
+  @@map("short_lessons")
+}
+
+model ShortLessonResponse {
+  id             String      @id @default(uuid()) @db.Uuid
+  userId         String      @map("user_id") @db.Uuid
+  shortLessonId  String      @map("short_lesson_id") @db.Uuid
+  selectedStance String      @map("selected_stance") @db.VarChar(50)
+  comment        String?
+  createdAt      DateTime    @default(now()) @map("created_at")
+  shortLesson    ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, shortLessonId])
+  @@index([shortLessonId])
+  @@map("short_lesson_responses")
+}
+
+model ShortLessonComment {
+  id            String      @id @default(uuid()) @db.Uuid
+  shortLessonId String      @map("short_lesson_id") @db.Uuid
+  userId        String      @map("user_id") @db.Uuid
+  commentText   String      @map("comment_text")
+  createdAt     DateTime    @default(now()) @map("created_at")
+  shortLesson   ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([shortLessonId, createdAt])
+  @@index([userId])
+  @@map("short_lesson_comments")
+}
+
+model StoryScenario {
+  id                String           @id @default(uuid()) @db.Uuid
+  topicId           String           @map("topic_id") @db.Uuid
+  title             String           @db.VarChar(200)
+  description       String
+  characterRole     String?          @map("character_role")
+  historicalContext String?          @map("historical_context")
+  difficulty        Difficulty       @default(EASY)
+  createdAt         DateTime         @default(now()) @map("created_at")
+  choices           StoryChoice[]
+  learnCards        StoryLearnCard[]
+  topic             Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  sessions          StorySession[]
+
+  @@index([topicId])
+  @@index([createdAt])
+  @@map("story_scenarios")
+}
+
+model StoryChoice {
+  id              String             @id @default(uuid()) @db.Uuid
+  storyId         String             @map("story_id") @db.Uuid
+  choiceText      String             @map("choice_text")
+  reasoningPrompt String?            @map("reasoning_prompt")
+  story           StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  consequences    StoryConsequence[]
+  decisions       StoryDecision[]
+
+  @@index([storyId])
+  @@map("story_choices")
+}
+
+model StoryConsequence {
+  id                        String        @id @default(uuid()) @db.Uuid
+  choiceId                  String        @map("choice_id") @db.Uuid
+  resultText                String        @map("result_text")
+  ethicalAnalysis           String?       @map("ethical_analysis")
+  philosophicalAnalysis     String?       @map("philosophical_analysis")
+  politicalEconomicAnalysis String?       @map("political_economic_analysis")
+  historicalImpact          String?       @map("historical_impact")
+  analysisTabs              AnalysisTab[]
+  choice                    StoryChoice   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+
+  @@index([choiceId])
+  @@map("story_consequences")
+}
+
+model StorySession {
+  id          String             @id @default(uuid()) @db.Uuid
+  userId      String             @map("user_id") @db.Uuid
+  storyId     String             @map("story_id") @db.Uuid
+  status      StorySessionStatus @default(IN_PROGRESS)
+  startedAt   DateTime           @default(now()) @map("started_at")
+  completedAt DateTime?          @map("completed_at")
+  decisions   StoryDecision[]
+  story       StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, storyId, status])
+  @@index([storyId])
+  @@map("story_sessions")
+}
+
+model StoryDecision {
+  id         String       @id @default(uuid()) @db.Uuid
+  sessionId  String       @map("session_id") @db.Uuid
+  userId     String       @map("user_id") @db.Uuid
+  choiceId   String       @map("choice_id") @db.Uuid
+  userReason String?      @map("user_reason")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  choice     StoryChoice  @relation(fields: [choiceId], references: [id], onDelete: Cascade)
+  session    StorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId, createdAt])
+  @@index([userId])
+  @@map("story_decisions")
+}
+
+model CriticalQuestion {
+  id           String            @id @default(uuid()) @db.Uuid
+  topicId      String            @map("topic_id") @db.Uuid
+  question     String
+  questionType QuestionType      @map("question_type")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  topic        Topic             @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  reflections  ReflectionEntry[]
+
+  @@index([topicId])
+  @@map("critical_questions")
+}
+
+model ReflectionEntry {
+  id         String            @id @default(uuid()) @db.Uuid
+  userId     String            @map("user_id") @db.Uuid
+  topicId    String?           @map("topic_id") @db.Uuid
+  questionId String?           @map("question_id") @db.Uuid
+  content    String
+  createdAt  DateTime          @default(now()) @map("created_at")
+  question   CriticalQuestion? @relation(fields: [questionId], references: [id])
+  topic      Topic?            @relation(fields: [topicId], references: [id])
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([topicId])
+  @@map("reflection_entries")
+}
+
+model Quiz {
+  id        String         @id @default(uuid()) @db.Uuid
+  lessonId  String         @map("lesson_id") @db.Uuid
+  title     String         @db.VarChar(200)
+  quizType  String         @map("quiz_type") @db.VarChar(100)
+  embedding Float[]
+  attempts  QuizAttempt[]
+  questions QuizQuestion[]
+  lesson    Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@index([lessonId])
+  @@map("quizzes")
+}
+
+model QuizQuestion {
+  id             String              @id @default(uuid()) @db.Uuid
+  quizId         String              @map("quiz_id") @db.Uuid
+  question       String
+  questionType   QuestionType        @map("question_type")
+  explanation    String?
+  attemptAnswers QuizAttemptAnswer[]
+  options        QuizOption[]
+  quiz           Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
+  @@map("quiz_questions")
+}
+
+model QuizOption {
+  id             String              @id @default(uuid()) @db.Uuid
+  questionId     String              @map("question_id") @db.Uuid
+  optionText     String              @map("option_text")
+  isCorrect      Boolean             @default(false) @map("is_correct")
+  attemptAnswers QuizAttemptAnswer[]
+  question       QuizQuestion        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@index([questionId])
+  @@map("quiz_options")
+}
+
+model QuizAttempt {
+  id          String              @id @default(uuid()) @db.Uuid
+  quizId      String              @map("quiz_id") @db.Uuid
+  userId      String              @map("user_id") @db.Uuid
+  score       Int                 @default(0)
+  completedAt DateTime?           @map("completed_at")
+  createdAt   DateTime            @default(now()) @map("created_at")
+  answers     QuizAttemptAnswer[]
+  quiz        Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, quizId])
+  @@map("quiz_attempts")
+}
+
+model QuizAttemptAnswer {
+  id               String       @id @default(uuid()) @db.Uuid
+  attemptId        String       @map("attempt_id") @db.Uuid
+  questionId       String       @map("question_id") @db.Uuid
+  selectedOptionId String?      @map("selected_option_id") @db.Uuid
+  textAnswer       String?      @map("text_answer")
+  isCorrect        Boolean      @default(false) @map("is_correct")
+  attempt          QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  question         QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selectedOption   QuizOption?  @relation(fields: [selectedOptionId], references: [id])
+
+  @@index([attemptId])
+  @@index([questionId])
+  @@map("quiz_attempt_answers")
+}
+
+model MiniGame {
+  id          String            @id @default(uuid()) @db.Uuid
+  title       String            @db.VarChar(200)
+  gameType    String            @map("game_type") @db.VarChar(100)
+  description String?
+  config      Json?
+  createdAt   DateTime          @default(now()) @map("created_at")
+  topicId     String?           @map("topic_id") @db.Uuid
+  updatedAt   DateTime          @updatedAt @map("updated_at")
+  attempts    MiniGameAttempt[]
+  topic       Topic?            @relation(fields: [topicId], references: [id])
+
+  @@index([topicId])
+  @@index([gameType])
+  @@map("mini_games")
+}
+
+model MiniGameAttempt {
+  id          String    @id @default(uuid()) @db.Uuid
+  miniGameId  String    @map("mini_game_id") @db.Uuid
+  userId      String    @map("user_id") @db.Uuid
+  score       Int       @default(0)
+  resultData  Json?     @map("result_data")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  miniGame    MiniGame  @relation(fields: [miniGameId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([miniGameId])
+  @@index([userId])
+  @@map("mini_game_attempts")
+}
+
+model MindmapNode {
+  id          String        @id @default(uuid()) @db.Uuid
+  topicId     String        @map("topic_id") @db.Uuid
+  title       String        @db.VarChar(200)
+  description String?
+  nodeType    String        @map("node_type") @db.VarChar(100)
+  sourceEdges MindmapEdge[] @relation("SourceNode")
+  targetEdges MindmapEdge[] @relation("TargetNode")
+  topic       Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@index([topicId])
+  @@map("mindmap_nodes")
+}
+
+model MindmapEdge {
+  id           String      @id @default(uuid()) @db.Uuid
+  sourceNodeId String      @map("source_node_id") @db.Uuid
+  targetNodeId String      @map("target_node_id") @db.Uuid
+  relationType String      @map("relation_type") @db.VarChar(100)
+  sourceNode   MindmapNode @relation("SourceNode", fields: [sourceNodeId], references: [id], onDelete: Cascade)
+  targetNode   MindmapNode @relation("TargetNode", fields: [targetNodeId], references: [id], onDelete: Cascade)
+
+  @@index([sourceNodeId])
+  @@index([targetNodeId])
+  @@map("mindmap_edges")
+}
+
+model UserProgress {
+  id              String         @id @default(uuid()) @db.Uuid
+  userId          String         @map("user_id") @db.Uuid
+  lessonId        String         @map("lesson_id") @db.Uuid
+  status          ProgressStatus @default(NOT_STARTED)
+  progressPercent Int            @default(0) @map("progress_percent")
+  completedAt     DateTime?      @map("completed_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  lesson          Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+  @@index([userId])
+  @@index([userId, status])
+  @@map("user_progress")
+}
+
+model Badge {
+  id            String      @id @default(uuid()) @db.Uuid
+  name          String      @db.VarChar(150)
+  description   String?
+  iconUrl       String?     @map("icon_url")
+  conditionType String      @unique @map("condition_type") @db.VarChar(100)
+  userBadges    UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(uuid()) @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
+  badgeId  String   @map("badge_id") @db.Uuid
+  earnedAt DateTime @default(now()) @map("earned_at")
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([userId])
+  @@map("user_badges")
+}
+
+model Bookmark {
+  id         String     @id @default(uuid()) @db.Uuid
+  userId     String     @map("user_id") @db.Uuid
+  targetType TargetType @map("target_type")
+  targetId   String     @map("target_id") @db.Uuid
+  createdAt  DateTime   @default(now()) @map("created_at")
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetType, targetId])
+  @@index([userId, createdAt])
+  @@index([userId, targetType, createdAt])
+  @@map("bookmarks")
+}
+
+model Notification {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  type      String   @db.VarChar(100)
+  content   String
+  isRead    Boolean  @default(false) @map("is_read")
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, createdAt])
+  @@index([userId, createdAt])
+  @@index([userId, type, createdAt])
+  @@map("notifications")
+}
+
+model ActivityLog {
+  id           String     @id @default(uuid()) @db.Uuid
+  userId       String     @map("user_id") @db.Uuid
+  activityType String     @map("activity_type") @db.VarChar(100)
+  targetType   TargetType @map("target_type")
+  targetId     String?    @map("target_id") @db.Uuid
+  metadata     Json?
+  createdAt    DateTime   @default(now()) @map("created_at")
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([activityType])
+  @@map("activity_logs")
+}
+
+model Report {
+  id         String             @id @default(uuid()) @db.Uuid
+  reporterId String             @map("reporter_id") @db.Uuid
+  targetType TargetType         @map("target_type")
+  targetId   String             @map("target_id") @db.Uuid
+  reason     String
+  status     ReportStatus       @default(PENDING)
+  createdAt  DateTime           @default(now()) @map("created_at")
+  actions    ModerationAction[]
+  reporter   User               @relation("ReporterReports", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@index([reporterId])
+  @@index([createdAt])
+  @@index([status, createdAt])
+  @@index([status, targetType, createdAt])
+  @@index([targetType, targetId])
+  @@index([targetType, createdAt])
+  @@map("reports")
+}
+
+model ModerationAction {
+  id          String               @id @default(uuid()) @db.Uuid
+  reportId    String               @map("report_id") @db.Uuid
+  moderatorId String               @map("moderator_id") @db.Uuid
+  actionType  ModerationActionType @map("action_type")
+  note        String?
+  createdAt   DateTime             @default(now()) @map("created_at")
+  moderator   User                 @relation("ModeratorActions", fields: [moderatorId], references: [id], onDelete: Cascade)
+  report      Report               @relation(fields: [reportId], references: [id], onDelete: Cascade)
+
+  @@index([reportId])
+  @@index([moderatorId])
+  @@map("moderation_actions")
+}
+
+model PasswordReset {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String?   @map("user_id") @db.Uuid
+  email     String    @db.VarChar(255)
+  codeHash  String    @map("code_hash") @db.VarChar(255)
+  tokenHash String?   @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  attempts  Int       @default(0)
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([userId])
+  @@map("password_resets")
+}
+
+model PhilosophyTag {
+  id                 String              @id @default(uuid()) @db.Uuid
+  name               String              @unique @db.VarChar(100)
+  description        String?
+  createdAt          DateTime            @default(now()) @map("created_at")
+  storyLearnCardTags StoryLearnCardTag[]
+
+  @@index([name])
+  @@map("philosophy_tags")
+}
+
+model StoryLearnCard {
+  id        String              @id @default(uuid()) @db.Uuid
+  storyId   String              @map("story_id") @db.Uuid
+  title     String              @db.VarChar(200)
+  body      String
+  sourceRef String?             @map("source_ref") @db.VarChar(200)
+  order     Int                 @default(0)
+  createdAt DateTime            @default(now()) @map("created_at")
+  tags      StoryLearnCardTag[]
+  story     StoryScenario       @relation(fields: [storyId], references: [id], onDelete: Cascade)
+
+  @@index([storyId, order])
+  @@map("story_learn_cards")
+}
+
+model StoryLearnCardTag {
+  cardId String         @map("card_id") @db.Uuid
+  tagId  String         @map("tag_id") @db.Uuid
+  card   StoryLearnCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  tag    PhilosophyTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([cardId, tagId])
+  @@map("story_learn_card_tags")
+}
+
+model AnalysisTab {
+  id            String           @id @default(uuid()) @db.Uuid
+  consequenceId String           @map("consequence_id") @db.Uuid
+  tabType       AnalysisTabType  @map("tab_type")
+  content       String
+  order         Int              @default(0)
+  createdAt     DateTime         @default(now()) @map("created_at")
+  consequence   StoryConsequence @relation(fields: [consequenceId], references: [id], onDelete: Cascade)
+
+  @@unique([consequenceId, tabType])
+  @@index([consequenceId, order])
+  @@map("analysis_tabs")
+}
+
+model TopicPerspective {
+  id              String   @id @default(uuid()) @db.Uuid
+  topicId         String   @map("topic_id") @db.Uuid
+  perspectiveType String   @map("perspective_type")
+  content         String
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  topic           Topic    @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  @@unique([topicId, perspectiveType])
+  @@index([topicId])
+  @@map("topic_perspectives")
+}
+
+model Chapter {
+  id           String                @id @default(uuid()) @db.Uuid
+  code         String                @unique @db.VarChar(100)
+  title        String                @db.VarChar(200)
+  description  String?
+  order        String[]
+  createdAt    DateTime              @default(now()) @map("created_at")
+  updatedAt    DateTime              @updatedAt @map("updated_at")
+  nodes        ChapterNode[]
+  movies       Movie[]
+  userProgress UserChapterProgress[]
+
+  @@index([code])
+  @@map("chapters")
+}
+
+model ChapterNode {
+  id           String                @id @default(uuid()) @db.Uuid
+  chapterId    String                @map("chapter_id") @db.Uuid
+  muc          String                @db.VarChar(100)
+  title        String                @map("tieu_de_muc") @db.VarChar(200)
+  data         Json
+  embedding    Float[]
+  createdAt    DateTime              @default(now()) @map("created_at")
+  updatedAt    DateTime              @updatedAt @map("updated_at")
+  chapter      Chapter               @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  movie        Movie?
+  userProgress UserChapterProgress[]
+
+  @@unique([chapterId, muc])
+  @@map("chapter_nodes")
+}
+
+model UserChapterProgress {
+  id            String      @id @default(uuid()) @db.Uuid
+  userId        String      @map("user_id") @db.Uuid
+  chapterId     String      @map("chapter_id") @db.Uuid
+  chapterNodeId String      @map("chapter_node_id") @db.Uuid
+  muc           String      @db.VarChar(100)
+  status        String      @default("locked") @db.VarChar(50)
+  score         Int?
+  review        Json?
+  draft         Json?
+  createdAt     DateTime    @default(now()) @map("created_at")
+  updatedAt     DateTime    @updatedAt @map("updated_at")
+  chapter       Chapter     @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  chapterNode   ChapterNode @relation(fields: [chapterNodeId], references: [id], onDelete: Cascade)
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, chapterNodeId])
+  @@index([userId, chapterId])
+  @@map("user_chapter_progress")
+}
+
+model Movie {
+  id            String         @id @default(uuid()) @db.Uuid
+  chapterId     String?        @map("chapter_id") @db.Uuid
+  muc           String         @db.VarChar(100)
+  title         String         @db.VarChar(200)
+  script        Json
+  embedding     Float[]
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  chapterNodeId String?        @unique @map("chapter_node_id") @db.Uuid
+  sessions      MovieSession[]
+  chapter       Chapter?       @relation(fields: [chapterId], references: [id])
+  chapterNode   ChapterNode?   @relation(fields: [chapterNodeId], references: [id])
+
+  @@index([muc])
+  @@map("movies")
+}
+
+model MovieSession {
+  id        String   @id @default(uuid()) @db.Uuid
+  movieId   String   @map("movie_id") @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  thienCam  Int      @default(50) @map("thien_cam")
+  uyTin     Int      @default(50) @map("uy_tin")
+  correctN  Int      @default(0) @map("correct_n")
+  isPassed  Boolean  @default(false) @map("is_passed")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  movie     Movie    @relation(fields: [movieId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([movieId, userId])
+  @@index([userId])
+  @@map("movie_sessions")
 }
 
 enum UserRole {
@@ -39,7 +760,6 @@ enum StorySessionStatus {
   ABANDONED
 }
 
-
 enum QuestionType {
   OPEN_TEXT
   SINGLE_CHOICE
@@ -62,678 +782,28 @@ enum TargetType {
   MINDMAP_NODE
   QUIZ
   MINI_GAME
+  REFLECTION
 }
 
-// ── T-D01: Story Mode Engine ─────────────────────────────────
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+  REJECTED
+}
+
+enum ModerationActionType {
+  HIDE
+  DELETE
+  WARN
+  BAN
+  RESTORE
+  NO_ACTION
+}
 
 enum AnalysisTabType {
   ETHICAL
   PHILOSOPHICAL
   POLITICAL_ECONOMIC
   HISTORICAL
-}
-
-model User {
-  id                  String    @id @default(uuid()) @db.Uuid
-  fullName            String    @map("full_name") @db.VarChar(150)
-  email               String    @unique @db.VarChar(255)
-  passwordHash        String    @map("password_hash") @db.VarChar(255)
-  avatarUrl           String?   @map("avatar_url")
-  role                UserRole  @default(USER)
-  isActive            Boolean   @default(true) @map("is_active")
-  emailVerifiedAt     DateTime? @map("email_verified_at")
-  deletedAt           DateTime? @map("deleted_at")
-  deletionRequestedAt DateTime? @map("deletion_requested_at")
-  createdAt           DateTime  @default(now()) @map("created_at")
-  updatedAt           DateTime  @updatedAt @map("updated_at")
-
-  sessions             UserSession[]
-  refreshTokens        RefreshToken[]
-  progress             UserProgress[]
-  activityLogs         ActivityLog[]
-  userBadges           UserBadge[]
-  bookmarks            Bookmark[]
-  notifications        Notification[]
-  storySessions        StorySession[]
-  storyDecisions       StoryDecision[]
-  lessonAnswers        LessonAnswer[]
-  shortLessonResponses ShortLessonResponse[]
-  shortLessonComments  ShortLessonComment[]
-  quizAttempts         QuizAttempt[]
-  miniGameAttempts     MiniGameAttempt[]
-  passwordResets       PasswordReset[]
-  movieSessions        MovieSession[]
-
-  @@map("users")
-}
-
-model UserSession {
-  id           String        @id @default(uuid()) @db.Uuid
-  userId       String        @map("user_id") @db.Uuid
-  deviceName   String?       @map("device_name") @db.VarChar(150)
-  ipAddress    String?       @map("ip_address") @db.VarChar(80)
-  userAgent    String?       @map("user_agent")
-  status       SessionStatus @default(ACTIVE)
-  lastActiveAt DateTime?     @map("last_active_at")
-  createdAt    DateTime      @default(now()) @map("created_at")
-  revokedAt    DateTime?     @map("revoked_at")
-
-  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  refreshTokens RefreshToken[]
-
-  @@index([userId, status])
-  @@map("user_sessions")
-}
-
-model RefreshToken {
-  id        String    @id @default(uuid()) @db.Uuid
-  userId    String    @map("user_id") @db.Uuid
-  sessionId String    @map("session_id") @db.Uuid
-  tokenHash String    @unique @map("token_hash")
-  expiresAt DateTime  @map("expires_at")
-  revokedAt DateTime? @map("revoked_at")
-  createdAt DateTime  @default(now()) @map("created_at")
-
-  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  session UserSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-
-  @@index([userId, revokedAt])
-  @@index([sessionId, revokedAt])
-  @@index([expiresAt])
-  @@map("refresh_tokens")
-}
-
-model Topic {
-  id          String     @id @default(uuid()) @db.Uuid
-  title       String     @db.VarChar(200)
-  description String?
-  category    String?    @db.VarChar(100)
-  difficulty  Difficulty @default(EASY)
-  createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime   @updatedAt @map("updated_at")
-
-  lessons           Lesson[]
-  shortLessons      ShortLesson[]
-  storyScenarios    StoryScenario[]
-  criticalQuestions CriticalQuestion[]
-  mindmapNodes      MindmapNode[]
-  miniGames         MiniGame[]
-
-  @@index([category])
-  @@index([createdAt])
-  @@map("topics")
-}
-
-model Lesson {
-  id               String        @id @default(uuid()) @db.Uuid
-  topicId          String        @map("topic_id") @db.Uuid
-  title            String        @db.VarChar(200)
-  content          String
-  realLifeExample  String?       @map("real_life_example")
-  conflict         String?
-  estimatedMinutes Int?          @map("estimated_minutes")
-  status           ContentStatus @default(DRAFT)
-  createdAt        DateTime      @default(now()) @map("created_at")
-  updatedAt        DateTime      @updatedAt @map("updated_at")
-
-  topic     Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  questions LessonQuestion[]
-  progress  UserProgress[]
-  quizzes   Quiz[]
-
-  @@index([topicId, status])
-  @@map("lessons")
-}
-
-model LessonQuestion {
-  id           String       @id @default(uuid()) @db.Uuid
-  lessonId     String       @map("lesson_id") @db.Uuid
-  question     String
-  questionType QuestionType @default(OPEN_TEXT) @map("question_type")
-  createdAt    DateTime     @default(now()) @map("created_at")
-
-  lesson  Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  answers LessonAnswer[]
-
-  @@index([lessonId])
-  @@map("lesson_questions")
-}
-
-model LessonAnswer {
-  id         String   @id @default(uuid()) @db.Uuid
-  userId     String   @map("user_id") @db.Uuid
-  questionId String   @map("question_id") @db.Uuid
-  answerText String   @map("answer_text")
-  createdAt  DateTime @default(now()) @map("created_at")
-
-  user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
-  question LessonQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@index([questionId])
-  @@map("lesson_answers")
-}
-
-model ShortLesson {
-  id               String   @id @default(uuid()) @db.Uuid
-  topicId          String   @map("topic_id") @db.Uuid
-  title            String   @db.VarChar(200)
-  hook             String
-  insight          String
-  conflict         String
-  stanceA          String   @map("stance_a")
-  stanceB          String   @map("stance_b")
-  estimatedSeconds Int?     @map("estimated_seconds")
-  createdAt        DateTime @default(now()) @map("created_at")
-
-  topic     Topic                 @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  responses ShortLessonResponse[]
-  comments  ShortLessonComment[]
-
-  @@index([topicId])
-  @@map("short_lessons")
-}
-
-model ShortLessonResponse {
-  id             String   @id @default(uuid()) @db.Uuid
-  userId         String   @map("user_id") @db.Uuid
-  shortLessonId  String   @map("short_lesson_id") @db.Uuid
-  selectedStance String   @map("selected_stance") @db.VarChar(50)
-  comment        String?
-  createdAt      DateTime @default(now()) @map("created_at")
-
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  shortLesson ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, shortLessonId])
-  @@index([shortLessonId])
-  @@map("short_lesson_responses")
-}
-
-model ShortLessonComment {
-  id            String   @id @default(uuid()) @db.Uuid
-  shortLessonId String   @map("short_lesson_id") @db.Uuid
-  userId        String   @map("user_id") @db.Uuid
-  commentText   String   @map("comment_text")
-  createdAt     DateTime @default(now()) @map("created_at")
-
-  shortLesson ShortLesson @relation(fields: [shortLessonId], references: [id], onDelete: Cascade)
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([shortLessonId, createdAt])
-  @@index([userId])
-  @@map("short_lesson_comments")
-}
-
-model StoryScenario {
-  id                String     @id @default(uuid()) @db.Uuid
-  topicId           String     @map("topic_id") @db.Uuid
-  title             String     @db.VarChar(200)
-  description       String
-  characterRole     String?    @map("character_role")
-  historicalContext String?    @map("historical_context")
-  difficulty        Difficulty @default(EASY)
-  createdAt         DateTime   @default(now()) @map("created_at")
-
-  topic      Topic            @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  choices    StoryChoice[]
-  sessions   StorySession[]
-  learnCards StoryLearnCard[]
-
-  @@index([topicId])
-  @@index([createdAt])
-  @@map("story_scenarios")
-}
-
-model StoryChoice {
-  id              String  @id @default(uuid()) @db.Uuid
-  storyId         String  @map("story_id") @db.Uuid
-  choiceText      String  @map("choice_text")
-  reasoningPrompt String? @map("reasoning_prompt")
-
-  story        StoryScenario      @relation(fields: [storyId], references: [id], onDelete: Cascade)
-  consequences StoryConsequence[]
-  decisions    StoryDecision[]
-
-  @@index([storyId])
-  @@map("story_choices")
-}
-
-model StoryConsequence {
-  id                        String  @id @default(uuid()) @db.Uuid
-  choiceId                  String  @map("choice_id") @db.Uuid
-  resultText                String  @map("result_text")
-  ethicalAnalysis           String? @map("ethical_analysis")
-  philosophicalAnalysis     String? @map("philosophical_analysis")
-  politicalEconomicAnalysis String? @map("political_economic_analysis")
-  historicalImpact          String? @map("historical_impact")
-
-  choice       StoryChoice   @relation(fields: [choiceId], references: [id], onDelete: Cascade)
-  analysisTabs AnalysisTab[]
-
-  @@index([choiceId])
-  @@map("story_consequences")
-}
-
-model StorySession {
-  id          String             @id @default(uuid()) @db.Uuid
-  userId      String             @map("user_id") @db.Uuid
-  storyId     String             @map("story_id") @db.Uuid
-  status      StorySessionStatus @default(IN_PROGRESS)
-  startedAt   DateTime           @default(now()) @map("started_at")
-  completedAt DateTime?          @map("completed_at")
-
-  user      User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  story     StoryScenario   @relation(fields: [storyId], references: [id], onDelete: Cascade)
-  decisions StoryDecision[]
-
-  @@index([userId, storyId, status])
-  @@index([storyId])
-  @@map("story_sessions")
-}
-
-model StoryDecision {
-  id         String   @id @default(uuid()) @db.Uuid
-  sessionId  String   @map("session_id") @db.Uuid
-  userId     String   @map("user_id") @db.Uuid
-  choiceId   String   @map("choice_id") @db.Uuid
-  userReason String?  @map("user_reason")
-  createdAt  DateTime @default(now()) @map("created_at")
-
-  session StorySession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  choice  StoryChoice  @relation(fields: [choiceId], references: [id], onDelete: Cascade)
-
-  @@index([sessionId, createdAt])
-  @@index([userId])
-  @@map("story_decisions")
-}
-
-model CriticalQuestion {
-  id           String       @id @default(uuid()) @db.Uuid
-  topicId      String       @map("topic_id") @db.Uuid
-  question     String
-  questionType QuestionType @map("question_type")
-  createdAt    DateTime     @default(now()) @map("created_at")
-
-  topic Topic @relation(fields: [topicId], references: [id], onDelete: Cascade)
-
-  @@index([topicId])
-  @@map("critical_questions")
-}
-
-model Quiz {
-  id       String @id @default(uuid()) @db.Uuid
-  lessonId String @map("lesson_id") @db.Uuid
-  title    String @db.VarChar(200)
-  quizType  String @map("quiz_type") @db.VarChar(100)
-  embedding Float[]
-
-  lesson    Lesson         @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-  questions QuizQuestion[]
-  attempts  QuizAttempt[]
-
-  @@index([lessonId])
-  @@map("quizzes")
-}
-
-model QuizQuestion {
-  id           String       @id @default(uuid()) @db.Uuid
-  quizId       String       @map("quiz_id") @db.Uuid
-  question     String
-  questionType QuestionType @map("question_type")
-  explanation  String?
-
-  quiz           Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  options        QuizOption[]
-  attemptAnswers QuizAttemptAnswer[]
-
-  @@index([quizId])
-  @@map("quiz_questions")
-}
-
-model QuizOption {
-  id         String  @id @default(uuid()) @db.Uuid
-  questionId String  @map("question_id") @db.Uuid
-  optionText String  @map("option_text")
-  isCorrect  Boolean @default(false) @map("is_correct")
-
-  question       QuizQuestion        @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  attemptAnswers QuizAttemptAnswer[]
-
-  @@index([questionId])
-  @@map("quiz_options")
-}
-
-model QuizAttempt {
-  id          String    @id @default(uuid()) @db.Uuid
-  quizId      String    @map("quiz_id") @db.Uuid
-  userId      String    @map("user_id") @db.Uuid
-  score       Int       @default(0)
-  completedAt DateTime? @map("completed_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
-
-  quiz    Quiz                @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  user    User                @relation(fields: [userId], references: [id], onDelete: Cascade)
-  answers QuizAttemptAnswer[]
-
-  @@index([userId, quizId])
-  @@map("quiz_attempts")
-}
-
-model QuizAttemptAnswer {
-  id               String  @id @default(uuid()) @db.Uuid
-  attemptId        String  @map("attempt_id") @db.Uuid
-  questionId       String  @map("question_id") @db.Uuid
-  selectedOptionId String? @map("selected_option_id") @db.Uuid
-  textAnswer       String? @map("text_answer")
-  isCorrect        Boolean @default(false) @map("is_correct")
-
-  attempt        QuizAttempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
-  question       QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
-  selectedOption QuizOption?  @relation(fields: [selectedOptionId], references: [id], onDelete: SetNull)
-
-  @@index([attemptId])
-  @@index([questionId])
-  @@map("quiz_attempt_answers")
-}
-
-model MiniGame {
-  id          String   @id @default(uuid()) @db.Uuid
-  topicId     String?  @map("topic_id") @db.Uuid
-  title       String   @db.VarChar(200)
-  gameType    String   @map("game_type") @db.VarChar(100)
-  description String?
-  config      Json?
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  topic    Topic?            @relation(fields: [topicId], references: [id], onDelete: SetNull)
-  attempts MiniGameAttempt[]
-
-  @@index([topicId])
-  @@index([gameType])
-  @@map("mini_games")
-}
-
-model MiniGameAttempt {
-  id          String    @id @default(uuid()) @db.Uuid
-  miniGameId  String    @map("mini_game_id") @db.Uuid
-  userId      String    @map("user_id") @db.Uuid
-  score       Int       @default(0)
-  resultData  Json?     @map("result_data")
-  completedAt DateTime? @map("completed_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
-
-  miniGame MiniGame @relation(fields: [miniGameId], references: [id], onDelete: Cascade)
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([miniGameId])
-  @@index([userId])
-  @@map("mini_game_attempts")
-}
-
-model MindmapNode {
-  id          String  @id @default(uuid()) @db.Uuid
-  topicId     String  @map("topic_id") @db.Uuid
-  title       String  @db.VarChar(200)
-  description String?
-  nodeType    String  @map("node_type") @db.VarChar(100)
-
-  topic       Topic         @relation(fields: [topicId], references: [id], onDelete: Cascade)
-  sourceEdges MindmapEdge[] @relation("SourceNode")
-  targetEdges MindmapEdge[] @relation("TargetNode")
-
-  @@index([topicId])
-  @@map("mindmap_nodes")
-}
-
-model MindmapEdge {
-  id           String @id @default(uuid()) @db.Uuid
-  sourceNodeId String @map("source_node_id") @db.Uuid
-  targetNodeId String @map("target_node_id") @db.Uuid
-  relationType String @map("relation_type") @db.VarChar(100)
-
-  sourceNode MindmapNode @relation("SourceNode", fields: [sourceNodeId], references: [id], onDelete: Cascade)
-  targetNode MindmapNode @relation("TargetNode", fields: [targetNodeId], references: [id], onDelete: Cascade)
-
-  @@index([sourceNodeId])
-  @@index([targetNodeId])
-  @@map("mindmap_edges")
-}
-
-model UserProgress {
-  id              String         @id @default(uuid()) @db.Uuid
-  userId          String         @map("user_id") @db.Uuid
-  lessonId        String         @map("lesson_id") @db.Uuid
-  status          ProgressStatus @default(NOT_STARTED)
-  progressPercent Int            @default(0) @map("progress_percent")
-  completedAt     DateTime?      @map("completed_at")
-  updatedAt       DateTime       @updatedAt @map("updated_at")
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, lessonId])
-  @@index([userId])
-  @@index([userId, status])
-  @@map("user_progress")
-}
-
-model Badge {
-  id            String  @id @default(uuid()) @db.Uuid
-  name          String  @db.VarChar(150)
-  description   String?
-  iconUrl       String? @map("icon_url")
-  conditionType String  @unique @map("condition_type") @db.VarChar(100)
-
-  userBadges UserBadge[]
-
-  @@map("badges")
-}
-
-model UserBadge {
-  id       String   @id @default(uuid()) @db.Uuid
-  userId   String   @map("user_id") @db.Uuid
-  badgeId  String   @map("badge_id") @db.Uuid
-  earnedAt DateTime @default(now()) @map("earned_at")
-
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, badgeId])
-  @@index([userId])
-  @@map("user_badges")
-}
-
-model Bookmark {
-  id         String     @id @default(uuid()) @db.Uuid
-  userId     String     @map("user_id") @db.Uuid
-  targetType TargetType @map("target_type")
-  targetId   String     @map("target_id") @db.Uuid
-  createdAt  DateTime   @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, targetType, targetId])
-  @@index([userId, createdAt])
-  @@index([userId, targetType, createdAt])
-  @@map("bookmarks")
-}
-
-model Notification {
-  id        String   @id @default(uuid()) @db.Uuid
-  userId    String   @map("user_id") @db.Uuid
-  type      String   @db.VarChar(100)
-  content   String
-  isRead    Boolean  @default(false) @map("is_read")
-  metadata  Json?
-  createdAt DateTime @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, isRead, createdAt])
-  @@index([userId, createdAt])
-  @@index([userId, type, createdAt])
-  @@map("notifications")
-}
-
-model ActivityLog {
-  id           String     @id @default(uuid()) @db.Uuid
-  userId       String     @map("user_id") @db.Uuid
-  activityType String     @map("activity_type") @db.VarChar(100)
-  targetType   TargetType @map("target_type")
-  targetId     String?    @map("target_id") @db.Uuid
-  metadata     Json?
-  createdAt    DateTime   @default(now()) @map("created_at")
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, createdAt])
-  @@index([activityType])
-  @@map("activity_logs")
-}
-
-model PasswordReset {
-  id        String    @id @default(uuid()) @db.Uuid
-  userId    String?   @map("user_id") @db.Uuid
-  email     String    @db.VarChar(255)
-  codeHash  String    @map("code_hash") @db.VarChar(255)
-  tokenHash String?   @map("token_hash") @db.VarChar(255)
-  expiresAt DateTime  @map("expires_at")
-  usedAt    DateTime? @map("used_at")
-  attempts  Int       @default(0)
-  createdAt DateTime  @default(now()) @map("created_at")
-
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([email])
-  @@index([userId])
-  @@map("password_resets")
-}
-
-// ── T-D01: New Story Mode models ─────────────────────────────
-
-model PhilosophyTag {
-  id          String   @id @default(uuid()) @db.Uuid
-  name        String   @unique @db.VarChar(100)
-  description String?
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  storyLearnCardTags StoryLearnCardTag[]
-
-  @@index([name])
-  @@map("philosophy_tags")
-}
-
-model StoryLearnCard {
-  id        String   @id @default(uuid()) @db.Uuid
-  storyId   String   @map("story_id") @db.Uuid
-  title     String   @db.VarChar(200)
-  body      String
-  sourceRef String?  @map("source_ref") @db.VarChar(200)
-  order     Int      @default(0)
-  createdAt DateTime @default(now()) @map("created_at")
-
-  story StoryScenario       @relation(fields: [storyId], references: [id], onDelete: Cascade)
-  tags  StoryLearnCardTag[]
-
-  @@index([storyId, order])
-  @@map("story_learn_cards")
-}
-
-model StoryLearnCardTag {
-  cardId String @map("card_id") @db.Uuid
-  tagId  String @map("tag_id") @db.Uuid
-
-  card StoryLearnCard @relation(fields: [cardId], references: [id], onDelete: Cascade)
-  tag  PhilosophyTag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
-
-  @@id([cardId, tagId])
-  @@map("story_learn_card_tags")
-}
-
-model AnalysisTab {
-  id            String          @id @default(uuid()) @db.Uuid
-  consequenceId String          @map("consequence_id") @db.Uuid
-  tabType       AnalysisTabType @map("tab_type")
-  content       String
-  order         Int             @default(0)
-  createdAt     DateTime        @default(now()) @map("created_at")
-
-  consequence StoryConsequence @relation(fields: [consequenceId], references: [id], onDelete: Cascade)
-
-  @@unique([consequenceId, tabType])
-  @@index([consequenceId, order])
-  @@map("analysis_tabs")
-}
-
-// ── Chapter and Movie Engine models ─────────────────────────────
-
-model Chapter {
-  id          String   @id @default(uuid()) @db.Uuid
-  code        String   @unique @db.VarChar(100) // "chuong1"
-  title       String   @db.VarChar(200)
-  description String?
-  order       String[]
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  nodes  ChapterNode[]
-  movies Movie[]
-
-  @@index([code])
-  @@map("chapters")
-}
-
-model ChapterNode {
-  id        String   @id @default(uuid()) @db.Uuid
-  chapterId String   @map("chapter_id") @db.Uuid
-  muc       String   @db.VarChar(100)
-  title     String   @map("tieu_de_muc") @db.VarChar(200)
-  data      Json // parsed CSV row data
-  embedding Float[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
-
-  @@unique([chapterId, muc])
-  @@map("chapter_nodes")
-}
-
-model Movie {
-  id          String   @id @default(uuid()) @db.Uuid
-  chapterId   String?  @map("chapter_id") @db.Uuid
-  muc         String   @db.VarChar(100) // e.g. "1.1"
-  title       String   @db.VarChar(200)
-  script      Json // Array of VNScriptNode
-  embedding   Float[]
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  chapter  Chapter?       @relation(fields: [chapterId], references: [id], onDelete: SetNull)
-  sessions MovieSession[]
-
-  @@index([muc])
-  @@map("movies")
-}
-
-model MovieSession {
-  id        String   @id @default(uuid()) @db.Uuid
-  movieId   String   @map("movie_id") @db.Uuid
-  userId    String   @map("user_id") @db.Uuid
-  thienCam  Int      @default(50) @map("thien_cam")
-  uyTin     Int      @default(50) @map("uy_tin")
-  correctN  Int      @default(0) @map("correct_n")
-  isPassed  Boolean  @default(false) @map("is_passed")
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-
-  movie Movie @relation(fields: [movieId], references: [id], onDelete: Cascade)
-  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([movieId, userId])
-  @@index([userId])
-  @@map("movie_sessions")
 }

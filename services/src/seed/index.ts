@@ -28,6 +28,7 @@ import { seedMiniGames } from "./11-minigames.js";
 import { seedMindmaps } from "./12-mindmaps.js";
 import { seedChapter01 } from "./13-chapter-01.js";
 import { seedChapterMovies } from "./14-chapter-movies.js";
+import { seedChapterNodesFromJson } from "./15-chapter-nodes-json.js";
 
 async function main() {
   console.log("\n🌱 PhiloMind Seed Runner");
@@ -60,6 +61,7 @@ async function main() {
 
   // ── Phase 5: Chapter Movies & Nodes ─────────────────────────
   seedHeader("Phase 5 — Chapter Nodes & Movies");
+  await seedChapterNodesFromJson(prisma);
   await seedChapterMovies(prisma);
 
   const elapsed = ((Date.now() - start) / 1000).toFixed(2);
