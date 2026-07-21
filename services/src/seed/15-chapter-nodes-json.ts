@@ -1,4 +1,4 @@
-import { PrismaClient } from "../prisma/generated/client.js";
+import type { PrismaClient } from "../prisma/generated/client.js";
 import { readFileSync, readdirSync } from "fs";
 import * as path from "path";
 import { dirname } from "path";
@@ -29,9 +29,9 @@ export async function seedChapterNodesFromJson(prisma: PrismaClient): Promise<vo
       if (!Array.isArray(nodes) || nodes.length === 0) continue;
 
       const firstMuc = nodes[0].muc as string;
-      const chapterCode = firstMuc.split('.')[0];
+      const chapterCode = firstMuc.split(".")[0];
       const chapterTitle = `Chương ${chapterCode}`; // Or extract from file if needed
-      const order = nodes.map(n => n.muc);
+      const order = nodes.map((n) => n.muc);
 
       const existingChapter = await prisma.chapter.findUnique({
         where: { code: chapterCode },

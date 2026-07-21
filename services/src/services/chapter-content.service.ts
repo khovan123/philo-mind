@@ -16,9 +16,9 @@ export class ChapterContentService {
   static async getNodesFromDb(chapterCode: string) {
     const chapter = await prisma.chapter.findUnique({
       where: { code: chapterCode },
-      include: { 
+      include: {
         nodes: { orderBy: { muc: "asc" } },
-        movies: true
+        movies: true,
       },
     });
 
@@ -30,7 +30,7 @@ export class ChapterContentService {
       order: chapter.order,
       nodes: chapter.nodes.map((n) => {
         const data = n.data as any;
-        const hasMovie = chapter.movies.some(m => m.muc === n.muc);
+        const hasMovie = chapter.movies.some((m) => m.muc === n.muc);
         return {
           chuong: data.chuong,
           muc: data.muc,
@@ -131,7 +131,7 @@ export class ChapterContentService {
     userId: string,
     chapterCode: string,
     muc: string,
-    payload: { status: string; score?: number | null; review?: any; draft?: any }
+    payload: { status: string; score?: number | null; review?: any; draft?: any },
   ) {
     const chapter = await prisma.chapter.findUnique({
       where: { code: chapterCode },

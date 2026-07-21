@@ -1,16 +1,15 @@
-import { PrismaClient } from "../prisma/generated/client.js";
+import type { PrismaClient } from "../prisma/generated/client.js";
 import { ChapterCsvParser } from "./utils/chapter-csv-parser.js";
 import { seedLog } from "./utils/index.js";
-import _xlsx from "xlsx";
-const xlsx = _xlsx || (require('xlsx') as typeof _xlsx);
+import xlsx from "xlsx";
 import * as path from "path";
 import * as fs from "fs";
 
 function parseMovieExcel(filePath: string): any[] {
   const workbook = xlsx.readFile(filePath);
-  const nodesSheet = workbook.Sheets['02_KICH_BAN_NODES'];
-  const choicesSheet = workbook.Sheets['03_LUA_CHON'];
-  
+  const nodesSheet = workbook.Sheets["02_KICH_BAN_NODES"];
+  const choicesSheet = workbook.Sheets["03_LUA_CHON"];
+
   if (!nodesSheet || !choicesSheet) {
     console.warn(`Missing required sheets in ${filePath}`);
     return [];
@@ -19,32 +18,32 @@ function parseMovieExcel(filePath: string): any[] {
   const nodesData: any[][] = xlsx.utils.sheet_to_json(nodesSheet, { header: 1 });
   const choicesData: any[][] = xlsx.utils.sheet_to_json(choicesSheet, { header: 1 });
 
-  const nodesRows = nodesData.slice(2).filter(row => row.length > 0 && row[1]); 
-  const choicesRows = choicesData.slice(2).filter(row => row.length > 0 && row[0]);
+  const nodesRows = nodesData.slice(2).filter((row) => row.length > 0 && row[1]);
+  const choicesRows = choicesData.slice(2).filter((row) => row.length > 0 && row[0]);
 
   const choicesByNodeId: Record<string, any[]> = {};
   for (const row of choicesRows) {
     const nodeId = row[0]?.toString().trim();
     const optionText = row[2];
-    const isCorrect = row[3] === 'Có' || row[3] === true || row[3] === 'Có*';
+    const isCorrect = row[3] === "Có" || row[3] === true || row[3] === "Có*";
     const dc = row[4];
     const replySpeaker = row[5];
     const replyMood = row[6];
     const replyText = row[7];
 
     if (!choicesByNodeId[nodeId]) choicesByNodeId[nodeId] = [];
-    
+
     const opt: any = {
       text: optionText,
       reply: {
         t: "say",
         who: replySpeaker,
-        text: replyText
-      }
+        text: replyText,
+      },
     };
     if (isCorrect) opt.correct = true;
-    if (dc != null && dc !== '') opt.dc = Number(dc);
-    if (replyMood && replyMood !== '') opt.reply.mood = replyMood;
+    if (dc != null && dc !== "") opt.dc = Number(dc);
+    if (replyMood && replyMood !== "") opt.reply.mood = replyMood;
 
     choicesByNodeId[nodeId].push(opt);
   }
@@ -61,26 +60,26 @@ function parseMovieExcel(filePath: string): any[] {
     const textQuestion = row[9];
     const actRoman = row[10];
 
-    if (nodeType === 'scene') {
+    if (nodeType === "scene") {
       script.push({
-        t: 'scene',
+        t: "scene",
         bg: background,
         act: actNo ? Number(actNo) : undefined,
-        name: sceneName
+        name: sceneName,
       });
-    } else if (nodeType === 'say') {
-      const node: any = { t: 'say', who: speakerKey, text: textQuestion };
+    } else if (nodeType === "say") {
+      const node: any = { t: "say", who: speakerKey, text: textQuestion };
       if (mood) node.mood = mood;
       script.push(node);
-    } else if (nodeType === 'choice') {
-      const node: any = { t: 'choice', who: speakerKey, q: textQuestion };
+    } else if (nodeType === "choice") {
+      const node: any = { t: "choice", who: speakerKey, q: textQuestion };
       if (mood) node.mood = mood;
       node.opts = choicesByNodeId[nodeId] || [];
       script.push(node);
-    } else if (nodeType === 'act') {
-      script.push({ t: 'act', n: actRoman });
-    } else if (nodeType === 'end') {
-      script.push({ t: 'end' });
+    } else if (nodeType === "act") {
+      script.push({ t: "act", n: actRoman });
+    } else if (nodeType === "end") {
+      script.push({ t: "end" });
     }
   }
 
@@ -241,29 +240,29 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
   // Navigate back from services/src/seed to data/14-chapter-movies
   // Assuming the process runs from 'services' directory via npm run seed
   // but just to be safe using path.resolve
-  const dataDir = path.resolve(__dirname, '../../../../data/14-chapter-movies');
+  const dataDir = path.resolve(__dirname, "../../../../data/14-chapter-movies");
   if (fs.existsSync(dataDir)) {
-    const files = fs.readdirSync(dataDir).filter(f => f.endsWith('.xlsx') && !f.startsWith('~'));
+    const files = fs.readdirSync(dataDir).filter((f) => f.endsWith(".xlsx") && !f.startsWith("~"));
     for (const file of files) {
       // Expected format: Kich_Ban_Game_Chuong1_Muc_1_3.xlsx or Kich_Ban_Game_Chuong1_Muc_1_3_1.xlsx
       const match = file.match(/Muc_(\d+)_(\d+)(?:_(\d+))?(?:_(\d+))?/i);
       if (match) {
         const parts = [match[1], match[2], match[3], match[4]].filter(Boolean);
-        const muc = parts.join('.');
+        const muc = parts.join(".");
         const chapterId = match[1]; // assuming chapter id matches the first number
-        
+
         const existingChapter = await prisma.chapter.findUnique({ where: { code: chapterId } });
         if (!existingChapter) continue; // skip if chapter doesn't exist
 
         let finalMuc = muc;
         const existingNode = await prisma.chapterNode.findUnique({
-          where: { chapterId_muc: { chapterId: existingChapter.id, muc: finalMuc } }
+          where: { chapterId_muc: { chapterId: existingChapter.id, muc: finalMuc } },
         });
-        
+
         if (!existingNode) {
           const subMuc = `${finalMuc}.1`;
           const subNode = await prisma.chapterNode.findUnique({
-            where: { chapterId_muc: { chapterId: existingChapter.id, muc: subMuc } }
+            where: { chapterId_muc: { chapterId: existingChapter.id, muc: subMuc } },
           });
           if (subNode) {
             finalMuc = subMuc;
@@ -273,11 +272,11 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
         const filePath = path.join(dataDir, file);
         try {
           const script = parseMovieExcel(filePath);
-          
+
           if (script.length > 0) {
             // Find the chapter node id for this muc
             const chapterNode = await prisma.chapterNode.findFirst({
-              where: { chapterId: existingChapter.id, muc: finalMuc }
+              where: { chapterId: existingChapter.id, muc: finalMuc },
             });
 
             const existingMovie = await prisma.movie.findFirst({

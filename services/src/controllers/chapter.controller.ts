@@ -51,7 +51,7 @@ export class ChapterController {
   async getChapterProgress(req: Request, res: Response) {
     try {
       const chapterCode = String(req.params.chapter);
-      // @ts-ignore - Assuming req.user is set by authGuard
+      // @ts-expect-error - Assuming req.user is set by authGuard
       const userId = req.user?.id;
       if (!userId) {
         return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
@@ -70,7 +70,7 @@ export class ChapterController {
 
   async getAllChapterProgress(req: Request, res: Response) {
     try {
-      // @ts-ignore
+      // @ts-expect-error - Assuming req.user is set by authGuard
       const userId = req.user?.id;
       if (!userId) {
         return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
@@ -88,14 +88,19 @@ export class ChapterController {
     try {
       const chapterCode = String(req.params.chapter);
       const muc = String(req.params.muc);
-      // @ts-ignore - Assuming req.user is set by authGuard
+      // @ts-expect-error - Assuming req.user is set by authGuard
       const userId = req.user?.id;
       if (!userId) {
         return sendError(res, "UNAUTHORIZED", "Vui lòng đăng nhập", 401);
       }
 
       const payload = req.body;
-      const progress = await ChapterContentService.upsertChapterProgress(userId, chapterCode, muc, payload);
+      const progress = await ChapterContentService.upsertChapterProgress(
+        userId,
+        chapterCode,
+        muc,
+        payload,
+      );
       return sendSuccess(res, progress);
     } catch (err) {
       const error = err as Error;
