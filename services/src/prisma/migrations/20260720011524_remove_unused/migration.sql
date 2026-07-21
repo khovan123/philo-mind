@@ -35,52 +35,52 @@ DROP TYPE "public"."TargetType_old";
 COMMIT;
 
 -- DropForeignKey
-ALTER TABLE "ai_chat_messages" DROP CONSTRAINT "ai_chat_messages_session_id_fkey";
+ALTER TABLE "ai_chat_messages" DROP CONSTRAINT IF EXISTS "ai_chat_messages_session_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "ai_chat_sessions" DROP CONSTRAINT "ai_chat_sessions_character_id_fkey";
+ALTER TABLE "ai_chat_sessions" DROP CONSTRAINT IF EXISTS "ai_chat_sessions_character_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "ai_chat_sessions" DROP CONSTRAINT "ai_chat_sessions_user_id_fkey";
+ALTER TABLE "ai_chat_sessions" DROP CONSTRAINT IF EXISTS "ai_chat_sessions_user_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_arguments" DROP CONSTRAINT "debate_arguments_debate_id_fkey";
+ALTER TABLE "debate_arguments" DROP CONSTRAINT IF EXISTS "debate_arguments_debate_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_arguments" DROP CONSTRAINT "debate_arguments_user_id_fkey";
+ALTER TABLE "debate_arguments" DROP CONSTRAINT IF EXISTS "debate_arguments_user_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_comments" DROP CONSTRAINT "debate_comments_argument_id_fkey";
+ALTER TABLE "debate_comments" DROP CONSTRAINT IF EXISTS "debate_comments_argument_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_comments" DROP CONSTRAINT "debate_comments_user_id_fkey";
+ALTER TABLE "debate_comments" DROP CONSTRAINT IF EXISTS "debate_comments_user_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_votes" DROP CONSTRAINT "debate_votes_argument_id_fkey";
+ALTER TABLE "debate_votes" DROP CONSTRAINT IF EXISTS "debate_votes_argument_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debate_votes" DROP CONSTRAINT "debate_votes_user_id_fkey";
+ALTER TABLE "debate_votes" DROP CONSTRAINT IF EXISTS "debate_votes_user_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "debates" DROP CONSTRAINT "debates_topic_id_fkey";
+ALTER TABLE "debates" DROP CONSTRAINT IF EXISTS "debates_topic_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "password_resets" DROP CONSTRAINT "fk_password_resets_user";
+ALTER TABLE "password_resets" DROP CONSTRAINT IF EXISTS "fk_password_resets_user";
 
 -- DropForeignKey
-ALTER TABLE "real_life_scenarios" DROP CONSTRAINT "real_life_scenarios_topic_id_fkey";
+ALTER TABLE "real_life_scenarios" DROP CONSTRAINT IF EXISTS "real_life_scenarios_topic_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "scenario_frameworks" DROP CONSTRAINT "scenario_frameworks_scenario_id_fkey";
+ALTER TABLE "scenario_frameworks" DROP CONSTRAINT IF EXISTS "scenario_frameworks_scenario_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "scenario_perspectives" DROP CONSTRAINT "scenario_perspectives_scenario_id_fkey";
+ALTER TABLE "scenario_perspectives" DROP CONSTRAINT IF EXISTS "scenario_perspectives_scenario_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "scenario_responses" DROP CONSTRAINT "scenario_responses_scenario_id_fkey";
+ALTER TABLE "scenario_responses" DROP CONSTRAINT IF EXISTS "scenario_responses_scenario_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "scenario_responses" DROP CONSTRAINT "scenario_responses_user_id_fkey";
+ALTER TABLE "scenario_responses" DROP CONSTRAINT IF EXISTS "scenario_responses_user_id_fkey";
 
 -- AlterTable
 ALTER TABLE "mini_games" ALTER COLUMN "updated_at" DROP DEFAULT;
@@ -103,52 +103,52 @@ ALTER TABLE "users" ALTER COLUMN "deleted_at" SET DATA TYPE TIMESTAMP(3),
 ALTER COLUMN "deletion_requested_at" SET DATA TYPE TIMESTAMP(3);
 
 -- DropTable
-DROP TABLE "ai_characters";
+DROP TABLE IF EXISTS "ai_characters";
 
 -- DropTable
-DROP TABLE "ai_chat_messages";
+DROP TABLE IF EXISTS "ai_chat_messages";
 
 -- DropTable
-DROP TABLE "ai_chat_sessions";
+DROP TABLE IF EXISTS "ai_chat_sessions";
 
 -- DropTable
-DROP TABLE "debate_arguments";
+DROP TABLE IF EXISTS "debate_arguments";
 
 -- DropTable
-DROP TABLE "debate_comments";
+DROP TABLE IF EXISTS "debate_comments";
 
 -- DropTable
-DROP TABLE "debate_votes";
+DROP TABLE IF EXISTS "debate_votes";
 
 -- DropTable
-DROP TABLE "debates";
+DROP TABLE IF EXISTS "debates";
 
 -- DropTable
-DROP TABLE "real_life_scenarios";
+DROP TABLE IF EXISTS "real_life_scenarios";
 
 -- DropTable
-DROP TABLE "scenario_frameworks";
+DROP TABLE IF EXISTS "scenario_frameworks";
 
 -- DropTable
-DROP TABLE "scenario_perspectives";
+DROP TABLE IF EXISTS "scenario_perspectives";
 
 -- DropTable
-DROP TABLE "scenario_responses";
+DROP TABLE IF EXISTS "scenario_responses";
 
 -- DropEnum
-DROP TYPE "DebateStance";
+DROP TYPE IF EXISTS "DebateStance";
 
 -- DropEnum
-DROP TYPE "DebateStatus";
+DROP TYPE IF EXISTS "DebateStatus";
 
 -- DropEnum
-DROP TYPE "PerspectiveType";
+DROP TYPE IF EXISTS "PerspectiveType";
 
 -- DropEnum
-DROP TYPE "SenderType";
+DROP TYPE IF EXISTS "SenderType";
 
 -- DropEnum
-DROP TYPE "VoteValue";
+DROP TYPE IF EXISTS "VoteValue";
 
 -- CreateTable
 CREATE TABLE "chapters" (
