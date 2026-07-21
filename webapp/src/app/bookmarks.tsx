@@ -27,7 +27,7 @@ const targetCopy: Record<BookmarkTargetType, { label: string; routeLabel: string
   {
     LESSON: { label: "Bài học", routeLabel: "Mở bài học", color: "#38BDF8" },
     SHORT_LESSON: { label: "Bài ngắn", routeLabel: "Mở bài ngắn", color: "#34D399" },
-    STORY: { label: "Câu chuyện", routeLabel: "Mở suy ngẫm", color: "#A78BFA" },
+    STORY: { label: "Câu chuyện", routeLabel: "Mở câu chuyện", color: "#A78BFA" },
     TOPIC: { label: "Chủ đề", routeLabel: "Mở bản đồ tư duy", color: "#F59E0B" },
   };
 
@@ -100,7 +100,7 @@ export default function BookmarksScreen() {
         router.push("/short-lesson" as never);
         return;
       case "STORY":
-        router.push(`/story/${bookmark.targetId}/reflect` as never);
+        router.push(`/story/${bookmark.targetId}` as never);
         return;
       case "TOPIC":
         router.push("/mindmap" as never);

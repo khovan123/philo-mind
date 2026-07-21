@@ -1,5 +1,7 @@
 # PhiloMind — Team Assignments
 
+> Archive note: this is a pre-cleanup planning snapshot. It may mention removed modules and is not current product scope.
+>
 > **Cập nhật:** 2026-05-29 | **Thành viên:** 11 | **Tổng tasks:** 111
 
 ## Nguyên tắc phân công

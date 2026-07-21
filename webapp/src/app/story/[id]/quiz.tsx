@@ -200,8 +200,8 @@ export default function StoryQuizScreen() {
   }, [currentIndex, totalQuestions, fadeAnim, score, scoreAnim, setQuizScore]);
 
   const handleContinueToComplete = useCallback(() => {
-    setStep("reflect");
-    router.push(`/story/${storyId}/reflect` as never);
+    setStep("complete");
+    router.push(`/story/${storyId}/complete` as never);
   }, [router, storyId, setStep]);
 
   // ── Empty state ─────────────────────────────────────────────
@@ -220,8 +220,8 @@ export default function StoryQuizScreen() {
             title="Bỏ qua → Hoàn thành"
             onPress={() => {
               setQuizScore(0);
-              setStep("reflect");
-              router.push(`/story/${storyId}/reflect` as never);
+              setStep("complete");
+              router.push(`/story/${storyId}/complete` as never);
             }}
             variant="primary"
           />

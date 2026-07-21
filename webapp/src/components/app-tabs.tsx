@@ -102,14 +102,6 @@ export default function AppTabs() {
       />
 
       <Tabs.Screen
-        name="onboarding"
-        options={{
-          href: null,
-          tabBarStyle: { display: "none" },
-        }}
-      />
-
-      <Tabs.Screen
         name="profile"
         options={{
           title: t("navigation.profile"),

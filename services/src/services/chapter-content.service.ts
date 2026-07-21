@@ -85,10 +85,6 @@ type ChapterCsvRow = {
   cau3_dap_an?: string;
   cau3_loai?: string;
   cau3_giai_thich?: string;
-  debate_A?: string;
-  debate_B?: string;
-  debate_A_explanation?: string;
-  debate_B_explanation?: string;
   open_q?: string;
 };
 
@@ -140,7 +136,7 @@ export type ChapterNode = {
   hook: ChapterHook;
   theoryCards: ChapterTheoryCard[];
   quiz: ChapterQuizQuestion[];
-  debate: {
+  perspectives: {
     perspectiveA: string;
     perspectiveB: string;
     explanationA: string;
@@ -318,11 +314,11 @@ function mapChapterRow(row: ChapterCsvRow, rowIndex: number, chapterNumber: numb
     hook: buildHook(row, hookType),
     theoryCards: getTheoryCards(row),
     quiz: [buildQuizQuestion(row, 1), buildQuizQuestion(row, 2), buildQuizQuestion(row, 3)],
-    debate: {
-      perspectiveA: firstText(row.phan4_quan_diem_A, row.debate_A, row.phan_hoi_A, row.cau1_A),
-      perspectiveB: firstText(row.phan4_quan_diem_B, row.debate_B, row.phan_hoi_B, row.cau1_B),
-      explanationA: firstText(row.phan4_giai_thich_A, row.debate_A_explanation, row.phan_hoi_A),
-      explanationB: firstText(row.phan4_giai_thich_B, row.debate_B_explanation, row.phan_hoi_B),
+    perspectives: {
+      perspectiveA: firstText(row.phan4_quan_diem_A, row.phan_hoi_A, row.cau1_A),
+      perspectiveB: firstText(row.phan4_quan_diem_B, row.phan_hoi_B, row.cau1_B),
+      explanationA: firstText(row.phan4_giai_thich_A, row.phan_hoi_A),
+      explanationB: firstText(row.phan4_giai_thich_B, row.phan_hoi_B),
       openQuestion: firstText(row.phan4_cau_hoi_mo, row.open_q, row.cau_hoi_chon, row.cau3_hoi),
     },
   };

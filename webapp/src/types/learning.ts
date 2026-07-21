@@ -25,8 +25,6 @@ export interface TopicDetailDTO extends TopicDTO {
     criticalQuestions: number;
     mindmapNodes: number;
     miniGames: number;
-    reflections: number;
-    perspectives: number;
   };
 }
 

@@ -6,6 +6,7 @@ import {
   Lock,
   type LucideIcon,
   MessageCircle,
+  Puzzle,
   ScrollText,
   ShieldCheck,
   Sparkles,
@@ -45,6 +46,7 @@ const ICONS: Record<string, LucideIcon> = {
   flame: Flame,
   book_open: BookOpen,
   message_circle: MessageCircle,
+  puzzle: Puzzle,
   brain: Brain,
   award: Award,
 };

@@ -16,7 +16,6 @@ import { bookmarkReducer } from "./slices/bookmark.slice";
 
 import { mindmapReducer } from "./slices/mindmap.slice";
 import { minigameReducer } from "./slices/minigame.slice";
-import { reflectionReducer } from "./slices/reflection.slice";
 import { storyReducer } from "./slices/story.slice";
 import { badgeReducer } from "./slices/badge.slice";
 import { notificationReducer } from "./slices/notification.slice";
@@ -44,7 +43,6 @@ export const store = configureStore({
     bookmark: bookmarkReducer,
     mindmap: mindmapReducer,
     minigame: minigameReducer,
-    reflection: reflectionReducer,
     story: storyReducer,
     badge: badgeReducer,
     notification: notificationReducer,

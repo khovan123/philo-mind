@@ -1,5 +1,7 @@
 # Implementation Readiness Check
 
+> Archive note: this is a pre-cleanup readiness snapshot. It may mention removed modules and is not current product scope.
+>
 **Date:** 2026-05-31  
 **Project:** PhiloMind  
 **Source of truth:** `docs/task-breakdown.md` mapped to GitHub issues in `khovan123/philo-mind`

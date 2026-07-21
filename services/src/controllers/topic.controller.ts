@@ -83,8 +83,6 @@ export class TopicController {
               criticalQuestions: true,
               mindmapNodes: true,
               miniGames: true,
-              reflections: true,
-              perspectives: true,
             },
           },
         },

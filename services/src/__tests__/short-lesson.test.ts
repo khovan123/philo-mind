@@ -26,6 +26,7 @@ const mockResponseUpsert = jest.fn() as any;
 const mockCommentCount = jest.fn() as any;
 const mockCommentFindMany = jest.fn() as any;
 const mockCommentCreate = jest.fn() as any;
+const mockLogActivity = jest.fn() as any;
 
 jest.unstable_mockModule("../config/prisma.js", () => ({
   prisma: {
@@ -50,6 +51,13 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
 // Mock cache middleware invalidation so it does not connect to Redis during tests
 jest.unstable_mockModule("../middleware/cache.middleware.js", () => ({
   invalidateCachePattern: (jest.fn() as any).mockResolvedValue(undefined),
+}));
+
+jest.unstable_mockModule("../services/activity-log.service.js", () => ({
+  ActivityType: { DO_SHORT_LESSON: "DO_SHORT_LESSON" },
+  ActivityLogService: {
+    logActivity: mockLogActivity,
+  },
 }));
 
 // Dynamic imports after module mocking is set up
@@ -417,6 +425,7 @@ describe("T-A08: Short Lesson Controller", () => {
       } as any;
 
       mockShortLessonFindUnique.mockResolvedValue({ id: "l1" });
+      mockResponseFindUnique.mockResolvedValue(null);
       mockResponseUpsert.mockResolvedValue({
         id: "r1",
         userId: "user123",
@@ -428,6 +437,7 @@ describe("T-A08: Short Lesson Controller", () => {
         { selectedStance: "STANCE_A", _count: { _all: 4 } },
         { selectedStance: "STANCE_B", _count: { _all: 2 } },
       ]);
+      mockLogActivity.mockResolvedValue({ newlyEarnedBadges: [] });
 
       await controller.respond(req, res);
 
@@ -465,8 +475,17 @@ describe("T-A08: Short Lesson Controller", () => {
             stanceACount: 4,
             stanceBCount: 2,
           },
+          newlyEarnedBadges: [],
         },
       });
+
+      expect(mockLogActivity).toHaveBeenCalledWith(
+        "user123",
+        "DO_SHORT_LESSON",
+        "SHORT_LESSON",
+        "l1",
+        { stance: "STANCE_A" },
+      );
     });
   });
 

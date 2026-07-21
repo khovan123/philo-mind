@@ -12,6 +12,8 @@ import { BADGE_DEFINITIONS } from "../services/badge.service.js";
 import { seedLog } from "./utils/index.js";
 
 export async function seedBadges(prisma: PrismaClient): Promise<void> {
+  const activeConditionTypes = BADGE_DEFINITIONS.map((badge) => badge.conditionType);
+
   for (const badge of BADGE_DEFINITIONS) {
     await prisma.badge.upsert({
       where: { conditionType: badge.conditionType },
@@ -28,6 +30,14 @@ export async function seedBadges(prisma: PrismaClient): Promise<void> {
       },
     });
   }
+
+  await prisma.badge.deleteMany({
+    where: {
+      conditionType: {
+        notIn: activeConditionTypes,
+      },
+    },
+  });
 
   seedLog("Badge", BADGE_DEFINITIONS.length);
 }

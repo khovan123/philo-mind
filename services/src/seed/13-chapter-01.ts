@@ -3,15 +3,13 @@
  * Tasks: CH1-02 + CH1-03
  *
  * Source: data/chapter-01/*.json (6 section files) + flashcards.json
- *   Each section file = { order, code, topic, lesson, quiz[], scenario, debate }
+ *   Each section file = { order, code, topic, lesson, quiz[], criticalQuestions[] }
  *   flashcards.json   = { decks: [{ topicSlug, code, title, axis, cards[] }] }
  *
  * Seeds (in dependency order, all idempotent):
  *   - Topic            (upsert by title; forces category="Chương 1")
  *   - Lesson           (upsert by topicId+title; status=PUBLISHED)
  *   - Quiz             (1 per lesson; replace questions on re-run)
- *   - RealLifeScenario (upsert by title; delete+recreate perspectives)
- *   - Debate           (upsert by title) + 2 DebateArgument (authored by admin)
  *   - CriticalQuestion (upsert by question text)
  *   - MiniGame         (flashcard deck; upsert by topicId+title+gameType)
  *
@@ -28,8 +26,6 @@ import { readJson, seedLog } from "./utils/index.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const CHAPTER_DIR = resolve(__dirname, "../../../data/chapter-01");
-
-const ADMIN_EMAIL = "admin@philomind.com";
 
 interface SectionFile {
   order: number;
@@ -54,16 +50,7 @@ interface SectionFile {
     correctIndex: number;
     explanation?: string;
   }>;
-  scenario: {
-    situation: string;
-    perspectives: Array<{ type: string; content: string }>;
-    discussionQuestion?: string;
-  };
-  debate: {
-    positionA: string;
-    positionB: string;
-    openQuestions: string[];
-  };
+  criticalQuestions: string[];
 }
 
 interface FlashcardsFile {
@@ -84,11 +71,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
   const sections = files
     .map((f) => readJson<SectionFile>(`chapter-01/${f}`))
     .sort((a, b) => a.order - b.order);
-
-  const admin = await prisma.user.findFirst({ where: { email: ADMIN_EMAIL } });
-  if (!admin) {
-    console.warn(`    ⚠ Admin user "${ADMIN_EMAIL}" not found — debate arguments will be skipped`);
-  }
 
   // slug -> topicId, for flashcard decks
   const topicIdBySlug = new Map<string, string>();
@@ -179,9 +161,8 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
     }
     quizzes++;
 
-
-    // ── CriticalQuestion from openQuestions (upsert by question text) ──
-    for (const question of section.debate.openQuestions) {
+    // ── CriticalQuestion (upsert by question text) ──
+    for (const question of section.criticalQuestions) {
       const existingCq = await prisma.criticalQuestion.findFirst({ where: { question } });
       if (existingCq) {
         await prisma.criticalQuestion.update({

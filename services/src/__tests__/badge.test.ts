@@ -15,15 +15,17 @@ jest.unstable_mockModule("../config/env.js", () => ({
 
 const mockBadgeCreateMany = jest.fn() as any;
 const mockBadgeFindMany = jest.fn() as any;
+const mockBadgeDeleteMany = jest.fn() as any;
 const mockUserBadgeFindMany = jest.fn() as any;
 const mockUserBadgeCreate = jest.fn() as any;
 const mockNotificationCreate = jest.fn() as any;
 const mockActivityLogCount = jest.fn() as any;
-const mockReflectionEntryCount = jest.fn() as any;
 const mockUserProgressCount = jest.fn() as any;
 const mockQuizAttemptCount = jest.fn() as any;
-const mockStorySessionCount = jest.fn() as any;
+const mockStoryDecisionCount = jest.fn() as any;
 const mockShortLessonResponseCount = jest.fn() as any;
+const mockMiniGameAttemptCount = jest.fn() as any;
+const mockBookmarkCount = jest.fn() as any;
 const mockActivityLogFindMany = jest.fn() as any;
 
 jest.unstable_mockModule("../config/prisma.js", () => ({
@@ -31,6 +33,7 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     badge: {
       createMany: mockBadgeCreateMany,
       findMany: mockBadgeFindMany,
+      deleteMany: mockBadgeDeleteMany,
     },
     userBadge: {
       findMany: mockUserBadgeFindMany,
@@ -43,20 +46,23 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
       count: mockActivityLogCount,
       findMany: mockActivityLogFindMany,
     },
-    reflectionEntry: {
-      count: mockReflectionEntryCount,
-    },
     userProgress: {
       count: mockUserProgressCount,
     },
     quizAttempt: {
       count: mockQuizAttemptCount,
     },
-    storySession: {
-      count: mockStorySessionCount,
+    storyDecision: {
+      count: mockStoryDecisionCount,
     },
     shortLessonResponse: {
       count: mockShortLessonResponseCount,
+    },
+    miniGameAttempt: {
+      count: mockMiniGameAttemptCount,
+    },
+    bookmark: {
+      count: mockBookmarkCount,
     },
   },
 }));
@@ -72,18 +78,26 @@ describe("BadgeService", () => {
 
   describe("ensureBadgesSeeded", () => {
     it("should call prisma.badge.createMany with BADGE_DEFINITIONS", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
+      mockBadgeDeleteMany.mockResolvedValue({ count: 0 } as any);
       await BadgeService.ensureBadgesSeeded();
       expect(mockBadgeCreateMany).toHaveBeenCalledWith({
         data: BADGE_DEFINITIONS,
         skipDuplicates: true,
+      });
+      expect(mockBadgeDeleteMany).toHaveBeenCalledWith({
+        where: {
+          conditionType: {
+            notIn: BADGE_DEFINITIONS.map((badge: any) => badge.conditionType),
+          },
+        },
       });
     });
   });
 
   describe("getAllBadgesForUser", () => {
     it("should return all badges with correct progress and earned status", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
       mockBadgeFindMany.mockResolvedValue(
         BADGE_DEFINITIONS.map((def, idx) => ({
           id: `badge-${idx}`,
@@ -92,13 +106,14 @@ describe("BadgeService", () => {
         })),
       );
 
-      // Mock user metrics: 1 activity, 5 reflections, 5 lessons, 3 quizzes, 3 stories, 3 streak, 10 short lessons
+      // Mock user metrics across retained learning modules.
       mockActivityLogCount.mockResolvedValue(1);
-      mockReflectionEntryCount.mockResolvedValue(5);
-      mockUserProgressCount.mockResolvedValue(5);
-      mockQuizAttemptCount.mockResolvedValue(3);
-      mockStorySessionCount.mockResolvedValue(3);
-      mockShortLessonResponseCount.mockResolvedValue(10);
+      mockUserProgressCount.mockResolvedValue(3);
+      mockQuizAttemptCount.mockResolvedValue(5);
+      mockStoryDecisionCount.mockResolvedValue(3);
+      mockShortLessonResponseCount.mockResolvedValue(7);
+      mockMiniGameAttemptCount.mockResolvedValue(5);
+      mockBookmarkCount.mockResolvedValue(3);
 
       // Mocking 3-day streak logs
       const today = new Date();
@@ -112,28 +127,32 @@ describe("BadgeService", () => {
 
       const result = await BadgeService.getAllBadgesForUser(userId);
 
-      expect(result).toHaveLength(9);
+      expect(result).toHaveLength(10);
 
-      // First badge: activity_count_1 (Earned)
+      // First badge: first_learning_day (Earned)
       expect(result[0].isEarned).toBe(true);
       expect(result[0].progress).toBe(1);
       expect(result[0].target).toBe(1);
 
-      // Second badge: reflection_count_5 (Unearned, but has 5 progress)
+      // Second badge: lesson_finish_3 (Unearned, but has full progress)
       expect(result[1].isEarned).toBe(false);
-      expect(result[1].progress).toBe(5);
-      expect(result[1].target).toBe(5);
+      expect(result[1].progress).toBe(3);
+      expect(result[1].target).toBe(3);
 
-      // Seventh badge: streak_count_3 (Unearned, but has 3 streak progress)
-      const streakBadge = result.find((b) => b.conditionType === "streak_count_3");
+      // Streak badge uses the new meaningful-learning-day streak.
+      const streakBadge = result.find((b) => b.conditionType === "learning_streak_3");
       expect(streakBadge?.progress).toBe(3);
       expect(streakBadge?.target).toBe(3);
+
+      const balancedBadge = result.find((b) => b.conditionType === "balanced_core_5");
+      expect(balancedBadge?.progress).toBe(5);
+      expect(balancedBadge?.target).toBe(5);
     });
   });
 
   describe("evaluateUserBadges", () => {
     it("should award eligible badges and send notifications", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
 
       // Mock all badges as unearned initially
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
@@ -145,11 +164,12 @@ describe("BadgeService", () => {
 
       // User has 1 activity log -> eligible for first badge only
       mockActivityLogCount.mockResolvedValue(1);
-      mockReflectionEntryCount.mockResolvedValue(0);
       mockUserProgressCount.mockResolvedValue(0);
       mockQuizAttemptCount.mockResolvedValue(0);
-      mockStorySessionCount.mockResolvedValue(0);
+      mockStoryDecisionCount.mockResolvedValue(0);
       mockShortLessonResponseCount.mockResolvedValue(0);
+      mockMiniGameAttemptCount.mockResolvedValue(0);
+      mockBookmarkCount.mockResolvedValue(0);
       mockActivityLogFindMany.mockResolvedValue([{ createdAt: new Date() }]);
 
       // Mock userBadge creation and notification creation
@@ -185,7 +205,7 @@ describe("BadgeService", () => {
     });
 
     it("should not award badges that are already earned", async () => {
-      mockBadgeCreateMany.mockResolvedValue({ count: 9 } as any);
+      mockBadgeCreateMany.mockResolvedValue({ count: 10 } as any);
 
       // Mock all badges as already earned
       const mockBadges = BADGE_DEFINITIONS.map((def, idx) => ({
@@ -197,11 +217,12 @@ describe("BadgeService", () => {
 
       // User is eligible for everything
       mockActivityLogCount.mockResolvedValue(100);
-      mockReflectionEntryCount.mockResolvedValue(100);
       mockUserProgressCount.mockResolvedValue(100);
       mockQuizAttemptCount.mockResolvedValue(100);
-      mockStorySessionCount.mockResolvedValue(100);
+      mockStoryDecisionCount.mockResolvedValue(100);
       mockShortLessonResponseCount.mockResolvedValue(100);
+      mockMiniGameAttemptCount.mockResolvedValue(100);
+      mockBookmarkCount.mockResolvedValue(100);
       mockActivityLogFindMany.mockResolvedValue([{ createdAt: new Date() }]);
 
       const newlyEarned = await BadgeService.evaluateUserBadges(userId);

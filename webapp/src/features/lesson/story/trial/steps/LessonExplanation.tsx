@@ -9,9 +9,7 @@ import { InfoCard, MarkdownBlock, PrimaryButton, SecondaryButton, styles } from 
 type LessonExplanationProps = {
   decision: LessonDecision;
   quizChoice: string | null;
-  reflectionDone: boolean;
   onQuiz: (choice: string) => void;
-  onReflection: () => void;
   onRetry: () => void;
   onFinish: () => void;
 };
@@ -19,9 +17,7 @@ type LessonExplanationProps = {
 export function LessonExplanation({
   decision,
   quizChoice,
-  reflectionDone,
   onQuiz,
-  onReflection,
   onRetry,
   onFinish,
 }: LessonExplanationProps) {
@@ -71,22 +67,6 @@ export function LessonExplanation({
       </View>
 
       <View style={styles.actionGrid}>
-        <Pressable
-          accessibilityRole="checkbox"
-          accessibilityState={{ checked: reflectionDone }}
-          onPress={onReflection}
-          style={[styles.actionCard, reflectionDone && styles.actionCardActive]}
-        >
-          <Text style={styles.actionTitle}>
-            {t("story_trial.lesson_explanation.write_reflection")}
-          </Text>
-          <Text style={styles.actionMeta}>
-            {reflectionDone
-              ? t("story_trial.lesson_explanation.reflection_opened")
-              : t("story_trial.lesson_explanation.open_journal")}
-          </Text>
-        </Pressable>
-
         {["Integrity", "Safety"].map((choice) => {
           const active = quizChoice === choice;
 

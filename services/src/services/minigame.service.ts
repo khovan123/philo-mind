@@ -1,5 +1,7 @@
 import type { Prisma } from "../prisma/generated/client.js";
 import { prisma } from "../config/prisma.js";
+import type { TargetType } from "../prisma/generated/enums.js";
+import { ActivityLogService, ActivityType } from "./activity-log.service.js";
 import { buildPaginationMeta, parsePagination } from "../utils/response.js";
 import type {
   CreateMiniGameInput,
@@ -145,6 +147,23 @@ export class MiniGameService {
     });
 
     const leaderboardRank = await this.getRank(miniGameId, attempt.score, attempt.createdAt);
+    let newlyEarnedBadges: any[] = [];
+    try {
+      const activityResult = await ActivityLogService.logActivity(
+        userId,
+        ActivityType.PLAY_MINI_GAME,
+        "MINI_GAME" as TargetType,
+        miniGameId,
+        {
+          attemptId: attempt.id,
+          score: attempt.score,
+          gameType: game.gameType,
+        },
+      );
+      newlyEarnedBadges = activityResult.newlyEarnedBadges;
+    } catch (error) {
+      console.error("Error logging mini game activity:", error);
+    }
 
     return {
       attemptId: attempt.id,
@@ -155,6 +174,7 @@ export class MiniGameService {
       leaderboardRank,
       timeSpentSeconds: input.timeSpentSeconds,
       completedAt: attempt.completedAt,
+      newlyEarnedBadges,
     };
   }
 

@@ -1,14 +1,14 @@
 import { Redirect, useRouter } from "expo-router";
 import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
 import { RefreshControl } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 import { useTranslation } from "react-i18next";
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
 import { useShouldShowOnboarding } from "@/lib/onboarding-state";
 import { useGetLearningDashboardQuery } from "@/services/rtk-api/learning.api";
-import { Pressable, ScrollView, View } from "@/tw";
+import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
 import { Image } from "@/tw/image";
 
 const Colors = {

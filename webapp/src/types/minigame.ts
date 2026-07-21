@@ -64,6 +64,7 @@ export type MiniGamePlayResult = {
   leaderboardRank: number;
   timeSpentSeconds: number;
   completedAt: string;
+  newlyEarnedBadges?: unknown[];
 };
 
 export type MiniGameLeaderboardEntry = {

@@ -45,24 +45,26 @@ export const badgeApi = baseApi.injectEndpoints({
 
         const mapConditionToIcon = (cond: string) => {
           switch (cond) {
-            case "activity_count_1":
+            case "first_learning_day":
               return "sparkles";
-            case "reflection_count_5":
-              return "brain";
-            case "lesson_count_5":
+            case "lesson_finish_3":
               return "book_open";
-            case "quiz_count_3":
+            case "quiz_complete_5":
               return "trophy";
-            case "story_count_3":
+            case "reflection_write_3":
+              return "brain";
+            case "story_decision_3":
               return "scroll_text";
-            case "streak_count_3":
-              return "flame";
-            case "short_lesson_count_10":
+            case "minigame_complete_5":
+              return "puzzle";
+            case "short_lesson_7":
               return "sparkles";
-            case "activity_count_20":
+            case "learning_streak_3":
+              return "flame";
+            case "learning_streak_7":
               return "shield_check";
-            case "streak_count_7":
-              return "shield_check";
+            case "balanced_core_5":
+              return "award";
             default:
               return "award";
           }

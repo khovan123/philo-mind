@@ -1,6 +1,7 @@
 import { prisma } from "../config/prisma.js";
 import type { Prisma } from "../prisma/generated/client.js";
 import { ProgressStatus } from "../prisma/generated/enums.js";
+import { RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
 
 export interface BadgeDefinition {
   name: string;
@@ -11,60 +12,69 @@ export interface BadgeDefinition {
 
 export const BADGE_DEFINITIONS: BadgeDefinition[] = [
   {
-    name: "Khởi đầu minh triết",
-    description: "Thực hiện hoạt động đầu tiên của bạn trên PhiloMind",
+    name: "Ngày học đầu tiên",
+    description: "Hoàn thành 1 hoạt động học tập có ý nghĩa trên PhiloMind",
     iconUrl: "🌱",
-    conditionType: "activity_count_1",
+    conditionType: "first_learning_day",
   },
   {
-    name: "Nhà tư duy phản biện",
-    description: "Viết 5 bài suy ngẫm cá nhân (reflection)",
-    iconUrl: "🧠",
-    conditionType: "reflection_count_5",
+    name: "Hoàn tất nhập môn",
+    description: "Hoàn thành 3 bài học chính thức",
+    iconUrl: "📘",
+    conditionType: "lesson_finish_3",
   },
   {
-    name: "Hiền triết hiếu học",
-    description: "Hoàn thành 5 bài học lý thuyết sâu sắc",
-    iconUrl: "📖",
-    conditionType: "lesson_count_5",
+    name: "Người luyện đáp án",
+    description: "Hoàn thành 5 lượt quiz hoặc luyện tập",
+    iconUrl: "🎯",
+    conditionType: "quiz_complete_5",
   },
   {
-    name: "Nhà thông thái trẻ",
-    description: "Vượt qua 3 bài trắc nghiệm tư duy (quiz)",
-    iconUrl: "🏆",
-    conditionType: "quiz_count_3",
+    name: "Người lưu tri thức",
+    description: "Lưu 3 nội dung học tập vào bookmark",
+    iconUrl: "🔖",
+    conditionType: "bookmark_save_3",
   },
   {
-    name: "Người kể chuyện triết học",
-    description: "Tham gia quyết định kết cục cho 3 tình huống câu chuyện",
+    name: "Lữ khách Story Mode",
+    description: "Đưa ra 3 lựa chọn trong luồng học Story Mode",
     iconUrl: "🎭",
-    conditionType: "story_count_3",
+    conditionType: "story_decision_3",
   },
   {
-    name: "Chiến binh bền bỉ",
-    description: "Duy trì chuỗi hoạt động học tập 3 ngày liên tiếp",
-    iconUrl: "🔥",
-    conditionType: "streak_count_3",
+    name: "Người chơi khái niệm",
+    description: "Hoàn thành 5 lượt mini game ôn tập khái niệm",
+    iconUrl: "🧩",
+    conditionType: "minigame_complete_5",
   },
   {
-    name: "Bậc thầy châm ngôn",
-    description: "Tương tác với 10 bài học ngắn hàng ngày",
+    name: "Nhịp ngắn mỗi ngày",
+    description: "Phản hồi 7 bài học ngắn daily hook",
     iconUrl: "💡",
-    conditionType: "short_lesson_count_10",
+    conditionType: "short_lesson_7",
   },
   {
-    name: "Kẻ lữ hành tò mò",
-    description: "Đạt mốc 20 hoạt động bất kỳ trên hệ thống",
-    iconUrl: "🧭",
-    conditionType: "activity_count_20",
+    name: "Giữ nhịp 3 ngày",
+    description: "Duy trì streak học tập 3 ngày liên tiếp",
+    iconUrl: "🔥",
+    conditionType: "learning_streak_3",
   },
   {
-    name: "Nhà Khắc Kỷ kiên định",
-    description: "Duy trì chuỗi hoạt động học tập 7 ngày liên tiếp",
+    name: "Bền bỉ 7 ngày",
+    description: "Duy trì streak học tập 7 ngày liên tiếp",
     iconUrl: "🛡️",
-    conditionType: "streak_count_7",
+    conditionType: "learning_streak_7",
+  },
+  {
+    name: "Người học toàn diện",
+    description:
+      "Có hoạt động ở đủ 5 trụ cột: bài học, quiz, Story Mode, short lesson và mini game",
+    iconUrl: "🧭",
+    conditionType: "balanced_core_5",
   },
 ];
+
+const ACTIVE_BADGE_CONDITION_TYPES = BADGE_DEFINITIONS.map((badge) => badge.conditionType);
 
 type UserBadgeWithBadge = Prisma.UserBadgeGetPayload<{
   include: { badge: true };
@@ -72,12 +82,20 @@ type UserBadgeWithBadge = Prisma.UserBadgeGetPayload<{
 
 export class BadgeService {
   /**
-   * Ensure standard 10 badges are seeded in the database.
+   * Ensure current badges are seeded and retired badge definitions are removed.
    */
   static async ensureBadgesSeeded(): Promise<void> {
     await prisma.badge.createMany({
       data: BADGE_DEFINITIONS,
       skipDuplicates: true,
+    });
+
+    await prisma.badge.deleteMany({
+      where: {
+        conditionType: {
+          notIn: ACTIVE_BADGE_CONDITION_TYPES,
+        },
+      },
     });
   }
 
@@ -88,6 +106,11 @@ export class BadgeService {
     await this.ensureBadgesSeeded();
 
     const allBadges = await prisma.badge.findMany({
+      where: {
+        conditionType: {
+          in: ACTIVE_BADGE_CONDITION_TYPES,
+        },
+      },
       include: {
         userBadges: {
           where: { userId },
@@ -107,41 +130,45 @@ export class BadgeService {
       let target = 0;
 
       switch (badge.conditionType) {
-        case "activity_count_1":
-          progress = metrics.totalActivities;
+        case "first_learning_day":
+          progress = metrics.totalLearningActivities;
           target = 1;
           break;
-        case "reflection_count_5":
-          progress = metrics.reflectionCount;
-          target = 5;
-          break;
-        case "lesson_count_5":
+        case "lesson_finish_3":
           progress = metrics.completedLessonsCount;
+          target = 3;
+          break;
+        case "quiz_complete_5":
+          progress = metrics.completedQuizCount;
           target = 5;
           break;
-        case "quiz_count_3":
-          progress = metrics.quizCount;
+        case "bookmark_save_3":
+          progress = metrics.bookmarkCount;
           target = 3;
           break;
-        case "story_count_3":
-          progress = metrics.storyCount;
+        case "story_decision_3":
+          progress = metrics.storyDecisionCount;
           target = 3;
           break;
-        case "streak_count_3":
+        case "minigame_complete_5":
+          progress = metrics.completedMiniGameCount;
+          target = 5;
+          break;
+        case "short_lesson_7":
+          progress = metrics.shortLessonCount;
+          target = 7;
+          break;
+        case "learning_streak_3":
           progress = metrics.currentStreak;
           target = 3;
           break;
-        case "short_lesson_count_10":
-          progress = metrics.shortLessonCount;
-          target = 10;
-          break;
-        case "activity_count_20":
-          progress = metrics.totalActivities;
-          target = 20;
-          break;
-        case "streak_count_7":
+        case "learning_streak_7":
           progress = metrics.currentStreak;
           target = 7;
+          break;
+        case "balanced_core_5":
+          progress = metrics.balancedCoreCount;
+          target = 5;
           break;
       }
 
@@ -163,8 +190,17 @@ export class BadgeService {
    * Retrieve only earned badges of the user
    */
   static async getEarnedBadges(userId: string) {
+    await this.ensureBadgesSeeded();
+
     return prisma.userBadge.findMany({
-      where: { userId },
+      where: {
+        userId,
+        badge: {
+          conditionType: {
+            in: ACTIVE_BADGE_CONDITION_TYPES,
+          },
+        },
+      },
       include: {
         badge: true,
       },
@@ -181,6 +217,11 @@ export class BadgeService {
 
     const metrics = await this.getUserMetrics(userId);
     const allBadges = await prisma.badge.findMany({
+      where: {
+        conditionType: {
+          in: ACTIVE_BADGE_CONDITION_TYPES,
+        },
+      },
       include: {
         userBadges: {
           where: { userId },
@@ -199,32 +240,35 @@ export class BadgeService {
       let isEligible = false;
 
       switch (badge.conditionType) {
-        case "activity_count_1":
-          isEligible = metrics.totalActivities >= 1;
+        case "first_learning_day":
+          isEligible = metrics.totalLearningActivities >= 1;
           break;
-        case "reflection_count_5":
-          isEligible = metrics.reflectionCount >= 5;
+        case "lesson_finish_3":
+          isEligible = metrics.completedLessonsCount >= 3;
           break;
-        case "lesson_count_5":
-          isEligible = metrics.completedLessonsCount >= 5;
+        case "quiz_complete_5":
+          isEligible = metrics.completedQuizCount >= 5;
           break;
-        case "quiz_count_3":
-          isEligible = metrics.quizCount >= 3;
+        case "bookmark_save_3":
+          isEligible = metrics.bookmarkCount >= 3;
           break;
-        case "story_count_3":
-          isEligible = metrics.storyCount >= 3;
+        case "story_decision_3":
+          isEligible = metrics.storyDecisionCount >= 3;
           break;
-        case "streak_count_3":
+        case "minigame_complete_5":
+          isEligible = metrics.completedMiniGameCount >= 5;
+          break;
+        case "short_lesson_7":
+          isEligible = metrics.shortLessonCount >= 7;
+          break;
+        case "learning_streak_3":
           isEligible = metrics.currentStreak >= 3;
           break;
-        case "short_lesson_count_10":
-          isEligible = metrics.shortLessonCount >= 10;
-          break;
-        case "activity_count_20":
-          isEligible = metrics.totalActivities >= 20;
-          break;
-        case "streak_count_7":
+        case "learning_streak_7":
           isEligible = metrics.currentStreak >= 7;
+          break;
+        case "balanced_core_5":
+          isEligible = metrics.balancedCoreCount >= 5;
           break;
       }
 
@@ -266,28 +310,46 @@ export class BadgeService {
    */
   private static async getUserMetrics(userId: string) {
     const [
-      totalActivities,
-      reflectionCount,
+      totalLearningActivities,
       completedLessonsCount,
-      quizCount,
-      storyCount,
+      completedQuizCount,
+      storyDecisionCount,
       shortLessonCount,
+      completedMiniGameCount,
+      bookmarkCount,
       streakResult,
     ] = await Promise.all([
-      prisma.activityLog.count({ where: { userId } }),
-      prisma.reflectionEntry.count({ where: { userId } }),
+      prisma.activityLog.count({
+        where: {
+          userId,
+          activityType: { in: RETAINED_ACTIVITY_TYPES },
+        },
+      }),
       prisma.userProgress.count({
         where: { userId, status: ProgressStatus.COMPLETED },
       }),
-      prisma.quizAttempt.count({ where: { userId } }),
-      prisma.storySession.count({ where: { userId } }),
+      prisma.quizAttempt.count({ where: { userId, completedAt: { not: null } } }),
+      prisma.storyDecision.count({ where: { userId } }),
       prisma.shortLessonResponse.count({ where: { userId } }),
+      prisma.miniGameAttempt.count({ where: { userId, completedAt: { not: null } } }),
+      prisma.bookmark.count({ where: { userId } }),
       prisma.activityLog.findMany({
-        where: { userId },
+        where: {
+          userId,
+          activityType: { in: RETAINED_ACTIVITY_TYPES },
+        },
         select: { createdAt: true },
         orderBy: { createdAt: "desc" },
       }),
     ]);
+
+    const balancedCoreCount = [
+      completedLessonsCount,
+      completedQuizCount,
+      storyDecisionCount,
+      shortLessonCount,
+      completedMiniGameCount,
+    ].filter((count) => count > 0).length;
 
     let currentStreak = 0;
     if (streakResult.length > 0) {
@@ -316,12 +378,14 @@ export class BadgeService {
     }
 
     return {
-      totalActivities,
-      reflectionCount,
+      totalLearningActivities,
       completedLessonsCount,
-      quizCount,
-      storyCount,
+      completedQuizCount,
+      storyDecisionCount,
       shortLessonCount,
+      completedMiniGameCount,
+      bookmarkCount,
+      balancedCoreCount,
       currentStreak,
     };
   }

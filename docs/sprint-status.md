@@ -1,5 +1,7 @@
 # PhiloMind Sprint Status From GitHub Issues
 
+> Archive note: this is a pre-cleanup planning/status snapshot. It may mention removed modules and is not current product scope.
+>
 > Last sync: 2026-06-17
 > Source of truth: GitHub issues in `khovan123/philo-mind`
 
