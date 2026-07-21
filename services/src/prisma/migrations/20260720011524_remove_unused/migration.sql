@@ -16,6 +16,13 @@
   - Changed the type of `perspective_type` on the `topic_perspectives` table. No cast exists, the column would be dropped and recreated, which cannot be done if there is data, since the column is required.
 
 */
+-- Purge rows referencing deprecated TargetType values before the enum is altered.
+-- DEBATE, ARGUMENT, AI_CHAT, SCENARIO are being removed; any existing rows
+-- with these values would cause the USING cast below to fail.
+DELETE FROM "bookmarks"     WHERE "target_type"::text IN ('DEBATE', 'ARGUMENT', 'AI_CHAT', 'SCENARIO');
+DELETE FROM "activity_logs" WHERE "target_type"::text IN ('DEBATE', 'ARGUMENT', 'AI_CHAT', 'SCENARIO');
+DELETE FROM "reports"       WHERE "target_type"::text IN ('DEBATE', 'ARGUMENT', 'AI_CHAT', 'SCENARIO');
+
 -- AlterEnum
 BEGIN;
 CREATE TYPE "TargetType_new" AS ENUM ('LESSON', 'SHORT_LESSON', 'STORY', 'TOPIC', 'MINDMAP_NODE', 'REFLECTION', 'QUIZ', 'MINI_GAME');

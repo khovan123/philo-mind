@@ -35,6 +35,10 @@ on:
         description: "Run seed after migration"
         required: false
         default: "false"
+      action:
+        description: "Action to perform: 'deploy' (default) or 'resolve' (mark failed migration as rolled-back then redeploy)"
+        required: false
+        default: "deploy"
 
 jobs:
   # ─── Validate: runs on PRs ─────────────────────────────
@@ -88,11 +92,55 @@ jobs:
         working-directory: services
         run: npx prisma generate --schema=src/prisma/schema.prisma
 
+  # ─── Resolve: unblock a failed migration then redeploy ───
+  resolve-failed:
+    name: Resolve Failed Migration & Redeploy
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'resolve'
+    environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - run: npm ci --legacy-peer-deps
+
+      - name: Mark failed migration as rolled-back
+        working-directory: services
+        env:
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: |
+          echo "🔧 Resolving failed migration 20260720011524_remove_unused..."
+          npx prisma migrate resolve \
+            --rolled-back "20260720011524_remove_unused" \
+            --schema=src/prisma/schema.prisma
+          echo "✅ Migration marked as rolled-back"
+
+      - name: Redeploy all pending migrations
+        working-directory: services
+        env:
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: |
+          echo "🚀 Redeploying migrations..."
+          npx prisma migrate deploy --schema=src/prisma/schema.prisma
+          echo "✅ Migrations applied successfully"
+
+      - name: Migration summary
+        if: always()
+        working-directory: services
+        env:
+          DIRECT_DATABASE_URL: ${{ secrets.DIRECT_DATABASE_URL }}
+        run: npx prisma migrate status --schema=src/prisma/schema.prisma || true
+
   # ─── Deploy: runs on push to main/production ───────────
   deploy:
     name: Deploy Migrations
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.action != 'resolve')
     environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
 
     steps:
