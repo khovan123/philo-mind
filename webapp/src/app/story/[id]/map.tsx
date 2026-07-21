@@ -91,7 +91,9 @@ export default function ExplorationMapScreen() {
       knowledge: "knowledge",
       minigame: "minigame",
       quiz: "quiz",
-      reflect: "reflect",
+      // The reflect screen was removed along with the backend reflection API;
+      // route straight to the completion screen instead.
+      reflect: "complete",
     };
 
     const route = routeMap[selectedNode.id];

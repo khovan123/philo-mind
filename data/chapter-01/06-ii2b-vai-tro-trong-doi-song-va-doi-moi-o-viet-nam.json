@@ -54,34 +54,7 @@
       "explanation": "Bản chất của triết học Mác - Lênin là gắn liền với thực tiễn và không ngừng phát triển. Vì vậy, khi đóng vai trò nền tảng cho sự nghiệp đổi mới ở Việt Nam, lý luận này đòi hỏi chúng ta không được rập khuôn máy móc mà phải vận dụng sáng tạo, liên tục tổng kết thực tiễn để bổ sung, hoàn thiện học thuyết."
     }
   ],
-  "scenario": {
-    "situation": "Hoàng là một kỹ sư phần mềm trẻ vừa tốt nghiệp. Khi tham gia phát triển một ứng dụng công nghệ dành cho các tài xế công nghệ (xe ôm công nghệ), Hoàng phát hiện ra thuật toán của ứng dụng đang cố tình \"bóp\" chiết khấu và tự động tăng thời gian làm việc của tài xế lên mức tối đa để tối ưu hóa lợi nhuận cho công ty, bất chấp sức khỏe và an toàn của tài xế khi tham gia giao thông. Đồng nghiệp khuyên Hoàng nên lờ đi vì \"đây là quy luật thị trường cạnh tranh, công ty có lãi lớn thì tụi mình mới có tiền thưởng\". Hoàng băn khoăn giữa việc giữ im lặng vì lợi ích kinh tế cá nhân hay lên tiếng bảo vệ người lao động (vận dụng lập trường nhân văn của triết học Mác).",
-    "perspectives": [
-      {
-        "type": "thực dụng",
-        "content": "Việc Hoàng chọn giải pháp im lặng và hoàn thành nhiệm vụ viết code theo đúng yêu cầu sẽ đem lại lợi ích thực tế lớn nhất cho cá nhân anh ta. Hoàng giữ được công việc ổn định, có tiền thưởng tối ưu thuật toán và mở rộng cơ hội thăng tiến tại công ty phần mềm mà không phải rước lấy rủi ro bị sa thải hay cô lập."
-      },
-      {
-        "type": "nghĩa vụ",
-        "content": "Hoàng có nghĩa vụ đạo đức nghề nghiệp là tạo ra các giải pháp công nghệ để hỗ trợ và nâng cao đời sống con người, không phải biến công nghệ thành công cụ bóc lột tinh vi. Trên lập trường thế giới quan mác-xít, người trí thức trẻ có nghĩa vụ đứng về phía nhân dân lao động, bảo vệ quyền lợi hợp pháp của người lao động trực tiếp."
-      },
-      {
-        "type": "đức hạnh",
-        "content": "Sự chính trực và lòng tự trọng không cho phép Hoàng thỏa hiệp với hành vi sai trái. Nếu Hoàng im lặng, anh ta đang tự đánh mất đức hạnh trung thực với bản thân và trở thành người đồng lõa gián tiếp gây ra áp lực kiệt quệ cho hàng nghìn tài xế ngoài đường."
-      },
-      {
-        "type": "quan tâm",
-        "content": "Góc nhìn này yêu cầu Hoàng phải đặt mình vào hoàn cảnh khó khăn của các tài xế công nghệ - những người lao động phổ thông phải dầm mưa dãi nắng mưu sinh 12-14 tiếng mỗi ngày để nuôi gia đình. Sự thấu cảm đó sẽ thôi thúc Hoàng không chọn cách im lặng ích kỷ, mà chủ động đề xuất với ban quản trị một phương án thuật toán cân bằng hơn giữa lợi nhuận doanh nghiệp và sức khỏe con người."
-      }
-    ],
-    "discussionQuestion": null,
-    "_note_discussionQuestion": "Giáo trình mục II.2b KHÔNG có câu hỏi thảo luận riêng cho tình huống đạo đức (chỉ có 4 góc nhìn đầy đủ). Để null."
-  },
-  "debate": {
-    "positionA": "Triết học Mác - Lênin là hệ thống lý luận vĩ mô, chỉ có vai trò đối với các nhà lãnh đạo trong việc hoạch định đường lối quốc gia. Sinh viên hay người đi làm bình thường không cần học vì nó không giúp ích gì cho công việc chuyên môn hay kỹ năng kiếm tiền thực tế.",
-    "positionB": "Triết học Mác - Lênin cung cấp thế giới quan và phương pháp luận nền tảng cho mọi cá nhân. Dù là một lập trình viên, một người làm marketing hay một người khởi nghiệp, tư duy biện chứng và tôn trọng thực tế khách quan giúp họ đưa ra những quyết định đúng đắn, thấu đáo và sống có trách nhiệm.",
-    "openQuestions": [
-      "Từ những trải nghiệm thực tế của bản thân trong học tập hoặc làm việc (ví dụ: việc phân công làm bài tập nhóm, việc đi làm thêm, hay việc quản lý chi tiêu cá nhân), bạn thấy phương pháp luận duy vật biện chứng (nhìn nhận sự vật trong mối liên hệ phổ biến, luôn vận động và tôn trọng thực tế khách quan) có thể giúp bạn giải quyết các xung đột hay khó khăn cụ thể như thế nào? Hãy viết một đoạn văn ngắn chia sẻ góc nhìn cá nhân của mình."
-    ]
-  }
+  "criticalQuestions": [
+    "Từ những trải nghiệm thực tế của bản thân trong học tập hoặc làm việc (ví dụ: việc phân công làm bài tập nhóm, việc đi làm thêm, hay việc quản lý chi tiêu cá nhân), bạn thấy phương pháp luận duy vật biện chứng (nhìn nhận sự vật trong mối liên hệ phổ biến, luôn vận động và tôn trọng thực tế khách quan) có thể giúp bạn giải quyết các xung đột hay khó khăn cụ thể như thế nào? Hãy viết một đoạn văn ngắn chia sẻ góc nhìn cá nhân của mình."
+  ]
 }

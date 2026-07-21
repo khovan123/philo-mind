@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "expo-router";
 import { ArrowLeft, ArrowRight, BookOpen, Search, Sparkles, Play, HelpCircle } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+
 
 import { AppHeader } from "@/components/app-header";
 import { ThemedText } from "@/components/themed-text";
@@ -12,7 +12,7 @@ import {
   useGetChaptersQuery,
 } from "@/services/rtk-api/chapter.api";
 import { useSemanticSearchQuery, type SearchResultItem } from "@/services/rtk-api/search.api";
-import { Pressable, ScrollView, TextInput, View } from "@/tw";
+import { Pressable, SafeAreaView, ScrollView, TextInput, View } from "@/tw";
 
 const CHAPTER_ID = "1";
 const MIN_FEATURED_COUNT = 3;

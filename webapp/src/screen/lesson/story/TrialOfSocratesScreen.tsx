@@ -18,7 +18,6 @@ export default function TrialOfSocratesScreen() {
   const [stepIndex, setStepIndex] = useState(0);
   const [characterId, setCharacterId] = useState<string>(characters[0].id);
   const [decisionId, setDecisionId] = useState<string>(decisions[0].id);
-  const [reflectionDone, setReflectionDone] = useState(false);
   const [quizChoice, setQuizChoice] = useState<string | null>(null);
 
   const character = useMemo(
@@ -51,11 +50,6 @@ export default function TrialOfSocratesScreen() {
     router.push("/(tabs)/explore");
   }
 
-  function openReflectionJournal() {
-    setReflectionDone(true);
-    router.push("/story/trial-of-socrates/reflect" as never);
-  }
-
   return (
     <SafeAreaView edges={["top"]} style={styles.safeArea}>
       <View style={styles.screen}>
@@ -81,9 +75,7 @@ export default function TrialOfSocratesScreen() {
             <LessonExplanation
               decision={decision}
               quizChoice={quizChoice}
-              reflectionDone={reflectionDone}
               onQuiz={setQuizChoice}
-              onReflection={openReflectionJournal}
               onRetry={retryDecision}
               onFinish={finishLesson}
             />

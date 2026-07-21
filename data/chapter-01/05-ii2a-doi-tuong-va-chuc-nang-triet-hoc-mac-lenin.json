@@ -56,35 +56,9 @@
       "explanation": "Phương pháp luận duy vật biện chứng yêu cầu xem xét sự vật trong tính toàn diện và mối liên hệ của nó. Doanh thu giảm có thể do nhiều nguyên nhân như nhu cầu thị trường, đối thủ cạnh tranh, chất lượng sản phẩm, giá bán hoặc chiến lược marketing, chứ không chỉ do nhân viên bán hàng."
     }
   ],
-  "scenario": {
-    "situation": "Trong một dự án học tập, nhóm của Minh được yêu cầu nghiên cứu và trình bày về một vấn đề xã hội. Tuy nhiên, một số thành viên trong nhóm đã sử dụng công cụ AI để tạo gần như toàn bộ nội dung mà không kiểm chứng thông tin hoặc đọc thêm tài liệu tham khảo. Minh cho rằng việc này giúp tiết kiệm thời gian nhưng cũng lo ngại nhóm sẽ không thực sự hiểu nội dung bài học. Trong khi đó, các thành viên khác cho rằng miễn là bài làm hoàn thành đúng hạn thì phương pháp thực hiện không quan trọng.",
-    "perspectives": [
-      {
-        "type": "thực dụng",
-        "content": "Nếu sử dụng AI giúp nhóm hoàn thành bài nhanh hơn, tiết kiệm thời gian và đạt kết quả tốt thì hành động này có thể mang lại lợi ích trước mắt cho đa số thành viên."
-      },
-      {
-        "type": "nghĩa vụ",
-        "content": "Sinh viên có trách nhiệm học tập, nghiên cứu và đảm bảo tính trung thực trong học thuật. Việc phụ thuộc hoàn toàn vào AI mà không kiểm chứng thông tin có thể làm giảm giá trị của quá trình học tập."
-      },
-      {
-        "type": "đức hạnh",
-        "content": "Một sinh viên có trách nhiệm và tinh thần cầu tiến cần sử dụng AI như công cụ hỗ trợ thay vì thay thế hoàn toàn việc học và tư duy của bản thân."
-      },
-      {
-        "type": "quan tâm",
-        "content": "Minh nên trao đổi với các thành viên một cách tôn trọng, cùng tìm giải pháp cân bằng giữa hiệu quả công việc và chất lượng học tập thay vì chỉ trích hoặc áp đặt ý kiến."
-      }
-    ],
-    "discussionQuestion": "Nếu là Minh, bạn sẽ xử lý tình huống này như thế nào để vừa hoàn thành tốt bài tập nhóm vừa đảm bảo giá trị học tập của các thành viên?"
-  },
-  "debate": {
-    "positionA": "Trong thời đại trí tuệ nhân tạo, sinh viên không cần ghi nhớ quá nhiều kiến thức vì mọi thông tin đều có thể tìm kiếm hoặc hỏi AI bất cứ lúc nào.",
-    "positionB": "Dù AI phát triển đến đâu, sinh viên vẫn cần có kiến thức nền tảng và khả năng tư duy độc lập để đánh giá tính chính xác của thông tin.",
-    "openQuestions": [
-      "Bạn đồng ý với quan điểm nào hơn? Hãy giải thích lý do và đưa ra ví dụ thực tế để bảo vệ quan điểm của mình.",
-      "Theo bạn, chức năng thế giới quan và chức năng phương pháp luận của Triết học Mác - Lênin có còn cần thiết trong thời đại AI hay không? Vì sao?",
-      "Trong học tập và cuộc sống, việc nhìn nhận một vấn đề theo nhiều góc độ khác nhau mang lại những lợi ích gì? Hãy liên hệ với một tình huống thực tế mà bạn đã trải qua."
-    ]
-  }
+  "criticalQuestions": [
+    "Bạn đồng ý với quan điểm nào hơn? Hãy giải thích lý do và đưa ra ví dụ thực tế để bảo vệ quan điểm của mình.",
+    "Theo bạn, chức năng thế giới quan và chức năng phương pháp luận của Triết học Mác - Lênin có còn cần thiết trong thời đại AI hay không? Vì sao?",
+    "Trong học tập và cuộc sống, việc nhìn nhận một vấn đề theo nhiều góc độ khác nhau mang lại những lợi ích gì? Hãy liên hệ với một tình huống thực tế mà bạn đã trải qua."
+  ]
 }

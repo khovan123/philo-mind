@@ -1,17 +1,9 @@
 import { prisma } from "../config/prisma.js";
 import type { TargetType } from "../prisma/generated/enums.js";
+import { ActivityType, RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
 import { BadgeService } from "./badge.service.js";
 
-export enum ActivityType {
-  LEARN_LESSON = "LEARN_LESSON",
-  DO_QUIZ = "DO_QUIZ",
-  WRITE_REFLECTION = "WRITE_REFLECTION",
-  CREATE_DEBATE = "CREATE_DEBATE",
-  POST_ARGUMENT = "POST_ARGUMENT",
-  DECIDE_STORY = "DECIDE_STORY",
-  DO_SHORT_LESSON = "DO_SHORT_LESSON",
-  CHAT_AI = "CHAT_AI",
-}
+export { ActivityType, RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
 
 export class ActivityLogService {
   /**
@@ -54,16 +46,20 @@ export class ActivityLogService {
    */
   static async getActivityHistory(userId: string, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
+    const retainedActivityWhere = {
+      userId,
+      activityType: { in: RETAINED_ACTIVITY_TYPES },
+    };
 
     const [logs, total] = await prisma.$transaction([
       prisma.activityLog.findMany({
-        where: { userId },
+        where: retainedActivityWhere,
         orderBy: { createdAt: "desc" },
         skip,
         take: limit,
       }),
       prisma.activityLog.count({
-        where: { userId },
+        where: retainedActivityWhere,
       }),
     ]);
 
@@ -83,7 +79,10 @@ export class ActivityLogService {
    */
   static async getStreakDetails(userId: string) {
     const logs = await prisma.activityLog.findMany({
-      where: { userId },
+      where: {
+        userId,
+        activityType: { in: RETAINED_ACTIVITY_TYPES },
+      },
       select: { createdAt: true },
       orderBy: { createdAt: "desc" },
     });

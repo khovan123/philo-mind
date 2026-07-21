@@ -54,35 +54,8 @@
       "explanation": "Giáo trình chỉ rõ, do sự phát triển mạnh mẽ của lực lượng sản xuất từ cách mạng công nghiệp (thế kỷ XIX), giai cấp tư sản không còn là lực lượng cách mạng, và giai cấp vô sản đã xuất hiện như lực lượng cách mạng mới."
     }
   ],
-  "scenario": {
-    "situation": "Minh là một sinh viên chạy xe ôm công nghệ để trang trải chi phí sinh hoạt. Gần đây, ứng dụng của công ty có một lỗi hệ thống: nếu Minh dùng một thủ thuật nhỏ trên điện thoại, hệ thống sẽ ưu tiên phát toàn bộ các \"cuốc xe\" ngon (quãng đường ngắn, tiền cao) cho Minh, khiến các tài xế khác trong khu vực không nhận được chuyến nào cả ngày. Minh biết nhiều tài xế khác là những người lao động nghèo, mang gánh nặng gia đình lớn hơn mình rất nhiều. Minh nên tận dụng lỗ hổng này để tăng thu nhập cá nhân hay báo cáo cho công ty?",
-    "perspectives": [
-      {
-        "type": "thực dụng",
-        "content": "Hành động đúng là hành động mang lại lợi ích thực tế lớn nhất. Dưới góc nhìn này, nếu Minh nghĩ ngắn hạn, việc giữ bí mật giúp Minh kiếm được nhiều tiền nhất. Tuy nhiên, nếu bị phát hiện, Minh có thể bị khóa tài khoản vĩnh viễn. Lợi ích lâu dài yêu cầu Minh phải cân nhắc rủi ro bị tước quyền lao động."
-      },
-      {
-        "type": "nghĩa vụ",
-        "content": "Theo các nguyên tắc và thỏa thuận khi đăng ký làm đối tác, Minh có nghĩa vụ tuân thủ quy định của công ty công nghệ và không can thiệp vào hệ thống. Việc lợi dụng bug là vi phạm hợp đồng, do đó Minh bắt buộc phải báo cáo lỗi này."
-      },
-      {
-        "type": "đức hạnh",
-        "content": "Một người có nhân cách tốt sẽ không xây dựng thành công của mình trên sự tước đoạt bát cơm của người khác. Sự công bằng và trung thực là phẩm chất Minh cần rèn luyện để trở thành một con người tử tế trong xã hội."
-      },
-      {
-        "type": "quan tâm",
-        "content": "Minh đặt mình vào vị trí của những chú tài xế lớn tuổi đang chờ cuốc xe giữa trời nắng nóng ở ngã tư để mua sữa cho con. Sự thấu cảm sâu sắc giữa những người lao động sẽ thôi thúc Minh không sử dụng thủ thuật này, bảo vệ sinh kế chung của cả cộng đồng tài xế."
-      }
-    ],
-    "discussionQuestion": null,
-    "_note_discussionQuestion": "Giáo trình mục II.1 KHÔNG có câu hỏi thảo luận riêng cho tình huống đạo đức (chỉ có 4 góc nhìn đầy đủ). Để null."
-  },
-  "debate": {
-    "positionA": "Triết học chỉ là hệ thống những lý thuyết trừu tượng, cao siêu trên giảng đường, không có tác dụng gì trong việc giải quyết các vấn đề cơm áo gạo tiền hay đấu tranh quyền lợi thực tế của người lao động hiện nay.",
-    "positionB": "Triết học Mác ra đời chính là từ thực tiễn đấu tranh của người lao động. Nó cung cấp vũ khí lý luận sắc bén giúp họ nhận thức rõ bản chất bóc lột và phương hướng thay đổi hoàn cảnh xã hội.",
-    "openQuestions": [
-      "Trong bối cảnh Việt Nam 2024, sự bùng nổ của trí tuệ nhân tạo (AI) và tự động hóa đang làm thay đổi mạnh mẽ lực lượng sản xuất. Theo bạn, những biến đổi công nghệ này có thể dẫn đến những mâu thuẫn xã hội nào mới giữa người lao động và giới chủ, tương tự như những gì đã xảy ra trong cuộc cách mạng công nghiệp thế kỷ XIX?",
-      "Nếu coi triết học Mác – Lênin là vũ khí lý luận của giai cấp vô sản, thì sinh viên và những người lao động trẻ hiện nay có thể vận dụng \"vũ khí\" này như thế nào để bảo vệ quyền lợi hợp pháp của mình trong nền kinh tế gig (nền kinh tế việc làm tự do/ngắn hạn)?"
-    ]
-  }
+  "criticalQuestions": [
+    "Trong bối cảnh Việt Nam 2024, sự bùng nổ của trí tuệ nhân tạo (AI) và tự động hóa đang làm thay đổi mạnh mẽ lực lượng sản xuất. Theo bạn, những biến đổi công nghệ này có thể dẫn đến những mâu thuẫn xã hội nào mới giữa người lao động và giới chủ, tương tự như những gì đã xảy ra trong cuộc cách mạng công nghiệp thế kỷ XIX?",
+    "Nếu coi triết học Mác – Lênin là vũ khí lý luận của giai cấp vô sản, thì sinh viên và những người lao động trẻ hiện nay có thể vận dụng \"vũ khí\" này như thế nào để bảo vệ quyền lợi hợp pháp của mình trong nền kinh tế gig (nền kinh tế việc làm tự do/ngắn hạn)?"
+  ]
 }

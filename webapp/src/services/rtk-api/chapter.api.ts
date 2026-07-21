@@ -45,7 +45,7 @@ export type ChapterNode = Omit<ChapterNodeSummary, "steps"> & {
   hook: ChapterHook;
   theoryCards: ChapterTheoryCard[];
   quiz: ChapterQuizQuestion[];
-  debate: {
+  perspectives: {
     perspectiveA: string;
     perspectiveB: string;
     explanationA: string;

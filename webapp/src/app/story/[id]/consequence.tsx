@@ -105,8 +105,8 @@ export default function ConsequenceScreen() {
   }
 
   function handleContinue() {
-    setStep("evidence-board");
-    router.push(`/story/${storyId}/evidence-board` as never);
+    setStep("knowledge");
+    router.push(`/story/${storyId}/knowledge` as never);
   }
 
   if (isLoading) {

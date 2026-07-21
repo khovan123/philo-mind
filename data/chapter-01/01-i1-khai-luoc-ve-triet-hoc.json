@@ -54,35 +54,8 @@
       "explanation": "Triết học ở tầm khái quát hơn các khoa học chuyên ngành - chứ không phải phép cộng cơ học (A sai), cũng không thay thế hay phủ nhận các khoa học khác (C, D sai)."
     }
   ],
-  "scenario": {
-    "situation": "Minh là sinh viên năm nhất học môn Triết học Mác – Lênin. Bạn thấy môn này \"trừu tượng, học thuộc lòng, ra trường chẳng dùng được gì\", nên định không đi học mà nhờ bạn điểm danh hộ, chỉ học vẹt vài ngày trước thi để qua môn. Một người bạn cùng phòng khuyên Minh nên học nghiêm túc vì \"thế giới quan và cách tư duy mới là cái dùng cả đời\". Minh nên hành xử thế nào?",
-    "perspectives": [
-      {
-        "type": "thực dụng",
-        "content": "Học vẹt có thể qua môn nhưng Minh đánh mất cơ hội rèn năng lực tư duy khái quát, phân biệt đúng sai, nhận diện luận điểm sai trái - những năng lực thực sự hữu ích khi đi làm. Nhờ điểm danh hộ còn có rủi ro bị kỷ luật. Cân nhắc lợi hại lâu dài, học nghiêm túc có lợi hơn nhiều."
-      },
-      {
-        "type": "nghĩa vụ",
-        "content": "Là sinh viên, Minh có nghĩa vụ trung thực và tuân thủ quy chế. Nhờ điểm danh hộ là hành vi gian lận, vi phạm quy tắc bất kể kết quả ra sao - tức là sai về mặt nguyên tắc."
-      },
-      {
-        "type": "đức hạnh",
-        "content": "Một người trung thực, có trách nhiệm, ham hiểu biết sẽ không chọn cách gian dối, đối phó. Rèn tính kiên trì và trung thực trong học tập mới làm Minh trở thành con người tốt hơn về lâu dài."
-      },
-      {
-        "type": "quan tâm",
-        "content": "Nhờ bạn điểm danh hộ là đẩy rủi ro sang cho bạn và lợi dụng tình bạn. Người bạn cùng phòng khuyên thật lòng đang quan tâm tới Minh; tôn trọng mối quan hệ đó nghĩa là không lôi kéo bạn vào việc sai."
-      }
-    ],
-    "discussionQuestion": null,
-    "_note_discussionQuestion": "Giáo trình mục I.1 KHÔNG có câu hỏi thảo luận riêng cho tình huống đạo đức (chỉ có 4 góc nhìn). Để null, không tự chế."
-  },
-  "debate": {
-    "positionA": "Triết học là môn trừu tượng, không thiết thực. Thời nay khoa học chuyên ngành và công nghệ mới giải quyết được vấn đề thực tế; triết học chỉ còn ý nghĩa lịch sử.",
-    "positionB": "Chính vì triết học cung cấp thế giới quan và phương pháp tư duy chung nhất nên nó là nền tảng định hướng cho mọi khoa học và cho hành động của con người. Thiếu nó, tri thức chuyên ngành dễ rời rạc, lệch hướng.",
-    "openQuestions": [
-      "Trong thời đại AI và dữ liệu lớn năm 2024, việc có một \"thế giới quan\" rõ ràng còn quan trọng không, hay chỉ cần kỹ năng chuyên môn là đủ? Vì sao?",
-      "Quan niệm thời cổ đại coi triết học là \"khoa học của các khoa học\" liệu còn hợp lý không, khi ngày nay mỗi ngành khoa học đã phát triển độc lập rất sâu?"
-    ]
-  }
+  "criticalQuestions": [
+    "Trong thời đại AI và dữ liệu lớn năm 2024, việc có một \"thế giới quan\" rõ ràng còn quan trọng không, hay chỉ cần kỹ năng chuyên môn là đủ? Vì sao?",
+    "Quan niệm thời cổ đại coi triết học là \"khoa học của các khoa học\" liệu còn hợp lý không, khi ngày nay mỗi ngành khoa học đã phát triển độc lập rất sâu?"
+  ]
 }

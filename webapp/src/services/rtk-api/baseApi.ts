@@ -11,7 +11,6 @@ export const baseApi = createApi({
     "Bookmark",
     "Mindmap",
     "Minigame",
-    "Reflection",
     "Story",
     "Topic",
     "Lesson",

@@ -57,8 +57,8 @@ export type {
 } from "./types/auth.js";
 
 // Learning
-export { ContentStatus, Difficulty, PerspectiveType } from "./types/learning.js";
-export type { LessonDTO, QuizAttemptDTO, TopicDTO, TopicPerspectiveDTO } from "./types/learning.js";
+export { ContentStatus, Difficulty } from "./types/learning.js";
+export type { LessonDTO, QuizAttemptDTO, TopicDTO } from "./types/learning.js";
 
 // Story
 export { AnalysisType, StorySessionStatus } from "./types/story.js";
@@ -94,7 +94,6 @@ export * from "./validators/short-lesson.validator.js";
 export * from "./validators/story-learn-card.validator.js";
 export * from "./validators/story-session.validator.js";
 export * from "./validators/story.validator.js";
-export * from "./validators/topic-perspective.validator.js";
 export * from "./validators/topic.validator.js";
 
 export { topicIdSchema } from "./validators/topic.validator.js";

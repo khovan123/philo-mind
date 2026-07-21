@@ -27,7 +27,6 @@ export type ProfileSummary = {
     heatmap: { date: string; count: number }[];
     recent: unknown[];
   };
-  reflections: { id: string; content?: string; text?: string; createdAt: string }[];
 };
 
 export const profileApi = baseApi.injectEndpoints({

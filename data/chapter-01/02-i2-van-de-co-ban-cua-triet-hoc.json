@@ -54,37 +54,8 @@
       "explanation": "Việc nghiên cứu khoa học xuất phát từ câu hỏi liệu con người có thể hiểu và khám phá thế giới khách quan hay không (mặt thứ hai của vấn đề cơ bản của triết học)."
     }
   ],
-  "scenario": {
-    "situation": "Một nhóm sinh viên thực hiện dự án môn học. Một thành viên cho rằng chỉ cần thay đổi tư duy và quyết tâm hơn thì nhóm sẽ đạt kết quả tốt. Một thành viên khác cho rằng nhóm cần thêm thời gian, tài liệu và nguồn lực thì mới có thể cải thiện kết quả.",
-    "perspectives": [
-      {
-        "type": "chủ quan",
-        "content": "Ý thức và quyết tâm đóng vai trò rất quan trọng trong việc thúc đẩy hành động."
-      },
-      {
-        "type": "khách quan",
-        "content": "Điều kiện vật chất và hoàn cảnh thực tế ảnh hưởng lớn đến kết quả cuối cùng."
-      },
-      {
-        "type": "biện chứng",
-        "content": "Kết quả thường chịu tác động đồng thời từ cả nhận thức của con người và điều kiện khách quan."
-      },
-      {
-        "type": "câu hỏi mở",
-        "content": "Khi đánh giá một vấn đề, liệu chúng ta nên tập trung nhiều hơn vào yếu tố chủ quan hay điều kiện khách quan?"
-      }
-    ],
-    "discussionQuestion": "Khi đánh giá một vấn đề, liệu chúng ta nên tập trung nhiều hơn vào yếu tố chủ quan hay điều kiện khách quan?",
-    "_note": "Mục I.2: 4 \"góc nhìn\" trong giáo trình KHÔNG phải 4 framework đạo đức chuẩn (thực dụng/nghĩa vụ/đức hạnh/quan tâm) mà là 4 góc nhìn về quan hệ vật chất–ý thức. Đã dán nhãn perspectiveType theo ngữ nghĩa thực, sát nội dung gốc giáo trình: \"chủ quan\" (Góc nhìn 1 — đề cao ý thức/quyết tâm), \"khách quan\" (Góc nhìn 2 — đề cao điều kiện vật chất), \"biện chứng\" (Góc nhìn 3 — kết hợp cả hai mặt), \"câu hỏi mở\" (Góc nhìn 4 — vốn là một câu hỏi gợi mở, không phải lập trường khẳng định). Content giữ nguyên giáo trình. Góc nhìn 4 đồng thời dùng làm discussionQuestion. Lưu ý cho Pixel/Forge: scenario mục này dùng bộ nhãn KHÁC với 5 mục còn lại (thực dụng/nghĩa vụ/đức hạnh/quan tâm), UI cần render perspectiveType động theo data, không hardcode 4 nhãn đạo đức."
-  },
-  "debate": {
-    "positionA": "Vật chất có trước và quyết định ý thức; ý thức là phản ánh của thế giới vật chất (Chủ nghĩa duy vật).",
-    "positionB": "Ý thức, tinh thần hoặc ý niệm có trước và quyết định thế giới vật chất (Chủ nghĩa duy tâm).",
-    "positionC": "Cả vật chất và ý thức đều tồn tại độc lập nhưng tác động biện chứng qua lại với nhau (Nhị nguyên/Biện chứng).",
-    "positionD": "Chúng ta không thể biết chắc chắn liệu vật chất hay ý thức có trước và quyết định cái nào (Bất khả tri / Hoài nghi).",
-    "openQuestions": [
-      "Nếu hai người cùng quan sát một sự vật nhưng lại đưa ra hai nhận định khác nhau, điều đó cho thấy điều gì về quá trình nhận thức của con người?",
-      "Khi một ý tưởng mới xuất hiện trong xã hội, nó là nguyên nhân tạo ra sự thay đổi hay là kết quả của những thay đổi đã diễn ra từ trước?"
-    ]
-  }
+  "criticalQuestions": [
+    "Nếu hai người cùng quan sát một sự vật nhưng lại đưa ra hai nhận định khác nhau, điều đó cho thấy điều gì về quá trình nhận thức của con người?",
+    "Khi một ý tưởng mới xuất hiện trong xã hội, nó là nguyên nhân tạo ra sự thay đổi hay là kết quả của những thay đổi đã diễn ra từ trước?"
+  ]
 }

@@ -1,10 +1,11 @@
 tên,mô_tả,icon,điều_kiện
-Khởi đầu minh triết,Thực hiện hoạt động đầu tiên của bạn trên PhiloMind,🌱,activity_count_1
-Nhà tư duy phản biện,Viết 5 bài suy ngẫm cá nhân (reflection),🧠,reflection_count_5
-Hiền triết hiếu học,Hoàn thành 5 bài học lý thuyết sâu sắc,📖,lesson_count_5
-Nhà thông thái trẻ,Vượt qua 3 bài trắc nghiệm tư duy (quiz),🏆,quiz_count_3
-Người kể chuyện triết học,Tham gia quyết định kết cục cho 3 tình huống câu chuyện,🎭,story_count_3
-Chiến binh bền bỉ,Duy trì chuỗi hoạt động học tập 3 ngày liên tiếp,🔥,streak_count_3
-Bậc thầy châm ngôn,Tương tác với 10 bài học ngắn hàng ngày,💡,short_lesson_count_10
-Kẻ lữ hành tò mò,Đạt mốc 20 hoạt động bất kỳ trên hệ thống,🧭,activity_count_20
-Nhà Khắc Kỷ kiên định,Duy trì chuỗi hoạt động học tập 7 ngày liên tiếp,🛡️,streak_count_7
+Ngày học đầu tiên,Hoàn thành 1 hoạt động học tập có ý nghĩa trên PhiloMind,🌱,first_learning_day
+Hoàn tất nhập môn,Hoàn thành 3 bài học chính thức,📘,lesson_finish_3
+Người luyện đáp án,Hoàn thành 5 lượt quiz hoặc luyện tập,🎯,quiz_complete_5
+Người lưu tri thức,Lưu 3 nội dung học tập vào bookmark,🔖,bookmark_save_3
+Lữ khách Story Mode,Đưa ra 3 lựa chọn trong luồng học Story Mode,🎭,story_decision_3
+Người chơi khái niệm,Hoàn thành 5 lượt mini game ôn tập khái niệm,🧩,minigame_complete_5
+Nhịp ngắn mỗi ngày,Phản hồi 7 bài học ngắn daily hook,💡,short_lesson_7
+Giữ nhịp 3 ngày,Duy trì streak học tập 3 ngày liên tiếp,🔥,learning_streak_3
+Bền bỉ 7 ngày,Duy trì streak học tập 7 ngày liên tiếp,🛡️,learning_streak_7
+Người học toàn diện,Có hoạt động ở đủ 5 trụ cột: bài học, quiz, Story Mode, short lesson và mini game,🧭,balanced_core_5

@@ -9,31 +9,25 @@ export class ProfileController {
   async summary(req: Request, res: Response) {
     try {
       const userId = req.user!.id;
-      const [user, badges, streak, completedLessons, quizStats, activities, reflections] =
-        await Promise.all([
-          prisma.user.findUnique({
-            where: { id: userId },
-            select: { id: true, fullName: true, email: true, avatarUrl: true, createdAt: true },
-          }),
-          BadgeService.getAllBadgesForUser(userId),
-          ActivityLogService.getStreakDetails(userId),
-          prisma.userProgress.count({ where: { userId, status: ProgressStatus.COMPLETED } }),
-          prisma.quizAttempt.aggregate({
-            where: { userId, completedAt: { not: null } },
-            _avg: { score: true },
-            _count: { _all: true },
-          }),
-          prisma.activityLog.findMany({
-            where: { userId },
-            orderBy: { createdAt: "desc" },
-            take: 60,
-          }),
-          prisma.reflectionEntry.findMany({
-            where: { userId },
-            orderBy: { createdAt: "desc" },
-            take: 4,
-          }),
-        ]);
+      const [user, badges, streak, completedLessons, quizStats, activities] = await Promise.all([
+        prisma.user.findUnique({
+          where: { id: userId },
+          select: { id: true, fullName: true, email: true, avatarUrl: true, createdAt: true },
+        }),
+        BadgeService.getAllBadgesForUser(userId),
+        ActivityLogService.getStreakDetails(userId),
+        prisma.userProgress.count({ where: { userId, status: ProgressStatus.COMPLETED } }),
+        prisma.quizAttempt.aggregate({
+          where: { userId, completedAt: { not: null } },
+          _avg: { score: true },
+          _count: { _all: true },
+        }),
+        prisma.activityLog.findMany({
+          where: { userId },
+          orderBy: { createdAt: "desc" },
+          take: 60,
+        }),
+      ]);
 
       if (!user) return sendError(res, "USER_NOT_FOUND", "Nguoi dung khong ton tai", 404);
 
@@ -56,7 +50,6 @@ export class ProfileController {
           heatmap,
           recent: activities.slice(0, 8),
         },
-        reflections,
       });
     } catch (err) {
       const error = err as Error;

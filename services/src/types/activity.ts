@@ -1,11 +1,12 @@
 export enum ActivityType {
   LEARN_LESSON = "LEARN_LESSON",
   DO_QUIZ = "DO_QUIZ",
-  WRITE_REFLECTION = "WRITE_REFLECTION",
   DECIDE_STORY = "DECIDE_STORY",
   DO_SHORT_LESSON = "DO_SHORT_LESSON",
-  CHAT_AI = "CHAT_AI",
+  PLAY_MINI_GAME = "PLAY_MINI_GAME",
 }
+
+export const RETAINED_ACTIVITY_TYPES = Object.values(ActivityType);
 
 export enum TargetType {
   LESSON = "LESSON",
@@ -13,9 +14,6 @@ export enum TargetType {
   STORY = "STORY",
   TOPIC = "TOPIC",
   MINDMAP_NODE = "MINDMAP_NODE",
-  REFLECTION = "REFLECTION",
-  AI_CHAT = "AI_CHAT",
-  SCENARIO = "SCENARIO",
   QUIZ = "QUIZ",
   MINI_GAME = "MINI_GAME",
 }

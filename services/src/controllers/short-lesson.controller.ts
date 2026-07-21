@@ -1,5 +1,7 @@
 import type { Request, Response } from "express";
 import { prisma } from "../config/prisma.js";
+import type { TargetType } from "../prisma/generated/enums.js";
+import { ActivityLogService, ActivityType } from "../services/activity-log.service.js";
 import { sendSuccess, sendPaginated, sendError, buildPaginationMeta } from "../utils/response.js";
 import { invalidateCachePattern } from "../middleware/cache.middleware.js";
 
@@ -172,6 +174,16 @@ export class ShortLessonController {
         return sendError(res, "SHORT_LESSON_NOT_FOUND", "Bài học ngắn không tồn tại", 404);
       }
 
+      const existingResponse = await prisma.shortLessonResponse.findUnique({
+        where: {
+          userId_shortLessonId: {
+            userId,
+            shortLessonId: id,
+          },
+        },
+        select: { id: true },
+      });
+
       // Upsert stance choice cleanly and safely
       const response = await prisma.shortLessonResponse.upsert({
         where: {
@@ -208,12 +220,29 @@ export class ShortLessonController {
       await invalidateCachePattern("cache:api:/api/v1/short-lessons*");
       await invalidateCachePattern("cache:api:/api/v1/stats*");
 
+      let newlyEarnedBadges: any[] = [];
+      if (!existingResponse) {
+        try {
+          const activityResult = await ActivityLogService.logActivity(
+            userId,
+            ActivityType.DO_SHORT_LESSON,
+            "SHORT_LESSON" as TargetType,
+            id,
+            { stance },
+          );
+          newlyEarnedBadges = activityResult.newlyEarnedBadges;
+        } catch (error) {
+          console.error("Error logging short lesson activity:", error);
+        }
+      }
+
       return sendSuccess(res, {
         response,
         stats: {
           stanceACount,
           stanceBCount,
         },
+        newlyEarnedBadges,
       });
     } catch (err: unknown) {
       const error = err as Error;
