@@ -21,6 +21,7 @@ export const baseApi = createApi({
     "Badge",
     "Notification",
     "Chapter",
+    "ChapterProgress",
   ],
   endpoints: () => ({}),
 });

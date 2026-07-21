@@ -1,429 +1,90 @@
-import { PrismaClient } from "../prisma/generated/client.js";
-import { ChapterContentService } from "../services/chapter-content.service.js";
+import type { PrismaClient } from "../prisma/generated/client.js";
+import { ChapterCsvParser } from "./utils/chapter-csv-parser.js";
 import { seedLog } from "./utils/index.js";
+import xlsx from "xlsx";
+import * as path from "path";
+import * as fs from "fs";
 
-//tạm đã, sau đưa cấu trúc file cvs cho phần ni sau
-const chapter1IntroScript = [
-  { t: "scene", bg: "thukho", act: 1, name: "Màn I · Nguồn gốc" },
-  {
-    t: "say",
-    who: "narr",
-    text: "Tầng hầm lưu trữ của viện. Mùi giấy cũ phảng phất. GS. Lâm đặt lên bàn một cuốn sách bìa da đã sờn.",
-  },
-  {
-    t: "say",
-    who: "lam",
-    mood: "neutral",
-    text: "Chào trợ lý mới. Muốn được đứng tên trong hội thảo “Nhập môn Kinh tế chính trị Mác - Lênin”, cậu phải qua ba cửa. Cửa đầu tiên ở ngay đây.",
-  },
-  {
-    t: "choice",
-    who: "lam",
-    mood: "neutral",
-    q: "Cậu thấy sẵn sàng chứ?",
-    opts: [
-      {
-        text: "Em sẵn sàng ạ. Bắt đầu thôi.",
-        dc: 8,
-        reply: { t: "say", who: "lam", mood: "happy", text: "Tinh thần tốt. Tôi thích thế." },
-      },
-      {
-        text: "Em hơi lo, nhưng em sẽ cố.",
-        dc: 2,
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "neutral",
-          text: "Lo một chút cũng được — miễn là chắc kiến thức.",
-        },
-      },
-    ],
-  },
-  {
-    t: "say",
-    who: "an",
-    mood: "neutral",
-    text: "Cuốn này in năm 1615. Theo cậu, ai là người đầu tiên dùng thuật ngữ “kinh tế chính trị”?",
-  },
-  {
-    t: "choice",
-    who: "an",
-    mood: "neutral",
-    q: "Chọn câu trả lời:",
-    opts: [
-      {
-        text: "Antoine de Montchrétien (A. Môngcrêtiên)",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "an",
-          mood: "happy",
-          text: "Chuẩn xác. Năm 1615 ông nêu thuật ngữ ấy; từ đó kinh tế chính trị dần thành một khoa học độc lập.",
-        },
-      },
-      {
-        text: "Adam Smith",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Chưa phải. Smith đến sau đó hơn một thế kỷ. Người nêu thuật ngữ năm 1615 là A. Montchrétien.",
-        },
-      },
-      {
-        text: "C. Mác",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Chưa đúng. Mác ở thế kỷ XIX. Thuật ngữ “kinh tế chính trị” có từ 1615, do A. Montchrétien.",
-        },
-      },
-    ],
-  },
-  {
-    t: "say",
-    who: "an",
-    mood: "neutral",
-    text: "Tốt. Giờ đi nhanh dòng phát triển: trọng thương → trọng nông Pháp → kinh tế chính trị tư sản cổ điển Anh.",
-  },
-  {
-    t: "choice",
-    who: "an",
-    mood: "neutral",
-    q: "C. Mác kế thừa trực tiếp ai để xây dựng lý luận của mình?",
-    opts: [
-      {
-        text: "D. Ricardo — kinh tế chính trị tư sản cổ điển Anh",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "an",
-          mood: "happy",
-          text: "Đúng. Mác kế thừa có phê phán Smith và Ricardo, trực tiếp là Ricardo; cùng Ph. Ăngghen công bố trong bộ “Tư bản”.",
-        },
-      },
-      {
-        text: "Chủ nghĩa trọng thương",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Trọng thương là giai đoạn sớm hơn. Mác kế thừa trực tiếp cổ điển Anh — đặc biệt D. Ricardo.",
-        },
-      },
-      {
-        text: "Trường phái cận biên hiện đại",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Cận biên ra đời độc lập, sau Mác. Nguồn kế thừa trực tiếp là D. Ricardo.",
-        },
-      },
-    ],
-  },
-  {
-    t: "choice",
-    who: "lam",
-    mood: "neutral",
-    q: "Câu chốt: ai kế thừa, bổ sung và phát triển trong điều kiện mới, gắn tên vào môn học?",
-    opts: [
-      {
-        text: "V.I. Lênin",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "happy",
-          text: "Chính xác. Vì thế môn học mang tên Kinh tế chính trị Mác - Lênin.",
-        },
-      },
-      {
-        text: "Ph. Ăngghen",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Ăngghen là người cùng thời, đồng hành với Mác. Người phát triển trong điều kiện mới là V.I. Lênin.",
-        },
-      },
-      {
-        text: "A. Smith",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Smith thuộc cổ điển Anh, trước Mác. Người phát triển sau là V.I. Lênin.",
-        },
-      },
-    ],
-  },
-  { t: "act", n: "I" },
+function parseMovieExcel(filePath: string): any[] {
+  const workbook = xlsx.readFile(filePath);
+  const nodesSheet = workbook.Sheets["02_KICH_BAN_NODES"];
+  const choicesSheet = workbook.Sheets["03_LUA_CHON"];
 
-  { t: "scene", bg: "hoithao", act: 2, name: "Màn II · Đối tượng – Mục đích – Phương pháp" },
-  {
-    t: "say",
-    who: "narr",
-    text: "Hội trường sáng đèn. TS. Khoa — phản biện nổi tiếng khó tính — chậm rãi đứng dậy.",
-  },
-  {
-    t: "say",
-    who: "khoa",
-    mood: "stern",
-    text: "Trợ lý trẻ. Nói tôi nghe, ngắn gọn: Kinh tế chính trị Mác - Lênin nghiên cứu CÁI GÌ?",
-  },
-  {
-    t: "choice",
-    who: "khoa",
-    mood: "stern",
-    q: "Đối tượng nghiên cứu là:",
-    opts: [
-      {
-        text: "Các quan hệ xã hội của sản xuất và trao đổi, gắn với lực lượng sản xuất và kiến trúc thượng tầng",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "neutral",
-          text: "…Được. Trả lời đúng trọng tâm. Quan hệ sản xuất và trao đổi, trong mối liên hệ biện chứng đó.",
-        },
-      },
-      {
-        text: "Của cải vật chất của một quốc gia",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Sai trọng tâm. Đó là cách hiểu cũ. Đối tượng là các quan hệ xã hội của sản xuất và trao đổi.",
-        },
-      },
-      {
-        text: "Hành vi mua sắm của người tiêu dùng",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Đó là kinh tế học vi mô hiện đại. Ở đây, đối tượng là quan hệ sản xuất và trao đổi.",
-        },
-      },
-    ],
-  },
-  {
-    t: "choice",
-    who: "khoa",
-    mood: "stern",
-    q: "Vậy nghiên cứu ĐỂ LÀM GÌ?",
-    opts: [
-      {
-        text: "Tìm ra các quy luật kinh tế chi phối sự vận động, phát triển của phương thức sản xuất",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "neutral",
-          text: "Đúng. Phát hiện quy luật, rồi vận dụng vì lợi ích con người và xã hội.",
-        },
-      },
-      {
-        text: "Tối đa hóa lợi nhuận cho một doanh nghiệp",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Hẹp quá. Mục đích là tìm ra quy luật kinh tế, không phải lợi nhuận của một hãng.",
-        },
-      },
-      {
-        text: "Dự báo tỷ giá hối đoái ngắn hạn",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Đó là kỹ thuật tài chính. Mục đích của môn này là tìm ra quy luật kinh tế.",
-        },
-      },
-    ],
-  },
-  {
-    t: "say",
-    who: "khoa",
-    mood: "stern",
-    text: "Câu cuối của tôi. Cậu định mang quan hệ sản xuất vào phòng thí nghiệm chắc?",
-  },
-  {
-    t: "choice",
-    who: "khoa",
-    mood: "stern",
-    q: "Phương pháp nghiên cứu chủ yếu, đặc thù là:",
-    opts: [
-      {
-        text: "Trừu tượng hóa khoa học",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "neutral",
-          text: "Khá lắm. Gạt cái ngẫu nhiên để nắm bản chất — kết hợp logic với lịch sử, phân tích với tổng hợp. Tôi không hỏi nữa.",
-        },
-      },
-      {
-        text: "Thí nghiệm trong phòng lab",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Không thể. Phương pháp đặc thù ở đây là trừu tượng hóa khoa học.",
-        },
-      },
-      {
-        text: "Phỏng vấn ngẫu nhiên ngoài phố",
-        reply: {
-          t: "say",
-          who: "khoa",
-          mood: "stern",
-          text: "Đó là khảo sát xã hội học. Đặc thù của môn này là trừu tượng hóa khoa học.",
-        },
-      },
-    ],
-  },
-  {
-    t: "say",
-    who: "lam",
-    mood: "happy",
-    text: "Cậu trụ được trước Khoa. Hiếm đấy. Còn một cửa cuối.",
-  },
-  { t: "act", n: "II" },
+  if (!nodesSheet || !choicesSheet) {
+    console.warn(`Missing required sheets in ${filePath}`);
+    return [];
+  }
 
-  { t: "scene", bg: "buctham", act: 3, name: "Màn III · Chức năng" },
-  {
-    t: "say",
-    who: "narr",
-    text: "Phần hỏi đáp với khán giả. Một sinh viên tên Minh hào hứng giơ tay.",
-  },
-  {
-    t: "say",
-    who: "minh",
-    mood: "neutral",
-    text: "Anh/chị ơi, em đọc thấy môn này có nhiều “chức năng”. Khi lý luận giúp ta HIỂU bản chất và quy luật của hiện tượng kinh tế — đó là chức năng nào ạ?",
-  },
-  {
-    t: "choice",
-    who: "minh",
-    mood: "neutral",
-    q: "Đó là chức năng:",
-    opts: [
-      {
-        text: "Chức năng nhận thức",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "minh",
-          mood: "happy",
-          text: "Dạ em hiểu rồi — giúp nhận thức bản chất, quy luật!",
-        },
+  const nodesData: any[][] = xlsx.utils.sheet_to_json(nodesSheet, { header: 1 });
+  const choicesData: any[][] = xlsx.utils.sheet_to_json(choicesSheet, { header: 1 });
+
+  const nodesRows = nodesData.slice(2).filter((row) => row.length > 0 && row[1]);
+  const choicesRows = choicesData.slice(2).filter((row) => row.length > 0 && row[0]);
+
+  const choicesByNodeId: Record<string, any[]> = {};
+  for (const row of choicesRows) {
+    const nodeId = row[0]?.toString().trim();
+    const optionText = row[2];
+    const isCorrect = row[3] === "Có" || row[3] === true || row[3] === "Có*";
+    const dc = row[4];
+    const replySpeaker = row[5];
+    const replyMood = row[6];
+    const replyText = row[7];
+
+    if (!choicesByNodeId[nodeId]) choicesByNodeId[nodeId] = [];
+
+    const opt: any = {
+      text: optionText,
+      reply: {
+        t: "say",
+        who: replySpeaker,
+        text: replyText,
       },
-      {
-        text: "Chức năng thực tiễn",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Gần đúng nhưng lệch. “Hiểu bản chất, quy luật” là chức năng nhận thức.",
-        },
-      },
-      {
-        text: "Chức năng tư tưởng",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Chưa phải. Việc giúp hiểu bản chất, quy luật là chức năng nhận thức.",
-        },
-      },
-    ],
-  },
-  {
-    t: "say",
-    who: "minh",
-    mood: "neutral",
-    text: "Thế còn khi ta VẬN DỤNG tri thức để tham gia và cải tạo hoạt động kinh tế - xã hội thì sao ạ?",
-  },
-  {
-    t: "choice",
-    who: "minh",
-    mood: "neutral",
-    q: "Đó là chức năng:",
-    opts: [
-      {
-        text: "Chức năng thực tiễn",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "minh",
-          mood: "happy",
-          text: "Rõ rồi ạ! Nhận thức để rồi thực tiễn.",
-        },
-      },
-      {
-        text: "Chức năng nhận thức",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Nhận thức là hiểu. Còn vận dụng, cải tạo thực tiễn là chức năng thực tiễn.",
-        },
-      },
-      {
-        text: "Chức năng phương pháp luận",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Chưa đúng. Vận dụng để cải tạo thực tiễn là chức năng thực tiễn.",
-        },
-      },
-    ],
-  },
-  {
-    t: "choice",
-    who: "lam",
-    mood: "neutral",
-    q: "Để Minh nắm trọn: hai chức năng còn lại của môn học là gì?",
-    opts: [
-      {
-        text: "Chức năng tư tưởng và chức năng phương pháp luận",
-        correct: true,
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "happy",
-          text: "Chuẩn. Bốn chức năng: nhận thức, thực tiễn, tư tưởng, phương pháp luận. Cậu khép lại Chương 1 trọn vẹn.",
-        },
-      },
-      {
-        text: "Chức năng phân phối và chức năng điều tiết",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Đó là chức năng của một số phạm trù khác. Hai chức năng còn lại là tư tưởng và phương pháp luận.",
-        },
-      },
-      {
-        text: "Chức năng lưu thông và chức năng thanh toán",
-        reply: {
-          t: "say",
-          who: "lam",
-          mood: "concern",
-          text: "Đó là chức năng của tiền tệ (Chương 2). Ở đây là tư tưởng và phương pháp luận.",
-        },
-      },
-    ],
-  },
-  { t: "act", n: "III" },
-  { t: "end" },
-];
+    };
+    if (isCorrect) opt.correct = true;
+    if (dc != null && dc !== "") opt.dc = Number(dc);
+    if (replyMood && replyMood !== "") opt.reply.mood = replyMood;
+
+    choicesByNodeId[nodeId].push(opt);
+  }
+
+  const script: any[] = [];
+  for (const row of nodesRows) {
+    const nodeId = row[1]?.toString().trim();
+    const actNo = row[2];
+    const nodeType = row[3]?.toString().trim();
+    const background = row[5];
+    const sceneName = row[6];
+    const speakerKey = row[7];
+    const mood = row[8];
+    const textQuestion = row[9];
+    const actRoman = row[10];
+
+    if (nodeType === "scene") {
+      script.push({
+        t: "scene",
+        bg: background,
+        act: actNo ? Number(actNo) : undefined,
+        name: sceneName,
+      });
+    } else if (nodeType === "say") {
+      const node: any = { t: "say", who: speakerKey, text: textQuestion };
+      if (mood) node.mood = mood;
+      script.push(node);
+    } else if (nodeType === "choice") {
+      const node: any = { t: "choice", who: speakerKey, q: textQuestion };
+      if (mood) node.mood = mood;
+      node.opts = choicesByNodeId[nodeId] || [];
+      script.push(node);
+    } else if (nodeType === "act") {
+      script.push({ t: "act", n: actRoman });
+    } else if (nodeType === "end") {
+      script.push({ t: "end" });
+    }
+  }
+
+  return script;
+}
 
 const THEORY_CARD_TITLES_BY_MUC: Record<string, string[]> = {
   "1.1": [
@@ -507,7 +168,7 @@ function withTheoryCardTitles<
 }
 
 export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
-  const chapters = ChapterContentService.listChapters();
+  const chapters = ChapterCsvParser.listChapters();
   let chaptersSeeded = 0;
   let nodesSeeded = 0;
   let moviesSeeded = 0;
@@ -538,7 +199,7 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
 
     // 2. Seed Chapter Nodes
     try {
-      const nodes = ChapterContentService.listNodes(ch.id);
+      const nodes = ChapterCsvParser.listNodes(ch.id);
       for (const node of nodes) {
         const nodeData = withTheoryCardTitles(node);
         const existingNode = await prisma.chapterNode.findUnique({
@@ -573,34 +234,89 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
     } catch (e) {
       console.warn(`    ⚠ Skipping nodes for ${ch.id} due to error: ${e}`);
     }
+  }
 
-    // 3. Seed Movie Script (Only for muc "1.1" right now)
-    if (ch.id === "1") {
-      const existingMovie = await prisma.movie.findFirst({
-        where: { muc: "1.1" },
-      });
+  // 3. Seed Movie Scripts from Excel
+  // Navigate back from services/src/seed to data/14-chapter-movies
+  // Assuming the process runs from 'services' directory via npm run seed
+  // but just to be safe using path.resolve
+  const dataDir = path.resolve(__dirname, "../../../../data/14-chapter-movies");
+  if (fs.existsSync(dataDir)) {
+    const files = fs.readdirSync(dataDir).filter((f) => f.endsWith(".xlsx") && !f.startsWith("~"));
+    for (const file of files) {
+      // Expected format: Kich_Ban_Game_Chuong1_Muc_1_3.xlsx or Kich_Ban_Game_Chuong1_Muc_1_3_1.xlsx
+      const match = file.match(/Muc_(\d+)_(\d+)(?:_(\d+))?(?:_(\d+))?/i);
+      if (match) {
+        const parts = [match[1], match[2], match[3], match[4]].filter(Boolean);
+        const muc = parts.join(".");
+        const chapterId = match[1]; // assuming chapter id matches the first number
 
-      if (existingMovie) {
-        await prisma.movie.update({
-          where: { id: existingMovie.id },
-          data: {
-            chapterId: chapter.id,
-            title: `Phim tương tác: ${ch.title}`,
-            script: chapter1IntroScript as any,
-          },
+        const existingChapter = await prisma.chapter.findUnique({ where: { code: chapterId } });
+        if (!existingChapter) continue; // skip if chapter doesn't exist
+
+        let finalMuc = muc;
+        // Hardcode specific mappings for Chapter 2 where filenames don't align with exact Node muc
+        if (finalMuc === "2.2") finalMuc = "2.2.1.1";
+        if (finalMuc === "2.3") finalMuc = "2.2.3";
+
+        const existingNode = await prisma.chapterNode.findUnique({
+          where: { chapterId_muc: { chapterId: existingChapter.id, muc: finalMuc } },
         });
-      } else {
-        await prisma.movie.create({
-          data: {
-            chapterId: chapter.id,
-            muc: "1.1",
-            title: `Phim tương tác: ${ch.title}`,
-            script: chapter1IntroScript as any,
-          },
-        });
+
+        if (!existingNode) {
+          const subMuc = `${finalMuc}.1`;
+          const subNode = await prisma.chapterNode.findUnique({
+            where: { chapterId_muc: { chapterId: existingChapter.id, muc: subMuc } },
+          });
+          if (subNode) {
+            finalMuc = subMuc;
+          }
+        }
+
+        const filePath = path.join(dataDir, file);
+        try {
+          const script = parseMovieExcel(filePath);
+
+          if (script.length > 0) {
+            // Find the chapter node id for this muc
+            const chapterNode = await prisma.chapterNode.findFirst({
+              where: { chapterId: existingChapter.id, muc: finalMuc },
+            });
+
+            const existingMovie = await prisma.movie.findFirst({
+              where: { muc: finalMuc },
+            });
+
+            if (existingMovie) {
+              await prisma.movie.update({
+                where: { id: existingMovie.id },
+                data: {
+                  chapterId: existingChapter.id,
+                  chapterNodeId: chapterNode ? chapterNode.id : null,
+                  title: `Phim tương tác: ${existingChapter.title} - Mục ${finalMuc}`,
+                  script: script as any,
+                },
+              });
+            } else {
+              await prisma.movie.create({
+                data: {
+                  chapterId: existingChapter.id,
+                  chapterNodeId: chapterNode ? chapterNode.id : null,
+                  muc: finalMuc,
+                  title: `Phim tương tác: ${existingChapter.title} - Mục ${finalMuc}`,
+                  script: script as any,
+                },
+              });
+            }
+            moviesSeeded++;
+          }
+        } catch (e) {
+          console.warn(`    ⚠ Error parsing ${file}: ${e}`);
+        }
       }
-      moviesSeeded++;
     }
+  } else {
+    console.warn(`    ⚠ Directory not found: ${dataDir}`);
   }
 
   seedLog("Chapters", chaptersSeeded);

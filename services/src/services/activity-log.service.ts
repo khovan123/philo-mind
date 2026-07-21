@@ -1,6 +1,7 @@
 import { prisma } from "../config/prisma.js";
 import type { TargetType } from "../prisma/generated/enums.js";
-import { ActivityType, RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
+import type { ActivityType } from "../types/activity.js";
+import { RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
 import { BadgeService } from "./badge.service.js";
 
 export { ActivityType, RETAINED_ACTIVITY_TYPES } from "../types/activity.js";

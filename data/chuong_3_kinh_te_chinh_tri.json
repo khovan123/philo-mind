@@ -1,0 +1,902 @@
+[
+  {
+    "muc": "3.1.1",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, nên hiểu theo A hay B?",
+      "feedbackA": "Cách hiểu này chưa đầy đủ. Nếu chỉ trao đổi ngang giá trong lưu thông thì không thể giải thích nguồn gốc giá trị thặng dư.",
+      "feedbackB": "Cách hiểu này phù hợp. Giá trị thặng dư xuất hiện khi nhà tư bản sử dụng hàng hóa sức lao động trong quá trình sản xuất.",
+      "situation": "Lan làm thêm ở một xưởng in áo. Mỗi ngày, chủ xưởng ứng tiền mua vải, mực in và trả lương theo ca. Sau khi bán áo, số tiền thu về lớn hơn số tiền đã ứng ra. Nhóm bạn tranh luận: A. phần tăng thêm chỉ do bán hàng đắt hơn; B. phần tăng thêm gắn với việc sử dụng sức lao động trong sản xuất."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Hàng hóa sức lao động",
+          "Tư liệu sản xuất",
+          "Tiền tệ trong lưu thông",
+          "Địa tô tư bản chủ nghĩa"
+        ],
+        "question": "Trong lý luận của C.Mác, hàng hóa đặc biệt nào là nguồn gốc trực tiếp tạo ra giá trị thặng dư?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Sức lao động là hàng hóa đặc biệt vì khi được sử dụng trong sản xuất, nó có khả năng tạo ra giá trị mới lớn hơn giá trị của bản thân nó."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Giá trị sử dụng đặc biệt của hàng hóa sức lao động",
+          "Lưu thông hàng hóa tự tạo ra giá trị thặng dư",
+          "Tiền tệ tự tăng lên mà không cần sản xuất",
+          "Địa tô chênh lệch trong nông nghiệp"
+        ],
+        "question": "Một công nhân được trả lương theo ngày, nhưng trong ngày lao động đó tạo ra lượng giá trị lớn hơn giá trị sức lao động mà nhà tư bản đã trả. Tình huống này minh họa điều gì?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Sức lao động có giá trị sử dụng đặc biệt là tạo ra giá trị mới lớn hơn giá trị của bản thân nó, từ đó làm xuất hiện giá trị thặng dư."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nguồn gốc giá trị thặng dư phải được giải thích từ việc sử dụng sức lao động trong sản xuất",
+          "Giá trị thặng dư chỉ do người mua trả giá cao hơn giá trị hàng hóa",
+          "Giá trị thặng dư xuất hiện vì tiền tự sinh ra tiền",
+          "Giá trị thặng dư không liên quan đến lao động làm thuê"
+        ],
+        "question": "Nếu trao đổi ngang giá trong lưu thông không tạo ra giá trị thặng dư, nhưng tư bản vẫn thu được T’ lớn hơn T, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Mâu thuẫn công thức chung của tư bản chỉ được giải quyết khi phát hiện hàng hóa sức lao động và quá trình nhà tư bản tiêu dùng nó trong sản xuất."
+      }
+    ],
+    "order": 1,
+    "title": "Nguồn gốc của giá trị thặng dư",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Cách hiểu này chưa đầy đủ. Nếu chỉ trao đổi ngang giá trong lưu thông thì không thể giải thích nguồn gốc giá trị thặng dư.",
+      "explanationB": "Cách hiểu này phù hợp. Giá trị thặng dư xuất hiện khi nhà tư bản sử dụng hàng hóa sức lao động trong quá trình sản xuất.",
+      "openQuestion": "Theo bạn, nên hiểu theo A hay B?",
+      "perspectiveA": "Phần tăng thêm chỉ do bán hàng đắt hơn.",
+      "perspectiveB": "Phần tăng thêm gắn với việc sử dụng sức lao động trong sản xuất."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Công thức chung của tư bản là T - H - T’, trong đó T’ = T + ΔT. Mục đích vận động của tư bản không phải giá trị sử dụng, mà là thu về một lượng tiền lớn hơn số tiền ứng ra ban đầu.",
+        "icon": "💱",
+        "title": "Công thức chung của tư bản"
+      },
+      {
+        "id": "card2",
+        "body": "Mâu thuẫn của công thức chung là: giá trị thặng dư không thể sinh ra từ lưu thông thuần túy nếu trao đổi ngang giá, nhưng cũng không thể sinh ra bên ngoài lưu thông. Vì vậy cần tìm một hàng hóa đặc biệt.",
+        "icon": "❓",
+        "title": "Mâu thuẫn của công thức chung"
+      },
+      {
+        "id": "card3",
+        "body": "Hàng hóa đặc biệt đó là sức lao động. Sức lao động trở thành hàng hóa khi người lao động tự do về thân thể nhưng không có tư liệu sản xuất, buộc phải bán sức lao động cho nhà tư bản.",
+        "icon": "👷",
+        "title": "Hàng hóa sức lao động"
+      },
+      {
+        "id": "card4",
+        "body": "Hàng hóa sức lao động có giá trị và giá trị sử dụng. Giá trị của nó do giá trị tư liệu sinh hoạt cần thiết để tái sản xuất sức lao động quyết định. Giá trị sử dụng của nó là tạo ra giá trị mới.",
+        "icon": "⚖️",
+        "title": "Hai thuộc tính của sức lao động"
+      },
+      {
+        "id": "card5",
+        "body": "Giá trị sử dụng đặc biệt của sức lao động là khi được tiêu dùng trong sản xuất, nó tạo ra giá trị mới lớn hơn giá trị của bản thân nó. Phần giá trị dôi ra đó là giá trị thặng dư.",
+        "icon": "🏭",
+        "title": "Giá trị sử dụng đặc biệt"
+      },
+      {
+        "id": "card6",
+        "body": "Nguồn gốc của giá trị thặng dư nằm trong quá trình sản xuất tư bản chủ nghĩa, thông qua việc nhà tư bản mua hàng hóa sức lao động và sử dụng nó để tạo ra giá trị mới lớn hơn tiền công.",
+        "icon": "🧠",
+        "title": "Nguồn gốc giá trị thặng dư"
+      }
+    ]
+  },
+  {
+    "muc": "3.1.2",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn chọn cách hiểu A hay B?",
+      "feedbackA": "Cách hiểu này phù hợp. Giá trị thặng dư phản ánh phần giá trị do lao động làm thuê tạo ra nhưng bị nhà tư bản chiếm đoạt.",
+      "feedbackB": "Cách hiểu này chưa đúng. Giá trị thặng dư không phải phần thưởng tự nhiên, mà phản ánh quan hệ giữa tư bản và lao động làm thuê.",
+      "situation": "Hà làm việc trong một xưởng đóng gói. Sau vài giờ đầu, giá trị sản phẩm Hà tạo ra đã đủ bù tiền lương trong ngày, nhưng Hà vẫn tiếp tục làm đến hết ca. Phần giá trị tạo ra sau đó thuộc về chủ xưởng. Nhóm bạn tranh luận: A. đây là phần lao động không công; B. đây chỉ là phần thưởng tự nhiên của chủ xưởng."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Phần giá trị mới dôi ra ngoài giá trị sức lao động do người lao động làm thuê tạo ra và bị nhà tư bản chiếm đoạt",
+          "Toàn bộ giá trị tư liệu sản xuất chuyển vào sản phẩm",
+          "Khoản tiền công mà nhà tư bản trả cho công nhân",
+          "Phần địa tô mà địa chủ trả cho nhà tư bản"
+        ],
+        "question": "Theo C.Mác, giá trị thặng dư là gì?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Giá trị thặng dư là phần giá trị mới dôi ra ngoài giá trị sức lao động, do người lao động làm thuê tạo ra nhưng bị nhà tư bản chiếm đoạt."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Giá trị thặng dư",
+          "Tư bản bất biến",
+          "Giá trị tư liệu sản xuất",
+          "Địa tô tuyệt đối"
+        ],
+        "question": "Trong một ngày lao động, công nhân tạo ra giá trị đủ bù tiền công ở nửa đầu ca và tiếp tục tạo thêm giá trị ở nửa sau ca cho nhà tư bản. Phần giá trị ở nửa sau ca là gì?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Phần giá trị được tạo ra vượt quá giá trị sức lao động là giá trị thặng dư, phản ánh phần lao động không công của người lao động làm thuê."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nguồn gốc trực tiếp của giá trị thặng dư nằm ở tư bản khả biến",
+          "Tư bản bất biến trực tiếp tạo ra toàn bộ giá trị thặng dư",
+          "Tư bản khả biến không liên quan đến lao động làm thuê",
+          "Tư bản bất biến và tư bản khả biến hoàn toàn giống nhau"
+        ],
+        "question": "Nếu tư bản bất biến chỉ chuyển giá trị cũ vào sản phẩm, còn tư bản khả biến thông qua sức lao động tạo ra giá trị mới lớn hơn bản thân nó, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Tư bản khả biến dùng để mua sức lao động; khi sức lao động được sử dụng, nó tạo ra giá trị mới lớn hơn giá trị của bản thân nó, từ đó tạo ra giá trị thặng dư."
+      }
+    ],
+    "order": 2,
+    "title": "Bản chất của giá trị thặng dư",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Cách hiểu này phù hợp. Giá trị thặng dư phản ánh phần giá trị do lao động làm thuê tạo ra nhưng bị nhà tư bản chiếm đoạt.",
+      "explanationB": "Cách hiểu này chưa đúng. Giá trị thặng dư không phải phần thưởng tự nhiên, mà phản ánh quan hệ giữa tư bản và lao động làm thuê.",
+      "openQuestion": "Bạn chọn cách hiểu A hay B?",
+      "perspectiveA": "Đây là phần lao động không công.",
+      "perspectiveB": "Đây chỉ là phần thưởng tự nhiên của chủ xưởng."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Giá trị mới do người lao động tạo ra trong quá trình sản xuất gồm hai phần: phần bù lại giá trị sức lao động và phần vượt ra ngoài giá trị sức lao động, tức giá trị thặng dư.",
+        "icon": "📌",
+        "title": "Cấu thành của giá trị mới"
+      },
+      {
+        "id": "card2",
+        "body": "Giá trị thặng dư là phần giá trị mới dôi ra ngoài giá trị của hàng hóa sức lao động, do người lao động làm thuê tạo ra nhưng bị nhà tư bản chiếm đoạt.",
+        "icon": "💰",
+        "title": "Khái niệm giá trị thặng dư"
+      },
+      {
+        "id": "card3",
+        "body": "Bản chất kinh tế - xã hội của giá trị thặng dư là quan hệ giữa lao động làm thuê và người mua hàng hóa sức lao động. Nó phản ánh quan hệ bóc lột của tư bản đối với lao động làm thuê.",
+        "icon": "⚖️",
+        "title": "Bản chất kinh tế - xã hội"
+      },
+      {
+        "id": "card4",
+        "body": "Tư bản bất biến, ký hiệu là c, là bộ phận tư bản tồn tại dưới hình thái tư liệu sản xuất. Giá trị của nó được bảo tồn và chuyển vào sản phẩm, nhưng không tạo ra giá trị thặng dư.",
+        "icon": "🏗️",
+        "title": "Tư bản bất biến"
+      },
+      {
+        "id": "card5",
+        "body": "Tư bản khả biến, ký hiệu là v, là bộ phận tư bản dùng để mua sức lao động. Trong quá trình sản xuất, bộ phận này biến đổi về lượng vì tạo ra giá trị mới lớn hơn giá trị của bản thân nó.",
+        "icon": "👷",
+        "title": "Tư bản khả biến"
+      },
+      {
+        "id": "card6",
+        "body": "Tỷ suất giá trị thặng dư m’ = m/v × 100% phản ánh trình độ bóc lột sức lao động làm thuê. Khối lượng giá trị thặng dư phản ánh tổng số giá trị thặng dư mà nhà tư bản thu được.",
+        "icon": "📊",
+        "title": "Tỷ suất và khối lượng giá trị thặng dư"
+      }
+    ]
+  },
+  {
+    "muc": "3.1.3",
+    "hook": {
+      "type": "choice",
+      "question": "Hai cách trên khác nhau thế nào?",
+      "feedbackA": "Cách A gần với sản xuất giá trị thặng dư tuyệt đối vì làm tăng thời gian lao động thặng dư bằng kéo dài hoặc tăng cường ngày lao động.",
+      "feedbackB": "Cách B gần với sản xuất giá trị thặng dư tương đối vì rút ngắn thời gian lao động tất yếu nhờ tăng năng suất lao động.",
+      "situation": "Một xưởng may muốn tăng lợi nhuận. Quản lý đưa ra hai cách: A. kéo dài ca làm và tăng cường độ lao động; B. đầu tư máy móc mới để rút ngắn thời gian cần thiết sản xuất hàng hóa. Cả nhóm cần phân biệt hai cách này thuộc phương pháp sản xuất giá trị thặng dư nào."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Kéo dài ngày lao động hoặc tăng cường độ lao động",
+          "Rút ngắn thời gian lao động tất yếu nhờ tăng năng suất xã hội",
+          "Thu địa tô từ việc cho thuê ruộng đất",
+          "Chia lợi nhuận bình quân giữa các ngành"
+        ],
+        "question": "Phương pháp sản xuất giá trị thặng dư tuyệt đối chủ yếu dựa vào cách nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Sản xuất giá trị thặng dư tuyệt đối chủ yếu dựa vào việc kéo dài ngày lao động hoặc tăng cường độ lao động để làm tăng thời gian lao động thặng dư."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Sản xuất giá trị thặng dư tương đối",
+          "Sản xuất giá trị thặng dư tuyệt đối",
+          "Địa tô chênh lệch II",
+          "Tư bản cho vay"
+        ],
+        "question": "Một doanh nghiệp áp dụng công nghệ mới làm năng suất tăng, thời gian cần thiết để tạo ra giá trị ngang bằng tiền công giảm xuống, nên thời gian lao động thặng dư tăng lên. Đây là phương pháp nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Khi năng suất lao động xã hội tăng làm rút ngắn thời gian lao động tất yếu, phần thời gian lao động thặng dư tăng lên tương đối."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nhà tư bản đó có thể thu được giá trị thặng dư siêu ngạch",
+          "Nhà tư bản đó không thể thu thêm giá trị thặng dư",
+          "Đó là biểu hiện của địa tô tuyệt đối",
+          "Đó là do tiền tự sinh ra tiền trong lưu thông"
+        ],
+        "question": "Nếu một nhà tư bản có giá trị cá biệt của hàng hóa thấp hơn giá trị xã hội nhờ kỹ thuật tốt hơn, nhưng vẫn bán theo giá trị xã hội, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Khi giá trị cá biệt thấp hơn giá trị xã hội, nhà tư bản có điều kiện thu giá trị thặng dư siêu ngạch; điều này thúc đẩy cải tiến kỹ thuật và tăng năng suất lao động."
+      }
+    ],
+    "order": 3,
+    "title": "Các phương pháp sản xuất giá trị thặng dư",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Cách A gần với sản xuất giá trị thặng dư tuyệt đối vì làm tăng thời gian lao động thặng dư bằng kéo dài hoặc tăng cường ngày lao động.",
+      "explanationB": "Cách B gần với sản xuất giá trị thặng dư tương đối vì rút ngắn thời gian lao động tất yếu nhờ tăng năng suất lao động.",
+      "openQuestion": "Hai cách trên khác nhau thế nào?",
+      "perspectiveA": "Kéo dài ca làm và tăng cường độ lao động.",
+      "perspectiveB": "Đầu tư máy móc mới để rút ngắn thời gian cần thiết sản xuất hàng hóa."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Mục đích của các phương pháp sản xuất giá trị thặng dư là làm tăng phần thời gian lao động thặng dư, từ đó làm tăng giá trị thặng dư mà nhà tư bản chiếm đoạt.",
+        "icon": "🎯",
+        "title": "Mục đích của các phương pháp"
+      },
+      {
+        "id": "card2",
+        "body": "Sản xuất giá trị thặng dư tuyệt đối là phương pháp kéo dài ngày lao động vượt quá thời gian lao động tất yếu, trong khi năng suất lao động và giá trị sức lao động chưa thay đổi căn bản.",
+        "icon": "⏰",
+        "title": "Giá trị thặng dư tuyệt đối"
+      },
+      {
+        "id": "card3",
+        "body": "Ngoài kéo dài ngày lao động, nhà tư bản có thể tăng cường độ lao động để tạo ra nhiều giá trị hơn trong cùng một thời gian. Đây cũng là cách làm tăng giá trị thặng dư tuyệt đối.",
+        "icon": "💪",
+        "title": "Tăng cường độ lao động"
+      },
+      {
+        "id": "card4",
+        "body": "Sản xuất giá trị thặng dư tương đối là phương pháp rút ngắn thời gian lao động tất yếu bằng cách nâng cao năng suất lao động xã hội, qua đó kéo dài tương đối thời gian lao động thặng dư.",
+        "icon": "⚙️",
+        "title": "Giá trị thặng dư tương đối"
+      },
+      {
+        "id": "card5",
+        "body": "Giá trị thặng dư siêu ngạch là phần giá trị thặng dư thu được khi giá trị cá biệt của hàng hóa thấp hơn giá trị xã hội. Nó thường xuất hiện ở nhà tư bản có kỹ thuật, công nghệ hoặc tổ chức sản xuất tốt hơn.",
+        "icon": "🚀",
+        "title": "Giá trị thặng dư siêu ngạch"
+      },
+      {
+        "id": "card6",
+        "body": "Giá trị thặng dư siêu ngạch là động lực mạnh thúc đẩy các nhà tư bản cải tiến kỹ thuật, tăng năng suất lao động. Xét về bản chất, nó là hình thái biến tướng của giá trị thặng dư tương đối.",
+        "icon": "🔁",
+        "title": "Động lực cải tiến kỹ thuật"
+      }
+    ]
+  },
+  {
+    "muc": "3.2.1",
+    "hook": {
+      "type": "choice",
+      "question": "Nếu là Nam, bạn chọn A hay B?",
+      "feedbackA": "Cách này gần với tái sản xuất giản đơn: sản xuất lặp lại với quy mô cũ vì toàn bộ giá trị thặng dư được dùng cho tiêu dùng cá nhân.",
+      "feedbackB": "Cách này phù hợp với tích lũy tư bản: biến một phần giá trị thặng dư thành tư bản phụ thêm để mở rộng sản xuất, kinh doanh.",
+      "situation": "Nam cùng bạn mở một shop phụ kiện điện thoại. Sau vài tháng, shop có lãi. Nhóm phải chọn: A. chia hết tiền lãi để tiêu dùng cá nhân; B. giữ lại một phần để nhập thêm hàng, mua kệ và chạy quảng cáo nhằm mở rộng kinh doanh."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Sự chuyển hóa một phần giá trị thặng dư thành tư bản",
+          "Sự tiêu dùng toàn bộ giá trị thặng dư cho cá nhân",
+          "Sự chuyển hóa tiền công thành lợi nhuận bình quân",
+          "Sự phân chia địa tô giữa nhà tư bản nông nghiệp và địa chủ"
+        ],
+        "question": "Trong lý luận của C.Mác, tích lũy tư bản là gì?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Giáo trình nêu rõ: sự chuyển hóa một phần giá trị thặng dư thành tư bản gọi là tích lũy tư bản. Đây là cơ sở của tái sản xuất mở rộng tư bản chủ nghĩa."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Tái sản xuất giản đơn",
+          "Tích lũy tư bản",
+          "Lợi nhuận bình quân",
+          "Địa tô tư bản chủ nghĩa"
+        ],
+        "question": "Một chủ xưởng không dùng hết giá trị thặng dư cho tiêu dùng cá nhân mà dùng một phần để mua máy móc, thuê thêm lao động và mở rộng nhà xưởng. Tình huống này minh họa điều gì?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Chủ xưởng đã biến một phần giá trị thặng dư thành tư bản phụ thêm để mở rộng sản xuất, đúng với bản chất của tích lũy tư bản."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Quá trình sản xuất chuyển sang tái sản xuất mở rộng",
+          "Giá trị thặng dư không còn là nguồn gốc của tư bản tích lũy",
+          "Tư bản khả biến hoàn toàn mất vai trò trong sản xuất",
+          "Nhà tư bản không cần mua thêm sức lao động hay tư liệu sản xuất"
+        ],
+        "question": "Nếu nhà tư bản dùng toàn bộ giá trị thặng dư cho tiêu dùng cá nhân, quy mô sản xuất không đổi. Ngược lại, nếu thực hiện tích lũy tư bản thì điều gì sẽ xảy ra?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Tích lũy tư bản chính là điều kiện và là nguồn gốc duy nhất để thực hiện tái sản xuất mở rộng trong nền kinh tế tư bản chủ nghĩa."
+      }
+    ],
+    "order": 4,
+    "title": "Bản chất của tích lũy tư bản",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Cách này gần với tái sản xuất giản đơn: sản xuất lặp lại với quy mô cũ vì toàn bộ giá trị thặng dư được dùng cho tiêu dùng cá nhân.",
+      "explanationB": "Cách này phù hợp với tích lũy tư bản: biến một phần giá trị thặng dư thành tư bản phụ thêm để mở rộng sản xuất, kinh doanh.",
+      "openQuestion": "Nếu là Nam, bạn chọn A hay B?",
+      "perspectiveA": "Chia hết tiền lãi để tiêu dùng cá nhân.",
+      "perspectiveB": "Giữ lại một phần để mở rộng kinh doanh."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Trong nền kinh tế thị trường tư bản chủ nghĩa, quá trình sản xuất không diễn ra một lần rồi kết thúc. Nó liên tục được lặp đi lặp lại. Sự lặp lại của quá trình sản xuất được gọi là tái sản xuất.",
+        "icon": "🔁",
+        "title": "Khái niệm tái sản xuất"
+      },
+      {
+        "id": "card2",
+        "body": "Tái sản xuất có hai hình thức chủ yếu: tái sản xuất giản đơn và tái sản xuất mở rộng. Tái sản xuất giản đơn là sự lặp lại quá trình sản xuất với quy mô như cũ.",
+        "icon": "📌",
+        "title": "Hai hình thức tái sản xuất"
+      },
+      {
+        "id": "card3",
+        "body": "Trong tái sản xuất giản đơn, toàn bộ giá trị thặng dư được nhà tư bản dùng cho tiêu dùng cá nhân. Vì vậy, tư bản chỉ được bảo tồn, chưa tăng thêm về quy mô.",
+        "icon": "💰",
+        "title": "Tái sản xuất giản đơn"
+      },
+      {
+        "id": "card4",
+        "body": "Để thực hiện tái sản xuất mở rộng, nhà tư bản phải biến một bộ phận giá trị thặng dư thành tư bản phụ thêm. Sự chuyển hóa một phần giá trị thặng dư thành tư bản được gọi là tích lũy tư bản.",
+        "icon": "📈",
+        "title": "Tích lũy tư bản"
+      },
+      {
+        "id": "card5",
+        "body": "Bản chất của tích lũy tư bản là quá trình tái sản xuất mở rộng thông qua việc chuyển hóa một phần giá trị thặng dư thành tư bản phụ thêm. Nhà tư bản dùng nó để mua thêm sức lao động (v) và tư liệu sản xuất (c), nhằm chiếm đoạt nhiều giá trị thặng dư hơn nữa trong tương lai.",
+        "icon": "🏭",
+        "title": "Bản chất của tích lũy"
+      },
+      {
+        "id": "card6",
+        "body": "Nguồn gốc duy nhất của tư bản tích lũy là giá trị thặng dư. Nhờ tích lũy tư bản, quan hệ sản xuất tư bản chủ nghĩa không chỉ được duy trì mà còn mở rộng sự thống trị của nó.",
+        "icon": "🧠",
+        "title": "Nguồn gốc của tư bản tích lũy"
+      }
+    ]
+  },
+  {
+    "muc": "3.2.2",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, lựa chọn nào giúp mở rộng quy mô?",
+      "feedbackA": "Lựa chọn này phù hợp. Quy mô tích lũy phụ thuộc vào phần dành cho tích lũy và các nhân tố như khai thác sức lao động, năng suất, máy móc, tư bản ứng trước.",
+      "feedbackB": "Lựa chọn này làm quy mô tích lũy bị hạn chế, vì giá trị thặng dư chủ yếu dùng cho tiêu dùng cá nhân thay vì chuyển thành tư bản phụ thêm.",
+      "situation": "Một xưởng may muốn mở rộng sản xuất trong học kỳ hè. Chủ xưởng có một khoản giá trị thặng dư nhưng phải chọn: A. dành phần lớn cho tích lũy, tăng năng suất và dùng máy móc hiệu quả; B. chủ yếu tăng tiêu dùng cá nhân, ít chú ý đến sản xuất."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Khối lượng giá trị thặng dư",
+          "Tỷ suất lợi tức nhận gửi của ngân hàng",
+          "Độ màu mỡ tự nhiên của ruộng đất",
+          "Mức địa tô mà địa chủ thu được"
+        ],
+        "question": "Khi tỷ lệ phân chia giữa tích lũy và tiêu dùng đã được xác định, quy mô tích lũy tư bản phụ thuộc trực tiếp vào yếu tố nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Giáo trình chỉ rõ: nếu tỷ lệ giữa tích lũy và tiêu dùng đã được xác định thì quy mô tích lũy tư bản phụ thuộc vào khối lượng giá trị thặng dư."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Sử dụng hiệu quả máy móc",
+          "Địa tô tuyệt đối",
+          "Lợi tức cho vay",
+          "Giá cả ruộng đất"
+        ],
+        "question": "Một doanh nghiệp dùng máy móc với toàn bộ tính năng, nhưng giá trị máy chỉ chuyển dần vào sản phẩm qua khấu hao; quỹ khấu hao còn có thể dùng để mở rộng sản xuất. Tình huống này minh họa nhân tố nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Đây là nhân tố sử dụng hiệu quả máy móc, gắn với chênh lệch giữa tư bản sử dụng và tư bản tiêu dùng, giúp tạo điều kiện cho mở rộng sản xuất."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Quy mô tích lũy tư bản có điều kiện tăng lên",
+          "Quy mô tích lũy tư bản chắc chắn giảm vì máy móc bị khấu hao",
+          "Tái sản xuất mở rộng không thể diễn ra",
+          "Giá trị thặng dư không còn liên quan đến tích lũy tư bản"
+        ],
+        "question": "Nếu tỷ suất giá trị thặng dư tăng, năng suất lao động xã hội tăng, máy móc được sử dụng hiệu quả và tư bản ứng trước lớn trong điều kiện thị trường thuận lợi, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Các nhân tố trên đều góp phần tăng khối lượng giá trị thặng dư hoặc tăng khả năng mở rộng sản xuất, nên tạo điều kiện tăng quy mô tích lũy tư bản."
+      }
+    ],
+    "order": 5,
+    "title": "Những nhân tố ảnh hưởng tới quy mô tích lũy",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Lựa chọn này phù hợp. Quy mô tích lũy phụ thuộc vào phần dành cho tích lũy và các nhân tố như khai thác sức lao động, năng suất, máy móc, tư bản ứng trước.",
+      "explanationB": "Lựa chọn này làm quy mô tích lũy bị hạn chế, vì giá trị thặng dư chủ yếu dùng cho tiêu dùng cá nhân thay vì chuyển thành tư bản phụ thêm.",
+      "openQuestion": "Theo bạn, lựa chọn nào giúp mở rộng quy mô?",
+      "perspectiveA": "Dành phần lớn cho tích lũy, tăng năng suất và dùng máy móc hiệu quả.",
+      "perspectiveB": "Chủ yếu tăng tiêu dùng cá nhân, ít chú ý đến sản xuất."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Với một khối lượng giá trị thặng dư nhất định, quy mô tích lũy tư bản phụ thuộc vào tỷ lệ phân chia giữa tích lũy và tiêu dùng. Nếu tỷ lệ này đã xác định, quy mô tích lũy phụ thuộc vào khối lượng giá trị thặng dư.",
+        "icon": "📊",
+        "title": "Tỷ lệ tích lũy và tiêu dùng"
+      },
+      {
+        "id": "card2",
+        "body": "Nhân tố thứ nhất là trình độ khai thác sức lao động. Khi tỷ suất giá trị thặng dư tăng, khối lượng giá trị thặng dư có thể tăng, từ đó tạo điều kiện tăng quy mô tích lũy tư bản.",
+        "icon": "💪",
+        "title": "Khai thác sức lao động"
+      },
+      {
+        "id": "card3",
+        "body": "Để nâng cao tỷ suất giá trị thặng dư, nhà tư bản có thể dùng phương pháp sản xuất giá trị thặng dư tuyệt đối, sản xuất giá trị thặng dư tương đối, hoặc các biện pháp như cắt xén tiền công, tăng ca, tăng cường độ lao động.",
+        "icon": "⚙️",
+        "title": "Biện pháp tăng giá trị thặng dư"
+      },
+      {
+        "id": "card4",
+        "body": "Nhân tố thứ hai là năng suất lao động xã hội. Khi năng suất lao động tăng, giá trị tư liệu sinh hoạt giảm, làm giảm giá trị sức lao động, giúp nhà tư bản thu được nhiều giá trị thặng dư hơn.",
+        "icon": "🚀",
+        "title": "Năng suất lao động xã hội"
+      },
+      {
+        "id": "card5",
+        "body": "Nhân tố thứ ba là sử dụng hiệu quả máy móc. C.Mác chỉ ra nhân tố này qua mức chênh lệch giữa tư bản sử dụng và tư bản tiêu dùng. Máy móc tham gia toàn bộ quá trình sản xuất nhưng giá trị chỉ chuyển dần qua khấu hao. Phần máy móc chưa khấu hao phục vụ không công cho nhà tư bản như một lực lượng tự nhiên.",
+        "icon": "🏭",
+        "title": "Sử dụng hiệu quả máy móc"
+      },
+      {
+        "id": "card6",
+        "body": "Nhân tố thứ tư là đại lượng tư bản ứng trước. Nếu thị trường thuận lợi, hàng hóa bán được, tư bản ứng trước càng lớn thì càng tạo tiền đề để tăng quy mô tích lũy tư bản.",
+        "icon": "💼",
+        "title": "Đại lượng tư bản ứng trước"
+      }
+    ]
+  },
+  {
+    "muc": "3.2.3",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn chọn cách hiểu A hay B?",
+      "feedbackA": "Lựa chọn này phù hợp. Tích lũy tư bản dẫn tới các hệ quả như tăng cấu tạo hữu cơ, tăng tích tụ và tập trung tư bản, làm tăng chênh lệch thu nhập.",
+      "feedbackB": "Cách hiểu này chưa đúng. Theo giáo trình, tích lũy tư bản dẫn tới những hệ quả kinh tế mang tính quy luật trong nền kinh tế thị trường tư bản chủ nghĩa.",
+      "situation": "Một xưởng ban đầu dùng nhiều lao động thủ công. Sau nhiều năm tích lũy, chủ xưởng mua dây chuyền tự động, sáp nhập với xưởng nhỏ khác. Sản xuất lớn hơn nhưng thu nhập giữa chủ xưởng và công nhân ngày càng chênh lệch. A. Đây là hệ quả của tích lũy; B. Đây không liên quan đến tích lũy."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Làm tăng cấu tạo hữu cơ của tư bản",
+          "Làm giảm mọi hình thức tích tụ tư bản",
+          "Làm cho giá trị thặng dư không còn là nguồn của tích lũy",
+          "Làm cho tư bản bất biến và tư bản khả biến hoàn toàn đồng nhất"
+        ],
+        "question": "Theo giáo trình, đâu là một hệ quả của tích lũy tư bản?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Giáo trình nêu rõ một hệ quả của tích lũy tư bản là làm tăng cấu tạo hữu cơ của tư bản, do sự biến đổi của cấu tạo kỹ thuật trong sản xuất."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Tăng cấu tạo hữu cơ của tư bản",
+          "Địa tô chênh lệch I",
+          "Lợi tức tư bản cho vay",
+          "Tái sản xuất giản đơn"
+        ],
+        "question": "Một doanh nghiệp sau nhiều năm tích lũy đầu tư thêm dây chuyền tự động, khiến tỷ lệ máy móc, thiết bị tăng nhanh so với số lao động trực tiếp. Tình huống này minh họa hệ quả nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Khi tư liệu sản xuất, máy móc, thiết bị tăng nhanh so với sức lao động, cấu tạo kỹ thuật thay đổi và được phản ánh thành sự tăng lên của cấu tạo hữu cơ của tư bản."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Tích tụ và tập trung tư bản đều làm tăng quy mô tư bản cá biệt nhưng cơ chế khác nhau",
+          "Tích tụ và tập trung tư bản là hai tên gọi hoàn toàn giống nhau",
+          "Tập trung tư bản luôn làm tăng ngay quy mô tư bản xã hội",
+          "Tích tụ tư bản không liên quan đến giá trị thặng dư"
+        ],
+        "question": "Nếu tích tụ tư bản làm tăng quy mô tư bản cá biệt bằng tư bản hóa giá trị thặng dư, còn tập trung tư bản hợp nhất các tư bản cá biệt thành tư bản cá biệt lớn hơn, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Tích tụ tư bản tăng quy mô tư bản cá biệt bằng tư bản hóa giá trị thặng dư; tập trung tư bản hợp nhất các tư bản cá biệt, không làm tăng trực tiếp quy mô tư bản xã hội."
+      }
+    ],
+    "order": 6,
+    "title": "Một số hệ quả của tích lũy tư bản",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Lựa chọn này phù hợp. Tích lũy tư bản dẫn tới các hệ quả như tăng cấu tạo hữu cơ, tăng tích tụ và tập trung tư bản, làm tăng chênh lệch thu nhập.",
+      "explanationB": "Cách hiểu này chưa đúng. Theo giáo trình, tích lũy tư bản dẫn tới những hệ quả kinh tế mang tính quy luật trong nền kinh tế thị trường tư bản chủ nghĩa.",
+      "openQuestion": "Bạn chọn cách hiểu A hay B?",
+      "perspectiveA": "Đây là hệ quả của tích lũy.",
+      "perspectiveB": "Đây không liên quan đến tích lũy."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Theo C.Mác, quá trình tích lũy tư bản trong nền kinh tế thị trường tư bản chủ nghĩa dẫn tới một số hệ quả kinh tế mang tính quy luật, phản ánh sự biến đổi của tư bản và quan hệ xã hội trong sản xuất.",
+        "icon": "📌",
+        "title": "Các hệ quả mang tính quy luật"
+      },
+      {
+        "id": "card2",
+        "body": "Hệ quả thứ nhất là tích lũy tư bản làm tăng cấu tạo hữu cơ của tư bản. Cấu tạo hữu cơ của tư bản là cấu tạo giá trị do cấu tạo kỹ thuật quyết định và phản ánh sự biến đổi của cấu tạo kỹ thuật.",
+        "icon": "⚙️",
+        "title": "Cấu tạo hữu cơ của tư bản"
+      },
+      {
+        "id": "card3",
+        "body": "Cấu tạo kỹ thuật phản ánh tỷ lệ giữa số lượng tư liệu sản xuất và số lượng sức lao động. Khi xét dưới hình thái giá trị, nó biểu hiện thành tỷ lệ giữa tư bản bất biến và tư bản khả biến.",
+        "icon": "🏭",
+        "title": "Cấu tạo kỹ thuật và cấu tạo giá trị"
+      },
+      {
+        "id": "card4",
+        "body": "Trong quá trình tích lũy, cấu tạo kỹ thuật có xu hướng tăng lên, kéo theo cấu tạo hữu cơ của tư bản tăng. Điều này cho thấy tư liệu sản xuất, máy móc ngày càng giữ vai trò lớn hơn.",
+        "icon": "📈",
+        "title": "Xu hướng tăng cấu tạo hữu cơ"
+      },
+      {
+        "id": "card5",
+        "body": "Hệ quả thứ hai là tích lũy tư bản làm tăng tích tụ và tập trung tư bản. Tích tụ là tăng quy mô tư bản cá biệt bằng cách tư bản hóa giá trị thặng dư, làm tăng quy mô tư bản xã hội. Tập trung là sự hợp nhất nhiều tư bản cá biệt nhỏ thành tư bản lớn hơn thông qua cạnh tranh hoặc tín dụng, không làm tăng ngay quy mô tư bản xã hội.",
+        "icon": "🔗",
+        "title": "Tích tụ và tập trung tư bản"
+      },
+      {
+        "id": "card6",
+        "body": "Hệ quả thứ ba là tích lũy tư bản làm tăng chênh lệch thu nhập giữa nhà tư bản và người lao động làm thuê cả tuyệt đối lẫn tương đối. C.Mác gọi đó là sự bần cùng hóa người lao động.",
+        "icon": "⚖️",
+        "title": "Chênh lệch thu nhập"
+      }
+    ]
+  },
+  {
+    "muc": "3.3.1",
+    "hook": {
+      "type": "choice",
+      "question": "Nếu là người bạn thân của bác Ba, bạn sẽ nói gì với bác?",
+      "feedbackA": "Một góc nhìn thực tế! Hãy cùng lật mở bài học này để giúp bác Ba hiểu được chi phí sản xuất thực sự và cội nguồn của khoản tiền lời kia.",
+      "feedbackB": "Khoản lời 30 triệu rất thực tế, nhưng tiền không tự sinh ra tiền. Chúng ta hãy cùng học lý thuyết để giải thích giúp bác Ba nhé.",
+      "situation": "Bác Ba tích góp mở một xưởng may tại Đà Nẵng, chi hết 100 triệu đồng cho vải vóc và thuê công nhân. Cuối vụ, bác bán hết quần áo và thu về tổng cộng 130 triệu đồng. Bác hớn hở bảo xưởng may của mình tự sinh lời 30 triệu đồng chứ không bóc lột sức lao động của ai cả."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "G = c + v + m",
+          "G = k + p",
+          "G = k + m",
+          "G = c + v"
+        ],
+        "question": "Khi xuất hiện phạm trù chi phí sản xuất tư bản chủ nghĩa, giá trị hàng hóa (G) sẽ biểu hiện bằng công thức nào?",
+        "answerIndex": 2,
+        "explanation": "Giáo trình nêu rõ: Khi xuất hiện k thì công thức giá trị hàng hóa G = c + v + m biểu hiện thành G = k + m. (Lợi nhuận p là hình thái chuyển hóa sau khi bán được hàng)."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Lợi nhuận nhỏ hơn giá trị thặng dư (p < m)",
+          "Lợi nhuận lớn hơn giá trị thặng dư (p > m)",
+          "Lợi nhuận bằng giá trị thặng dư (p = m)",
+          "Lợi nhuận bằng không (p = 0)"
+        ],
+        "question": "Do khan hiếm nguyên liệu may mặc nên xưởng của bác Ba phải bán áo thun với giá cả cao hơn giá trị thực tế của nó. Tình huống này phản ánh điều gì?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình chỉ rõ mối quan hệ giữa p và m: khi giá cả cao hơn giá trị (do cung nhỏ hơn cầu) thì lợi nhuận thu về sẽ lớn hơn giá trị thặng dư thực tế tạo ra (p > m)."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "p' sẽ giữ nguyên không đổi",
+          "p' sẽ giảm xuống tương ứng",
+          "p' sẽ tăng lên",
+          "p' luôn bằng không"
+        ],
+        "question": "Nếu tỷ suất giá trị thặng dư (m') không đổi, khi nhà tư bản tăng tốc độ chu chuyển tư bản lên nhiều vòng trong năm, tỷ suất lợi nhuận (p') sẽ biến động như thế nào?",
+        "answerIndex": 2,
+        "explanation": "Theo tư duy logic từ nhân tố ảnh hưởng: tốc độ chu chuyển tư bản tăng giúp khối lượng giá trị thặng dư hàng năm tăng, dẫn đến tỷ suất lợi nhuận hàng năm tăng."
+      }
+    ],
+    "order": 7,
+    "title": "Lợi nhuận",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Một góc nhìn thực tế! Hãy cùng lật mở bài học này để giúp bác Ba hiểu được chi phí sản xuất thực sự và cội nguồn của khoản tiền lời kia.",
+      "explanationB": "Khoản lời 30 triệu rất thực tế, nhưng tiền không tự sinh ra tiền. Chúng ta hãy cùng học lý thuyết để giải thích giúp bác Ba nhé.",
+      "openQuestion": "Nếu là người bạn thân của bác Ba, bạn sẽ nói gì với bác?",
+      "perspectiveA": "Khoản lời là do xưởng may tự sinh lời, không liên quan đến sức lao động.",
+      "perspectiveB": "Tiền không tự sinh ra tiền; cần giải thích khoản lời từ quá trình sản xuất."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Trong kinh doanh thực tế, làm thế nào để chúng ta đo lường chính xác hiệu quả kinh tế và hiểu được tiền lời từ đâu mà có? Hãy cùng đi vào tìm hiểu khái niệm đầu tiên.",
+        "icon": "❓",
+        "title": "Vấn đề tiền lời"
+      },
+      {
+        "id": "card2",
+        "body": "Chi phí sản xuất tư bản chủ nghĩa (k) là phần giá trị của hàng hóa, bù lại giá cả của những tư liệu sản xuất đã tiêu dùng (c) và giá cả của sức lao động đã được sử dụng (v). Công thức: k = c + v.",
+        "icon": "💰",
+        "title": "Chi phí sản xuất tư bản chủ nghĩa"
+      },
+      {
+        "id": "card3",
+        "body": "Khi bán hàng hóa ngang giá, nhà tư bản thu được khoản chênh lệch giữa giá trị hàng hóa và chi phí sản xuất, gọi là lợi nhuận (p). Công thức: p = G - k. Lợi nhuận chính là hình thái biểu hiện bề ngoài của giá trị thặng dư m.",
+        "icon": "📈",
+        "title": "Khái niệm lợi nhuận"
+      },
+      {
+        "id": "card4",
+        "body": "Xét xưởng may bác Ba: ứng 100 triệu mua vải, máy móc, thuê thợ (k = 100). Bán sản phẩm thu 130 triệu (G = 130). Số tiền lời p = 130 - 100 = 30 triệu. Bản chất 30 triệu này do công nhân may tạo ra.",
+        "icon": "📊",
+        "title": "Ví dụ xưởng may"
+      },
+      {
+        "id": "card5",
+        "body": "Tỷ suất lợi nhuận (p') là tỷ lệ phần trăm giữa lợi nhuận và toàn bộ giá trị của tư bản ứng trước: p' = [p / (c + v)] x 100%. Đây là động cơ quan trọng nhất của hoạt động cạnh tranh tư bản chủ nghĩa.",
+        "icon": "🔍",
+        "title": "Tỷ suất lợi nhuận"
+      },
+      {
+        "id": "card6",
+        "body": "Chốt lại, lợi nhuận phản ánh kết quả kinh doanh còn tỷ suất lợi nhuận phản ánh mức độ hiệu quả của dòng vốn. Quy mô p' chịu ảnh hưởng bởi m', c/v, tốc độ chu chuyển và tiết kiệm tư bản c.",
+        "icon": "⚙️",
+        "title": "Các nhân tố ảnh hưởng"
+      }
+    ]
+  },
+  {
+    "muc": "3.3.2",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, khoản tiền lãi Lan nhận được từ ngân hàng có bản chất là gì?",
+      "feedbackA": "Ý kiến phổ biến! Nhưng tiền không tự sinh sôi trong két sắt ngân hàng. Hãy đọc bài học để biết tiền của Lan đã đi qua chu trình sản xuất nào phía sau.",
+      "feedbackB": "Tư duy kinh tế sắc bén! Khoản lãi này chính là lợi tức, một phần lợi nhuận mà người đi vay phải trích trả cho người cho vay.",
+      "situation": "Bạn Lan tích góp được 50 triệu đồng từ công việc bán hàng bán thời gian. Thấy tiền để không lãng phí, Lan đem gửi tiết kiệm vào ngân hàng để hưởng lãi. Ngân hàng dùng số tiền này cho một xí nghiệp vay mở rộng sản xuất. Cuối tháng Lan nhận được khoản lãi tiền gửi nhỏ."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Là tiền công do cơ quan ngân hàng chi trả",
+          "Là một phần của lợi nhuận bình quân mà người đi vay phải trả cho người cho vay",
+          "Là khoản tiền phạt vi phạm hợp đồng kinh tế",
+          "Là toàn bộ giá trị thặng dư tạo ra trong sản xuất"
+        ],
+        "question": "Bản chất của lợi tức (z) trong nền kinh tế thị trường tư bản chủ nghĩa là gì?",
+        "answerIndex": 1,
+        "explanation": "Định nghĩa nguyên văn giáo trình: Lợi tức là một phần của lợi nhuận bình quân mà người đi vay phải trả cho người cho vay vì đã sử dụng lượng tiền nhàn rỗi của người cho vay."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Công ty vẫn có nguồn thu lớn để trả lợi tức cao",
+          "Công ty lâm vào khánh kiệt vì lợi tức ăn hết vào phần vốn gốc của tư bản",
+          "Tỷ suất lợi tức tự động tăng vọt lên",
+          "Ngân hàng tự xóa nợ gốc cho doanh nghiệp"
+        ],
+        "question": "Một công ty sản xuất vay ngân hàng 1 tỷ đồng để kinh doanh. Gặp bối cảnh khủng hoảng kinh tế toàn cầu, tỷ suất lợi nhuận bình quân giảm mạnh về mức bằng 0. Tình huống này ảnh hưởng gì đến việc trả lợi tức?",
+        "answerIndex": 1,
+        "explanation": "Vì lợi tức là một phần của lợi nhuận bình quân (0 < z' < P̅'). Khi lợi nhuận bằng 0, doanh nghiệp không có nguồn trích trả lợi tức, buộc phải lạm vào vốn và có nguy cơ phá sản."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Tỷ suất lợi tức sẽ tăng mạnh",
+          "Tỷ suất lợi tức sẽ có xu hướng giảm xuống",
+          "Tỷ suất lợi tức sẽ bằng tỷ suất lợi nhuận bình quân",
+          "Tỷ suất lợi tức không chịu ảnh hưởng bởi cung cầu vốn"
+        ],
+        "question": "Nếu lượng tư bản cho vay trên thị trường tài chính vượt xa nhu cầu cần vay vốn của các doanh nghiệp sản xuất, theo logic cung - cầu, tỷ suất lợi tức (z') sẽ thay đổi thế nào?",
+        "answerIndex": 1,
+        "explanation": "Khi cung tư bản cho vay lớn hơn cầu tư bản cho vay, áp lực cạnh tranh giữa những người cho vay sẽ kéo tỷ suất lợi tức giảm xuống."
+      }
+    ],
+    "order": 8,
+    "title": "Lợi tức",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Ý kiến phổ biến! Nhưng tiền không tự sinh sôi trong két sắt ngân hàng. Hãy đọc bài học để biết tiền của Lan đã đi qua chu trình sản xuất nào phía sau.",
+      "explanationB": "Tư duy kinh tế sắc bén! Khoản lãi này chính là lợi tức, một phần lợi nhuận mà người đi vay phải trích trả cho người cho vay.",
+      "openQuestion": "Theo bạn, khoản tiền lãi Lan nhận được từ ngân hàng có bản chất là gì?",
+      "perspectiveA": "Tiền gửi tự sinh ra tiền trong ngân hàng.",
+      "perspectiveB": "Khoản lãi là lợi tức, một phần lợi nhuận người đi vay trả cho người cho vay."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Trong nền kinh tế thị trường luôn có người thừa tiền nhàn rỗi và người thiếu vốn kinh doanh. Mối quan hệ cho vay - đi vay hình thành từ đó và sinh ra phạm trù lợi tức.",
+        "icon": "🏦",
+        "title": "Quan hệ cho vay - đi vay"
+      },
+      {
+        "id": "card2",
+        "body": "Lợi tức (z) là một phần của lợi nhuận bình quân mà người đi vay phải trả cho người cho vay vì đã sử dụng lượng tiền nhàn rỗi của người cho vay đó.",
+        "icon": "💰",
+        "title": "Khái niệm lợi tức"
+      },
+      {
+        "id": "card3",
+        "body": "Nguồn gốc sâu xa của lợi tức chính là một phần của giá trị thặng dư (m) do công nhân làm thuê tạo ra trong lĩnh vực sản xuất, được nhà tư bản đi vay trích ra trả.",
+        "icon": "🌳",
+        "title": "Nguồn gốc của lợi tức"
+      },
+      {
+        "id": "card4",
+        "body": "Xí nghiệp vay 50 triệu của Lan tạo ra 10 triệu lợi nhuận bình quân. Xí nghiệp giữ lại 7 triệu làm lợi nhuận doanh nghiệp và trích 3 triệu trả cho Lan. 3 triệu này chính là lợi tức z.",
+        "icon": "🔑",
+        "title": "Ví dụ phân chia lợi nhuận"
+      },
+      {
+        "id": "card5",
+        "body": "Tỷ suất lợi tức (z') là tỷ lệ % giữa tổng số lợi tức và số tư bản cho vay. Công thức: z' = (z / Tư bản cho vay) x 100%. z' chịu ảnh hưởng bởi tỷ suất lợi nhuận bình quân và cung cầu vốn.",
+        "icon": "📈",
+        "title": "Tỷ suất lợi tức"
+      },
+      {
+        "id": "card6",
+        "body": "Tư bản cho vay có đặc điểm: quyền sử dụng tách rời quyền sở hữu, là hàng hóa đặc biệt, vận động theo công thức phiến diện T - T' và là cơ sở hình thành công ty cổ phần, tư bản giả.",
+        "icon": "📄",
+        "title": "Đặc điểm của tư bản cho vay"
+      }
+    ]
+  },
+  {
+    "muc": "3.3.3",
+    "hook": {
+      "type": "choice",
+      "question": "Khoản trả cho chủ đất nên hiểu theo A hay B?",
+      "feedbackA": "Cách hiểu này phù hợp. Trong nông nghiệp tư bản chủ nghĩa, nhà tư bản kinh doanh nông nghiệp phải trả cho địa chủ một phần giá trị thặng dư dưới dạng địa tô.",
+      "feedbackB": "Cách hiểu này chưa đầy đủ. Địa tô không phải toàn bộ lợi nhuận, mà là phần giá trị thặng dư còn lại sau khi trừ lợi nhuận bình quân.",
+      "situation": "Một nhóm sinh viên thuê đất ngoại ô để trồng rau sạch bán cho căn tin. Sau một vụ, nhóm thu được lợi nhuận nhưng phải trả tiền thuê đất cho chủ đất. Nhóm phân vân: A. khoản này liên quan đến phần giá trị thặng dư trả cho chủ đất; B. đó là toàn bộ lợi nhuận kinh doanh."
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Toàn bộ lợi nhuận của nhà tư bản công nghiệp",
+          "Phần giá trị thặng dư còn lại sau khi trừ lợi nhuận bình quân mà nhà tư bản nông nghiệp trả cho địa chủ",
+          "Khoản tiền công mà người lao động nông nghiệp nhận được",
+          "Phần lợi tức mà ngân hàng trả cho người gửi tiền"
+        ],
+        "question": "Theo C.Mác, địa tô tư bản chủ nghĩa là gì?",
+        "answerIndex": 1,
+        "explanation": "Đáp án đúng là B. Giáo trình nêu rõ địa tô là phần giá trị thặng dư còn lại sau khi khấu trừ lợi nhuận bình quân mà nhà tư bản kinh doanh nông nghiệp phải trả cho địa chủ."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Địa tô chênh lệch I",
+          "Địa tô chênh lệch II",
+          "Địa tô tuyệt đối",
+          "Lợi tức tư bản cho vay"
+        ],
+        "question": "Một mảnh ruộng có đất tốt, màu mỡ và gần nguồn nước nên người thuê đất thu được lợi nhuận siêu ngạch, sau đó trả phần này cho địa chủ. Trường hợp này gần nhất với hình thức nào?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Địa tô chênh lệch I là địa tô địa chủ thu được do cho thuê ruộng đất tốt, độ màu mỡ cao và điều kiện tự nhiên thuận lợi."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Địa tô phản ánh quan hệ phân chia giá trị thặng dư giữa nhà tư bản kinh doanh nông nghiệp và địa chủ",
+          "Địa tô chính là tiền công của người lao động nông nghiệp",
+          "Địa tô làm cho lợi nhuận bình quân không còn tồn tại",
+          "Địa tô chỉ xuất hiện trong công nghiệp, không liên quan đến nông nghiệp"
+        ],
+        "question": "Nếu địa tô là phần giá trị thặng dư còn lại sau khi trừ lợi nhuận bình quân, còn nhà tư bản nông nghiệp phải thuê đất của địa chủ, kết luận nào hợp lý nhất?",
+        "answerIndex": 0,
+        "explanation": "Đáp án đúng là A. Địa tô tư bản chủ nghĩa thể hiện việc phân chia giá trị thặng dư trong nông nghiệp: nhà tư bản kinh doanh nông nghiệp giữ lợi nhuận bình quân và trả phần còn lại cho địa chủ dưới dạng địa tô."
+      }
+    ],
+    "order": 9,
+    "title": "Địa tô tư bản chủ nghĩa",
+    "chuong": 3,
+    "debate": {
+      "explanationA": "Cách hiểu này phù hợp. Trong nông nghiệp tư bản chủ nghĩa, nhà tư bản kinh doanh nông nghiệp phải trả cho địa chủ một phần giá trị thặng dư dưới dạng địa tô.",
+      "explanationB": "Cách hiểu này chưa đầy đủ. Địa tô không phải toàn bộ lợi nhuận, mà là phần giá trị thặng dư còn lại sau khi trừ lợi nhuận bình quân.",
+      "openQuestion": "Khoản trả cho chủ đất nên hiểu theo A hay B?",
+      "perspectiveA": "Khoản trả cho chủ đất là phần giá trị thặng dư trả cho địa chủ.",
+      "perspectiveB": "Khoản trả cho chủ đất là toàn bộ lợi nhuận kinh doanh."
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Tư bản kinh doanh nông nghiệp là bộ phận tư bản xã hội đầu tư vào lĩnh vực nông nghiệp. Cũng như các nhà tư bản ở lĩnh vực khác, nhà tư bản kinh doanh nông nghiệp thu được lợi nhuận bình quân.",
+        "icon": "🌾",
+        "title": "Tư bản kinh doanh nông nghiệp"
+      },
+      {
+        "id": "card2",
+        "body": "Điểm khác biệt là nhà tư bản kinh doanh nông nghiệp phải trả một lượng tiền cho địa chủ vì đã thuê đất của họ. Khoản trả này gắn với quan hệ giữa nhà tư bản kinh doanh nông nghiệp và địa chủ.",
+        "icon": "🏞️",
+        "title": "Khoản trả cho địa chủ"
+      },
+      {
+        "id": "card3",
+        "body": "Theo C.Mác, địa tô là phần giá trị thặng dư còn lại sau khi nhà tư bản kinh doanh nông nghiệp đã khấu trừ phần lợi nhuận bình quân từ tổng giá trị thặng dư thu được. Khoản này phải nộp cho địa chủ để có quyền sử dụng ruộng đất.",
+        "icon": "💰",
+        "title": "Khái niệm địa tô"
+      },
+      {
+        "id": "card4",
+        "body": "Địa tô chênh lệch gồm địa tô chênh lệch I và địa tô chênh lệch II. Địa tô chênh lệch I có được do ruộng đất tốt, màu mỡ, điều kiện tự nhiên thuận lợi.",
+        "icon": "📍",
+        "title": "Địa tô chênh lệch I"
+      },
+      {
+        "id": "card5",
+        "body": "Địa tô chênh lệch II có được do mảnh đất đã được đầu tư thâm canh, làm tăng độ phì nhiêu và năng suất canh tác. Địa tô tuyệt đối là phần giá trị thặng dư dôi ra ngoài lợi nhuận bình quân, tồn tại trên mọi loại đất kể cả đất xấu nhất — do độc quyền sở hữu ruộng đất ngăn cản tự do cạnh tranh giữa nông nghiệp và công nghiệp, không liên quan đến điều kiện tự nhiên hay kỹ thuật.",
+        "icon": "📊",
+        "title": "Địa tô chênh lệch II và địa tô tuyệt đối"
+      },
+      {
+        "id": "card6",
+        "body": "Lý luận địa tô tư bản chủ nghĩa của C.Mác giúp làm rõ quan hệ sản xuất tư bản chủ nghĩa trong nông nghiệp, đồng thời là cơ sở khoa học để xây dựng chính sách về thuế, điều tiết địa tô và giải quyết quan hệ đất đai.",
+        "icon": "🌱",
+        "title": "Ý nghĩa của lý luận địa tô"
+      }
+    ]
+  }
+]

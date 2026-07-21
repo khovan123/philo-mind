@@ -47,7 +47,7 @@ function normalizeTextChild(child: React.ReactNode): React.ReactNode {
   if (Array.isArray(child)) {
     return child
       .map((item) => normalizeTextChild(item))
-      .filter(Boolean)
+      .filter((item) => item !== null && item !== undefined && item !== false)
       .join("");
   }
 

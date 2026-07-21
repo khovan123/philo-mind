@@ -1,0 +1,692 @@
+[
+  {
+    "muc": "6.1.1",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn đồng ý với ai?",
+      "feedbackA": "Công nghiệp hóa không chỉ là xây nhà máy mà là quá trình chuyển đổi căn bản, toàn diện nền kinh tế từ nông nghiệp sang công nghiệp và dịch vụ hiện đại. Cùng tìm hiểu.",
+      "feedbackB": "Đúng rồi! Công nghiệp hóa là quá trình chuyển đổi toàn diện, gắn liền với tiến bộ khoa học công nghệ và các cuộc cách mạng công nghiệp. Cùng khám phá.",
+      "situation": "Trong buổi seminar, Trung nói: \"Công nghiệp hóa chỉ là xây nhà máy, mua máy móc thôi.\" Mai phản biện: \"Không đúng, công nghiệp hóa là cả một quá trình chuyển đổi toàn diện nền kinh tế gắn liền với cách mạng công nghiệp.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "2 cuộc",
+          "3 cuộc",
+          "4 cuộc",
+          "5 cuộc"
+        ],
+        "question": "Đã có bao nhiêu cuộc cách mạng công nghiệp trong lịch sử nhân loại?",
+        "answerIndex": 2,
+        "explanation": "Theo giáo trình, lịch sử nhân loại đã trải qua 4 cuộc cách mạng công nghiệp: lần 1 (cơ khí hơi nước), lần 2 (điện, dây chuyền), lần 3 (máy tính, Internet), lần 4 (AI, IoT, dữ liệu lớn)."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Mô hình cổ điển, tuần tự từng giai đoạn",
+          "Mô hình rút ngắn, đi tắt đón đầu",
+          "Mô hình không có công nghiệp hóa",
+          "Mô hình phi thị trường"
+        ],
+        "question": "Nhật Bản từ một nước bại trận sau Thế chiến II đã trở thành cường quốc kinh tế chỉ trong vài thập kỷ. Điều này minh chứng cho mô hình công nghiệp hóa nào?",
+        "answerIndex": 1,
+        "explanation": "Nhật Bản là ví dụ điển hình của mô hình công nghiệp hóa rút ngắn — tận dụng thành tựu KHCN của các nước đi trước, đầu tư mạnh vào giáo dục và R&D, thực hiện CNH chỉ trong vài thập kỷ thay vì hàng trăm năm."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "CNH và HĐH là hai quá trình hoàn toàn tách rời",
+          "CNH, HĐH ở Việt Nam là quá trình kết hợp: vừa phát triển công nghiệp vừa ứng dụng KHCN hiện đại",
+          "Chỉ cần HĐH, không cần CNH",
+          "CNH chỉ là mua máy móc nhập khẩu"
+        ],
+        "question": "Biết rằng: (1) Công nghiệp hóa là quá trình chuyển đổi nền sản xuất từ thủ công sang máy móc; (2) Hiện đại hóa là ứng dụng KHCN tiên tiến. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) CNH là chuyển đổi sang máy móc, từ (2) HĐH là ứng dụng KHCN. Việt Nam kết hợp cả hai: vừa chuyển đổi nền sản xuất vừa ứng dụng công nghệ hiện đại — gọi là CNH, HĐH."
+      }
+    ],
+    "order": 1,
+    "title": "Khái quát cách mạng công nghiệp và công nghiệp hóa",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) CNH là chuyển đổi sang máy móc, từ (2) HĐH là ứng dụng KHCN. Việt Nam kết hợp cả hai: vừa chuyển đổi nền sản xuất vừa ứng dụng công nghệ hiện đại — gọi là CNH, HĐH.",
+      "explanationB": "Từ (1) CNH là chuyển đổi sang máy móc, từ (2) HĐH là ứng dụng KHCN. Việt Nam kết hợp cả hai: vừa chuyển đổi nền sản xuất vừa ứng dụng công nghệ hiện đại — gọi là CNH, HĐH.",
+      "openQuestion": "Biết rằng: (1) Công nghiệp hóa là quá trình chuyển đổi nền sản xuất từ thủ công sang máy móc; (2) Hiện đại hóa là ứng dụng KHCN tiên tiến. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "CNH và HĐH là hai quá trình hoàn toàn tách rời",
+      "perspectiveB": "CNH, HĐH ở Việt Nam là quá trình kết hợp: vừa phát triển công nghiệp vừa ứng dụng KHCN hiện đại"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Cách mạng công nghiệp là bước ngoặt lớn trong lịch sử phát triển lực lượng sản xuất. Đã có 4 cuộc CMCN: lần 1 (giữa XVIII, cơ khí hơi nước), lần 2 (cuối XIX, điện, dây chuyền sản xuất), lần 3 (giữa XX, máy tính, Internet), lần 4 (đầu XXI, trí tuệ nhân tạo, IoT, dữ liệu lớn).",
+        "icon": "🏭",
+        "title": "Bốn cuộc cách mạng công nghiệp"
+      },
+      {
+        "id": "card2",
+        "body": "Công nghiệp hóa là quá trình chuyển đổi nền sản xuất xã hội từ dựa trên lao động thủ công sang dựa trên lao động bằng máy móc, nhằm tạo ra năng suất lao động xã hội cao. Nó bao hàm cả thay đổi cơ cấu kinh tế, cơ cấu lao động.",
+        "icon": "📖",
+        "title": "Khái niệm công nghiệp hóa"
+      },
+      {
+        "id": "card3",
+        "body": "Trên thế giới có nhiều mô hình công nghiệp hóa: cổ điển (Anh, Pháp — kéo dài hàng trăm năm), rút ngắn (Nhật Bản, Hàn Quốc, Đài Loan — chỉ vài thập kỷ). Mỗi quốc gia chọn mô hình phù hợp với điều kiện thực tiễn.",
+        "icon": "🌍",
+        "title": "Các mô hình công nghiệp hóa"
+      },
+      {
+        "id": "card4",
+        "body": "Việt Nam thực hiện công nghiệp hóa, hiện đại hóa — tức là vừa phát triển công nghiệp vừa ứng dụng thành tựu khoa học công nghệ hiện đại, không nhất thiết đi tuần tự từng giai đoạn mà có thể đi tắt đón đầu.",
+        "icon": "🇻🇳",
+        "title": "Công nghiệp hóa, hiện đại hóa ở Việt Nam"
+      },
+      {
+        "id": "card5",
+        "body": "Hiện đại hóa là quá trình ứng dụng và trang bị những thành tựu khoa học và công nghệ tiên tiến, hiện đại vào quá trình sản xuất kinh doanh, dịch vụ và quản lý kinh tế - xã hội.",
+        "icon": "💡",
+        "title": "Khái niệm hiện đại hóa"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Cách mạng công nghiệp là động lực thúc đẩy công nghiệp hóa. Công nghiệp hóa, hiện đại hóa là quá trình chuyển đổi toàn diện nền kinh tế, gắn với ứng dụng khoa học - công nghệ, không chỉ đơn thuần là xây nhà máy.",
+        "icon": "🧭",
+        "title": "Quan hệ giữa cách mạng công nghiệp và công nghiệp hóa"
+      }
+    ]
+  },
+  {
+    "muc": "6.1.2",
+    "hook": {
+      "type": "drag",
+      "items": [
+        "Xây dựng cơ sở vật chất - kỹ thuật cho CNXH",
+        "Chuyển đổi cơ cấu kinh tế theo hướng hiện đại",
+        "Phát triển LLSX và tăng năng suất lao động",
+        "Ứng dụng KHCN vào mọi ngành kinh tế",
+        "Giữ nguyên cơ cấu kinh tế nông nghiệp lạc hậu",
+        "Không cần phát triển công nghiệp nặng",
+        "Duy trì lao động thủ công truyền thống",
+        "Phát triển kinh tế mà không cần KHCN"
+      ],
+      "bridge": "CNH, HĐH ở Việt Nam là tất yếu khách quan, nhằm xây dựng cơ sở vật chất kỹ thuật, chuyển đổi cơ cấu kinh tế và phát triển LLSX. Cùng tìm hiểu nội dung chi tiết.",
+      "groups": [
+        "Nội dung CNH - HĐH",
+        "Không phải nội dung CNH - HĐH"
+      ],
+      "answers": [
+        {
+          "cardIndex": 0,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 1,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 2,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 3,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 4,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 5,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 6,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 7,
+          "groupIndex": 1
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Vì các nước khác đã làm nên Việt Nam phải làm theo",
+          "Vì cần xây dựng cơ sở vật chất kỹ thuật cho CNXH, phát triển LLSX từ xuất phát điểm nước nông nghiệp lạc hậu",
+          "Vì Đảng muốn thu hút vốn đầu tư nước ngoài",
+          "Vì kinh tế nông nghiệp không tạo ra giá trị"
+        ],
+        "question": "CNH, HĐH ở Việt Nam là tất yếu khách quan vì lý do gì?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, Việt Nam xuất phát từ nước nông nghiệp lạc hậu, muốn xây dựng CNXH phải có cơ sở vật chất kỹ thuật tương ứng. CNH, HĐH là con đường tất yếu để phát triển LLSX, tạo nền tảng vật chất cho CNXH."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Giữ nguyên tỷ trọng lao động nông nghiệp",
+          "Chuyển đổi cơ cấu lao động từ nông nghiệp sang công nghiệp và dịch vụ, nâng cao trình độ",
+          "Xóa bỏ hoàn toàn nông nghiệp",
+          "Nhập khẩu toàn bộ lao động từ nước ngoài"
+        ],
+        "question": "Năm 2020, tỷ trọng lao động nông nghiệp ở Việt Nam vẫn chiếm khoảng 35% tổng lao động. Để CNH, HĐH thành công, Việt Nam cần làm gì?",
+        "answerIndex": 1,
+        "explanation": "CNH, HĐH đòi hỏi chuyển đổi cơ cấu lao động — giảm tỷ trọng nông nghiệp, tăng công nghiệp và dịch vụ; đồng thời nâng cao trình độ kỹ thuật của lao động. Không phải xóa bỏ nông nghiệp mà hiện đại hóa nông nghiệp."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Việt Nam không cần CNH, HĐH vì đã có CNXH",
+          "Việt Nam cần đẩy mạnh CNH, HĐH để xây dựng CSVC-KT đáp ứng yêu cầu phát triển",
+          "CSVC-KT tự phát triển, không cần CNH, HĐH",
+          "CNH, HĐH chỉ cần thiết ở các nước tư bản"
+        ],
+        "question": "Biết rằng: (1) CNH, HĐH là xây dựng cơ sở vật chất kỹ thuật cho CNXH; (2) Việt Nam hiện là nước đang phát triển, CSVC-KT còn thiếu thốn. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) CNH, HĐH xây dựng CSVC-KT; từ (2) VN còn thiếu thốn CSVC-KT. Suy ra VN cần đẩy mạnh CNH, HĐH."
+      }
+    ],
+    "order": 2,
+    "title": "Tính tất yếu khách quan và nội dung của công nghiệp hóa, hiện đại hóa ở Việt Nam",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) CNH, HĐH xây dựng CSVC-KT; từ (2) VN còn thiếu thốn CSVC-KT. Suy ra VN cần đẩy mạnh CNH, HĐH.",
+      "explanationB": "Từ (1) CNH, HĐH xây dựng CSVC-KT; từ (2) VN còn thiếu thốn CSVC-KT. Suy ra VN cần đẩy mạnh CNH, HĐH.",
+      "openQuestion": "Biết rằng: (1) CNH, HĐH là xây dựng cơ sở vật chất kỹ thuật cho CNXH; (2) Việt Nam hiện là nước đang phát triển, CSVC-KT còn thiếu thốn. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Việt Nam không cần CNH, HĐH vì đã có CNXH",
+      "perspectiveB": "Việt Nam cần đẩy mạnh CNH, HĐH để xây dựng CSVC-KT đáp ứng yêu cầu phát triển"
+    },
+    "hookType": "drag",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Tính tất yếu: CNH, HĐH là quy luật phổ biến của sự phát triển. Với Việt Nam, xuất phát điểm là nước nông nghiệp lạc hậu, muốn đi lên CNXH phải xây dựng cơ sở vật chất - kỹ thuật, mà CNH, HĐH là con đường tất yếu.",
+        "icon": "🔬",
+        "title": "Tính tất yếu của công nghiệp hóa, hiện đại hóa"
+      },
+      {
+        "id": "card2",
+        "body": "Nội dung 1: Tạo lập những điều kiện để chuyển đổi từ nền sản xuất - xã hội lạc hậu sang nền sản xuất - xã hội tiến bộ. Xây dựng cơ sở vật chất kỹ thuật (nhà máy, kết cấu hạ tầng, hệ thống công nghệ) cho CNXH.",
+        "icon": "🏗️",
+        "title": "Xây dựng cơ sở vật chất - kỹ thuật"
+      },
+      {
+        "id": "card3",
+        "body": "Nội dung 2: Chuyển đổi cơ cấu kinh tế theo hướng hiện đại — giảm tỷ trọng nông nghiệp, tăng tỷ trọng công nghiệp và dịch vụ; phát triển các ngành công nghệ cao, kinh tế số, kinh tế xanh.",
+        "icon": "📊",
+        "title": "Chuyển đổi cơ cấu kinh tế"
+      },
+      {
+        "id": "card4",
+        "body": "Nội dung 3: Chuyển đổi cơ cấu lao động — từ lao động thủ công, năng suất thấp sang lao động có trình độ kỹ thuật cao; phát triển nguồn nhân lực chất lượng cao đáp ứng yêu cầu CNH, HĐH.",
+        "icon": "👷",
+        "title": "Chuyển đổi cơ cấu lao động"
+      },
+      {
+        "id": "card5",
+        "body": "Nội dung 4: Từng bước hoàn thiện quan hệ sản xuất phù hợp với trình độ phát triển của lực lượng sản xuất — đa dạng hóa sở hữu, hoàn thiện phân phối, phát triển thị trường đồng bộ.",
+        "icon": "💡",
+        "title": "Hoàn thiện quan hệ sản xuất"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: CNH, HĐH ở Việt Nam là tất yếu khách quan nhằm xây dựng CSVC-KT, chuyển đổi cơ cấu kinh tế và lao động, phát triển LLSX — tạo tiền đề vật chất cho chủ nghĩa xã hội.",
+        "icon": "🧭",
+        "title": "Mục tiêu của công nghiệp hóa, hiện đại hóa"
+      }
+    ]
+  },
+  {
+    "muc": "6.1.3",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn nghĩ Việt Nam nên làm gì?",
+      "feedbackA": "Chờ đợi sẽ bị tụt lại phía sau. Trong bối cảnh CMCN 4.0, Việt Nam cần chủ động nắm bắt cơ hội để rút ngắn quá trình CNH, HĐH. Cùng tìm hiểu.",
+      "feedbackB": "Đúng rồi! CMCN 4.0 vừa là cơ hội vừa là thách thức. Việt Nam cần chủ động, tích cực để tận dụng cơ hội, vượt qua thách thức. Cùng tìm hiểu.",
+      "situation": "Trong lớp, thầy giáo hỏi: \"Cách mạng công nghiệp lần thứ tư (4.0) với AI, IoT, Big Data đang thay đổi thế giới. Việt Nam nên phản ứng thế nào?\" Lan nói: \"Nên chờ các nước phát triển rồi mình học theo.\" Tùng nói: \"Nên chủ động nắm bắt, đi tắt đón đầu.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Phát minh ra máy hơi nước",
+          "Phát triển điện và dây chuyền sản xuất",
+          "Ứng dụng trí tuệ nhân tạo, Internet vạn vật, dữ liệu lớn",
+          "Phát minh ra máy tính cá nhân và Internet"
+        ],
+        "question": "Đặc trưng nổi bật của Cách mạng công nghiệp lần thứ tư là gì?",
+        "answerIndex": 2,
+        "explanation": "CMCN 4.0 đặc trưng bởi các công nghệ đột phá như AI, IoT, Big Data, Blockchain, in 3D. Máy hơi nước thuộc CMCN 1, điện và dây chuyền thuộc CMCN 2, máy tính và Internet thuộc CMCN 3."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Giữ nguyên phương thức sản xuất truyền thống",
+          "Ứng dụng công nghệ tự động hóa, quản trị bằng dữ liệu, bán hàng trực tuyến",
+          "Đóng cửa nhà máy vì không thể cạnh tranh",
+          "Chỉ cần tăng số lượng công nhân"
+        ],
+        "question": "Một công ty sản xuất giày dép truyền thống ở Việt Nam muốn tồn tại trong bối cảnh CMCN 4.0. Họ nên làm gì?",
+        "answerIndex": 1,
+        "explanation": "Trong bối cảnh CMCN 4.0, doanh nghiệp cần ứng dụng KHCN vào sản xuất (tự động hóa, quản trị dữ liệu) và phân phối (thương mại điện tử) để nâng cao năng lực cạnh tranh, thay vì giữ nguyên phương thức truyền thống."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Nên chờ đợi các nước khác đi trước rồi mình theo sau",
+          "Cần chủ động đầu tư KHCN, đổi mới sáng tạo, phát triển nhân lực để tận dụng cơ hội CMCN 4.0",
+          "CMCN 4.0 không ảnh hưởng gì đến Việt Nam",
+          "Nên từ chối CMCN 4.0 vì nó chỉ mang lại thách thức"
+        ],
+        "question": "Biết rằng: (1) CMCN 4.0 vừa là cơ hội vừa là thách thức; (2) Việt Nam cần chủ động nắm bắt cơ hội. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) có cả cơ hội và thách thức; từ (2) cần chủ động. Suy ra cần đầu tư KHCN, đổi mới sáng tạo để tận dụng cơ hội, chứ không chờ đợi (A) hay từ chối (D)."
+      }
+    ],
+    "order": 3,
+    "title": "Công nghiệp hóa, hiện đại hóa ở Việt Nam trong bối cảnh cách mạng công nghiệp lần thứ tư",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) có cả cơ hội và thách thức; từ (2) cần chủ động. Suy ra cần đầu tư KHCN, đổi mới sáng tạo để tận dụng cơ hội, chứ không chờ đợi (A) hay từ chối (D).",
+      "explanationB": "Từ (1) có cả cơ hội và thách thức; từ (2) cần chủ động. Suy ra cần đầu tư KHCN, đổi mới sáng tạo để tận dụng cơ hội, chứ không chờ đợi (A) hay từ chối (D).",
+      "openQuestion": "Biết rằng: (1) CMCN 4.0 vừa là cơ hội vừa là thách thức; (2) Việt Nam cần chủ động nắm bắt cơ hội. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Nên chờ đợi các nước khác đi trước rồi mình theo sau",
+      "perspectiveB": "Cần chủ động đầu tư KHCN, đổi mới sáng tạo, phát triển nhân lực để tận dụng cơ hội CMCN 4.0"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Cách mạng công nghiệp lần thứ tư (CMCN 4.0) bắt đầu từ đầu thế kỷ XXI với các công nghệ đột phá: trí tuệ nhân tạo (AI), Internet vạn vật (IoT), dữ liệu lớn (Big Data), in 3D, chuỗi khối (Blockchain), công nghệ nano...",
+        "icon": "🤖",
+        "title": "Khái quát cách mạng công nghiệp 4.0"
+      },
+      {
+        "id": "card2",
+        "body": "CMCN 4.0 tạo ra cả thời cơ lẫn thách thức. Thời cơ: rút ngắn quá trình CNH, HĐH; nâng cao năng suất lao động; tham gia chuỗi giá trị toàn cầu. Thách thức: nguy cơ tụt hậu nếu không thích ứng; mất việc làm truyền thống; an ninh mạng.",
+        "icon": "🌟",
+        "title": "Thời cơ và thách thức"
+      },
+      {
+        "id": "card3",
+        "body": "Quan điểm CNH, HĐH trong bối cảnh CMCN 4.0: phải lấy khoa học công nghệ và đổi mới sáng tạo làm động lực chủ yếu; phát triển nguồn nhân lực chất lượng cao; chuyển đổi số quốc gia.",
+        "icon": "🎯",
+        "title": "Quan điểm công nghiệp hóa, hiện đại hóa"
+      },
+      {
+        "id": "card4",
+        "body": "CNH, HĐH thích ứng CMCN 4.0: hoàn thiện thể chế phát triển KHCN; xây dựng hạ tầng số; phát triển kinh tế số, xã hội số; đầu tư R&D; thúc đẩy hệ sinh thái đổi mới sáng tạo và khởi nghiệp.",
+        "icon": "💻",
+        "title": "Nhiệm vụ thích ứng với cách mạng 4.0"
+      },
+      {
+        "id": "card5",
+        "body": "Phát triển nguồn nhân lực là yếu tố then chốt: đổi mới giáo dục đào tạo, đào tạo kỹ năng số, nâng cao năng lực sáng tạo. Đặc biệt cần phát triển nhân lực trong lĩnh vực AI, KHCN, quản trị dữ liệu.",
+        "icon": "🎓",
+        "title": "Phát triển nguồn nhân lực"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Trong bối cảnh CMCN 4.0, Việt Nam cần chủ động nắm bắt cơ hội, lấy KHCN và đổi mới sáng tạo làm động lực, phát triển nguồn nhân lực chất lượng cao, chuyển đổi số — rút ngắn quá trình CNH, HĐH.",
+        "icon": "🧭",
+        "title": "Chủ động nắm bắt cơ hội"
+      }
+    ]
+  },
+  {
+    "muc": "6.2.1",
+    "hook": {
+      "type": "choice",
+      "question": "Bạn hiểu hội nhập kinh tế quốc tế như thế nào?",
+      "feedbackA": "Hội nhập không phải là mở cửa bừa bãi mà là quá trình chủ động, có chiến lược. Việt Nam chủ động tham gia, gắn kết kinh tế quốc gia với kinh tế thế giới. Cùng tìm hiểu.",
+      "feedbackB": "Đúng rồi! Hội nhập là quá trình chủ động, có lộ trình gắn kết nền kinh tế quốc gia vào kinh tế khu vực và thế giới. Cùng khám phá nội dung hội nhập.",
+      "situation": "Bạn Dũng hỏi: \"Hội nhập kinh tế quốc tế nghĩa là gì? Có phải Việt Nam phải mở cửa toàn bộ cho nước ngoài vào?\" An giải thích: \"Hội nhập là quá trình chủ động gắn kết nền kinh tế với kinh tế thế giới, nhưng phải có lộ trình và chiến lược.\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Là việc bỏ mọi rào cản để nước ngoài tự do kinh doanh trong nước",
+          "Là quá trình quốc gia gắn kết nền kinh tế với kinh tế thế giới, chia sẻ lợi ích và tuân thủ chuẩn mực chung",
+          "Là việc chỉ xuất khẩu hàng hóa, không nhập khẩu",
+          "Là việc sáp nhập nền kinh tế quốc gia vào một nước khác"
+        ],
+        "question": "Hội nhập kinh tế quốc tế được hiểu là gì?",
+        "answerIndex": 1,
+        "explanation": "Theo giáo trình, hội nhập kinh tế quốc tế là quá trình quốc gia gắn kết nền kinh tế với thế giới trên cơ sở chia sẻ lợi ích, tuân thủ chuẩn mực quốc tế — không phải mở cửa bừa bãi hay sáp nhập."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Mất hoàn toàn chủ quyền kinh tế",
+          "Mở rộng thị trường xuất khẩu, thu hút đầu tư, chuyển giao công nghệ",
+          "Không có lợi ích gì, chỉ có bất lợi",
+          "Chỉ có lợi cho các nước phát triển"
+        ],
+        "question": "Việt Nam gia nhập WTO năm 2007 và ký nhiều FTA (CPTPP, EVFTA). Điều này mang lại lợi ích gì?",
+        "answerIndex": 1,
+        "explanation": "Gia nhập WTO và ký FTA mở rộng thị trường xuất khẩu (giảm thuế), thu hút FDI, chuyển giao công nghệ. Việt Nam không mất chủ quyền vì hội nhập dựa trên nguyên tắc bình đẳng, tuân thủ luật pháp quốc tế."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Hội nhập kinh tế quốc tế là lựa chọn tùy ý, không bắt buộc",
+          "Hội nhập kinh tế quốc tế là yêu cầu khách quan, tất yếu",
+          "Mỗi quốc gia nên đóng cửa nền kinh tế để tự cung tự cấp",
+          "Phụ thuộc lẫn nhau là điều tiêu cực, cần tránh"
+        ],
+        "question": "Biết rằng: (1) Toàn cầu hóa là xu thế tất yếu; (2) Các quốc gia phụ thuộc lẫn nhau về kinh tế. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) toàn cầu hóa tất yếu; từ (2) phụ thuộc lẫn nhau. Suy ra hội nhập là yêu cầu khách quan, tất yếu. Đóng cửa (C) sẽ bị cô lập và tụt hậu."
+      }
+    ],
+    "order": 4,
+    "title": "Khái niệm và nội dung hội nhập kinh tế quốc tế",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) toàn cầu hóa tất yếu; từ (2) phụ thuộc lẫn nhau. Suy ra hội nhập là yêu cầu khách quan, tất yếu. Đóng cửa (C) sẽ bị cô lập và tụt hậu.",
+      "explanationB": "Từ (1) toàn cầu hóa tất yếu; từ (2) phụ thuộc lẫn nhau. Suy ra hội nhập là yêu cầu khách quan, tất yếu. Đóng cửa (C) sẽ bị cô lập và tụt hậu.",
+      "openQuestion": "Biết rằng: (1) Toàn cầu hóa là xu thế tất yếu; (2) Các quốc gia phụ thuộc lẫn nhau về kinh tế. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Hội nhập kinh tế quốc tế là lựa chọn tùy ý, không bắt buộc",
+      "perspectiveB": "Hội nhập kinh tế quốc tế là yêu cầu khách quan, tất yếu"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Hội nhập kinh tế quốc tế là quá trình quốc gia đó thực hiện gắn kết nền kinh tế của mình với nền kinh tế thế giới dựa trên sự chia sẻ lợi ích, đồng thời tuân thủ các chuẩn mực quốc tế chung.",
+        "icon": "🌐",
+        "title": "Khái niệm hội nhập kinh tế quốc tế"
+      },
+      {
+        "id": "card2",
+        "body": "Sự cần thiết khách quan: Toàn cầu hóa là xu thế tất yếu; phân công lao động quốc tế ngày càng sâu rộng; kinh tế các quốc gia phụ thuộc lẫn nhau; cần tận dụng lợi thế so sánh để phát triển.",
+        "icon": "📋",
+        "title": "Sự cần thiết khách quan"
+      },
+      {
+        "id": "card3",
+        "body": "Nội dung hội nhập: Chuẩn bị trong nước (hoàn thiện thể chế, nâng cao năng lực cạnh tranh); Đàm phán và ký kết các hiệp định thương mại (WTO, CPTPP, EVFTA, RCEP...); Thực hiện cam kết quốc tế.",
+        "icon": "📊",
+        "title": "Nội dung hội nhập"
+      },
+      {
+        "id": "card4",
+        "body": "Các cấp độ hội nhập: từ thỏa thuận thương mại ưu đãi → khu vực mậu dịch tự do → liên minh thuế quan → thị trường chung → liên minh kinh tế. Việt Nam đã tham gia nhiều FTA thế hệ mới.",
+        "icon": "🤝",
+        "title": "Các cấp độ hội nhập"
+      },
+      {
+        "id": "card5",
+        "body": "Việt Nam đã gia nhập WTO (2007), ký nhiều FTA: CPTPP, EVFTA, RCEP... Điều này mở ra cơ hội lớn về thị trường xuất khẩu, thu hút đầu tư, chuyển giao công nghệ nhưng cũng đặt ra thách thức về năng lực cạnh tranh.",
+        "icon": "🇻🇳",
+        "title": "Quá trình hội nhập của Việt Nam"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Hội nhập kinh tế quốc tế là quá trình tất yếu, chủ động gắn kết nền kinh tế quốc gia với thế giới. Nội dung bao gồm chuẩn bị trong nước, đàm phán ký kết và thực hiện cam kết quốc tế.",
+        "icon": "🧭",
+        "title": "Nội dung cốt lõi của hội nhập"
+      }
+    ]
+  },
+  {
+    "muc": "6.2.2",
+    "hook": {
+      "type": "drag",
+      "items": [
+        "Mở rộng thị trường xuất khẩu",
+        "Thu hút đầu tư nước ngoài",
+        "Chuyển giao và tiếp nhận công nghệ",
+        "Nâng cao năng lực cạnh tranh",
+        "Nguy cơ phụ thuộc kinh tế bên ngoài",
+        "Cạnh tranh gay gắt có thể loại bỏ doanh nghiệp yếu",
+        "Gia tăng bất bình đẳng xã hội",
+        "Suy giảm bản sắc văn hóa dân tộc"
+      ],
+      "bridge": "Hội nhập kinh tế quốc tế mang lại cả tác động tích cực lẫn tiêu cực. Cùng phân tích cả hai mặt.",
+      "groups": [
+        "Tác động tích cực",
+        "Tác động tiêu cực"
+      ],
+      "answers": [
+        {
+          "cardIndex": 0,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 1,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 2,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 3,
+          "groupIndex": 0
+        },
+        {
+          "cardIndex": 4,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 5,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 6,
+          "groupIndex": 1
+        },
+        {
+          "cardIndex": 7,
+          "groupIndex": 1
+        }
+      ]
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Chỉ có tác động tiêu cực, không có tích cực",
+          "Mở rộng thị trường, thu hút đầu tư, chuyển giao công nghệ, nâng cao cạnh tranh",
+          "Làm suy yếu nền kinh tế quốc gia",
+          "Xóa bỏ hoàn toàn chủ quyền kinh tế"
+        ],
+        "question": "Tác động tích cực chủ yếu của hội nhập kinh tế quốc tế là gì?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình xác định các tác động tích cực: mở rộng thị trường xuất khẩu, thu hút FDI, chuyển giao công nghệ, nâng cao năng lực cạnh tranh. Hội nhập không xóa bỏ chủ quyền mà dựa trên nguyên tắc bình đẳng."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "Tác động tích cực vì loại bỏ doanh nghiệp yếu kém",
+          "Tác động tiêu cực — cạnh tranh gay gắt loại bỏ doanh nghiệp trong nước yếu kém",
+          "Không liên quan đến hội nhập",
+          "Do doanh nghiệp không chịu đổi mới nên đó là lỗi của họ"
+        ],
+        "question": "Nhiều doanh nghiệp nhỏ Việt Nam phá sản khi hàng ngoại nhập giá rẻ tràn vào sau hội nhập. Đây là tác động nào?",
+        "answerIndex": 1,
+        "explanation": "Đây là tác động tiêu cực của hội nhập — cạnh tranh gay gắt với hàng ngoại nhập khiến doanh nghiệp trong nước yếu kém không thể tồn tại. Cần có chính sách hỗ trợ doanh nghiệp nâng cao năng lực."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Hội nhập chỉ có lợi, không cần chiến lược",
+          "Cần xây dựng chiến lược hội nhập chủ động, phù hợp để tận dụng cơ hội và hạn chế rủi ro",
+          "Từ chối hội nhập để tránh tác động tiêu cực",
+          "Hội nhập tùy theo cảm hứng, không cần lộ trình"
+        ],
+        "question": "Biết rằng: (1) Hội nhập kinh tế quốc tế có cả tác động tích cực và tiêu cực; (2) Muốn phát huy tích cực, hạn chế tiêu cực cần có chiến lược phù hợp. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) có cả hai mặt; từ (2) cần chiến lược. Suy ra phải xây dựng chiến lược chủ động, có lộ trình để tận dụng cơ hội và hạn chế rủi ro."
+      }
+    ],
+    "order": 5,
+    "title": "Tác động của hội nhập kinh tế quốc tế đến phát triển của Việt Nam",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) có cả hai mặt; từ (2) cần chiến lược. Suy ra phải xây dựng chiến lược chủ động, có lộ trình để tận dụng cơ hội và hạn chế rủi ro.",
+      "explanationB": "Từ (1) có cả hai mặt; từ (2) cần chiến lược. Suy ra phải xây dựng chiến lược chủ động, có lộ trình để tận dụng cơ hội và hạn chế rủi ro.",
+      "openQuestion": "Biết rằng: (1) Hội nhập kinh tế quốc tế có cả tác động tích cực và tiêu cực; (2) Muốn phát huy tích cực, hạn chế tiêu cực cần có chiến lược phù hợp. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Hội nhập chỉ có lợi, không cần chiến lược",
+      "perspectiveB": "Cần xây dựng chiến lược hội nhập chủ động, phù hợp để tận dụng cơ hội và hạn chế rủi ro"
+    },
+    "hookType": "drag",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Tác động tích cực 1: Mở rộng thị trường cho hàng hóa và dịch vụ — Việt Nam xuất khẩu sang hơn 200 quốc gia, nhiều mặt hàng đứng top thế giới (gạo, cà phê, thủy sản, điện thoại...). Thu hút đầu tư nước ngoài (FDI), tạo việc làm, chuyển giao công nghệ.",
+        "icon": "✅",
+        "title": "Mở rộng thị trường và thu hút đầu tư"
+      },
+      {
+        "id": "card2",
+        "body": "Tác động tích cực 2: Nâng cao năng lực cạnh tranh quốc gia — buộc doanh nghiệp trong nước phải đổi mới, nâng cao chất lượng sản phẩm. Tiếp cận tri thức, công nghệ và kinh nghiệm quản lý tiên tiến.",
+        "icon": "📈",
+        "title": "Nâng cao năng lực cạnh tranh"
+      },
+      {
+        "id": "card3",
+        "body": "Tác động tiêu cực 1: Cạnh tranh gay gắt có thể loại bỏ các doanh nghiệp trong nước yếu kém. Nguy cơ trở thành thị trường tiêu thụ, phụ thuộc công nghệ và nguyên liệu nước ngoài.",
+        "icon": "⚠️",
+        "title": "Sức ép cạnh tranh và nguy cơ phụ thuộc"
+      },
+      {
+        "id": "card4",
+        "body": "Tác động tiêu cực 2: Có thể gia tăng bất bình đẳng xã hội — những nhóm dân cư, vùng miền không có năng lực cạnh tranh sẽ bị thiệt thòi. Nguy cơ suy giảm bản sắc văn hóa dân tộc.",
+        "icon": "🔻",
+        "title": "Bất bình đẳng và bản sắc văn hóa"
+      },
+      {
+        "id": "card5",
+        "body": "Tác động tiêu cực 3: Ảnh hưởng đến an ninh kinh tế, chủ quyền quốc gia nếu không có chiến lược hội nhập đúng đắn. Biến động kinh tế thế giới (khủng hoảng tài chính, dịch bệnh) tác động nhanh hơn.",
+        "icon": "🛡️",
+        "title": "An ninh kinh tế và chủ quyền quốc gia"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Hội nhập kinh tế quốc tế có hai mặt — tích cực (mở rộng thị trường, thu hút FDI, nâng cao cạnh tranh) và tiêu cực (cạnh tranh gay gắt, phụ thuộc bên ngoài, bất bình đẳng). Cần có chiến lược phù hợp.",
+        "icon": "🧭",
+        "title": "Tính hai mặt của hội nhập"
+      }
+    ]
+  },
+  {
+    "muc": "6.2.3",
+    "hook": {
+      "type": "choice",
+      "question": "Theo bạn, Việt Nam cần ưu tiên gì để nâng cao hiệu quả hội nhập?",
+      "feedbackA": "Nâng cao hiệu quả hội nhập đòi hỏi nhận thức sâu sắc về thời cơ và thách thức, xây dựng chiến lược phù hợp và chủ động tham gia. Cùng tìm hiểu.",
+      "feedbackB": "Đúng! Cần nhận thức rõ, có chiến lược và lộ trình, đồng thời tích cực chủ động tham gia vào các hoạt động hội nhập. Cùng khám phá.",
+      "situation": "Trong hội thảo, một chuyên gia nói: \"Việt Nam đã hội nhập sâu rộng nhưng hiệu quả chưa cao, nhiều FTA chưa được tận dụng hết.\" Một đại biểu hỏi: \"Vậy cần làm gì để nâng cao hiệu quả hội nhập?\""
+    },
+    "quiz": [
+      {
+        "id": "q1",
+        "type": "Trắc nghiệm",
+        "options": [
+          "Chỉ cần ký thêm nhiều FTA là đủ",
+          "Nhận thức sâu sắc thời cơ - thách thức, xây dựng chiến lược phù hợp, tích cực chủ động tham gia",
+          "Từ chối hội nhập để bảo vệ kinh tế trong nước",
+          "Mở cửa hoàn toàn không cần kiểm soát"
+        ],
+        "question": "Phương hướng nâng cao hiệu quả hội nhập kinh tế quốc tế ở Việt Nam bao gồm những gì?",
+        "answerIndex": 1,
+        "explanation": "Giáo trình xác định 3 phương hướng: nhận thức sâu sắc về thời cơ và thách thức, xây dựng chiến lược và lộ trình phù hợp, tích cực chủ động tham gia."
+      },
+      {
+        "id": "q2",
+        "type": "Tình huống",
+        "options": [
+          "EVFTA không mang lại lợi ích",
+          "Doanh nghiệp chưa hiểu rõ quy tắc xuất xứ, tiêu chuẩn chất lượng và các cam kết trong hiệp định",
+          "EU cố tình không thực hiện cam kết",
+          "Việt Nam không có hàng hóa để xuất khẩu"
+        ],
+        "question": "Việt Nam đã ký EVFTA (FTA với EU) nhưng nhiều doanh nghiệp chưa tận dụng được ưu đãi thuế quan. Nguyên nhân có thể là gì?",
+        "answerIndex": 1,
+        "explanation": "Nhiều doanh nghiệp chưa tận dụng được FTA vì thiếu hiểu biết về quy tắc xuất xứ, tiêu chuẩn chất lượng. Cần nâng cao năng lực thực thi, đào tạo doanh nghiệp và hoàn thiện thể chế phù hợp."
+      },
+      {
+        "id": "q3",
+        "type": "Logic",
+        "options": [
+          "Hội nhập không liên quan đến an ninh quốc gia",
+          "Hội nhập cần đặt trong tổng thể chiến lược phát triển đất nước, vừa mở cửa vừa bảo vệ chủ quyền",
+          "An ninh quốc gia và phát triển kinh tế là hai lĩnh vực hoàn toàn tách rời",
+          "Hội nhập chỉ nhằm mục tiêu tăng trưởng GDP, không cần quan tâm đến ổn định"
+        ],
+        "question": "Biết rằng: (1) Hội nhập phải gắn với giữ vững ổn định chính trị và bảo vệ an ninh quốc gia; (2) Hội nhập phải phục vụ mục tiêu phát triển bền vững. Kết luận nào hợp lý nhất?",
+        "answerIndex": 1,
+        "explanation": "Từ (1) hội nhập gắn với an ninh; từ (2) phục vụ phát triển bền vững. Suy ra hội nhập phải nằm trong tổng thể chiến lược phát triển quốc gia, vừa mở cửa vừa bảo vệ chủ quyền và ổn định."
+      }
+    ],
+    "order": 6,
+    "title": "Phương hướng nâng cao hiệu quả hội nhập kinh tế quốc tế trong phát triển của Việt Nam",
+    "chuong": 6,
+    "debate": {
+      "explanationA": "Quan điểm này chưa đầy đủ vì bỏ qua mối liên hệ giữa các tiền đề nêu trong câu hỏi. Từ (1) hội nhập gắn với an ninh; từ (2) phục vụ phát triển bền vững. Suy ra hội nhập phải nằm trong tổng thể chiến lược phát triển quốc gia, vừa mở cửa vừa bảo vệ chủ quyền và ổn định.",
+      "explanationB": "Từ (1) hội nhập gắn với an ninh; từ (2) phục vụ phát triển bền vững. Suy ra hội nhập phải nằm trong tổng thể chiến lược phát triển quốc gia, vừa mở cửa vừa bảo vệ chủ quyền và ổn định.",
+      "openQuestion": "Biết rằng: (1) Hội nhập phải gắn với giữ vững ổn định chính trị và bảo vệ an ninh quốc gia; (2) Hội nhập phải phục vụ mục tiêu phát triển bền vững. Kết luận nào hợp lý nhất?",
+      "perspectiveA": "Hội nhập không liên quan đến an ninh quốc gia",
+      "perspectiveB": "Hội nhập cần đặt trong tổng thể chiến lược phát triển đất nước, vừa mở cửa vừa bảo vệ chủ quyền"
+    },
+    "hookType": "choice",
+    "theoryCards": [
+      {
+        "id": "card1",
+        "body": "Phương hướng 1: Nhận thức sâu sắc về thời cơ và thách thức — phải hiểu rõ hội nhập mang lại cả cơ hội và rủi ro, từ đó có thái độ chủ động, tích cực nhưng cũng thận trọng, tỉnh táo.",
+        "icon": "🧠",
+        "title": "Nhận thức thời cơ và thách thức"
+      },
+      {
+        "id": "card2",
+        "body": "Phương hướng 2: Xây dựng chiến lược và lộ trình hội nhập phù hợp — phải có kế hoạch, lộ trình cụ thể phù hợp với điều kiện thực tế, năng lực cạnh tranh của từng ngành, từng lĩnh vực.",
+        "icon": "📋",
+        "title": "Chiến lược và lộ trình hội nhập"
+      },
+      {
+        "id": "card3",
+        "body": "Phương hướng 3: Tích cực, chủ động tham gia — không thụ động chờ đợi mà chủ động đàm phán, ký kết các hiệp định; tận dụng tối đa các FTA đã ký; nâng cao năng lực cạnh tranh quốc gia.",
+        "icon": "🏃",
+        "title": "Tích cực, chủ động tham gia"
+      },
+      {
+        "id": "card4",
+        "body": "Cần hoàn thiện thể chế trong nước phù hợp cam kết quốc tế, nâng cao năng lực thực thi các hiệp định, xây dựng đội ngũ chuyên gia giỏi về luật pháp quốc tế và thương mại.",
+        "icon": "🏛️",
+        "title": "Hoàn thiện thể chế trong nước"
+      },
+      {
+        "id": "card5",
+        "body": "Gắn hội nhập kinh tế quốc tế với giữ vững ổn định chính trị - xã hội, bảo vệ an ninh quốc gia, bảo tồn bản sắc văn hóa dân tộc. Hội nhập phải phục vụ mục tiêu phát triển bền vững của đất nước.",
+        "icon": "🔗",
+        "title": "Hội nhập gắn với ổn định và an ninh"
+      },
+      {
+        "id": "card6",
+        "body": "Tóm lại: Nâng cao hiệu quả hội nhập cần ba phương hướng: nhận thức sâu sắc thời cơ và thách thức, xây dựng chiến lược lộ trình phù hợp, tích cực chủ động tham gia — gắn với giữ vững ổn định và phát triển bền vững.",
+        "icon": "🧭",
+        "title": "Ba phương hướng chủ yếu"
+      }
+    ]
+  }
+]
