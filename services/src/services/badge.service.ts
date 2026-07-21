@@ -67,7 +67,8 @@ export const BADGE_DEFINITIONS: BadgeDefinition[] = [
   },
   {
     name: "Người học toàn diện",
-    description: "Có hoạt động ở đủ 5 trụ cột: bài học, quiz, Story Mode, short lesson và mini game",
+    description:
+      "Có hoạt động ở đủ 5 trụ cột: bài học, quiz, Story Mode, short lesson và mini game",
     iconUrl: "🧭",
     conditionType: "balanced_core_5",
   },

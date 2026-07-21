@@ -161,7 +161,6 @@ export async function seedChapter01(prisma: PrismaClient): Promise<void> {
     }
     quizzes++;
 
-
     // ── CriticalQuestion (upsert by question text) ──
     for (const question of section.criticalQuestions) {
       const existingCq = await prisma.criticalQuestion.findFirst({ where: { question } });
