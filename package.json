@@ -24,7 +24,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "test": "npm run test --workspaces --if-present",
     "clean": "rm -rf node_modules services/node_modules webapp/node_modules libs/*/node_modules",
-    "postinstall": "node -e \"try{require('child_process').execSync('ctx --version',{stdio:'ignore'})}catch{process.exit(1)}\" || npm install -g @minhpnq1807/contextos",
+    "postinstall": "node -e \"if(process.env.CI||process.env.VERCEL)process.exit(0);try{require('child_process').execSync('ctx --version',{stdio:'ignore'})}catch{process.exit(1)}\" || npm install -g @minhpnq1807/contextos",
     "prisma:generate": "npm run prisma:generate -w services",
     "prisma:migrate": "npm run prisma:migrate -w services",
     "seed": "npm run seed -w services"
