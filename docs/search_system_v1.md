@@ -7,11 +7,12 @@ Tài liệu này mô tả chi tiết kiến trúc, quy trình xử lý dữ li�
 ## 1. Tổng Quan Kiến Trúc
 
 Hệ thống hoạt động theo mô hình **PostgreSQL FTS + pgvector Semantic Search**:
-* **Lưu trữ:** Embedding được lưu trong PostgreSQL dưới hai dạng: cột `embedding Float[]` để giữ dữ liệu gốc/backfill và cột `embedding_vec halfvec(3072)` để truy vấn semantic bằng pgvector.
-* **FTS:** PostgreSQL tạo materialized view `search_documents`, lưu `fts_vector`, và đánh index GIN để tìm keyword/thuật ngữ chính xác.
-* **Semantic:** PostgreSQL/pgvector chạy cosine similarity trực tiếp trên `embedding_vec` với HNSW index (`halfvec_cosine_ops`); backend không load toàn bộ vector vào RAM.
-* **Sinh Vector:** Sử dụng mô hình **`gemini-embedding-001`** của Google thông qua Gemini API.
-* **Reranking:** Kết quả FTS và Semantic được hợp nhất bằng RRF, tránh phải so sánh trực tiếp `ts_rank_cd` với cosine score vì hai loại điểm không cùng thang đo.
+
+- **Lưu trữ:** Embedding được lưu trong PostgreSQL dưới hai dạng: cột `embedding Float[]` để giữ dữ liệu gốc/backfill và cột `embedding_vec halfvec(3072)` để truy vấn semantic bằng pgvector.
+- **FTS:** PostgreSQL tạo materialized view `search_documents`, lưu `fts_vector`, và đánh index GIN để tìm keyword/thuật ngữ chính xác.
+- **Semantic:** PostgreSQL/pgvector chạy cosine similarity trực tiếp trên `embedding_vec` với HNSW index (`halfvec_cosine_ops`); backend không load toàn bộ vector vào RAM.
+- **Sinh Vector:** Sử dụng mô hình **`gemini-embedding-001`** của Google thông qua Gemini API.
+- **Reranking:** Kết quả FTS và Semantic được hợp nhất bằng RRF, tránh phải so sánh trực tiếp `ts_rank_cd` với cosine score vì hai loại điểm không cùng thang đo.
 
 ```mermaid
 graph TD
@@ -42,15 +43,18 @@ graph TD
 Quá trình sinh Vector được thực hiện trong `ai.service.ts`.
 
 ### Cấu trúc hóa nội dung trước khi nhúng (Embedding):
+
 Để AI hiểu rõ ngữ cảnh, chúng ta không chỉ gửi tiêu đề bài học mà gộp chung tất cả ngữ cảnh liên quan thành một chuỗi văn bản mô tả đầy đủ:
-* **Đối với Bài học (ChapterNode):**
+
+- **Đối với Bài học (ChapterNode):**
   `"Lesson: [Tiêu đề]. Muc: [Mục]. Chapter: [Tên chương]. Content: [Nội dung tóm tắt các thẻ lý thuyết]"`
-* **Đối với Video (Movie):**
+- **Đối với Video (Movie):**
   `"Interactive Movie Video: [Tiêu đề]. Muc: [Mục]"`
-* **Đối với Trắc nghiệm (Quiz):**
+- **Đối với Trắc nghiệm (Quiz):**
   `"Quiz Trắc nghiệm: [Tiêu đề]. Questions: [Nội dung các câu hỏi + giải thích]"`
 
 ### Hàm tạo Vector:
+
 ```typescript
 async getEmbedding(text: string): Promise<number[]> {
   try {
@@ -73,12 +77,14 @@ async getEmbedding(text: string): Promise<number[]> {
 
 ## 3. Cách Truy Vấn Dữ Liệu (Query)
 
-Khi người dùng nhập từ khóa tìm kiếm (ví dụ: *"bóc lột"*), quy trình xử lý diễn ra như sau:
+Khi người dùng nhập từ khóa tìm kiếm (ví dụ: _"bóc lột"_), quy trình xử lý diễn ra như sau:
 
 ### Bước 1: Tạo Vector từ khóa
+
 Hệ thống chuyển đổi từ khóa tìm kiếm thành một Vector từ khóa duy nhất bằng cách gọi lại hàm `getEmbedding(query)`.
 
 ### Bước 2: Chạy Semantic Search
+
 Để tìm ra các tài liệu có ngữ nghĩa gần với từ khóa nhất, backend gửi vector truy vấn vào PostgreSQL và dùng pgvector cosine distance:
 
 ```sql
@@ -92,29 +98,30 @@ Hệ thống chuyển đổi từ khóa tìm kiếm thành một Vector từ kh�
 Backend truy vấn materialized view `search_documents` bằng `websearch_to_tsquery('simple', query)` và xếp hạng bằng `ts_rank_cd`.
 
 Nguồn dữ liệu FTS gồm:
-* Bài học (`chapter_nodes`) + chương + theory cards trong JSON.
-* Video tương tác (`movies`) + script JSON.
-* Quiz (`quizzes`) + câu hỏi và giải thích.
+
+- Bài học (`chapter_nodes`) + chương + theory cards trong JSON.
+- Video tương tác (`movies`) + script JSON.
+- Quiz (`quizzes`) + câu hỏi và giải thích.
 
 ### Bước 4: Lọc kết quả và Xếp hạng từng nguồn
-* **Ngưỡng lọc (Threshold):** Chỉ giữ lại các tài liệu có điểm tương quan lớn hơn `0.3` để tránh hiển thị nội dung rác.
-* **Lọc theo tab (Type Filter):** Lọc theo phân loại mà người dùng chọn (Tất cả / Bài học / Video / Quiz).
-* **Top K:** Mỗi nguồn trả về tối đa 50 kết quả.
+
+- **Ngưỡng lọc (Threshold):** Chỉ giữ lại các tài liệu có điểm tương quan lớn hơn `0.3` để tránh hiển thị nội dung rác.
+- **Lọc theo tab (Type Filter):** Lọc theo phân loại mà người dùng chọn (Tất cả / Bài học / Video / Quiz).
+- **Top K:** Mỗi nguồn trả về tối đa 50 kết quả.
 
 ### Bước 5: Hợp nhất bằng RRF
 
 RRF tính lại điểm dựa trên thứ hạng của mỗi item trong từng danh sách:
 
 ```typescript
-score =
-  semanticWeight / (rrfK + semanticRank) +
-  ftsWeight / (rrfK + ftsRank);
+score = semanticWeight / (rrfK + semanticRank) + ftsWeight / (rrfK + ftsRank);
 ```
 
 Thông số hiện tại:
-* `rrfK = 60`
-* `semanticWeight = 1`
-* `ftsWeight = 1.15`
+
+- `rrfK = 60`
+- `semanticWeight = 1`
+- `ftsWeight = 1.15`
 
 FTS được nhỉnh hơn một chút để ưu tiên thuật ngữ học thuật, mục bài, và exact keyword.
 
@@ -123,4 +130,5 @@ FTS được nhỉnh hơn một chút để ưu tiên thuật ngữ học thuậ
 ## 4. Cơ Chế Dự Phòng (Fallback)
 
 Trong trường hợp có sự cố mạng hoặc lỗi API Gemini khi người dùng đang tìm kiếm, hệ thống vẫn dùng được FTS. Nếu cả semantic lẫn FTS đều không trả kết quả, backend chuyển sang cơ chế **Keyword Match**:
-* Sử dụng hàm `String.includes` thường trên trường dữ liệu tìm kiếm đã chuẩn bị sẵn để đảm bảo người dùng vẫn nhận được kết quả phù hợp thô và ứng dụng không bao giờ bị crash.
+
+- Sử dụng hàm `String.includes` thường trên trường dữ liệu tìm kiếm đã chuẩn bị sẵn để đảm bảo người dùng vẫn nhận được kết quả phù hợp thô và ứng dụng không bao giờ bị crash.
