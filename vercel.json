@@ -2,5 +2,11 @@
   "cleanUrls": true,
   "installCommand": "npm install",
   "buildCommand": "npm run shared:build && npm run build -w webapp",
-  "outputDirectory": "webapp/dist"
+  "outputDirectory": "webapp/dist",
+  "rewrites": [
+    {
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
