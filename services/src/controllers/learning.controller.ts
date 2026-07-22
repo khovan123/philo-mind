@@ -102,10 +102,6 @@ export class LearningController {
               duration: "8 phut",
             }
           : null,
-        quote: {
-          text: "Cuoc doi khong duoc phan tinh la mot cuoc doi khong dang song.",
-          author: "Socrates",
-        },
       });
     } catch (err) {
       const error = err as Error;

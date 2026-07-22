@@ -1,39 +1,174 @@
 import { Redirect, useRouter } from "expo-router";
-import { BookOpen, Flame, Gavel, Sparkles } from "lucide-react-native";
-import { RefreshControl } from "react-native";
+import { ChevronRight, Flame, Play, Target } from "lucide-react-native";
+import { ActivityIndicator, RefreshControl } from "react-native";
 
-import { useTranslation } from "react-i18next";
-
-import { AppHeader } from "@/components/app-header";
+import { NotificationBell } from "@/components/notification-bell";
 import { ThemedText } from "@/components/themed-text";
+import { ThemedView } from "@/components/themed-view";
+import { TreeColors } from "@/constants/chapterLesson";
+import { Colors as ThemeColors } from "@/constants/theme";
 import { useShouldShowOnboarding } from "@/lib/onboarding-state";
+import {
+  type ChapterMeta,
+  useGetAllChapterProgressQuery,
+  useGetChapterNodesQuery,
+  useGetChaptersQuery,
+} from "@/services/rtk-api/chapter.api";
 import { useGetLearningDashboardQuery } from "@/services/rtk-api/learning.api";
+import { type ProfileSummary, useGetProfileSummaryQuery } from "@/services/rtk-api/profile.api";
+import { useAppSelector } from "@/stores/hooks";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
-import { Image } from "@/tw/image";
 
-const Colors = {
-  background: "#0C0C0E",
-  surface: "#18181B",
-  chip: "#27272A",
-  border: "#353437",
-  text: "#E5E1E4",
-  muted: "#A1A1AA",
-  primary: "#D97706",
-  primaryLight: "#FFB77D",
-  primaryText: "#2F1500",
+type ContinueTarget = {
+  title: string;
+  subtitle: string;
+  progress: number;
+  cta: string;
+  eyebrow: string;
+  onPress: () => void;
 };
 
-const dailyHookImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuBJPt3eiSoYTeoZDPKie1AboPtqTWxp8szN2DLl8AtY1kenHDYAeD6xRTdRgGQ8lHSsil5UAT9f7nKmfpfyD_QQNzEAAGFo9JdxXaSkSiE1pHTZ2TSLCXr6gTs8rHiu_D-QtVV6wQTnxQ9l3DPJutyKVP4zupk8g9N5vV57t_iobJWWEg2iSFv8SCvsynPex4DaSGOzXAH4MquMqlcBcmsAglZ4n8kckk-oQ5U1sU3IxwsVF8GrD4OTK2g9BE_aq7MHbCCYex_AV8BH";
+type MissionTarget = {
+  title: string;
+  subtitle: string;
+  progressText: string;
+  progress: number;
+  onPress: () => void;
+};
 
-const storyImage =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAPW4ODe4_QUeKZd9n42xhLw9sYnejBsAuagcIld_jq2mtm_RveitFBRLaL07LQXoK-Xl28v7qHCFtdnDOAMyC909PQTlIrZhLvoLmnrK0XySJ4vMgPvib8fe4u93sgseq8ZneAKqV4E9ehJ5kELZojHSx5CbiMq_YRMMjAc3zA5cw-FiHD1xSRZKkJ-_aTp29cThfdTpLIL8UT_R1EUSqp6JGENJw7VWDm_HQCqsvmpL3iLCr04A2BuMCMBjDMs0ait2XsnADraRIk";
+function clampPercent(value: number | undefined | null) {
+  if (!Number.isFinite(value ?? NaN)) return 0;
+  return Math.min(100, Math.max(0, Math.round(value ?? 0)));
+}
+
+function displayName(fullName?: string | null) {
+  const clean = fullName?.trim();
+  if (!clean) return "bạn";
+  return clean;
+}
+
+function countCompleted(
+  progress: Record<string, { status?: string }> | undefined,
+  order: string[],
+) {
+  return order.filter((muc) => progress?.[muc]?.status === "done").length;
+}
+
+function findActiveChapter(
+  chapters: ChapterMeta[] | undefined,
+  chapterProgress: Record<string, Record<string, { status?: string; draft?: unknown }>>,
+) {
+  for (const chapter of chapters ?? []) {
+    const progress = chapterProgress[chapter.id] ?? {};
+    const doneCount = countCompleted(progress, chapter.order);
+    const progressPercent = chapter.nodeCount ? (doneCount / chapter.nodeCount) * 100 : 0;
+
+    if (progressPercent < 100) {
+      const draftMuc = chapter.order.find(
+        (muc) => progress[muc]?.status !== "done" && progress[muc]?.draft,
+      );
+      const availableMuc =
+        draftMuc ?? chapter.order.find((muc) => progress[muc]?.status === "available");
+      const firstMuc = chapter.order[0];
+      const fallbackNextMuc =
+        chapter.order.find((muc) => progress[muc]?.status !== "done") ?? firstMuc;
+
+      return {
+        chapter,
+        muc: availableMuc ?? fallbackNextMuc,
+        doneCount,
+        progressPercent: clampPercent(progressPercent),
+        hasDraft: Boolean(draftMuc),
+      };
+    }
+  }
+
+  return null;
+}
+
+function missionFromBadge(
+  badge: ProfileSummary["badges"][number],
+  router: ReturnType<typeof useRouter>,
+): MissionTarget {
+  const target = Math.max(1, badge.target || 1);
+  const progress = clampPercent((badge.progress / target) * 100);
+  const remaining = Math.max(1, target - (badge.progress || 0));
+  const normalizedName = badge.name.replace(/^huy hiệu\s+/i, "").trim();
+  const badgeName = normalizedName || badge.name;
+  const remainingLabel = (unit: string) =>
+    `Hoàn thành ${remaining} ${unit} nữa để đạt huy hiệu ${badgeName}`;
+
+  if (badge.conditionType.includes("quiz")) {
+    return {
+      title: remainingLabel("quiz"),
+      subtitle: badge.description ?? `Mục tiêu huy hiệu: ${badge.name}`,
+      progressText: `${badge.progress}/${badge.target}`,
+      progress,
+      onPress: () => router.push("/(tabs)/learn" as never),
+    };
+  }
+
+  if (badge.conditionType.includes("short_lesson")) {
+    return {
+      title: remainingLabel("short lesson"),
+      subtitle: badge.description ?? `Mục tiêu huy hiệu: ${badge.name}`,
+      progressText: `${badge.progress}/${badge.target}`,
+      progress,
+      onPress: () => router.push("/short-lesson" as never),
+    };
+  }
+
+  if (badge.conditionType.includes("lesson")) {
+    return {
+      title: remainingLabel("bài học"),
+      subtitle: badge.description ?? `Mục tiêu huy hiệu: ${badge.name}`,
+      progressText: `${badge.progress}/${badge.target}`,
+      progress,
+      onPress: () => router.push("/(tabs)/learn" as never),
+    };
+  }
+
+  return {
+    title: remainingLabel("hoạt động"),
+    subtitle: badge.description ?? `Mục tiêu huy hiệu: ${badge.name}`,
+    progressText: `${badge.progress}/${badge.target}`,
+    progress,
+    onPress: () => router.push("/(tabs)/learn" as never),
+  };
+}
 
 export default function HomeScreen() {
   const router = useRouter();
-  const { t } = useTranslation();
-  const { data: dashboard, isFetching, refetch } = useGetLearningDashboardQuery();
   const shouldShowOnboarding = useShouldShowOnboarding();
+  const authUser = useAppSelector((state) => state.auth.user);
+  const {
+    data: dashboard,
+    isFetching: isFetchingDashboard,
+    refetch: refetchDashboard,
+  } = useGetLearningDashboardQuery();
+  const {
+    data: profileSummary,
+    isFetching: isFetchingProfile,
+    refetch: refetchProfile,
+  } = useGetProfileSummaryQuery();
+  const {
+    data: chapters,
+    isFetching: isFetchingChapters,
+    refetch: refetchChapters,
+  } = useGetChaptersQuery();
+  const {
+    data: chapterProgress,
+    isFetching: isFetchingProgress,
+    refetch: refetchProgress,
+  } = useGetAllChapterProgressQuery();
+  const activeChapter = findActiveChapter(chapters, chapterProgress ?? {});
+  const {
+    data: activeChapterNodes,
+    isFetching: isFetchingActiveNodes,
+    refetch: refetchActiveNodes,
+  } = useGetChapterNodesQuery(activeChapter?.chapter.id ?? "", {
+    skip: !activeChapter,
+  });
 
   if (shouldShowOnboarding === null) {
     return null;
@@ -43,340 +178,285 @@ export default function HomeScreen() {
     return <Redirect href="../onboarding" />;
   }
 
-  const getDifficultyTranslation = (difficulty: string | undefined) => {
-    if (!difficulty) return "";
-    const lower = difficulty.toLowerCase();
-    if (lower === "dễ" || lower === "easy") return t("home.difficulty_easy");
-    if (lower === "trung bình" || lower === "medium") return t("home.difficulty_medium");
-    if (lower === "nâng cao" || lower === "khó" || lower === "advanced" || lower === "hard")
-      return t("home.difficulty_hard");
-    return difficulty;
-  };
+  const refreshing =
+    isFetchingDashboard ||
+    isFetchingProfile ||
+    isFetchingChapters ||
+    isFetchingProgress ||
+    isFetchingActiveNodes;
+  const user = profileSummary?.user ?? authUser;
+  const currentStreak =
+    profileSummary?.activity?.streak?.currentStreak ?? dashboard?.streak?.currentStreak ?? 0;
+  const activeNode = activeChapterNodes?.nodes.find((node) => node.muc === activeChapter?.muc);
+  const dashboardItem = dashboard?.continueLearning?.[0];
+  const continueTarget: ContinueTarget = activeChapter
+    ? {
+        title: activeNode?.title ?? activeChapter.chapter.title,
+        subtitle: activeNode
+          ? `Chương ${activeChapter.chapter.id} - mục ${activeChapter.muc}`
+          : activeChapter.hasDraft
+            ? `Tiếp tục mục ${activeChapter.muc}`
+            : `Bài tiếp theo: mục ${activeChapter.muc}`,
+        progress: activeChapter.progressPercent,
+        cta:
+          activeChapter.progressPercent > 0
+            ? "Tiếp tục"
+            : `Bắt đầu lộ trình Chương ${activeChapter.chapter.id}`,
+        eyebrow: activeChapter.progressPercent > 0 ? "Đang học" : "Đề xuất cho người mới",
+        onPress: () =>
+          router.push({
+            pathname: "/chapter/[chapter]/[muc]" as never,
+            params: {
+              chapter: activeChapter.chapter.id,
+              muc: activeChapter.muc,
+              replay: "0",
+            },
+          }),
+      }
+    : dashboardItem
+      ? {
+          title: dashboardItem.title,
+          subtitle: dashboardItem.subtitle,
+          progress: clampPercent(dashboardItem.progress),
+          cta: "Tiếp tục",
+          eyebrow: "Đang học dở",
+          onPress: () =>
+            router.push({
+              pathname: "/full-lesson" as never,
+              params: { lessonId: dashboardItem.lessonId },
+            }),
+        }
+      : {
+          title: "Khởi động lộ trình Kinh tế chính trị",
+          subtitle: "Bắt đầu với node đầu tiên để app ghi nhớ tiến độ học của bạn.",
+          progress: 0,
+          cta: "Bắt đầu lộ trình",
+          eyebrow: "Đề xuất cho người mới",
+          onPress: () => router.push("/(tabs)/learn" as never),
+        };
 
-  const getDurationTranslation = (duration: string | undefined) => {
-    if (!duration) return "";
-    const match = duration.match(/^(\d+)\s*(phút|mins?|minutes?)$/i);
-    if (match) {
-      return t("home.new_story_duration", { count: parseInt(match[1], 10) });
+  const nextBadge = profileSummary?.badges?.find((badge) => !badge.isEarned) ?? null;
+  const mission = nextBadge
+    ? missionFromBadge(nextBadge, router)
+    : {
+        title: "Giữ nhịp học hôm nay",
+        subtitle: "Hoàn thành 1 node để duy trì chuỗi ngày học.",
+        progressText: `${currentStreak} ngày`,
+        progress: currentStreak > 0 ? 100 : 0,
+        onPress: () => router.push("/(tabs)/learn" as never),
+      };
+
+  function handleRefresh() {
+    void refetchDashboard();
+    void refetchProfile();
+    void refetchChapters();
+    void refetchProgress();
+    if (activeChapter) {
+      void refetchActiveNodes();
     }
-    return duration;
-  };
-
-  const visibleLearningItems =
-    dashboard?.continueLearning && dashboard.continueLearning.length > 0
-      ? dashboard.continueLearning.map((item) => ({
-          id: item.lessonId,
-          title: item.title,
-          subtitle: item.subtitle,
-          difficulty: getDifficultyTranslation(item.difficulty),
-          progress: item.progress,
-          icon: Gavel,
-        }))
-      : [
-          {
-            id: undefined,
-            title: t("home.learning_socrates_title"),
-            subtitle: t("home.learning_socrates_subtitle"),
-            difficulty: t("home.difficulty_medium"),
-            progress: 60,
-            icon: Gavel,
-          },
-          {
-            id: undefined,
-            title: t("home.learning_kant_title"),
-            subtitle: t("home.learning_kant_subtitle"),
-            difficulty: t("home.difficulty_hard"),
-            progress: 35,
-            icon: BookOpen,
-          },
-        ];
-
-  const dailyHook = dashboard?.dailyHook;
-  const newStory = dashboard?.newStory;
-  const quote = dashboard?.quote;
+  }
 
   return (
-    <View className={styles.screen}>
-      <SafeAreaView edges={["top"]} className={styles.safeArea}>
-        <AppHeader />
-
+    <ThemedView type="background" className="flex-1">
+      <SafeAreaView edges={["top"]} className="flex-1">
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerClassName={styles.content}
           refreshControl={
             <RefreshControl
-              refreshing={isFetching}
-              tintColor={Colors.primaryLight}
-              onRefresh={refetch}
+              refreshing={refreshing}
+              tintColor={TreeColors.primaryLight}
+              onRefresh={handleRefresh}
             />
           }
         >
-          <View className={styles.streakCard}>
-            <View className={styles.rowCenter}>
-              <Flame color={Colors.primary} fill={Colors.primary} size={18} />
-              <ThemedText className={styles.streakText}>
-                {t("home.streak_days", { count: dashboard?.streak?.currentStreak ?? 0 })}
+          <View
+            className={styles.personalHeader}
+            style={{ backgroundColor: TreeColors.surface, borderColor: TreeColors.border }}
+          >
+            <View className="min-w-0 flex-1">
+              <ThemedText className={styles.greeting}>
+                Xin chào {displayName(user?.fullName)}
+              </ThemedText>
+              <ThemedText className={styles.greetingSub} themeColor="textSecondary">
+                App đã giữ chỗ học tiếp cho bạn hôm nay.
               </ThemedText>
             </View>
 
-            <View className={styles.pointsGroup}>
-              <ThemedText className={styles.points}>{dashboard?.points ?? 0}</ThemedText>
-              <ThemedText className={styles.pointsLabel}>{t("home.points_label")}</ThemedText>
-            </View>
-          </View>
-
-          <View className={styles.hookCard}>
-            <Image source={dailyHookImage} contentFit="cover" className="absolute inset-0" />
-            <View className={styles.imageScrim} />
-            <View className={styles.hookContent}>
-              <View className={styles.topicPill}>
-                <ThemedText className={styles.topicPillText}>
-                  {dailyHook?.topic ?? t("home.daily_hook_fallback")}
+            <View className={styles.headerActions}>
+              <View
+                className={styles.streakPill}
+                style={{
+                  backgroundColor: TreeColors.surfaceActive,
+                  borderColor: TreeColors.borderStrong,
+                }}
+              >
+                <Flame color={TreeColors.primary} fill={TreeColors.primary} size={16} />
+                <ThemedText className={styles.streakText} themeColor="primaryLight">
+                  {currentStreak} ngày
                 </ThemedText>
               </View>
-
-              <ThemedText className={styles.hookTitle}>
-                {dailyHook?.title ?? t("home.daily_hook_no_data")}
-              </ThemedText>
-
-              <View className={styles.answerRow}>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => router.push("/(tabs)/story" as never)}
-                  className={styles.primaryAnswer}
-                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                >
-                  <ThemedText className={styles.primaryAnswerText}>
-                    {dailyHook?.primaryChoice ?? t("home.daily_hook_start")}
-                  </ThemedText>
-                </Pressable>
-
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => router.push("/(tabs)/explore" as never)}
-                  className={styles.secondaryAnswer}
-                  style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                >
-                  <ThemedText className={styles.secondaryAnswerText}>
-                    {dailyHook?.secondaryChoice ?? t("home.daily_hook_more")}
-                  </ThemedText>
-                </Pressable>
-              </View>
+              <NotificationBell />
             </View>
           </View>
 
-          <View className={styles.section}>
-            <ThemedText className={styles.sectionTitle}>{t("home.continue_learning")}</ThemedText>
-
-            <ScrollView
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              contentContainerClassName={styles.learningList}
-            >
-              {visibleLearningItems.map((item, index) => {
-                const Icon = item.icon;
-                const lessonId = (item as { id?: string }).id;
-
-                return (
-                  <Pressable
-                    key={(item as { id?: string }).id ?? `${item.title}-${index}`}
-                    accessibilityRole="button"
-                    onPress={() =>
-                      lessonId
-                        ? router.push({
-                            pathname: "/full-lesson" as never,
-                            params: { lessonId },
-                          })
-                        : router.push("/(tabs)/explore" as never)
-                    }
-                    className={styles.learningCard}
-                    style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-                  >
-                    <View className={styles.learningHeader}>
-                      <View className={styles.learningIcon}>
-                        <Icon color={Colors.primaryLight} size={16} />
-                      </View>
-
-                      <View className={styles.difficultyPill}>
-                        <ThemedText className={styles.difficultyText}>{item.difficulty}</ThemedText>
-                      </View>
-                    </View>
-
-                    <View className={styles.learningBody}>
-                      <ThemedText className={styles.learningTitle}>{item.title}</ThemedText>
-                      <ThemedText className={styles.learningSubtitle}>{item.subtitle}</ThemedText>
-                    </View>
-
-                    <View className={styles.progressMeta}>
-                      <ThemedText className={styles.progressLabel}>
-                        {t("home.progress_label")}
-                      </ThemedText>
-                      <ThemedText className={styles.progressLabel}>{item.progress}%</ThemedText>
-                    </View>
-
-                    <View className={styles.progressTrack}>
-                      <View
-                        className={styles.progressFill}
-                        style={{ width: `${item.progress}%` }}
-                      />
-                    </View>
-                  </Pressable>
-                );
-              })}
-            </ScrollView>
-          </View>
-
-          <View className={styles.statsGrid}>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => router.push("/(tabs)/learn" as never)}
-              className={styles.statCard}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-            >
-              <ThemedText className={styles.statValue}>
-                {dashboard?.stats?.learnedLessons ?? 12}
+          <Pressable
+            accessibilityRole="button"
+            onPress={continueTarget.onPress}
+            className={styles.heroCard}
+            style={({ pressed }) => [
+              {
+                backgroundColor: TreeColors.surfaceActive,
+                borderColor: TreeColors.primary,
+              },
+              pressed ? pressedStyle : undefined,
+            ]}
+          >
+            <View className={styles.heroTopRow}>
+              <View
+                className={styles.eyebrowPill}
+                style={{ backgroundColor: `${TreeColors.primary}24` }}
+              >
+                <Play color={TreeColors.primaryLight} size={13} />
+                <ThemedText className={styles.eyebrowText} themeColor="primaryLight">
+                  {continueTarget.eyebrow}
+                </ThemedText>
+              </View>
+              <ThemedText className={styles.heroPercent} themeColor="primaryLight">
+                {continueTarget.progress}%
               </ThemedText>
-              <ThemedText className={styles.statLabel}>{t("home.stats_lessons")}</ThemedText>
-            </Pressable>
+            </View>
 
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => router.push("/badges" as never)}
-              className={styles.statCard}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-            >
-              <ThemedText className={styles.statValue}>{dashboard?.stats?.badges ?? 4}</ThemedText>
-              <ThemedText className={styles.statLabel}>{t("home.stats_badges")}</ThemedText>
-            </Pressable>
-
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => router.push("/(tabs)/learn" as never)}
-              className={styles.statCard}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-            >
-              <ThemedText className={styles.statValue}>
-                {dashboard?.stats?.quizAccuracy ?? 86}%
+            <View className="gap-1">
+              <ThemedText className={styles.heroTitle}>{continueTarget.title}</ThemedText>
+              <ThemedText className={styles.heroSubtitle} themeColor="textSecondary">
+                {continueTarget.subtitle}
               </ThemedText>
-              <ThemedText className={styles.statLabel}>{t("home.stats_accuracy")}</ThemedText>
-            </Pressable>
-          </View>
+            </View>
 
-          <View className={styles.section}>
-            <ThemedText className={styles.sectionTitle}>{t("home.new_story")}</ThemedText>
+            <View className={styles.progressBlock}>
+              <View className={styles.progressTrack} style={{ backgroundColor: TreeColors.chip }}>
+                <View
+                  className={styles.progressFill}
+                  style={{
+                    backgroundColor: TreeColors.primary,
+                    width: `${continueTarget.progress}%`,
+                  }}
+                />
+              </View>
+              <View
+                className={styles.heroActionRow}
+                style={{ backgroundColor: TreeColors.primary }}
+              >
+                <ThemedText className={styles.ctaText} themeColor="buttonText">
+                  {continueTarget.cta}
+                </ThemedText>
+                <ChevronRight color={TreeColors.primaryText} size={18} />
+              </View>
+            </View>
+          </Pressable>
 
-            <Pressable
-              accessibilityRole="button"
-              onPress={() =>
-                newStory?.id
-                  ? router.push({
-                      pathname: "/story/[id]" as never,
-                      params: { id: newStory.id },
-                    })
-                  : router.push("/(tabs)/story" as never)
-              }
-              className={styles.storyCard}
-              style={({ pressed }) => (pressed ? pressedStyle : undefined)}
-            >
-              <Image source={storyImage} contentFit="cover" className={styles.storyImage} />
+          <View
+            className={styles.missionCard}
+            style={{ backgroundColor: TreeColors.surface, borderColor: TreeColors.border }}
+          >
+            <View className={styles.sectionHeader}>
+              <View className="flex-row items-center gap-2">
+                <Target color={TreeColors.primaryLight} size={18} />
+                <ThemedText className={styles.sectionTitle}>Học hôm nay</ThemedText>
+              </View>
+              <ThemedText className={styles.missionTime} themeColor="textSecondary">
+                2-5 phút
+              </ThemedText>
+            </View>
 
-              <View className={styles.storyContent}>
-                <View className={styles.storyMeta}>
-                  <ThemedText className={styles.storyBadge}>
-                    {newStory?.topic ?? t("navigation.story")}
+            <View className="gap-1">
+              <ThemedText className={styles.missionTitle}>{mission.title}</ThemedText>
+              <ThemedText className={styles.missionSubtitle} themeColor="textSecondary">
+                {mission.subtitle}
+              </ThemedText>
+            </View>
+
+            <View className={styles.missionBottom}>
+              <View className="min-w-0 flex-1">
+                <View className={styles.missionProgressMeta}>
+                  <ThemedText className={styles.tinyLabel} themeColor="textSecondary">
+                    Tiến độ huy hiệu
                   </ThemedText>
-                  <ThemedText className={styles.storyTime}>
-                    {getDurationTranslation(newStory?.duration) ||
-                      t("home.new_story_duration", { count: 8 })}
+                  <ThemedText className={styles.tinyValue} themeColor="primaryLight">
+                    {mission.progressText}
                   </ThemedText>
                 </View>
-
-                <ThemedText className={styles.storyTitle}>
-                  {newStory?.title ?? t("home.no_new_story")}
-                </ThemedText>
-                <ThemedText className={styles.storySubtitle} numberOfLines={1}>
-                  {newStory?.subtitle ?? t("home.no_new_story_desc")}
-                </ThemedText>
+                <View className={styles.smallTrack} style={{ backgroundColor: TreeColors.chip }}>
+                  <View
+                    className={styles.smallFill}
+                    style={{
+                      backgroundColor: ThemeColors.dark.success,
+                      width: `${mission.progress}%`,
+                    }}
+                  />
+                </View>
               </View>
-            </Pressable>
-          </View>
 
-          <View className={styles.quoteCard}>
-            <Sparkles color={Colors.primaryLight} size={16} />
-            <View className={styles.quoteCopy}>
-              <ThemedText className={styles.quoteText}>
-                {quote?.text ?? t("home.quote_fallback")}
-              </ThemedText>
-              <ThemedText className={styles.quoteAuthor}>
-                - {quote?.author ?? "PhiloMind"}
-              </ThemedText>
+              <Pressable
+                accessibilityRole="button"
+                onPress={mission.onPress}
+                className={styles.smallButton}
+                style={({ pressed }) => [
+                  { backgroundColor: TreeColors.chip },
+                  pressed ? pressedStyle : undefined,
+                ]}
+              >
+                <ThemedText className={styles.smallButtonText}>Làm ngay</ThemedText>
+              </Pressable>
             </View>
           </View>
+
+          {refreshing ? (
+            <View className="items-center py-1">
+              <ActivityIndicator color={TreeColors.primaryLight} />
+            </View>
+          ) : null}
         </ScrollView>
       </SafeAreaView>
-    </View>
+    </ThemedView>
   );
 }
 
-const pressedStyle = { opacity: 0.78, transform: [{ scale: 0.98 }] };
+const pressedStyle = { opacity: 0.8, transform: [{ scale: 0.985 }] };
 
 const styles = {
-  screen: "flex-1 bg-[#0C0C0E]",
-  safeArea: "flex-1",
   content: "w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]",
-  streakCard:
-    "min-h-[58px] flex-row items-center justify-between rounded-md border border-[#353437] bg-[#18181B] px-3",
-  rowCenter: "flex-row items-center gap-2",
-  streakText: "text-[14px] font-bold leading-[18px] text-[#E5E1E4]",
-  pointsGroup: "flex-row items-baseline gap-1",
-  points: "font-mono text-[16px] font-bold leading-[20px] text-[#D97706]",
-  pointsLabel: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
-  hookCard:
-    "min-h-[320px] justify-end overflow-hidden rounded-md border border-[#353437] bg-[#18181B]",
-  imageScrim: "absolute inset-0 bg-[#0C0C0E]/60",
-  hookContent: "gap-3 p-3",
-  topicPill: "self-start rounded-sm bg-[#27272A] px-2 py-1",
-  topicPillText: "text-[10px] font-extrabold leading-[14px] text-[#A1A1AA]",
-  hookTitle: "max-w-[560px] font-sans text-[24px] font-extrabold leading-[30px] text-[#E5E1E4]",
-  answerRow: "flex-row flex-wrap gap-2",
-  primaryAnswer: "min-h-[42px] items-center justify-center rounded-sm bg-[#D97706] px-3",
-  primaryAnswerText: "text-[13px] font-extrabold leading-[18px] text-[#2F1500]",
-  secondaryAnswer:
-    "min-h-[42px] items-center justify-center rounded-sm border border-[#27272A] bg-[#0C0C0E]/55 px-3",
-  secondaryAnswerText: "text-[13px] font-extrabold leading-[18px] text-[#E5E1E4]",
-  section: "gap-2",
-  sectionTitle: "font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]",
-  learningList: "gap-2 pr-3",
-  learningCard:
-    "min-h-[176px] w-[260px] justify-between rounded-md border border-[#353437] bg-[#18181B] p-3",
-  learningHeader: "flex-row items-center justify-between",
-  learningIcon: "h-[34px] w-[34px] items-center justify-center rounded-sm bg-[#27272A]",
-  difficultyPill: "rounded-sm border border-[#27272A] px-2 py-1",
-  difficultyText: "text-[10px] font-extrabold uppercase leading-[14px] text-[#A1A1AA]",
-  learningBody: "gap-0.5",
-  learningTitle: "text-[17px] font-extrabold leading-[22px] text-[#E5E1E4]",
-  learningSubtitle: "text-[13px] font-medium leading-[18px] text-[#A1A1AA]",
-  progressMeta: "flex-row justify-between",
-  progressLabel: "text-[11px] font-bold leading-[14px] text-[#A1A1AA]",
-  progressTrack: "h-1 overflow-hidden rounded-full bg-[#27272A]",
-  progressFill: "h-full rounded-full bg-[#D97706]",
-  statsGrid: "flex-row gap-2",
-  statCard:
-    "min-h-[82px] flex-1 justify-center gap-0.5 rounded-md border border-[#353437] bg-[#18181B] p-2",
-  statValue: "text-center font-mono text-[21px] font-extrabold leading-[26px] text-[#FFB77D]",
-  statLabel: "text-center text-[11px] font-bold leading-[15px] text-[#A1A1AA]",
-  storyCard:
-    "min-h-[112px] flex-row overflow-hidden rounded-md border border-[#353437] bg-[#18181B]",
-  storyImage: "w-[112px]",
-  storyContent: "flex-1 justify-center gap-1 p-3",
-  storyMeta: "flex-row flex-wrap items-center gap-2",
-  storyBadge:
-    "rounded-full bg-[#27272A] px-2 py-0.5 text-[10px] font-extrabold leading-[14px] text-[#A1A1AA]",
-  storyTime: "text-[10px] font-bold leading-[14px] text-[#A1A1AA]",
-  storyTitle: "text-[16px] font-extrabold leading-[21px] text-[#E5E1E4]",
-  storySubtitle: "text-[13px] font-normal italic leading-[18px] text-[#A1A1AA]",
-  quoteCard: "flex-row gap-2 border-t border-[#27272A] pt-3",
-  quoteCopy: "flex-1 gap-1 border-l-2 border-[#D97706] pl-2",
-  quoteText: "text-[15px] font-semibold italic leading-[22px] text-[#E5E1E4]",
-  quoteAuthor: "text-[12px] font-extrabold uppercase leading-[16px] text-[#FFB77D]",
+  personalHeader: "min-h-[76px] flex-row items-center justify-between gap-3 rounded-md border p-3",
+  greeting: "text-[22px] font-extrabold leading-[28px]",
+  greetingSub: "mt-0.5 text-[13px] font-semibold leading-[18px]",
+  headerActions: "flex-row items-center gap-2",
+  streakPill: "min-h-[34px] flex-row items-center gap-1.5 rounded-sm border px-2",
+  streakText: "text-[12px] font-extrabold leading-4",
+  heroCard: "min-h-[244px] justify-between overflow-hidden rounded-md border p-4",
+  heroTopRow: "flex-row items-center justify-between gap-3",
+  eyebrowPill: "flex-row items-center gap-1.5 rounded-sm px-2 py-1",
+  eyebrowText: "text-[11px] font-extrabold uppercase leading-[15px]",
+  heroPercent: "font-mono text-[26px] font-black leading-[32px]",
+  heroTitle: "font-sans text-[25px] font-extrabold leading-[31px]",
+  heroSubtitle: "text-[14px] font-semibold leading-[20px]",
+  progressBlock: "gap-3",
+  progressTrack: "h-2 overflow-hidden rounded-full",
+  progressFill: "h-full rounded-full",
+  heroActionRow: "min-h-[44px] flex-row items-center justify-center gap-1 rounded-sm px-3",
+  ctaText: "text-[14px] font-extrabold leading-[18px]",
+  missionCard: "gap-3 rounded-md border p-3",
+  sectionHeader: "flex-row items-center justify-between gap-3",
+  sectionTitle: "text-[18px] font-extrabold leading-[24px]",
+  missionTime: "text-[11px] font-extrabold uppercase leading-[15px]",
+  missionTitle: "text-[18px] font-extrabold leading-[24px]",
+  missionSubtitle: "text-[13px] font-semibold leading-[19px]",
+  missionBottom: "flex-row items-end gap-3",
+  missionProgressMeta: "mb-1 flex-row items-center justify-between",
+  tinyLabel: "text-[11px] font-bold leading-[15px]",
+  tinyValue: "font-mono text-[12px] font-extrabold leading-4",
+  smallTrack: "h-1.5 overflow-hidden rounded-full",
+  smallFill: "h-full rounded-full",
+  smallButton: "min-h-[38px] justify-center rounded-sm px-3",
+  smallButtonText: "text-[12px] font-extrabold leading-4",
 };
