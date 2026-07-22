@@ -420,11 +420,7 @@ export default function ExploreScreen() {
                             </ThemedText>
                           </View>
 
-                          <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerClassName="gap-3 pr-3"
-                          >
+                          <View className="gap-3">
                             {featuredLessons.map((lesson) => (
                               <LessonSummaryCard
                                 key={`featured-${getLessonKey(lesson)}`}
@@ -433,7 +429,7 @@ export default function ExploreScreen() {
                                 onOpenLesson={() => openLearnLesson(lesson)}
                               />
                             ))}
-                          </ScrollView>
+                          </View>
                         </View>
                       ) : null}
 
@@ -451,11 +447,7 @@ export default function ExploreScreen() {
                         {filteredTheoryLessons.length === 0 ? (
                           <EmptyState />
                         ) : (
-                          <ScrollView
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerClassName="gap-3 pr-3"
-                          >
+                          <View className="gap-3">
                             {filteredTheoryLessons.map((lesson) => (
                               <LessonSummaryCard
                                 key={getLessonKey(lesson)}
@@ -464,7 +456,7 @@ export default function ExploreScreen() {
                                 onOpenLesson={() => openLearnLesson(lesson)}
                               />
                             ))}
-                          </ScrollView>
+                          </View>
                         )}
                       </View>
                       {/* 
@@ -556,7 +548,7 @@ function LessonSummaryCard({
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      className="w-[292px] overflow-hidden rounded-md border border-[#27272A] bg-[#161618] active:scale-[0.98] active:opacity-80"
+      className="w-full overflow-hidden rounded-md border border-[#27272A] bg-[#161618] active:scale-[0.98] active:opacity-80"
     >
       <View className="h-[170px] w-full items-center justify-center bg-[#18181B]">
         <BookOpen color={Colors.locked} size={44} />
