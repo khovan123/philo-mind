@@ -64,10 +64,12 @@ jest.unstable_mockModule("../services/redis.service.js", () => ({
 jest.unstable_mockModule("../services/activity-log.service.js", () => ({
   ActivityLogService: {
     logActivity: jest.fn(async () => ({ newlyEarnedBadges: [] })),
+    recordDailyLogin: jest.fn(async () => {}),
   },
   ActivityType: {
     DECIDE_STORY: "DECIDE_STORY",
     DO_QUIZ: "DO_QUIZ",
+    LOGIN: "LOGIN",
   },
 }));
 
@@ -578,6 +580,20 @@ const mockPrisma = {
       if (ans) Object.assign(ans, args.data);
       return ans;
     }),
+  },
+  activityLog: {
+    findFirst: jest.fn(async () => null),
+    create: jest.fn(async (args: any) => ({
+      id: crypto.randomUUID(),
+      ...args.data,
+      createdAt: new Date(),
+    })),
+    findMany: jest.fn(async () => []),
+    count: jest.fn(async () => 0),
+  },
+  userChapterProgress: {
+    findMany: jest.fn(async () => []),
+    count: jest.fn(async () => 0),
   },
 };
 

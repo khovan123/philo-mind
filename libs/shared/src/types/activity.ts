@@ -5,6 +5,7 @@ export enum ActivityType {
   DO_SHORT_LESSON = "DO_SHORT_LESSON",
   PLAY_MINI_GAME = "PLAY_MINI_GAME",
   WRITE_REFLECTION = "WRITE_REFLECTION",
+  LOGIN = "LOGIN",
 }
 
 export enum TargetType {

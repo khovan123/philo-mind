@@ -4,6 +4,7 @@ import { prisma } from "../config/prisma.js";
 import { sendResetEmail } from "../utils/email.js";
 import { generateTokenPair, verifyRefreshToken } from "../utils/jwt.js";
 import type { RegisterInput, LoginInput } from "../validators/auth.validator.js";
+import { ActivityLogService } from "./activity-log.service.js";
 
 // ── T-001: Auth Service ────────────────────────────────────
 
@@ -441,6 +442,9 @@ export class AuthService {
       throw new AuthError("USER_NOT_FOUND", "Không tìm thấy người dùng", 404);
     }
 
+    // Record daily active login
+    await ActivityLogService.recordDailyLogin(userId).catch(() => {});
+
     return user;
   }
 
@@ -468,6 +472,9 @@ export class AuthService {
         expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 days
       },
     });
+
+    // Record daily active login
+    await ActivityLogService.recordDailyLogin(userId).catch(() => {});
 
     return { accessToken: tokens.accessToken, refreshToken: tokens.refreshToken };
   }

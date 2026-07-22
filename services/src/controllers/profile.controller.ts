@@ -9,6 +9,10 @@ export class ProfileController {
   async summary(req: Request, res: Response) {
     try {
       const userId = req.user!.id;
+
+      // Record daily login active check
+      await ActivityLogService.recordDailyLogin(userId).catch(() => {});
+
       const [
         user,
         badges,
