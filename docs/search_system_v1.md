@@ -1,31 +1,38 @@
-# Tài Liệu Kỹ Thuật: Hệ Thống Tìm Kiếm Ngữ Nghĩa (Semantic Search V1)
+# Tài Liệu Kỹ Thuật: Hệ Thống Tìm Kiếm Lai (Hybrid Search V1)
 
-Tài liệu này mô tả chi tiết kiến trúc, quy trình xử lý dữ liệu và thuật toán được sử dụng để nâng cấp công cụ tìm kiếm trên ứng dụng PhiloMind từ tìm kiếm văn bản thông thường (Keyword Search) lên **Tìm kiếm ngữ nghĩa thông minh sử dụng Vector Embeddings (Semantic Search V1)**.
+Tài liệu này mô tả chi tiết kiến trúc, quy trình xử lý dữ liệu và thuật toán được sử dụng để nâng cấp công cụ tìm kiếm trên ứng dụng PhiloMind thành **Hybrid Search V1**: kết hợp **PostgreSQL Full-Text Search (FTS)** với **Semantic Search bằng Vector Embeddings**, sau đó hợp nhất thứ hạng bằng **Reciprocal Rank Fusion (RRF)**.
 
 ---
 
 ## 1. Tổng Quan Kiến Trúc
 
-Hệ thống hoạt động theo mô hình **In-Memory Vector Cache kết hợp PostgreSQL Database**:
-* **Lưu trữ:** Toàn bộ mảng Vector (Embedding) được tính toán sẵn và lưu trữ trực tiếp vào PostgreSQL thông qua cột `embedding Float[]` trong Prisma.
-* **Tìm kiếm:** Khi khởi động Server, các vector này được load thẳng lên bộ nhớ RAM của Server (Node.js) để phục vụ việc so khớp toán học với tốc độ tức thời.
-* **Sinh Vector:** Sử dụng mô hình **`gemini-embedding-001`** của Google thông qua Gemini API.
+Hệ thống hoạt động theo mô hình **PostgreSQL FTS + pgvector Semantic Search**:
+
+- **Lưu trữ:** Embedding được lưu trong PostgreSQL dưới hai dạng: cột `embedding Float[]` để giữ dữ liệu gốc/backfill và cột `embedding_vec halfvec(3072)` để truy vấn semantic bằng pgvector.
+- **FTS:** PostgreSQL tạo materialized view `search_documents`, lưu `fts_vector`, và đánh index GIN để tìm keyword/thuật ngữ chính xác.
+- **Semantic:** PostgreSQL/pgvector chạy cosine similarity trực tiếp trên `embedding_vec` với HNSW index (`halfvec_cosine_ops`); backend không load toàn bộ vector vào RAM.
+- **Sinh Vector:** Sử dụng mô hình **`gemini-embedding-001`** của Google thông qua Gemini API.
+- **Reranking:** Kết quả FTS và Semantic được hợp nhất bằng RRF, tránh phải so sánh trực tiếp `ts_rank_cd` với cosine score vì hai loại điểm không cùng thang đo.
 
 ```mermaid
 graph TD
     subgraph Giai đoạn chuẩn bị (Seed/Backfill)
-        A[Nội dung chữ gốc] -->|Gemini API: gemini-embedding-001| B[Mảng số thực Vector 768 chiều]
-        B -->|Lưu trữ| C[(PostgreSQL Database)]
+        A[Nội dung chữ gốc] -->|Gemini API: gemini-embedding-001| B[Mảng số thực Vector 3072 chiều]
+        B -->|Float[] + halfvec(3072)| C[(PostgreSQL Database)]
     end
 
-    subgraph Giai đoạn Runtime (Khởi động Server)
-        C -->|Tải dữ liệu & Vector| D[RAM Cache: SearchCacheItem]
+    subgraph Giai đoạn Runtime
+        C -->|halfvec + HNSW| D[pgvector Semantic Index]
+        C -->|Materialized View + GIN| I[PostgreSQL FTS: search_documents]
     end
 
     subgraph Giai đoạn Tìm kiếm (Query)
         E[Từ khóa tìm kiếm của User] -->|Gemini API| F[Vector từ khóa]
-        F -->|So sánh Cosine Similarity| G[RAM Cache: SearchCacheItem]
-        G -->|Lọc Threshold > 0.3 & Sắp xếp| H[Kết quả gửi về Frontend]
+        F -->|embedding_vec <=> query| G[PostgreSQL pgvector Rank]
+        E -->|websearch_to_tsquery simple| J[PostgreSQL FTS Rank]
+        G -->|Semantic top K| K[RRF Fusion]
+        J -->|FTS top K| K
+        K -->|Xếp hạng lai| H[Kết quả gửi về Frontend]
     end
 ```
 
@@ -36,15 +43,18 @@ graph TD
 Quá trình sinh Vector được thực hiện trong `ai.service.ts`.
 
 ### Cấu trúc hóa nội dung trước khi nhúng (Embedding):
+
 Để AI hiểu rõ ngữ cảnh, chúng ta không chỉ gửi tiêu đề bài học mà gộp chung tất cả ngữ cảnh liên quan thành một chuỗi văn bản mô tả đầy đủ:
-* **Đối với Bài học (ChapterNode):**
+
+- **Đối với Bài học (ChapterNode):**
   `"Lesson: [Tiêu đề]. Muc: [Mục]. Chapter: [Tên chương]. Content: [Nội dung tóm tắt các thẻ lý thuyết]"`
-* **Đối với Video (Movie):**
+- **Đối với Video (Movie):**
   `"Interactive Movie Video: [Tiêu đề]. Muc: [Mục]"`
-* **Đối với Trắc nghiệm (Quiz):**
+- **Đối với Trắc nghiệm (Quiz):**
   `"Quiz Trắc nghiệm: [Tiêu đề]. Questions: [Nội dung các câu hỏi + giải thích]"`
 
 ### Hàm tạo Vector:
+
 ```typescript
 async getEmbedding(text: string): Promise<number[]> {
   try {
@@ -67,40 +77,58 @@ async getEmbedding(text: string): Promise<number[]> {
 
 ## 3. Cách Truy Vấn Dữ Liệu (Query)
 
-Khi người dùng nhập từ khóa tìm kiếm (ví dụ: *"bóc lột"*), quy trình xử lý diễn ra như sau:
+Khi người dùng nhập từ khóa tìm kiếm (ví dụ: _"bóc lột"_), quy trình xử lý diễn ra như sau:
 
 ### Bước 1: Tạo Vector từ khóa
+
 Hệ thống chuyển đổi từ khóa tìm kiếm thành một Vector từ khóa duy nhất bằng cách gọi lại hàm `getEmbedding(query)`.
 
-### Bước 2: So sánh Cosine Similarity
-Để tìm ra các tài liệu có ngữ nghĩa gần với từ khóa nhất, ta tính toán **Cosine Similarity** (Độ tương quan Cosine) giữa Vector Từ Khóa ($A$) và các Vector Tài liệu ($B$) có sẵn trong RAM.
+### Bước 2: Chạy Semantic Search
 
-Công thức toán học:
-$$\text{Cosine Similarity} = \frac{A \cdot B}{\|A\| \|B\|} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \sqrt{\sum_{i=1}^{n} B_i^2}}$$
+Để tìm ra các tài liệu có ngữ nghĩa gần với từ khóa nhất, backend gửi vector truy vấn vào PostgreSQL và dùng pgvector cosine distance:
 
-Được triển khai trong mã nguồn tại `search.service.ts`:
-```typescript
-private cosineSimilarity(vecA: number[], vecB: number[]): number {
-  let dotProduct = 0.0;
-  let normA = 0.0;
-  let normB = 0.0;
-  for (let i = 0; i < vecA.length; i++) {
-    dotProduct += vecA[i] * vecB[i];
-    normA += vecA[i] * vecA[i];
-    normB += vecB[i] * vecB[i];
-  }
-  return normA === 0 || normB === 0 ? 0 : dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
-}
+```sql
+1 - (embedding_vec <=> query_embedding) AS semanticScore
 ```
 
-### Bước 3: Lọc kết quả và Xếp hạng
-* **Ngưỡng lọc (Threshold):** Chỉ giữ lại các tài liệu có điểm tương quan lớn hơn `0.3` để tránh hiển thị nội dung rác.
-* **Lọc theo tab (Type Filter):** Lọc theo phân loại mà người dùng chọn (Tất cả / Bài học / Video / Quiz).
-* **Sắp xếp (Sort):** Sắp xếp kết quả có điểm số lớn nhất (giống nghĩa nhất) lên trên cùng.
+`<=>` là cosine distance của pgvector; điểm semantic càng cao thì càng giống. Các bảng nguồn (`chapter_nodes`, `movies`, `quizzes`) có HNSW index trên `embedding_vec halfvec(3072)`.
+
+### Bước 3: Chạy PostgreSQL FTS
+
+Backend truy vấn materialized view `search_documents` bằng `websearch_to_tsquery('simple', query)` và xếp hạng bằng `ts_rank_cd`.
+
+Nguồn dữ liệu FTS gồm:
+
+- Bài học (`chapter_nodes`) + chương + theory cards trong JSON.
+- Video tương tác (`movies`) + script JSON.
+- Quiz (`quizzes`) + câu hỏi và giải thích.
+
+### Bước 4: Lọc kết quả và Xếp hạng từng nguồn
+
+- **Ngưỡng lọc (Threshold):** Chỉ giữ lại các tài liệu có điểm tương quan lớn hơn `0.3` để tránh hiển thị nội dung rác.
+- **Lọc theo tab (Type Filter):** Lọc theo phân loại mà người dùng chọn (Tất cả / Bài học / Video / Quiz).
+- **Top K:** Mỗi nguồn trả về tối đa 50 kết quả.
+
+### Bước 5: Hợp nhất bằng RRF
+
+RRF tính lại điểm dựa trên thứ hạng của mỗi item trong từng danh sách:
+
+```typescript
+score = semanticWeight / (rrfK + semanticRank) + ftsWeight / (rrfK + ftsRank);
+```
+
+Thông số hiện tại:
+
+- `rrfK = 60`
+- `semanticWeight = 1`
+- `ftsWeight = 1.15`
+
+FTS được nhỉnh hơn một chút để ưu tiên thuật ngữ học thuật, mục bài, và exact keyword.
 
 ---
 
 ## 4. Cơ Chế Dự Phòng (Fallback)
 
-Trong trường hợp có sự cố mạng hoặc lỗi API Gemini khi người dùng đang tìm kiếm, hệ thống sẽ tự động chuyển sang cơ chế **Keyword Match**:
-* Sử dụng hàm `String.includes` thường trên trường dữ liệu tìm kiếm đã chuẩn bị sẵn để đảm bảo người dùng vẫn nhận được kết quả phù hợp thô và ứng dụng không bao giờ bị crash.
+Trong trường hợp có sự cố mạng hoặc lỗi API Gemini khi người dùng đang tìm kiếm, hệ thống vẫn dùng được FTS. Nếu cả semantic lẫn FTS đều không trả kết quả, backend chuyển sang cơ chế **Keyword Match**:
+
+- Sử dụng hàm `String.includes` thường trên trường dữ liệu tìm kiếm đã chuẩn bị sẵn để đảm bảo người dùng vẫn nhận được kết quả phù hợp thô và ứng dụng không bao giờ bị crash.
