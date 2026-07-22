@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import { useGetChapterProgressQuery, useUpsertChapterProgressMutation } from "@/services/rtk-api/chapter.api";
 import type { ChapterProgressPayload } from "@/services/rtk-api/chapter.api";

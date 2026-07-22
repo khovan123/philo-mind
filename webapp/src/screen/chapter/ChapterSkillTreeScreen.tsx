@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Check, ChevronLeft, ChevronRight, Lock } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
@@ -6,7 +6,7 @@ import Svg, { Line } from "react-native-svg";
 
 import { ThemedText } from "@/components/themed-text";
 import { TreeColors } from "@/constants/chapterLesson";
-import { getChapterProgressStorageKey, useChapterProgress } from "@/features/chapter/progress";
+import { useChapterProgress } from "@/features/chapter/progress";
 import {
   type ChapterMeta,
   type ChapterNodeSummary,
@@ -14,9 +14,10 @@ import {
   useGetChaptersQuery,
   useGetAllChapterProgressQuery,
 } from "@/services/rtk-api/chapter.api";
-import { securePersistStorage } from "@/stores/persistStorage";
-import type { ChapterProgress, ChapterProgressItem } from "@/types/chapterLesson";
+import type { ChapterProgressItem } from "@/types/chapterLesson";
 import { Pressable, SafeAreaView, ScrollView, View } from "@/tw";
+
+const PAGE_SIZE = 6;
 
 function cn(...classes: (string | false | null | undefined)[]) {
   return classes.filter(Boolean).join(" ");
@@ -31,17 +32,9 @@ function hookLabel(type: ChapterNodeSummary["hookType"]) {
   return type === "drag" ? "Kéo thả" : "Tình huống";
 }
 
-function progressWidthClass(done: number, total: number) {
-  if (!total || done <= 0) return "w-0";
-  if (done >= total) return "w-full";
-
-  const ratio = done / total;
-  if (ratio <= 1 / 6) return "w-1/6";
-  if (ratio <= 1 / 3) return "w-1/3";
-  if (ratio <= 1 / 2) return "w-1/2";
-  if (ratio <= 2 / 3) return "w-2/3";
-  if (ratio <= 5 / 6) return "w-5/6";
-  return "w-full";
+function progressWidthStyle(done: number, total: number) {
+  const percent = total > 0 ? Math.min(100, Math.max(0, (done / total) * 100)) : 0;
+  return { width: `${percent}%` };
 }
 
 function actionLabel(done: boolean, hasDraft: boolean, absoluteIndex: number) {
@@ -59,8 +52,18 @@ function countCompleted(progress: Record<string, { status?: string }> | undefine
   return order.filter((muc) => progress?.[muc]?.status === "done").length;
 }
 
+function getPageCount(totalItems: number) {
+  return Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+}
+
+function paginate<T>(items: T[], page: number) {
+  const start = (page - 1) * PAGE_SIZE;
+  return items.slice(start, start + PAGE_SIZE);
+}
+
 export default function ChapterSkillTreeScreen() {
   const router = useRouter();
+  const scrollViewRef = useRef<any>(null);
   const params = useLocalSearchParams<{ chapter?: string }>();
   const routeChapter = Array.isArray(params.chapter) ? params.chapter[0] : params.chapter;
 
@@ -71,6 +74,7 @@ export default function ChapterSkillTreeScreen() {
   } = useGetChaptersQuery();
 
   const [selectedChapterState, setSelectedChapter] = useState<string | null>(routeChapter ?? null);
+  const [nodePage, setNodePage] = useState(1);
   const { data: chapterProgressData, isLoading: isLoadingProgress } = useGetAllChapterProgressQuery();
   const chapterProgress = useMemo(() => chapterProgressData ?? {}, [chapterProgressData]);
 
@@ -116,7 +120,13 @@ export default function ChapterSkillTreeScreen() {
 
   const currentChapter = chapters?.find((item) => item.id === selectedChapter);
   const progressPercent = order.length ? Math.round((completedCount / order.length) * 100) : 0;
-  const progressClass = progressWidthClass(completedCount, order.length);
+  const progressStyle = progressWidthStyle(completedCount, order.length);
+  const chapterNodes = data?.nodes ?? [];
+  const nodePageCount = getPageCount(chapterNodes.length);
+  const paginatedChapterNodes = useMemo(
+    () => paginate(chapterNodes, nodePage),
+    [chapterNodes, nodePage],
+  );
 
   const visibleChapterProgress = useMemo(
     () =>
@@ -156,7 +166,7 @@ export default function ChapterSkillTreeScreen() {
   const sections = useMemo(() => {
     const grouped: { label: string; nodes: ChapterNodeSummary[] }[] = [];
 
-    for (const node of data?.nodes ?? []) {
+    for (const node of paginatedChapterNodes) {
       const label = sectionLabel(node.muc);
       const last = grouped[grouped.length - 1];
 
@@ -168,7 +178,26 @@ export default function ChapterSkillTreeScreen() {
     }
 
     return grouped;
-  }, [data?.nodes]);
+  }, [paginatedChapterNodes]);
+
+  useEffect(() => {
+    setNodePage(1);
+  }, [selectedChapter]);
+
+  useEffect(() => {
+    setNodePage((page) => Math.min(page, nodePageCount));
+  }, [nodePageCount]);
+
+  function scrollToTop() {
+    requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    });
+  }
+
+  function changeNodePage(page: number) {
+    setNodePage(page);
+    scrollToTop();
+  }
 
   if (isLoadingChapters || isLoadingProgress) {
     return (
@@ -225,6 +254,7 @@ export default function ChapterSkillTreeScreen() {
       style={{ backgroundColor: TreeColors.background }}
     >
       <ScrollView
+        ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerClassName="w-full max-w-[820px] self-center gap-6 p-3 pb-[220px]"
       >
@@ -279,8 +309,8 @@ export default function ChapterSkillTreeScreen() {
                 style={{ backgroundColor: TreeColors.chip }}
               >
                 <View
-                  className={cn("h-full rounded-full", progressClass)}
-                  style={{ backgroundColor: TreeColors.primary }}
+                  className="h-full rounded-full"
+                  style={[{ backgroundColor: TreeColors.primary }, progressStyle]}
                 />
               </View>
             </View>
@@ -325,7 +355,7 @@ export default function ChapterSkillTreeScreen() {
 
         {!isLoading && !isError ? (
           <ChapterNodeMap
-            nodes={data?.nodes ?? []}
+            nodes={paginatedChapterNodes}
             order={order}
             progress={progress}
             onOpenNode={(node, done) =>
@@ -464,6 +494,11 @@ export default function ChapterSkillTreeScreen() {
                 </View>
               </View>
             ))}
+            <TreePaginationControls
+              page={nodePage}
+              totalItems={chapterNodes.length}
+              onPageChange={changeNodePage}
+            />
           </View>
         ) : null}
       </ScrollView>
@@ -599,6 +634,72 @@ function ChapterNodeMap({
   );
 }
 
+function TreePaginationControls({
+  page,
+  totalItems,
+  onPageChange,
+}: {
+  page: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+}) {
+  const pageCount = getPageCount(totalItems);
+  if (pageCount <= 1) return null;
+
+  const startItem = (page - 1) * PAGE_SIZE + 1;
+  const endItem = Math.min(page * PAGE_SIZE, totalItems);
+  const canGoBack = page > 1;
+  const canGoNext = page < pageCount;
+
+  return (
+    <View
+      className="flex-row items-center justify-between gap-3 rounded-md border p-2"
+      style={{ backgroundColor: TreeColors.surface, borderColor: TreeColors.border }}
+    >
+      <Pressable
+        accessibilityRole="button"
+        disabled={!canGoBack}
+        className={cn(
+          "h-10 w-10 items-center justify-center rounded-sm border active:scale-[0.98]",
+          !canGoBack && "opacity-40",
+        )}
+        style={{ borderColor: TreeColors.chip }}
+        onPress={() => onPageChange(page - 1)}
+      >
+        <ChevronLeft color={TreeColors.primaryLight} size={18} />
+      </Pressable>
+
+      <View className="min-w-0 flex-1 items-center">
+        <ThemedText
+          className="text-[13px] font-extrabold leading-[18px]"
+          style={{ color: TreeColors.text }}
+        >
+          Trang {page}/{pageCount}
+        </ThemedText>
+        <ThemedText
+          className="text-[11px] font-bold leading-[15px]"
+          style={{ color: TreeColors.muted }}
+        >
+          {startItem}-{endItem} trong {totalItems}
+        </ThemedText>
+      </View>
+
+      <Pressable
+        accessibilityRole="button"
+        disabled={!canGoNext}
+        className={cn(
+          "h-10 w-10 items-center justify-center rounded-sm border active:scale-[0.98]",
+          !canGoNext && "opacity-40",
+        )}
+        style={{ borderColor: TreeColors.chip }}
+        onPress={() => onPageChange(page + 1)}
+      >
+        <ChevronRight color={TreeColors.primaryLight} size={18} />
+      </Pressable>
+    </View>
+  );
+}
+
 function ChapterOverview({
   chapters,
   onSelectChapter,
@@ -606,6 +707,26 @@ function ChapterOverview({
   chapters: ChapterOverviewItem[];
   onSelectChapter: (chapter: string) => void;
 }) {
+  const scrollViewRef = useRef<any>(null);
+  const [page, setPage] = useState(1);
+  const pageCount = getPageCount(chapters.length);
+  const visibleChapters = useMemo(() => paginate(chapters, page), [chapters, page]);
+
+  useEffect(() => {
+    setPage((currentPage) => Math.min(currentPage, pageCount));
+  }, [pageCount]);
+
+  function scrollToTop() {
+    requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    });
+  }
+
+  function changePage(nextPage: number) {
+    setPage(nextPage);
+    scrollToTop();
+  }
+
   return (
     <SafeAreaView
       edges={["top"]}
@@ -613,6 +734,7 @@ function ChapterOverview({
       style={{ backgroundColor: TreeColors.background }}
     >
       <ScrollView
+        ref={scrollViewRef}
         showsVerticalScrollIndicator={false}
         contentContainerClassName="w-full max-w-[820px] self-center gap-4 p-3 pb-[220px]"
       >
@@ -634,10 +756,10 @@ function ChapterOverview({
           </ThemedText>
         </View>
 
-        <ChapterOverviewMap chapters={chapters} onSelectChapter={onSelectChapter} />
+        <ChapterOverviewMap chapters={visibleChapters} onSelectChapter={onSelectChapter} />
 
         <View className="gap-2">
-          {chapters.map((chapter) => {
+          {visibleChapters.map((chapter) => {
             const progressPercent = chapter.nodeCount
               ? Math.round((chapter.completedCount / chapter.nodeCount) * 100)
               : 0;
@@ -708,11 +830,11 @@ function ChapterOverview({
                   style={{ backgroundColor: TreeColors.chip }}
                 >
                   <View
-                    className={cn(
-                      "h-full rounded-full",
-                      progressWidthClass(chapter.completedCount, chapter.nodeCount),
-                    )}
-                    style={{ backgroundColor: TreeColors.primary }}
+                    className="h-full rounded-full"
+                    style={[
+                      { backgroundColor: TreeColors.primary },
+                      progressWidthStyle(chapter.completedCount, chapter.nodeCount),
+                    ]}
                   />
                 </View>
 
@@ -730,6 +852,11 @@ function ChapterOverview({
               </Pressable>
             );
           })}
+          <TreePaginationControls
+            page={page}
+            totalItems={chapters.length}
+            onPageChange={changePage}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

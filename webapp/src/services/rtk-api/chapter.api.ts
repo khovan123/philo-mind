@@ -137,7 +137,10 @@ export const chapterApi = baseApi.injectEndpoints({
         method: "PUT",
         body: payload,
       }),
-      invalidatesTags: (_result, _error, arg) => [{ type: "ChapterProgress", id: arg.chapter }],
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "ChapterProgress", id: arg.chapter },
+        { type: "ChapterProgress", id: "ALL" },
+      ],
     }),
 
     getMovie: builder.query<MovieResponse, string>({

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import {
   ArrowLeft,
@@ -23,6 +23,7 @@ import { Pressable, SafeAreaView, ScrollView, TextInput, View } from "@/tw";
 
 const CHAPTER_ID = "1";
 const MIN_FEATURED_COUNT = 3;
+const PAGE_SIZE = 6;
 
 const Colors = {
   locked: "#52525B",
@@ -90,14 +91,27 @@ function getProgressWidthClass(progress: number) {
   return progressMap[progress] ?? "w-0";
 }
 
+function getPageCount(totalItems: number) {
+  return Math.max(1, Math.ceil(totalItems / PAGE_SIZE));
+}
+
+function paginate<T>(items: T[], page: number) {
+  const start = (page - 1) * PAGE_SIZE;
+  return items.slice(start, start + PAGE_SIZE);
+}
+
 export default function ExploreScreen() {
   const router = useRouter();
+  const scrollViewRef = useRef<any>(null);
 
   const [activeTab, setActiveTab] = useState<"discovery" | "chapters">("discovery");
   const [query, setQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [searchFilter, setSearchFilter] = useState<"all" | "lesson" | "video" | "quiz">("all");
   const [selectedLessonKey, setSelectedLessonKey] = useState<string | null>(null);
+  const [discoveryPage, setDiscoveryPage] = useState(1);
+  const [chaptersPage, setChaptersPage] = useState(1);
+  const [searchPage, setSearchPage] = useState(1);
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -178,6 +192,49 @@ export default function ExploreScreen() {
     return searchResults.filter((item) => item.type === searchFilter);
   }, [searchFilter, searchResults]);
 
+  const discoveryPageCount = getPageCount(filteredTheoryLessons.length);
+  const chaptersPageCount = getPageCount(chapters.length);
+  const searchPageCount = getPageCount(visibleSearchResults.length);
+
+  const paginatedTheoryLessons = useMemo(
+    () => paginate(filteredTheoryLessons, discoveryPage),
+    [discoveryPage, filteredTheoryLessons],
+  );
+
+  const paginatedChapters = useMemo(
+    () => paginate(chapters, chaptersPage),
+    [chapters, chaptersPage],
+  );
+
+  const paginatedSearchResults = useMemo(
+    () => paginate(visibleSearchResults, searchPage),
+    [searchPage, visibleSearchResults],
+  );
+
+  useEffect(() => {
+    setDiscoveryPage(1);
+  }, [normalizedQuery]);
+
+  useEffect(() => {
+    setChaptersPage(1);
+  }, [activeTab]);
+
+  useEffect(() => {
+    setSearchPage(1);
+  }, [debouncedQuery, searchFilter]);
+
+  useEffect(() => {
+    setDiscoveryPage((page) => Math.min(page, discoveryPageCount));
+  }, [discoveryPageCount]);
+
+  useEffect(() => {
+    setChaptersPage((page) => Math.min(page, chaptersPageCount));
+  }, [chaptersPageCount]);
+
+  useEffect(() => {
+    setSearchPage((page) => Math.min(page, searchPageCount));
+  }, [searchPageCount]);
+
   const selectedLesson = useMemo(() => {
     if (!selectedLessonKey) return null;
 
@@ -229,6 +286,27 @@ export default function ExploreScreen() {
     }
   }
 
+  function scrollToTop() {
+    requestAnimationFrame(() => {
+      scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    });
+  }
+
+  function changeDiscoveryPage(page: number) {
+    setDiscoveryPage(page);
+    scrollToTop();
+  }
+
+  function changeChaptersPage(page: number) {
+    setChaptersPage(page);
+    scrollToTop();
+  }
+
+  function changeSearchPage(page: number) {
+    setSearchPage(page);
+    scrollToTop();
+  }
+
   if (selectedLesson) {
     return (
       <TheoryDetailScreen
@@ -245,6 +323,7 @@ export default function ExploreScreen() {
         <AppHeader />
 
         <ScrollView
+          ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
           contentContainerClassName="w-full max-w-[820px] self-center gap-3 p-3 pb-[220px]"
         >
@@ -326,7 +405,7 @@ export default function ExploreScreen() {
                   </View>
                 ) : (
                   <View className="gap-3">
-                    {visibleSearchResults.map((item) => (
+                    {paginatedSearchResults.map((item) => (
                       <Pressable
                         key={`${item.type}-${item.id}`}
                         onPress={() => openSearchResult(item)}
@@ -361,6 +440,11 @@ export default function ExploreScreen() {
                         </View>
                       </Pressable>
                     ))}
+                    <PaginationControls
+                      page={searchPage}
+                      totalItems={visibleSearchResults.length}
+                      onPageChange={changeSearchPage}
+                    />
                   </View>
                 )}
               </View>
@@ -464,7 +548,7 @@ export default function ExploreScreen() {
                           <EmptyState />
                         ) : (
                           <View className="gap-3">
-                            {filteredTheoryLessons.map((lesson) => (
+                            {paginatedTheoryLessons.map((lesson) => (
                               <LessonSummaryCard
                                 key={getLessonKey(lesson)}
                                 lesson={lesson}
@@ -472,6 +556,11 @@ export default function ExploreScreen() {
                                 onOpenLesson={() => openLearnLesson(lesson)}
                               />
                             ))}
+                            <PaginationControls
+                              page={discoveryPage}
+                              totalItems={filteredTheoryLessons.length}
+                              onPageChange={changeDiscoveryPage}
+                            />
                           </View>
                         )}
                       </View>
@@ -527,13 +616,18 @@ export default function ExploreScreen() {
                         <EmptyState />
                       ) : (
                         <View className="flex-row flex-wrap gap-2">
-                          {chapters.map((chapter) => (
+                          {paginatedChapters.map((chapter) => (
                             <ChapterCard
                               key={chapter.id}
                               chapter={chapter}
                               onPress={() => openChapter(chapter)}
                             />
                           ))}
+                          <PaginationControls
+                            page={chaptersPage}
+                            totalItems={chapters.length}
+                            onPageChange={changeChaptersPage}
+                          />
                         </View>
                       )}
                     </View>
@@ -772,6 +866,61 @@ function TheoryDetailScreen({
           </Pressable>
         </ScrollView>
       </SafeAreaView>
+    </View>
+  );
+}
+
+function PaginationControls({
+  page,
+  totalItems,
+  onPageChange,
+}: {
+  page: number;
+  totalItems: number;
+  onPageChange: (page: number) => void;
+}) {
+  const pageCount = getPageCount(totalItems);
+  if (pageCount <= 1) return null;
+
+  const startItem = (page - 1) * PAGE_SIZE + 1;
+  const endItem = Math.min(page * PAGE_SIZE, totalItems);
+  const canGoBack = page > 1;
+  const canGoNext = page < pageCount;
+
+  return (
+    <View className="w-full flex-row items-center justify-between gap-3 rounded-md border border-[#27272A] bg-[#161618] p-2">
+      <Pressable
+        accessibilityRole="button"
+        disabled={!canGoBack}
+        className={cn(
+          "h-10 w-10 items-center justify-center rounded-sm border border-[#3F3F46] active:scale-[0.98]",
+          !canGoBack && "opacity-40",
+        )}
+        onPress={() => onPageChange(page - 1)}
+      >
+        <ArrowLeft color={Colors.primaryLight} size={18} />
+      </Pressable>
+
+      <View className="min-w-0 flex-1 items-center">
+        <ThemedText className="text-[13px] font-extrabold leading-[18px] text-[#E5E1E4]">
+          Trang {page}/{pageCount}
+        </ThemedText>
+        <ThemedText className="text-[11px] font-bold leading-[15px] text-[#A1A1AA]">
+          {startItem}-{endItem} trong {totalItems}
+        </ThemedText>
+      </View>
+
+      <Pressable
+        accessibilityRole="button"
+        disabled={!canGoNext}
+        className={cn(
+          "h-10 w-10 items-center justify-center rounded-sm border border-[#3F3F46] active:scale-[0.98]",
+          !canGoNext && "opacity-40",
+        )}
+        onPress={() => onPageChange(page + 1)}
+      >
+        <ArrowRight color={Colors.primaryLight} size={18} />
+      </Pressable>
     </View>
   );
 }
