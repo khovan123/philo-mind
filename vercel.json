@@ -5,7 +5,7 @@
   "outputDirectory": "webapp/dist",
   "rewrites": [
     {
-      "source": "/((?!api/).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
