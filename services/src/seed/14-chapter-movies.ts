@@ -255,7 +255,9 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
         // Sub-nodes like 1.3.1 or 2.2.1.1 must NEVER get movie flags.
         const dotCount = (muc.match(/\./g) || []).length;
         if (dotCount !== 1) {
-          console.warn(`    ⚠ Skipping ${file}: muc "${muc}" is a sub-node (must be top-level X.Y format)`);
+          console.warn(
+            `    ⚠ Skipping ${file}: muc "${muc}" is a sub-node (must be top-level X.Y format)`,
+          );
           continue;
         }
 
@@ -409,7 +411,9 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
   // 4. Final cleanup: remove movie flags from any sub-node that is NOT a top-level movie node.
   //    This ensures any stale data from previous seeds is removed.
   {
-    const allNodes = await prisma.chapterNode.findMany({ select: { id: true, muc: true, data: true } });
+    const allNodes = await prisma.chapterNode.findMany({
+      select: { id: true, muc: true, data: true },
+    });
     let cleaned = 0;
     for (const node of allNodes) {
       const dotCount = (node.muc.match(/\./g) || []).length;

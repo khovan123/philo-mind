@@ -33,7 +33,10 @@ export class ChapterContentService {
       nodes: chapter.nodes.map((n) => {
         const data = n.data as any;
         const hasMovie = chapter.movies.some((m) => m.muc === n.muc);
-        const isMovieOnly = data.isMovieOnly || data.isMovieNode || (data.steps?.length === 1 && data.steps[0] === "movie");
+        const isMovieOnly =
+          data.isMovieOnly ||
+          data.isMovieNode ||
+          (data.steps?.length === 1 && data.steps[0] === "movie");
         return {
           chuong: data.chuong,
           muc: data.muc,
@@ -80,7 +83,10 @@ export class ChapterContentService {
 
     const data = node.data as any;
     data.hasMovie = !!movie;
-    data.isMovieOnly = data.isMovieOnly || data.isMovieNode || (data.steps?.length === 1 && data.steps[0] === "movie");
+    data.isMovieOnly =
+      data.isMovieOnly ||
+      data.isMovieNode ||
+      (data.steps?.length === 1 && data.steps[0] === "movie");
     if (data.isMovieOnly) {
       data.steps = ["movie"];
     }
