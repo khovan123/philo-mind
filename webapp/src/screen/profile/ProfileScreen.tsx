@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import { ActivityIndicator, Modal } from "react-native";
+import { useState, useMemo, useEffect, useRef } from "react";
+import { ActivityIndicator, Modal, ScrollView as RNScrollView } from "react-native";
 import { authService } from "@/services/auth.service";
 import { useRouter } from "expo-router";
 import {
@@ -143,6 +143,9 @@ export default function ProfileScreen() {
   const [selectedDay, setSelectedDay] = useState<any>(null);
   const [chapterProgress, setChapterProgress] = useState<Record<string, ChapterProgress>>({});
   const [isLoadingProgress, setIsLoadingProgress] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [containerWidth, setContainerWidth] = useState(350);
+  const scrollRef = useRef<RNScrollView>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -219,6 +222,18 @@ export default function ProfileScreen() {
       order,
     };
   })();
+
+  useEffect(() => {
+    if (scrollRef.current && chapters && activeChapterData) {
+      const activeIdx = chapters.findIndex((c) => c.id === activeChapterData.chapter.id);
+      if (activeIdx >= 0) {
+        setCurrentPage(activeIdx);
+        setTimeout(() => {
+          scrollRef.current?.scrollTo({ x: activeIdx * containerWidth, animated: false });
+        }, 150);
+      }
+    }
+  }, [chapters, activeChapterData, containerWidth]);
 
   const visibleStats = useMemo(() => {
     return [
@@ -401,149 +416,203 @@ export default function ProfileScreen() {
           })}
         </View>
 
-        <View className="gap-2">
+        <View
+          className="gap-2"
+          onLayout={(e) => {
+            const w = e.nativeEvent.layout.width;
+            if (w > 0) setContainerWidth(w);
+          }}
+        >
           <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
             Lộ trình học
           </ThemedText>
-          <Pressable
-            onPress={() => router.push("/(tabs)/learn" as never)}
-            className="h-[190px] justify-center overflow-hidden rounded-md border border-[#27272A] bg-[#161618] active:border-[#D97706]/40"
-          >
+          <View className="h-[190px] rounded-md border border-[#27272A] bg-[#161618] overflow-hidden">
             {isLoadingChapters || isLoadingProgress ? (
               <View className="flex-1 items-center justify-center">
                 <ActivityIndicator color={Colors.primaryLight} />
               </View>
-            ) : isChaptersError || !activeChapterData ? (
+            ) : isChaptersError || !chapters?.length ? (
               <View className="flex-1 items-center justify-center px-4">
                 <ThemedText className="text-[14px] font-semibold text-[#A1A1AA] text-center">
                   Chưa bắt đầu lộ trình học nào
                 </ThemedText>
               </View>
             ) : (
-              <View className="flex-1 relative justify-center items-center">
-                {/* Lines connecting dots */}
-                {activeChapterData.order.slice(0, 4).map((_, index) => {
-                  const nextMuc = activeChapterData.order[index + 1];
-                  const nextItem = activeChapterData.progress?.[nextMuc];
-                  const isActive = nextItem?.status === "available" || nextItem?.status === "done";
-                  const lineColor = isActive ? "bg-[#D97706]" : "bg-[#52525B]";
-                  const lineOpacity = isActive ? "opacity-70" : "opacity-80";
+              <View className="flex-1">
+                <RNScrollView
+                  ref={scrollRef}
+                  horizontal
+                  pagingEnabled
+                  showsHorizontalScrollIndicator={false}
+                  onMomentumScrollEnd={(event) => {
+                    const offsetX = event.nativeEvent.contentOffset.x;
+                    const page = Math.round(offsetX / containerWidth);
+                    setCurrentPage(page);
+                  }}
+                  style={{ flex: 1 }}
+                  contentContainerStyle={{ width: containerWidth * chapters.length }}
+                >
+                  {chapters.map((chapter) => {
+                    const progress = chapterProgress[chapter.id];
+                    const order = chapter.order ?? [];
+                    const completedCount = order.filter(
+                      (muc) => progress?.[muc]?.status === "done",
+                    ).length;
+                    const progressPercent = order.length
+                      ? Math.round((completedCount / order.length) * 100)
+                      : 0;
+                    const N = order.length;
 
-                  if (index === 0) {
-                    return (
-                      <View
-                        key={index}
-                        className={cn(
-                          "absolute left-[18%] top-[48%] h-0.5 w-[90px] -rotate-[28deg]",
-                          lineColor,
-                          lineOpacity,
-                        )}
-                      />
-                    );
-                  }
-                  if (index === 1) {
-                    return (
-                      <View
-                        key={index}
-                        className={cn(
-                          "absolute left-[38%] top-[42%] h-0.5 w-[96px] rotate-[16deg]",
-                          lineColor,
-                          lineOpacity,
-                        )}
-                      />
-                    );
-                  }
-                  if (index === 2) {
-                    return (
-                      <View
-                        key={index}
-                        className={cn(
-                          "absolute right-[16%] top-[50%] h-0.5 w-[96px] -rotate-[18deg]",
-                          lineColor,
-                          lineOpacity,
-                        )}
-                      />
-                    );
-                  }
-                  if (index === 3) {
-                    return (
-                      <View
-                        key={index}
-                        className={cn(
-                          "absolute right-[5%] top-[45%] h-0.5 w-[90px] rotate-[22deg]",
-                          lineColor,
-                          lineOpacity,
-                        )}
-                      />
-                    );
-                  }
-                  return null;
-                })}
-
-                {/* Dots representing node states */}
-                {activeChapterData.order.slice(0, 5).map((muc, index) => {
-                  const absoluteIndex = activeChapterData.chapter.order.indexOf(muc);
-                  const item = activeChapterData.progress?.[muc] ?? {
-                    status: absoluteIndex === 0 ? "available" : "locked",
-                  };
-                  const done = item.status === "done";
-                  const available = item.status === "available";
-                  const dotColor = done || available ? "bg-[#D97706]" : "bg-[#52525B]";
-                  const dotLayout = ROADMAP_LAYOUT[index] ?? ROADMAP_LAYOUT[0];
-
-                  if (available) {
-                    return (
-                      <View
-                        key={muc}
-                        style={
-                          {
-                            position: "absolute",
-                            left: dotLayout.left,
-                            top: dotLayout.top,
-                            width: 16,
-                            height: 16,
-                            borderRadius: 8,
-                            borderWidth: 3,
-                            borderColor: "#FFB77D59",
-                            backgroundColor: "#D97706",
-                            transform: [{ translateX: -2 }, { translateY: -2 }],
-                          } as any
-                        }
-                      />
-                    );
-                  }
-
-                  return (
-                    <View
-                      key={muc}
-                      style={
-                        {
-                          position: "absolute",
-                          left: dotLayout.left,
-                          top: dotLayout.top,
-                          width: 12,
-                          height: 12,
-                          borderRadius: 6,
-                        } as any
+                    // Compute node coordinates dynamically based on total nodes in chapter
+                    const getCoordinates = (i: number, total: number) => {
+                      if (total <= 1) {
+                        return { x: containerWidth / 2, y: 55 };
                       }
-                      className={dotColor}
-                    />
-                  );
-                })}
+                      const paddingX = 40;
+                      const x = paddingX + (i * (containerWidth - 2 * paddingX)) / (total - 1);
+                      const middleY = 55;
+                      const y = middleY + (i % 2 === 0 ? 15 : -15);
+                      return { x, y };
+                    };
 
-                {/* Text Information Container */}
-                <View className="items-center gap-0.5 bg-[#161618]/90 px-3 py-1 rounded">
-                  <ThemedText className="text-[15px] font-extrabold leading-[20px] text-[#FFB77D] text-center">
-                    {activeChapterData.chapter.title}
-                  </ThemedText>
-                  <ThemedText className="text-[12px] font-bold leading-[16px] text-[#A1A1AA]">
-                    {activeChapterData.progressPercent}% hoàn thành (
-                    {activeChapterData.completedCount}/{activeChapterData.nodeCount})
-                  </ThemedText>
-                </View>
+                    // Generate connecting lines
+                    const lines = [];
+                    for (let i = 0; i < N - 1; i++) {
+                      const curr = getCoordinates(i, N);
+                      const next = getCoordinates(i + 1, N);
+                      const dx = next.x - curr.x;
+                      const dy = next.y - curr.y;
+                      const length = Math.sqrt(dx * dx + dy * dy);
+                      const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+                      const nextMuc = order[i + 1];
+                      const nextItem = progress?.[nextMuc];
+                      const isLineActive =
+                        nextItem?.status === "available" || nextItem?.status === "done";
+
+                      lines.push({
+                        key: `${chapter.id}-line-${i}`,
+                        left: (curr.x + next.x) / 2 - length / 2,
+                        top: (curr.y + next.y) / 2 - 1,
+                        width: length,
+                        angle,
+                        isActive: isLineActive,
+                      });
+                    }
+
+                    return (
+                      <View key={chapter.id} style={{ width: containerWidth, height: "100%" }}>
+                        {/* Card Header */}
+                        <View className="flex-row justify-between items-center px-4 pt-3 pb-2 border-b border-[#27272A]/40 bg-[#1e1e21]/20">
+                          <View className="flex-1 mr-2">
+                            <ThemedText
+                              className="text-[14px] font-extrabold text-[#FFB77D]"
+                              numberOfLines={1}
+                            >
+                              {chapter.title}
+                            </ThemedText>
+                            <ThemedText className="text-[11px] font-bold text-[#A1A1AA]">
+                              {progressPercent}% hoàn thành ({completedCount}/{N} bài)
+                            </ThemedText>
+                          </View>
+                          <Pressable
+                            onPress={() => router.push("/(tabs)/learn" as never)}
+                            className="bg-[#D97706] active:bg-[#FFB77D] px-3 py-1.5 rounded-full flex-row items-center gap-1"
+                          >
+                            <ThemedText className="text-[11px] font-extrabold text-[#0C0C0E]">
+                              Học tiếp
+                            </ThemedText>
+                            <ChevronRight color="#0C0C0E" size={12} />
+                          </Pressable>
+                        </View>
+
+                        {/* Nodes Path rendering */}
+                        <View style={{ height: 110, width: "100%", position: "relative" }}>
+                          {/* Lines */}
+                          {lines.map((line) => (
+                            <View
+                              key={line.key}
+                              style={{
+                                position: "absolute",
+                                left: line.left,
+                                top: line.top,
+                                width: line.width,
+                                height: 2,
+                                backgroundColor: line.isActive ? "#D97706" : "#52525B",
+                                opacity: line.isActive ? 0.7 : 0.4,
+                                transform: [{ rotate: `${line.angle}deg` }],
+                              }}
+                            />
+                          ))}
+
+                          {/* Dots */}
+                          {order.map((muc, index) => {
+                            const absoluteIndex = chapter.order.indexOf(muc);
+                            const item = progress?.[muc] ?? {
+                              status: absoluteIndex === 0 ? "available" : "locked",
+                            };
+                            const done = item.status === "done";
+                            const available = item.status === "available";
+                            const dotColor = done || available ? "bg-[#D97706]" : "bg-[#52525B]";
+                            const pos = getCoordinates(index, N);
+
+                            if (available) {
+                              return (
+                                <View
+                                  key={muc}
+                                  style={{
+                                    position: "absolute",
+                                    left: pos.x - 8,
+                                    top: pos.y - 8,
+                                    width: 16,
+                                    height: 16,
+                                    borderRadius: 8,
+                                    borderWidth: 3,
+                                    borderColor: "#FFB77D59",
+                                    backgroundColor: "#D97706",
+                                  }}
+                                />
+                              );
+                            }
+
+                            return (
+                              <View
+                                key={muc}
+                                style={{
+                                  position: "absolute",
+                                  left: pos.x - 6,
+                                  top: pos.y - 6,
+                                  width: 12,
+                                  height: 12,
+                                  borderRadius: 6,
+                                }}
+                                className={dotColor}
+                              />
+                            );
+                          })}
+                        </View>
+                      </View>
+                    );
+                  })}
+                </RNScrollView>
               </View>
             )}
-          </Pressable>
+          </View>
+
+          {/* Slide Indicator Dots */}
+          {chapters && chapters.length > 1 && (
+            <View className="flex-row justify-center gap-1.5 mt-1">
+              {chapters.map((_, idx) => (
+                <View
+                  key={idx}
+                  className={cn(
+                    "h-1 rounded-full",
+                    idx === currentPage ? "w-4 bg-[#D97706]" : "w-1 bg-[#52525B]",
+                  )}
+                />
+              ))}
+            </View>
+          )}
         </View>
 
         <View className="gap-2">

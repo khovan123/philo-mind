@@ -4,6 +4,7 @@ export enum ActivityType {
   DECIDE_STORY = "DECIDE_STORY",
   DO_SHORT_LESSON = "DO_SHORT_LESSON",
   PLAY_MINI_GAME = "PLAY_MINI_GAME",
+  LOGIN = "LOGIN",
 }
 
 export const RETAINED_ACTIVITY_TYPES = Object.values(ActivityType);

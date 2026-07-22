@@ -9,7 +9,19 @@ export class ProfileController {
   async summary(req: Request, res: Response) {
     try {
       const userId = req.user!.id;
-      const [user, badges, streak, completedLessons, quizStats, activities] = await Promise.all([
+
+      // Record daily login active check
+      await ActivityLogService.recordDailyLogin(userId).catch(() => {});
+
+      const [
+        user,
+        badges,
+        streak,
+        legacyCompletedLessons,
+        chapterCompletedLessons,
+        quizStats,
+        activities,
+      ] = await Promise.all([
         prisma.user.findUnique({
           where: { id: userId },
           select: { id: true, fullName: true, email: true, avatarUrl: true, createdAt: true },
@@ -17,6 +29,7 @@ export class ProfileController {
         BadgeService.getAllBadgesForUser(userId),
         ActivityLogService.getStreakDetails(userId),
         prisma.userProgress.count({ where: { userId, status: ProgressStatus.COMPLETED } }),
+        prisma.userChapterProgress.count({ where: { userId, status: "done" } }),
         prisma.quizAttempt.aggregate({
           where: { userId, completedAt: { not: null } },
           _avg: { score: true },
@@ -28,6 +41,8 @@ export class ProfileController {
           take: 60,
         }),
       ]);
+
+      const completedLessons = legacyCompletedLessons + chapterCompletedLessons;
 
       if (!user) return sendError(res, "USER_NOT_FOUND", "Nguoi dung khong ton tai", 404);
 

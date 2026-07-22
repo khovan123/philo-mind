@@ -1,4 +1,6 @@
 import { prisma } from "../config/prisma.js";
+import { ActivityLogService, ActivityType } from "./activity-log.service.js";
+import { TargetType } from "../prisma/generated/client.js";
 
 export class ChapterContentService {
   static async getChaptersFromDb() {
@@ -154,8 +156,12 @@ export class ChapterContentService {
       },
     });
 
+    const isNowDone = payload.status === "done";
+    const wasDone = existing?.status === "done";
+
+    let result;
     if (existing) {
-      return await prisma.userChapterProgress.update({
+      result = await prisma.userChapterProgress.update({
         where: { id: existing.id },
         data: {
           status: payload.status ?? existing.status,
@@ -164,19 +170,35 @@ export class ChapterContentService {
           draft: payload.draft !== undefined ? payload.draft : existing.draft,
         },
       });
+    } else {
+      result = await prisma.userChapterProgress.create({
+        data: {
+          userId,
+          chapterId: chapter.id,
+          chapterNodeId: node.id,
+          muc,
+          status: payload.status,
+          score: payload.score,
+          review: payload.review ?? null,
+          draft: payload.draft ?? null,
+        },
+      });
     }
 
-    return await prisma.userChapterProgress.create({
-      data: {
-        userId,
-        chapterId: chapter.id,
-        chapterNodeId: node.id,
-        muc,
-        status: payload.status,
-        score: payload.score,
-        review: payload.review ?? null,
-        draft: payload.draft ?? null,
-      },
-    });
+    if (isNowDone && !wasDone) {
+      try {
+        await ActivityLogService.logActivity(
+          userId,
+          ActivityType.LEARN_LESSON,
+          TargetType.LESSON,
+          node.id,
+          { chapterCode, muc },
+        );
+      } catch (err) {
+        console.error("Error logging activity during upsertChapterProgress:", err);
+      }
+    }
+
+    return result;
   }
 }

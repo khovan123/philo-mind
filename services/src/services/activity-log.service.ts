@@ -1,7 +1,6 @@
 import { prisma } from "../config/prisma.js";
-import type { TargetType } from "../prisma/generated/enums.js";
-import type { ActivityType } from "../types/activity.js";
-import { RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
+import { TargetType } from "../prisma/generated/client.js";
+import { RETAINED_ACTIVITY_TYPES, ActivityType } from "../types/activity.js";
 import { BadgeService } from "./badge.service.js";
 
 export { ActivityType, RETAINED_ACTIVITY_TYPES } from "../types/activity.js";
@@ -40,6 +39,36 @@ export class ActivityLogService {
       log,
       newlyEarnedBadges,
     };
+  }
+
+  /**
+   * Record daily login for a user, update user.lastActiveAt, and log LOGIN activity if not present today.
+   */
+  static async recordDailyLogin(userId: string) {
+    const now = new Date();
+    try {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { lastActiveAt: now },
+      });
+    } catch (err) {
+      // Ignore if user not found
+    }
+
+    const startOfDay = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()),
+    );
+
+    const existingTodayLog = await prisma.activityLog.findFirst({
+      where: {
+        userId,
+        createdAt: { gte: startOfDay },
+      },
+    });
+
+    if (!existingTodayLog) {
+      await this.logActivity(userId, ActivityType.LOGIN, TargetType.LESSON);
+    }
   }
 
   /**
