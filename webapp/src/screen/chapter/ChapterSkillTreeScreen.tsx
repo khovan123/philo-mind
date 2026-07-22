@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { Check, ChevronLeft, ChevronRight, Lock } from "lucide-react-native";
 import { ActivityIndicator } from "react-native";
+import type { ViewStyle } from "react-native";
 import Svg, { Line } from "react-native-svg";
 
 import { ThemedText } from "@/components/themed-text";
@@ -32,9 +33,9 @@ function hookLabel(type: ChapterNodeSummary["hookType"]) {
   return type === "drag" ? "Kéo thả" : "Tình huống";
 }
 
-function progressWidthStyle(done: number, total: number) {
+function progressWidthStyle(done: number, total: number): ViewStyle {
   const percent = total > 0 ? Math.min(100, Math.max(0, (done / total) * 100)) : 0;
-  return { width: `${percent}%` };
+  return { width: `${percent}%` as `${number}%` };
 }
 
 function actionLabel(done: boolean, hasDraft: boolean, absoluteIndex: number) {
