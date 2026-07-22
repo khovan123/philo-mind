@@ -21,6 +21,7 @@ const mockUserBadgeCreate = jest.fn() as any;
 const mockNotificationCreate = jest.fn() as any;
 const mockActivityLogCount = jest.fn() as any;
 const mockUserProgressCount = jest.fn() as any;
+const mockUserChapterProgressCount = jest.fn() as any;
 const mockQuizAttemptCount = jest.fn() as any;
 const mockStoryDecisionCount = jest.fn() as any;
 const mockShortLessonResponseCount = jest.fn() as any;
@@ -48,6 +49,9 @@ jest.unstable_mockModule("../config/prisma.js", () => ({
     },
     userProgress: {
       count: mockUserProgressCount,
+    },
+    userChapterProgress: {
+      count: mockUserChapterProgressCount,
     },
     quizAttempt: {
       count: mockQuizAttemptCount,
@@ -109,6 +113,7 @@ describe("BadgeService", () => {
       // Mock user metrics across retained learning modules.
       mockActivityLogCount.mockResolvedValue(1);
       mockUserProgressCount.mockResolvedValue(3);
+      mockUserChapterProgressCount.mockResolvedValue(0);
       mockQuizAttemptCount.mockResolvedValue(5);
       mockStoryDecisionCount.mockResolvedValue(3);
       mockShortLessonResponseCount.mockResolvedValue(7);
@@ -165,6 +170,7 @@ describe("BadgeService", () => {
       // User has 1 activity log -> eligible for first badge only
       mockActivityLogCount.mockResolvedValue(1);
       mockUserProgressCount.mockResolvedValue(0);
+      mockUserChapterProgressCount.mockResolvedValue(0);
       mockQuizAttemptCount.mockResolvedValue(0);
       mockStoryDecisionCount.mockResolvedValue(0);
       mockShortLessonResponseCount.mockResolvedValue(0);
@@ -218,6 +224,7 @@ describe("BadgeService", () => {
       // User is eligible for everything
       mockActivityLogCount.mockResolvedValue(100);
       mockUserProgressCount.mockResolvedValue(100);
+      mockUserChapterProgressCount.mockResolvedValue(100);
       mockQuizAttemptCount.mockResolvedValue(100);
       mockStoryDecisionCount.mockResolvedValue(100);
       mockShortLessonResponseCount.mockResolvedValue(100);

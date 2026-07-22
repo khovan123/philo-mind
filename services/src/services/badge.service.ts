@@ -311,7 +311,8 @@ export class BadgeService {
   private static async getUserMetrics(userId: string) {
     const [
       totalLearningActivities,
-      completedLessonsCount,
+      legacyCompletedLessonsCount,
+      chapterCompletedLessonsCount,
       completedQuizCount,
       storyDecisionCount,
       shortLessonCount,
@@ -328,6 +329,9 @@ export class BadgeService {
       prisma.userProgress.count({
         where: { userId, status: ProgressStatus.COMPLETED },
       }),
+      prisma.userChapterProgress.count({
+        where: { userId, status: "done" },
+      }),
       prisma.quizAttempt.count({ where: { userId, completedAt: { not: null } } }),
       prisma.storyDecision.count({ where: { userId } }),
       prisma.shortLessonResponse.count({ where: { userId } }),
@@ -342,6 +346,8 @@ export class BadgeService {
         orderBy: { createdAt: "desc" },
       }),
     ]);
+
+    const completedLessonsCount = legacyCompletedLessonsCount + chapterCompletedLessonsCount;
 
     const balancedCoreCount = [
       completedLessonsCount,
