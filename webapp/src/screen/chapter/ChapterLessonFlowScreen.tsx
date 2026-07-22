@@ -124,6 +124,13 @@ export default function ChapterLessonFlowScreen() {
   const lessonKey = `${chapter ?? ""}:${muc ?? ""}:${isReplay ? "replay" : "learn"}`;
   const nodeSummary = nodesData?.nodes.find((n) => n.muc === muc);
   const hasMovie = !!(node?.hasMovie ?? nodeSummary?.hasMovie ?? false);
+  const isMovieOnly = !!(
+    node?.isMovieOnly ||
+    nodeSummary?.isMovieOnly ||
+    (node as any)?.isMovieNode ||
+    (node?.steps?.length === 1 && node?.steps[0] === "movie") ||
+    (nodeSummary?.steps?.length === 1 && nodeSummary?.steps[0] === "movie")
+  );
 
   const [flowState, setFlowState] = useState<FlowState>(() =>
     createDefaultFlowState(lessonKey, hasMovie),
@@ -284,13 +291,13 @@ export default function ChapterLessonFlowScreen() {
             </View>
 
             <ThemedText className="mt-2 text-[13px] font-medium leading-5 text-[#A3A3AF]">
-              {isCompletedReview ? `Xem lại · ${stepName(step)}` : stepName(step)}
+              {isCompletedReview ? `Xem lại · ${isMovieOnly ? "Phim tương tác" : stepName(step)}` : isMovieOnly ? "Phim tương tác" : stepName(step)}
             </ThemedText>
 
             <StepBar
               step={step}
               maxPressableStep={isCompletedReview ? 2 : step}
-              steps={hasMovie ? [-1, 0, 1, 2] : [0, 1, 2]}
+              steps={isMovieOnly ? [-1] : hasMovie ? [-1, 0, 1, 2] : [0, 1, 2]}
               onStepPress={goToStepFromBar}
             />
           </View>
@@ -324,7 +331,13 @@ export default function ChapterLessonFlowScreen() {
                 <MovieStep
                   key={`intro-${chapter}-${muc}-${attemptKey}`}
                   muc={muc}
-                  onDone={() => moveToStep(0)}
+                  onDone={() => {
+                    if (isMovieOnly) {
+                      void complete(100);
+                    } else {
+                      moveToStep(0);
+                    }
+                  }}
                 />
               </View>
             ) : (

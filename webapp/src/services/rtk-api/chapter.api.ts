@@ -38,11 +38,13 @@ export type ChapterNodeSummary = {
   title: string;
   order: number;
   hookType: "choice" | "drag";
-  steps: ["hook", "theory", "quiz"];
+  steps: string[];
   hasMovie?: boolean;
+  isMovieOnly?: boolean;
 };
 
 export type ChapterNode = Omit<ChapterNodeSummary, "steps"> & {
+  steps?: string[];
   hook: ChapterHook;
   theoryCards: ChapterTheoryCard[];
   quiz: ChapterQuizQuestion[];
