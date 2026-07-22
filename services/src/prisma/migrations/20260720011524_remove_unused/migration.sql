@@ -92,11 +92,11 @@ ALTER COLUMN "used_at" SET DATA TYPE TIMESTAMP(3),
 ALTER COLUMN "created_at" SET DATA TYPE TIMESTAMP(3);
 
 -- AlterTable
-ALTER TABLE "quizzes" ADD COLUMN     "embedding" DOUBLE PRECISION[];
+ALTER TABLE "quizzes" ADD COLUMN IF NOT EXISTS "embedding" DOUBLE PRECISION[];
 
 -- AlterTable
-ALTER TABLE "topic_perspectives" DROP COLUMN "perspective_type",
-ADD COLUMN     "perspective_type" TEXT NOT NULL;
+ALTER TABLE "topic_perspectives"
+ALTER COLUMN "perspective_type" TYPE TEXT USING "perspective_type"::text;
 
 -- AlterTable
 ALTER TABLE "users" ALTER COLUMN "deleted_at" SET DATA TYPE TIMESTAMP(3),
@@ -151,7 +151,7 @@ DROP TYPE IF EXISTS "SenderType";
 DROP TYPE IF EXISTS "VoteValue";
 
 -- CreateTable
-CREATE TABLE "chapters" (
+CREATE TABLE IF NOT EXISTS "chapters" (
     "id" UUID NOT NULL,
     "code" VARCHAR(100) NOT NULL,
     "title" VARCHAR(200) NOT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE "chapters" (
 );
 
 -- CreateTable
-CREATE TABLE "chapter_nodes" (
+CREATE TABLE IF NOT EXISTS "chapter_nodes" (
     "id" UUID NOT NULL,
     "chapter_id" UUID NOT NULL,
     "muc" VARCHAR(100) NOT NULL,
@@ -178,7 +178,7 @@ CREATE TABLE "chapter_nodes" (
 );
 
 -- CreateTable
-CREATE TABLE "movies" (
+CREATE TABLE IF NOT EXISTS "movies" (
     "id" UUID NOT NULL,
     "chapter_id" UUID,
     "muc" VARCHAR(100) NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE "movies" (
 );
 
 -- CreateTable
-CREATE TABLE "movie_sessions" (
+CREATE TABLE IF NOT EXISTS "movie_sessions" (
     "id" UUID NOT NULL,
     "movie_id" UUID NOT NULL,
     "user_id" UUID NOT NULL,
@@ -207,43 +207,90 @@ CREATE TABLE "movie_sessions" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "chapters_code_key" ON "chapters"("code");
+CREATE UNIQUE INDEX IF NOT EXISTS "chapters_code_key" ON "chapters"("code");
 
 -- CreateIndex
-CREATE INDEX "chapters_code_idx" ON "chapters"("code");
+CREATE INDEX IF NOT EXISTS "chapters_code_idx" ON "chapters"("code");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "chapter_nodes_chapter_id_muc_key" ON "chapter_nodes"("chapter_id", "muc");
+CREATE UNIQUE INDEX IF NOT EXISTS "chapter_nodes_chapter_id_muc_key" ON "chapter_nodes"("chapter_id", "muc");
 
 -- CreateIndex
-CREATE INDEX "movies_muc_idx" ON "movies"("muc");
+CREATE INDEX IF NOT EXISTS "movies_muc_idx" ON "movies"("muc");
 
 -- CreateIndex
-CREATE INDEX "movie_sessions_movie_id_user_id_idx" ON "movie_sessions"("movie_id", "user_id");
+CREATE INDEX IF NOT EXISTS "movie_sessions_movie_id_user_id_idx" ON "movie_sessions"("movie_id", "user_id");
 
 -- CreateIndex
-CREATE INDEX "movie_sessions_user_id_idx" ON "movie_sessions"("user_id");
+CREATE INDEX IF NOT EXISTS "movie_sessions_user_id_idx" ON "movie_sessions"("user_id");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "topic_perspectives_topic_id_perspective_type_key" ON "topic_perspectives"("topic_id", "perspective_type");
+CREATE UNIQUE INDEX IF NOT EXISTS "topic_perspectives_topic_id_perspective_type_key" ON "topic_perspectives"("topic_id", "perspective_type");
 
 -- AddForeignKey
-ALTER TABLE "password_resets" ADD CONSTRAINT "password_resets_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'password_resets_user_id_fkey'
+    ) THEN
+        ALTER TABLE "password_resets" ADD CONSTRAINT "password_resets_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
 
 -- AddForeignKey
-ALTER TABLE "chapter_nodes" ADD CONSTRAINT "chapter_nodes_chapter_id_fkey" FOREIGN KEY ("chapter_id") REFERENCES "chapters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'chapter_nodes_chapter_id_fkey'
+    ) THEN
+        ALTER TABLE "chapter_nodes" ADD CONSTRAINT "chapter_nodes_chapter_id_fkey" FOREIGN KEY ("chapter_id") REFERENCES "chapters"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
 
 -- AddForeignKey
-ALTER TABLE "movies" ADD CONSTRAINT "movies_chapter_id_fkey" FOREIGN KEY ("chapter_id") REFERENCES "chapters"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'movies_chapter_id_fkey'
+    ) THEN
+        ALTER TABLE "movies" ADD CONSTRAINT "movies_chapter_id_fkey" FOREIGN KEY ("chapter_id") REFERENCES "chapters"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+    END IF;
+END $$;
 
 -- AddForeignKey
-ALTER TABLE "movie_sessions" ADD CONSTRAINT "movie_sessions_movie_id_fkey" FOREIGN KEY ("movie_id") REFERENCES "movies"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'movie_sessions_movie_id_fkey'
+    ) THEN
+        ALTER TABLE "movie_sessions" ADD CONSTRAINT "movie_sessions_movie_id_fkey" FOREIGN KEY ("movie_id") REFERENCES "movies"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
 
 -- AddForeignKey
-ALTER TABLE "movie_sessions" ADD CONSTRAINT "movie_sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'movie_sessions_user_id_fkey'
+    ) THEN
+        ALTER TABLE "movie_sessions" ADD CONSTRAINT "movie_sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+    END IF;
+END $$;
 
 -- RenameIndex
-ALTER INDEX "idx_password_resets_email" RENAME TO "password_resets_email_idx";
+DO $$
+BEGIN
+    IF to_regclass('public.idx_password_resets_email') IS NOT NULL
+       AND to_regclass('public.password_resets_email_idx') IS NULL THEN
+        ALTER INDEX "idx_password_resets_email" RENAME TO "password_resets_email_idx";
+    END IF;
+END $$;
 
 -- RenameIndex
-ALTER INDEX "idx_password_resets_user_id" RENAME TO "password_resets_user_id_idx";
+DO $$
+BEGIN
+    IF to_regclass('public.idx_password_resets_user_id') IS NOT NULL
+       AND to_regclass('public.password_resets_user_id_idx') IS NULL THEN
+        ALTER INDEX "idx_password_resets_user_id" RENAME TO "password_resets_user_id_idx";
+    END IF;
+END $$;

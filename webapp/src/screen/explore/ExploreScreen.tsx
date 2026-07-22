@@ -112,7 +112,7 @@ export default function ExploreScreen() {
     data: searchResults = [],
     isFetching: isSearchingApi,
     isError: isSearchError,
-  } = useSemanticSearchQuery({ q: debouncedQuery, type: searchFilter }, { skip: !isSearching });
+  } = useSemanticSearchQuery({ q: debouncedQuery, type: "all" }, { skip: !isSearching });
 
   const {
     data: chapterData,
@@ -161,6 +161,22 @@ export default function ExploreScreen() {
   }, [theoryLessons]);
 
   const shouldShowFeatured = featuredLessons.length >= MIN_FEATURED_COUNT;
+
+  const searchResultCounts = useMemo(() => {
+    return searchResults.reduce(
+      (counts, item) => {
+        counts.all += 1;
+        counts[item.type] += 1;
+        return counts;
+      },
+      { all: 0, lesson: 0, video: 0, quiz: 0 },
+    );
+  }, [searchResults]);
+
+  const visibleSearchResults = useMemo(() => {
+    if (searchFilter === "all") return searchResults;
+    return searchResults.filter((item) => item.type === searchFilter);
+  }, [searchFilter, searchResults]);
 
   const selectedLesson = useMemo(() => {
     if (!selectedLessonKey) return null;
@@ -265,10 +281,10 @@ export default function ExploreScreen() {
               {/* Filter Tabs for Search Results */}
               <View className="flex-row gap-2 my-1">
                 {[
-                  { label: "Tất cả", value: "all" },
-                  { label: "Bài học", value: "lesson" },
-                  { label: "Video", value: "video" },
-                  { label: "Quiz", value: "quiz" },
+                  { label: "Tất cả", value: "all", count: searchResultCounts.all },
+                  { label: "Bài học", value: "lesson", count: searchResultCounts.lesson },
+                  { label: "Video", value: "video", count: searchResultCounts.video },
+                  { label: "Quiz", value: "quiz", count: searchResultCounts.quiz },
                 ].map((filter) => (
                   <Pressable
                     key={filter.value}
@@ -284,7 +300,7 @@ export default function ExploreScreen() {
                         searchFilter === filter.value && "text-[#FFB77D]",
                       )}
                     >
-                      {filter.label}
+                      {filter.label} ({filter.count})
                     </ThemedText>
                   </Pressable>
                 ))}
@@ -292,17 +308,17 @@ export default function ExploreScreen() {
 
               <View className="gap-2 mt-2">
                 <ThemedText className="font-sans text-[18px] font-extrabold leading-[24px] text-[#E5E1E4]">
-                  Kết quả tìm kiếm ngữ nghĩa
+                  Kết quả tìm kiếm
                 </ThemedText>
                 {isSearchingApi ? (
                   <ActivityIndicator color={Colors.primaryLight} className="py-8" />
                 ) : isSearchError ? (
                   <View className="items-center justify-center py-12 bg-[#1E1E22] rounded-md">
                     <ThemedText className="text-[14px] font-bold text-[#EF4444]">
-                      Đã xảy ra lỗi khi tìm kiếm ngữ nghĩa.
+                      Đã xảy ra lỗi khi tìm kiếm.
                     </ThemedText>
                   </View>
-                ) : searchResults.length === 0 ? (
+                ) : visibleSearchResults.length === 0 ? (
                   <View className="items-center justify-center py-12 bg-[#1E1E22] rounded-md">
                     <ThemedText className="text-[14px] font-bold text-[#A1A1AA]">
                       Không tìm thấy kết quả phù hợp
@@ -310,7 +326,7 @@ export default function ExploreScreen() {
                   </View>
                 ) : (
                   <View className="gap-3">
-                    {searchResults.map((item) => (
+                    {visibleSearchResults.map((item) => (
                       <Pressable
                         key={`${item.type}-${item.id}`}
                         onPress={() => openSearchResult(item)}

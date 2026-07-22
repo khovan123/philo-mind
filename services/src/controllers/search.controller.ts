@@ -21,8 +21,8 @@ export class SearchController {
 
   async triggerRecache(_req: Request, res: Response, next: NextFunction) {
     try {
-      // Force refresh the cache in background
-      searchService.initializeVectorCache();
+      // Force refresh FTS and pgvector search indexes in the background
+      searchService.initializeSearchIndexes(true);
       return sendSuccess(res, { message: "Recaching triggered successfully" });
     } catch (err) {
       next(err);

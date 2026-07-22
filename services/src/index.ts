@@ -71,9 +71,9 @@ let keepAlive: ReturnType<typeof setInterval> | undefined;
 if (process.env.NODE_ENV !== "test") {
   server = app.listen(PORT, () => {
     console.warn(`🚀 PhiloMind API running on http://localhost:${PORT}`);
-    // Initialize search vector cache in the background
-    searchService.initializeVectorCache().catch((err) => {
-      console.error("Failed to initialize search vector cache:", err);
+    // Initialize persisted hybrid search indexes in the background.
+    searchService.initializeSearchIndexes().catch((err) => {
+      console.error("Failed to initialize search indexes:", err);
     });
   });
 }
