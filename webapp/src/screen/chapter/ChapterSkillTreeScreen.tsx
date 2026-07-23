@@ -384,99 +384,113 @@ export default function ChapterSkillTreeScreen() {
                 </ThemedText>
 
                 <View className="gap-2">
-                  {section.nodes.map((node) => {
-                    const absoluteIndex = order.indexOf(node.muc);
-                    const fallbackItem: ChapterProgressItem = {
-                      status: absoluteIndex === 0 ? "available" : "locked",
-                      score: null,
-                    };
-                    const item = progress[node.muc] ?? fallbackItem;
-                    const done = item.status === "done";
-                    const available = item.status === "available";
-                    const locked = item.status === "locked";
-                    const draftStep = item.draft?.step ?? 0;
-                    const hasDraft = Boolean(item.draft);
+                    {section.nodes.map((node) => {
+                      const absoluteIndex = order.indexOf(node.muc);
+                      const fallbackItem: ChapterProgressItem = {
+                        status: absoluteIndex === 0 ? "available" : "locked",
+                        score: null,
+                      };
+                      const item = progress[node.muc] ?? fallbackItem;
+                      const done = item.status === "done";
+                      const available = item.status === "available";
+                      const locked = item.status === "locked";
+                      const draftStep = item.draft?.step ?? 0;
+                      const hasDraft = Boolean(item.draft);
+                      const isMovieOnly = !!(
+                        node.isMovieOnly ||
+                        (node as any).isMovieNode ||
+                        (node.steps?.length === 1 && node.steps[0] === "movie")
+                      );
 
-                    return (
-                      <Pressable
-                        key={node.muc}
-                        disabled={locked}
-                        className={cn(
-                          "min-h-[124px] rounded-md border p-3",
-                          locked && "opacity-65",
-                        )}
-                        style={{
-                          backgroundColor: available
-                            ? TreeColors.surfaceActive
-                            : TreeColors.surface,
-                          borderColor: available ? TreeColors.primary : TreeColors.border,
-                        }}
-                        onPress={() =>
-                          router.push({
-                            pathname: "/chapter/[chapter]/[muc]" as never,
-                            params: {
-                              chapter: selectedChapter,
-                              muc: node.muc,
-                              replay: done ? "1" : "0",
-                            },
-                          })
-                        }
-                      >
-                        <View className="flex-row items-start justify-between gap-2">
-                          <View className="min-w-0 flex-1 flex-row gap-3">
-                            <ThemedText
-                              className="pt-0.5 text-[14px] font-bold leading-[19px]"
-                              style={{
-                                color: available
-                                  ? TreeColors.primary
-                                  : done
-                                    ? TreeColors.text
-                                    : TreeColors.muted,
-                              }}
-                            >
-                              {node.muc}
-                            </ThemedText>
-
-                            <ThemedText
-                              className="min-w-0 flex-1 text-[17px] font-extrabold leading-[22px]"
-                              style={{
-                                color: available || done ? TreeColors.text : TreeColors.muted,
-                              }}
-                            >
-                              {node.title}
-                            </ThemedText>
-                          </View>
-
-                          <View
-                            className="mt-1 h-[14px] w-[14px] items-center justify-center border"
-                            style={{
-                              backgroundColor: done ? TreeColors.text : "transparent",
-                              borderColor: done
-                                ? TreeColors.text
-                                : available
-                                  ? TreeColors.primary
-                                  : TreeColors.locked,
-                            }}
-                          >
-                            {done ? <Check color={TreeColors.background} size={10} /> : null}
-                            {locked ? <Lock color={TreeColors.locked} size={9} /> : null}
-                          </View>
-                        </View>
-
-                        <View className="mt-4 flex-row flex-wrap gap-2">
-                          {node.hasMovie && (
-                            <StepPill
-                              active={available && draftStep === -1}
-                              label="Phim tương tác"
-                            />
+                      return (
+                        <Pressable
+                          key={node.muc}
+                          disabled={locked}
+                          className={cn(
+                            "min-h-[124px] rounded-md border p-3",
+                            locked && "opacity-65",
                           )}
-                          <StepPill
-                            active={available && draftStep === 0}
-                            label={hookLabel(node.hookType)}
-                          />
-                          <StepPill active={available && draftStep === 1} label="Lý thuyết" />
-                          <StepPill active={available && draftStep === 2} label="Luyện tập" />
-                        </View>
+                          style={{
+                            backgroundColor: available
+                              ? TreeColors.surfaceActive
+                              : TreeColors.surface,
+                            borderColor: available ? TreeColors.primary : TreeColors.border,
+                          }}
+                          onPress={() =>
+                            router.push({
+                              pathname: "/chapter/[chapter]/[muc]" as never,
+                              params: {
+                                chapter: selectedChapter,
+                                muc: node.muc,
+                                replay: done ? "1" : "0",
+                              },
+                            })
+                          }
+                        >
+                          <View className="flex-row items-start justify-between gap-2">
+                            <View className="min-w-0 flex-1 flex-row gap-3">
+                              <ThemedText
+                                className="pt-0.5 text-[14px] font-bold leading-[19px]"
+                                style={{
+                                  color: available
+                                    ? TreeColors.primary
+                                    : done
+                                      ? TreeColors.text
+                                      : TreeColors.muted,
+                                }}
+                              >
+                                {node.muc}
+                              </ThemedText>
+
+                              <ThemedText
+                                className="min-w-0 flex-1 text-[17px] font-extrabold leading-[22px]"
+                                style={{
+                                  color: available || done ? TreeColors.text : TreeColors.muted,
+                                }}
+                              >
+                                {node.title}
+                              </ThemedText>
+                            </View>
+
+                            <View
+                              className="mt-1 h-[14px] w-[14px] items-center justify-center border"
+                              style={{
+                                backgroundColor: done ? TreeColors.text : "transparent",
+                                borderColor: done
+                                  ? TreeColors.text
+                                  : available
+                                    ? TreeColors.primary
+                                    : TreeColors.locked,
+                              }}
+                            >
+                              {done ? <Check color={TreeColors.background} size={10} /> : null}
+                              {locked ? <Lock color={TreeColors.locked} size={9} /> : null}
+                            </View>
+                          </View>
+
+                          <View className="mt-4 flex-row flex-wrap gap-2">
+                            {isMovieOnly ? (
+                              <StepPill
+                                active={available}
+                                label="Phim tương tác"
+                              />
+                            ) : (
+                              <>
+                                {node.hasMovie && (
+                                  <StepPill
+                                    active={available && draftStep === -1}
+                                    label="Phim tương tác"
+                                  />
+                                )}
+                                <StepPill
+                                  active={available && draftStep === 0}
+                                  label={hookLabel(node.hookType)}
+                                />
+                                <StepPill active={available && draftStep === 1} label="Lý thuyết" />
+                                <StepPill active={available && draftStep === 2} label="Luyện tập" />
+                              </>
+                            )}
+                          </View>
 
                         {!locked ? (
                           <View className="mt-3 flex-row items-center gap-1 self-end">

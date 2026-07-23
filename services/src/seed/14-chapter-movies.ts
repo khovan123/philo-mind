@@ -251,37 +251,126 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
         const muc = parts.join(".");
         const chapterId = match[1]; // assuming chapter id matches the first number
 
+        // Only allow top-level mucs (format X.Y — exactly one dot).
+        // Sub-nodes like 1.3.1 or 2.2.1.1 must NEVER get movie flags.
+        const dotCount = (muc.match(/\./g) || []).length;
+        if (dotCount !== 1) {
+          console.warn(
+            `    ⚠ Skipping ${file}: muc "${muc}" is a sub-node (must be top-level X.Y format)`,
+          );
+          continue;
+        }
+
         const existingChapter = await prisma.chapter.findUnique({ where: { code: chapterId } });
         if (!existingChapter) continue; // skip if chapter doesn't exist
 
-        let finalMuc = muc;
-        // Hardcode specific mappings for Chapter 2 where filenames don't align with exact Node muc
-        if (finalMuc === "2.2") finalMuc = "2.2.1.1";
-        if (finalMuc === "2.3") finalMuc = "2.2.3";
-
-        const existingNode = await prisma.chapterNode.findUnique({
-          where: { chapterId_muc: { chapterId: existingChapter.id, muc: finalMuc } },
-        });
-
-        if (!existingNode) {
-          const subMuc = `${finalMuc}.1`;
-          const subNode = await prisma.chapterNode.findUnique({
-            where: { chapterId_muc: { chapterId: existingChapter.id, muc: subMuc } },
-          });
-          if (subNode) {
-            finalMuc = subMuc;
-          }
-        }
+        const finalMuc = muc;
 
         const filePath = path.join(dataDir, file);
         try {
           const script = parseMovieExcel(filePath);
 
           if (script.length > 0) {
-            // Find the chapter node id for this muc
-            const chapterNode = await prisma.chapterNode.findFirst({
-              where: { chapterId: existingChapter.id, muc: finalMuc },
+            const sceneRow = script.find((s: any) => s.t === "scene");
+            const movieTitle = sceneRow?.name
+              ? `Phim tương tác: ${sceneRow.name}`
+              : `Phim tương tác: ${existingChapter.title} - Mục ${finalMuc}`;
+
+            // Ensure dedicated ChapterNode exists for movie muc
+            let chapterNode = await prisma.chapterNode.findUnique({
+              where: {
+                chapterId_muc: {
+                  chapterId: existingChapter.id,
+                  muc: finalMuc,
+                },
+              },
             });
+
+            if (!chapterNode) {
+              chapterNode = await prisma.chapterNode.create({
+                data: {
+                  chapterId: existingChapter.id,
+                  muc: finalMuc,
+                  title: movieTitle,
+                  data: {
+                    chuong: Number(chapterId),
+                    muc: finalMuc,
+                    title: movieTitle,
+                    order: 0,
+                    hookType: "choice",
+                    steps: ["movie"],
+                    hook: {
+                      type: "choice",
+                      situation: `Trải nghiệm kịch bản phim tương tác ${finalMuc}.`,
+                      question: "Bạn đã sẵn sàng khám phá kịch bản?",
+                      feedbackA: "Cùng theo dõi các diễn biến!",
+                      feedbackB: "Cùng theo dõi các diễn biến!",
+                    },
+                    theoryCards: [
+                      {
+                        id: "card1",
+                        icon: "🎬",
+                        title: movieTitle,
+                        body: `Nội dung kịch bản phim tương tác mục ${finalMuc}.`,
+                      },
+                    ],
+                    quiz: [
+                      {
+                        id: "q1",
+                        type: "Trắc nghiệm",
+                        options: ["Hoàn thành phim tương tác", "Chưa xem xong"],
+                        question: `Bạn đã tham gia phim tương tác mục ${finalMuc}?`,
+                        answerIndex: 0,
+                        explanation: "Hoàn thành các tình huống tương tác để đạt điểm.",
+                      },
+                    ],
+                    debate: {
+                      perspectiveA: "Phim tương tác sinh động.",
+                      perspectiveB: "Cần kết hợp với đọc bài học.",
+                      explanationA: "Tình huống giúp liên hệ thực tế.",
+                      explanationB: "Lý thuyết củng cố tri thức.",
+                      openQuestion: "Bạn đúc kết bài học gì?",
+                    },
+                    hasMovie: true,
+                    isMovieNode: true,
+                    isMovieOnly: true,
+                  },
+                },
+              });
+              nodesSeeded++;
+            } else {
+              // Ensure existing node data marks hasMovie: true and isMovieOnly: true
+              const nodeData = (chapterNode.data as any) || {};
+              if (!nodeData.hasMovie || !nodeData.isMovieOnly) {
+                nodeData.hasMovie = true;
+                nodeData.isMovieNode = true;
+                nodeData.isMovieOnly = true;
+                nodeData.steps = ["movie"];
+                await prisma.chapterNode.update({
+                  where: { id: chapterNode.id },
+                  data: { data: nodeData },
+                });
+              }
+            }
+
+            // Ensure order in chapter includes finalMuc
+            const currentOrder = existingChapter.order ?? [];
+            if (!currentOrder.includes(finalMuc)) {
+              // Insert in natural placement (e.g. before 2.1.1)
+              const newOrder = [...currentOrder];
+              const subIndex = newOrder.findIndex((m) => m.startsWith(`${finalMuc}.`));
+              if (subIndex >= 0) {
+                newOrder.splice(subIndex, 0, finalMuc);
+              } else {
+                newOrder.push(finalMuc);
+              }
+
+              await prisma.chapter.update({
+                where: { id: existingChapter.id },
+                data: { order: newOrder },
+              });
+              existingChapter.order = newOrder;
+            }
 
             const existingMovie = await prisma.movie.findFirst({
               where: { muc: finalMuc },
@@ -292,8 +381,8 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
                 where: { id: existingMovie.id },
                 data: {
                   chapterId: existingChapter.id,
-                  chapterNodeId: chapterNode ? chapterNode.id : null,
-                  title: `Phim tương tác: ${existingChapter.title} - Mục ${finalMuc}`,
+                  chapterNodeId: chapterNode.id,
+                  title: movieTitle,
                   script: script as any,
                 },
               });
@@ -301,9 +390,9 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
               await prisma.movie.create({
                 data: {
                   chapterId: existingChapter.id,
-                  chapterNodeId: chapterNode ? chapterNode.id : null,
+                  chapterNodeId: chapterNode.id,
                   muc: finalMuc,
-                  title: `Phim tương tác: ${existingChapter.title} - Mục ${finalMuc}`,
+                  title: movieTitle,
                   script: script as any,
                 },
               });
@@ -317,6 +406,43 @@ export async function seedChapterMovies(prisma: PrismaClient): Promise<void> {
     }
   } else {
     console.warn(`    ⚠ Directory not found: ${dataDir}`);
+  }
+
+  // 4. Final cleanup: remove movie flags from any sub-node that is NOT a top-level movie node.
+  //    This ensures any stale data from previous seeds is removed.
+  {
+    const allNodes = await prisma.chapterNode.findMany({
+      select: { id: true, muc: true, data: true },
+    });
+    let cleaned = 0;
+    for (const node of allNodes) {
+      const dotCount = (node.muc.match(/\./g) || []).length;
+      if (dotCount <= 1) continue; // top-level or chapter root — leave alone
+      const data = node.data as any;
+      if (!data) continue;
+      if (data.hasMovie || data.isMovieNode || data.isMovieOnly) {
+        delete data.hasMovie;
+        delete data.isMovieNode;
+        delete data.isMovieOnly;
+        if (Array.isArray(data.steps)) {
+          data.steps = data.steps.filter((s: string) => s !== "movie");
+          if (data.steps.length === 0) data.steps = ["hook", "theory", "quiz"];
+        }
+        await prisma.chapterNode.update({ where: { id: node.id }, data: { data } });
+        cleaned++;
+      }
+    }
+    // Also delete any Movie records linked to sub-nodes (dotCount > 1)
+    const allMovies = await prisma.movie.findMany({ select: { id: true, muc: true } });
+    const staleMovieIds = allMovies
+      .filter((m) => (m.muc.match(/\./g) || []).length > 1)
+      .map((m) => m.id);
+    if (staleMovieIds.length > 0) {
+      await prisma.movie.deleteMany({ where: { id: { in: staleMovieIds } } });
+    }
+    if (cleaned > 0 || staleMovieIds.length > 0) {
+      seedLog("Cleaned stale movie flags from sub-nodes", cleaned);
+    }
   }
 
   seedLog("Chapters", chaptersSeeded);
