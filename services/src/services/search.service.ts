@@ -114,9 +114,121 @@ class SearchService {
       await prisma.$executeRaw`REFRESH MATERIALIZED VIEW CONCURRENTLY "search_documents"`;
     } catch (err) {
       console.warn(
-        "⚠️ [SearchService] Could not refresh FTS materialized view. Run migrations if hybrid search was just added.",
-        err,
+        "⚠️ [SearchService] Concurrent FTS refresh failed. Attempting to ensure search_documents view exists...",
       );
+      try {
+        await prisma.$executeRawUnsafe(`
+          CREATE MATERIALIZED VIEW IF NOT EXISTS "search_documents" AS
+          WITH lesson_documents AS (
+              SELECT
+                  cn."id"::TEXT AS "id",
+                  'lesson'::TEXT AS "type",
+                  cn."tieu_de_muc" AS "title",
+                  ('Chương ' || REPLACE(c."code", 'chuong', '') || ' - Mục ' || cn."muc") AS "subtitle",
+                  jsonb_build_object(
+                      'chapter', REPLACE(c."code", 'chuong', ''),
+                      'muc', cn."muc"
+                  ) AS "route_params",
+                  CONCAT_WS(
+                      ' ',
+                      'Lesson:',
+                      cn."tieu_de_muc",
+                      'Muc:',
+                      cn."muc",
+                      'Chapter:',
+                      c."title",
+                      theory_cards."text"
+                  ) AS "search_text",
+                  (
+                      setweight(to_tsvector('simple', COALESCE(cn."tieu_de_muc", '')), 'A') ||
+                      setweight(to_tsvector('simple', COALESCE(cn."muc", '')), 'A') ||
+                      setweight(to_tsvector('simple', COALESCE(c."title", '')), 'B') ||
+                      setweight(to_tsvector('simple', COALESCE(theory_cards."text", '')), 'C')
+                  ) AS "fts_vector"
+              FROM "chapter_nodes" cn
+              INNER JOIN "chapters" c ON c."id" = cn."chapter_id"
+              LEFT JOIN LATERAL (
+                  SELECT STRING_AGG(CONCAT_WS(' ', card->>'title', card->>'body'), ' ') AS "text"
+                  FROM jsonb_array_elements(COALESCE(cn."data"->'theoryCards', '[]'::jsonb)) AS card
+              ) theory_cards ON TRUE
+          ),
+          movie_documents AS (
+              SELECT
+                  m."id"::TEXT AS "id",
+                  'video'::TEXT AS "type",
+                  m."title",
+                  ('Video tương tác - Mục ' || m."muc") AS "subtitle",
+                  jsonb_build_object('muc', m."muc") AS "route_params",
+                  CONCAT_WS(
+                      ' ',
+                      'Interactive Movie Video:',
+                      m."title",
+                      'Muc:',
+                      m."muc",
+                      m."script"::TEXT
+                  ) AS "search_text",
+                  (
+                      setweight(to_tsvector('simple', COALESCE(m."title", '')), 'A') ||
+                      setweight(to_tsvector('simple', COALESCE(m."muc", '')), 'A') ||
+                      setweight(to_tsvector('simple', COALESCE(m."script"::TEXT, '')), 'C')
+                  ) AS "fts_vector"
+              FROM "movies" m
+          ),
+          quiz_documents AS (
+              SELECT
+                  q."id"::TEXT AS "id",
+                  'quiz'::TEXT AS "type",
+                  q."title",
+                  'Trắc nghiệm ôn tập'::TEXT AS "subtitle",
+                  jsonb_build_object(
+                      'quizId', q."id"::TEXT,
+                      'lessonId', q."lesson_id"::TEXT
+                  ) AS "route_params",
+                  CONCAT_WS(
+                      ' ',
+                      'Quiz Trắc nghiệm:',
+                      q."title",
+                      'Questions:',
+                      quiz_questions."text"
+                  ) AS "search_text",
+                  (
+                      setweight(to_tsvector('simple', COALESCE(q."title", '')), 'A') ||
+                      setweight(to_tsvector('simple', COALESCE(quiz_questions."text", '')), 'B')
+                  ) AS "fts_vector"
+              FROM "quizzes" q
+              LEFT JOIN LATERAL (
+                  SELECT STRING_AGG(CONCAT_WS(' ', qq."question", qq."explanation"), ' ') AS "text"
+                  FROM "quiz_questions" qq
+                  WHERE qq."quiz_id" = q."id"
+              ) quiz_questions ON TRUE
+          )
+          SELECT * FROM lesson_documents
+          UNION ALL
+          SELECT * FROM movie_documents
+          UNION ALL
+          SELECT * FROM quiz_documents;
+        `);
+
+        await prisma.$executeRawUnsafe(
+          `CREATE UNIQUE INDEX IF NOT EXISTS "search_documents_type_id_key" ON "search_documents"("type", "id");`,
+        );
+        await prisma.$executeRawUnsafe(
+          `CREATE INDEX IF NOT EXISTS "search_documents_type_idx" ON "search_documents"("type");`,
+        );
+        await prisma.$executeRawUnsafe(
+          `CREATE INDEX IF NOT EXISTS "search_documents_fts_vector_idx" ON "search_documents" USING GIN ("fts_vector");`,
+        );
+
+        await prisma.$executeRaw`REFRESH MATERIALIZED VIEW "search_documents"`;
+        console.warn(
+          "✅ [SearchService] Created and refreshed FTS materialized view search_documents.",
+        );
+      } catch (createErr) {
+        console.warn(
+          "⚠️ [SearchService] Could not create FTS materialized view search_documents:",
+          createErr,
+        );
+      }
     }
   }
 
@@ -420,8 +532,18 @@ class SearchService {
         ftsScore: row.ftsScore,
         ftsRank: row.ftsRank,
       }));
-    } catch (err) {
-      console.error(`❌ Full-text search failed for query "${query}":`, err);
+    } catch (err: any) {
+      const isMissingRelation =
+        err?.code === "P2010" ||
+        String(err?.message || "").includes("42P01") ||
+        String(err?.message || "").includes("search_documents");
+      if (isMissingRelation) {
+        console.warn(
+          `⚠️ [SearchService] FTS skipped: "search_documents" relation missing on database.`,
+        );
+      } else {
+        console.error(`❌ Full-text search failed for query "${query}":`, err);
+      }
       return [];
     }
   }
@@ -459,8 +581,101 @@ class SearchService {
         ftsScore: row.ftsScore,
         ftsRank: row.ftsRank,
       }));
-    } catch (err) {
-      console.error(`❌ Keyword fallback search failed for query "${query}":`, err);
+    } catch (err: any) {
+      console.warn(
+        `⚠️ [SearchService] search_documents fallback search failed, querying source tables directly:`,
+        err?.message || err,
+      );
+      return this.directSourceTableKeywordSearch(query, type);
+    }
+  }
+
+  private async directSourceTableKeywordSearch(
+    query: string,
+    type?: string,
+  ): Promise<SearchResultItem[]> {
+    try {
+      const pattern = `%${query.toLowerCase()}%`;
+      const rows = await prisma.$queryRawUnsafe<FullTextSearchRow[]>(
+        `
+          WITH lesson_docs AS (
+            SELECT
+              cn."id"::TEXT AS "id",
+              'lesson'::TEXT AS "type",
+              cn."tieu_de_muc" AS "title",
+              ('Chương ' || REPLACE(c."code", 'chuong', '') || ' - Mục ' || cn."muc") AS "subtitle",
+              jsonb_build_object(
+                'chapter', REPLACE(c."code", 'chuong', ''),
+                'muc', cn."muc"
+              ) AS "routeParams",
+              1.0::DOUBLE PRECISION AS "ftsScore"
+            FROM "chapter_nodes" cn
+            INNER JOIN "chapters" c ON c."id" = cn."chapter_id"
+            WHERE
+              (LOWER(cn."tieu_de_muc") LIKE $1 OR LOWER(c."title") LIKE $1)
+              AND ($2::TEXT IS NULL OR $2::TEXT = 'all' OR $2::TEXT = 'lesson')
+
+            UNION ALL
+
+            SELECT
+              m."id"::TEXT AS "id",
+              'video'::TEXT AS "type",
+              m."title",
+              ('Video tương tác - Mục ' || m."muc") AS "subtitle",
+              jsonb_build_object('muc', m."muc") AS "routeParams",
+              1.0::DOUBLE PRECISION AS "ftsScore"
+            FROM "movies" m
+            WHERE
+              LOWER(m."title") LIKE $1
+              AND ($2::TEXT IS NULL OR $2::TEXT = 'all' OR $2::TEXT = 'video')
+
+            UNION ALL
+
+            SELECT
+              q."id"::TEXT AS "id",
+              'quiz'::TEXT AS "type",
+              q."title",
+              'Trắc nghiệm ôn tập'::TEXT AS "subtitle",
+              jsonb_build_object(
+                'quizId', q."id"::TEXT,
+                'lessonId', q."lesson_id"::TEXT
+              ) AS "routeParams",
+              1.0::DOUBLE PRECISION AS "ftsScore"
+            FROM "quizzes" q
+            WHERE
+              LOWER(q."title") LIKE $1
+              AND ($2::TEXT IS NULL OR $2::TEXT = 'all' OR $2::TEXT = 'quiz')
+          ),
+          ranked AS (
+            SELECT
+              *,
+              ROW_NUMBER() OVER (ORDER BY "title" ASC)::INTEGER AS "ftsRank"
+            FROM lesson_docs
+          )
+          SELECT * FROM ranked
+          ORDER BY "ftsRank" ASC
+          LIMIT $3;
+        `,
+        pattern,
+        type ?? null,
+        SEARCH_TOP_K,
+      );
+
+      return rows.map((row) => ({
+        id: row.id,
+        type: row.type,
+        title: row.title,
+        subtitle: row.subtitle,
+        routeParams: row.routeParams,
+        score: 1 / (RRF_K + row.ftsRank),
+        ftsScore: row.ftsScore,
+        ftsRank: row.ftsRank,
+      }));
+    } catch (fallbackErr) {
+      console.error(
+        `❌ Direct source table keyword search failed for query "${query}":`,
+        fallbackErr,
+      );
       return [];
     }
   }
